@@ -9,9 +9,10 @@ $ git clone https://github.com/mitchellias/mchp-dev
 
 Set up virtualenv: 
 $ virtualenv3 ./mchp-dev
+$ source mchp-dev/bin/activate
 
 In the repository, install django:
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 
 I don't know if this is necessary yet:
-git update-index --assume-unchanged mchp/mchp/settings.py
+$ git update-index --assume-unchanged mchp/mchp/settings.py
