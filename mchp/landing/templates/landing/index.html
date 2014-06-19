@@ -51,11 +51,10 @@
 <!-- START SOME HOME STUFF?? -->
 <div class="container text-center">
      <h1>mycollegehomepage</h1>
-
     <p class="lead">Welcome! This semester will be fun... let's get started shall we?</p>
-         <hr>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
+          <hr style="margin-top: 0px;">
             <form id="emailForm">
             <div class="form-group">
                 <div class="input-group">
@@ -191,6 +190,30 @@
 			<p class="small text-muted pull-right"><small>mycollegehomepage.com &copy; 2014 | <a href="/privacy/" class="">Privacy Policy</a></small> </p>
     </div>
 	</div>
-
+  {% block scripts %}
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('#emailForm').bootstrapValidator({
+        threshold: 6,
+        trigger: 'blur',
+        fields: {
+            email: {
+                validators: {
+                    notEmpty: {
+                    },
+                    emailAddress: {
+                        message: 'This is not a valid email address'
+                    },
+                    regexp: {
+                        regexp: /(\.edu)$/,
+                        message: 'Only college emails allowed'
+                    }
+                }
+            }
+        }
+    });
+});
+  </script>
+  {% endblock %}
 	</body>
 </html>
