@@ -113,7 +113,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOGIN_REDIRECT_URL = '/login'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
-SITE_ID = 2
+# Add this depending on the id of the site
+#SITE_ID = 2
 
 # import from allauth_settings.py
 from mchp.allauth_settings import *
