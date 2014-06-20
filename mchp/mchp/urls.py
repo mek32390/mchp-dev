@@ -8,7 +8,8 @@ urlpatterns = patterns('',
     # url(r'^$', 'mchp.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^login/', include('user_profile.urls')),
     url(r'^admin/', include(admin.site.urls)),
-                       # ^$
-    url(r'^$', include('landing.urls'))
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^$', include('landing.urls')),
 )
