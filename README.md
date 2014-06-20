@@ -17,10 +17,8 @@ In the repository, install django:
 ```
 $ pip install -r requirements.txt
 ```
-I don't know if this is necessary yet:
-```
-$ git update-index --assume-unchanged mchp/mchp/settings.py
-```
+Copy the settings_template.py to settings.py and add local changes. The dev is responsible for keeping this up to date any time it changes.
+
 For getting AllAuth and Facebook integration working:
 ```
 UPDATE django_site SET DOMAIN = '127.0.0.1:8000', name = 'mchp' WHERE id=2;
