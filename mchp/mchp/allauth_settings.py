@@ -1,7 +1,7 @@
-#ACCOUNT_ADAPTER (="allauth.account.adapter.DefaultAccountAdapter")
+ACCOUNT_ADAPTER ="user_profile.adapter.AccountAdapter"
 #Specifies the adapter class to use, allowing you to alter certain default behaviour.
 
-#ACCOUNT_AUTHENTICATION_METHOD (="username" | "email" | "username_email")
+ACCOUNT_AUTHENTICATION_METHOD = "email" 
 #Specifies the login method to use -- whether the user logs in by entering his username, e-mail address, or either one of both.
 
 #ACCOUNT_CONFIRM_EMAIL_ON_GET (=False)
