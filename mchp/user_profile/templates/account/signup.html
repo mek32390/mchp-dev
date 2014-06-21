@@ -6,13 +6,65 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
+<!-- <h1>{% trans "Sign Up" %}</h1> -->
+<form id="registerForm" class="form-signin">
+    <h2 class="text-center">Got Credentials?</h2>
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+    <p><img class="media-object img-responsive center-block" src=
+    "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt=
+    "..."></p>
+
+    <p class="text-center">Finish setting up your account:</p>
+
+    <div class='facebookSignup'>
+      <button href='/login/facebook' class=
+      "btn btn-lg btn-primary btn-block btn-facebook">Use Facebook</button>
+      <hr>
+      <span class="help-block text-center"><a id='signUp'>Do it yourself</a></span>
+    </div>
+
+    <div class="form-group">
+                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-user"></i></span>
+
+                    <input type="text" class="form-control" name="firstName" placeholder="First Name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-user"></i></span>
+
+                    <input type="text" class="form-control" name="lastName" placeholder="Last Name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-user"></i></span>
+
+                    <input type="text" class="form-control" name="username" placeholder="Username" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+
+                    <input type="password" class="form-control" name="password" placeholder="Password" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+
+                    <input type="password" class="form-control" name="passwordConfirm" placeholder="Re-enter Password" />
+                </div>
+            </div>
+            <div class="form-group">        
+ <button id="setupBtn" class="btn btn-lg btn-primary btn-block ladda-button" data-style="expand-right" type="submit"><span class="ladda-label"><i class="fa fa-check-square-o"></i> Complete Account</span>
+                    </button>                
+            </div>
+</form>
+
+
+<!--<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>-->
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+  {{ form.as_p }} 
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
