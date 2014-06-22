@@ -7,10 +7,10 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 #ACCOUNT_CONFIRM_EMAIL_ON_GET (=False)
 #Determines whether or not an e-mail address is automatically confirmed by a mere GET request.
 
-#ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL (=settings.LOGIN_URL)
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/confirm-school/'
 #The URL to redirect to after a successful e-mail confirmation, in case no user is logged in.
 
-#ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL (=None)
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/accounts/confirm-school/'
 #The URL to redirect to after a successful e-mail confirmation, in case of an authenticated user. Set to None to use settings.LOGIN_REDIRECT_URL.
 
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
@@ -22,7 +22,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 #Determines the e-mail verification method during signup -- choose one of "mandatory", "optional", or "none". When set to "mandatory" the user is blocked from logging in until the email address is verified. Choose "optional" or "none" to allow logins with an unverified e-mail address. In case of "optional", the e-mail verification mail is still sent, whereas in case of "none" no e-mail verification mails are sent.
 
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Site] what"
+#ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Site] what"
 #Subject-line prefix to use for email messages sent. By default, the name of the current Site (django.contrib.sites) is used.
 
 #ACCOUNT_DEFAULT_HTTP_PROTOCOL = (="http")
@@ -52,7 +52,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Site] what"
 #ACCOUNT_USER_DISPLAY (=a callable returning user.username)
 #A callable (or string of the form 'some.module.callable_name') that takes a user as its only argument and returns the display name of the user. The default implementation returns user.username.
 
-#ACCOUNT_USERNAME_MIN_LENGTH (=1)
+ACCOUNT_USERNAME_MIN_LENGTH = 4
 #An integer specifying the minimum allowed length of a username.
 
 ACCOUNT_USERNAME_BLACKLIST = ['Admin', 'admin']
@@ -67,7 +67,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_PASSWORD_MIN_LENGTH = 8
 #An integer specifying the minimum password length.
 
-#ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION (=True)
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 #The default behaviour is to automatically log the user in once he confirms his email address. By changing this setting to False he will not be logged in, but redirected to the ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL
 
 #ACCOUNT_SESSION_REMEMBER (=None)

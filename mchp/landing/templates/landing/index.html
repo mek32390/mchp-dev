@@ -58,9 +58,11 @@
             <form id="emailForm">
             <div class="form-group">
                 <div class="input-group">
+									<form class="email-input" method="post" action="{% url 'account_signup' %}">
                     <input type="text" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
                     <span class="input-group-btn">
                         <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg ladda-button" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
+									</form>
                     </span>
                 </div>
             </div>
