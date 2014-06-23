@@ -2,8 +2,7 @@
 <html>
 <head>
     <title>{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}</title>
-		{% load staticfiles %}
-		<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/style.css'%}" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 </head>
 <body class="{% if request.user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
  
