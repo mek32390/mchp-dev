@@ -9,4 +9,3 @@ class AccountAdapter(DefaultAccountAdapter):
             print(email)
             return email
         raise forms.ValidationError("You can only sign up with a .edu address")
-

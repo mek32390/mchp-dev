@@ -63,3 +63,8 @@ body {
 .facebookSignup div a{
 	text-decoration: none;
 }
+
+.errorlist {
+	display: none;
+}
+}

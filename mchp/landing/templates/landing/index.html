@@ -48,17 +48,18 @@
       </div>
 </div>
 <!-- End Navigation -->
-<!-- START SOME HOME STUFF?? -->
 <div class="container text-center">
      <h1>mycollegehomepage</h1>
     <p class="lead">Welcome! This semester will be fun... let's get started shall we?</p>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
           <hr style="margin-top: 0px;">
-            <form id="emailForm">
+					<!-- ug what why is there two forms -->
+            <form id="emailForm" method="post" action="/login/get-email/">
+							{% csrf_token %}
             <div class="form-group">
                 <div class="input-group">
-									<form class="email-input" method="post" action="{% url 'account_signup' %}">
+									<form class="email-input" >
                     <input type="text" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
                     <span class="input-group-btn">
                         <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg ladda-button" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>

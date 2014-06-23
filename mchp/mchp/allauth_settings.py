@@ -93,7 +93,7 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
-        'SCOPE': ['email', 'publish_stream'],
+        'SCOPE': ['publish_stream'],
         'METHOD': 'js_sdk'
     }
 }
