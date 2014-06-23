@@ -1,10 +1,10 @@
 ACCOUNT_ADAPTER ="user_profile.adapter.AccountAdapter"
 #Specifies the adapter class to use, allowing you to alter certain default behaviour.
 
-ACCOUNT_AUTHENTICATION_METHOD = "email" 
+ACCOUNT_AUTHENTICATION_METHOD = "username_email" 
 #Specifies the login method to use -- whether the user logs in by entering his username, e-mail address, or either one of both.
 
-#ACCOUNT_CONFIRM_EMAIL_ON_GET (=False)
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 #Determines whether or not an e-mail address is automatically confirmed by a mere GET request.
 
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/confirm-school/'
@@ -34,7 +34,7 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 #ACCOUNT_LOGOUT_REDIRECT_URL (="/")
 #The URL (or URL name) to return to after the user logs out. This is the counterpart to Django's LOGIN_REDIRECT_URL.
 
-#ACCOUNT_SIGNUP_FORM_CLASS (=None)
+ACCOUNT_SIGNUP_FORM_CLASS = "user_profile.form.UserSignupForm"
 #A string pointing to a custom form class (e.g. 'myapp.forms.SignupForm') that is used during signup to ask the user for additional input (e.g. newsletter signup, birth date). This class should implement a def signup(self, request, user) method, where user represents the newly signed up user.
 
 #ACCOUNT_SIGNUP_PASSWORD_VERIFICATION (=True)
