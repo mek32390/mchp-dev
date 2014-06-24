@@ -15,14 +15,20 @@ body {
 	max-width: 300px;
 	text-align: center;
     margin: 0 auto;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
 }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container text-center">
-<h1>{% trans "Facebook Login Failure!" %}</h1>
+	<h2 class="text-center">{% trans "Facebook Login Failure!" %}</h2>
 
+    <p><img class="media-object img-responsive center-block" src=
+    "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt=
+    "..."></p>
 <p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
 
 <div class="socialaccount_ballot">
@@ -32,7 +38,6 @@ body {
       <button class="btn btn-facebook btn-block btn-primary btn-login form-control">
         Try again with Facebook
       </button></a>
-      {% include "socialaccount/snippets/login_extra.html" %}
       </div>
 </div>
 {% endblock %}
