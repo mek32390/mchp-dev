@@ -5,25 +5,16 @@ body {
 .btn-facebook {
     background: #4c66a4;
     color: #fff;
-
 	max-width: 300px;
 	text-align: center;
     padding: 15px;
     margin: 0 auto;
 }
-.form-group {
-    display:none;
-}
 .form-signin {
-    max-width: 330px;
+    max-width: 300px;
+    width:300px;
     padding: 15px;
     margin: 0 auto;
-}
-.form-signin .form-signin-heading, .form-signin .checkbox {
-    margin-bottom: 10px;
-}
-.form-signin .checkbox {
-    font-weight: normal;
 }
 .form-signin .form-control {
     position: relative;
@@ -52,9 +43,10 @@ body {
     border-top-right-radius: 0;
 }
 
-.signup {
+.emailSignup {
 	display: none;
-    max-width: 330px;
+    max-width: 300px;
+    width: 300px;
     padding: 15px;
     margin: 0 auto;
 	text-align: center;
@@ -70,4 +62,13 @@ body {
 
 .email_reminder {
 	text-align: center;
+}
+
+.emailLogin {
+    display: none;
+    max-width: 300px;
+    width: 300px;
+    padding: 15px;
+    margin: 0 auto;
+    text-align: center;
 }
