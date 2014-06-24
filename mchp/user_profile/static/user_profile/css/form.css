@@ -52,7 +52,7 @@ body {
     border-top-right-radius: 0;
 }
 
-.signup {
+.emailSignup {
 	display: none;
     max-width: 330px;
     padding: 15px;
