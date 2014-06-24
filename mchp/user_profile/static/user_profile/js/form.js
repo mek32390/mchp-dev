@@ -17,7 +17,6 @@ $(function () {
 	// this is to add the session stored email address, and hide that field
 	$('.email_reminder').hide();
 	hidden = $('.emailSignup input[name=saved_email]').attr('value');
-	alert(hidden);
 	if(hidden !== ''){
 		$('#id_email').hide();
 		$('label[for=id_email]').hide();
