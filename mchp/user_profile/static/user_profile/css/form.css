@@ -67,3 +67,7 @@ body {
 .errorlist {
 	display: none;
 }
+
+.email_reminder {
+	text-align: center;
+}

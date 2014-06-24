@@ -11,7 +11,6 @@
 {% endblock extra_head %}
 
 {% block content %}
-what
     <h1>{% trans "Sign Up" %}</h1>
 
 <p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to
@@ -19,15 +18,13 @@ what
 
 <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
   {% csrf_token %}
-  <p>
-    <label for="id_email">E-mail:</label> 
-	<input id="id_email" name="email" value="{{ request.session.initial_email }}" placeholder="E-mail address" type="email" />
-  </p>
+  {{ form.as_p }}
+  {{ request.session.initial_email }}
+  <input type="hidden" name="saved_email" value="{{ request.session.initial_email }}" />
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <button type="submit">{% trans "Sign Up" %} &raquo;</button>
 </form>
-
 
 {% endblock %}

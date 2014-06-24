@@ -19,10 +19,6 @@
     "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt=
     "..."></p>
 
-<!--
-    <p class="text-center">Finish setting up your account:</p>
-	-->
-
 <div class='facebookSignup'>
 	<div class="socialaccount_ballot">
 		<a title="Facebook" class="socialaccount_provider facebook" 
@@ -36,71 +32,23 @@
 	<hr>
 	<span class="help-block text-center"><a id='show-signUp'>Sign up with Email</a></span>
 </div>
-	<!-- 
-<form id="registerForm" class="form-signin">
-
-    <div class="form-group">
-                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-user"></i></span>
-
-                    <input type="text" class="form-control" name="firstName" placeholder="First Name" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-user"></i></span>
-
-                    <input type="text" class="form-control" name="lastName" placeholder="Last Name" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-user"></i></span>
-
-                    <input type="text" class="form-control" name="username" placeholder="Username" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-
-                    <input type="password" class="form-control" name="password" placeholder="Password" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group"> <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-
-                    <input type="password" class="form-control" name="passwordConfirm" placeholder="Re-enter Password" />
-                </div>
-            </div>
-            <div class="form-group">        
- <button id="setupBtn" class="btn btn-lg btn-primary btn-block ladda-button" data-style="expand-right" type="submit"><span class="ladda-label"><i class="fa fa-check-square-o"></i> Complete Account</span>
-                    </button>                
-            </div>
-</form>
-	-->
-
-
+<div class="email_reminder">
+	<h4>
+		Sign up with E-mail: {{ request.session.initial_email }}
+	</h4>
+</div>
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
-  <p>
-    <label for="id_email">E-mail:</label> 
-	  <input value="{{ request.session.initial_email}}"id="id_email" name="email" placeholder="E-mail address" type="email">
-  </p>
-  <p>
-    <label for="id_password1">Password:</label> 
-      <input id="id_password1" name="password1" placeholder="Password" type="password">
-  </p>
-  <p>
-    <label for="id_password2">Password (again):</label> 
-	  <input id="id_password2" name="password2" placeholder="Password" type="password">
-	  <input id="id_confirmation_key" name="confirmation_key" type="hidden">
-  </p> 
-
+  {{ form.as_p }}
+  <input type="hidden" name="saved_email" value="{{ request.session.initial_email }}" />
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <button type="submit">{% trans "Sign Up" %} &raquo;</button>
 </form>
 
-<!--<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>-->
 
+<!--<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>-->
 
 {% endblock %}
