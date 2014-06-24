@@ -1,12 +1,17 @@
 //Signup form show/hide
 $(function () {
-	// show manual login forms
+	// show manual sign up forms
 	$('#show-signUp').on('click', function () {
 		$('.facebookSignup').fadeOut(250, function () {
-			$('.form-group').fadeIn(500);
+			$('.emailSignup').fadeIn(500);
+			$('.email_reminder').fadeIn(500);
 		});
-		$('.signup').fadeIn(500);
-		$('.email_reminder').fadeIn(500);
+	});
+	// show manual log in forms
+	$('#show-login').on('click', function () {
+		$('#facebookLogin').fadeOut(250, function () {
+			$('.emailLogin').fadeIn(500);
+		});
 	});
 
 	// this is to add the session stored email address, and hide that field
