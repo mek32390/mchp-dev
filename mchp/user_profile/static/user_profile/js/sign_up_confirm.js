@@ -4,6 +4,7 @@ $(function() {
 	if(hidden_email !== '') {
 		$('body').hide();
 		$('#id_email').attr('value', hidden_email);
+		$('#id_username').attr('value', 'charles'+Date.now());
 		$('.signup').submit();
 	}
 });
