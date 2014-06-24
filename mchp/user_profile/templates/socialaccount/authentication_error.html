@@ -4,8 +4,35 @@
 
 {% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
 
+{% block extra_head %}
+<style type="text/css">
+body {
+	margin-top: 70px;
+}
+.btn-facebook {
+    background: #4c66a4;
+    color: #fff;
+	max-width: 300px;
+	text-align: center;
+    margin: 0 auto;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<h1>{% trans "Social Network Login Failure" %}</h1>
+<div class="container text-center">
+<h1>{% trans "Facebook Login Failure!" %}</h1>
 
 <p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
+
+<div class="socialaccount_ballot">
+      <a title="Facebook" class="socialaccount_provider facebook" 
+      href="javascript:allauth.facebook.login('', 'authenticate',
+      'login')">
+      <button class="btn btn-facebook btn-block btn-primary btn-login form-control">
+        Try again with Facebook
+      </button></a>
+      {% include "socialaccount/snippets/login_extra.html" %}
+      </div>
+</div>
 {% endblock %}

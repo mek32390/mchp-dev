@@ -4,41 +4,55 @@
 {% load account %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block extra_head %}
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
+  <script src="{% static 'user_profile/js/form.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-
-<h1>{% trans "Sign In" %}</h1>
-
-{% if socialaccount.providers  %}
-<p>{% blocktrans with site.name as site_name %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{site_name}} account and sign in below:{% endblocktrans %}</p>
-
-<div class="socialaccount_ballot">
-
+<div class="container text-center">
+  <div class="form-signin">
+    <h2>{% trans "Log In" %} <small> let's go</small></h2>
+    <div id='facebookLogin'>      
+    {% if socialaccount.providers  %}
+      <div class="socialaccount_ballot">
+      <a title="Facebook" class="socialaccount_provider facebook" 
+      href="javascript:allauth.facebook.login('', 'authenticate',
+      'login')">
+      <button class="btn btn-facebook btn-block btn-primary btn-login form-control">
+        Use Facebook
+      </button></a>
+      {% include "socialaccount/snippets/login_extra.html" %}
+      </div>
+      <hr>
+        <span class="help-block text-center"><a id='show-login'>Use .edu E-mail</a></span>
+    </div>    
+<!--<div class="socialaccount_ballot">
   <ul class="socialaccount_providers">
     {% include "socialaccount/snippets/provider_list.html" with process="login" %}
   </ul>
-
   <div class="login-or">{% trans 'or' %}</div>
-
-</div>
-
-{% include "socialaccount/snippets/login_extra.html" %}
-
+</div>-->
+<!--{% include "socialaccount/snippets/login_extra.html" %}
 {% else %}
 <p>{% blocktrans %}If you have not created an account yet, then please
 <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-{% endif %}
-
-<form class="login" method="POST" action="{% url 'account_login' %}">
+{% endif %}-->
+    <div id="emailLogin">
+      <form class="emailLogin" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
   {{ form.as_p }}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
+  <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-check-square-o"></i> {% trans "Log In" %}</button>
+  <span class="help-block text-center">{% trans "Forgot your password?" %} <a href="{% url 'account_reset_password' %}">{% trans "Reset it" %}</a></span></a>
+  <span class="help-block text-center">{% trans "Don't have an account?" %} <a href="{{ signup_url }}">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
 </form>
+    </div>
+</div>
+</div>
 
 {% endblock %}
