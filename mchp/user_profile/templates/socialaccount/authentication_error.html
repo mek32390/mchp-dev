@@ -32,12 +32,13 @@ body {
 <p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
 
 <div class="socialaccount_ballot">
-      <a title="Facebook" class="socialaccount_provider facebook" 
-      href="javascript:allauth.facebook.login('', 'authenticate',
-      'login')">
-      <button class="btn btn-facebook btn-block btn-primary btn-login form-control">
-        Try again with Facebook
-      </button></a>
-      </div>
+		<a title="Facebook" class="socialaccount_provider facebook" 
+			href="javascript:allauth.facebook.login('', 'authenticate',
+			'login')">
+			<button class="btn btn-facebook btn-block btn-primary btn-login form-control">
+				Try again with Facebook
+		</button></a>
+		{% include "socialaccount/snippets/login_extra.html" %}
+	</div>
 </div>
 {% endblock %}
