@@ -58,7 +58,7 @@ ACCOUNT_USERNAME_MIN_LENGTH = 4
 ACCOUNT_USERNAME_BLACKLIST = ['Admin', 'admin']
 #A list of usernames that can't be used by user.
 
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 #The user is required to enter a username when signing up. Note that the user will be asked to do so even if ACCOUNT_AUTHENTICATION_METHOD is set to email. Set to False when you do not wish to prompt the user to enter a username.
 
 #ACCOUNT_PASSWORD_INPUT_RENDER_VALUE (=False)
