@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
 	<script src="{% static 'user_profile/js/form.js' %}"></script>
+	<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -49,7 +50,7 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %} 
-  <button type="submit" class="btn btn-lg btn-primary btn-block"><i class="fa fa-check-square-o"></i> {% trans "Sign Up" %} &raquo;</button>
+  <button type="submit" class="btn btn-lg btn-primary btn-block"><i class="fa fa-check-square-o"></i> {% trans "Sign Up" %}</button>
 </form>
 </div>
 </div>
