@@ -8,6 +8,7 @@
   {% load staticfiles %}
   <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
+  <script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
   <script src="{% static 'user_profile/js/form.js' %}"></script>
 {% endblock %}
 
@@ -41,7 +42,7 @@
 <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
 {% endif %}-->
     <div id="emailLogin">
-      <form class="emailLogin" method="POST" action="{% url 'account_login' %}">
+      <form id="login_form" class="emailLogin" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
   {{ form.as_p }}
   {% if redirect_field_value %}
