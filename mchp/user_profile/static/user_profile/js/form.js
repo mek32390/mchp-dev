@@ -13,7 +13,6 @@ $(function () {
 			$('.emailLogin').fadeIn(500);
 		});
 	});
-
 	// this is to add the session stored email address, and hide that field
 	$('.email_reminder').hide();
 	hidden = $('.emailSignup input[name=saved_email]').attr('value');
@@ -25,4 +24,15 @@ $(function () {
 		// if there is no session email, this will show the e-mail input field
 		$('.email_reminder h4').html("Sign up with E-mail")
 	}
+	// don't collaspe the manual signup when the page refreshes 
+	if(document.referrer === document.URL) {
+		$('.facebookSignup').fadeOut(1, function () {
+			$('.emailSignup').show()
+			$('.email_reminder').show();
+		});
+		$('#facebookLogin').fadeOut(1, function () {
+			$('.emailLogin').show()
+		});
+	}
+
 });

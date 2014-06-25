@@ -16,10 +16,18 @@ def index(request):
 def confirm_school(request):
     return render_to_response('user_profile/school.html', RequestContext(request))
 
+@require_POST
 def get_email(request):
-    email = request.POST['email']
-    request.session['initial_email'] = email
-    return redirect('/accounts/signup')
+    email = request.POST["email"]
+    if request.is_ajax():
+        if 'initial_email' in request.session:
+            return HttpResponseGone(json.dumps({'message': 'initial_email already set'}), content_type='application/javascript')
+        else:
+            request.session['initial_email'] = email
+            return HttpResponse(json.dumps({}), content_type='application/javascript')
+    else:
+        request.session['initial_email'] = email
+        return redirect('/accounts/signup')
 
 @require_POST
 def resend_email(request):

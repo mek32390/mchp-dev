@@ -11,8 +11,8 @@ $(function(){
 			success: function(data) {
 				$('.resend_confirm').html('<p>Verification Email resent.</p>');
 			},
-			failure: function(data) {
-				alert('Resend request failed.');
+			error: function(data) {
+				$('.resend_confirm').html('<p>Resend request failed.</p>');
 			}
 		});
 
