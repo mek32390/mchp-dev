@@ -5,6 +5,24 @@ $(function () {
 		$('.facebookSignup').fadeOut(250, function () {
 			$('.emailSignup').fadeIn(500);
 			$('.email_reminder').fadeIn(500);
+			$('#signup_form').children().each(function(){
+				$(this).addClass("form-group");
+				$(this).children('label').each(function(){
+					$(this).hide();					
+				});
+				$(this).children('input').each(function(){
+					if(!$(this).is(":hidden")) {
+						$(this).wrap( "<div class='input-group'></div>" );
+						if($(this).attr('type') == 'text'){
+							$(this).before( "<span class=\"input-group-addon\"><i class=\"fa fa-user\"></i></span>" );							
+						}
+						else{
+							$(this).before( "<span class=\"input-group-addon\"><i class=\"fa fa-lock\"></i></span>" );
+						}
+						$(this).addClass("form-control");
+					} 
+				});				
+			});
 		});
 	});
 	// show manual log in forms
