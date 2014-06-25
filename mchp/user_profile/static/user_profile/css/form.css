@@ -2,6 +2,9 @@
 body {
     padding-top: 70px;
 }
+label {
+    display: none;
+}
 .btn-facebook {
     background: #4c66a4;
     color: #fff;
@@ -45,9 +48,9 @@ body {
 
 .emailSignup {
 	display: none;
-    max-width: 300px;
-    width: 300px;
-    padding: 15px;
+    max-width: 270px;
+    width: 270px;
+    padding-top: 15px;
     margin: 0 auto;
 	text-align: center;
 }
