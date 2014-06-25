@@ -1,5 +1,10 @@
 $(function(){
+	// to resend verification email
 	$("#resend_form").submit(function() {
+
+		// to change resend button state 
+		$("#sendBtn").addClass("btn-success");
+		$("#sendBtn").html("Verification E-mail sent!");
 
 		var url = "/login/resend-email/"; // page just for handing resend requests
 
@@ -17,5 +22,8 @@ $(function(){
 		});
 
 		return false; 
+
 	});
+	
+
 });
