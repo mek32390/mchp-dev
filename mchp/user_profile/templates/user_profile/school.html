@@ -7,6 +7,9 @@
 	{% load staticfiles %}
 
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
+	<script src="{% static 'user_profile/js/confirm-school.js' %}"></script>
+	{% load socialaccount %}
+	{% providers_media_js %}
 
 {% endblock %}
 
