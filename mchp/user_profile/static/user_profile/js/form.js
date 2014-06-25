@@ -5,12 +5,18 @@ $(function () {
 		$('.facebookSignup').fadeOut(250, function () {
 			$('.emailSignup').fadeIn(500);
 			$('.email_reminder').fadeIn(500);
-			$('#signup_form').children().each(function(){
-				$(this).addClass("form-group");
-				$(this).children('label').each(function(){
+			$('#signup_form').children('p').each(function(){
+				var replaceP = $(this);
+				var newDiv = $('<div class="form-group"></div>');
+				replaceP.before(newDiv);
+				newDiv.append(replaceP.children());
+				replaceP.remove();
+				
+				newDiv.addClass("form-group");
+				newDiv.children('label').each(function(){
 					$(this).hide();					
 				});
-				$(this).children('input').each(function(){
+				newDiv.children('input').each(function(){
 					if(!$(this).is(":hidden")) {
 						$(this).wrap( "<div class='input-group'></div>" );
 						if($(this).attr('type') == 'text'){
