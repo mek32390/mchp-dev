@@ -41,7 +41,6 @@
 		Using your E-mail:</strong> {{ request.session.initial_email }}
 		<small class="text-danger"><a class="text-danger" href="/"> {% trans "(edit)" %}</a></small>
 </div>
-
 <form class="emailSignup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
   {{ form.as_p }}
@@ -53,7 +52,6 @@
 </form>
 </div>
 </div>
-
 <!--<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>-->
 
 {% endblock %}
