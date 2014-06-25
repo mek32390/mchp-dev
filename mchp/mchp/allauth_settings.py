@@ -67,7 +67,7 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_PASSWORD_MIN_LENGTH = 8
 #An integer specifying the minimum password length.
 
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 #The default behaviour is to automatically log the user in once he confirms his email address. By changing this setting to False he will not be logged in, but redirected to the ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL
 
 #ACCOUNT_SESSION_REMEMBER (=None)
