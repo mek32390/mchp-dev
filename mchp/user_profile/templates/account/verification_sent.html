@@ -7,22 +7,21 @@
 	{% load staticfiles %}
 
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
-	<script src="{% static 'account/js/confirm-email.js' %}"></script>
 
+    <script src="{% static 'account/js/confirm-email.js' %}"></script>
 
 {% endblock %}
 
 {% block content %}
 <div class="container">
-	<div class="form-signin" role="form">
 		<h2 class="text-center">You've got mail!<small></small></h2>
 		<p><img class="media-object img-responsive center-block" src=
 			"https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/rss.svg" alt=
 			"verify email account">
 			<p class="text-center">Click the verification link in your college email account and let's get started!</>
 			</p>
-			<hr>
-			<div class='emailVerify'>
+			<div class='emailVerify acct-form'>
+							<hr>
 				<h4 class="text-center">No Email?<small> oh noes</small></h4>
 				<p class="text-center">
 					That's alright, we'll send you another one. 
@@ -31,17 +30,19 @@
 					<span id="resend_status" class="control-label"></span>
 				</div>
 			</div>
-			<form id="resend_form" action="/login/resend-email/" class="email_list" method="post">
+			<form id="resend_form" action="/login/resend-email/" class="email_list acct-form" method="post">
 	{% csrf_token %}
 	<input id="saved_email" type="hidden" name="email" value="{{request.session.initial_email}}"/>
 	  <div class="buttonHolder">
-		<button id='sendBtn' class="btn btn-lg btn-primary btn-block secondaryAction" type="submit"
-			name="action_send"><i class="fa fa-refresh"></i> Resend Verification
-		<!--{{request.session.initial_email}}--> </button>
+		<button id='sendBtn' class="btn btn-lg btn-primary btn-block secondaryAction" data-style="expand-down" type="submit"
+			name="action_send"><span class="ladda-label"><i class="fa fa-refresh fa-fw"></i> Resend Verification</span></span>
+		</button>
 	  </div>
+	  <div class="show-email text-center h5"><hr> E-mail sent to {{request.session.initial_email}}!</div>
 	</form>
-		</div>    
 		<!-- <form id="resend_form" action="{% url 'account_email' %}" class="email_list"
 			method="post"> -->
 </div>
+{% endblock %}
+{% block extra_body %}
 {% endblock %}
