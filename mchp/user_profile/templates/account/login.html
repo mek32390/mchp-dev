@@ -53,7 +53,7 @@
     <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-check-square-o"></i> {% trans "Log In" %}</button>
   </div>
   <span class="help-block text-center">{% trans "Forgot your password?" %} <a href="{% url 'account_reset_password' %}">{% trans "Reset it" %}</a></span></a>
-  <span class="help-block text-center">{% trans "Don't have an account?" %} <a href="/accounts/signup/">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
+  <span class="help-block text-center">{% trans "Don't have an account?" %} <a href="{% url 'landing_page' %}">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
 </form>
     </div>
 </div>
