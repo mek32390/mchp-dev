@@ -9,7 +9,8 @@
   <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
   <script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
-  <script src="{% static 'user_profile/js/form.js' %}"></script>
+  <script src="{% static 'user_profile/js/form.js' %}"></script> 
+
 {% endblock %}
 
 {% block content %}
@@ -42,18 +43,78 @@
 <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
 {% endif %}-->
     <div id="emailLogin">
-      <form id="login_form" class="emailLogin" method="POST" action="{% url 'account_login' %}">
+      <form id="login_form" class="emailLogin signup_form" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
   {{ form.as_p }}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-check-square-o"></i> {% trans "Log In" %}</button>
+  <div class="form-group">
+    <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-check-square-o"></i> {% trans "Log In" %}</button>
+  </div>
   <span class="help-block text-center">{% trans "Forgot your password?" %} <a href="{% url 'account_reset_password' %}">{% trans "Reset it" %}</a></span></a>
-  <span class="help-block text-center">{% trans "Don't have an account?" %} <a href="/">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
+  <span class="help-block text-center">{% trans "Don't have an account?" %} <a href="/accounts/signup/">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
 </form>
     </div>
 </div>
 </div>
 
+{% endblock %}
+{% block extra_body %}
+    <script>
+    // hide unwanted labels
+    $('label[for="id_login"]').hide();
+    $('label[for="id_password"]').hide();
+
+    // style error message to BS Validator
+    var html = [],
+        $list = $('.errorlist');
+
+    html.push('<div class="errorlist">');
+        $list.find('li').each(function() {
+        html.push('<p class="text-danger small">' + $(this).text() + '</p>');
+        });
+    html.push('</div>');
+    $list.replaceWith(html.join(''));
+
+    // Convert form to BS Validator
+    $("#id_login").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
+    $("#id_login").before( "<span class='input-group-addon glyphicon glyphicon-user'></span>" );
+    $("#id_login").addClass("form-control input-lg");
+
+    $("#id_password").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
+    $("#id_password").before( "<span class='input-group-addon glyphicon glyphicon-lock'></span>" );
+    $("#id_password").addClass("form-control input-lg");
+
+    // BS Validator 
+    $('#login_form').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            login: {
+                trigger: 'keyup',
+                validators: {
+                    notEmpty: {
+                        message: 'This field is required'
+                    },
+                    stringLength: {
+                        min: 4,
+                        message: 'Your username or email must be more than 4 characters'
+                    }
+                }
+            },
+            password: {
+                trigger: 'keyup',
+                validators: {
+                    notEmpty: {
+                        message: 'This field is required'
+                    },
+                }
+            }
+        }
+    });
+    </script>
 {% endblock %}

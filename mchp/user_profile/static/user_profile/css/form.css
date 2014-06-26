@@ -2,9 +2,6 @@
 body {
     padding-top: 70px;
 }
-label {
-    display: none;
-}
 .btn-facebook {
     background: #4c66a4;
     color: #fff;
