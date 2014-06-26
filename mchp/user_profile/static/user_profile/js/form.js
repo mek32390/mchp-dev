@@ -5,7 +5,6 @@ $(function () {
 		$('.facebookSignup').fadeOut(250, function () {
 			$('.emailSignup').fadeIn(500);
 			$('.email_reminder').fadeIn(500);
-			
 		});
 	});
 	// show manual log in forms
@@ -19,6 +18,7 @@ $(function () {
 	hidden = $('.emailSignup input[name=saved_email]').attr('value');
 	if(hidden !== ''){
 		$('#id_email').hide();
+		$('.extra-field').hide();
 		$('label[for=id_email]').hide();
 		$('#id_email').attr('value', hidden);
 	} else if(hidden === '') {

@@ -21,14 +21,14 @@
     <p><img class="media-object img-responsive center-block" src=
     "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt=
     "..."></p>
-<div class="form-signin">
+<div class="acct-form">
 <div class='facebookSignup'>
 	<p class="text-center">Finish signing up:</p>
 	<div class="socialaccount_ballot">
 		<a title="Facebook" class="socialaccount_provider facebook" 
 			href="javascript:allauth.facebook.login('', 'authenticate',
 			'login')">
-			<button class="btn btn-facebook btn-block btn-primary btn-login form-control">
+			<button class="btn btn-facebook btn-block btn-primary btn-lg">
 				Use Facebook
 		</button></a>
 		{% include "socialaccount/snippets/login_extra.html" %}
@@ -37,10 +37,10 @@
 	<span class="help-block text-center"><a id='show-signUp'>Use your own</a></span>
 </div>
 
-<div class="email_reminder">
-	<strong class="text-center">
+<div class="email_reminder text-center">
+	<p><strong>
 		Using your E-mail:</strong> {{ request.session.initial_email }}
-		<small class="text-danger"><a class="text-danger" href="/"> {% trans "(edit)" %}</a></small>
+		<small class="text-danger"><a class="text-danger" href="/"> {% trans "(edit)" %}</a></small></p>
 </div>
 <form class="emailSignup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
@@ -60,6 +60,10 @@
 {% endblock %}
 {% block extra_body %}
     <script>
+    $('#id_first_name').focus();
+    // hidden email field
+    $("#id_email").attr("placeholder", "Your .edu E-mail");
+
     // hide unwanted labels
     $('label').hide();
    
@@ -76,23 +80,27 @@
 
     // Convert form to BS Validator
     $("#id_first_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_first_name").before( "<span class='input-group-addon glyphicon glyphicon-user'></span>" );
+    $("#id_first_name").before( "<span class='input-group-addon'><i class='fa fa-user fa-fw'></i></span>" );
     $("#id_first_name").addClass("form-control input-lg");
 
     $("#id_last_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_last_name").before( "<span class='input-group-addon glyphicon glyphicon-user'></span>" );
+    $("#id_last_name").before( "<span class='input-group-addon'><i class='fa fa-user fa-fw'></i></span>" );
     $("#id_last_name").addClass("form-control input-lg");
 
     $("#id_username").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_username").before( "<span class='input-group-addon glyphicon glyphicon-user'></span>" );
+    $("#id_username").before( "<span class='input-group-addon'><i class='fa fa-user fa-fw'></i></span>" );
     $("#id_username").addClass("form-control input-lg");
 
+    $("#id_email").wrap( $( "<div class='form-group extra-field'><div class='input-group'></div></div>" ) );
+    $("#id_email").before( "<span class='input-group-addon'><i class='fa fa-envelope fa-fw'></i></span>" );
+    $("#id_email").addClass("form-control input-lg");
+
     $("#id_password1").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_password1").before( "<span class='input-group-addon glyphicon glyphicon-lock'></span>" );
+    $("#id_password1").before( "<span class='input-group-addon'><i class='fa fa-lock fa-fw'></i></span>" );
     $("#id_password1").addClass("form-control input-lg");
 
     $("#id_password2").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_password2").before( "<span class='input-group-addon glyphicon glyphicon-lock'></span>" );
+    $("#id_password2").before( "<span class='input-group-addon'><i class='fa fa-lock fa-fw'></i></span>" );
     $("#id_password2").addClass("form-control input-lg");
 
     // BS Validator 
@@ -115,6 +123,19 @@
                     }
                 }
             },
+            email: {
+                validators: {
+                    notEmpty: {
+                    },
+                    emailAddress: {
+                        message: 'This is not a valid email address'
+                    },
+                    regexp: {
+                        regexp: /(\.edu)$/,
+                        message: 'Only college emails allowed'
+                    }
+                }
+            },
             password1: {
                 trigger: 'keyup',
                 validators: {
@@ -124,10 +145,6 @@
                     stringLength: {
                         min: 8,
                         message: 'Your password must be at least 8 characters'
-                    },
-                    identical: {
-                        field: 'password2',
-                        message: 'Your password must match the one below'
                     }
                 }
             },
