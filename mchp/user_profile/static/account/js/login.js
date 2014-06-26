@@ -16,11 +16,11 @@ $(function() {
 
 	// Convert form to BS Validator
 	$("#id_login").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-	$("#id_login").before( "<span class='input-group-addon glyphicon glyphicon-user'></span>" );
+	$("#id_login").before( "<span class='input-group-addon'><i class='fa fa-user fa-fw'></i></span>" );
 	$("#id_login").addClass("form-control input-lg");
 
 	$("#id_password").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-	$("#id_password").before( "<span class='input-group-addon glyphicon glyphicon-lock'></span>" );
+	$("#id_password").before( "<span class='input-group-addon'><i class='fa fa-lock fa-fw'></i></span>" );
 	$("#id_password").addClass("form-control input-lg");
 
 	// BS Validator 
