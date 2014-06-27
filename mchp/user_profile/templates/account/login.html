@@ -44,6 +44,7 @@
 {% endif %}-->
     <div id="emailLogin">
       <form id="login_form" class="emailLogin signup_form" method="POST" action="{% url 'account_login' %}">
+        <hr>
   {% csrf_token %}
   {{ form.as_p }}
   {% if redirect_field_value %}

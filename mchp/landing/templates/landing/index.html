@@ -1,33 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css">
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.1.0/ladda-themeless.min.css">
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css">---->
-
-    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.1.0/ladda.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.1.0/spin.min.js"></script>-->
-
+<title>mycollegehomepage.com | mchp</title>
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.1.0/ladda-themeless.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.1.0/spin.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.1.0/ladda.min.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
 {% load staticfiles %}
-<!--<link rel="stylesheet" type="text/css" href="{% static 'landing/css/bootstrap-tour.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'landing/css/base.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'landing/css/basic.css' %}">-->
 <link rel="stylesheet" type="text/css" href="{% static 'landing/css/bootstrap-validator.css' %}">
-<!--<link rel="stylesheet" type="text/css" href="{% static 'landing/css/landing.css' %}">-->
 <link rel="stylesheet" type="text/css" href="{% static 'landing/css/test.css' %}">
 
-<!--<script src="{% static 'landing/js/bootstrap-paginator.min.js' %}"></script>
-<script src="{% static 'landing/js/bootstrap-tour.js' %}"></script>
-<script src="{% static 'landing/js/ejs_production.js' %}"></script>
-<script src="{% static 'landing/js/jquery.timeago.js' %}"></script>
-<script src="{% static 'landing/js/send.js' %}"></script>-->
 <script src="{% static 'landing/js/bootstrap-validator.js' %}"></script>
+<script src="{% static 'landing/js/landing.js' %}"></script>
 
 </head>
 <body>
@@ -61,12 +51,10 @@
 					<form id="emailForm" method="post" action="{% url 'get_email' %}">
 							{% csrf_token %}
             <div class="form-group">
-                <div class="input-group animated animated-xxxl bounce">
-									<form class="email-input" >
-                    <input type="text" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
+                <div class="input-group">
+                    <input type="email" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
                     <span class="input-group-btn">
-                        <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg ladda-button" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
-									</form>
+                        <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
                     </span>
                 </div>
             </div>
@@ -163,7 +151,7 @@
                 </div>
             </div>
         </div>
-        <div class="flip-container hidden-sm hidden-xs" ontouchstart="this.classList.toggle('hover');">
+        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
             <div class="flipper">
                 <div class="front">
                     <div id="ballWrapper" class="animated">
@@ -187,34 +175,8 @@
         </div>
     </div>
 
-    <div id="footer-terms">
-<p class="small text-muted pull-right"><small>mycollegehomepage.com &copy; 2014 | <a href="/privacy/" class="">Privacy Policy</a></small> </p>
-    </div>
+<div class="small text-default text-center" style="position:relative; margin: 0 auto;"><small>mycollegehomepage.com &copy; 2014 | <a href="/privacy/" class="">Privacy Policy</a></small> </div>
 </div>
-  {% block scripts %}
-  <script type="text/javascript">
-  $(document).ready(function() {
-    $('#emailForm').bootstrapValidator({
-        threshold: 6,
-        trigger: 'blur',
-        fields: {
-            email: {
-                validators: {
-                    notEmpty: {
-                    },
-                    emailAddress: {
-                        message: 'This is not a valid email address'
-                    },
-                    regexp: {
-                        regexp: /(\.edu)$/,
-                        message: 'Only college emails allowed'
-                    }
-                }
-            }
-        }
-    });
-});
-  </script>
-  {% endblock %}
+
 </body>
 </html>

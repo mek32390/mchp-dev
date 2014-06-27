@@ -16,7 +16,7 @@ $(function() {
 
     // Convert form to BS Validator
     $("#id_email").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_email").before( "<span class='input-group-addon input-lg'>@</span>" );
+    $("#id_email").before( "<span class='input-group-addon'><i class='fa fa-envelope fa-fw'></i></span>" );
     $("#id_email").addClass("form-control input-lg");
 
     // BS Validator 

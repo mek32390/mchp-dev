@@ -23,23 +23,23 @@ $(function() {
 
     // Convert form fields to BS Validator
     $("#id_first_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_first_name").before( "<span class='input-group-addon glyphicon glyphicon-user'></span>" );
+    $("#id_first_name").before( "<span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>" );
     $("#id_first_name").addClass("form-control input-lg");
 
     $("#id_last_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_last_name").before( "<span class='input-group-addon glyphicon glyphicon-user'></span>" );
+    $("#id_last_name").before( "<span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>" );
     $("#id_last_name").addClass("form-control input-lg");
 
     $("#id_username").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_username").before( "<span class='input-group-addon glyphicon glyphicon-user'></span>" );
+    $("#id_username").before( "<span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>" );
     $("#id_username").addClass("form-control input-lg");
 
     $("#id_password1").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_password1").before( "<span class='input-group-addon glyphicon glyphicon-lock'></span>" );
+    $("#id_password1").before( "<span class='input-group-addon'><i class='fa fa-fw fa-lock'></i></span>" );
     $("#id_password1").addClass("form-control input-lg");
 
     $("#id_password2").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_password2").before( "<span class='input-group-addon glyphicon glyphicon-lock'></span>" );
+    $("#id_password2").before( "<span class='input-group-addon'><i class='fa fa-fw fa-lock'></i></span>" );
     $("#id_password2").addClass("form-control input-lg");
 
     // this is to add the session stored email address, and hide that field
