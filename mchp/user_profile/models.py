@@ -6,7 +6,7 @@ from allauth.account.models import EmailAddress
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
 
-    def __unicode__(self):
+    def __str__(self):
         return "{}'s profile".format(self.user.username)
 
     def account_verified(self):

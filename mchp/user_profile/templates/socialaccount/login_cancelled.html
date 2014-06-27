@@ -4,14 +4,18 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Login Cancelled" %}{% endblock %}
-
+{% block extra_head %}
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
+{% endblock %}  
 {% block content %}
-    
-<h1>{% trans "Login Cancelled" %}</h1>
-
+<div class="container text-center">    
+<h2>{% trans "Login Cancelled" %}</h2>
+<hr style="width:300px;">
 {% url 'account_login' as login_url %}
 
-<p>{% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts. If this was a mistake, please proceed to <a href="{{login_url}}">sign in</a>.{% endblocktrans %}</p>
-
+<p>{% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts.{% endblocktrans %}</p>
+<p>{% blocktrans %}If this was a mistake, please proceed to <a href="{{login_url}}">sign in</a>.{% endblocktrans %}</p>
+</div>
 {% endblock %}
 

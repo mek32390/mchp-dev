@@ -77,7 +77,7 @@ body .flip-container .flipper {
     position: relative;
 }
 /* hide back of pane during swap */
- body .flip-container .flipper .front, body .flip-container .flipper .back {
+body .flip-container .flipper .front, body .flip-container .flipper .back {
     left: 0;
     position: absolute;
     top: 0;
@@ -95,7 +95,7 @@ body .flip-container .flipper {
     transition: 0.6s;
 }
 /* front pane, placed above back */
- body .flip-container .flipper .front {
+body .flip-container .flipper .front {
     z-index: 2;
     -webkit-transform: perspective(1000px) rotateY(0);
     -moz-transform: perspective(1000px) rotateY(0);
@@ -103,7 +103,7 @@ body .flip-container .flipper {
     transform: perspective(1000px) rotateY(0);
 }
 /* front pane, placed above back */
- body .flip-container:hover .flipper .front {
+body .flip-container:hover .flipper .front {
     -webkit-animation: 0;
     opactity: 0;
     -webkit-transform: perspective(1000px) rotateY(-179.9deg);
@@ -112,7 +112,7 @@ body .flip-container .flipper {
     transform: perspective(1000px) rotateY(-179.9deg);
 }
 /* back, initially hidden pane */
- body .flip-container:hover .flipper .back {
+body .flip-container:hover .flipper .back {
     opcaity: .1;
     position: absolute;
     z-index:3;
@@ -297,7 +297,7 @@ floating
     border: 2px solid #ddd;
     background: #f5f5f5;
 }
- #ballShadow {
+#ballShadow {
     position: absolute;
     left: 50%;
     bottom: 0;

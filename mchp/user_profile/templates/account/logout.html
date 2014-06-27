@@ -4,10 +4,15 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
+{% block extra_head %}
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Out" %}</h1>
-
+<div class="container acct-form text-center">
+<h2>{% trans "Sign Out" %}</h2>
+<hr>
 <p>{% trans 'Are you sure you want to sign out?' %}</p>
 
 <form method="post" action="{% url 'account_logout' %}">
@@ -15,8 +20,8 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{redirect_field_name}}" value="{{redirect_field_value}}"/>
   {% endif %}
-  <button type="submit">{% trans 'Sign Out' %}</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans 'Sign Out' %}</button>
 </form>
-
+</div>
 
 {% endblock %}

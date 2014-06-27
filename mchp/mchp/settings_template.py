@@ -39,6 +39,9 @@ INSTALLED_APPS = (
 
     'landing',
     'user_profile',
+    'calendar_mchp',
+    'documents',
+    'schedule',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -46,6 +49,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
     #'allauth.socialaccount.providers.google',
     #'allauth.socialaccount.providers.twitter',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (

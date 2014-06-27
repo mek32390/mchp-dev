@@ -1,25 +1,22 @@
-/* Sign up form styles */
+/* Sign up/Log in form styles */
 body {
     padding-top: 70px;
 }
-label {
-    display: none;
+.acct-form {
+    max-width: 300px;
+    width:300px;
+    margin: 0 auto;
 }
 .btn-facebook {
     background: #4c66a4;
     color: #fff;
-	max-width: 300px;
 	text-align: center;
-    padding: 15px;
-    margin: 0 auto;
 }
-.form-signin {
-    max-width: 300px;
-    width:300px;
-    padding: 15px;
-    margin: 0 auto;
+.input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child) {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
-.form-signin .form-control {
+/*.form-signin .form-control {
     position: relative;
     font-size: 16px;
     height: auto;
@@ -45,21 +42,12 @@ label {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
-
+*/
 .emailSignup {
 	display: none;
-    max-width: 270px;
-    width: 270px;
-    padding-top: 15px;
+    max-width: 300px;
+    width: 300px;
     margin: 0 auto;
-	text-align: center;
-}
-
-.facebookSignup div a{
-	text-decoration: none;
-}
-
-.email_reminder {
 	text-align: center;
 }
 
@@ -67,7 +55,6 @@ label {
     display: none;
     max-width: 300px;
     width: 300px;
-    padding: 15px;
     margin: 0 auto;
     text-align: center;
 }

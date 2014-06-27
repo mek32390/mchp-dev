@@ -1,6 +1,19 @@
 $(function(){
+	// initially hide email address
+	$(".show-email").hide();
+
 	// to resend verification email
 	$("#resend_form").submit(function() {
+
+		$("#sendBtn").toggleClass("btn-success");
+		$('.fa').toggleClass('fa-spin');
+		setTimeout(function(){
+     			// toggle back after 1 second
+    				$('#sendBtn').toggleClass('btn-success');
+    				$('.fa').toggleClass('fa-spin');
+    				$(".show-email").show();
+   					},1000);
+
 
 		var url = "/login/resend-email/"; // page just for handing resend requests
 
@@ -10,9 +23,9 @@ $(function(){
 			data: $("#resend_form").serialize(), 
 			dataType: "json",
 			success: function(data) {
-				// to change resend button state 
-				$("#sendBtn").addClass("btn-success");
-				$("#sendBtn").html("Verification E-mail sent!");
+				$('#sendBtn').addClass('btn-primary');
+				$(".show-email").hide();
+				
 			},
 			error: function(data) {
 				$('.resend_confirm').html('<p>Resend request failed.</p>');

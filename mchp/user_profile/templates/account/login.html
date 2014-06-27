@@ -9,12 +9,13 @@
   <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
   <script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
-  <script src="{% static 'user_profile/js/form.js' %}"></script>
+  <script src="{% static 'account/js/login.js' %}"></script> 
+
 {% endblock %}
 
 {% block content %}
 <div class="container text-center">
-  <div class="form-signin">
+  <div class="acct-form ">
     <h2>{% trans "Log In" %} <small> let's go</small></h2>
     <div id='facebookLogin'>      
     {% if socialaccount.providers  %}
@@ -22,7 +23,7 @@
       <a title="Facebook" class="socialaccount_provider facebook" 
       href="javascript:allauth.facebook.login('', 'authenticate',
       'login')">
-      <button class="btn btn-facebook btn-block btn-primary btn-login form-control">
+      <button class="btn btn-facebook btn-block btn-primary btn-lg">
         Use Facebook
       </button></a>
       {% include "socialaccount/snippets/login_extra.html" %}
@@ -42,15 +43,18 @@
 <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
 {% endif %}-->
     <div id="emailLogin">
-      <form id="login_form" class="emailLogin" method="POST" action="{% url 'account_login' %}">
+      <form id="login_form" class="emailLogin signup_form" method="POST" action="{% url 'account_login' %}">
+        <hr>
   {% csrf_token %}
   {{ form.as_p }}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-check-square-o"></i> {% trans "Log In" %}</button>
+  <div class="form-group">
+    <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-check-square-o"></i> {% trans "Log In" %}</button>
+  </div>
   <span class="help-block text-center">{% trans "Forgot your password?" %} <a href="{% url 'account_reset_password' %}">{% trans "Reset it" %}</a></span></a>
-  <span class="help-block text-center">{% trans "Don't have an account?" %} <a href="/">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
+  <span class="help-block text-center">{% trans "Don't have an account?" %} <a href="{% url 'landing_page' %}">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
 </form>
     </div>
 </div>
