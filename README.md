@@ -10,6 +10,10 @@ $ git clone https://github.com/mitchellias/mchp-dev
 ```
 Install Python 3
 
+Using homebrew:
+```
+$ brew install python3
+```
 Set up virtualenv: 
 
 For Mac:
