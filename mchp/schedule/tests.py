@@ -1,9 +1,10 @@
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from django.db.transaction import atomic
-from schedule.models import School, Course
+from schedule.models import School, Course, Section
+from datetime import datetime, timedelta, timezone
 
-class SchoolTestCase(TestCase):
+class DatabaseTestCase(TestCase):
 
     def setUp(self):
         test_uni = {
@@ -17,6 +18,36 @@ class SchoolTestCase(TestCase):
         }
         self.school = School(**test_uni)
         self.school.save()
+        test_course = {
+            'domain': self.school,
+            'dept': 'CSC',
+            'course_number': '245',
+            'professor': 'test',
+        }
+        self.course = Course(**test_course)
+        self.course.save()
+
+    def testSectionUniqueAndTime(self):
+        time = datetime.now(timezone(timedelta(hours=8)))
+        data = {
+            'domain': self.school,
+            'dept': self.course,
+            'course_number': self.course,
+            'professor': self.course,
+            'start_date': time,
+            'end_date': time + timedelta(seconds=5)
+        }
+        section = Section(**data)
+        section.save()
+        data['start_date'] = time + timedelta(seconds=10)
+        section = Section(**data)
+        with atomic():
+            self.assertRaises(IntegrityError, section.save)
+
+        data['start_date'] = time
+        section = Section(**data)
+        with atomic():
+            self.assertRaises(IntegrityError, section.save)
 
     def testCourseUnique(self):
         data = {

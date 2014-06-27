@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models,IntegrityError
 from schedule.utils import clean_domain
 
 class School(models.Model):
@@ -12,6 +12,26 @@ class School(models.Model):
 
     def __str__(self):
         return "{} :: {}".format(self.name, self.domain)
+
+class SchoolQuicklink(models.Model):
+    domain = models.ForeignKey('School', related_name='SchoolQuicklink_domain')
+    quick_link = models.URLField()
+
+    class Meta:
+        unique_together = ('domain', 'quick_link')
+
+    def __str__(self):
+        return "Quicklink: {} :: {}".format(self.domain, self.quick_link)
+
+class SchoolAlias(models.Model):
+    domain = models.ForeignKey('School', related_name='SchoolAlias_domain')
+    alias = models.CharField(max_length=12)
+
+    class Meta:
+        unique_together = ('domain', 'alias')
+
+    def __str__(self):
+        return "Alias for {}: {}".format(self.domain, self.alias)
 
 class Course(models.Model):
     domain = models.ForeignKey('School')
@@ -28,4 +48,22 @@ class Course(models.Model):
                                                 self.domain)
 
 class Section(models.Model):
-    pass
+    domain = models.ForeignKey('School', related_name='Section_domain')
+    dept = models.ForeignKey('Course', related_name='Section_dept')
+    course_number = models.ForeignKey('Course', related_name='Section_course_number')
+    professor = models.ForeignKey('Course', related_name='Section_professor')
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+
+    class Meta:
+        unique_together = ('domain', 'dept', 'course_number', 'professor', 'start_date', 'end_date')
+
+    def save(self, *args, **kwargs):
+        if(self.end_date > self.start_date):
+            super().save()
+        else:
+            raise IntegrityError("Start date must come before end date")
+
+    def __str__(self):
+        return "{}{} from {} to {}".format(self.dept, self.course_number, self.start_date,
+                                           self.end_date)
