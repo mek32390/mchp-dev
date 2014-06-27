@@ -27,3 +27,16 @@ VALUES ("facebook", "Facebook", "--put-your-own-app-secret-here--", "--put-your-
 INSERT INTO socialaccount_socialapp_sites (socialapp_id, site_id) VALUES (1,2);
 ```
 And then set up the facebook side as well.
+
+To use south with already existing development environments:
+```
+pip install -r requirements.txt
+./manage syncdb
+./manage migrate --fake
+```
+
+For new developers run:
+```
+./manage migrate 
+```
+without the --fake argument.
