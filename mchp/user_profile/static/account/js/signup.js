@@ -34,6 +34,10 @@ $(function() {
     $("#id_username").before( "<span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>" );
     $("#id_username").addClass("form-control input-lg");
 
+    $("#id_email").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
+    $("#id_email").before( "<span class='input-group-addon'><i class='fa fa-fw fa-envelope'></i></span>" );
+    $("#id_email").addClass("form-control input-lg");
+
     $("#id_password1").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
     $("#id_password1").before( "<span class='input-group-addon'><i class='fa fa-fw fa-lock'></i></span>" );
     $("#id_password1").addClass("form-control input-lg");
@@ -82,6 +86,24 @@ $(function() {
                     stringLength: {
                         min: 4,
                         message: 'Please make your username at least 4 characters long'
+                    }
+                }
+            },
+            email: {
+                trigger: 'keyup',
+                validators: {
+                    notEmpty: {
+                        message: 'This field is required'
+                    },
+                    stringLength: {
+                        min: 6,
+                    },
+                    emailAddress: {
+                        message: 'Please provide a valid email address'
+                    },
+                    regexp: {
+                        regexp: [/edu],
+                        message: 'Only .edu emails will work!'
                     }
                 }
             },
