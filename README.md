@@ -8,7 +8,16 @@ Clone the repository:
 ```
 $ git clone https://github.com/mitchellias/mchp-dev
 ```
+Install Python 3
+
 Set up virtualenv: 
+
+For Mac:
+```
+$ pyenv3.4 /mchp-dev
+$ source mchp-dev/bin/activate
+```
+Other:
 ```
 $ virtualenv3 ./mchp-dev
 $ source mchp-dev/bin/activate
