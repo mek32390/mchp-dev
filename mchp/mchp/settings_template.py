@@ -39,6 +39,9 @@ INSTALLED_APPS = (
 
     'landing',
     'user_profile',
+    'calendar_mchp',
+    'documents',
+    'schedule',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
