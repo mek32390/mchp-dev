@@ -1,4 +1,10 @@
 $(function() {
+	// show email log in form when clicked
+	$('#show-login').on('click', function () {
+		$('#facebookLogin').fadeOut(250, function () {
+			$('.emailLogin').fadeIn(500);
+		});
+	});
 
 	// hide unwanted labels
 	$('label[for="id_login"]').hide();

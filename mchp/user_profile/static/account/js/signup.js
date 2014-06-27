@@ -1,4 +1,12 @@
 $(function() {
+    // show email sign up form when clicked
+    $('#show-signUp').on('click', function () {
+        $('.facebookSignup').fadeOut(250, function () {
+            $('.emailSignup').fadeIn(500);
+            $('.email_reminder').fadeIn(500);
+        });
+    });
+
     // hide unwanted labels
     $('label').hide();
    
@@ -13,7 +21,7 @@ $(function() {
     html.push('</div>');
     $list.replaceWith(html.join(''));
 
-    // Convert form to BS Validator
+    // Convert form fields to BS Validator
     $("#id_first_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
     $("#id_first_name").before( "<span class='input-group-addon glyphicon glyphicon-user'></span>" );
     $("#id_first_name").addClass("form-control input-lg");
@@ -34,6 +42,29 @@ $(function() {
     $("#id_password2").before( "<span class='input-group-addon glyphicon glyphicon-lock'></span>" );
     $("#id_password2").addClass("form-control input-lg");
 
+    // this is to add the session stored email address, and hide that field
+    $('.email_reminder').hide();
+    hidden = $('.emailSignup input[name=saved_email]').attr('value');
+    if(hidden !== ''){
+        $('#id_email').hide();
+        $('.extra-field').hide();
+        $('label[for=id_email]').hide();
+        $('#id_email').attr('value', hidden);
+    } else if(hidden === '') {
+        // if there is no session email, this will show the e-mail input field
+        $('.email_reminder h4').html("Sign up with E-mail")
+    }
+    // don't collaspe the manual signup when the page refreshes 
+    if(document.referrer === document.URL) {
+        $('.facebookSignup').fadeOut(1, function () {
+            $('.emailSignup').show()
+            $('.email_reminder').show();
+        });
+        $('#facebookLogin').fadeOut(1, function () {
+            $('.emailLogin').show()
+        });
+    }
+
     // BS Validator 
     $('#signup_form').bootstrapValidator({
         feedbackIcons: {
@@ -50,7 +81,7 @@ $(function() {
                     },
                     stringLength: {
                         min: 4,
-                        message: 'Your username or email must be more than 4 characters'
+                        message: 'Please make your username at least 4 characters long'
                     }
                 }
             },
@@ -62,7 +93,7 @@ $(function() {
                     },
                     stringLength: {
                         min: 8,
-                        message: 'Your password must be at least 8 characters'
+                        message: 'Please make your password at least 8 characters long'
                     },
                     identical: {
                         field: 'password2',
