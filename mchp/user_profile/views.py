@@ -9,8 +9,8 @@ import json
 from django.http import HttpResponse, HttpResponseGone
 
 @verified_email_required
-def index(request):
-    return render_to_response('user_profile/index.html', RequestContext(request))
+def profile(request):
+    return render_to_response('user_profile/profile.html', RequestContext(request))
 
 @verified_email_required
 def confirm_school(request):

@@ -58,7 +58,7 @@
         <div class="col-sm-6 col-sm-offset-3">
           <hr style="margin-top: 0px;">
 					<!-- ug what why is there two forms -->
-            <form id="emailForm" method="post" action="/login/get-email/">
+					<form id="emailForm" method="post" action="{% url 'get_email' %}">
 							{% csrf_token %}
             <div class="form-group">
                 <div class="input-group animated animated-xxxl bounce">

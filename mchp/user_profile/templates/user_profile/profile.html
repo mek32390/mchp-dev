@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 </head>
 <body class="{% if request.user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
  
@@ -14,6 +13,7 @@
         {{ request.user.username }}
     {% endif %}
     {% if request.user.profile.account_verified %} (verified) {% else %} (unverified) {% endif %}
+		<a href="{% url 'course_create' %}">Create a course.</a>
  
 {% else %}
     <a href="/accounts/login/" class="pull-right">Login</a>

@@ -15,7 +15,7 @@ $(function(){
    					},1000);
 
 
-		var url = "/login/resend-email/"; // page just for handing resend requests
+		var url = "/profile/resend-email/"; // page just for handing resend requests
 
 		$.ajax({
 			type: "POST",
