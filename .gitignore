@@ -5,3 +5,4 @@ lib
 *.pyc
 __pycache__/
 *settings.py
+tags
