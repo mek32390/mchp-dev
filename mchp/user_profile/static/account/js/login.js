@@ -29,34 +29,41 @@ $(function() {
 	$("#id_password").before( "<span class='input-group-addon'><i class='fa fa-lock fa-fw'></i></span>" );
 	$("#id_password").addClass("form-control input-lg");
 
+	// don't collaspe the manual signup when the page refreshes 
+    if(document.referrer === document.URL) {
+        $('#facebookLogin').fadeOut(1, function () {
+            $('.emailLogin').show()
+        });
+    }
+
 	// BS Validator 
 	$('#login_form').bootstrapValidator({
 		feedbackIcons: {
 			valid: 'glyphicon glyphicon-ok',
-		invalid: 'glyphicon glyphicon-remove',
-		validating: 'glyphicon glyphicon-refresh'
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
 			login: {
 				trigger: 'keyup',
-		validators: {
-			notEmpty: {
-				message: 'This field is required'
+				validators: {
+					notEmpty: {
+						message: 'This field is required'
+					},
+					stringLength: {
+						min: 4,
+						message: 'Your username or email must be more than 4 characters'
+					}
+				}
 			},
-		stringLength: {
-			min: 4,
-		message: 'Your username or email must be more than 4 characters'
-		}
-		}
-			},
-		password: {
-			trigger: 'keyup',
-			validators: {
-				notEmpty: {
-					message: 'This field is required'
-				},
+			password: {
+				trigger: 'keyup',
+				validators: {
+					notEmpty: {
+						message: 'This field is required'
+					},
+				}
 			}
-		}
 		}
 	});
 });

@@ -9,10 +9,11 @@
 {% block extra_head %}
 	{% load staticfiles %}
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
-	<script src="{% static 'user_profile/js/form.js' %}"></script>
-	<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
+  	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
+  	<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
+	<!-- // <script src="{% static 'account/js/signup.js' %}"></script> -->
 	<script src="{% static 'account/js/signup.js' %}"></script>
+	
 {% endblock %}
 
 {% block content %}
@@ -43,7 +44,7 @@
 		Using your E-mail:</strong> {{ request.session.initial_email }}
 		<small class="text-danger"><a class="text-danger" href="/"> {% trans "(edit)" %}</a></small></p>
 </div>
-<form class="emailSignup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+<form class="emailSignup" id="signup-form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="hidden" name="saved_email" value="{{ request.session.initial_email }}" />
@@ -56,6 +57,143 @@
 </form>
 </div>
 </div>
-<!--<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>-->
 
+<!-- <div class="conainer acct-form">
+<form id="test">
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+            <input autofocus="autofocus" id="id_username" maxlength="30" name="1" placeholder="Username" type="text" class="form-control input-lg">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+            <input autofocus="autofocus" id="id_username" maxlength="30" name="2" placeholder="password1" type="text" class="form-control input-lg">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+            <input autofocus="autofocus" id="id_username" maxlength="30" name="3" placeholder="password2" type="text" class="form-control input-lg">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-9 col-lg-offset-3">
+            <button type="submit" class="btn btn-primary">Validate</button>
+        </div>
+    </div>
+</form>	
+</div>  -->
+<!--<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>-->
+<script type="text/javascript">
+$(document).ready(function() {
+    // $('#test1').bootstrapValidator({
+    //     message: 'This value is not valid',
+    //     feedbackIcons: {
+    //         valid: 'glyphicon glyphicon-ok',
+    //         invalid: 'glyphicon glyphicon-remove',
+    //         validating: 'glyphicon glyphicon-refresh'
+    //     },
+    //     fields: {
+    //         username: {
+    //             validators: {
+    //                 notEmpty: {
+    //                     message: 'The full name is required'
+    //                 }
+    //             }
+    //         },
+    //         password1: {
+    //             validators: {
+    //                 notEmpty: {
+    //                     message: 'The full name is required'
+    //                 }
+    //             }
+    //         },
+    //         password2: {
+    //             validators: {
+    //                 notEmpty: {
+    //                     message: 'The full name is required'
+    //                 }
+    //             }
+    //         }
+    //     }
+    // });
+});
+
+    // $("#id_username").wrap("<div class='form-group'><div class='input-group'></div></div>");
+    // $("#id_username").before("<span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>");
+    // $("#id_username").addClass("form-control input-lg");
+
+	// BS Validator 
+    // $('#signup_form').bootstrapValidator({
+    //	   message: 'This value is not valid',
+    //     feedbackIcons: {
+    //         valid: 'glyphicon glyphicon-ok',
+    //         invalid: 'glyphicon glyphicon-remove',
+    //         validating: 'glyphicon glyphicon-refresh'
+    //     },
+    //     fields: {
+    //         1: {
+    //             trigger: 'keyup',
+    //             validators: {
+    //                 notEmpty: {
+    //                     message: 'This field is required'
+    //                 },
+    //                 stringLength: {
+    //                     min: 4,
+    //                     message: 'Please make your username at least 4 characters long'
+    //                 }
+    //             }
+    //         },
+    //         email: {
+    //             trigger: 'keyup',
+    //             validators: {
+    //                 notEmpty: {
+    //                     message: 'This field is required'
+    //                 },
+    //                 stringLength: {
+    //                     min: 6,
+    //                     message: 'Please provide a valid email address'
+    //                 },
+    //                 emailAddress: {
+    //                     message: 'Please provide a valid email address'
+    //                 }
+    //             }
+    //         },
+    //         password1: {
+    //             trigger: 'keyup',
+    //             validators: {
+    //                 notEmpty: {
+    //                     message: 'This field is required'
+    //                 },
+    //                 stringLength: {
+    //                     min: 8,
+    //                     message: 'Please make your password at least 8 characters long'
+    //                 },
+    //                 identical: {
+    //                     field: 'password2',
+    //                     message: 'Your password must match the one below'
+    //                 }
+    //             }
+    //         },
+    //         password2: {
+    //             trigger: 'keyup',
+    //             validators: {
+    //                 notEmpty: {
+    //                     message: 'This field is required'
+    //                 },
+    //                 identical: {
+    //                     field: 'password1',
+    //                     message: 'Your password must match the one above'
+    //                 }
+    //             }
+    //         }
+    //     }
+    // });
+</script>
 {% endblock %}
