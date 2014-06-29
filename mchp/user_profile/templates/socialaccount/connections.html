@@ -4,9 +4,15 @@
 {% load url from future %}
 
 {% block head_title %}{% trans "Account Connections" %}{% endblock %}
-
+{% block extra_head %}
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
+  <script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
+{% endblock %}
 {% block content %}
-<h1>{% trans "Account Connections" %}</h1>
+<div class="container text-center acct-form">
+<h2>{% trans "Account Connections" %}</h2>
 
 {% if form.accounts %}
 <p>{% blocktrans %}You can sign in to your account using any of the following third party accounts:{% endblocktrans %}</p>
@@ -33,7 +39,7 @@
 {% endfor %}
 
 <div>
-<button type="submit">{% trans 'Remove' %}</button>
+<button class="btn btn-lg btn-primary btn-block" type="submit">{% trans 'Remove' %}</button>
 </div>
 
 </fieldset>
@@ -51,5 +57,6 @@
 </ul>
 
 {% include "socialaccount/snippets/login_extra.html" %}
+</div>
 
 {% endblock %}
