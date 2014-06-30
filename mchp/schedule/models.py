@@ -1,6 +1,6 @@
 from django.db import models,IntegrityError
 from django.core.validators import MinValueValidator, MaxValueValidator
-from schedule.utils import clean_domain
+from schedule.utils import clean_domain, US_STATES
 
 class School(models.Model):
     domain = models.URLField(primary_key=True, validators=[clean_domain])
@@ -8,7 +8,7 @@ class School(models.Model):
     phone_number = models.CharField(max_length=20, blank=True)
     street = models.CharField(max_length=30, blank=True)
     city = models.CharField(max_length=30, blank=True)
-    state = models.CharField(max_length=20, blank=True)
+    state = models.CharField(max_length=20, blank=True, choices=US_STATES)
     country = models.CharField(max_length=25, blank=True)
 
     # a list of all school names stored in the database

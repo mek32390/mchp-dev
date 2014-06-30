@@ -27,6 +27,8 @@ class CourseCreateView(FormView):
         return super(CourseCreateView, self).form_valid(form)
 
     def form_invalid(self, form):
+        storage = messages.get_messages(self.request)
+        storage.used = True
         return super(CourseCreateView, self).form_invalid(form)
 
     @method_decorator(verified_email_required)

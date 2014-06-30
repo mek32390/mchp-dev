@@ -26,6 +26,7 @@ def profile(request):
         return render(request, 'user_profile/profile.html', Context(data))
 
 # FIXME: wow this is bad
+# this should at least be a form view
 @verified_email_required
 def confirm_school(request):
     if request.POST:
