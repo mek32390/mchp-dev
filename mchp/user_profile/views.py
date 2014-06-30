@@ -30,7 +30,7 @@ def profile(request):
 @verified_email_required
 def confirm_school(request):
     if request.POST:
-        if request.POST['school']:
+        if 'school' in request.POST:
             school = request.POST['school']
             school = School.objects.get(domain=school)
             student, created = Student.objects.get_or_create(
@@ -41,12 +41,15 @@ def confirm_school(request):
                 profile = UserProfile(student=student)
                 profile.save()
 
-            if request.POST['next']:
+            if 'next' in request.POST:
                 return redirect(request.POST['next'])
             else:
                 return redirect('/profile/')
 
-    next_page = request.GET['next']
+    if 'next' in request.GET['next']:
+        next_page = request.GET['next']
+    else:
+        next_page = ''
     schools = School.objects.all().values('name', 'domain')
     data = {'schools': schools, 'next': next_page}
     return render(request, 'user_profile/school.html', Context(data))
