@@ -78,6 +78,11 @@ DATABASES = {
     }
 }
 
+import sys
+if 'test' in sys.argv:
+    SOUTH_TESTS_MIGRATE = False
+    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -135,7 +140,7 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django.request': {
+        '': {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
