@@ -5,4 +5,5 @@ lib
 *.pyc
 __pycache__/
 *settings.py
+*.log
 tags
