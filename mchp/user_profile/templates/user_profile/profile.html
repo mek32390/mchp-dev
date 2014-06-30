@@ -26,11 +26,15 @@
 			<a href="{% url 'course_create' %}">Create a course.</a>
 		</p>
 		{% if messages %}
-		<ul class="messages">
-			{% for message in messages %}
-			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-			{% endfor %}
-		</ul>
+		<p>
+			<fieldset>
+			<ul class="messages">
+				{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+				{% endfor %}
+			</ul>
+			</fieldset>
+		</p>
 		{% endif %}
  
 {% else %}

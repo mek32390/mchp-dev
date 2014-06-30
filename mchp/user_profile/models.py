@@ -5,6 +5,7 @@ from allauth.account.models import EmailAddress
 class Student(models.Model):
     user = models.OneToOneField(User, related_name='student_user')
     school = models.ForeignKey('schedule.School', related_name='student_school')
+    courses = models.ManyToManyField('schedule.Course', db_table='user_profile_enrollment')
     purchased_points = models.IntegerField(default=0)
     earned_points = models.IntegerField(default=0)
     kudos = models.IntegerField(default=0)
