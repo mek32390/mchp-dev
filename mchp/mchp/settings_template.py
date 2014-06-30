@@ -97,8 +97,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# allauth
 TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.messages.context_processors.messages",
     # Required by allauth template tags
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.request",
@@ -122,3 +122,23 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 # import from allauth_settings.py
 from mchp.allauth_settings import *
+
+#Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR + '/debug.log',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

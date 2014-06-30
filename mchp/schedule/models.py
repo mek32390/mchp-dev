@@ -1,4 +1,5 @@
 from django.db import models,IntegrityError
+from django.core.validators import MinValueValidator, MaxValueValidator
 from schedule.utils import clean_domain
 
 class School(models.Model):
@@ -36,7 +37,9 @@ class SchoolAlias(models.Model):
 class Course(models.Model):
     domain = models.ForeignKey('School')
     dept = models.CharField(max_length=6)
-    course_number = models.CharField(max_length=6)
+    course_number = models.IntegerField(
+        validators=[MaxValueValidator(99999), MinValueValidator(99)]
+    )
     professor = models.CharField(max_length=30)
     creation_date = models.DateTimeField(auto_now_add=True)
 

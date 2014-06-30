@@ -1,16 +1,30 @@
-from django.shortcuts import render_to_response,redirect
+from django.shortcuts import render_to_response,redirect,render
 from django.template import RequestContext
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
+from django.contrib import messages
+from django.views.decorators.http import require_POST
+from django.http import HttpResponse, HttpResponseGone
+
 from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
-from django.contrib import messages
-from django.views.decorators.http import require_POST
+
 import json
-from django.http import HttpResponse, HttpResponseGone
+import logging
+logger = logging.getLogger(__name__)
 
 @verified_email_required
 def profile(request):
-    return render_to_response('user_profile/profile.html', RequestContext(request))
+    user = request.user
+    try:
+       user.student
+    except ObjectDoesNotExist:
+        return redirect(reverse('confirm_school'))
+    else:
+        logger.debug(dir(user.student))
+    data = {}
+    return render(request, 'user_profile/profile.html', data)
 
 @verified_email_required
 def confirm_school(request):

@@ -3,26 +3,36 @@
 from allauth.account.decorators import verified_email_required
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
+from django.contrib import messages
 from schedule.forms import CourseCreateForm
+import logging
+logger = logging.getLogger(__name__)
 
 class CourseCreateView(FormView):
     template_name = 'schedule/course_create.html'
     form_class = CourseCreateForm
-    #success_url = reverse('schedule/course_create')
-    success_url = '/school/course/create/' 
+
+    def get_success_url(self):
+        # Redirect to previous url - security of getting referer this way?
+        return self.request.META.get('HTTP_REFERER', None)
 
     def form_valid(self, form):
+        messages.success(
+            self.request,
+            "Course Added Successifully!"
+        )
+        course = form.save(commit=False)
+        logger.debug(self.request.user)
+        course.domain = ''
+        course.save()
         return super(CourseCreateView, self).form_valid(form)
 
-    # def get(self, request):
-    #     data = {
-    #         'um': 'what',
-    #         'k': {
-    #             'asdf': 'fuck',
-    #         }
-    #     }
-    #     return render(request, self.template_name, data)
-
+    def form_invalid(self, form):
+        messages.error(
+            self.request,
+            "Error validating form"
+        )
+        return super(CourseCreateView, self).form_invalid(form)
 
     @method_decorator(verified_email_required)
     def dispatch(self, *args, **kwargs):
