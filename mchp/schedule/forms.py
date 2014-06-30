@@ -1,7 +1,13 @@
 from django.forms import ModelForm,TextInput
 from schedule.models import Course
+from user_profile.models import Student
 
 class _BaseCourseForm(ModelForm):
+
+    input_attr = {
+        'class': 'form-control input-lg',
+    }
+
     def __init__(self, *args, **kwargs):
         super(_BaseCourseForm, self).__init__(*args, **kwargs)
 
@@ -36,10 +42,21 @@ class CourseCreateForm(_BaseCourseForm):
         model = Course
         fields = ['dept', 'course_number', 'professor']
         widgets = {
-            'dept': TextInput(attrs={'class': 'form-control input-lg', 'placeholder':'ex: ECON'}),
-            'course_number': TextInput(attrs={'class': 'form-control input-lg', 'placeholder':'ex: 200'}),
-            'professor': TextInput(attrs={'class': 'form-control input-lg', 'placeholder':'ex: Doolittle'}),
+            # dict(x.items() | y.items()) combines the _base attrs with 
+            # any class specific attrs, like the placeholder
+            'dept': TextInput(attrs=dict({
+                'placeholder': 'ex: PSY'
+            }.items() | _BaseCourseForm.input_attr.items())),
+
+            'course_number': TextInput(attrs=dict({
+                'placeholder':'ex: 200'
+            }.items() | _BaseCourseForm.input_attr.items())),
+
+            'professor': TextInput(attrs=dict({
+                'placeholder':'ex: Doolittle'
+            }.items() | _BaseCourseForm.input_attr.items())),
         }
+
         labels = {
             'dept': 'Course Code',
             'course_number': 'Course #',
@@ -66,4 +83,6 @@ class CourseAddForm(_BaseCourseForm):
     def __init__(self, *args, **kwargs):
         super(CourseAddForm, self).__init__(*args, **kwargs)
 
-
+    class Meta:
+        model = Student 
+        fields = ['courses']
