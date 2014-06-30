@@ -19,10 +19,10 @@ class CourseCreateForm(ModelForm):
         return self._html_output(
             normal_row = '\
             <div class="form-group">\
-            <div class="form-addon">\
-            <span class="form-group-addon">%(label)s</span></div>\
+            <div class="input-group">\
+            <span class="input-group-addon">%(label)s</span>\
             %(field)s\
-            %(help_text)s</div>',
+            %(help_text)s</div></div>',
             error_row = '%s',
             row_ender = '',
             help_text_html = '%s',
@@ -32,9 +32,9 @@ class CourseCreateForm(ModelForm):
         model = Course
         fields = ['dept', 'course_number', 'professor']
         widgets = {
-            'dept': TextInput(attrs={'class': 'form-control'}),
-            'course_number': TextInput(attrs={'class': 'form-control'}),
-            'professor': TextInput(attrs={'class': 'form-control'}),
+            'dept': TextInput(attrs={'class': 'form-control input-lg'}),
+            'course_number': TextInput(attrs={'class': 'form-control input-lg'}),
+            'professor': TextInput(attrs={'class': 'form-control input-lg'}),
         }
         labels = {
             'dept': 'Course Abbreviation',
