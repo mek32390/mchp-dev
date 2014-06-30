@@ -43,7 +43,9 @@
 			</ul>
 		</div>
 		<input type="hidden" name="school" value="">
-		<input type="hidden" name="next" value="{{ next }}">
+		{% if next %}
+			<input type="hidden" name="next" value="{{ next }}">
+		{% endif %}
 		<button id="joinCollege" class="btn btn-lg btn-primary btn-block btn-md" type="submit"><i class="fa fa-check-square-o"></i> Join College</button>
 	</form>
 </div>

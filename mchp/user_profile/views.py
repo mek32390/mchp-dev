@@ -41,17 +41,17 @@ def confirm_school(request):
                 profile = UserProfile(student=student)
                 profile.save()
 
-            if 'next' in request.POST:
+            if 'next' in request.POST and request.POST['next'] != '':
                 return redirect(request.POST['next'])
             else:
                 return redirect('/profile/')
 
-    if 'next' in request.GET['next']:
-        next_page = request.GET['next']
-    else:
-        next_page = ''
     schools = School.objects.all().values('name', 'domain')
-    data = {'schools': schools, 'next': next_page}
+    if 'next' in request.GET:
+        next_page = request.GET['next']
+        data = {'schools': schools, 'next': next_page}
+    else:
+        data = {'schools': schools}
     return render(request, 'user_profile/school.html', Context(data))
 
 @require_POST
