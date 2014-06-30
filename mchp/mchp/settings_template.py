@@ -138,12 +138,22 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': BASE_DIR + '/debug.log',
         },
+        'null': {
+            'level': 'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
     },
     'loggers': {
         '': {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        # don't show all those sql statements
+        'django.db.backends': {
+            'handlers': ['null'],  # Quiet by default!
+            'propagate': False,
+            'level':'DEBUG',
         },
     },
 }

@@ -29,13 +29,16 @@ def profile(request):
 # this should at least be a form view
 @verified_email_required
 def confirm_school(request):
-    if request.POST:
+    if request.method == 'POST':
         if 'school' in request.POST:
+            logger.debug(request)
             school = request.POST['school']
             school = School.objects.get(domain=school)
+            logger.debug(school)
             student, created = Student.objects.get_or_create(
                 user=request.user, school=school
             )
+            logger.debug(student)
             if not created:
                 student.save()
                 profile = UserProfile(student=student)
