@@ -1,4 +1,5 @@
 from django.contrib import admin
-from user_profile.models import UserProfile
+from django.db.models import get_models, get_app
 
-admin.site.register(UserProfile)
+for model in get_models(get_app('user_profile')):
+    admin.site.register(model)

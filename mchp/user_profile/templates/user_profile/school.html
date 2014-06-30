@@ -15,33 +15,36 @@
 
 {% block content %}
 <div class="container">
-    <form class="form-signin" role="form" id='college_form'>
-        <h3 class="text-center">You must attend:<small></small></h3>
-        <input type="hidden" id="action" value="confirm">
-        <p>
-            <h2 class="text-center">College Name</h2>
-        	<img class="media-object img-responsive center-block" style="" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building.svg" alt="college">
-            <h4 class="text-center"><small>Our MCHP wizard determined that you go to "College Name."</small></h4>
-        </p>
-        <p>
-            <button id="joinCollege" class="btn btn-lg btn-primary btn-block btn-md" type="submit"><i class="fa fa-check-square-o"></i> Join College</button>
-        </p>
-else
-        <p>
-            <h3>Need More Information <small>please!</small></h3>
-            <h4>We couldn't find your college! Let us know where you go and we'll create a space just for your college!</h4>
-        </p>
-        <p>
-            <fieldset id='email_fieldset'>
-                <div class='form-group' id="email_group">
-                    <input type="hidden" id="action" value="create">
-                    <input type="text" class="form-control" placeholder="Your College Name" id='college' required>
-                    <input type="text" class="form-control" placeholder="College City, State" id='location' required>
-                </div>
-                <p></p>
-                <button class="btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-check-square-o"></i> Create and Join College</button>
-            </fieldset>
-        </p>
-    </form>    
-    </div>
+	<h3 class="text-center">You must attend:<small></small></h3>
+	<input type="hidden" id="action" value="confirm">
+	<p>
+		<h2 class="text-center">College Name</h2>
+		<img class="media-object img-responsive center-block" style="" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building.svg" alt="college">
+		<h4 class="text-center"><small>Our MCHP wizard determined that you go to "College Name."</small></h4>
+	</p>
+
+	<p>
+		<h3>Need More Information </h3>
+		<h4>We couldn't find your college! Let us know where you go and we'll create a space just for your college!</h4>
+	</p>
+	<form class="form-signin" role="form" id='college_form' method="post" action="{% url  'confirm_school' %}">
+		{% csrf_token %}
+		<div class="dropdown">
+			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+				Pick A College
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+				{% for school in schools %}
+				<li value="{{ school.domain }}" role="presentation">
+					<a role="menuitem" tabindex="-1" href="#">{{ school.name }}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<input type="hidden" name="school" value="">
+		<input type="hidden" name="next" value="{{ next }}">
+		<button id="joinCollege" class="btn btn-lg btn-primary btn-block btn-md" type="submit"><i class="fa fa-check-square-o"></i> Join College</button>
+	</form>
+</div>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.db import models,IntegrityError
-from schedule.utils import clean_domain
+from django.core.validators import MinValueValidator, MaxValueValidator
+from schedule.utils import clean_domain, US_STATES
 
 class School(models.Model):
     domain = models.URLField(primary_key=True, validators=[clean_domain])
@@ -7,8 +8,12 @@ class School(models.Model):
     phone_number = models.CharField(max_length=20, blank=True)
     street = models.CharField(max_length=30, blank=True)
     city = models.CharField(max_length=30, blank=True)
-    state = models.CharField(max_length=20, blank=True)
+    state = models.CharField(max_length=20, blank=True, choices=US_STATES)
     country = models.CharField(max_length=25, blank=True)
+
+    # a list of all school names stored in the database
+    def school_list(self):
+        return School.objects.all().name
 
     def __str__(self):
         return "{} :: {}".format(self.name, self.domain)
@@ -36,7 +41,9 @@ class SchoolAlias(models.Model):
 class Course(models.Model):
     domain = models.ForeignKey('School')
     dept = models.CharField(max_length=6)
-    course_number = models.CharField(max_length=6)
+    course_number = models.IntegerField(
+        validators=[MaxValueValidator(99999), MinValueValidator(99)]
+    )
     professor = models.CharField(max_length=30)
     creation_date = models.DateTimeField(auto_now_add=True)
 
