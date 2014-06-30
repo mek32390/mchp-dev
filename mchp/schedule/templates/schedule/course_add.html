@@ -61,14 +61,15 @@
 		{% endfor %}
 	</ul>
 	{% endif %}
-	<!-- <form id="course_add" method="post" action="{% url 'course_add' %} "> -->
-	<!-- 	{% csrf_token %} -->
-	<!-- 	<div class="form-group"> -->
-	<!-- 	<button type="submit" name="" class="btn btn-lg btn-primary btn-block"> -->
-	<!-- 		Add this Class to your schedule -->
-	<!-- 	</button> -->
-	<!-- 	</div> -->			
-	<!-- </form> -->	
+	<form id="course_add" method="post" action="{% url 'course_add' %} ">
+		{{ form.as_style }}
+		{% csrf_token %}
+		<div class="form-group">
+		<button type="submit" name="" class="btn btn-lg btn-primary btn-block">
+			Add this Class to your schedule
+		</button>
+		</div>			
+	</form>	
 </div>
 </div>
 </div>	
