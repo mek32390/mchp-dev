@@ -36,12 +36,14 @@ class CourseCreateForm(_BaseCourseForm):
         model = Course
         fields = ['dept', 'course_number', 'professor']
         widgets = {
-            'dept': TextInput(attrs={'class': 'form-control input-lg'}),
-            'course_number': TextInput(attrs={'class': 'form-control input-lg'}),
-            'professor': TextInput(attrs={'class': 'form-control input-lg'}),
+            'dept': TextInput(attrs={'class': 'form-control input-lg', 'placeholder':'ex: ECON'}),
+            'course_number': TextInput(attrs={'class': 'form-control input-lg', 'placeholder':'ex: 200'}),
+            'professor': TextInput(attrs={'class': 'form-control input-lg', 'placeholder':'ex: Doolittle'}),
         }
         labels = {
-            'dept': 'Course Abbreviation',
+            'dept': 'Course Code',
+            'course_number': 'Course #',
+            'professor': 'Prof Last Name',
         }
         error_messages = {
             'dept': {

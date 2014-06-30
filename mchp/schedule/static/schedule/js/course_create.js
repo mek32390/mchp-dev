@@ -9,30 +9,30 @@ $(document).ready( function() {
         // Set default threshold for all fields. It is null by default
         threshold: 3,
         fields: {
-            courseABBR: {
+            dept: {
                 validators: {
                     notEmpty: {
-                        message: 'The course abbreviation is required'
+                        message: 'The course code is required'
                     },
                     regexp: {
                         regexp: /^[a-zA-Z]+$/i,
-                        message: 'The course abbreviation can only consist of alphabetical characters'
+                        message: 'The course code can only consist of alphabetical characters'
                     },
                     stringLength: {
                         min: 3,
                         max: 6,
-                        message: 'the course abbreviation should be between 3-6 characters'
+                        message: 'the course code should be between 3-6 characters'
                     }
                 }
             },
-            courseNumber: {
+            course_number: {
                 validators: {
                     notEmpty: {
-                        message: 'The course # is required'
+                        message: 'The course number is required'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9]+$/i,
-                        message: 'The course number can only consist of alphabetical characters or numbers'
+                        regexp: /^[0-9]+$/i,
+                        message: 'The course number can only consist of numbers. Disregard any letters attached to it.'
                     },
                     stringLength: {
                         min: 3,
@@ -41,7 +41,7 @@ $(document).ready( function() {
                     }
                 }
             },
-            courseProf: {
+            professor: {
                 validators: {
                     notEmpty: {
                         message: 'The course professor\'s last name is required'
