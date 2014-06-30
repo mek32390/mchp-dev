@@ -1,19 +1,9 @@
 from django.forms import ModelForm,TextInput
 from schedule.models import Course
 
-class CourseCreateForm(ModelForm):
-
+class _BaseCourseForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(CourseCreateForm, self).__init__(*args, **kwargs)
-
-    def clean(self):
-        cleaned_data = super(CourseCreateForm, self).clean()
-        if 'dept' in cleaned_data:
-            cleaned_data['dept'] = cleaned_data['dept'].upper()
-        if 'professor' in cleaned_data:
-            prof =  cleaned_data['professor'].strip().lower().capitalize()
-            cleaned_data['professor'] = prof
-        return cleaned_data
+        super(_BaseCourseForm, self).__init__(*args, **kwargs)
 
     def as_style(self):
         return self._html_output(
@@ -27,6 +17,20 @@ class CourseCreateForm(ModelForm):
             row_ender = '',
             help_text_html = '%s',
             errors_on_separate_row = True)
+
+class CourseCreateForm(_BaseCourseForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CourseCreateForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super(CourseCreateForm, self).clean()
+        if 'dept' in cleaned_data:
+            cleaned_data['dept'] = cleaned_data['dept'].upper()
+        if 'professor' in cleaned_data:
+            prof =  cleaned_data['professor'].strip().lower().capitalize()
+            cleaned_data['professor'] = prof
+        return cleaned_data
 
     class Meta:
         model = Course
@@ -54,3 +58,10 @@ class CourseCreateForm(ModelForm):
                 'required': 'Please enter a Professor\'s name',
             },
         }
+
+class CourseAddForm(_BaseCourseForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CourseAddForm, self).__init__(*args, **kwargs)
+
+
