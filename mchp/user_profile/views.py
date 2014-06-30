@@ -1,6 +1,5 @@
-from django.shortcuts import render_to_response,redirect,render
-from django.template import RequestContext
-from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import redirect,render
+from django.template import Context
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.views.decorators.http import require_POST
@@ -10,25 +9,46 @@ from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
+from schedule.models import School
+from user_profile.models import Student, UserProfile
+
 import json
 import logging
 logger = logging.getLogger(__name__)
 
 @verified_email_required
 def profile(request):
-    user = request.user
-    try:
-       user.student
-    except ObjectDoesNotExist:
-        return redirect(reverse('confirm_school'))
-    else:
-        logger.debug(dir(user.student))
+    student = Student.objects.filter(user=request.user)
     data = {}
-    return render(request, 'user_profile/profile.html', data)
+    if not len(student):
+        return redirect(reverse('confirm_school')+"?next="+request.get_full_path())
+    else:
+        return render(request, 'user_profile/profile.html', Context(data))
 
+# FIXME: wow this is bad
 @verified_email_required
 def confirm_school(request):
-    return render_to_response('user_profile/school.html', RequestContext(request))
+    if request.POST:
+        if request.POST['school']:
+            school = request.POST['school']
+            school = School.objects.get(domain=school)
+            student, created = Student.objects.get_or_create(
+                user=request.user, school=school
+            )
+            if not created:
+                student.save()
+                profile = UserProfile(student=student)
+                profile.save()
+
+            if request.POST['next']:
+                return redirect(request.POST['next'])
+            else:
+                return redirect('/profile/')
+
+    next_page = request.GET['next']
+    schools = School.objects.all().values('name', 'domain')
+    data = {'schools': schools, 'next': next_page}
+    return render(request, 'user_profile/school.html', Context(data))
 
 @require_POST
 def get_email(request):
@@ -48,9 +68,7 @@ def resend_email(request):
     if request.is_ajax():
         email = request.POST["email"]
         try:
-            email_address = EmailAddress.objects.get(
-                email=email,
-            )
+            email_address = EmailAddress.objects.get(email=email)
             get_adapter().add_message(request,
                                       messages.INFO,
                                       'account/messages/'

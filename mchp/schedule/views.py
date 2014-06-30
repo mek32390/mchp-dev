@@ -22,16 +22,11 @@ class CourseCreateView(FormView):
             "Course Added Successifully!"
         )
         course = form.save(commit=False)
-        logger.debug(self.request.user)
-        course.domain = ''
+        course.domain = self.request.user.student.school
         course.save()
         return super(CourseCreateView, self).form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(
-            self.request,
-            "Error validating form"
-        )
         return super(CourseCreateView, self).form_invalid(form)
 
     @method_decorator(verified_email_required)

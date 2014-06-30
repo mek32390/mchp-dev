@@ -8,15 +8,23 @@
 {% if request.user.is_authenticated %}
     <a href="/accounts/logout/" class="pull-right">Logout</a>
 		{% with request.user.student as student %}
+
 			{% if request.user.first_name or request.user.last_name %}
-					{{ request.user.first_name }} {{ request.user.last_name }}
+				{{ request.user.first_name }} {{ request.user.last_name }}
 			{% else %}
-					{{ request.user.username }}
+				{{ request.user.username }}
 			{% endif %}
 
-			{% if student.profile.account_verified %} (verified) {% else %} (unverified) {% endif %}
-			<a href="{% url 'course_create' %}">Create a course.</a>
+			{% if student.profile.account_verified %}
+				(verified)
+			{% else %}
+				(unverified) 
+			{% endif %}
+
 		{% endwith %}
+		<p>
+			<a href="{% url 'course_create' %}">Create a course.</a>
+		</p>
  
 {% else %}
     <a href="/accounts/login/" class="pull-right">Login</a>

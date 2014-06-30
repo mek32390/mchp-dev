@@ -5,10 +5,10 @@ from allauth.account.models import EmailAddress
 class Student(models.Model):
     user = models.OneToOneField(User, related_name='student_user')
     school = models.ForeignKey('schedule.School', related_name='student_school')
-    purchased_points = models.IntegerField()
-    earned_points = models.IntegerField()
-    kudos = models.IntegerField()
-    work_credit = models.IntegerField()
+    purchased_points = models.IntegerField(default=0)
+    earned_points = models.IntegerField(default=0)
+    kudos = models.IntegerField(default=0)
+    work_credit = models.IntegerField(default=0)
     last_login = models.DateTimeField(auto_now=True)
 
     def rating(self):
@@ -18,11 +18,11 @@ class Student(models.Model):
         return self.earned_points + self.purchased_points
 
     def __str__(self):
-        return 'Student:{} goes to {}. Last Login: {}'.format(
-            self.user.username, self.school.name, self.student.last_login
+        return 'Student: {} goes to {}. Last Login: {}'.format(
+            self.user.username, self.school.name, self.last_login
         )
 
-User.student = property(lambda u: Student.objects.get(user=u)[0])
+User.student = property(lambda u: Student.objects.get_or_create(user=u)[0])
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
@@ -31,10 +31,10 @@ class UserProfile(models.Model):
         return 'Profile for {}'.format(self.student.user.username)
 
     def account_verified(self):
-        if self.user.is_authenticated:
+        if self.student.user.is_authenticated:
             result = EmailAddress.objects.filter(email=self.student.user.email)
             if len(result):
                 return result[0].verified
         return False
 
-Student.profile = property(lambda s: UserProfile.objects.get(user=s)[0])
+Student.profile = property(lambda s: UserProfile.objects.get_or_create(student=s)[0])

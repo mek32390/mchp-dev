@@ -1,7 +1,5 @@
 from django.forms import ModelForm,TextInput
 from schedule.models import Course
-import logging
-logger = logging.getLogger(__name__)
 
 class CourseCreateForm(ModelForm):
 
@@ -10,9 +8,11 @@ class CourseCreateForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(CourseCreateForm, self).clean()
-        cleaned_data['dept'] = cleaned_data['dept'].upper()
-        prof =  cleaned_data['professor'].strip().lower().capitalize()
-        cleaned_data['professor'] = prof
+        if 'dept' in cleaned_data:
+            cleaned_data['dept'] = cleaned_data['dept'].upper()
+        if 'professor' in cleaned_data:
+            prof =  cleaned_data['professor'].strip().lower().capitalize()
+            cleaned_data['professor'] = prof
         return cleaned_data
 
     def as_style(self):

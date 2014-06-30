@@ -11,6 +11,10 @@ class School(models.Model):
     state = models.CharField(max_length=20, blank=True)
     country = models.CharField(max_length=25, blank=True)
 
+    # a list of all school names stored in the database
+    def school_list(self):
+        return School.objects.all().name
+
     def __str__(self):
         return "{} :: {}".format(self.name, self.domain)
 
