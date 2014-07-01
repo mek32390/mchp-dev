@@ -22,7 +22,7 @@
 		{% if school.domain|slice:"11:"|slice:"-1" in request.session.initial_email %}
 		    <script>
 				$(document).ready(function() {
-					$(".college_name").text("{{ school.name }}");
+					$(".college_name").text("{{ school.domain|slice:"11:-1" }}");
 					$('input[name=school]').val("{{ school.domain }}");
 				});
 			</script>
