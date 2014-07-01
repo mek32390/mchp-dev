@@ -7,3 +7,4 @@ __pycache__/
 *settings.py
 *.log
 tags
+requirements_local.txt
