@@ -9,7 +9,7 @@ from django.db.models import Count
 # from django.http import HttpResponseNotAllowed, HttpResponse
 from django.http import HttpResponse
 
-from schedule.forms import CourseCreateForm, CourseChangeForm
+from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
 from schedule.models import Course
 
 import logging
@@ -112,11 +112,11 @@ class CourseAddView(_BaseCourseView):
         existing_courses = []
         query = ''
         show_results = False
-        if 'search' in request.GET:
+        if 'q' in request.GET:
             show_results = True
-            query = request.GET['search']
-            existing_courses = self.search_classes(query)
-            # existing_courses = self.student_count(existing_courses)
+            query = request.GET['q']
+            existing_courses = self.search_classes(request)
+            logger.debug(existing_courses)
 
         enrolled_courses = self.request.user.student.courses.all()
         data = {
@@ -130,19 +130,28 @@ class CourseAddView(_BaseCourseView):
         context_data.update(data)
         return render(request, self.template_name, context_data)
 
-    # returns number of students enrolled in each course
-    def student_count(self, course_list):
-        return course_list
+    # using haystack
+    def search_classes(self, request):
+        form = CourseSearchForm(request.GET)
+        courses = form.search().order_by('dept')[:10]
 
-    def search_classes(self, query):
-        courses = Course.objects.filter(
-            domain = self.student.school
-        ).exclude(
-            student__user = self.request.user
-        ).annotate(
-            student_count = Count('student')
-        )
-        return courses
+        # student is already enrolled in these classes
+        already_enrolled = Course.objects.filter(student=self.student)
+        # exclude them from the search results
+        for course in already_enrolled:
+            courses = courses.exclude(
+                content__contains=course.dept,
+            )
+        # there has to be a better way to do this
+        course_list = []
+        # annotate the results with number of students in each course
+        for course in courses:
+            # this is probably 1 db hit per result :\
+            c = Course.objects.filter(pk=course.pk).annotate(
+                student_count = Count('student')
+            )[0]
+            course_list.append(c)
+        return course_list
 
     def form_invalid(self, form):
         messages.error(

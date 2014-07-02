@@ -1,6 +1,9 @@
 from django.forms import ModelForm,TextInput
+
 from schedule.models import Course
 from user_profile.models import Student
+
+from haystack.forms import SearchForm
 
 '''
 entry point for this file, most forms come from a model, so using modelform makes sense. They all
@@ -15,6 +18,7 @@ class _BaseCourseForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(_BaseCourseForm, self).__init__(*args, **kwargs)
 
+    # {{ form.as_style }} with use this in templates
     def as_style(self):
         return self._html_output(
             normal_row = '\
@@ -33,6 +37,9 @@ class CourseCreateForm(_BaseCourseForm):
     def __init__(self, *args, **kwargs):
         super(CourseCreateForm, self).__init__(*args, **kwargs)
 
+    '''
+    All dept names become all caps e.g. csc becomes CSC, and professor names become capitalized
+    '''
     def clean(self):
         cleaned_data = super(CourseCreateForm, self).clean()
         if 'dept' in cleaned_data:
@@ -90,3 +97,14 @@ class CourseChangeForm(_BaseCourseForm):
     class Meta:
         model = Student 
         fields = ['courses']
+
+# search form
+class CourseSearchForm(SearchForm):
+
+    def no_query_found(self):
+        return self.querysearchset.all()
+        return Course.objects.filter(
+            domain = self.request.user.student.school
+        ).exclude(
+            student__user = self.request.user
+        )

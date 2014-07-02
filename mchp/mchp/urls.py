@@ -11,6 +11,6 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('allauth.urls')),
     url(r'^accounts/', include('user_profile.urls')),
     url(r'^search/', include('haystack.urls')),
-    url(r'^☭', 'landing.views.party'),
+    url('^\u262d', 'landing.views.party'),
     url(r'^$', include('landing.urls')),
 )
