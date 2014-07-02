@@ -33,8 +33,17 @@ $(document).ready(function () {
 	if($('input[name=school]').val()==""){
 		$('.display-college').hide();
 		$('#college_select').show();
+		$("#joinCollege").attr("disabled", "disabled");
 	}
+
+	$(".dropdown-menu li").click(function(){
+		$('input[name=school]').val($(this).attr('value'));
+		$("#joinCollege").removeAttr("disabled");  
+    });
 });
+
+
+
 </script>
 <div class="container text-center">
 	<div class="display-college">
