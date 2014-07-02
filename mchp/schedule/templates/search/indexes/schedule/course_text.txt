@@ -1,5 +1,3 @@
-{{ object.title }}
 {{ object.dept }}
 {{ object.course_number }}
 {{ object.professor }}
-{{ object.user.get_full_name }}

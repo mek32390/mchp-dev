@@ -6,6 +6,7 @@ class NoteIndex(indexes.SearchIndex, indexes.Indexable):
     dept = indexes.CharField(model_attr='dept')
     course_number = indexes.CharField(model_attr='course_number')
     professor = indexes.CharField(model_attr='professor')
+    course_id = indexes.IntegerField(model_attr='id')
 
     def get_model(self):
         return Course
