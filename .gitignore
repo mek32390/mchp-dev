@@ -8,3 +8,4 @@ __pycache__/
 *.log
 tags
 requirements_local.txt
+nohup.out
