@@ -42,13 +42,16 @@ INSTALLED_APPS = (
     'calendar_mchp',
     'documents',
     'schedule',
+
+    'haystack',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    # ... include the providers you want to enable:
     'allauth.socialaccount.providers.facebook',
     #'allauth.socialaccount.providers.google',
     #'allauth.socialaccount.providers.twitter',
+
     'south',
 )
 
@@ -127,6 +130,15 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 # import from allauth_settings.py
 from mchp.allauth_settings import *
+
+# Search 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
 
 #Logging
 LOGGING = {
