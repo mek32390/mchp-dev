@@ -6,7 +6,8 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.template import Context
 from django.db.models import Count
-from django.http import HttpResponseNotAllowed, HttpResponse
+# from django.http import HttpResponseNotAllowed, HttpResponse
+from django.http import HttpResponse
 
 from schedule.forms import CourseCreateForm, CourseChangeForm
 from schedule.models import Course
@@ -29,6 +30,7 @@ class _BaseCourseView(FormView):
     # and the decorator will happen in every subclass that doens't override
     @method_decorator(verified_email_required)
     def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
         return super(_BaseCourseView, self).dispatch(*args, **kwargs)
 
 class AjaxableResponseMixin(object):
@@ -43,6 +45,17 @@ class AjaxableResponseMixin(object):
         data = json.dumps(context)
         response_kwargs['content_type'] = 'application/json'
         return HttpResponse(data, **response_kwargs)
+
+    def ajax_messages(self):
+        django_messages = []
+
+        for message in messages.get_messages(self.request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "extra_tags": message.tags,
+            })
+        return django_messages
 
     def form_invalid(self, form):
         response = super(AjaxableResponseMixin, self).form_invalid(form)
@@ -79,7 +92,7 @@ class CourseCreateView(_BaseCourseView):
         # retrieve the object created before comitting to database
         course = form.save(commit=False)
         # add the domain field
-        course.domain = self.request.user.student.school
+        course.domain = self.student.school
         # save object in db
         course.save()
         return super(CourseCreateView, self).form_valid(form)
@@ -123,7 +136,7 @@ class CourseAddView(_BaseCourseView):
 
     def search_classes(self, query):
         courses = Course.objects.filter(
-            domain = self.request.user.student.school
+            domain = self.student.school
         ).exclude(
             student__user = self.request.user
         ).annotate(
@@ -141,7 +154,7 @@ class CourseAddView(_BaseCourseView):
     def form_valid(self, form):
         # save model manually, don't call save form
         # to not overwrite current classes
-        student = self.request.user.student
+        student = self.student
         courses_to_add = form.cleaned_data['courses']
         student.courses.add(courses_to_add[0])
 
@@ -154,27 +167,32 @@ class CourseAddView(_BaseCourseView):
 course_add = CourseAddView.as_view()
 
 class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
-    form_class = CourseCreateForm
+    form_class = CourseChangeForm
 
     def get(self, request):
-        return HttpResponseNotAllowed(['POST'])
+        return redirect(reverse('course_add'))
 
     def form_invalid(self, form):
         messages.error(
             self.request,
             "Failed to delete course"
         )
-        return super(CourseRemoveView, self).form_invalid()
-        # response = super(AjaxableResponseMixin, self).form_invalid(form)
-        # if self.request.is_ajax():
-        #     return self.render_to_json_response(form.errors, status=400)
-        # else:
-        #     return response
+        if self.request.is_ajax():
+            return self.render_to_json_response(dict(form.errors.items()), status=400)
+        else:
+            return redirect(reverse('course_add'))
 
     def form_valid(self, form):
         if self.request.is_ajax():
+            course = form.cleaned_data['courses']
+            for c in course:
+                self.student.courses.remove(c)
+            messages.success(
+                self.request,
+                "Course removed successfully"
+            )
             data = {
-                'pk': self.object.pk,
+                'messages': self.ajax_messages(),
             }
             return self.render_to_json_response(data)
         else:

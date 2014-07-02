@@ -6,7 +6,9 @@
 {% load staticfiles %}
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
-  	<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
+	<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
+	<script src="{% static 'schedule/js/course_add.js' %}"></script>
+	<script src="{% static 'schedule/js/jquery.cookie.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -32,20 +34,16 @@
 					<div class="list-group">
 						{% if enrolled_courses %}
 							{% for course in enrolled_courses %}
-							<div class="list-group-item">
-								<form id="drop_{{course.id}}" class="drop_class" 
-									method="post" action="{% url 'course_remove' %}">
-									<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
-										<small class="pull-right">
-											<a href="#" class="badge">drop</a>
-										</small>
-									</h4>
-									<p class="list-group-item-text">with Professor {{course.professor}}</p>
-									<input type="hidden" name="courses" value={{course.id}}/>
-								</form>
+							<div class="list-group-item enrolled-class-id" id="enrolled_{{course.id}}">
+								<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
+									<small class="pull-right">
+										<a href="#" class="badge" data-course="{{course.id}}">drop</a>
+									</small>
+								</h4>
+								<p class="list-group-item-text">with Professor {{course.professor}}</p>
 							</div>
 							{% endfor %}
-						{% else %}
+							{% else %}
 							No classes added yet.
 						{% endif %}
 						</div>
@@ -89,13 +87,13 @@
 											</h4>
 											<p class="list-group-item-text">
 												<i class='fa fa-user fa-fw'></i> 
-												{% if course.student_count > 1%}
-													{{course.student_count}} Students
-												{% else %}
+												{% ifequal course.student_count 1%}
 													{{course.student_count}} Student
-												{% endif %}
-												<i class='fa fa-file fa-fw'></i> 10 Documents 
-												<i class='fa fa-calendar fa-fw'></i> 6 Calendars
+												{% else %}
+													{{course.student_count}} Students
+												{% endifequal %}
+												<i class='fa fa-file fa-fw'></i> 0 Documents 
+												<i class='fa fa-calendar fa-fw'></i> 0 Calendars
 											</p>
 										</div>
 									{% endfor %}
@@ -109,13 +107,13 @@
 				</div>
 			</div>		
 		</div>		
-	{% if messages %}
 	<ul class="messages">
+	{% if messages %}
 		{% for message in messages %}
 		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
 		{% endfor %}
-	</ul>
 	{% endif %}
+	</ul>
 </div>
 </div>
 </div>	
