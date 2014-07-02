@@ -24,6 +24,10 @@ $(function() {
 			messages = data.messages;
 			$('#enrolled_' + course).fadeOut(300, function() {
 				$(this).remove();
+				$class_list = $('#enrolled_list');
+				if($class_list.children().length < 1) {
+					$class_list.append("No classes added yet.")
+				}
 			});
 		})
 		.fail(function(data) {

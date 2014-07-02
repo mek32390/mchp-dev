@@ -31,7 +31,7 @@
 					<h2 class="panel-title">Currently Enrolled</h2>
 				</div>
 				<div class="panel-body">
-					<div class="list-group">
+					<div class="list-group" id="enrolled_list">
 						{% if enrolled_courses %}
 							{% for course in enrolled_courses %}
 							<div class="list-group-item enrolled-class-id" id="enrolled_{{course.id}}">
