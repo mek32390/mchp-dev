@@ -1,12 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}</title>
-</head>
-<body class="{% if request.user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
- 
+{% extends 'user_profile/base.html' %}
+
+{% block head_title %}{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}{% endblock %}
+
+{% block extra_head %}
+{% load staticfiles %}
+  	<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
+{% endblock %}
+
+{% block body %}
 {% if request.user.is_authenticated %}
-    <a href="/accounts/logout/" class="pull-right">Logout</a>
+		<p>
+    <a href="/accounts/logout/" class="pull-left">Logout</a>
+		</p>
+		<p>
 		{% with request.user.student as student %}
 
 			{% if request.user.first_name or request.user.last_name %}
@@ -22,6 +30,7 @@
 			{% endif %}
 
 		{% endwith %}
+		</p>
 		<p>
 			<a href="{% url 'course_create' %}">Create a course.</a>
 		</p>
@@ -43,5 +52,4 @@
 {% else %}
     <a href="/accounts/login/" class="pull-right">Login</a>
 {% endif %}
-</body>
-</html>
+{% endblock %}

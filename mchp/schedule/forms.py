@@ -2,6 +2,10 @@ from django.forms import ModelForm,TextInput
 from schedule.models import Course
 from user_profile.models import Student
 
+'''
+entry point for this file, most forms come from a model, so using modelform makes sense. They all
+get stypled in order to allow the front bootstrap stuff to work
+'''
 class _BaseCourseForm(ModelForm):
 
     input_attr = {
@@ -78,10 +82,10 @@ class CourseCreateForm(_BaseCourseForm):
             },
         }
 
-class CourseAddForm(_BaseCourseForm):
+class CourseChangeForm(_BaseCourseForm):
 
     def __init__(self, *args, **kwargs):
-        super(CourseAddForm, self).__init__(*args, **kwargs)
+        super(CourseChangeForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Student 
