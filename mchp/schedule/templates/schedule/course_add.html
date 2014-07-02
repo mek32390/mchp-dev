@@ -56,18 +56,18 @@
 					<div class="panel-heading">
 						<h2 class="panel-title">Search for a Class</h2>
 					</div>
-					<div class="panel-body">
-						<div class="input-group">
+					<div class="panel-body">							
 							<form id="class_search_form" class="" method="get" action="{% url 'course_add' %}">
+								<div class="input-group">
 								<input type="text" class="form-control input-lg" 
 								placeholder="Search for a class: PSY 200" name="search">
 								<span class="input-group-btn">
 									<button class="btn btn-primary btn-lg" type="submit"><i class="fa fa-search"></i> Search</button>
 								</span>
+								</div>
 							</form>
-						</div>
 						{% if show_results %}
-						<div id="searchResultContainer" style="">
+						<div id="searchResultContainer">
 							<hr>
 							<h3>Results <small>for "{{ query }}"</small><span class=" small pull-right">Can't find your class? &nbsp;
 									<a href="{% url 'course_create' %}" class="btn btn-sm btn-danger"><i class='fa fa-plus fa-fw'></i>Create Class</a></span></h3>
