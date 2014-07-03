@@ -1,10 +1,52 @@
 import re
 from django.core.exceptions import ValidationError
+import schedule.models
 
 def clean_domain(value):
     edu = re.compile('.*(\.edu/?)$')
     if not re.match(edu, value):
         raise ValidationError('School domain did not end in .edu: {}'.format(value))
+
+from faker import Faker
+from faker.providers import BaseProvider
+from random import randrange,choice
+
+fake_course = Faker()
+
+# create new provider class
+class ClassProvider(BaseProvider):
+    def dept(self):
+        length = 3 if randrange(10) % 2 == 0 else 4
+        dept = ''
+        for _ in range(length):
+            letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            dept += choice(letters)
+        return dept
+
+    def course_number(self):
+        return randrange(100, 999)
+
+    def professor(self):
+        return fake_course.first_name()
+
+    def course(self):
+        return self.dept() + str(self.course_number()) + ' with instructor ' + self.professor()
+
+fake_course.add_provider(ClassProvider)
+
+def add_course_to_db(domain, num, **kwargs):
+    domain = schedule.models.School.objects.filter(name=domain)[0]
+    dept = fake_course.dept()
+    if 'dept' in kwargs:
+        dept = kwargs['dept']
+    for _ in range(num):
+        course = schedule.models.Course(
+            domain=domain, 
+            dept=dept,
+            course_number=fake_course.course_number(),
+            professor=fake_course.professor(),
+        )
+        course.save()
 
 US_STATES = (
     ('AL', 'Alabama'),

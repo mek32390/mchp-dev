@@ -34,10 +34,10 @@
 					<div class="list-group" id="enrolled_list">
 						{% if enrolled_courses %}
 							{% for course in enrolled_courses %}
-							<div class="list-group-item enrolled-class-id" id="enrolled_{{course.id}}">
+							<div class="list-group-item enrolled-class-id" id="enrolled_{{course.pk}}">
 								<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
 									<small class="pull-right">
-										<a href="#" class="badge" data-course="{{course.id}}">drop</a>
+										<a href="#" class="badge" data-course="{{course.pk}}">drop</a>
 									</small>
 								</h4>
 								<p class="list-group-item-text">with Professor {{course.professor}}</p>
@@ -78,8 +78,8 @@
 											<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
 												<small>with Professor {{course.professor}}</small> 
 												<button class="pull-right btn btnlg btn-success"
-												form="{{course.id}}_course_add">Join</button>
-												<form id="{{course.id}}_course_add" method="post" action="{% url 'course_add' %} ">
+												form="{{course.pk}}_course_add">Join</button>
+												<form id="{{course.pk}}_course_add" method="post" action="{% url 'course_add' %} ">
 													{% csrf_token %}
 													<input type="hidden" name="courses" value="{{course.pk}}" />
 												</form>

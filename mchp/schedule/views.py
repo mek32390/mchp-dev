@@ -12,6 +12,8 @@ from django.http import HttpResponse
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
 from schedule.models import Course
 
+from haystack.query import SQ
+
 import logging
 import json
 logger = logging.getLogger(__name__)
@@ -112,13 +114,13 @@ class CourseAddView(_BaseCourseView):
         existing_courses = []
         query = ''
         show_results = False
+        enrolled_courses = Course.objects.filter(student=self.student)
+        # user performed a search
         if 'q' in request.GET:
             show_results = True
             query = request.GET['q']
-            existing_courses = self.search_classes(request)
-            logger.debug(existing_courses)
+            existing_courses = self.search_classes(request, enrolled_courses)
 
-        enrolled_courses = self.request.user.student.courses.all()
         data = {
             'query': query,
             'enrolled_courses': enrolled_courses,
@@ -127,24 +129,39 @@ class CourseAddView(_BaseCourseView):
         }
 
         context_data = Context(self.get_context_data(form=form))
+        # context acts like a stack here, update is a push
         context_data.update(data)
         return render(request, self.template_name, context_data)
 
     # using haystack
-    def search_classes(self, request):
+    def search_classes(self, request, already_enrolled):
+        # haystack stuff
         form = CourseSearchForm(request.GET)
-        courses = form.search().order_by('dept')[:10]
+        sq = SQ()
 
-        # student is already enrolled in these classes
-        already_enrolled = Course.objects.filter(student=self.student)
-        # exclude them from the search results
+        # add a filter for already enrolled classes
         for course in already_enrolled:
-            courses = courses.exclude(
-                content__contains=course.dept,
-            )
+            sq.add(~SQ(
+                dept=course.dept, 
+                course_number=course.course_number,
+                professor=course.professor,
+            ), SQ.OR)
+        # sq.add(SQ(domain__contains = self.student.school.__str__()), SQ.AND)
+
+        # perform search for first 10 results
+        courses = form.search().filter(sq).order_by(
+            'dept', 
+            'course_number',
+            'professor',
+        )[:10]
+        # ).filter(domain="what :: http://www.k.edu/")[:10]
+        logger.debug(self.student.school.__str__())
+        # logger.debug(courses[0].domain)
+
         # there has to be a better way to do this
         course_list = []
         # annotate the results with number of students in each course
+        # courses = Course.objects.filter()
         for course in courses:
             # this is probably 1 db hit per result :\
             c = Course.objects.filter(pk=course.pk).annotate(

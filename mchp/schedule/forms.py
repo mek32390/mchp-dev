@@ -102,9 +102,4 @@ class CourseChangeForm(_BaseCourseForm):
 class CourseSearchForm(SearchForm):
 
     def no_query_found(self):
-        return self.querysearchset.all()
-        return Course.objects.filter(
-            domain = self.request.user.student.school
-        ).exclude(
-            student__user = self.request.user
-        )
+        pass
