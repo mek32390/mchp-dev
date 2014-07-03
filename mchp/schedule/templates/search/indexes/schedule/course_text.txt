@@ -1,3 +1,4 @@
 {{ object.dept }}
 {{ object.course_number }}
 {{ object.professor }}
+{{ object.domain }}

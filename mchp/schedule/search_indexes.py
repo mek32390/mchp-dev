@@ -1,7 +1,7 @@
 from haystack import indexes
 from schedule.models import Course
 
-class NoteIndex(indexes.SearchIndex, indexes.Indexable):
+class CourseIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     dept = indexes.CharField(model_attr='dept')
     course_number = indexes.CharField(model_attr='course_number')

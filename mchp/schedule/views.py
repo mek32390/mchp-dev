@@ -129,7 +129,7 @@ class CourseAddView(_BaseCourseView):
         }
 
         context_data = Context(self.get_context_data(form=form))
-        # context acts like a stack here, update is a push
+        # context acts like a stack here, update is a push to combine 
         context_data.update(data)
         return render(request, self.template_name, context_data)
 
@@ -146,7 +146,6 @@ class CourseAddView(_BaseCourseView):
                 course_number=course.course_number,
                 professor=course.professor,
             ), SQ.OR)
-        # sq.add(SQ(domain__contains = self.student.school.__str__()), SQ.AND)
 
         # perform search for first 10 results
         courses = form.search().filter(sq).order_by(
@@ -154,20 +153,20 @@ class CourseAddView(_BaseCourseView):
             'course_number',
             'professor',
         )[:10]
-        # ).filter(domain="what :: http://www.k.edu/")[:10]
-        logger.debug(self.student.school.__str__())
-        # logger.debug(courses[0].domain)
 
         # there has to be a better way to do this
         course_list = []
+
         # annotate the results with number of students in each course
-        # courses = Course.objects.filter()
+        # also filter per school
         for course in courses:
-            # this is probably 1 db hit per result :\
+            # this is 1 db hit per result :\
             c = Course.objects.filter(pk=course.pk).annotate(
                 student_count = Count('student')
             )[0]
-            course_list.append(c)
+            # only show courses from the users school
+            if c.domain.domain == self.student.school.domain:
+                course_list.append(c)
         return course_list
 
     def form_invalid(self, form):
