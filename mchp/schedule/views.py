@@ -147,23 +147,18 @@ class CourseAddView(_BaseCourseView):
                 professor=course.professor,
             ), SQ.OR)
 
-        # perform search
-        courses = form.search().filter(sq).order_by(
-            'dept', 
-            'course_number',
-            'professor',
-        )
+        # perform search and order results
+        courses = form.search().filter(sq)
 
         # annotate the results with number of students in each course
-
-        # get all primary keys from the search results
+        # first get all primary keys from the search results
         pks = list(map((lambda c: c.pk), courses))
         course_list = Course.objects.filter(
             pk__in=pks, 
             # filter out other schools
             domain=self.student.school
-            # yes, order_by is needed twice
-        ).order_by('dept', 'course_number', 'professor')\
+        )\
+        .order_by('dept', 'course_number', 'professor')\
         .annotate(student_count = Count('student'))
 
         return course_list
