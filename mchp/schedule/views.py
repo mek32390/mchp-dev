@@ -147,26 +147,25 @@ class CourseAddView(_BaseCourseView):
                 professor=course.professor,
             ), SQ.OR)
 
-        # perform search for first 10 results
+        # perform search
         courses = form.search().filter(sq).order_by(
             'dept', 
             'course_number',
             'professor',
-        )[:10]
-
-        # there has to be a better way to do this
-        course_list = []
+        )
 
         # annotate the results with number of students in each course
-        # also filter per school
-        for course in courses:
-            # this is 1 db hit per result :\
-            c = Course.objects.filter(pk=course.pk).annotate(
-                student_count = Count('student')
-            )[0]
-            # only show courses from the users school
-            if c.domain.domain == self.student.school.domain:
-                course_list.append(c)
+
+        # get all primary keys from the search results
+        pks = list(map((lambda c: c.pk), courses))
+        course_list = Course.objects.filter(
+            pk__in=pks, 
+            # filter out other schools
+            domain=self.student.school
+            # yes, order_by is needed twice
+        ).order_by('dept', 'course_number', 'professor')\
+        .annotate(student_count = Count('student'))
+
         return course_list
 
     def form_invalid(self, form):
