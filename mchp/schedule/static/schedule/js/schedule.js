@@ -26,4 +26,11 @@ $(function() {
 	var config = { attributes: true, childList: true, characterData: true };
 	// pass in the target node, as well as the observer options
 	observer.observe($messages.get(0), config);
+
+	$('.scrolls').enscroll({
+		showOnHover: false,
+		verticalTrackClass: 'track3',
+		verticalHandleClass: 'handle3',
+		scrollIncrement: 50,
+	});
 });

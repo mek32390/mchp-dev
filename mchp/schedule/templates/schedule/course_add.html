@@ -6,6 +6,7 @@
 {% load staticfiles %}
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/course_add.css' %}">
 	<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
 	<script src="{% static 'schedule/js/course_add.js' %}"></script>
 	<script src="{% static 'schedule/js/jquery.cookie.js' %}"></script>
@@ -71,7 +72,7 @@
 							<hr>
 							<h4>Results <small>for "{{ query }}"</small></h4>
 							<hr>
-							<div class="list-group" id="searchResults">
+							<div class="list-group search-group scrolls" id="searchResults">
 								{% if course_results %}
 									{% for course in course_results %}
 										<div class="list-group-item">
