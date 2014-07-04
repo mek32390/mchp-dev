@@ -37,10 +37,10 @@
 							<div class="list-group-item enrolled-class-id" id="enrolled_{{course.pk}}">
 								<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
 									<small class="pull-right">
-										<a href="#" class="badge" data-course="{{course.pk}}">drop</a>
+										<a href="javascript:void(0)" class="badge" data-course="{{course.pk}}">drop</a>
 									</small>
 								</h4>
-								<p class="list-group-item-text">with Professor {{course.professor}}</p>
+								<p class="list-group-item-text">with Instructor {{course.professor}}</p>
 							</div>
 							{% endfor %}
 							{% else %}
@@ -76,7 +76,7 @@
 									{% for course in course_results %}
 										<div class="list-group-item">
 											<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
-												<small>with Professor {{course.professor}}</small> 
+												<small>with Instructor {{course.professor}}</small> 
 												<button class="pull-right btn btnlg btn-success"
 												form="{{course.pk}}_course_add">Join</button>
 												<form id="{{course.pk}}_course_add" method="post" action="{% url 'course_add' %} ">
@@ -113,14 +113,7 @@
 				</div>
 			</div>		
 		</div>		
-	<ul class="messages">
-	{% if messages %}
-		{% for message in messages %}
-		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-		{% endfor %}
-	{% endif %}
-	</ul>
-</div>
+	</div>
 </div>
 </div>	
 {% endblock %}

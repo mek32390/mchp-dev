@@ -52,6 +52,12 @@ $(function() {
 });
 
 function addMessage(text, extra_tags) {
-    var message = $('<li class="'+extra_tags+'">'+text+'</li>');
-    $(".messages").append(message);
+    var message = $(
+		'<div class="alert alert-' + extra_tags + ' alert-dismissible" role="alert">\
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>\
+			<ul class="messages">\
+				<li class="' + extra_tags + '">' + text + '</li>\
+			</ul>\
+		</div>');
+    $(".django-messages").append(message);
 }

@@ -114,12 +114,15 @@ class CourseAddView(_BaseCourseView):
         existing_courses = []
         query = ''
         show_results = False
-        enrolled_courses = Course.objects.filter(student=self.student)
+        enrolled_courses = Course.objects.filter(student=self.student).order_by(
+            'dept', 'course_number', 'professor'
+        )
         # user performed a search
         if 'q' in request.GET:
             show_results = True
             query = request.GET['q']
-            existing_courses = self.search_classes(request, enrolled_courses)
+            if query != '':
+                existing_courses = self.search_classes(request, enrolled_courses)
 
         data = {
             'query': query,
@@ -148,7 +151,10 @@ class CourseAddView(_BaseCourseView):
             ), SQ.OR)
 
         # perform search and order results
-        courses = form.search().filter(sq)
+        if not already_enrolled:
+            courses = form.search().filter()
+        else:
+            courses = form.search().filter(sq)
 
         # annotate the results with number of students in each course
         # first get all primary keys from the search results

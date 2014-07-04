@@ -1,0 +1,24 @@
+/*
+ * This file is for css things that are app wide, and should be on all schedule app pages
+ */
+
+/* django-messages */
+.django-messages {
+	text-align: center;
+
+	left: 50%;
+	margin-left: -250px; /* Half of the width */
+
+    position: fixed;
+    z-index: 999;
+	width: 500px;
+	opacity:0.9;
+}
+
+.messages li{
+	list-style: none;
+}
+
+body {
+    z-index: 99;
+}

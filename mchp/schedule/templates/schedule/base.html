@@ -8,6 +8,10 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+		{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/schedule.css' %}">
+		<script src="{% static 'schedule/js/schedule.js' %}"></script>
     {% block head %}
     {% endblock %}
   </head>
@@ -50,6 +54,19 @@
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
+	</div>
+
+	<div class="django-messages">
+		{% if messages %}
+		{% for message in messages %}
+		<div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<ul class="messages">
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			</ul>
+		</div>
+		{% endfor %}
+		{% endif %}
 	</div>
     {% block body %}
     {% endblock %}
