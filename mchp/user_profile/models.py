@@ -39,3 +39,13 @@ class UserProfile(models.Model):
         return False
 
 Student.profile = property(lambda s: UserProfile.objects.get_or_create(student=s)[0])
+
+class StudentQuicklink(models.Model):
+    student = models.ForeignKey('Student', related_name='userlink_student')
+    quick_link = models.URLField()
+
+    class Meta:
+        unique_together = ('student', 'quick_link')
+
+    def __str__(self):
+        return "{} has link to {}".format(self.student.user.username, self.quick_link)
