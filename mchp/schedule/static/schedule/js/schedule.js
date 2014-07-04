@@ -3,6 +3,7 @@
  */
 
 $(function() {
+	/* messages */
 	$messages = $('.django-messages');
 	// fade messages that were added on page load
 	$messages.children('div').delay(5000).fadeOut(500, function(){
@@ -27,6 +28,8 @@ $(function() {
 	// pass in the target node, as well as the observer options
 	observer.observe($messages.get(0), config);
 
+	/* custom scroll bar */
+	// can be applied to any div
 	$('.scrolls').enscroll({
 		showOnHover: false,
 		verticalTrackClass: 'track3',

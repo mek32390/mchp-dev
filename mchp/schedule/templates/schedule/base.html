@@ -38,12 +38,11 @@
           	<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="{% url 'user_profile' %}">Profile</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
             <li class="divider"></li>
-            <li><a href="#">Something</a></li>
+            <li><a href="{% url 'course_create'%}">Create class</a></li>
+            <li><a href="{% url 'course_add'%}">Add class</a></li>
             <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+						<li><a href="{% url 'account_logout' %}">Log Out</a></li>
           </ul>
         </li>
 

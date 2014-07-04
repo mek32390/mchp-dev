@@ -150,7 +150,7 @@ class CourseAddView(_BaseCourseView):
                 professor=course.professor,
             ), SQ.OR)
 
-        # perform search and order results
+        # perform search 
         if not already_enrolled:
             courses = form.search().filter()
         else:
