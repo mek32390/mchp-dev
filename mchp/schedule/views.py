@@ -97,6 +97,10 @@ class CourseCreateView(_BaseCourseView):
         course.domain = self.student.school
         # save object in db
         course.save()
+        # add student to course
+        student = self.student
+        student.courses.add(course)
+
         return super(CourseCreateView, self).form_valid(form)
 
 course_create = CourseCreateView.as_view()
@@ -178,7 +182,7 @@ class CourseAddView(_BaseCourseView):
 
     def form_valid(self, form):
         # save model manually, don't call save form
-        # to not overwrite current classes
+        # form.save() would overwrite current classes instead of appending
         student = self.student
         courses_to_add = form.cleaned_data['courses']
         student.courses.add(courses_to_add[0])
