@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.template import Context
 from django.db.models import Count
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.core import serializers
 
@@ -87,20 +88,27 @@ class CourseCreateView(_BaseCourseView):
         return reverse('course_add')
 
     def form_valid(self, form):
-        messages.success(
-            self.request,
-            "Course created successfully!"
-        )
         # retrieve the object created before comitting to database
         course = form.save(commit=False)
         # add the domain field
         course.domain = self.student.school
-        # save course in db
-        course.save()
+        # try to save course in db
+        try:
+            course.save()
+        except IntegrityError:
+            messages.error(
+                self.request,
+                "This course already exists."
+            )
+            return super(CourseCreateView, self).form_invalid(form)
         # add student to course
         student = self.student
         student.courses.add(course)
 
+        messages.success(
+            self.request,
+            "Course created successfully!"
+        )
         return super(CourseCreateView, self).form_valid(form)
 
 course_create = CourseCreateView.as_view()

@@ -64,6 +64,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+from django.contrib.messages import constants as message_constants
+MESSAGE_TAGS = {message_constants.ERROR: 'danger'}
+
 ROOT_URLCONF = 'mchp.urls'
 
 WSGI_APPLICATION = 'mchp.wsgi.application'
