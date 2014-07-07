@@ -1,4 +1,5 @@
 from allauth.account.decorators import verified_email_required
+
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import FormView 
@@ -6,8 +7,8 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.template import Context
 from django.db.models import Count
-# from django.http import HttpResponseNotAllowed, HttpResponse
 from django.http import HttpResponse
+from django.core import serializers
 
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
 from schedule.models import Course
@@ -40,8 +41,7 @@ class AjaxableResponseMixin(object):
     Mixin to add AJAX support to a form.
     Must be used with an object-based FormView (e.g. CreateView)
 
-    I stole this right from the django website, it could be used on other views
-    as well as.
+    I stole this right from the django website.
     """
     def render_to_json_response(self, context, **response_kwargs):
         data = json.dumps(context)
@@ -95,7 +95,7 @@ class CourseCreateView(_BaseCourseView):
         course = form.save(commit=False)
         # add the domain field
         course.domain = self.student.school
-        # save object in db
+        # save course in db
         course.save()
         # add student to course
         student = self.student
@@ -105,7 +105,7 @@ class CourseCreateView(_BaseCourseView):
 
 course_create = CourseCreateView.as_view()
 
-class CourseAddView(_BaseCourseView):
+class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
     template_name = 'schedule/course_add.html'
     form_class = CourseChangeForm
 
@@ -178,20 +178,32 @@ class CourseAddView(_BaseCourseView):
             self.request,
             "Failed to add course."
         )
-        return self.get(self.request)
+        if self.request.is_ajax():
+            return self.render_to_json_response(dict(form.errors.items()), status=400)
+        else:
+            return self.get(self.request)
 
     def form_valid(self, form):
         # save model manually, don't call save form
         # form.save() would overwrite current classes instead of appending
         student = self.student
-        courses_to_add = form.cleaned_data['courses']
-        student.courses.add(courses_to_add[0])
+        course_to_add = form.cleaned_data['courses'][0]
+        student.courses.add(course_to_add)
 
         messages.success(
             self.request,
             "Course added successfully!"
         )
-        return super(CourseAddView, self).form_valid(form)
+
+        if self.request.is_ajax():
+            course = serializers.serialize('json', [course_to_add])
+            data = {
+                'messages': self.ajax_messages(),
+                'course': course,
+            }
+            return self.render_to_json_response(data)
+        else:
+            return super(CourseAddView, self).form_valid(form)
 
 course_add = CourseAddView.as_view()
 

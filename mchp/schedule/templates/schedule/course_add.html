@@ -79,10 +79,11 @@
 											<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
 												<small>with Instructor {{course.professor}}</small> 
 												<button class="pull-right btn btnlg btn-success"
-												form="{{course.pk}}_course_add">Join</button>
+													autocomplete="off"
+													form="{{course.pk}}_course_add">Join</button>
 												<form id="{{course.pk}}_course_add" method="post" action="{% url 'course_add' %} ">
 													{% csrf_token %}
-													<input type="hidden" name="courses" value="{{course.pk}}" />
+													<input type="hidden" name="courses" value="{{course.pk}}" autocomplete="off"/>
 												</form>
 											</h4>
 											<p class="list-group-item-text">
