@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'lib',
     'landing',
     'user_profile',
     'calendar_mchp',
@@ -104,7 +105,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'mchp/static')
 
 MEDIA_URL = '/media/'
 
@@ -165,6 +166,18 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        # don't show haystack
+        'requests.packages.urllib3.connectionpool': {
+            'handlers': ['null'],  # Quiet by default!
+            'propagate': False,
+            'level':'DEBUG',
+        },
+        # don't show elasticsearch 
+        'pyelasticsearch': {
+            'handlers': ['null'],  # Quiet by default!
+            'propagate': False,
+            'level':'DEBUG',
         },
         # don't show all those sql statements
         'django.db.backends': {
