@@ -1,1 +1,20 @@
-{% extends "user_profile/base.html" %}
+{% extends 'lib/base.html' %}
+
+{% block head_title %}{% endblock %}
+
+{% block head %}
+	{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'account/css/account_form.css' %}">
+		<script src="{% static 'account/js/bootstrapValidator.min.js' %}"></script>
+{% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block body %}
+	{% block content %}
+	{% endblock %}
+{% endblock %}
+
+{% block extra_body %}
+{% endblock %}

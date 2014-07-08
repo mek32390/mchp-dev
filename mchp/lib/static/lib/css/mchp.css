@@ -2,6 +2,11 @@
  * This file is for css that should happen on every single mchp page
  */
 
+/* site-wide-body margin */
+body {
+    margin-top: 70px;
+}
+
 /* django-messages */
 .django-messages {
 	/*text-align: center;*/

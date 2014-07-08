@@ -1,5 +1,4 @@
 $(function() {
-
     // BS Validator 
     $('#emailForm').bootstrapValidator({
         fields: {

@@ -48,6 +48,22 @@ def add_course_to_db(domain, num, **kwargs):
         )
         course.save()
 
+def fill_schools():
+    import csv
+    with open('./schedule/Schools.csv', newline='') as csvfile:
+        school_reader = csv.reader(csvfile, delimiter=',', quotechar='\\')
+        for row in school_reader:
+            s = schedule.models.School(
+                domain = row[0],
+                name = row[1],
+                phone_number = row[2],
+                address = row[3],
+                city = row[4],
+                state = row[5],
+                country = row[6],
+            )
+            s.save()
+
 US_STATES = (
     ('AL', 'Alabama'),
     ('AK', 'Alaska'),
