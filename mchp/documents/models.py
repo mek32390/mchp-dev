@@ -9,3 +9,7 @@ class Document(models.Model):
     document = models.FileField(upload_to="documents/%Y/%m")
     create_date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=60)
+
+class Upload(models.Model):
+    document = models.ForeignKey(Document)
+    owner = models.ForeignKey('user_profile.student')

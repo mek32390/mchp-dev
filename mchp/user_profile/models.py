@@ -43,9 +43,19 @@ Student.profile = property(lambda s: UserProfile.objects.get_or_create(student=s
 class StudentQuicklink(models.Model):
     student = models.ForeignKey('Student', related_name='userlink_student')
     quick_link = models.URLField()
+    name = models.CharField(max_length=40)
+    follows = models.ForeignKey('self',
+                               blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         unique_together = ('student', 'quick_link')
+
+    # return the first ql
+    def first(self, student):
+        return self.objects.filter(student=student, follows=None)
+
+    def rest(self):
+        return self.objects.select_related('self').get(id=id)
 
     def __str__(self):
         return "{} has link to {}".format(self.student.user.username, self.quick_link)

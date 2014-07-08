@@ -21,9 +21,14 @@ class School(models.Model):
 class SchoolQuicklink(models.Model):
     domain = models.ForeignKey('School', related_name='SchoolQuicklink_domain')
     quick_link = models.URLField()
+    name = models.CharField(max_length=40)
 
     class Meta:
         unique_together = ('domain', 'quick_link')
+
+    # return 
+    def head(self, school):
+        return self.objects.filter(domain=school, follows=None)
 
     def __str__(self):
         return "Quicklink: {} :: {}".format(self.domain, self.quick_link)
