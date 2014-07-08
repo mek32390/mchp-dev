@@ -45,7 +45,7 @@
 							</div>
 							{% endfor %}
 							{% else %}
-							No classes added to your schedule yet.
+							<div id="no-classes">No classes added to your schedule yet.</div>
 						{% endif %}
 						</div>
 					</div>
@@ -80,6 +80,7 @@
 												<small>with Instructor {{course.professor}}</small> 
 												<button class="pull-right btn btnlg btn-success"
 													autocomplete="off"
+													id="join-button-{{course.pk}}"
 													form="{{course.pk}}_course_add">Join</button>
 												<form id="{{course.pk}}_course_add" method="post" action="{% url 'course_add' %} ">
 													{% csrf_token %}

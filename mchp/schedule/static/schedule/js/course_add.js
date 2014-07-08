@@ -36,6 +36,8 @@ $(function() {
 			button.html('Enrolled');
 			button.attr('disabled', true);
 			addToClassList($.parseJSON(data.course)[0]);
+			// remove the div that tells you you have no classes
+			$('#no-classes').remove();
 		})
 		.fail(function(data) {
 			addMessage("Failed to enroll in course", "fail");
@@ -72,7 +74,7 @@ $(function() {
 				$(this).remove();
 				$class_list = $('#enrolled_list');
 				if($class_list.children().length < 1) {
-					$class_list.append("No classes added to your schedule yet.");
+					$class_list.append('<div id="no-classes">No classes added to your schedule yet.</div>');
 				}
 			});
 		})
