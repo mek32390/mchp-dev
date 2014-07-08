@@ -4,12 +4,12 @@ from schedule.utils import clean_domain, US_STATES
 
 class School(models.Model):
     domain = models.URLField(primary_key=True, validators=[clean_domain])
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20, blank=True)
-    street = models.CharField(max_length=30, blank=True)
-    city = models.CharField(max_length=30, blank=True)
+    address = models.CharField(max_length=60, blank=True)
+    city = models.CharField(max_length=60, blank=True)
     state = models.CharField(max_length=20, blank=True, choices=US_STATES)
-    country = models.CharField(max_length=25, blank=True)
+    country = models.CharField(max_length=45, blank=True)
 
     # a list of all school names stored in the database
     def school_list(self):
@@ -25,10 +25,6 @@ class SchoolQuicklink(models.Model):
 
     class Meta:
         unique_together = ('domain', 'quick_link')
-
-    # return 
-    def head(self, school):
-        return self.objects.filter(domain=school, follows=None)
 
     def __str__(self):
         return "Quicklink: {} :: {}".format(self.domain, self.quick_link)
