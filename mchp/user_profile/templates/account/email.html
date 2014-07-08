@@ -3,12 +3,7 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Account" %}{% endblock %}
-{% block extra_head %}
-{% load staticfiles %}
-  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
-  <script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
-{% endblock %}
+
 {% block content %}
 <div class="container text-center ">
     <h2>{% trans "E-mail Addresses" %}</h2>

@@ -5,11 +5,7 @@
 {% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
 {% block extra_head %}
 	{% load staticfiles %}
-
-	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
-
-    <script src="{% static 'account/js/confirm-email.js' %}"></script>
-
+		<script src="{% static 'account/js/confirm-email.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -40,9 +36,5 @@
 	  </div>
 	  <div class="show-email text-center h5"><hr> E-mail sent to {{request.session.initial_email}}!</div>
 	</form>
-		<!-- <form id="resend_form" action="{% url 'account_email' %}" class="email_list"
-			method="post"> -->
 </div>
-{% endblock %}
-{% block extra_body %}
 {% endblock %}

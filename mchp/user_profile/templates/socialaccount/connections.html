@@ -4,19 +4,13 @@
 {% load url from future %}
 
 {% block head_title %}{% trans "Account Connections" %}{% endblock %}
-{% block extra_head %}
-  {% load staticfiles %}
-  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
-  <script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
-{% endblock %}
+
 {% block content %}
 <div class="container text-center acct-form">
 <h2>{% trans "Account Connections" %}</h2>
 
 {% if form.accounts %}
 <p>{% blocktrans %}You can sign in to your account using any of the following third party accounts:{% endblocktrans %}</p>
-
 
 <form method="post" action="{% url 'socialaccount_connections' %}">
 {% csrf_token %}

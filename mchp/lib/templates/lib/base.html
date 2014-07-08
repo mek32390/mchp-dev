@@ -14,6 +14,8 @@
 		<script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
     {% block head %}
     {% endblock %}
+    {% block extra_head %}
+    {% endblock %}
   </head>
   <body>
     <!-- Start Navigation -->
@@ -46,12 +48,11 @@
 					{% else %}
 					<li><a href="/accounts/login">Login</a></li>
 					{% endif %}
-					
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
 	</div>
-	<!-- Start Navigation -->
+	<!-- Django Messages -->
 	<div class="django-messages">
 		{% if messages %}
 		{% for message in messages %}

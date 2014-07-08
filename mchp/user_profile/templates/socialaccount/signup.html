@@ -6,15 +6,10 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block extra_head %}
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
-
-<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
-<script src="{% static 'user_profile/js/sign_up_confirm.js' %}"></script>
-<script src="{% static 'social/js/social_signup_redirect.js' %}"></script>
-
-{% endblock extra_head %}
+    {% load staticfiles %}
+        <script src="{% static 'account/js/sign_up_confirm.js' %}"></script>
+        <script src="{% static 'social/js/social_signup_redirect.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <div class="container text-center">
@@ -26,7 +21,7 @@
 
     <p><img class="media-object img-responsive center-block" src=
     "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt=
-    "..."></p>
+    "Support"></p>
 
 <p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to
 {{site_name}}.{% endblocktrans %}</p>
