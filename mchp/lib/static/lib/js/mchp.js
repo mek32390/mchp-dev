@@ -6,7 +6,7 @@ $(function() {
 	/* messages */
 	$messages = $('.django-messages');
 	// fade messages that were added on page load
-	$messages.children('div').delay(5000).fadeOut(500, function(){
+	$messages.children('div').delay(2000).fadeOut(500, function(){
 		$(this).remove();
 	});
 
@@ -15,7 +15,7 @@ $(function() {
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
 			var $nodes = $(mutation.addedNodes);
-			$nodes.delay(5000).fadeOut(500, function(){
+			$nodes.delay(3000).addClass('animated bounceInRight').fadeOut(500, function(){
 				$(this).remove();
 			});
 		});
