@@ -6,7 +6,7 @@ $(function() {
 	/* messages */
 	$messages = $('.django-messages');
 	// fade messages that were added on page load
-	$messages.children('div').delay(2000).fadeOut(500, function(){
+	$messages.children('div').delay(3000).addClass('animated bounceInRight').fadeOut(500, function(){
 		$(this).remove();
 	});
 
