@@ -2,14 +2,11 @@
 
 {% block head_title %}Add a Course{% endblock %}
 
-{% block head %}
-{% load staticfiles %}
-	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/course_add.css' %}">
-	<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
-	<script src="{% static 'schedule/js/course_add.js' %}"></script>
-	<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
+{% block extra_head %}
+	{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/course_add.css' %}">
+		<script src="{% static 'schedule/js/course_add.js' %}"></script>
+		<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 {% endblock %}
 
 {% block body %}

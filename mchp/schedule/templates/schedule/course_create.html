@@ -1,15 +1,16 @@
-{% extends 'schedule/base.html' %}
+{% extends "schedule/base.html" %}
 
-{% block head_title %}Create a Course{% endblock %}
+{% load i18n %}
 
-{% block head %}
-{% load staticfiles %}
-	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/form.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/course_create.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/validator.css' %}">
-  	<script src="{% static 'user_profile/js/bootstrapValidator.min.js' %}"></script>
-	<script src="{% static 'schedule/js/course_create.js' %}"></script>
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block extra_head %}
+	{% load staticfiles %}
+    	<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/create_course.css' %}">
+    	<script src="{% static 'schedule/js/create_course.js' %}"></script>
+		<script src="{% static 'account/js/bootstrapValidator.min.js' %}"></script>
 {% endblock %}
+
 
 {% block body %}
 <div class="container text-center">
