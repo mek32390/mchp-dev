@@ -33,11 +33,11 @@ class DocumentUploadForm(ModelForm):
             # dict(x.items() | y.items()) combines the _base attrs with 
             # any class specific attrs, like the placeholder
             'title': TextInput(attrs=dict({
-                'placeholder': 'title'
+                'placeholder': 'Document Title'
             }.items() | input_attr.items())),
 
             'description': TextInput(attrs=dict({
-                'placeholder':'short description of file'
+                'placeholder':'Short description of file'
             }.items() | input_attr.items())),
 
             'price': TextInput(attrs=dict({

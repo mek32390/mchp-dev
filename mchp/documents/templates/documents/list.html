@@ -1,18 +1,54 @@
 {% extends 'documents/base.html' %}
 
 {% block body %}
-		{% if upload_list %}
-			<ul>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="media">
+    			<img class="media-object pull-left animated slideInLeft" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/storage.svg" height="50px" alt="sell documents">
+  				<div class="media-body">
+    			<h2 class="media-heading">My Documents</h2>
+				making money while you study</div>
+			</div>
+			<hr>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			{% if upload_list %}
+			<div class="list-group">
 			{% for upload in upload_list %}
-				<li>
-					<a href="{% url 'document_list' %}
+				<li class="list-group-item">
+				
+				<div class="media">
+                      <div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
 						{{ upload.document.uuid}}/
 						{{ upload.document.slug}}
-						">{{ upload.document.filename }}</a>
-				</li>
+						"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div>
+
+                      <div class="media-body">
+                        <h4 class="media-heading"><a href="{% url 'document_list' %}
+						{{ upload.document.uuid}}/
+						{{ upload.document.slug}}
+						">{{ upload.document.filename }}</a> <small>500 points</small>
+						<div class="pull-right small text-muted">10 m</div></h4>
+
+                        	<span class="description">
+                        		<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85 
+                        		<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;&nbsp;
+                        		<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;&nbsp;
+                        		<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases 
+                        		<p class="small">Uploaded by <a href="#">you</a></p>
+                        	</span>
+                      </div>
+                    </div>
+                    </li>
 			{% endfor %}
-			</ul>
+			</div>
 		{% else %}
 			<p>No documents.</p>
 		{% endif %}
+		</div>
+	</div>
+</div>	
 {% endblock %}
