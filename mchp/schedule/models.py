@@ -41,7 +41,8 @@ class SchoolAlias(models.Model):
 
 class DisplayCourseManager(models.Manager):
     def get_queryset(self):
-        deleted_school = School.objects.get(domain='deleted.edu')
+        deleted_school, created = School.objects.get_or_create(
+            domain='deleted.edu', name='deleted')
         return super(DisplayCourseManager, self).get_queryset().exclude(
            domain = deleted_school)
 
