@@ -12,6 +12,7 @@ from django.contrib import messages
 from documents.forms import DocumentUploadForm
 from documents.models import Document, Upload
 from documents.exceptions import DuplicateFileError
+from schedule.models import Course
 
 import logging
 logger = logging.getLogger(__name__)
@@ -31,6 +32,15 @@ class DocumentFormView(FormView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
+        course_field = form.fields['course']
+
+        course_field.queryset = Course.display_objects.filter(
+            student__user = self.request.user
+        ).order_by('dept', 'course_number', 'professor')
+        course_field.empty_label = 'Pick a course'
+        # the way the course is displayed in the dropdown , 
+        # course.display comes from the model
+        course_field.label_from_instance = lambda course: course.display()
         data = {
 
         }

@@ -39,6 +39,12 @@ class SchoolAlias(models.Model):
     def __str__(self):
         return "Alias for {}: {}".format(self.domain, self.alias)
 
+class DisplayCourseManager(models.Manager):
+    def get_queryset(self):
+        deleted_school = School.objects.get(domain='deleted.edu')
+        return super(DisplayCourseManager, self).get_queryset().exclude(
+           domain = deleted_school)
+
 class Course(models.Model):
     domain = models.ForeignKey('School')
     dept = models.CharField(max_length=6)
@@ -48,8 +54,16 @@ class Course(models.Model):
     professor = models.CharField(max_length=30)
     creation_date = models.DateTimeField(auto_now_add=True)
 
+    objects = models.Manager() # The default manager.
+    display_objects = DisplayCourseManager()
+
     class Meta:
         unique_together = ("domain", "dept", "course_number", "professor")
+
+    def display(self):
+        return "{}{} with Instructor {}".format(self.dept,
+                                                self.course_number, 
+                                                self.professor)
 
     def __str__(self):
         return "{}{} with prof. {} @ {}".format(self.dept, self.course_number, self.professor,
