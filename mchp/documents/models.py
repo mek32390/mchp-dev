@@ -4,14 +4,24 @@ from django.dispatch.dispatcher import receiver
 from django.template.defaultfilters import slugify
 
 from documents.exceptions import DuplicateFileError
+from schedule.models import School, Course
 
 import hashlib
 import uuid
 import os.path
 
+def get_sentinel_course():
+    school, created = School.objects.get_or_create(domain='deleted.edu', name='deleted')
+    course, created = Course.objects.get_or_create(domain=school, 
+                                        dept='del', 
+                                        course_number=100,
+                                        professor='deleted')
+    return course
+
 class Document(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    course = models.ForeignKey('schedule.Course', on_delete=models.SET(get_sentinel_course))
 
     up = models.IntegerField(default=0)
     down = models.IntegerField(default=0)
@@ -56,7 +66,7 @@ def document_delete(sender, instance, **kwargs):
 
 class Upload(models.Model):
     document = models.ForeignKey(Document)
-    owner = models.ForeignKey('user_profile.student')
+    owner = models.ForeignKey('user_profile.Student')
 
     class Meta:
         unique_together = ('document', 'owner')

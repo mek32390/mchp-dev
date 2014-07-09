@@ -24,7 +24,7 @@ class DocumentUploadForm(ModelForm):
 
     class Meta:
         model = Document
-        fields = ['title', 'description', 'price', 'document']
+        fields = ['title', 'description', 'course', 'price', 'document']
 
         input_attr = {
             'class': 'form-control input-lg',

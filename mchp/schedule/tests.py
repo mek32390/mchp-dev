@@ -11,7 +11,7 @@ class ScheduleModelFormTests(TestCase):
             'domain': "www.test.edu", 
             'name': "Test University", 
             'phone_number':"(520) 555-5555",
-            'street': "413 n What st.", 
+            'address': "413 n What st.", 
             'city':"Test city",
             'state': 'AZ',
             'country': 'USA',
@@ -46,7 +46,7 @@ class DatabaseTestCase(TestCase):
             'domain': "www.test.edu", 
             'name': "Test University", 
             'phone_number':"(520) 555-5555",
-            'street': "413 n What st.", 
+            'address': "413 n What st.", 
             'city':"Test city",
             'state': 'AZ',
             'country': 'USA',
@@ -129,7 +129,7 @@ class DatabaseTestCase(TestCase):
             'domain': "www.google.com", 
             'name': "Test University", 
             'phone_number':"(520) 555-5555",
-            'street': "413 n What st.", 
+            'address': "413 n What st.", 
             'city':"Test city"
         }
         test_school = School()
