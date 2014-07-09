@@ -3,11 +3,11 @@
 {% block head_title %}{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}{% endblock %}
 
 {% block body %}
-{% if request.user.is_authenticated %}
-		<p>
-    <a href="/accounts/logout/" class="pull-left">Logout</a>
-		</p>
-		<p>
+<div class="container h4">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<h2 class="text-center">Profile Menu</h2>
+			<p class="small text-center">{% if request.user.is_authenticated %}  
 		{% with request.user.student as student %}
 
 			{% if request.user.first_name or request.user.last_name %}
@@ -18,20 +18,35 @@
 
 			{% if student.profile.account_verified %}
 				(verified)
+				<a href="/accounts/logout/">Log Out</a>&nbsp;
 			{% else %}
 				(unverified) 
 			{% endif %}
 
-		{% endwith %}
-		</p>
-		<p>
-			<a href="{% url 'course_create' %}">Create a course.</a>
-		</p>
-		<p>
-			<a href="{% url 'course_add' %}">Add a course.</a>
-		</p>
- 
+		{% endwith %}</p>
+		<hr>
+		<div class="well">
+	<div class="list-group">
+	<li class="list-group-item">
+			<a href="{% url 'course_create' %}">Create Course</a>
+	</li>
+	<li class="list-group-item">
+			<a href="{% url 'course_add' %}">Add Course</a>
+	</li>
+	<li class="list-group-item">
+			<a href="/documents/add/">Add Document</a>
+	</li>
+	<li class="list-group-item">
+			<a href="/documents/">My Documents</a>
+ 	</li>
 {% else %}
+	<li class="list-group-item">
     <a href="/accounts/login/" class="pull-right">Login</a>
+	</li>
 {% endif %}
+</div>
+</div>
+</div>
+</div>
+</div>
 {% endblock %}
