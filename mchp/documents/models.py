@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
@@ -9,6 +10,7 @@ from schedule.models import School, Course
 import hashlib
 import uuid
 import os.path
+import subprocess
 
 def get_sentinel_course():
     school, created = School.objects.get_or_create(domain='deleted.edu', name='deleted')
@@ -63,7 +65,18 @@ class Document(models.Model):
 
 @receiver(post_save, sender=Document)
 def create_thumbnail(sender, instance, **kwargs):
-    pass
+    doc = Document.objects.get(pk=instance.pk)
+    command = "convert -quality 95 -thumbnail 222 {}{}[0] {}{}".format(
+        settings.MEDIA_ROOT, doc.document, settings.MEDIA_ROOT, doc.thumbnail)
+
+    proc = subprocess.Popen(command,
+        shell=True,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    stdout_value = proc.communicate()[0]
+    print(stdout_value)
 
 # Receive the pre_delete signal and delete the file associated with the model instance.
 @receiver(post_delete, sender=Document)
