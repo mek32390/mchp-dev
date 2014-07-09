@@ -56,6 +56,18 @@ body {
     width: 10px;
 }
 
+/* thin progress bars */
+.progress {
+  max-height: 10px;
+}
+
+/* facebook btn */
+.btn-facebook {
+    background: #4c66a4;
+    color: #fff;
+    text-align: center;
+}
+
 /* Animations */
 .animated {
   -webkit-animation-duration: 1s;
