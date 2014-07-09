@@ -87,3 +87,7 @@ def resend_email(request):
         return HttpResponse(json.dumps({}), content_type='application/javascript')
     else:
         return redirect('/')
+
+@verified_email_required
+def view_documents(request):
+    return render(request, 'user_profile/view_documents')

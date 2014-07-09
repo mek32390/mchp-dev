@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^accounts/', include('user_profile.urls')),
-    # url(r'^documents/', include('document.urls')),
+    url(r'^documents/', include('documents.urls')),
     url('^\u262d', 'landing.views.party'),
     url(r'^$', include('landing.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

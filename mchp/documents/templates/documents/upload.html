@@ -1,0 +1,23 @@
+{% extends 'documents/base.html' %}
+
+{% block head_title %}Upload a Document{% endblock %}
+
+{% block extra_head %}
+	{% load staticfiles %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="upload-form">
+				<form action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ form.as_style }}
+					<p><input type="submit" value="Upload" /></p>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
