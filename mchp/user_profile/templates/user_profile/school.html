@@ -5,8 +5,8 @@
 {% block head_title %}{% trans "Choose your School" %}{% endblock %}
 {% block extra_head %}
 	{% load staticfiles %}
-	<script src="{% static 'user_profile/css/confirm-school.js' %}"></script>
 	<script src="{% static 'user_profile/js/confirm-school.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/confirm-school.css' %}">
 	{% load socialaccount %}
 	{% providers_media_js %}
 {% endblock %}
