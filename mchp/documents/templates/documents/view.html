@@ -2,6 +2,33 @@
 
 {% block body %}
 <div class="container">
+
+	<!-- modal -->
+<button class="btn btn-primary" data-toggle="modal" data-target="#rate_document">Rate Document</button>
+
+<div class="modal fade" id="rate_document" tabindex="-1" role="dialog" aria-labelledby="ratedocument" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+    	<div class="modal-body text-center">
+      		<h4>What do you think?</h4>
+        		<h1><a href="#"><i class="fa fa-thumbs-up text-success"></i></a> <a href="#"><i class="fa fa-thumbs-down text-danger"></i></a></h1>
+        		<hr>
+    		<form>
+        		<div class="input-group">
+  					<span class="input-group-addon"><i class="fa fa-bullhorn"></i></span>
+  					<input type="text" class="form-control" placeholder="Leave a brief comment!">
+				</div>
+				<p></p>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-block">Submit!</button>
+				</div>	
+			</form>
+		</div>
+    </div>
+  </div>
+</div>
+
+
 	<div class="row">
 		<div class="col-xs-12">
 			<ol class="breadcrumb">
