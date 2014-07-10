@@ -28,18 +28,15 @@
 					{% csrf_token %}
 					{{ form.as_style }}
 					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary" /></p>
-
-					<div class="input-group">
-                		<span class="input-group-btn">
-                    	<span class="btn btn-primary btn-file">
-                        Browse&hellip; <input type="file" multiple>
-                    </span>
-                </span>
-                <input type="submit" value="Upload" class="form-control" readonly>
-            </div>
-
 				</form>
-				
+				<div class="input-group">
+					<span class="input-group-btn">
+						<span class="btn btn-primary btn-file">
+							Browse&hellip; <input type="file" multiple>
+						</span>
+					</span>
+					<input type="text" class="form-control" readonly>
+				</div>
 			</div>
 		</div>
 	</div>

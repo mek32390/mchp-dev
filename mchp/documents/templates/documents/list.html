@@ -1,5 +1,12 @@
 {% extends 'documents/base.html' %}
 
+{% block extra_head %}
+	{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'documents/css/list.css' %}">
+		<script src="{% static 'documents/js/list.js' %}"></script>
+		<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
+{% endblock %}
+
 {% block body %}
 {% load humanize %}
 <div class="container">
@@ -17,18 +24,23 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<ul class="nav nav-tabs h4" role="tablist">
-				<li class="active"><a href="#selling_docs" role="tab" data-toggle="tab">Selling <span
-							class="badge">{{ upload_count }}</span></a></li>
-				<li><a href="#purchased_docs" role="tab" data-toggle="tab">Purchased <span
-							class="badge">{{ purchase_count}}</span></a></li>
+				<li class="active">
+					<a href="#selling_docs" role="tab" data-toggle="tab">
+						Selling
+						<span id="upload-count" class="badge">{{ upload_count }}</span></a>
+				</li>
+				<li>
+					<a href="#purchased_docs" role="tab" data-toggle="tab">
+						Purchased
+						<span id="purchase-count" class="badge">{{ purchase_count}}</span></a></li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="selling_docs">
 					<p></p>
 					{% if upload_list %}
-					<div class="list-group">
+					<div class="list-group scrolls" id="document-list">
 						{% for upload in upload_list %}
-						<li class="list-group-item">
+						<li class="list-group-item" id="document_{{upload.document.pk}}">
 
 							<div class="media">
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
@@ -41,7 +53,11 @@
 											{{ upload.document.uuid}}/
 											{{ upload.document.slug}}
 											">{{ upload.document.title }}</a> <small>{{upload.document.price}} points</small>
-										<div class="pull-right small text-muted">{{upload.document.create_date | naturaltime}}</div></h4>
+										<div class="pull-right small text-muted">{{upload.document.create_date | naturaltime}}</div>
+									</h4>
+									<small class="pull-right">
+										<a href="javascript:void(0)" class="badge remove-button" data-document="{{upload.document.pk}}">remove</a>
+									</small>
 
 									<span class="description">
 										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{upload.document.up}}
@@ -54,9 +70,15 @@
 						</li>
 						{% endfor %}
 					</div>
+					<div id="no-documents" style="display: none;">
+						<h4>You're not selling any documents!</h4>
+						<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
+					</div>
 					{% else %}
-					<h4>You're not selling any documents!</h4>
-					<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
+					<div id="no-documents">
+						<h4>You're not selling any documents!</h4>
+						<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
+					</div>
 					{% endif %}
 				</div>
 				<div class="tab-pane" id="purchased_docs">

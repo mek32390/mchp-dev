@@ -104,12 +104,14 @@ def create_thumbnail(sender, instance, **kwargs):
         return
 
     # first make thumbnail
-    command = "convert -quality 95 -thumbnail 64 -background white {}/{}[0] {}/{}".format(
+    command = "convert -quality 95 -thumbnail 64 -background white\
+            {}/{}[0] {}/{}".format(
         settings.MEDIA_ROOT, doc.document, settings.MEDIA_ROOT, doc.thumbnail)
     convert(command)
 
     # now make preview
-    command = "convert -quality 95 -thumbnail 500 -background white {}/{}[0] {}/{}".format(
+    command = "convert -quality 95 -thumbnail 500 -background white\
+            {}/{}[0] {}/{}".format(
         settings.MEDIA_ROOT, doc.document, settings.MEDIA_ROOT, doc.preview)
     convert(command)
 
