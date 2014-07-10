@@ -1,0 +1,6 @@
+elasticsearch
+imagemagick
+postgres
+
+python3
+pip
