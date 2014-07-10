@@ -7,6 +7,8 @@ $(function() {
 	// convert select to nice input
 	$("#id_course").addClass("form-control input-lg");
 	// $("#id_document").addClass("form-control input-lg");
+
+	div.form-group:nth-child(6) > div:nth-child(1) > span:nth-child(1)
 	// convert browse file button to BS3 button
 	$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         
@@ -20,7 +22,6 @@ $(function() {
         }
         
     });
-});
 
 // provide feedback on browse file button
 $(document).on('change', '.btn-file :file', function() {
