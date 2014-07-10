@@ -8,7 +8,7 @@
 			<div class="media">
     			<img class="media-object pull-left animated slideInLeft" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/storage.svg" height="50px" alt="sell documents">
   				<div class="media-body">
-    			<h2 class="media-heading">My Documents <div class='pull-right'> <a href='/documents/add/' class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a> </div></h2>
+						<h2 class="media-heading">My Documents <div class='pull-right'> <a href="{%url 'document_upload'%}" class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a> </div></h2>
 				make money while you study</div>
 			</div>
 			<hr>
@@ -17,8 +17,10 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<ul class="nav nav-tabs h4" role="tablist">
-				<li class="active"><a href="#selling_docs" role="tab" data-toggle="tab">Selling <span class="badge">2</span></a></li>
-				<li><a href="#purchased_docs" role="tab" data-toggle="tab">Purchased <span class="badge">2</span></a></li>
+				<li class="active"><a href="#selling_docs" role="tab" data-toggle="tab">Selling <span
+							class="badge">{{ upload_count }}</span></a></li>
+				<li><a href="#purchased_docs" role="tab" data-toggle="tab">Purchased <span
+							class="badge">{{ purchase_count}}</span></a></li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="selling_docs">
@@ -38,7 +40,7 @@
 									<h4 class="media-heading"><a href="{% url 'document_list' %}
 											{{ upload.document.uuid}}/
 											{{ upload.document.slug}}
-											">{{ upload.document.filename }}</a> <small>500 points</small>
+											">{{ upload.document.title }}</a> <small>{{upload.document.price}} points</small>
 										<div class="pull-right small text-muted">{{upload.document.create_date | naturaltime}}</div></h4>
 
 									<span class="description">
@@ -59,29 +61,29 @@
 				</div>
 				<div class="tab-pane" id="purchased_docs">
 					<p></p>
-					{% if upload_list %}
+					{% if purchases %}
 					<div class="list-group">
-						{% for upload in upload_list %}
+						{% for doc in purchases %}
 						<li class="list-group-item">
 
 							<div class="media">
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
-										{{ upload.document.uuid}}/
-										{{ upload.document.slug}}
-										"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div>
+										{{ doc.document.uuid}}/
+										{{ doc.document.slug}}
+										"><img src="{{doc.document.thumbnail.url}}" style="width:64px"></a></div>
 
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{% url 'document_list' %}
-											{{ upload.document.uuid}}/
-											{{ upload.document.slug}}
-											">{{ upload.document.filename }}</a> <small>500 points</small>
-										<div class="pull-right small text-muted">10 m</div></h4>
+											{{ doc.document.uuid}}/
+											{{ doc.document.slug}}
+											">{{ upload.document.title }}</a> <small>{{doc.document.price}} points</small>
+										<div class="pull-right small text-muted">{{doc.document.create_date | naturaltime}}</div></h4>
 
 									<span class="description">
-										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85 
-										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;&nbsp;
-										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;&nbsp;
-										<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases 
+										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{doc.document.up}}
+										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ doc.document.down}}&nbsp;&nbsp;
+										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{doc.document.review_count}} Reviews&nbsp;&nbsp;
+										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{doc.document.purchase_count}} Purchases
 										<p class="small">Uploaded by <a href="#">you</a></p>
 									</span>
 								</div>
