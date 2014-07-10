@@ -1,6 +1,7 @@
 {% extends 'documents/base.html' %}
 
 {% block body %}
+{% load humanize %}
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12">
@@ -16,83 +17,83 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<ul class="nav nav-tabs h4" role="tablist">
-  				<li class="active"><a href="#selling_docs" role="tab" data-toggle="tab">Selling <span class="badge">2</span></a></li>
-  				<li><a href="#purchased_docs" role="tab" data-toggle="tab">Purchased <span class="badge">2</span></a></li>
+				<li class="active"><a href="#selling_docs" role="tab" data-toggle="tab">Selling <span class="badge">2</span></a></li>
+				<li><a href="#purchased_docs" role="tab" data-toggle="tab">Purchased <span class="badge">2</span></a></li>
 			</ul>
 			<div class="tab-content">
-  				<div class="tab-pane active" id="selling_docs">
-  					<p></p>
-  					{% if upload_list %}
-			<div class="list-group">
-			{% for upload in upload_list %}
-				<li class="list-group-item">
-				
-				<div class="media">
-                      <div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
-						{{ upload.document.uuid}}/
-						{{ upload.document.slug}}
-						"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div>
+				<div class="tab-pane active" id="selling_docs">
+					<p></p>
+					{% if upload_list %}
+					<div class="list-group">
+						{% for upload in upload_list %}
+						<li class="list-group-item">
 
-                      <div class="media-body">
-                        <h4 class="media-heading"><a href="{% url 'document_list' %}
-						{{ upload.document.uuid}}/
-						{{ upload.document.slug}}
-						">{{ upload.document.filename }}</a> <small>500 points</small>
-						<div class="pull-right small text-muted">10 m</div></h4>
+							<div class="media">
+								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
+										{{ upload.document.uuid}}/
+										{{ upload.document.slug}}
+										"><img src="{{upload.document.thumbnail.url}}" style="width:64px"></a></div>
 
-                        	<span class="description">
-                        		<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85 
-                        		<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;&nbsp;
-                        		<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;&nbsp;
-                        		<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases 
-                        	</span>
-                      </div>
-                    </div>
-                    </li>
-			{% endfor %}
-		</div>
-		{% else %}
-			<p>No documents.</p>
-		{% endif %}
-  			</div>
-  				<div class="tab-pane" id="purchased_docs">
-  					<p></p>
-  					{% if upload_list %}
-			<div class="list-group">
-			{% for upload in upload_list %}
-				<li class="list-group-item">
-				
-				<div class="media">
-                      <div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
-						{{ upload.document.uuid}}/
-						{{ upload.document.slug}}
-						"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div>
+								<div class="media-body">
+									<h4 class="media-heading"><a href="{% url 'document_list' %}
+											{{ upload.document.uuid}}/
+											{{ upload.document.slug}}
+											">{{ upload.document.filename }}</a> <small>500 points</small>
+										<div class="pull-right small text-muted">{{upload.document.create_date | naturaltime}}</div></h4>
 
-                      <div class="media-body">
-                        <h4 class="media-heading"><a href="{% url 'document_list' %}
-						{{ upload.document.uuid}}/
-						{{ upload.document.slug}}
-						">{{ upload.document.filename }}</a> <small>500 points</small>
-						<div class="pull-right small text-muted">10 m</div></h4>
+									<span class="description">
+										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{upload.document.up}}
+										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ upload.document.down}}&nbsp;&nbsp;
+										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{upload.document.review_count}} Reviews&nbsp;&nbsp;
+										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{upload.document.purchase_count}} Purchases
+									</span>
+								</div>
+							</div>
+						</li>
+						{% endfor %}
+					</div>
+					{% else %}
+					<p>No documents.</p>
+					{% endif %}
+				</div>
+				<div class="tab-pane" id="purchased_docs">
+					<p></p>
+					{% if upload_list %}
+					<div class="list-group">
+						{% for upload in upload_list %}
+						<li class="list-group-item">
 
-                        	<span class="description">
-                        		<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85 
-                        		<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;&nbsp;
-                        		<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;&nbsp;
-                        		<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases 
-                        		<p class="small">Uploaded by <a href="#">you</a></p>
-                        	</span>
-                      </div>
-                    </div>
-                    </li>
-			{% endfor %}
-			</div>
-		{% else %}
-			<p>No documents.</p>
-		{% endif %}
-  				</div>
-  			</div>	
-			
+							<div class="media">
+								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
+										{{ upload.document.uuid}}/
+										{{ upload.document.slug}}
+										"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div>
+
+								<div class="media-body">
+									<h4 class="media-heading"><a href="{% url 'document_list' %}
+											{{ upload.document.uuid}}/
+											{{ upload.document.slug}}
+											">{{ upload.document.filename }}</a> <small>500 points</small>
+										<div class="pull-right small text-muted">10 m</div></h4>
+
+									<span class="description">
+										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85 
+										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;&nbsp;
+										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;&nbsp;
+										<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases 
+										<p class="small">Uploaded by <a href="#">you</a></p>
+									</span>
+								</div>
+							</div>
+						</li>
+						{% endfor %}
+					</div>
+					{% else %}
+					<p>No documents.</p>
+					{% endif %}
+				</div>
+			</div>	
+
 		</div>
 	</div>
 </div>	

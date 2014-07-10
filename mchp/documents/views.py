@@ -105,13 +105,14 @@ name: document_preview
 '''
 class DocumentDetailPreview(DetailView):
     template_name = 'documents/preview.html'
+    model = Document
 
-    def get_queryset(self):
-        return Document.objects.all()[0]
+    def get_object(self):
+        return get_object_or_404(self.model, uuid=self.kwargs['uuid'])
 
     # this page is publically viewable 
     def dispatch(self, *args, **kwargs):
-        return super(DocumentFormView, self).dispatch(*args, **kwargs)
+        return super(DocumentDetailPreview, self).dispatch(*args, **kwargs)
 
 document_preview = DocumentDetailPreview.as_view()
 
