@@ -1,27 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>mycollegehomepage.com | mchp</title>
-<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.1.0/ladda-themeless.min.css">
+{% extends "lib/base.html" %}
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.1.0/spin.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.1.0/ladda.min.js"></script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+{% block head_title %}mycollegehomepage.com | mchp{% endblock %}
 
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'landing/css/bootstrap-validator.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'landing/css/test.css' %}">
+{% block extra_head %}
+    {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
+        <script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'landing/css/landing.css' %}">
+        <script src="{% static 'landing/js/landing.js' %}"></script>
+{% endblock %}
 
-<script src="{% static 'landing/js/bootstrap-validator.js' %}"></script>
-<script src="{% static 'landing/js/landing.js' %}"></script>
-
-</head>
-<body>
-<!-- Start Navigation -->
+{% block body %}
+    {% block content %}
+        <!-- Start Navigation -->
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -47,9 +39,9 @@
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
           <hr style="margin-top: 0px;">
-					<!-- ug what why is there two forms -->
-					<form id="emailForm" method="post" action="{% url 'get_email' %}">
-							{% csrf_token %}
+                    <!-- ug what why is there two forms -->
+                    <form id="emailForm" method="post" action="{% url 'get_email' %}">
+                            {% csrf_token %}
             <div class="form-group">
                 <div class="input-group">
                     <input type="email" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
@@ -177,6 +169,6 @@
 
 <div class="small text-default text-center" style="position:relative; margin: 0 auto;"><small>mycollegehomepage.com &copy; 2014 | <a href="/privacy/" class="">Privacy Policy</a></small> </div>
 </div>
+    {% endblock %}
+{% endblock %}
 
-</body>
-</html>
