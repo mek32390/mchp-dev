@@ -11,6 +11,7 @@ import hashlib
 import uuid
 import os.path
 import subprocess
+import magic
 
 import logging
 logger = logging.getLogger(__name__)
@@ -70,6 +71,10 @@ class Document(models.Model):
             self.preview = preview
         super(Document, self).save(*args, **kwargs)
 
+    def filetype(self):
+        return magic.from_file(settings.MEDIA_ROOT + '/' + self.document.name,
+                       mime=True)
+
     def filename(self):
         return os.path.basename(self.document.name)
 
@@ -92,26 +97,24 @@ def create_thumbnail(sender, instance, **kwargs):
     os.makedirs(settings.MEDIA_ROOT + '/' + preview_location, exist_ok=True)
 
     doc = Document.objects.get(pk=instance.pk)
+    # word_types = ['application/doc', 'application/docx', 'application/text']
+    logger.debug(doc.filetype())
+    if doc.filetype() != b'application/pdf':
+        return
 
     # first make thumbnail
     command = "convert -quality 95 -thumbnail 64 -background white\
             {}/{}[0] {}/{}".format(
         settings.MEDIA_ROOT, doc.document, settings.MEDIA_ROOT, doc.thumbnail)
-    logger.debug(command)
-
-    proc = subprocess.Popen(command,
-        shell=True,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    stdout_value = proc.communicate()[0]
-    logger.debug(stdout_value)
+    convert(command)
 
     # now make preview
     command = "convert -quality 95 -thumbnail 500 -background white\
             {}/{}[0] {}/{}".format(
         settings.MEDIA_ROOT, doc.document, settings.MEDIA_ROOT, doc.preview)
+    convert(command)
+
+def convert(command):
     logger.debug(command)
 
     proc = subprocess.Popen(command,

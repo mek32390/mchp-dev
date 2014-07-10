@@ -10,7 +10,7 @@ from django.template import Context
 from django.contrib import messages
 
 from documents.forms import DocumentUploadForm
-from documents.models import Document, Upload
+from documents.models import Document, Upload, DocumentPurchase
 from documents.exceptions import DuplicateFileError
 from schedule.models import Course
 
@@ -91,6 +91,16 @@ class DocumentListView(ListView):
 
     def get_queryset(self):
         return Upload.objects.filter(owner=self.student).select_related()
+
+    def get_context_data(self, **kwargs):
+        context = super(DocumentListView, self).get_context_data(**kwargs)
+        context['upload_count'] = Upload.objects.filter(owner=self.student).count()
+        context['purchase_count'] = DocumentPurchase.objects.filter(student=self.student).count()
+        # this kind of defeats the purpose of a list view, but eh
+        purchases = DocumentPurchase.objects.filter(student=self.student)
+        context['purchases'] = purchases
+
+        return context
 
     @method_decorator(verified_email_required)
     def dispatch(self, *args, **kwargs):
