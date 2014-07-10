@@ -52,7 +52,7 @@
 									<h4 class="media-heading"><a href="{% url 'document_list' %}
 											{{ upload.document.uuid}}/
 											{{ upload.document.slug}}
-											">{{ upload.document.title }}</a> <small>{{upload.document.price}} points</small>
+											">{{ upload.document.title }}</a> <small>{{upload.document.price}} <i class="fa fa-fw fa-cube"></i></small>
 										<div class="pull-right small text-muted">{{upload.document.create_date | naturaltime}}</div>
 									</h4>
 									<small class="pull-right">
@@ -75,10 +75,12 @@
 						<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
 					</div>
 					{% else %}
+					<hr>
 					<div id="no-documents">
 						<h4>You're not selling any documents!</h4>
 						<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
 					</div>
+					<hr>
 					{% endif %}
 				</div>
 				<div class="tab-pane" id="purchased_docs">
@@ -114,7 +116,12 @@
 						{% endfor %}
 					</div>
 					{% else %}
-					<p>No documents.</p>
+					<hr>
+					<div id="no-documents">
+						<h4>You haven't purchased any documents!</h4>
+						<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+					</div>
+					<hr>
 					{% endif %}
 				</div>
 			</div>	

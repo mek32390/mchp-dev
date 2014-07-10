@@ -83,12 +83,6 @@ $(function() {
                 validators: {
                     notEmpty: {
                         message: 'Please select a file to upload'
-                    },
-                    file: {
-                        extension: 'jpeg,png,pdf,doc,docx',
-                        type: 'image/jpeg,image/png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                        maxSize:  10000000000000000,
-                        message: 'The selected file is not valid'
                     }
                 }
             }
