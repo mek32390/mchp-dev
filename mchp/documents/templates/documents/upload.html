@@ -4,6 +4,8 @@
 
 {% block extra_head %}
 	{% load staticfiles %}
+		<script src="{% static 'documents/js/upload_doc.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'documents/css/upload_doc.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -27,6 +29,17 @@
 					{{ form.as_style }}
 					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary" /></p>
 				</form>
+
+					<div class="input-group">
+                		<span class="input-group-btn">
+                    	<span class="btn btn-primary btn-file">
+                        Browse&hellip; <input type="file" multiple>
+                    </span>
+                </span>
+                <input type="text" class="form-control" readonly>
+            </div>
+
+				
 			</div>
 		</div>
 	</div>
