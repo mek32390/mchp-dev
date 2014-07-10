@@ -32,7 +32,6 @@
 					{% csrf_token %}
 					{{ form.as_style }}
 					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary" /></p>
-				</form>
 
 					<div class="input-group">
                 		<span class="input-group-btn">
@@ -40,9 +39,10 @@
                         Browse&hellip; <input type="file" multiple>
                     </span>
                 </span>
-                <input type="text" class="form-control" readonly>
+                <input type="submit" value="Upload" class="form-control" readonly>
             </div>
 
+				</form>
 				
 			</div>
 		</div>
