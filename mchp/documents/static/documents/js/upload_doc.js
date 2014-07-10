@@ -74,8 +74,8 @@ $(function() {
                     },
                     between: {
                         min: 1,
-                        max: 1000000000000,
-                        message: 'The price must be between 0 and 1 trillion!'
+                        max: 1000000000,
+                        message: 'The price must be between 0 and 1 billion!'
                     }
                 }
             },
