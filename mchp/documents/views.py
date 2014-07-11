@@ -1,19 +1,22 @@
 from allauth.account.decorators import verified_email_required
 
-from django.shortcuts import render, get_object_or_404
-from django.core.urlresolvers import reverse
-from django.views.generic.list import ListView
-from django.views.generic.edit import FormView 
-from django.views.generic.detail import DetailView
-from django.utils.decorators import method_decorator
-from django.template import Context
 from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.template import Context
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormView, DeleteView
+from django.views.generic.list import ListView
 
 from documents.forms import DocumentUploadForm
 from documents.models import Document, Upload, DocumentPurchase
 from documents.exceptions import DuplicateFileError
 from schedule.models import Course
 
+import json
 import logging
 logger = logging.getLogger(__name__)
 
@@ -102,6 +105,7 @@ class DocumentListView(ListView):
 
         return context
 
+    @method_decorator(ensure_csrf_cookie)
     @method_decorator(verified_email_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
@@ -148,3 +152,75 @@ class DocumentDetailView(DetailView):
         return super(DocumentDetailView, self).dispatch(*args, **kwargs)
 
 document_detail = DocumentDetailView.as_view()
+
+class AjaxableResponseMixin(object):
+    """
+    Mixin to add AJAX support to a form.
+
+    I stole this right from the django website.
+    """
+    def render_to_json_response(self, context, **response_kwargs):
+        data = json.dumps(context)
+        response_kwargs['content_type'] = 'application/json'
+        return HttpResponse(data, **response_kwargs)
+
+    def ajax_messages(self):
+        django_messages = []
+
+        for message in messages.get_messages(self.request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "extra_tags": message.tags,
+            })
+        return django_messages
+
+class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
+    model = Document
+
+    def get_success_url(self):
+        return reverse('document_list')
+
+    def get(self, request):
+        return redirect(reverse('document_list'))
+
+    def delete(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            if 'document' in request.POST:
+                data = {}
+                doc = Document.objects.filter(
+                    pk=request.POST['document'],
+                    upload__owner = self.student,
+                )
+                if not doc:
+                    # incorrect pk, or doc belongs to someone else
+                    messages.info(
+                        self.request,
+                        "Document not found."
+                    )
+                else:
+                    # actually delete document
+                    doc[0].delete()
+                    messages.success(
+                        self.request,
+                        "Document deleted successfully."
+                    )
+            else:
+                # no pk sent
+                messages.error(
+                    self.request,
+                    "Document not specified."
+                )
+            data['messages'] =  self.ajax_messages()
+            return self.render_to_json_response(data)
+        else:
+            return redirect(reverse('document_list'))
+
+
+    @method_decorator(verified_email_required)
+    @method_decorator(ensure_csrf_cookie)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(DocumentDeleteView, self).dispatch(*args, **kwargs)
+
+document_delete = DocumentDeleteView.as_view()

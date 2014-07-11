@@ -8,8 +8,10 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/js/bootstrap-editable.min.js"></script>
 
 	{% load staticfiles %}
-		<script src="{% static 'documents/js/upload_doc.js' %}"></script>
 		<link rel="stylesheet" type="text/css" href="{% static 'documents/css/upload_doc.css' %}">
+		<script src="{% static 'documents/js/upload_doc.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
+		<script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -28,22 +30,21 @@
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="upload-form">
-				<form action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
+				<form id="upload_form" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
 					{% csrf_token %}
 					{{ form.as_style }}
 					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary" /></p>
-
-					<div class="input-group">
-                		<span class="input-group-btn">
-                    	<span class="btn btn-primary btn-file">
-                        Browse&hellip; <input type="file" multiple>
-                    </span>
-                </span>
-                <input type="submit" value="Upload" class="form-control" readonly>
-            </div>
-
 				</form>
-				
+
+				<div class="input-group">
+					<span class="input-group-btn">
+						<span class="btn btn-primary btn-file">
+							Browse&hellip; <input type="file" multiple>
+						</span>
+					</span>
+					<input type="submit" value="Upload" class="form-control" readonly autocomplete="off">
+				</div>
+
 			</div>
 		</div>
 	</div>

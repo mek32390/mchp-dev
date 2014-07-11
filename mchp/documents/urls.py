@@ -6,6 +6,7 @@ from documents import views
 
 urlpatterns = patterns('',
     url(r'^add/', views.document_upload, name='document_upload'),
+    url(r'^remove/', views.document_delete, name='document_delete'),
     url(r'^$', views.document_list, name='document_list'),
 
     url(r'^preview/(?P<uuid>[^/]+)/[^/]+/', 

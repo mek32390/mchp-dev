@@ -18,6 +18,113 @@
     {% endblock %}
   </head>
   <body>
+
+<!-- Set Homepage Modal -->
+<div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="sethomeModalLabel">Make us your Homepage!</h4>
+      </div>
+      <div class="modal-body">
+      <img class="center-block" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" alt="select browser">
+      <h4 class="text-center">Pick your poison:</h4>
+      <!-- Start Collapse -->
+      <div class="panel-group" id="accordion">
+  <div class="panel panel-primary">
+    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="cursor:pointer;">
+      <h4 class="panel-title">
+          Safari
+      </h4>
+    </div>
+		    <div id="collapseOne" class="panel-collapse collapse in">
+		      <div class="panel-body">
+		      <ol>
+						<li>Click <strong>"Safari"</strong> and choose <strong>"Preferences"</strong> from the navigation toolbar.</li>
+						<li>Select the <strong>"General"</strong> tab and in the Homepage field, copy and paste <strong>"http://mycollegehomepage.com/"</strong></li>
+		                <li>Set both the <strong>"New windows open with"</strong> and <strong>"New tabs open with"</strong> options to <strong>"Homepage"</strong>.</li>
+			  </ol>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-success">
+		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="cursor:pointer;">
+		      <h4 class="panel-title">
+		          Chrome
+		      </h4>
+		    </div>
+		    <div id="collapseTwo" class="panel-collapse collapse">
+		      <div class="panel-body">
+		      <ol>
+						<li>Click the Chrome menu on the browser toolbar (Three horizontal lines in the top right)</li>
+						<li>Click on <strong>Settings</strong></li>
+						<li>In the <strong>"On Startup"</strong> section, select the <strong>"Open a specific page or set of pages."</strong> option, and then click <strong>"Set Pages"</strong></li>
+						<li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
+						<li>In the <strong>"Appearance"</strong> section, select the <strong>"Show Home button"</strong> checkbox, and a web address will appear below it.</li>
+						<li>Click <strong>"Change"</strong> and in the pop up window, select <strong>"Open this page"</strong></li>
+						<li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
+			  </ol>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-warning">
+		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="cursor:pointer;">
+		      <h4 class="panel-title">
+		          Firefox
+		      </h4>
+		    </div>
+		    <div id="collapseThree" class="panel-collapse collapse">
+		      <div class="panel-body">
+				<ol>
+					<li>At the top of your browser window, you'll see the Firefox tool bar (this includes the words "File", "Edit", etc.). Click on <strong>Tools,</strong> then <strong>Options.</strong></li>
+					<li>The popup window will open up with the default option of General. At the top of the window, you'll see <strong>"Home Page Locations."</strong> Click on <strong>"Use Current Page."</strong></li>
+				</ol>
+		      </div>
+		    </div>
+		    </div>
+		    <div class="panel panel-danger">
+		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="cursor:pointer;">
+		      <h4 class="panel-title">
+		          Internet Explorer
+		      </h4>
+		    </div>
+		    <div id="collapseFour" class="panel-collapse collapse">
+		      <div class="panel-body">
+		      <ol>
+						<li>Go to toolbar at the top of browser, and click on <strong>"Tools",</strong> then <strong>"Internet Options".</strong> </li>
+						<li>At the top of the pop-up, you'll see a <strong>"Home Page"</strong> box. The address of the site that you are currently at is there. Press the <strong>"Use Current"</strong> button to specify this page as your home page.</li>
+					</ol>
+		    </div>
+		  </div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" style="cursor:pointer;">
+		      <h4 class="panel-title">
+		          iPhone or IPad
+		      </h4>
+		    </div>
+		    <div id="collapseFive" class="panel-collapse collapse">
+		      <div class="panel-body">
+		      <ol>
+		               <li>Click on the button on the bottom or top that looks like an arrow popping out of a rectangle. </li>
+					   <li>Select <strong>"Add to Home Screen"</strong></li>
+					   <li>This will create a shortcut to My College Homepage on your desktop.</li>
+			  </ol>
+		    </div>
+		  </div>
+		  </div>
+		</div>
+	  <!-- End Collapse -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END HOMEPAGE MODAL -->
+
     <!-- Start Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container">
@@ -33,6 +140,7 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 					{% if user.is_authenticated %}
+					<li><a href="#"><span class="">{{user.student.total_points}}</span> <i class="fa fa-cubes"></i></a></li>
  					<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}}
           	<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
@@ -44,6 +152,8 @@
             <li class="divider"></li>
             <li><a href="{% url 'document_upload'%}">Upload Document</a></li>
             <li><a href="{% url 'document_list'%}">View Documents</a></li>
+            <li class="divider"></li>
+            <li><a data-toggle="modal" href="#sethomeModal">Set Homepage</a></li>
             <li class="divider"></li>
 						<li><a href="{% url 'account_logout' %}">Log Out</a></li>
           </ul>

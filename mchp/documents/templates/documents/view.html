@@ -1,5 +1,13 @@
 {% extends 'documents/base.html' %}
 
+{% block head_title %}{{ document.title }}{% endblock %}
+
+{% block extra_head %}
+  {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
+    <script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
+{% endblock %}
+
 {% block body %}
 <div class="container">
 
