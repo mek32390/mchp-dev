@@ -3,6 +3,16 @@
  */
 
 $(function() {
+	// style django error messages to mimic BS3
+    var html = [],
+        $list = $('.errorlist');
+
+    html.push('<div class="errorlist">');
+        $list.find('li').each(function() {
+        html.push('<p class="text-danger small">' + $(this).text() + '</p>');
+        });
+    html.push('</div>');
+    $list.replaceWith(html.join(''));
 	/* messages */
 	$messages = $('.django-messages');
 	// fade messages that were added on page load

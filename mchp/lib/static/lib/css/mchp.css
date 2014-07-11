@@ -28,6 +28,12 @@ body {
     z-index: 99;
 }
 
+/* style inputs to fit BS3 */
+.input-group .form-control:not(:first-child):not(:last-child) {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
 /* scrolling */
 .track3 {
     width: 10px;
