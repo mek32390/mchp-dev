@@ -22,17 +22,20 @@ class Student(models.Model):
     def total_points(self):
         return self.earned_points + self.purchased_points
 
+    # this returns the total number of documents that this student has sold
+    # e.x. they uploaded two docs and the first was bought 1 time,
+    # and the other 2 times, this function returns 3
     def sales(self):
-        all_docs = Upload.objects.filter(owner=self)
-        return reduce(lambda doc1, doc2: doc1.document.purchase_count + doc2.document.purchase_count, all_docs)
-
+        all_uploads = Upload.objects.filter(owner=self)
+        counts = map(lambda upload: upload.document.purchase_count(), all_uploads)
+        return reduce(lambda doc1, doc2: doc1 + doc2, counts)
 
     def __str__(self):
         return 'Student: {} goes to {}. Last Login: {}'.format(
             self.user.username, self.school.name, self.last_login
         )
 
-User.student = property(lambda u: Student.objects.get(user=u)[0])
+User.student = property(lambda u: Student.objects.get(user=u))
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
