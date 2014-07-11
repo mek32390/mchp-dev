@@ -14,29 +14,8 @@
 {% block content %}
 	{% for school in schools %}		
 		{% if school.domain|slice:"11:-1" in request.session.initial_email %}
-		    <script>
-				$(document).ready(function() {
-					console.log("{{request.session.initial_email}}");
-					$(".college_name").text("{{ school.name }}");
-					$('input[name=school]').val("{{ school.domain }}");
-				});
-			</script>
 		{% endif %}		
 	{% endfor %}
-<script type="text/javascript">
-$(document).ready(function () {
-	if($('input[name=school]').val()==""){
-		$('.display-college').hide();
-		$('#college_select').show();
-		$("#joinCollege").attr("disabled", "disabled");
-	}
-
-	$(".dropdown-menu li").click(function(){
-		$('input[name=school]').val($(this).attr('value'));
-		$("#joinCollege").removeAttr("disabled");  
-    });
-});
-</script>
 <div class="container text-center">
 	<div class="display-college">
 	<h3 class="text-center">You must attend:<small></small></h3>

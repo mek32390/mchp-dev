@@ -14,4 +14,18 @@ $(function(){
 		school_domain = $('.dropdown-menu li').attr('value');
 		$('.form-signin input[name=school]').attr('value', school_domain);
 	});
+	// display college name
+	$(".college_name").text("{{ school.name }}");
+	$('input[name=school]').val("{{ school.domain }}");
+
+	if($('input[name=school]').val()==""){
+		$('.display-college').hide();
+		$('#college_select').show();
+		$("#joinCollege").attr("disabled", "disabled");
+	}
+	//choose college from list if not done magically
+	$(".dropdown-menu li").click(function(){
+		$('input[name=school]').val($(this).attr('value'));
+		$("#joinCollege").removeAttr("disabled");  
+    });
 });
