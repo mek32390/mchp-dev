@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from allauth.account.models import EmailAddress
 
+from documents.models import Upload
+
+from functools import reduce
+
 class Student(models.Model):
     user = models.OneToOneField(User, related_name='student_user')
     school = models.ForeignKey('schedule.School', related_name='student_school')
@@ -18,12 +22,17 @@ class Student(models.Model):
     def total_points(self):
         return self.earned_points + self.purchased_points
 
+    def sales(self):
+        all_docs = Upload.objects.filter(owner=self)
+        return reduce(lambda doc1, doc2: doc1.document.purchase_count + doc2.document.purchase_count, all_docs)
+
+
     def __str__(self):
         return 'Student: {} goes to {}. Last Login: {}'.format(
             self.user.username, self.school.name, self.last_login
         )
 
-User.student = property(lambda u: Student.objects.get_or_create(user=u)[0])
+User.student = property(lambda u: Student.objects.get(user=u)[0])
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
