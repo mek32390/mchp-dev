@@ -5,100 +5,100 @@
 {% block body %}
 <div class="container">
 	<ol class="breadcrumb">
-      <h class="pull-right">
-          <a href="#" class="text-danger small"><i class="fa fa-flag text-danger"></i> Flag as innapropriate</a> 
-      </h>
-        <li>
-          <a href="#"><i class="fa fa-university"></i>&nbsp;University of Arizona</a> 
-        </li>
-        <li>
-          <a href="#"><i class="fa fa-book">&nbsp;</i>ECON 200</a> 
-        </li>
-        <li class="active">
-          <i class="fa fa-file-o"></i>&nbsp;Exam 1 Study Guide
-        </li>
-    </ol>
-    <div class="well">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-5">
-              {% if document.preview %}
-              <img class="img-thumbnail center-block" src={{document.preview.url}}></img>
-              {% else %}
-              No preview is avaliable.
-              {% endif %}
-            </div>
-            <div class="col-sm-7">
-              <h2>{{ document.title }}&nbsp;<small>{{ document.price }} <i class="fa fa-fw fa-cubes"></i></small></h2>
-              <h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ document.review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
-              <div class="progress progress-striped" style="width:68%">
-                <div class="progress-bar progress-bar-success" style="width:85%">
-                  <span class="sr-only">35% Complete (success)</span>
-                </div>
-                <div class="progress-bar progress-bar-danger" style="width:15%">
-                  <span class="sr-only">10% Complete (danger)</span>
-                </div>
-              </div><!-- end ratings bar -->
-              <p class="h6">Students who bought this</p>
-                <a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-                <a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-                <a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-                <a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-                <a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-                <a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-              <hr>
-                <blockquote>
-                  <p class="lead">This study guide covers all material from the in-class review and is extremeley detailed.</p>
-                  <p class="small">by <a href="#">themsquared</a>, whose sold
-                  4 Documents</p>
-                </blockquote>
-                <button class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i> Buy Me</button>
-                <button target="_blank" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</button>
-                <button target="_blank" class="btn btn-warning btn-md"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
-            </div><!-- end col -->
-          </div>
-        </div>
-      </div><!-- end top panel -->
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Reviews <span class="label label-default">{{ document.review_count }}</span></h3>
-              </div>
-              <div class="panel-body">
-                <table class="table table-striped table-hover table-responsive">
-                  <tbody>
-                    <tr>
-                      <td>"Amazing. Thank you for this. I think I'll start studying now." &nbsp;-
-                        <a href="/profile/UPusTeYqcjEMkN5FGe4QgN">Student</a>
-                      </td>
-                      <td>
-                        <small>5 hours ago</small>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>"I would definitely buy this if I were you" &nbsp;-
-                        <a href="/profile/UPusTeYqcjEMkN5FGe4QgN">Student</a>
-                      </td>
-                      <td>
-                        <small>5 hours ago</small>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>"I'm confused, and that's obvious" &nbsp;-
-                        <a href="/profile/UPusTeYqcjEMkN5FGe4QgN">confusion</a>
-                      </td>
-                      <td>
-                        <small>7 hours ago</small>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div><!-- end inner review panel -->
-          </div>
-        </div><!-- end outer review panel -->
-    </div><!-- end well -->
+		<h class="pull-right">
+		<a href="#" class="text-danger small"><i class="fa fa-flag text-danger"></i> Flag as innapropriate</a> 
+		</h>
+		<li>
+			<a href="#"><i class="fa fa-university"></i>&nbsp;University of Arizona</a> 
+		</li>
+		<li>
+			<a href="#"><i class="fa fa-book">&nbsp;</i>ECON 200</a> 
+		</li>
+		<li class="active">
+			<i class="fa fa-file-o"></i>&nbsp;Exam 1 Study Guide
+		</li>
+	</ol>
+	<div class="well">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-5">
+						{% if document.preview %}
+						<img class="img-thumbnail center-block" src={{document.preview.url}}></img>
+						{% else %}
+						No preview is avaliable.
+						{% endif %}
+					</div>
+					<div class="col-sm-7">
+						<h2>{{ document.title }}&nbsp;<small>{{ document.price }} <i class="fa fa-fw fa-cubes"></i></small></h2>
+						<h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ document.review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
+						<div class="progress progress-striped" style="width:68%">
+							<div class="progress-bar progress-bar-success" style="width:85%">
+								<span class="sr-only">35% Complete (success)</span>
+							</div>
+							<div class="progress-bar progress-bar-danger" style="width:15%">
+								<span class="sr-only">10% Complete (danger)</span>
+							</div>
+						</div><!-- end ratings bar -->
+						<p class="h6">Students who bought this</p>
+						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
+						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
+						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
+						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
+						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
+						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
+						<hr>
+						<blockquote>
+							<p class="lead">This study guide covers all material from the in-class review and is extremeley detailed.</p>
+							<p class="small">by <a href="#">themsquared</a>, whose sold
+								4 Documents</p>
+						</blockquote>
+						<button class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i> Buy Me</button>
+						<button target="_blank" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</button>
+						<button target="_blank" class="btn btn-warning btn-md"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+					</div><!-- end col -->
+				</div>
+			</div>
+		</div><!-- end top panel -->
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Reviews <span class="label label-default">{{ document.review_count }}</span></h3>
+					</div>
+					<div class="panel-body">
+						<table class="table table-striped table-hover table-responsive">
+							<tbody>
+								<tr>
+									<td>"Amazing. Thank you for this. I think I'll start studying now." &nbsp;-
+										<a href="/profile/UPusTeYqcjEMkN5FGe4QgN">Student</a>
+									</td>
+									<td>
+										<small>5 hours ago</small>
+									</td>
+								</tr>
+								<tr>
+									<td>"I would definitely buy this if I were you" &nbsp;-
+										<a href="/profile/UPusTeYqcjEMkN5FGe4QgN">Student</a>
+									</td>
+									<td>
+										<small>5 hours ago</small>
+									</td>
+								</tr>
+								<tr>
+									<td>"I'm confused, and that's obvious" &nbsp;-
+										<a href="/profile/UPusTeYqcjEMkN5FGe4QgN">confusion</a>
+									</td>
+									<td>
+										<small>7 hours ago</small>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div><!-- end inner review panel -->
+			</div>
+		</div><!-- end outer review panel -->
+	</div><!-- end well -->
 </div><!-- end container -->
 {% endblock %}

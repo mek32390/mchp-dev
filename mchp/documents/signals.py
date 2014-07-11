@@ -43,7 +43,7 @@ def _make_thumb(instance, size, name):
     logger.debug(instance.filetype())
     logger.debug(instance.document)
     tmp_name = 'tmp.pdf'
-    unoconv_command = 'unoconv -f pdf --output="{}/{}" "{}/{}" && '.format(
+    unoconv_command = 'unoconv -f pdf -e PageRange=1 --output="{}/{}" "{}/{}" && '.format(
         settings.MEDIA_ROOT,
         tmp_name,
         settings.MEDIA_ROOT,
@@ -88,6 +88,7 @@ def _make_thumb(instance, size, name):
 
     _convert(command)
 
+# just runs the command passed to it
 def _convert(command):
     logger.debug(command)
 

@@ -9,9 +9,7 @@ urlpatterns = patterns('',
     url(r'^remove/', views.document_delete, name='document_delete'),
     url(r'^$', views.document_list, name='document_list'),
 
-    url(r'^preview/(?P<uuid>[^/]+)/[^/]+/', 
-        RedirectView.as_view(url=reverse_lazy('document_preview'))),
-    url(r'^preview/(?P<uuid>[^/]+)/', views.document_preview, name='document_preview'),
+    url(r'^preview/(?P<uuid>[^/]+)', views.document_preview, name='document_preview'),
 
     url(r'^(?P<uuid>[^/]+)/[^/]+/', 
         RedirectView.as_view(url=reverse_lazy('document_detail'))),

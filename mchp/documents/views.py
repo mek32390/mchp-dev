@@ -122,6 +122,7 @@ class DocumentDetailPreview(DetailView):
     model = Document
 
     def get_object(self):
+        logger.debug(self.kwargs['uuid'])
         return get_object_or_404(self.model, uuid=self.kwargs['uuid'])
 
     # this page is publically viewable 
@@ -137,6 +138,21 @@ name: document_detail
 class DocumentDetailView(DetailView):
     template_name = 'documents/view.html'
     model = Document
+
+    def get(self, request, *args, **kwargs):
+        # parent stuff, getting object
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+
+        # check if user bought the doc
+        purchased = DocumentPurchase.objects.filter(document=self.object,
+                                                    student=self.student).exists()
+        # if not, redirect to the preview page
+        if not purchased:
+            return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'] + '/' +
+                            self.object.slug)
+
+        return self.render_to_response(context)
 
     def get_object(self):
         return get_object_or_404(self.model, uuid=self.kwargs['uuid'])
