@@ -73,7 +73,7 @@ $(function() {
                         message: 'Please set this selling price of this document'
                     },
                     between: {
-                        min: 1,
+                        min: 0,
                         max: 1000000000,
                         message: 'The price must be between 0 and 1 billion!'
                     }
