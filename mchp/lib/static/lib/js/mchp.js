@@ -13,6 +13,7 @@ $(function() {
         });
     html.push('</div>');
     $list.replaceWith(html.join(''));
+    
 	/* messages */
 	$messages = $('.django-messages');
 	// fade messages that were added on page load
