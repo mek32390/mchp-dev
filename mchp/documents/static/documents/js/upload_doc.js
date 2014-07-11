@@ -7,7 +7,10 @@
 $(function() {
 	// convert select to nice input
 	$("#id_course").addClass("form-control input-lg");
+	
 	// $("#id_document").addClass("form-control input-lg");
+
+	
 	// convert browse file button to BS3 button
 	$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         
@@ -18,11 +21,10 @@ $(function() {
             input.val(log);
         } else {
             if( log ) alert(log);
-        }
-        
+        }     
     });
-  // Upload Doc Form Validation
-  $('#upload_form').bootstrapValidator({
+    // Upload Doc Form Validation
+  	$('#upload_form').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
@@ -87,7 +89,8 @@ $(function() {
                 }
             }
         }
-  });
+  	});
+    
 });
 
 // provide feedback on browse file button

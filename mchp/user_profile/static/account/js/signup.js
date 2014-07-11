@@ -68,73 +68,8 @@ $(function() {
             $('#emailLogin').show()
         });
     }
-
-    // // BS Validator 
-    // $('#emailSignup').bootstrapValidator({
-    //     feedbackIcons: {
-    //         valid: 'glyphicon glyphicon-ok',
-    //         invalid: 'glyphicon glyphicon-remove',
-    //         validating: 'glyphicon glyphicon-refresh'
-    //     },
-    //     fields: {
-    //         username: {
-    //             trigger: 'keyup',
-    //             validators: {
-    //                 notEmpty: {
-    //                     message: 'This field is required'
-    //                 },
-    //                 stringLength: {
-    //                     min: 4,
-    //                     message: 'Please make your username at least 4 characters long'
-    //                 }
-    //             }
-    //         },
-    //         email: {
-    //             trigger: 'keyup',
-    //             validators: {
-    //                 notEmpty: {
-    //                     message: 'This field is required'
-    //                 },
-    //                 stringLength: {
-    //                     min: 6,
-    //                     message: 'Please provide a valid email address'
-    //                 },
-    //                 emailAddress: {
-    //                     message: 'Please provide a valid email address'
-    //                 }
-    //             }
-    //         },
-    //         password1: {
-    //             trigger: 'keyup',
-    //             validators: {
-    //                 notEmpty: {
-    //                     message: 'This field is required'
-    //                 },
-    //                 stringLength: {
-    //                     min: 8,
-    //                     message: 'Please make your password at least 8 characters long'
-    //                 },
-    //                 identical: {
-    //                     field: 'password2',
-    //                     message: 'Your password must match the one below'
-    //                 }
-    //             }
-    //         },
-    //         password2: {
-    //             trigger: 'keyup',
-    //             validators: {
-    //                 notEmpty: {
-    //                     message: 'This field is required'
-    //                 },
-    //                 identical: {
-    //                     field: 'password1',
-    //                     message: 'Your password must match the one above'
-    //                 }
-    //             }
-    //         }
-    //     }
-    // });
-$('#signup-form').bootstrapValidator({
+    //validate signup form 
+    $('#signup-form').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
