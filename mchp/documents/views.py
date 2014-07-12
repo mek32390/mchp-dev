@@ -128,9 +128,12 @@ class DocumentDetailPreview(DetailView):
             return redirect(reverse('landing_page'))
 
         document = self.get_object()
-        # if they already bought the doc, redirect them to it
-        if DocumentPurchase.objects.filter(document=document, student=self.student).exists():
+        # if they already bought the doc
+        if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
+           Upload.objects.filter(document=document, owner=self.student).exists():
+           # or they uploaded it themselves, redirect to the view of the doc
             return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
+
 
         if not self.student.reduce_points(document.price):
             # student didn't have enough points
