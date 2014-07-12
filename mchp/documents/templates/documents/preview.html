@@ -33,11 +33,9 @@
 						<h2>{{ document.title }}&nbsp;<small>{{ document.price }} <i class="fa fa-fw fa-cubes"></i></small></h2>
 						<h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ document.review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
 						<div class="progress progress-striped" style="width:68%">
-							<div class="progress-bar progress-bar-success" style="width:85%">
-								<span class="sr-only">35% Complete (success)</span>
+							<div class="progress-bar progress-bar-success" style="width:{{document.normalize_positive_votes}}%">
 							</div>
-							<div class="progress-bar progress-bar-danger" style="width:15%">
-								<span class="sr-only">10% Complete (danger)</span>
+							<div class="progress-bar progress-bar-danger" style="width:{{document.normalize_negative_votes}}%">
 							</div>
 						</div><!-- end ratings bar -->
 						<p class="h6">Students who bought this</p>
@@ -50,12 +48,8 @@
 						<hr>
 						<blockquote>
 							<p class="lead">{{document.description}}</p>
-							<p class="small">by <a href="#">{{uploader}}</a>, who has sold {{docs_sold}} 
-								{% ifequal 1 docs_sold %}
-								Document</p>
-								{% else %}
-								Documents</p>
-								{% endifequal %}
+							<p class="small">by <a href="#">{{uploader}}</a>, who has sold {{docs_sold}}
+								document{{docs_sold|pluralize}}</p>
 						</blockquote>
 						<form id="buy-form" method="post" action="{{current_path}}">
 							{% csrf_token %}

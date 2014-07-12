@@ -74,6 +74,15 @@ class Document(models.Model):
     def rating(self):
         return self.up - self.down
 
+    def normalize_positive_votes(self):
+        if self.up < 1:
+            return 0
+        else:
+            return ((self.up * 100) / (self.up + self.down))
+
+    def normalize_negative_votes(self):
+        return 100 - self.normalize_positive_votes()
+
     def __str__(self):
         return "{}".format(self.title)
 
