@@ -14,7 +14,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 DOCUMENT_LOCATION = "documents/%Y/%m"
-THUMBNAIL_LOCATION = "thumbnails"
 PREVIEW_LOCATION = "previews"
 
 def get_sentinel_course():
@@ -39,7 +38,6 @@ class Document(models.Model):
     uuid = models.CharField(max_length=32)
     create_date = models.DateTimeField(auto_now_add=True)
 
-    thumbnail = models.ImageField(upload_to=THUMBNAIL_LOCATION, blank=True, null=True)
     preview = models.ImageField(upload_to=PREVIEW_LOCATION, blank=True, null=True)
     slug = models.SlugField(max_length=80)
     
