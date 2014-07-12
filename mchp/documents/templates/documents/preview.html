@@ -49,11 +49,18 @@
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<hr>
 						<blockquote>
-							<p class="lead">This study guide covers all material from the in-class review and is extremeley detailed.</p>
-							<p class="small">by <a href="#">themsquared</a>, whose sold
-								4 Documents</p>
+							<p class="lead">{{document.description}}</p>
+							<p class="small">by <a href="#">{{uploader}}</a>, who has sold {{docs_sold}} 
+								{% ifequal 1 docs_sold %}
+								Document</p>
+								{% else %}
+								Documents</p>
+								{% endifequal %}
 						</blockquote>
-						<button class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i> Buy Me</button>
+						<form id="buy-form" method="post" action="{{current_path}}">
+							{% csrf_token %}
+						</form>
+						<button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
 						<button target="_blank" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</button>
 						<button target="_blank" class="btn btn-warning btn-md"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 					</div><!-- end col -->

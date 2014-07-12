@@ -45,7 +45,7 @@ $(function(){
 			});
 		})
 		.fail(function(data) {
-			addMessage("Failed to delete document", "danger");
+			messages = data.responseJSON.messages;
 		})
 		.always(function() {
 			// reguardless of success or failure, show messages to user

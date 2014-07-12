@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from allauth.account.models import EmailAddress
 
-from documents.models import Upload
+from documents.models import Upload,DocumentPurchase
 
 from functools import reduce
 
@@ -13,14 +13,40 @@ class Student(models.Model):
     purchased_points = models.IntegerField(default=0)
     earned_points = models.IntegerField(default=0)
     kudos = models.IntegerField(default=0)
-    work_credit = models.IntegerField(default=0)
     last_login = models.DateTimeField(auto_now=True)
 
+    def work_score(self):
+        return\
+                Upload.objects.filter(owner=self).count()\
+                + self.courses.count()\
+                + DocumentPurchase.objects.filter(student=self).count()\
+                + self.sales()\
+
     def rating(self):
-        return self.kudos + self.work_credit
+        return self.kudos + self.work_score()
 
     def total_points(self):
         return self.earned_points + self.purchased_points
+
+    def add_purchased_points(self, points):
+        self.purchased_points = self.purchased_points + points
+        self.save()
+        
+    def add_earned_points(self, points):
+        self.earned_points = self.earned_points + points
+        self.save()
+
+    def reduce_points(self, points):
+        if self.total_points() < points or points < 0:
+            return None
+        if self.purchased_points - points < 0:
+            points = points - self.purchased_points
+            self.purchased_points = 0
+            self.earned_points = self.earned_points - points
+        else:
+            self.purchased_points = self.purchased_points - points
+        self.save()
+        return self.total_points();
 
     # this returns the total number of documents that this student has sold
     # e.x. they uploaded two docs and the first was bought 1 time,

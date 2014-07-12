@@ -93,6 +93,7 @@ class DocumentListView(ListView):
     model = Upload
 
     def get_queryset(self):
+        return Upload.objects.all()
         return Upload.objects.filter(owner=self.student).select_related()
 
     def get_context_data(self, **kwargs):
@@ -100,7 +101,7 @@ class DocumentListView(ListView):
         context['upload_count'] = Upload.objects.filter(owner=self.student).count()
         context['purchase_count'] = DocumentPurchase.objects.filter(student=self.student).count()
         # this kind of defeats the purpose of a list view, but eh
-        purchases = DocumentPurchase.objects.filter(student=self.student)
+        purchases = DocumentPurchase.objects.filter(student=self.student).select_related()
         context['purchases'] = purchases
 
         return context
@@ -121,12 +122,58 @@ class DocumentDetailPreview(DetailView):
     template_name = 'documents/preview.html'
     model = Document
 
+    def post(self, request, *args, **kwargs):
+        # for users who are not logged in
+        if not self.student:
+            return redirect(reverse('landing_page'))
+
+        document = self.get_object()
+        # if they already bought the doc, redirect them to it
+        if DocumentPurchase.objects.filter(document=document, student=self.student).exists():
+            return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
+
+        if not self.student.reduce_points(document.price):
+            # student didn't have enough points
+            self.student.add_earned_points(10000)
+            messages.error(
+                request,
+                "Pump your break kid, you don't have enough points to buy that."
+            )
+        else:
+            # student bought the doc
+            logger.debug('what')
+            purchase = DocumentPurchase(document=document, student=self.student)
+            purchase.save()
+
+        return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
+
+    def get(self, request, *args, **kwargs):
+        # parent stuff, getting object
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+
+        # info about the document
+        uploader = Upload.objects.get(document=self.object).owner
+
+        # for the form to submit to the right page
+        data = {
+            'current_path': request.get_full_path(),
+            'docs_sold': uploader.sales(),
+            'uploader': uploader.user.username,
+        }
+        context.update(data)
+        return self.render_to_response(context)
+
     def get_object(self):
         logger.debug(self.kwargs['uuid'])
         return get_object_or_404(self.model, uuid=self.kwargs['uuid'])
 
     # this page is publically viewable 
     def dispatch(self, *args, **kwargs):
+        if self.request.user.is_anonymous():
+            self.student = None
+        else:
+            self.student = self.request.user.student
         return super(DocumentDetailPreview, self).dispatch(*args, **kwargs)
 
 document_preview = DocumentDetailPreview.as_view()
@@ -140,15 +187,17 @@ class DocumentDetailView(DetailView):
     model = Document
 
     def get(self, request, *args, **kwargs):
-        # parent stuff, getting object
+        # parent stuff, getting the object
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
 
         # check if user bought the doc
         purchased = DocumentPurchase.objects.filter(document=self.object,
                                                     student=self.student).exists()
+        # or if they own the doc
+        owner = Upload.objects.get(document=self.object).owner
         # if not, redirect to the preview page
-        if not purchased:
+        if not purchased and owner.pk != self.student.pk:
             return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'] + '/' +
                             self.object.slug)
 
@@ -210,10 +259,12 @@ class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
                 )
                 if not doc:
                     # incorrect pk, or doc belongs to someone else
-                    messages.info(
+                    messages.error(
                         self.request,
                         "Document not found."
                     )
+                    data['messages'] =  self.ajax_messages()
+                    return self.render_to_json_response(data, status=403)
                 else:
                     # actually delete document
                     doc[0].delete()
@@ -228,7 +279,7 @@ class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
                     "Document not specified."
                 )
             data['messages'] =  self.ajax_messages()
-            return self.render_to_json_response(data)
+            return self.render_to_json_response(data, status=200)
         else:
             return redirect(reverse('document_list'))
 
