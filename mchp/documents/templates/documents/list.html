@@ -46,7 +46,7 @@
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
 										{{ upload.document.uuid}}/
 										{{ upload.document.slug}}
-										"><img src="{{upload.document.thumbnail.url}}" style="width:64px"></a></div>
+										"><img src="{{upload.document.preview.url}}" style="width:64px"></a></div>
 
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{% url 'document_list' %}
@@ -94,13 +94,13 @@
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
 										{{ doc.document.uuid}}/
 										{{ doc.document.slug}}
-										"><img src="{{doc.document.thumbnail.url}}" style="width:64px"></a></div>
+										"><img src="{{doc.document.preview.url}}" style="width:64px"></a></div>
 
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{% url 'document_list' %}
 											{{ doc.document.uuid}}/
 											{{ doc.document.slug}}
-											">{{ upload.document.title }}</a> <small>{{doc.document.price}} points</small>
+											">{{ doc.document.title }}</a> <small>{{doc.document.price}} points</small>
 										<div class="pull-right small text-muted">{{doc.document.create_date | naturaltime}}</div></h4>
 									<small class="pull-right">
 										<a href="javascript:void(0)" class="badge remove-button" data-document="{{doc.document.pk}}">remove</a>

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
 
-from documents.models import Document, THUMBNAIL_LOCATION, PREVIEW_LOCATION
+from documents.models import Document, PREVIEW_LOCATION
 
 import os.path
 import subprocess
@@ -15,20 +15,14 @@ This file get import in __init__.py and handles signals for the documents app
 '''
 
 @receiver(post_save, sender=Document)
-def create_thumbnail(sender, instance, **kwargs):
+def create_preview(sender, instance, **kwargs):
     # don't do this more than once 
     if not kwargs['created']:
         return 
 
-    # first make sure dirs exist
-    os.makedirs(settings.MEDIA_ROOT + '/' + THUMBNAIL_LOCATION, exist_ok=True)
+    # first make sure dir exist
     os.makedirs(settings.MEDIA_ROOT + '/' + PREVIEW_LOCATION, exist_ok=True)
 
-    # add generated thumbnail filename
-    thumbnail = THUMBNAIL_LOCATION + "/{}_thumb.png".format(
-        os.path.splitext(instance.filename())[0]
-    )
-    instance.thumbnail = thumbnail
     # add generated preview filename
     preview = PREVIEW_LOCATION + "/{}_preview.png".format(
         os.path.splitext(instance.filename())[0]
@@ -36,10 +30,9 @@ def create_thumbnail(sender, instance, **kwargs):
     instance.preview = preview
     instance.save()
 
-    _make_thumb(instance, 64, instance.thumbnail)
-    _make_thumb(instance, 500, instance.preview)
+    _make_preview(instance, 500, instance.preview)
 
-def _make_thumb(instance, size, name):
+def _make_preview(instance, size, name):
     logger.debug(instance.filetype())
     logger.debug(instance.document)
     tmp_name = 'tmp.pdf'
@@ -107,7 +100,5 @@ def document_delete(sender, instance, **kwargs):
     # Pass false so FileField doesn't save the model.
     if instance.document:
         instance.document.delete(False)
-    if instance.thumbnail:
-        instance.thumbnail.delete(False)
     if instance.preview:
         instance.preview.delete(False)

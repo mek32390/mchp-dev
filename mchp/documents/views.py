@@ -93,7 +93,7 @@ class DocumentListView(ListView):
     model = Upload
 
     def get_queryset(self):
-        return Upload.objects.all()
+        return Upload.objects.all().select_related().order_by('document__title')
         return Upload.objects.filter(owner=self.student).select_related()
 
     def get_context_data(self, **kwargs):
@@ -101,7 +101,7 @@ class DocumentListView(ListView):
         context['upload_count'] = Upload.objects.filter(owner=self.student).count()
         context['purchase_count'] = DocumentPurchase.objects.filter(student=self.student).count()
         # this kind of defeats the purpose of a list view, but eh
-        purchases = DocumentPurchase.objects.filter(student=self.student).select_related()
+        purchases = DocumentPurchase.objects.filter(student=self.student).select_related().order_by('document__title')
         context['purchases'] = purchases
 
         return context
