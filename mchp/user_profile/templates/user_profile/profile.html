@@ -2,13 +2,31 @@
 
 {% block head_title %}{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}{% endblock %}
 
+{% block extra_head %}
+<style>
+#top_friends {
+  display: none;
+}
+#top_achievements {
+  display: none;
+}
+</style>
+  {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'documents/css/list.css' %}">
+    <script src="{% static 'documents/js/list.js' %}"></script>
+    <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
+{% endblock %}
+
 {% block body %}
-<div class="jumbotron text-center" style="background-color:;">
-<img src="http://1.bp.blogspot.com/-LxboJJo_drw/T_QfPeEK6JI/AAAAAAAACB8/p6R0zGys8hk/s1600/sketch185-July3rd.jpg" style="width:150px; height:150px;" class="animated flipInX img-thumbnail img-responsive img-circle">
+<!-- <div class="jumbotron text-center" style="background-color:;">
+ -->
+ <span class="text-center center-block">
+ <img src="http://1.bp.blogspot.com/-LxboJJo_drw/T_QfPeEK6JI/AAAAAAAACB8/p6R0zGys8hk/s1600/sketch185-July3rd.jpg" width="165px" class="animated flipInX img-thumbnail img-responsive img-circle">
           <h2 style="color:;">Mitch Kessler</h2>
           <h5 style="color:;"><i class="fa fa-user fa-fw"></i> Mitchellias &nbsp;<i class="fa fa-university fa-fw"></i> University of Arizona</h5>
           <h5><small style="color:;">joined 5 months ago</small></h5>
-</div>
+        </span>
+<!-- </div> -->
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12 text-center">
@@ -16,216 +34,231 @@
   <div class="progress-bar progress-bar-success" style="width: 35%">
     <span class="sr-only">35% Complete (success)</span>
   </div>
-  <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%">
+  <div class="progress-bar progress-bar-primary" style="width: 20%">
     <span class="sr-only">20% Complete (warning)</span>
   </div>
-  <div class="progress-bar progress-bar-danger" style="width: 45%">
+  <div class="progress-bar progress-bar-info" style="width: 45%">
     <span class="sr-only">45% Complete (danger)</span>
   </div>
 </div>
 
-<div class="page-header">
-        		<h2 class="text-center">Friends</h2>
-      		</div>
-      		<div class="well">
-      		<div class="row">
-			<div class="col-sm-3">
-			<div class="thumbnail">
-				<p></p>
-      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/c0.35.160.160/p160x160/1546197_10152408453121654_377514791880411854_n.jpg" class="img-circle" width="80%" alt="...">
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
+  <li><a href="#selling_docs" role="tab" data-toggle="tab">Documents</a></li>
+  <li><a href="#selling_calendars" role="tab" data-toggle="tab">Calendars</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active fade in" id="home">
+    <p></p>
+    <div id="profile_message" class="lead">
+      <hr>
+        To see more of what Mitch shares, become friends with him! <div class="btn btn-primary">Friend Me</div>
+        <hr>
+      </div>
+    <div class="well">
+      <div id="top_friends">
+            <div class="panel panel-default">
+              <div class="panel-body">
+    <div class="page-header">
+            <h3 class="text-center">Top Friends</h3>
+          </div>
+              
+
+            
+    <div class="row">
+      <div class="col-sm-3 col-xs-6">
+        <p></p>
+      <a href="#"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/c0.35.160.160/p160x160/1546197_10152408453121654_377514791880411854_n.jpg" class="img-circle img-thumbnail img-responsive center-block" width="130px"  alt="...">
       <div class="caption">
-        <h4>MrWood</h4>
+        <h4>MrWood</h4></a>
         <p>I need a calculator.</p>
       </div>
-    </div>
 </div>
-<div class="col-sm-3">
-			<div class="thumbnail">
-				<p></p>
-      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/c58.58.722.722/s160x160/564732_3622659047309_1898757813_n.jpg" class="img-circle" width="80%" alt="...">
+<div class="col-sm-3 col-xs-6">
+        <p></p>
+      <a href="#"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/c58.58.722.722/s160x160/564732_3622659047309_1898757813_n.jpg" class="img-circle img-thumbnail img-responsive center-block" width="130px" alt="..."></a>
       <div class="caption">
-        <h4>JHewitt</h4>
+        <a href="#"><h4>JHewitt</h4></a>
         <p>I love math.</p>
-      </div>
     </div>
 </div>
-<div class="col-sm-3">
-			<div class="thumbnail">
-				<p></p>
-      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" class="img-circle" width="80%" alt="...">
+<div class="col-sm-3 col-xs-6">
+        <p></p>
+      <a href="#"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" class="img-circle img-thumbnail img-responsive center-block" width="130px" alt="..."></a>
       <div class="caption">
-        <h4>MKess</h4>
+        <a href="#"><h4>MKess</h4></a>
         <p>I love bar.</p>
-      </div>
     </div>
 </div>
-<div class="col-sm-3">
-			<div class="thumbnail">
-				<p></p>
-      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/c27.27.336.336/s160x160/541507_10151639998509579_1032724019_n.jpg" class="img-circle" width="80%" alt="...">
+<div class="col-sm-3 col-xs-6">
+        <p></p>
+      <a href="#"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/c27.27.336.336/s160x160/541507_10151639998509579_1032724019_n.jpg" class="img-circle img-thumbnail img-responsive center-block" width="130px" alt="..."></a>
       <div class="caption">
-        <h4>AK</h4>
+        <a href="#"><h4>AK</h4></a>
         <p>Don't know me.</p>
-      </div>
     </div>
 </div>
+              </div>
+            </div>
+         </div> 
+<hr>
 </div>
-</div>
+<div id="top_achievements">
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="page-header">
+            <h3 class="text-center">Top Achievements</h3>
+          </div>
 
-
-
-			<div class="page-header">
-        		<h2 class="text-center">Top Achievements</h2>
-      		</div>
-      		<div class="well">
-      		<div class="row">
-			<div class="col-sm-3">
-			<div class="thumbnail">
-				<p></p>
+          <div class="row">
+      <div class="col-sm-3 col-xs-6">
+        <p></p>
       <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="...">
       <div class="caption">
         <h4>Money Maker</h4>
         <p>Selling like it's my job.</p>
       </div>
-    </div>
 </div>
-<div class="col-sm-3">
-			<div class="thumbnail">
-				<p></p>
+<div class="col-sm-3 col-xs-6">
+        <p></p>
       <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/bag.svg" alt="...">
       <div class="caption">
         <h4>Money Maker</h4>
         <p>Selling like it's my job.</p>
       </div>
-    </div>
 </div>
-<div class="col-sm-3">
-			<div class="thumbnail">
-				<p></p>
+<div class="col-sm-3 col-xs-6">
+        <p></p>
       <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" alt="...">
       <div class="caption">
         <h4>Money Maker</h4>
         <p>Selling like it's my job.</p>
       </div>
-    </div>
 </div>
-<div class="col-sm-3">
-			<div class="thumbnail">
-				<p></p>
+<div class="col-sm-3 col-xs-6">
+        <p></p>
       <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt="...">
       <div class="caption">
         <h4>Money Maker</h4>
         <p>Selling like it's my job.</p>
       </div>
-    </div>
 </div>
 </div>
 </div>
-<!-- 
-      		<a href="#" class="btn"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" class="center-block" height="78px"><p class="text-center"><strong>Doc Thief</strong></p><h4><span class="badge">10</span></h4></a>
-      		<a href="#" class="btn"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/storage.svg" class="center-block" height="78px"><p class="text-center"><strong>Doc Boss</strong></p><h4><span class="badge">8</span></h4></a>
-      		<a href="#" class="btn"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar.svg" class="center-block" height="78px"><p class="text-center"><strong>Cal Boss</strong></p><h4><span class="badge">4</span></h4></a> -->
-
-			<div class="page-header">
-        		<h2 class="text-center">Classes</h2>
-      		</div>
-      		<div class="well">
-      		<div class="row">
-			<div class="col-sm-3">
-				<a href="#"><div class="thumbnail btn btn-default btn-xs">
-				<p></p>
+</div>
+  <hr>  
+</div>
+<div class="panel panel-default">
+  <div class="panel-body">
+      <div class="page-header">
+            <h3 class="text-center">Classes <small>in common</small></h3>
+          </div>
+          <div class="row">
+      <div class="col-sm-3 col-xs-6">
+        <p></p>
       <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="...">
       <div class="caption">
         <h4>ECON 200</h4>
         <p><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p>
-      </div></a>
     </div>
-			</div>
-			<div class="col-sm-3">
-				<a href="#"><div class="thumbnail btn btn-default btn-xs">
-				<p></p>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <p></p>
       <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="...">
       <div class="caption">
         <h4>ECON 200</h4>
         <p><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p>
-      </div></a>
     </div>
-			</div>
-			<div class="col-sm-3">
-				<a href="#"><div class="thumbnail btn btn-default btn-xs">
-				<p></p>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <p></p>
       <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="...">
       <div class="caption">
         <h4>ECON 200</h4>
         <p><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p>
-      </div></a>
     </div>
-			</div>
-			<div class="col-sm-3">
-				<a href="#"><div class="thumbnail btn btn-default btn-xs">
-				<p></p>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <p></p>
       <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="...">
       <div class="caption">
         <h4>ECON 200</h4>
         <p><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p>
-      </div></a>
     </div>
-			</div>
-		</div>
-		</div>
-
-
-      		<!-- <a href="#" class="btn"> <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" class="center-block thumbnail" width="78px"><p class="text-center btn-default btn-xs"><strong>ECON 200</strong></p><p class="text-center small"><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p></a>
-      		<a href="#" class="btn"> <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" class="center-block thumbnail" width="78px"><p class="text-center btn-default btn-xs"><strong>ECON 200</strong></p><p class="text-center small"><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p></a>
-      		<a href="#" class="btn"> <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" class="center-block thumbnail" width="78px"><p class="text-center btn-default btn-xs"><strong>ECON 200</strong></p><p class="text-center small"><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p></a>
-      		<a href="#" class="btn"> <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" class="center-block thumbnail" width="78px"><p class="text-center btn-default btn-xs"><strong>ECON 200</strong></p><p class="text-center small"><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p></a>
-      		<a href="#" class="btn"> <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" class="center-block thumbnail" width="78px"><p class="text-center btn-default btn-xs"><strong>ECON 200</strong></p><p class="text-center small"><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p></a> -->
-      		
+  </div>
+</div>
+      </div>
+    </div>
+          
       </div> 
       </div>
-		</div>
-	</div>
-</div>
-		<!-- <div class="col-md-4 col-md-offset-4">
-			<h2 class="text-center">Profile Menu</h2>
-			<p class="small text-center">{% if request.user.is_authenticated %}  
-		{% with request.user.student as student %}
+  
 
-			{% if request.user.first_name or request.user.last_name %}
-				{{ request.user.first_name }} {{ request.user.last_name }}
-			{% else %}
-				{{ request.user.username }}
-			{% endif %}
 
-			{% if student.profile.account_verified %}
-				(verified)
-				<a href="/accounts/logout/">Log Out</a>&nbsp;
-			{% else %}
-				(unverified) 
-			{% endif %}
+  
 
-		{% endwith %}</p>
-		<hr>
-		<div class="well">
-	<div class="list-group">
-	<li class="list-group-item">
-			<a href="{% url 'course_create' %}">Create Course</a>
-	</li>
-	<li class="list-group-item">
-			<a href="{% url 'course_add' %}">Add Course</a>
-	</li>
-	<li class="list-group-item">
-			<a href="/documents/add/">Add Document</a>
-	</li>
-	<li class="list-group-item">
-			<a href="/documents/">My Documents</a>
- 	</li>
-{% else %}
-	<li class="list-group-item">
-    <a href="/accounts/login/" class="pull-right">Login</a>
-	</li>
-{% endif %}
+          <div class="tab-pane fade active" id="selling_docs">
+          <p></p>
+          {% if upload_list %}
+          <div class="list-group scrolls" id="document-list">
+            {% for upload in upload_list %}
+            <li class="list-group-item" id="document_{{upload.document.pk}}">
+
+              <div class="media">
+                <div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
+                    {{ upload.document.uuid}}/
+                    {{ upload.document.slug}}
+                    "><img src="{{upload.document.preview.url}}" style="width:64px"></a></div>
+
+                <div class="media-body">
+                  <h4 class="media-heading"><a href="{% url 'document_list' %}
+                      {{ upload.document.uuid}}/
+                      {{ upload.document.slug}}
+                      ">{{ upload.document.title }}</a> <small>{{upload.document.price}} <i class="fa fa-fw fa-cube"></i></small>
+                    <div class="pull-right small text-muted"></div>
+                  </h4>
+                  <small class="pull-right">
+                    <a href="javascript:void(0)" class="badge delete-button" data-document="{{upload.document.pk}}">delete</a>
+                  </small>
+
+                  <span class="description">
+                    <i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{upload.document.up}}
+                    <i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ upload.document.down}}&nbsp;&nbsp;
+                    <i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{upload.document.review_count}} Reviews&nbsp;&nbsp;
+                    <i class="fa fa-fw fa-money text-success"></i>&nbsp;{{upload.document.purchase_count}} Purchases
+                  </span>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </div>
+          <div id="no-documents" style="display: none;">
+            <h4>Mitch isn't selling any documents!</h4>
+          </div>
+          {% else %}
+          <hr>
+          <div id="no-documents">
+            <h4>Mitch isn't selling any documents!</h4>
+          </div>
+          <hr>
+          {% endif %}
+        </div>
+    
+  <div class="tab-pane fade" id="selling_calendars">
+    <hr>
+          <div id="no-calendars">
+            <h4>Mitch isn't selling any calendars!</h4>
+          </div>
+          <hr>
+  </div>
 </div>
+  </div>
+  </div>
 </div>
-</div> -->
+
+      		
+		
 {% endblock %}
