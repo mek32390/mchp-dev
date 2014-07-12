@@ -56,7 +56,7 @@
 										<div class="pull-right small text-muted">{{upload.document.create_date | naturaltime}}</div>
 									</h4>
 									<small class="pull-right">
-										<a href="javascript:void(0)" class="badge remove-button" data-document="{{upload.document.pk}}">remove</a>
+										<a href="javascript:void(0)" class="badge delete-button" data-document="{{upload.document.pk}}">delete</a>
 									</small>
 
 									<span class="description">
@@ -86,9 +86,9 @@
 				<div class="tab-pane" id="purchased_docs">
 					<p></p>
 					{% if purchases %}
-					<div class="list-group">
+					<div class="list-group" id="purchased_list">
 						{% for doc in purchases %}
-						<li class="list-group-item">
+						<li class="list-group-item" id="purchased_{{doc.document.pk}}">
 
 							<div class="media">
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
@@ -102,6 +102,9 @@
 											{{ doc.document.slug}}
 											">{{ upload.document.title }}</a> <small>{{doc.document.price}} points</small>
 										<div class="pull-right small text-muted">{{doc.document.create_date | naturaltime}}</div></h4>
+									<small class="pull-right">
+										<a href="javascript:void(0)" class="badge remove-button" data-document="{{doc.document.pk}}">remove</a>
+									</small>
 
 									<span class="description">
 										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{doc.document.up}}
@@ -115,9 +118,13 @@
 						</li>
 						{% endfor %}
 					</div>
+					<div id="no-purchases" style="display: none">
+						<h4>You haven't purchased any documents!</h4>
+						<a href={% url 'document_list'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+					</div>
 					{% else %}
 					<hr>
-					<div id="no-documents">
+					<div id="no-purchases">
 						<h4>You haven't purchased any documents!</h4>
 						<a href={% url 'document_list'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
 					</div>

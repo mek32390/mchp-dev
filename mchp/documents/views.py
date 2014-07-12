@@ -137,7 +137,6 @@ class DocumentDetailPreview(DetailView):
 
         if not self.student.reduce_points(document.price):
             # student didn't have enough points
-            self.student.add_earned_points(10000)
             messages.error(
                 request,
                 "Pump your break kid, you don't have enough points to buy that."
@@ -243,6 +242,10 @@ class AjaxableResponseMixin(object):
             })
         return django_messages
 
+'''
+url: remove/
+name: document_delete
+'''
 class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
     model = Document
 
@@ -294,3 +297,58 @@ class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
         return super(DocumentDeleteView, self).dispatch(*args, **kwargs)
 
 document_delete = DocumentDeleteView.as_view()
+
+'''
+url: unpurchase/
+name: purchase_delete
+'''
+class PurchaseDeleteView(DeleteView, AjaxableResponseMixin):
+    model = Document
+
+    def get_success_url(self):
+        return reverse('document_list')
+
+    def get(self, request):
+        return redirect(reverse('document_list'))
+
+    def delete(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            if 'document' in request.POST:
+                data = {}
+                doc = Document.objects.filter(
+                    pk=request.POST['document'],
+                )
+                purchase = DocumentPurchase.objects.filter(document=doc, student=self.student)
+                if not purchase.exists():
+                    # they didn't buy this doc
+                    messages.error(
+                        self.request,
+                        "Purchased Document not found."
+                    )
+                    data['messages'] =  self.ajax_messages()
+                    return self.render_to_json_response(data, status=403)
+                else:
+                    # delete purchase record
+                    purchase[0].delete()
+                    messages.success(
+                        self.request,
+                        "Document removed successfully."
+                    )
+            else:
+                # no pk sent
+                messages.error(
+                    self.request,
+                    "Document not specified."
+                )
+            data['messages'] =  self.ajax_messages()
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('document_list'))
+
+    @method_decorator(verified_email_required)
+    @method_decorator(ensure_csrf_cookie)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(PurchaseDeleteView, self).dispatch(*args, **kwargs)
+
+purchase_delete = PurchaseDeleteView.as_view()
