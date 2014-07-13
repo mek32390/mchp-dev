@@ -38,7 +38,6 @@
 						{% endif %}
 					</div>
 					<div class="col-sm-7">
-            <h4 class="pull-right"><small>2 days ago</small></h4>
 						<h2 style="margin-top: 0;">{{ document.title }}&nbsp;<small>{{ document.price }} <i class="fa fa-fw fa-cubes"></i></small></h2>
 
 						<h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ document.review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
@@ -71,8 +70,8 @@
 									src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="65px">
 								</a>
 								<div class="media-body">
-									<h4 class="media-heading">
-										<div class="pull-right small text-muted">Uploaded {{document.create_date | naturaltime}}</div>
+									<h4 class="media-heading">{{uploader}}
+										<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
 									</h4>
 									<p><span class="label label-info">{{docs_sold}} Docs sold</span> <span class="label label-warning">80% Avg Rating</span></p>
 									<div class="progress" style="width:68%; margin-bottom: 0px;">
