@@ -2,6 +2,14 @@
 
 {% block head_title %}{{ document.title }}{% endblock %}
 
+{% block extra_head %}
+
+  {% load staticfiles %}
+    <script src="{% static 'user_profile/js/profile.js' %}"></script>
+ 
+{% endblock %}
+
+
 {% block body %}
 <div class="container">
 	<ol class="breadcrumb">
@@ -24,13 +32,15 @@
 				<div class="row">
 					<div class="col-sm-5">
 						{% if document.preview %}
-						<img class="img-thumbnail center-block" src={{document.preview.url}}></img>
+						<img class="img-thumbnail center-block" style="margin-bottom:10px;" src={{document.preview.url}}></img>
 						{% else %}
 						No preview is avaliable.
 						{% endif %}
 					</div>
 					<div class="col-sm-7">
-						<h2>{{ document.title }}&nbsp;<small>{{ document.price }} <i class="fa fa-fw fa-cubes"></i></small></h2>
+            <h4 class="pull-right"><small>2 days ago</small></h4>
+						<h2 style="margin-top: 0;">{{ document.title }}&nbsp;<small>{{ document.price }} <i class="fa fa-fw fa-cubes"></i></small></h2>
+
 						<h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ document.review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
 						<div class="progress progress-striped" style="width:68%">
 							<div class="progress-bar progress-bar-success" style="width:{{document.normalize_positive_votes}}%">
@@ -38,25 +48,63 @@
 							<div class="progress-bar progress-bar-danger" style="width:{{document.normalize_negative_votes}}%">
 							</div>
 						</div><!-- end ratings bar -->
-						<p class="h6">Students who bought this</p>
+						<!-- <p class="h6">Students who bought this</p>
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<hr>
-						<blockquote>
-							<p class="lead">{{document.description}}</p>
-							<p class="small">by <a href="#">{{uploader}}</a>, who has sold {{docs_sold}}
-								document{{docs_sold|pluralize}}</p>
-						</blockquote>
-						<form id="buy-form" method="post" action="{{current_path}}">
-							{% csrf_token %}
-						</form>
-						<button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
-						<button target="_blank" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</button>
-						<button target="_blank" class="btn btn-warning btn-md"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp; -->
+            <form id="buy-form" method="post" action="{{current_path}}">
+              {% csrf_token %}
+            </form>
+            <button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
+            <button target="_blank" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</button>
+            <button target="_blank" class="btn btn-warning btn-md"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+            
+            
+         
+           
+
+            
+              
+                <div class="bs-callout" style="border-top: 0;border-right: 0; border-bottom:0; padding-top:0;">
+                  <p></p>
+
+                  <hr>
+
+
+              <p class="">"{{document.description}}. It covers everything the professor went over in class and has additional notes."
+        
+              </p>
+
+
+              
+              <hr>
+        
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object img-circle img-thumbnail" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="65px">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading"><a href="#">{{uploader}}</a> <span class="badge pull-right">uploader</span></h4>
+                    <p><span class="label label-info">{{docs_sold}} Docs sold</span> <span class="label label-warning">80% Avg Rating</span></p>
+                    <div class="progress" style="width:68%; margin-bottom: 0px;">
+  <a href="#" class="progress-bar progress-bar-success" id="score_1">
+    <span class="sr-only">35% Complete (success)</span>
+  </a>
+  <a href="#" class="progress-bar progress-bar-primary" id="score_2">
+    <span class="sr-only">20% Complete (warning)</span>
+  </a>
+  <a href="#" class="progress-bar progress-bar-info" id="score_3" >
+    <span class="sr-only">45% Complete (danger)</span>
+  </a>
+</div>
+                        
+                    </div>
+                </div>
+            </div>
+              
 					</div><!-- end col -->
 				</div>
 			</div>
