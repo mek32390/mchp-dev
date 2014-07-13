@@ -81,7 +81,10 @@ class Document(models.Model):
             return ((self.up * 100) / (self.up + self.down))
 
     def normalize_negative_votes(self):
-        return 100 - self.normalize_positive_votes()
+        if self.normalize_positive_votes() == 0:
+            return 0
+        else: 
+            return 100 - self.normalize_positive_votes()
 
     def __str__(self):
         return "{}".format(self.title)

@@ -25,6 +25,7 @@ class Student(models.Model):
     def rating(self):
         return self.kudos + self.work_score()
 
+    # things to do with points
     def total_points(self):
         return self.earned_points + self.purchased_points
 

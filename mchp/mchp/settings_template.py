@@ -189,3 +189,10 @@ LOGGING = {
         },
     },
 }
+
+# site related pricing stuff
+MCHP_PRICING = {
+    # percent out of 100
+    'commission_rate': 40
+
+}
