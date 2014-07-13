@@ -1,14 +1,26 @@
 {% extends 'user_profile/base.html' %}
 
 {% block head_title %}{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}{% endblock %}
-
 {% block extra_head %}
+  
+  <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
   {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'documents/css/list.css' %}">
     <script src="{% static 'user_profile/js/profile.js' %}"></script>
     <script src="{% static 'documents/js/list.js' %}"></script>
     <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
+
+<style>
+.editable-buttons {
+  display: none !important;  
+}
+.editable-click, a.editable-click, a.editable-click:hover {
+    text-decoration: none;
+    border-bottom: 0px;
+}
+</style>
 {% endblock %}
 
 {% block body %}
@@ -17,6 +29,7 @@
  <span class="text-center center-block">
  <img src="http://1.bp.blogspot.com/-LxboJJo_drw/T_QfPeEK6JI/AAAAAAAACB8/p6R0zGys8hk/s1600/sketch185-July3rd.jpg" width="165px" class="animated flipInX img-thumbnail img-responsive img-circle">
           <h2 style="color:;">Mitch Kessler</h2>
+          <p class="lead" id="about" data-type="text" data-title="">Click here and type to say something about yourself!</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
           <h5 style="color:;"><i class="fa fa-user fa-fw"></i> Mitchellias &nbsp;<i class="fa fa-university fa-fw"></i> University of Arizona</h5>
           <h5><small style="color:;">joined 5 months ago</small></h5>
         </span>
