@@ -1,6 +1,7 @@
 from allauth.account.decorators import verified_email_required
 
 from django.contrib import messages
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -17,6 +18,7 @@ from documents.exceptions import DuplicateFileError
 from schedule.models import Course
 
 import json
+import math
 import logging
 logger = logging.getLogger(__name__)
 
@@ -93,7 +95,7 @@ class DocumentListView(ListView):
     model = Upload
 
     def get_queryset(self):
-        return Upload.objects.all().select_related().order_by('document__title')
+        return Upload.objects.all().select_related().order_by('-document__create_date')
         return Upload.objects.filter(owner=self.student).select_related()
 
     def get_context_data(self, **kwargs):
@@ -129,8 +131,9 @@ class DocumentDetailPreview(DetailView):
 
         document = self.get_object()
         # if they already bought the doc
+        uploader = Upload.objects.get(document=document).owner
         if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
-           Upload.objects.filter(document=document, owner=self.student).exists():
+           uploader.pk == self.student.pk:
            # or they uploaded it themselves, redirect to the view of the doc
             return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 
@@ -143,9 +146,12 @@ class DocumentDetailPreview(DetailView):
             )
         else:
             # student bought the doc
-            logger.debug('what')
             purchase = DocumentPurchase(document=document, student=self.student)
             purchase.save()
+            # give uploader the points 
+            uploader.add_earned_points(math.floor(document.price *
+                                                  (settings.MCHP_PRICING['commission_rate'] / 100)))
+            uploader.save()
 
         return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 
