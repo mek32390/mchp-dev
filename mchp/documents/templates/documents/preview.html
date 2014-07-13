@@ -9,8 +9,8 @@
  
 {% endblock %}
 
-
 {% block body %}
+{% load humanize %}
 <div class="container">
 	<ol class="breadcrumb">
 		<h class="pull-right">
@@ -60,55 +60,42 @@
             </form>
             <button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
             <button target="_blank" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</button>
-            <button target="_blank" class="btn btn-warning btn-md"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
-            
-            
-         
-           
+						<button target="_blank" class="btn btn-warning btn-md"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+						<div class="bs-callout" style="border-top: 0;border-right: 0; border-bottom:0; padding-top:0;">
+							<hr>
+							<p class="">"{{document.description}}</p>
+							<hr>
+							<div class="media">
+								<a class="pull-left" href="#">
+									<img class="media-object img-circle img-thumbnail" 
+									src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="65px">
+								</a>
+								<div class="media-body">
+									<h4 class="media-heading">
+										<div class="pull-right small text-muted">Uploaded {{document.create_date | naturaltime}}</div>
+									</h4>
+									<p><span class="label label-info">{{docs_sold}} Docs sold</span> <span class="label label-warning">80% Avg Rating</span></p>
+									<div class="progress" style="width:68%; margin-bottom: 0px;">
+										<a href="#" class="progress-bar progress-bar-success" id="score_1">
+											<span class="sr-only">35% Complete (success)</span>
+										</a>
+										<a href="#" class="progress-bar progress-bar-primary" id="score_2">
+											<span class="sr-only">20% Complete (warning)</span>
+										</a>
+										<a href="#" class="progress-bar progress-bar-info" id="score_3" >
+											<span class="sr-only">45% Complete (danger)</span>
+										</a>
+									</div>
 
-            
-              
-                <div class="bs-callout" style="border-top: 0;border-right: 0; border-bottom:0; padding-top:0;">
-                  <p></p>
+								</div>
+							</div>
+						</div>
 
-                  <hr>
-
-
-              <p class="">"{{document.description}}. It covers everything the professor went over in class and has additional notes."
-        
-              </p>
-
-
-              
-              <hr>
-        
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object img-circle img-thumbnail" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="65px">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading"><a href="#">{{uploader}}</a> <span class="badge pull-right">uploader</span></h4>
-                    <p><span class="label label-info">{{docs_sold}} Docs sold</span> <span class="label label-warning">80% Avg Rating</span></p>
-                    <div class="progress" style="width:68%; margin-bottom: 0px;">
-  <a href="#" class="progress-bar progress-bar-success" id="score_1">
-    <span class="sr-only">35% Complete (success)</span>
-  </a>
-  <a href="#" class="progress-bar progress-bar-primary" id="score_2">
-    <span class="sr-only">20% Complete (warning)</span>
-  </a>
-  <a href="#" class="progress-bar progress-bar-info" id="score_3" >
-    <span class="sr-only">45% Complete (danger)</span>
-  </a>
-</div>
-                        
-                    </div>
-                </div>
-            </div>
-              
 					</div><!-- end col -->
 				</div>
 			</div>
 		</div><!-- end top panel -->
+
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="panel panel-default">
