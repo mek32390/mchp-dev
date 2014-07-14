@@ -3,7 +3,7 @@ from allauth.account.decorators import verified_email_required
 from django.contrib import messages
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import Context
 from django.utils import timezone
@@ -200,6 +200,10 @@ class DocumentDetailView(DetailView):
     template_name = 'documents/view.html'
     model = Document
 
+    def post(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['GET'])
+
+    @method_decorator(verified_email_required)
     def get(self, request, *args, **kwargs):
         # parent stuff, getting the object
         self.object = self.get_object()
@@ -227,10 +231,13 @@ class DocumentDetailView(DetailView):
         context['student'] = self.student 
         return context
 
-    @method_decorator(verified_email_required)
+    # this page needs to be publically viewable to redirect properly
     def dispatch(self, *args, **kwargs):
-        self.student = self.request.user.student
-        return super(DocumentDetailView, self).dispatch(*args, **kwargs)
+        if self.request.user.is_anonymous():
+            return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'])
+        else:
+            self.student = self.request.user.student
+            return super(DocumentDetailView, self).dispatch(*args, **kwargs)
 
 document_detail = DocumentDetailView.as_view()
 
