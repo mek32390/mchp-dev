@@ -3,6 +3,18 @@
 {% block head_title %}Upload a Document{% endblock %}
 
 {% block extra_head %}
+
+<style>
+#scrollable-dropdown-menu .tt-dropdown-menu {
+  max-height: 150px;
+  overflow-y: auto;
+}
+</style>
+
+	<!-- <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/> -->
+  	<!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script> -->
+  	<!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.2/typeahead.bundle.min.js"></script> -->
+
 	{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'documents/css/upload_doc.css' %}">
 		<script src="{% static 'documents/js/upload_doc.js' %}"></script>
@@ -31,7 +43,6 @@
 					{{ form.as_style }}
 					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary" /></p>
 				</form>
-
 				<div class="input-group">
 					<span class="input-group-btn">
 						<span class="btn btn-primary btn-file">
@@ -45,4 +56,5 @@
 		</div>
 	</div>
 </div>
+
 {% endblock %}
