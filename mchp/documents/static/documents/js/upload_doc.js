@@ -7,10 +7,21 @@
 $(function() {
 	// convert select to nice input
 	$("#id_course").addClass("form-control input-lg");
-	
-	// $("#id_document").addClass("form-control input-lg");
+	// convert browse to nice input
+	$("#id_document").addClass("form-control input-lg");
+  // convert course select to column
+  $("div.form-group:nth-child(4)").wrap("<div class='row'><div class='col-xs-8'></div></div>");
+  // add hidden course search input to column
+  $('div.form-group:nth-child(1)').before("<div class='form-group hidden' id='course_search_form'><input type='text' placeholder='ex: ECON 200' class='form-control input-lg'></div>");
+  // add browse class button in it's own column
+  $("div.row:nth-child(4)").append("<div class='col-xs-4'><a href='#' id='course_search' class='btn btn-primary btn-block btn-lg'>Search</a></div>");
+  // swap the course select with the course search when search button is clicked
+  $('#course_search').click( function () {
+      $('.col-xs-8 > div:nth-child(2)').addClass('hidden');
+      $('#course_search_form').removeClass('hidden');
+  });
 
-	
+
 	// convert browse file button to BS3 button
 	$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         
