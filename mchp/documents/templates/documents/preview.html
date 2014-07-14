@@ -1,12 +1,11 @@
 {% extends 'documents/base.html' %}
-
 {% block head_title %}{{ document.title }}{% endblock %}
 
 {% block extra_head %}
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
   {% load staticfiles %}
-    <script src="{% static 'user_profile/js/profile.js' %}"></script>
- 
+    <!-- <script src="{% static 'user_profile/js/profile.js' %}"></script> -->
+    <script src="{% static 'documents/js/preview.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -59,10 +58,13 @@
             </form>
             <button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
             <button target="_blank" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</button>
-						<button target="_blank" class="btn btn-warning btn-md"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+						<button id="copy-button" class="btn btn-warning btn-md"
+							data-clipboard-text="{{request.get_host}}{{current_path}}">
+							<i class="fa fa-paperclip fa-fw"></i>Copy link</button>
+
 						<div class="bs-callout" style="border-top: 0;border-right: 0; border-bottom:0; padding-top:0;">
 							<hr>
-							<p class="">"{{document.description}}</p>
+							<p class="">"{{document.description}}"</p>
 							<hr>
 							<div class="media">
 								<a class="pull-left" href="#">

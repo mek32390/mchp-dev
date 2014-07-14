@@ -8,8 +8,11 @@ from functools import reduce
 
 class Student(models.Model):
     user = models.OneToOneField(User, related_name='student_user')
+
     school = models.ForeignKey('schedule.School', related_name='student_school')
     courses = models.ManyToManyField('schedule.Course', db_table='user_profile_enrollment')
+
+    friends = models.ManyToManyField('self', db_table='user_profile_friends')
     purchased_points = models.IntegerField(default=0)
     earned_points = models.IntegerField(default=0)
     kudos = models.IntegerField(default=0)
@@ -23,6 +26,7 @@ class Student(models.Model):
                 + self.sales()\
 
     def rating(self):
+        return 8
         return self.kudos + self.work_score()
 
     # things to do with points

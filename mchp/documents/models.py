@@ -74,12 +74,20 @@ class Document(models.Model):
     def rating(self):
         return self.up - self.down
 
+    '''
+    converts the number of postive votes to a score on a scale of 0-100
+
+    OldRange = (OldMax - OldMin)  
+    NewRange = (NewMax - NewMin)  
+    NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+    '''
     def normalize_positive_votes(self):
         if self.up < 1:
             return 0
         else:
             return ((self.up * 100) / (self.up + self.down))
 
+    # same, but for negative votes
     def normalize_negative_votes(self):
         if self.normalize_positive_votes() == 0:
             return 0
