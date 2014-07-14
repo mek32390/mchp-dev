@@ -3,17 +3,51 @@
 
 {% block extra_head %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
+
   {% load staticfiles %}
-    <!-- <script src="{% static 'user_profile/js/profile.js' %}"></script> -->
     <script src="{% static 'documents/js/preview.js' %}"></script>
 {% endblock %}
 
 {% block body %}
 {% load humanize %}
+<!-- Modal --> 
+<div class="modal fade" id="flag_doc" tabindex="-1" role="dialog" aria-labelledby="flagModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="flagModalLabel">Report this Document</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="form-group">
+            <label for="inputIssue">What's the issue?</label>
+            <select class="form-control">
+              <option>These are a Professor's notes</option>
+              <option>This is a duplicate document</option>
+              <option>Trouble purchasing this document</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inputDetail">Additional Details:</label>
+            <textarea class="form-control" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a href="" button type="button" class="btn btn-primary">Submit</a> </div>
+    </div>
+  </div>
+</div> 
+<!-- End Modal -->
+
+
 <div class="container">
 	<ol class="breadcrumb">
 		<h class="pull-right">
-		<a href="#" class="text-danger small"><i class="fa fa-flag text-danger"></i> Flag as innapropriate</a> 
+		<a href="#flag_doc" data-toggle="modal" class="text-danger small"><i class="fa fa-flag text-danger"></i> Report this Document</a> 
 		</h>
 		<li>
 			<a href="#"><i class="fa fa-university"></i>&nbsp;{{ student.school.name }}</a> 
@@ -58,7 +92,8 @@
               {% csrf_token %}
             </form>
             <button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
-            <button target="_blank" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</button>
+            <a target="_blank" href="http://www.facebook.com/sharer.php?u=_URL_&t=_ADDITIONAL_TEXT_" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</a>
+
 						<button id="copy-button" class="btn btn-warning btn-md"
 							data-clipboard-text="{{request.get_host}}{{current_path}}">
 							<i class="fa fa-paperclip fa-fw"></i>Copy link</button>
@@ -128,4 +163,5 @@
 		</div><!-- end outer review panel -->
 	</div><!-- end well -->
 </div><!-- end container -->
+
 {% endblock %}
