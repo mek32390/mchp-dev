@@ -6,7 +6,7 @@
 
   {% load staticfiles %}
     <script src="{% static 'documents/js/preview.js' %}"></script>
-={% endblock %}
+{% endblock %}
 
 {% block body %}
 {% load humanize %}
@@ -47,7 +47,7 @@
 <div class="container">
 	<ol class="breadcrumb">
 		<h class="pull-right">
-		<a href="#flag_doc" data-toggle="modal" class="text-danger small"><i class="fa fa-flag text-danger"></i> Flag as innapropriate</a> 
+		<a href="#flag_doc" data-toggle="modal" class="text-danger small"><i class="fa fa-flag text-danger"></i> Report this Document</a> 
 		</h>
 		<li>
 			<a href="#"><i class="fa fa-university"></i>&nbsp;University of Arizona</a> 
@@ -91,7 +91,8 @@
               {% csrf_token %}
             </form>
             <button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
-            <button target="_blank" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</button>
+            <a target="_blank" href="http://www.facebook.com/sharer.php?u=_URL_&t=_ADDITIONAL_TEXT_" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</a>
+
 						<button id="copy-button" class="btn btn-warning btn-md"
 							data-clipboard-text="{{request.get_host}}{{current_path}}">
 							<i class="fa fa-paperclip fa-fw"></i>Copy link</button>
@@ -173,4 +174,5 @@
 		</div><!-- end outer review panel -->
 	</div><!-- end well -->
 </div><!-- end container -->
+
 {% endblock %}
