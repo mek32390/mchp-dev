@@ -4,7 +4,7 @@
 	{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'documents/css/list.css' %}">
 		<script src="{% static 'documents/js/list.js' %}"></script>
-		<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
+		<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>		
 {% endblock %}
 
 {% block body %}
@@ -36,13 +36,13 @@
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="selling_docs">
-					<p></p>
-					{% if upload_list %}
-					<div class="list-group scrolls" id="document-list">
-						{% for upload in upload_list %}
-						<li class="list-group-item" id="document_{{upload.document.pk}}">
+ 					<p></p>
+ 						{% if upload_list %} 
+					<div class="list-group scrolls" id="document-list"> 
+							{% for upload in upload_list %} 
+						<li class="list-group-item" id="document_{{upload.document.pk}}"> 
 
-							<div class="media">
+ 							<div class="media">
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
 										{{ upload.document.uuid}}/
 										{{ upload.document.slug}}
@@ -57,32 +57,33 @@
 									</h4>
 									<small class="pull-right">
 										<a href="javascript:void(0)" class="badge delete-button" data-document="{{upload.document.pk}}">delete</a>
-									</small>
+									</small> 
 
 									<span class="description">
 										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{upload.document.up}}
 										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ upload.document.down}}&nbsp;&nbsp;
 										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{upload.document.review_count}} Reviews&nbsp;&nbsp;
 										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{upload.document.purchase_count}} Purchases
-									</span>
-								</div>
-							</div>
-						</li>
-						{% endfor %}
-					</div>
+									</span> 
+								</div> 
+							</div> 
+						</li> 
+						{% endfor %} 
+					</div>   
 					<div id="no-documents" style="display: none;">
 						<h4>You're not selling any documents!</h4>
 						<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
-					</div>
+					</div> 
 					{% else %}
 					<hr>
 					<div id="no-documents">
 						<h4>You're not selling any documents!</h4>
 						<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
 					</div>
-					<hr>
-					{% endif %}
+					<hr> 
+					{% endif %} 
 				</div>
+
 				<div class="tab-pane" id="purchased_docs">
 					<p></p>
 					{% if purchases %}
@@ -124,15 +125,14 @@
 					</div>
 					{% else %}
 					<hr>
-					<div id="no-purchases">
+					<div id="no-purchases" class="text-center">
 						<h4>You haven't purchased any documents!</h4>
 						<a href={% url 'document_list'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
 					</div>
 					<hr>
 					{% endif %}
 				</div>
-			</div>	
-
+			</div>		
 		</div>
 	</div>
 </div>	

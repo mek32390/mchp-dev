@@ -248,6 +248,15 @@ body {
   animation-name: bounceInRight;
 }
 
+/* Scroll bar */
+.scrolls {
+  padding-right: 0px !important;
+  width:100% !important;
+}
+.enscroll-track {
+  margin-right: 0px;
+}
+
 /* Side notes for calling out things
 -------------------------------------------------- */
 
