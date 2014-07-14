@@ -74,7 +74,11 @@
 						<h2 style="margin-top: 0;">{{ document.title }}&nbsp;<small>{{ document.price }} <i class="fa fa-fw fa-cubes"></i></small></h2>
 
 						<h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i
-								class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
+								class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal">
+							</i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw">
+							</i>&nbsp;{{ review_count }} Review{{review_count|pluralize}} &nbsp;<i class="fa fa-fw fa-money tex">
+							</i>&nbsp;{{ document.purchase_count }} Purchase{{document.purchase_count | pluralize}}
+						</h5>
 						<div class="progress progress-striped" style="width:68%">
 							<div class="progress-bar progress-bar-success" style="width:{{document.normalize_positive_votes}}%">
 							</div>
@@ -111,7 +115,7 @@
 									<h4 class="media-heading">{{uploader}}
 										<div class="pull-right small text-muted">Uploaded {{document.create_date | naturaltime}}</div>
 									</h4>
-									<p><span class="label label-info">{{docs_sold}} Docs sold</span> <span
+									<p><span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> <span
 											class="label label-warning">{{student.rating}}% Avg Rating</span></p>
 									<div class="progress" style="width:68%; margin-bottom: 0px;">
 										<a href="#" class="progress-bar progress-bar-success" id="score_1">
