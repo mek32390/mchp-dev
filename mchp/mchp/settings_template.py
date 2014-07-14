@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'user_profile',
     'calendar_mchp',
     'documents',
+    'dashboard',
     'schedule',
 
     'haystack',

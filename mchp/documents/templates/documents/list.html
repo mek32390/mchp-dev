@@ -62,8 +62,12 @@
 									<span class="description">
 										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{upload.document.up}}
 										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ upload.document.down}}&nbsp;&nbsp;
-										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{upload.document.review_count}} Reviews&nbsp;&nbsp;
-										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{upload.document.purchase_count}} Purchases
+										<i class="fa fa-comments-o text-info
+											fa-fw"></i>&nbsp;{{upload.document.purchased_document.count }}
+										Review{{upload.document.purchased_document.count|pluralize}}&nbsp;&nbsp;
+										<i class="fa fa-fw fa-money
+											text-success"></i>&nbsp;{{upload.document.purchase_count}}
+										Purchase{{upload.document.purchase_count|pluralize}}
 									</span> 
 								</div> 
 							</div> 
