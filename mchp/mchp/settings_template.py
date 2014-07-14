@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'schedule',
 
     'haystack',
+    'storages',
 
     'allauth',
     'allauth.account',
@@ -149,6 +150,13 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
+# django-storages
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
+AWS_STORAGE_BUCKET_NAME = ''
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
 #Logging
 LOGGING = {
     'version': 1,
@@ -195,5 +203,4 @@ LOGGING = {
 MCHP_PRICING = {
     # percent out of 100
     'commission_rate': 40
-
 }

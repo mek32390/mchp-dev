@@ -3,6 +3,7 @@ from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
 
 from documents.models import Document, PREVIEW_LOCATION
+from documents.tasks import add
 
 import os.path
 import subprocess
@@ -16,6 +17,9 @@ This file get import in __init__.py and handles signals for the documents app
 
 @receiver(post_save, sender=Document)
 def create_preview(sender, instance, **kwargs):
+    res = add.delay(2,2)
+    logger.debug(res.get())
+
     # don't do this more than once 
     if not kwargs['created']:
         return 
@@ -73,6 +77,7 @@ def _make_preview(instance, size, name):
         b'text/plain': unoconv_command,
         b'application/vnd.openxmlformats-officedocument.wordprocessingml.document': unoconv_command,
 
+        # TODO: the normal pics can just use a pic.thumbnail function call i think
         b'image/jpg': pic_command,
         b'image/png': pic_command,
         # gifs have multiple 'pages' (frames)
