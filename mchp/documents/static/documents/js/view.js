@@ -21,10 +21,10 @@ $(function(){
 	/*
 	 * posting a review 
 	 */
-	// when the user clicks on the remove link, send ajax request
+	// when the user clicks on the review link, send ajax request
 	var $submit_review = $('#submit-review');
 	$submit_review.click(function() {
-		$vote = $('#vote option:selected');
+		$vote = $('form input[type=radio]:checked');
 		$review = $('#review-comment');
 		// document pk is stored in the link itself with html5 data-* attribute
 		var pk = $(this).data('document');
@@ -35,12 +35,13 @@ $(function(){
 			data: {
 				'document': pk,
 				'review': $review.val(),
-				'vote': 1,
+				'vote': $vote.val(),
 			},
 		})
 		// success
 		.done(function(data) {
 			messages = data.messages;
+			$('#rate_document').modal('hide');
 		})
 		.fail(function(data) {
 			messages = data.responseJSON.messages;
