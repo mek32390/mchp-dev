@@ -13,10 +13,11 @@ class Student(models.Model):
     courses = models.ManyToManyField('schedule.Course', db_table='user_profile_enrollment')
 
     friends = models.ManyToManyField('self', db_table='user_profile_friends')
+
     purchased_points = models.IntegerField(default=0)
     earned_points = models.IntegerField(default=0)
     kudos = models.IntegerField(default=0)
-    last_login = models.DateTimeField(auto_now=True)
+    create_date = models.DateTimeField(auto_now_add=True)
 
     def work_score(self):
         return\
@@ -62,8 +63,8 @@ class Student(models.Model):
         return reduce(lambda doc1, doc2: doc1 + doc2, counts)
 
     def __str__(self):
-        return 'Student: {} goes to {}. Last Login: {}'.format(
-            self.user.username, self.school.name, self.last_login
+        return 'Student: {} goes to {}. Joined: {}'.format(
+            self.user.username, self.school.name, self.create_date
         )
 
 User.student = property(lambda u: Student.objects.get(user=u))

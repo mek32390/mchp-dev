@@ -9,5 +9,5 @@ urlpatterns = patterns('',
     url(r'^get-email/', views.get_email, name='get_email'),
     url(r'^resend-email/', views.resend_email, name='resend_email'),
     url(r'^documents/', RedirectView.as_view(url=reverse_lazy('document_list'))),
-    url(r'^$', views.profile, name='user_profile'),
+    url(r'^$', views.profile, name='profile'),
 )

@@ -16,13 +16,13 @@
 		<a href="#" class="text-danger small"><i class="fa fa-flag text-danger"></i> Flag as innapropriate</a> 
 		</h>
 		<li>
-			<a href="#"><i class="fa fa-university"></i>&nbsp;University of Arizona</a> 
+			<a href="#"><i class="fa fa-university"></i>&nbsp;{{ student.school.name }}</a> 
 		</li>
 		<li>
-			<a href="#"><i class="fa fa-book">&nbsp;</i>ECON 200</a> 
+			<a href="#"><i class="fa fa-book">&nbsp;</i>{{document.course.display}}</a> 
 		</li>
 		<li class="active">
-			<i class="fa fa-file-o"></i>&nbsp;Exam 1 Study Guide
+			<i class="fa fa-file-o"></i>&nbsp;{{document.title}}
 		</li>
 	</ol>
 	<div class="well">
@@ -39,7 +39,8 @@
 					<div class="col-sm-7">
 						<h2 style="margin-top: 0;">{{ document.title }}&nbsp;<small>{{ document.price }} <i class="fa fa-fw fa-cubes"></i></small></h2>
 
-						<h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ document.review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
+						<h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i
+								class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
 						<div class="progress progress-striped" style="width:68%">
 							<div class="progress-bar progress-bar-success" style="width:{{document.normalize_positive_votes}}%">
 							</div>
@@ -73,7 +74,7 @@
 								</a>
 								<div class="media-body">
 									<h4 class="media-heading">{{uploader}}
-										<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
+										<div class="pull-right small text-muted">Uploaded {{document.create_date | naturaltime}}</div>
 									</h4>
 									<p><span class="label label-info">{{docs_sold}} Docs sold</span> <span
 											class="label label-warning">{{student.rating}}% Avg Rating</span></p>
@@ -102,35 +103,23 @@
 			<div class="panel-body">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Reviews <span class="label label-default">{{ document.review_count }}</span></h3>
+						<h3 class="panel-title">Reviews <span class="label label-default">{{ review_count }}</span></h3>
 					</div>
 					<div class="panel-body">
 						<table class="table table-striped table-hover table-responsive">
 							<tbody>
+								{% for purchase in document.purchased_document.all %}
 								<tr>
-									<td>"Amazing. Thank you for this. I think I'll start studying now." &nbsp;-
-										<a href="/profile/UPusTeYqcjEMkN5FGe4QgN">Student</a>
+									<td>"{{purchase.review}}" &nbsp;-
+										<a href="{% url "profile" %}{{purchase.student.user.username}}">{{purchase.student.user.username}}</a>
 									</td>
 									<td>
-										<small>5 hours ago</small>
+										<small>{{purchase.review_date}}</small>
 									</td>
 								</tr>
-								<tr>
-									<td>"I would definitely buy this if I were you" &nbsp;-
-										<a href="/profile/UPusTeYqcjEMkN5FGe4QgN">Student</a>
-									</td>
-									<td>
-										<small>5 hours ago</small>
-									</td>
-								</tr>
-								<tr>
-									<td>"I'm confused, and that's obvious" &nbsp;-
-										<a href="/profile/UPusTeYqcjEMkN5FGe4QgN">confusion</a>
-									</td>
-									<td>
-										<small>7 hours ago</small>
-									</td>
-								</tr>
+								{% empty %}
+								There are no reviews for this document.
+								{% endfor %}
 							</tbody>
 						</table>
 					</div>

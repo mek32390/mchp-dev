@@ -169,6 +169,8 @@ class DocumentDetailPreview(DetailView):
             'docs_sold': uploader.sales(),
             'uploader': uploader.user.username,
             'student': self.student,
+            'reviews': self.object.purchased_document.all(),
+            'review_count': self.object.purchased_document.count(),
         }
         context.update(data)
         return self.render_to_response(context)
