@@ -8,6 +8,8 @@ urlpatterns = patterns('',
     url(r'^add/', views.document_upload, name='document_upload'),
     url(r'^remove/', views.document_delete, name='document_delete'),
     url(r'^unpurchase/', views.purchase_delete, name='purchase_delete'),
+    url(r'^review/', views.purchase_update, name='purchase_update'),
+
     url(r'^$', views.document_list, name='document_list'),
 
     url(r'^preview/(?P<uuid>[^/]+)', views.document_preview, name='document_preview'),

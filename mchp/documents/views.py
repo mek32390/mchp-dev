@@ -6,10 +6,11 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import Context
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView, DeleteView
+from django.views.generic.edit import FormView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from documents.forms import DocumentUploadForm
@@ -220,6 +221,7 @@ class DocumentDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(DocumentDetailView, self).get_context_data(**kwargs)
         context['what'] = self.kwargs['uuid']
+        context['student'] = self.student 
         return context
 
     @method_decorator(verified_email_required)
@@ -361,3 +363,87 @@ class PurchaseDeleteView(DeleteView, AjaxableResponseMixin):
         return super(PurchaseDeleteView, self).dispatch(*args, **kwargs)
 
 purchase_delete = PurchaseDeleteView.as_view()
+
+'''
+url: review/
+name: purchase_update
+'''
+class PurchaseUpdateView(UpdateView, AjaxableResponseMixin):
+    model = DocumentPurchase
+
+    def get_success_url(self):
+        return reverse('document_list')
+
+    def get(self, request):
+        return redirect(reverse('document_list'))
+
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            if 'document' in request.POST:
+                data = {}
+                purchase = DocumentPurchase.objects.get(
+                    document__id=request.POST['document'],
+                    student = self.student,
+                )
+                if not purchase:
+                    # they didn't buy this doc
+                    messages.error(
+                        self.request,
+                        "You can review a document you have not purchased."
+                    )
+                    data['messages'] =  self.ajax_messages()
+                    return self.render_to_json_response(data, status=403)
+                else:
+                    # if review_date exists, document was already reviewed
+                    if purchase.review_date:
+                        messages.warning(
+                            self.request,
+                            "You have already reviewed this document."
+                        )
+                        data['messages'] =  self.ajax_messages()
+                        return self.render_to_json_response(data, status=200)
+
+                    # add a review to the purchase record
+                    review = request.POST['review'][:250]
+                    purchase.review = review
+
+                    # add vote to document record
+                    vote = int(request.POST['vote'])
+                    if vote == 0:
+                        purchase.document.down = purchase.document.down + 1
+                    elif vote == 1:
+                        purchase.document.up = purchase.document.up + 1
+                    else:
+                        messages.error(
+                            self.request,
+                            "Vote not valid"
+                        )
+                        data['messages'] =  self.ajax_messages()
+                        return self.render_to_json_response(data, status=403)
+                    messages.success(
+                        self.request,
+                        "Document reviewed successfully."
+                    )
+                    # add time stamp
+                    purchase.review_date = timezone.now()
+
+                    # save models
+                    purchase.save()
+                    purchase.document.save()
+            else:
+                # no pk sent
+                messages.error(
+                    self.request,
+                    "Document not specified."
+                )
+            data['messages'] =  self.ajax_messages()
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('document_list'))
+
+    @method_decorator(verified_email_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(PurchaseUpdateView, self).dispatch(*args, **kwargs)
+
+purchase_update = PurchaseUpdateView.as_view()

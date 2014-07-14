@@ -112,7 +112,7 @@ class DocumentPurchase(models.Model):
     purchase_date = models.DateTimeField(auto_now_add=True)
 
     review = models.CharField(max_length=250, blank=True)
-    review_date = models.DateTimeField()
+    review_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         unique_together = ('document', 'student')
@@ -121,4 +121,3 @@ class DocumentPurchase(models.Model):
         return "{} bought {}".format(
             self.student.user.username, 
             self.document.title)
-
