@@ -168,6 +168,7 @@ class DocumentDetailPreview(DetailView):
             'current_path': request.get_full_path(),
             'docs_sold': uploader.sales(),
             'uploader': uploader.user.username,
+            'student': self.student,
         }
         context.update(data)
         return self.render_to_response(context)
