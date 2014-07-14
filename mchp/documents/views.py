@@ -172,6 +172,8 @@ class DocumentDetailPreview(DetailView):
             'student': self.student,
             'reviews': self.object.purchased_document.all(),
             'review_count': self.object.purchased_document.count(),
+            'uuid': self.kwargs['uuid'],
+            'slug': self.object.slug,
         }
         context.update(data)
         return self.render_to_response(context)
@@ -220,7 +222,8 @@ class DocumentDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DocumentDetailView, self).get_context_data(**kwargs)
-        context['what'] = self.kwargs['uuid']
+        context['uuid'] = self.kwargs['uuid']
+        context['slug'] = self.object.slug
         context['student'] = self.student 
         return context
 

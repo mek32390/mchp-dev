@@ -56,7 +56,7 @@
 			<a href="#"><i class="fa fa-book">&nbsp;</i>{{document.course.display}}</a> 
 		</li>
 		<li class="active">
-			<i class="fa fa-file-o"></i>&nbsp;{{document.title}}
+			<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{document.title}}</a>
 		</li>
 	</ol>
 	<div class="well">
