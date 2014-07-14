@@ -21,16 +21,16 @@
 			<div class="modal-content">
 				<div class="modal-body text-center">
 					<h4>What do you think?</h4>
-					<h1>
-						<div id="vote">
-							<input type="radio" value="1"><i class="fa fa-thumbs-up text-success"></i>
-							
-							<input type="radio" value="0"><i class="fa fa-thumbs-down text-danger"></i>
-							
-						</div>
-					</h1>
-					<hr>
 					<form method="post" action="{%url "purchase_update"%}">
+						<h1>
+							<div id="vote">
+								<input type="radio" value="1"><i class="fa fa-thumbs-up text-success"></i>
+							
+								<input type="radio" value="0"><i class="fa fa-thumbs-down text-danger"></i>
+							
+							</div>
+						</h1>
+						<hr>
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-bullhorn"></i></span>
 							<input id="review-comment" type="text" class="form-control" placeholder="Leave a brief comment!">
