@@ -68,9 +68,6 @@ class Document(models.Model):
     def purchase_count(self):
         return DocumentPurchase.objects.filter(document=self).count()
 
-    def review_count(self):
-        return 0
-
     def rating(self):
         return self.up - self.down
 
@@ -112,6 +109,10 @@ class Upload(models.Model):
 class DocumentPurchase(models.Model):
     document = models.ForeignKey(Document, related_name='purchased_document')
     student = models.ForeignKey('user_profile.Student')
+    purchase_date = models.DateTimeField(auto_now_add=True)
+
+    review = models.CharField(max_length=250, blank=True)
+    review_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         unique_together = ('document', 'student')

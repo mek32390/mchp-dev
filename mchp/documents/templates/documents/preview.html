@@ -4,42 +4,42 @@
 {% block extra_head %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
 
-  {% load staticfiles %}
-    <script src="{% static 'documents/js/preview.js' %}"></script>
+{% load staticfiles %}
+<script src="{% static 'documents/js/preview.js' %}"></script>
 {% endblock %}
 
 {% block body %}
 {% load humanize %}
 <!-- Modal --> 
 <div class="modal fade" id="flag_doc" tabindex="-1" role="dialog" aria-labelledby="flagModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="flagModalLabel">Report this Document</h4>
-      </div>
-      <div class="modal-body">
-        <form role="form">
-          <div class="form-group">
-            <label for="inputIssue">What's the issue?</label>
-            <select class="form-control">
-              <option>These are a Professor's notes</option>
-              <option>This is a duplicate document</option>
-              <option>Trouble purchasing this document</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="inputDetail">Additional Details:</label>
-            <textarea class="form-control" rows="3"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <a href="" button type="button" class="btn btn-primary">Submit</a> </div>
-    </div>
-  </div>
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="flagModalLabel">Report this Document</h4>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<label for="inputIssue">What's the issue?</label>
+						<select class="form-control">
+							<option>These are a Professor's notes</option>
+							<option>This is a duplicate document</option>
+							<option>Trouble purchasing this document</option>
+							<option>Other</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="inputDetail">Additional Details:</label>
+						<textarea class="form-control" rows="3"></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<a href="" button type="button" class="btn btn-primary">Submit</a> </div>
+		</div>
+	</div>
 </div> 
 <!-- End Modal -->
 
@@ -50,13 +50,13 @@
 		<a href="#flag_doc" data-toggle="modal" class="text-danger small"><i class="fa fa-flag text-danger"></i> Report this Document</a> 
 		</h>
 		<li>
-			<a href="#"><i class="fa fa-university"></i>&nbsp;University of Arizona</a> 
+			<a href="#"><i class="fa fa-university"></i>&nbsp;{{ document.course.domain.name }}</a> 
 		</li>
 		<li>
-			<a href="#"><i class="fa fa-book">&nbsp;</i>ECON 200</a> 
+			<a href="#"><i class="fa fa-book">&nbsp;</i>{{document.course.display}}</a> 
 		</li>
 		<li class="active">
-			<i class="fa fa-file-o"></i>&nbsp;Exam 1 Study Guide
+			<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{document.title}}</a>
 		</li>
 	</ol>
 	<div class="well">
@@ -73,7 +73,8 @@
 					<div class="col-sm-7">
 						<h2 style="margin-top: 0;">{{ document.title }}&nbsp;<small>{{ document.price }} <i class="fa fa-fw fa-cubes"></i></small></h2>
 
-						<h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ document.review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
+						<h5><i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{ document.up }}&nbsp;<i
+								class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down }} &nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{ review_count }} Reviews &nbsp;<i class="fa fa-fw fa-money tex"></i>&nbsp;{{ document.purchase_count }} Purchases</h5>
 						<div class="progress progress-striped" style="width:68%">
 							<div class="progress-bar progress-bar-success" style="width:{{document.normalize_positive_votes}}%">
 							</div>
@@ -87,11 +88,11 @@
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp; -->
-            <form id="buy-form" method="post" action="{{current_path}}">
-              {% csrf_token %}
-            </form>
-            <button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
-            <a target="_blank" href="http://www.facebook.com/sharer.php?u=_URL_&t=_ADDITIONAL_TEXT_" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</a>
+						<form id="buy-form" method="post" action="{{current_path}}">
+							{% csrf_token %}
+						</form>
+						<button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
+						<a target="_blank" href="http://www.facebook.com/sharer.php?u=_URL_&t=_ADDITIONAL_TEXT_" class="btn btn-primary btn-facebook btn-md"><i class="fa fa-fw fa-facebook"></i> Share this</a>
 
 						<button id="copy-button" class="btn btn-warning btn-md"
 							data-clipboard-text="{{request.get_host}}{{current_path}}">
@@ -108,7 +109,7 @@
 								</a>
 								<div class="media-body">
 									<h4 class="media-heading">{{uploader}}
-										<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
+										<div class="pull-right small text-muted">Uploaded {{document.create_date | naturaltime}}</div>
 									</h4>
 									<p><span class="label label-info">{{docs_sold}} Docs sold</span> <span
 											class="label label-warning">{{student.rating}}% Avg Rating</span></p>
@@ -137,35 +138,23 @@
 			<div class="panel-body">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Reviews <span class="label label-default">{{ document.review_count }}</span></h3>
+						<h3 class="panel-title">Reviews <span class="label label-default">{{ review_count }}</span></h3>
 					</div>
 					<div class="panel-body">
 						<table class="table table-striped table-hover table-responsive">
 							<tbody>
+								{% for purchase in document.purchased_document.all %}
 								<tr>
-									<td>"Amazing. Thank you for this. I think I'll start studying now." &nbsp;-
-										<a href="/profile/UPusTeYqcjEMkN5FGe4QgN">Student</a>
+									<td>"{{purchase.review}}" &nbsp;-
+										<a href="{% url "profile" %}{{purchase.student.user.username}}">{{purchase.student.user.username}}</a>
 									</td>
 									<td>
-										<small>5 hours ago</small>
+										<small>{{purchase.review_date | naturaltime}}</small>
 									</td>
 								</tr>
-								<tr>
-									<td>"I would definitely buy this if I were you" &nbsp;-
-										<a href="/profile/UPusTeYqcjEMkN5FGe4QgN">Student</a>
-									</td>
-									<td>
-										<small>5 hours ago</small>
-									</td>
-								</tr>
-								<tr>
-									<td>"I'm confused, and that's obvious" &nbsp;-
-										<a href="/profile/UPusTeYqcjEMkN5FGe4QgN">confusion</a>
-									</td>
-									<td>
-										<small>7 hours ago</small>
-									</td>
-								</tr>
+								{% empty %}
+								There are no reviews for this document.
+								{% endfor %}
 							</tbody>
 						</table>
 					</div>
