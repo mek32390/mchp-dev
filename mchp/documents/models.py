@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 from django.template.defaultfilters import slugify
 
@@ -14,7 +13,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 DOCUMENT_LOCATION = "documents/%Y/%m"
-PREVIEW_LOCATION = "previews"
+PREVIEW_LOCATION = "documents/previews"
 
 def get_sentinel_course():
     school, created = School.objects.get_or_create(domain='deleted.edu', name='deleted')
@@ -34,6 +33,7 @@ class Document(models.Model):
     price = models.PositiveIntegerField(default=0)
 
     document = models.FileField(upload_to=DOCUMENT_LOCATION)
+    filetype = models.CharField(max_length=150)
     md5sum = models.CharField(max_length=32)
     uuid = models.CharField(max_length=32)
     create_date = models.DateTimeField(auto_now_add=True)
@@ -51,16 +51,12 @@ class Document(models.Model):
             if Document.objects.filter(md5sum=self.md5sum).exists():
                 raise DuplicateFileError("This file already has already been uploaded")
 
+            chunk = self.document.file.chunks()
+            self.filetype = magic.from_buffer(next(chunk), mime=True)
             self.slug = slugify(self.title)[:80]
             self.uuid = uuid.uuid4().hex
 
         super(Document, self).save(*args, **kwargs)
-
-    # if document.name is called before its actually saved, it will be different than the name on
-    # disk
-    def filetype(self):
-        loc = settings.MEDIA_ROOT + '/' + self.document.name
-        return magic.from_file(loc, mime=True)
 
     def filename(self):
         return os.path.basename(self.document.name)
