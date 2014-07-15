@@ -1,0 +1,84 @@
+[draggable] {
+    -moz-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:none;
+    user-select:none;
+    -khtml-user-drag:element;
+    -webkit-user-drag:element
+}
+
+
+.link-spanner {
+    position:absolute;
+    width:150px;
+    height:20px;
+    top:0;
+    left:0;
+    z-index:1
+}
+
+.custom-menu {
+    display:none;
+    z-index:1000;
+    position:absolute;
+    background-color:#EEE;
+    border:1px solid #888;
+    overflow:hidden;
+    width:120px;
+    white-space:nowrap;
+    font-family:sans-serif
+}
+
+.custom-menu div {
+    padding:10px
+}
+
+.custom-menu div:hover {
+    background-color:#DDD;
+    cursor:pointer
+}
+
+.column.over a{
+  border-left: 2px solid #000;
+}
+.column a{
+  border-left: 2px solid transparent;
+}
+.column a{
+   padding:5px;
+   padding-right: 7px;
+}
+
+#dialog-form {
+	overflow: hidden
+}
+
+#dialog-form label,input {
+    display:block
+}
+
+#dialog-form input.text {
+    margin-bottom:12px;
+    width:95%;
+    padding:.4em
+}
+
+#dialog-form fieldset {
+    padding:0;
+    border:0;
+    margin-top:25px
+}
+
+#dialog-form h1 {
+    font-size:1.2em;
+    margin:.6em 0
+}
+
+.ui-dialog .ui-state-error {
+    padding:.3em
+}
+
+.validateTips {
+    border:1px solid transparent;
+    padding:.3em
+}

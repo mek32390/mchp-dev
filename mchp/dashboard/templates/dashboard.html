@@ -5,17 +5,38 @@
 {% block head %}
 {% endblock %}
 
+{% block extra_head %}
+	{% load staticfiles %}
+	<script src="{% static 'dashboard/js/quicklinks.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/quicklinks.css' %}">
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+{% endblock %}
+
 {% block body %}
 <div class="container">
-  <ol class="breadcrumb animated animated-s fadeInLeft" style="margin-bottom:5px; background-color:;">
-    <li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span> <span id="weather_temp">66&deg; F</span> &nbsp;</li>
-    <li> <a href="#"><i class="fa fa-envelope-o fa-fw"></i> Catmail</a> </li>
-    <li> <a href="#"><i class="fa fa-folder-o fa-fw"></i> Blackboard</a> </li>
-    <li> <a href="#"><i class="fa fa-folder-o fa-fw"></i> D2L</a> </li>
-    <li> <a href="#"><i class="fa fa-bookmark-o fa-fw"></i> UAccess</a> </li>
-    <li> <a href="#"><i class="fa fa-envelope-o fa-fw"></i> Gmail</a> </li>
-    <a href="#quicklinksModal" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a>
-  </ol><!-- End Quicklinks -->
+  <ol id="columns" class="breadcrumb animated animated-s fadeInLeft" style="margin-bottom:5px; background-color:;">
+    <li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span>  <span id="weather_temp">66&deg; F</span> &nbsp;</li>			 
+    <a  id="addLink" href="#" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a>
+  </ol>
+<div class='custom-menu'>
+        <div data-action="edit" id="edit">
+            Edit
+        </div>
+        <div data-action="delete" id="delete">
+            Delete
+        </div>
+    </div>
+
+    <div id="dialog-form" title="Edit quicklink">
+        <p class="validateTips">All fields are required.</p>
+        <form>
+            <fieldset>
+                <label for="name">Name</label> <input class="text ui-widget-content ui-corner-all" id="name" name="name" type="text" value="Google"> <label for="url">URL</label> <input class="text ui-widget-content ui-corner-all" id="url" name="url" type="text" value="www.google.com"> <input style="position:absolute; top:-1000px" tabindex="-1" type="submit">
+            </fieldset>
+        </form>
+    </div>
+   <!-- End Quicklinks -->
   <div class="row"><!-- Begin Row -->
     <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
       <h2 style>Today&nbsp;<small>in your life</small></h2>
