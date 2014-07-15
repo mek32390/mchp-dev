@@ -7,14 +7,14 @@
 $(function() {
 	// convert select to nice input
 	$("#id_course").addClass("form-control input-lg");
-	// convert browse to nice input
-	$("#id_document").addClass("form-control input-lg");
+	// convert default browse file to nice input
+	$("#id_document").wrap("<div class='input-lg form-control'></div>").addClass("btn");
     // convert course select to column
     $("div.form-group:nth-child(4)").wrap("<div class='row'><div class='col-xs-8'></div></div>");
     // add hidden course search input to column
     $('div.form-group:nth-child(1)').before("<div class='form-group hidden' id='course_search_form'><div class='input-group'><span class='input-group-addon'><strong>Course Search:</strong></span><input type='text' placeholder='ex: ECON 200' class='form-control input-lg'></div></div>");
     // add browse class button in it's own column
-    $("div.row:nth-child(4)").append("<div class='col-xs-4'><a href='#' id='course_search' class='btn btn-primary btn-block btn-lg'><i class='fa fa-fw fa-search-plus'></i> Search</a></div>");
+    $("div.row:nth-child(4)").append("<div class='col-xs-4'><a href='#' id='course_search' class='btn btn-primary btn-block btn-lg'>Browse Classes</a></div>");
     // swap the course select with the course search when search button is clicked
     $('#course_search').click( function () {
         $('.col-xs-8 > div:nth-child(2)').fadeOut(400, function () {
@@ -23,17 +23,17 @@ $(function() {
     });
 
 	// convert browse file button to BS3 button
-	$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+	// $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         
-        var input = $(this).parents('.input-group').find(':text'),
-            log = numFiles > 1 ? numFiles + ' files selected' : label;
+ //        var input = $(this).parents('.input-group').find(':text'),
+ //            log = numFiles > 1 ? numFiles + ' files selected' : label;
         
-        if( input.length ) {
-            input.val(log);
-        } else {
-            if( log ) alert(log);
-        }     
-    });
+ //        if( input.length ) {
+ //            input.val(log);
+ //        } else {
+ //            if( log ) alert(log);
+ //        }     
+ //    });
     // Upload Doc Form Validation
   	$('#upload_form').bootstrapValidator({
         message: 'This value is not valid',
@@ -105,9 +105,9 @@ $(function() {
 });
 
 // provide feedback on browse file button
-$(document).on('change', '.btn-file :file', function() {
-  var input = $(this),
-      numFiles = input.get(0).files ? input.get(0).files.length : 1,
-      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-  input.trigger('fileselect', [numFiles, label]);
-});
+// $(document).on('change', '.btn-file :file', function() {
+//   var input = $(this),
+//       numFiles = input.get(0).files ? input.get(0).files.length : 1,
+//       label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+//   input.trigger('fileselect', [numFiles, label]);
+// });
