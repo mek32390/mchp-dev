@@ -21,6 +21,19 @@ $(function(){
 	/*
 	 * posting a review 
 	 */
+	// hide the radio buttons
+	$("#vote input[type='radio']").addClass("hidden"); 
+	// indicate thumbs up selection
+	$("label.radio-inline .fa-thumbs-up").click(function () {
+		$(this).addClass('fa-2x animated tada');
+		$("label.radio-inline .fa-thumbs-down").removeClass('fa-2x animated tada');
+    });
+    // indicate thumbs down selection 
+	$("label.radio-inline .fa-thumbs-down").click(function () {
+		$(this).addClass('fa-2x animated tada');
+		$("label.radio-inline .fa-thumbs-up").removeClass('fa-2x animated tada');
+    });
+
 	// when the user clicks on the review link, send ajax request
 	var $submit_review = $('#submit-review');
 	$submit_review.click(function() {
