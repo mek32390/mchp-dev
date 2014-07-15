@@ -1,26 +1,18 @@
 {% extends 'user_profile/base.html' %}
 
-{% block head_title %}{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}{% endblock %}
+{% block head_title %}{% if request.user.is_authenticated %}{{user.username}}{% else %}Not Logged In{% endif %}{% endblock %}
 {% block extra_head %}
   
   <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
   <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
   {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'documents/css/list.css' %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'documents/css/list.css' %}"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/user_profile.css' %}">
     <script src="{% static 'user_profile/js/profile.js' %}"></script>
-    <script src="{% static 'documents/js/list.js' %}"></script>
+    <!-- // <script src="{% static 'documents/js/list.js' %}"></script> -->
     <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 
-<style>
-.editable-buttons {
-  display: none !important;  
-}
-.editable-click, a.editable-click, a.editable-click:hover {
-    text-decoration: none;
-    border-bottom: 0px;
-}
-</style>
 {% endblock %}
 
 {% block body %}
@@ -28,9 +20,9 @@
  -->
  <span class="text-center center-block">
  <img src="http://1.bp.blogspot.com/-LxboJJo_drw/T_QfPeEK6JI/AAAAAAAACB8/p6R0zGys8hk/s1600/sketch185-July3rd.jpg" width="165px" class="animated flipInX img-thumbnail img-responsive img-circle">
-          <h2 style="color:;">Mitch Kessler</h2>
+          <h2 style="color:;">{{user.first_name}} {{user.last_name}}</h2>
           <p class="lead" id="about" data-type="text" data-title="">Say something about yourself here!</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
-          <h5 style="color:;"><i class="fa fa-user fa-fw"></i> Mitchellias &nbsp;<i class="fa fa-university fa-fw"></i> University of Arizona</h5>
+          <h5 style="color:;"><i class="fa fa-user fa-fw"></i> {{user.username}} &nbsp;<i class="fa fa-university fa-fw"></i> University of Arizona</h5>
           <h5><small style="color:;">joined 5 months ago</small></h5>
         </span>
 <!-- </div> -->
@@ -62,7 +54,7 @@
     <p></p>
     <div id="friend_message" class="lead">
       <hr>
-        To see more of what Mitch shares, become friends with him! <div class="btn btn-primary" id="friend_button" >Friend Me</div>
+        To see more of what Mitch shares, become friends with him! <div class="btn btn-primary" id="friend_button" >Friend {{user.first_name}}</div>
         <hr>
       </div>
     <div class="well">
@@ -147,14 +139,6 @@
 </div>
 <div class="col-sm-3 col-xs-6">
         <p></p>
-      <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/cart.png" class="img-circle img-thumbnail" alt="...">
-      <div class="caption">
-        <h4>Cart Warrior</h4>
-        <p>I'm looking for goods to buy.</p>
-      </div>
-</div>
-<div class="col-sm-3 col-xs-6">
-        <p></p>
       <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/document-sales.png" class="img-circle img-thumbnail" alt="...">
       <div class="caption">
         <h4>Document Master</h4>
@@ -228,7 +212,7 @@
 <div class="panel panel-default scrolls">
   <div class="panel-body">
       <div class="page-header">
-            <h3 class="text-center">You are taking these classes together</h3>
+            <h3 class="text-center">You and {{user.first_name}} are taking these classes together:</h3>
           </div>
           <div class="row">
       <div class="col-sm-3 col-centered">
@@ -255,10 +239,7 @@
           
       </div> 
       </div>
-  
 
-
-  
 
           <div class="tab-pane fade active" id="selling_docs">
           <p></p>

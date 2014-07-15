@@ -82,8 +82,19 @@ body {
 /* facebook btn */
 .btn-facebook {
     background: #4c66a4;
+    border-color: #445b93;
     color: #fff;
     text-align: center;
+}
+
+.btn-facebook:hover,
+.btn-facebook:focus,
+.btn-facebook:active,
+.btn-facebook.active,
+.open .dropdown-toggle.btn-facebook {
+    color: #FFF;
+    background-color: #445b93;
+    border-color: #3c5081;
 }
 
 /* Delayed Animations */
@@ -98,6 +109,19 @@ body {
 .delayed-lg {
   -webkit-animation-delay: 1s;
   animation-delay: 1s;
+}
+/* Duration Animations */
+.duration-sm {
+  -webkit-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+}
+.duration-md {
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+}
+.duration-lg {
+  -webkit-animation-duration: 2.5s;
+  animation-duration: 2.5s;
 }
 
 /* Scroll bar */
