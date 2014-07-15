@@ -1,3 +1,8 @@
-option {
-	display: inline;
+/*
+/* Styles for doc view page
+/*
+*/
+
+#vote {
+	margin-left: -12px;
 }

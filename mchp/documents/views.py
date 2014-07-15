@@ -399,7 +399,7 @@ class PurchaseUpdateView(UpdateView, AjaxableResponseMixin):
                     # they didn't buy this doc
                     messages.error(
                         self.request,
-                        "You can review a document you have not purchased."
+                        "You can't review a document you have not purchased."
                     )
                     data['messages'] =  self.ajax_messages()
                     return self.render_to_json_response(data, status=403)

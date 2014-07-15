@@ -5,11 +5,24 @@
 {% block extra_head %}
 
 <style>
-#scrollable-dropdown-menu .tt-dropdown-menu {
-  max-height: 150px;
-  overflow-y: auto;
+/*input[type='file'] {
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
 }
+.fileUpload input.upload {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}*/
 </style>
+
 
 	<!-- <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/> -->
   	<!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script> -->
@@ -24,6 +37,13 @@
 
 {% block body %}
 <div class="container">
+
+<!-- 	<input id="uploadFile" placeholder="Choose File" disabled="disabled" />
+<div class="fileUpload btn btn-primary">
+    <span>Upload</span>
+    <input id="uploadBtn" type="file" class="upload" />
+</div> -->
+
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="media">
@@ -36,21 +56,21 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-6">
+		<div class="col-sm-12">
 			<div class="upload-form">
 				<form id="upload_form" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
 					{% csrf_token %}
 					{{ form.as_style }}
-					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary" /></p>
+					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary btn-block" /></p>
 				</form>
-				<div class="input-group">
+				<!-- <div class="input-group">
 					<span class="input-group-btn">
 						<span class="btn btn-primary btn-file">
 							Browse&hellip; <input type="file" multiple>
 						</span>
 					</span>
 					<input type="submit" value="Upload" class="form-control" readonly autocomplete="off">
-				</div>
+				</div> -->
 
 			</div>
 		</div>

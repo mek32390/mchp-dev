@@ -21,23 +21,33 @@
 			<div class="modal-content">
 				<div class="modal-body text-center">
 					<h4>What do you think?</h4>
-					<form method="post" action="{%url "purchase_update"%}">
+					<form method="post" id="review" action="{%url "purchase_update"%}">
+						{% csrf_token %}
 						<h1>
-							<div id="vote">
-								<input type="radio" value="1"><i class="fa fa-thumbs-up text-success"></i>
+							<div id="vote" class="text-center">
+								<div class="form-group">
+									<label class="radio-inline" style="margin-left: none;">
+										<input type="radio" name="reviewRating" value="1">
+										<i class="fa fa-thumbs-up text-success"></i>
+									</label>
 
-								<input type="radio" value="0"><i class="fa fa-thumbs-down text-danger"></i>
-
+									<label class="radio-inline">
+										<input type="radio" name="reviewRating" value="0">
+										<i class="fa fa-thumbs-down text-danger"></i>
+									</label>
+								</div>
 							</div>
 						</h1>
 						<hr>
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-bullhorn"></i></span>
-							<input id="review-comment" type="text" class="form-control" placeholder="Leave a brief comment!">
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-bullhorn"></i></span>
+								<input id="review-comment" name="reviewComment" type="text" class="form-control" placeholder="Leave a brief comment!">
+							</div>
 						</div>
 						<p></p>
 						<div class="form-group">
-							<a href="#" id="submit-review" type="submit" class="btn btn-primary btn-block" data-document="{{document.pk}}">Submit!</a>
+							<button href="#" id="submit-review" type="submit" class="btn btn-primary btn-block" data-document="{{document.pk}}">Submit!</button>
 						</div>
 					</form>
 				</div>
@@ -52,7 +62,7 @@
 					<a href="#"><i class="fa fa-university"></i>&nbsp;{{ document.course.domain.name }}</a> 
 				</li>
 				<li>
-					<a href="#"><i class="fa fa-book">&nbsp;</i>{{document.course.display}}</a> 
+					<a href="#"><i class="fa fa-book">&nbsp;</i>{{document.course.dept}}{{document.course.course_number}}</a> 
 				</li>
 				<li class="active">
 					<a href="http://{{request.get_host}}{%url "document_list" %}preview/{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{document.title}}</a>

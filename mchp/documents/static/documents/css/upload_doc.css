@@ -2,26 +2,12 @@
  * This file is for the custom styling on the doc upload page
  */
 
-.btn-file {
-  position: relative;
-  overflow: hidden;
+#id_document {
+  /*position: relative;*/
+  margin-top: -5px;
+  margin-left: -15px;
+  /*max-width: 245px;*/
 }
-.btn-file input[type=file] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  min-width: 100%;
-  min-height: 100%;
-  font-size: 999px;
-  text-align: right;
-  filter: alpha(opacity=0);
-  opacity: 0;
-  background: red;
-  cursor: inherit;
-  display: block;
-}
-input[readonly] {
-  background-color: white !important;
-  cursor: text !important;
-}
+
+
 
