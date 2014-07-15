@@ -9,3 +9,4 @@ pillow
 python-magic
 git+https://github.com/coagulant/django-storages-py3
 celery
+wand

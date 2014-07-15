@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from celery import shared_task
 
 import subprocess
+from wand.image import Image
 import urllib
 import logging
 logger = logging.getLogger(__name__)
@@ -12,9 +13,17 @@ def create_preview(instance):
     size = 500 
     name = instance.preview 
     logger.debug(size, name, instance)
+    logger.debug(instance.document.url)
 
-    url = urllib.request.urlopen(instance.url)
-    print(url)
+    response = urllib.request.urlopen(instance.document.url)
+    with ('~/projects/work/mchp/mchp-dev/mchp/what.pdf', 'w+b') as f:
+        f.write(response.read())
+    try:
+        with Image(blob=response.read()) as img:
+            img = Image(blob='tmp.pdf[0]')
+            img.save(filename='~/projects/work/mchp/mchp-dev/mchp/what.png')
+    finally:
+        response.close()
 
     # logger.debug(instance.filetype)
     # logger.debug(instance.document)
