@@ -22,7 +22,7 @@ $(function(){
 	 * posting a review 
 	 */
 	// hide the radio buttons
-	$("#vote input[type='radio']").addClass("hidden"); 
+	 $("#vote input[type='radio']").addClass("hidden"); 
 	// indicate thumbs up selection
 	$("label.radio-inline .fa-thumbs-up").click(function () {
 		$(this).addClass('fa-2x animated tada');
@@ -67,6 +67,35 @@ $(function(){
 		});
 		return false;
 	});
+	//Rating Review form validator
+	$('#review').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            reviewRating: {
+                validators: {
+                    notEmpty: {
+                        message: 'A rating selection is required'
+                    }
+                }
+            },
+            reviewComment: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select a thumb rating and leave a review.'
+                    },
+                    stringLength: {
+                        min: 4,
+                        message: 'A review should be at least 4 charecters long!'
+                    }
+                }
+            }
+        }
+    });
 });
 
 function addMessage(text, extra_tags) {
