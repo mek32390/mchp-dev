@@ -1,0 +1,11 @@
+/*
+/* Styles for user profile page
+*/
+/* editable "about me" section buttons */
+.editable-buttons {
+  	display: none !important;  
+}
+.editable-click, a.editable-click, a.editable-click:hover {
+    text-decoration: none;
+    border-bottom: 0px;
+}
