@@ -41,23 +41,30 @@ class Document(models.Model):
     preview = models.ImageField(upload_to=PREVIEW_LOCATION, blank=True, null=True)
     slug = models.SlugField(max_length=80)
     
+    '''
+    Add a bunch of information and check for duplicates before saving
+
+    also, those seeks are absolutely fucking necessary with the s3 stuff
+    '''
     def save(self, *args, **kwargs):
         if not self.pk: # object is new
             if self.document.size < 1:
-                raise DuplicateFileError("fuck")
+                # ya, I know, maybe all empty files are duplicates of the same file 
+                raise DuplicateFileError("No empty files")
             hash = hashlib.md5()
             for chunk in self.document.chunks():
                 hash.update(chunk)
             self.md5sum = hash.hexdigest()
+            self.document.file.seek(0,0)
             
             if Document.objects.filter(md5sum=self.md5sum).exists():
                 raise DuplicateFileError("This file already has already been uploaded")
 
-            chunk = self.document.file.chunks()
-            self.filetype = magic.from_buffer(next(chunk), mime=True)
+            chunk = self.document.file.read(1024)
+            self.filetype = magic.from_buffer(chunk, mime=True)
+            self.document.file.seek(0,0)
             self.slug = slugify(self.title)[:80]
             self.uuid = uuid.uuid4().hex
-            logger.debug(self.document.size)
 
         super(Document, self).save(*args, **kwargs)
 

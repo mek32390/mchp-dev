@@ -42,6 +42,7 @@ class DocumentModelTest(TestCase):
         doc.document.save('test.txt', content)
         doc.save()
         self.document = doc
+        self.assertNotEqual(doc.document.size, 0)
 
     def testOnDelete(self):
         doc = self.document
