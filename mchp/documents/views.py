@@ -62,6 +62,7 @@ class DocumentFormView(FormView):
         return self.get(self.request)
 
     def form_valid(self, form):
+        logger.debug(form.cleaned_data['document'])
         try:
             doc = form.save()
         except DuplicateFileError as err:
@@ -71,6 +72,7 @@ class DocumentFormView(FormView):
             )
             return self.get(self.request)
 
+        logger.debug(doc.document.size)
         upload = Upload(document=doc, owner=self.student)
         upload.save()
         messages.success(

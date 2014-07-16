@@ -24,6 +24,8 @@ def create_preview_task(sender, instance, **kwargs):
         os.path.splitext(instance.filename())[0]
     )
     logger.debug("preview loc " + preview)
+    logger.debug("in signal ")
+    logger.debug(instance.document.size)
     instance.preview = preview
     instance.save()
 
