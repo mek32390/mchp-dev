@@ -12,7 +12,7 @@ import magic
 import logging
 logger = logging.getLogger(__name__)
 
-DOCUMENT_LOCATION = "documents/%Y/%m"
+DOCUMENT_LOCATION = "documents/"
 PREVIEW_LOCATION = "documents/previews"
 
 def get_sentinel_course():

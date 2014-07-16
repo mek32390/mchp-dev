@@ -27,8 +27,9 @@ def create_preview_task(sender, instance, **kwargs):
     instance.preview = preview
     instance.save()
 
+    # this queues a celery task
     # create_preview.delay(instance)
-    create_preview(instance)
+    # create_preview(instance)
 
 # Receive the pre_delete signal and delete the file associated with the model instance.
 @receiver(post_delete, sender=Document)

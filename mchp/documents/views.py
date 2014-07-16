@@ -70,15 +70,14 @@ class DocumentFormView(FormView):
                 err
             )
             return self.get(self.request)
+
+        upload = Upload(document=doc, owner=self.student)
+        upload.save()
         messages.success(
             self.request,
             "Upload successful"
         )
-
-        upload = Upload(document=doc, owner=self.student)
-        upload.save()
         return super(DocumentFormView, self).form_valid(form)
-
 
     @method_decorator(verified_email_required)
     def dispatch(self, *args, **kwargs):
@@ -97,7 +96,7 @@ class DocumentListView(ListView):
 
     def get_queryset(self):
         return Upload.objects.all().select_related().order_by('-document__create_date')
-        return Upload.objects.filter(owner=self.student).select_related()
+        return Upload.objects.filter(owner=self.student).select_related().order_by('-document__create_date')
 
     def get_context_data(self, **kwargs):
         context = super(DocumentListView, self).get_context_data(**kwargs)
@@ -137,7 +136,6 @@ class DocumentDetailPreview(DetailView):
            uploader.pk == self.student.pk:
            # or they uploaded it themselves, redirect to the view of the doc
             return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
-
 
         if not self.student.reduce_points(document.price):
             # student didn't have enough points
