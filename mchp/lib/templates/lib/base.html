@@ -6,27 +6,10 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css">
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/css/card.min.css" >
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-	
-	        <script type="text/javascript">
-    $(document).ready(function () {
-	$('#cardForm').card({
-    // a selector or jQuery object for the container
-    // where you want the card to appear
-    container: '.card-wrapper', // *required*
-    numberInput: 'input[name=number]',
-    nameInput: 'input[name=first-name]',
-    expiryInput: 'input[name=expiry]',
-    cvcInput: 'input[name=cvc]',
-
-    width: 350, // optional — default 350px
-});
-});
-    </script>
-
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/css/card.min.css" >
     <script src="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/js/card.min.js"></script>
 
 		{% load staticfiles %}
@@ -39,7 +22,6 @@
     {% endblock %}
     {% block extra_head %}
     {% endblock %}
-
 
   </head>
   <body>
@@ -151,29 +133,52 @@
 <!-- END HOMEPAGE MODAL -->
 
 <!-- Purchase Points Modal -->
-<div class="modal fade" id="pointsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="pointsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" style="width:400px;">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Points</h4>
-      </div>
       <div class="modal-body">
-	
-		<!-- <div class="row"> -->
-    <!-- <div class="col-xs-12"> -->
+	<!-- Nav tabs -->
+<ul class="nav nav-pills nav-justified" role="tablist">
+  <li class="active"><a href="#purchasePoints" role="tab" data-toggle="tab">Purchase Points</a></li>
+  <li><a href="#cashOut" role="tab" data-toggle="tab">Cash Out</a></li>
+  <li><a href="#cardInfo" role="tab" data-toggle="tab">Card Info</a></li>
+</ul>
+<hr>
+<div class="tab-content text-center">
+  <div class="tab-pane fade in active" id="purchasePoints">
+  	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/games.svg" class="animated rotateIn rollIn duration-sm" />
+  	<p></p>
+  	<p class="lead">How many points would you like today?</p>
+  	<form id="purchase_points">
+  	<select class="form-control">
+  		<option>500 Points</option>
+		<option>1,000 Points</option>
+		<option>2,000 Points</option>
+		<option>5,000 Points</option>
+	</select>
+	<p></p>
+	<button type="submit" class="btn btn-primary btn-block">Purchase</button>
+	</form>
+  </div><!-- end of purchase points tab -->
+  <div class="tab-pane fade" id="cashOut">
+  	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pig.svg" class="animated rubberBand"/>
+  	<p></p>
+  	<p class="lead">Thanks for doing business with us!</p>
+  	<button class="btn btn-primary btn-block">Cash Out</button>
+  </div><!-- end of cash out tab -->
+  <div class="tab-pane fade" id="cardInfo">
         <div class="card-wrapper"></div>
         <p></p>
-        <form id="cardForm" class="text-center" style="width:350px; margin:0 auto;">
+        <form id="cardForm" class="text-center">
             <div class="form-group">
                 <div class="input-group">
-                  <span class="input-group-addon">@</span>
+                  <span class="input-group-addon"><i class="fa-fw fa fa-credit-card"></i></span>
                 <input type="text" class="form-control" placeholder="Card number" name="number"/>
                 </div>    
             </div>
             <div class="form-group">
                 <div class="input-group">
-                  <span class="input-group-addon">@</span>
+                  <span class="input-group-addon"><i class="fa-fw fa fa-user"></i></span>
                 <input type="text" class="form-control" placeholder="Full name" name="first-name"/>
                 </div>
             </div>
@@ -182,7 +187,7 @@
                 <div class="col-xs-8">
                     <div class="form-group">
                         <div class="input-group">
-                          <span class="input-group-addon">@</span>
+                          <span class="input-group-addon"><i class="fa-fw fa fa-calendar-o"></i></span>
                         <input type="text" class="form-control" placeholder="MM/YY"name="expiry"/>
                         </div>
                     </div>
@@ -190,25 +195,22 @@
                 <div class="col-xs-4">
                     <div class="form-group">
                         <div class="input-group">
-                          <span class="input-group-addon">@</span>
+                          <span class="input-group-addon"><i class="fa-fw fa fa-barcode"></i></span>
                         <input type="text" class="form-control" placeholder="CVC" name="cvc"/>
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary btn-block" type="submit">Submit</button>
+            <button class="btn btn-primary btn-block" type="submit">Save Card</button>
         </form>
-    <!-- </div> -->
-<!-- </div> -->
+  </div><!-- end of card info tab -->
+</div><!-- end of tab content -->
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+
+      </div><!-- end of modal body -->
     </div>
   </div>
-</div>
+</div><!-- end of points modal -->
 
     <!-- Start Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
