@@ -38,7 +38,7 @@ class Document(models.Model):
     uuid = models.CharField(max_length=32)
     create_date = models.DateTimeField(auto_now_add=True)
 
-    preview = models.ImageField(upload_to=PREVIEW_LOCATION, blank=True, null=True)
+    preview = models.ImageField(upload_to=PREVIEW_LOCATION)
     slug = models.SlugField(max_length=80)
     
     '''
@@ -66,7 +66,36 @@ class Document(models.Model):
             self.slug = slugify(self.title)[:80]
             self.uuid = uuid.uuid4().hex
 
+            # preview
+            preview = PREVIEW_LOCATION + "/{}_preview.png".format(
+                os.path.splitext(self.filename())[0]
+            )
+            self.preview = preview
+            logger.debug("preview loc " + preview)
+            self._thumb()
+            self.document.file.seek(0,0)
+            self.preview.file.seek(0,0)
+            logger.debug(self.document.size)
+            logger.debug(self.preview.size)
+
         super(Document, self).save(*args, **kwargs)
+
+    def _thumb(self):
+        from wand.image import Image
+        size = 500
+        with Image(file=self.document.file) as img:
+            preview_name = 'tmp.png'
+            img.save(filename=preview_name)
+            img = Image(filename=preview_name)
+            img.transform(resize=str(size))
+            img.save(filename=preview_name)
+            from storages.backends.s3 import S3StorageFile, S3Storage
+            preview = "/{}_preview.png".format(
+                os.path.splitext(self.filename())[0]
+            )
+            thumb = S3StorageFile(self.preview.name, S3Storage(location='media'), 'r+w')
+            thumb.write(str(open(preview_name, 'rb')))
+            self.preview.save(preview, thumb)
 
     def filename(self):
         return os.path.basename(self.document.name)

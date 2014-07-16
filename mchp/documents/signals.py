@@ -15,6 +15,7 @@ This file gets imported in __init__.py and handles signals for the documents app
 
 @receiver(post_save, sender=Document)
 def create_preview_task(sender, instance, **kwargs):
+    return 
     # don't do this more than once 
     if not kwargs['created']:
         return 
@@ -30,7 +31,7 @@ def create_preview_task(sender, instance, **kwargs):
     instance.save()
 
     # this queues a celery task
-    # create_preview.delay(instance)
+    create_preview.delay(instance)
     # create_preview(instance)
 
 # Receive the pre_delete signal and delete the file associated with the model instance.

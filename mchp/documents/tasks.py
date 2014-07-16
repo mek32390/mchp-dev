@@ -2,6 +2,8 @@ from __future__ import absolute_import
 
 from celery import shared_task
 
+from django.conf import settings
+
 import subprocess
 from wand.image import Image
 import urllib
@@ -12,16 +14,23 @@ logger = logging.getLogger(__name__)
 def create_preview(instance):
     size = 500 
     name = instance.preview 
-    logger.debug(size, name, instance)
-    logger.debug(instance.document.url)
 
     response = urllib.request.urlopen(instance.document.url)
-    with ('~/projects/work/mchp/mchp-dev/mchp/what.pdf', 'w+b') as f:
-        f.write(response.read())
+    urllib.request.urlretrieve(instance.document.url, '/tmp/tmp.pdf')
     try:
-        with Image(blob=response.read()) as img:
-            img = Image(blob='tmp.pdf[0]')
-            img.save(filename='~/projects/work/mchp/mchp-dev/mchp/what.png')
+        with Image(filename='/tmp/tmp.pdf[0]') as img:
+            preview_name = '/tmp/what.png'
+            img.save(filename=preview_name)
+            img = Image(filename=preview_name)
+            img.transform(resize=str(size))
+            img.save(filename=preview_name)
+
+            acl = '--acl public-read'
+            command = 'aws s3 cp {} s3://{}/media/{} {}'.format(preview_name,
+                                                                settings.AWS_STORAGE_BUCKET_NAME,
+                                                                name, acl)
+            logger.debug(command)
+            _run(command)
     finally:
         response.close()
 
@@ -75,7 +84,7 @@ def create_preview(instance):
     # _convert(command)
 
 # just runs the command passed to it
-def _convert(command):
+def _run(command):
     logger.debug(command)
 
     proc = subprocess.Popen(command,
