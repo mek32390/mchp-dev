@@ -123,19 +123,19 @@
 						</li>
 						{% endfor %}
 					</div>
-					<hr>
 					<div id="no-purchases" class="text-center" style="display: none">
+						<hr>
 						<h4>You haven't purchased any documents!</h4>
 						<a href={% url 'document_list'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+						<hr>
 					</div>
-					<hr>
 					{% else %}
-					<hr>
 					<div id="no-purchases" class="text-center">
+						<hr>
 						<h4>You haven't purchased any documents!</h4>
 						<a href={% url 'document_list'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+						<hr>
 					</div>
-					<hr>
 					{% endif %}
 				</div>
 			</div>		
