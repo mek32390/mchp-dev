@@ -1,0 +1,6 @@
+d = Document.objects.all()[0]
+from storages.backends.S3 import QueryStringAuthGenerator
+q = QueryStringAuthGenerator(d.document.storage.connection.aws_access_key_id, d.document.storage.connection.aws_secret_access_key)
+q.set_expires_in(200)
+q.get('mchp-dev', 'media/' + d.document.name)
+q.get('mchp-dev', '')

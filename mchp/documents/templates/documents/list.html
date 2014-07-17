@@ -45,9 +45,13 @@
  							<div class="media">
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
 										{{ upload.document.uuid}}/
-										{{ upload.document.slug}}
-										"><img src="{{upload.document.preview.url}}" style="width:64px"></a></div>
+										{{ upload.document.slug}}">
 
+										{% if upload.document.preview %}
+										<img src="{{upload.document.preview.url}}" style="width:64px"></a></div>
+								{% else %}
+										<img src="" style="width:64px"></a></div>
+								{% endif %}
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{% url 'document_list' %}
 											{{ upload.document.uuid}}/
@@ -99,7 +103,12 @@
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
 										{{ doc.document.uuid}}/
 										{{ doc.document.slug}}
-										"><img src="{{doc.document.preview.url}}" style="width:64px"></a></div>
+										">
+										{% if upload.document.preview %}
+										<img src="{{upload.document.preview.url}}" style="width:64px"></a></div>
+								{% else %}
+										<img src="" style="width:64px"></a></div>
+								{% endif %}
 
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{% url 'document_list' %}

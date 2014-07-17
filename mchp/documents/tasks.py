@@ -2,37 +2,41 @@ from __future__ import absolute_import
 
 from celery import shared_task
 
-from django.conf import settings
+from django.core.files.images import ImageFile
 
 import subprocess
+import uuid
+import os.path
+
 from wand.image import Image
-import urllib
+
 import logging
 logger = logging.getLogger(__name__)
 
 @shared_task
 def create_preview(instance):
-    size = 500 
-    name = instance.preview 
+    filetypes = [b'application/pdf', b'image/jpeg', b'image/png', b'image/gif',]
 
-    response = urllib.request.urlopen(instance.document.url)
-    urllib.request.urlretrieve(instance.document.url, '/tmp/tmp.pdf')
-    try:
-        with Image(filename='/tmp/tmp.pdf[0]') as img:
-            preview_name = '/tmp/what.png'
-            img.save(filename=preview_name)
-            img = Image(filename=preview_name)
-            img.transform(resize=str(size))
-            img.save(filename=preview_name)
+    logger.debug(instance.filetype)
+    if not instance.filetype in filetypes:
+        return
 
-            acl = '--acl public-read'
-            command = 'aws s3 cp {} s3://{}/media/{} {}'.format(preview_name,
-                                                                settings.AWS_STORAGE_BUCKET_NAME,
-                                                                name, acl)
-            logger.debug(command)
-            _run(command)
-    finally:
-        response.close()
+    size = 500
+    with Image(filename=instance.document.url+'[0]') as img:
+        logger.debug(img)
+        preview_name = 'tmp{}.png'.format(uuid.uuid4().hex)
+        img.save(filename=preview_name)
+        img = Image(filename=preview_name)
+        img.transform(resize=str(size))
+        img.save(filename=preview_name)
+        preview = "{}_preview.png".format(
+            os.path.splitext(instance.filename())[0]
+        )
+        instance.preview.save(preview, ImageFile(open(preview_name, 'rb'), preview_name))
+        os.remove(preview_name)
+
+    instance.document.storage.connection.put_acl('mchp-dev', 'media/' + instance.document.name, '',
+                                               {'x-amz-acl':'private'})
 
     # logger.debug(instance.filetype)
     # logger.debug(instance.document)

@@ -1,10 +1,8 @@
 from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
 
-from documents.models import Document, PREVIEW_LOCATION
+from documents.models import Document
 from documents.tasks import create_preview
-
-import os.path
 
 import logging
 logger = logging.getLogger(__name__)
@@ -15,24 +13,13 @@ This file gets imported in __init__.py and handles signals for the documents app
 
 @receiver(post_save, sender=Document)
 def create_preview_task(sender, instance, **kwargs):
-    return 
     # don't do this more than once 
     if not kwargs['created']:
         return 
 
-    # add generated preview filename
-    preview = PREVIEW_LOCATION + "/{}_preview.png".format(
-        os.path.splitext(instance.filename())[0]
-    )
-    logger.debug("preview loc " + preview)
-    logger.debug("in signal ")
-    logger.debug(instance.document.size)
-    instance.preview = preview
-    instance.save()
-
     # this queues a celery task
-    create_preview.delay(instance)
-    # create_preview(instance)
+    # create_preview.delay(instance)
+    create_preview(instance)
 
 # Receive the pre_delete signal and delete the file associated with the model instance.
 @receiver(post_delete, sender=Document)
