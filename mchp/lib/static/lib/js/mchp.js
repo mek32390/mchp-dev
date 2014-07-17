@@ -44,4 +44,15 @@ $(function() {
 		verticalHandleClass: 'handle3',
 		scrollIncrement: 50,
 	});
+
+	// for credit card fancy form 
+	$('#cardForm').card({
+    	container: '.card-wrapper', // *required*
+    	numberInput: 'input[name=number]',
+    	nameInput: 'input[name=first-name]',
+    	expiryInput: 'input[name=expiry]',
+    	cvcInput: 'input[name=cvc]',
+
+    	width: 350, // optional — default 350px
+	});
 });

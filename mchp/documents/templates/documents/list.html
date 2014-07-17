@@ -57,7 +57,7 @@
 											{{ upload.document.uuid}}/
 											{{ upload.document.slug}}
 											">{{ upload.document.title }}</a> <small>{{upload.document.price}} <i class="fa fa-fw fa-cube"></i></small>
-										<div class="pull-right small text-muted">Uploaded {{upload.document.create_date | naturaltime}}</div>
+										<div class="pull-right small text-muted">{{upload.document.create_date | naturaltime}}</div>
 									</h4>
 									<small class="pull-right">
 										<a href="javascript:void(0)" class="badge delete-button" data-document="{{upload.document.pk}}">delete</a>
@@ -79,16 +79,18 @@
 						{% endfor %} 
 					</div>   
 					<div id="no-documents" style="display: none;">
+						<hr>
 						<h4>You're not selling any documents!</h4>
 						<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
+						<hr>
 					</div> 
 					{% else %}
-					<hr>
 					<div id="no-documents" class="text-center">
+						<hr>
 						<h4>You're not selling any documents!</h4>
 						<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
+						<hr>
 					</div>
-					<hr> 
 					{% endif %} 
 				</div>
 
@@ -115,7 +117,7 @@
 											{{ doc.document.uuid}}/
 											{{ doc.document.slug}}
 											">{{ doc.document.title }}</a> <small>{{doc.document.price}} points</small>
-										<div class="pull-right small text-muted">Uploaded {{doc.document.create_date | naturaltime}}</div></h4>
+										<div class="pull-right small text-muted">{{doc.document.create_date | naturaltime}}</div></h4>
 									<small class="pull-right">
 										<a href="javascript:void(0)" class="badge remove-button" data-document="{{doc.document.pk}}">remove</a>
 									</small>
@@ -132,19 +134,19 @@
 						</li>
 						{% endfor %}
 					</div>
-					<hr>
 					<div id="no-purchases" class="text-center" style="display: none">
+						<hr>
 						<h4>You haven't purchased any documents!</h4>
 						<a href={% url 'document_list'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+						<hr>
 					</div>
-					<hr>
 					{% else %}
-					<hr>
 					<div id="no-purchases" class="text-center">
+						<hr>
 						<h4>You haven't purchased any documents!</h4>
 						<a href={% url 'document_list'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+						<hr>
 					</div>
-					<hr>
 					{% endif %}
 				</div>
 			</div>		
