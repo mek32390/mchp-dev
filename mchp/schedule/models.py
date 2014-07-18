@@ -67,8 +67,7 @@ class Course(models.Model):
                                                 self.professor)
 
     def __str__(self):
-        return "{}{} with prof. {} @ {}".format(self.dept, self.course_number, self.professor,
-                                                self.domain)
+        return "{}{} with prof. {} ".format(self.dept, self.course_number, self.professor)
 
 class Section(models.Model):
     domain = models.ForeignKey('School', related_name='Section_domain')
