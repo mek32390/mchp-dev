@@ -162,6 +162,14 @@ class DocumentDetailPreview(DetailView):
         # info about the document
         uploader = Upload.objects.get(document=self.object).owner
 
+        document = self.get_object()
+        owns = False
+        # check if they already bought the doc
+        uploader = Upload.objects.get(document=document).owner
+        if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
+           uploader.pk == self.student.pk:
+            owns = True
+
         # for the form to submit to the right page
         data = {
             'current_path': request.get_full_path(),
@@ -172,6 +180,7 @@ class DocumentDetailPreview(DetailView):
             'review_count': self.object.purchased_document.count(),
             'uuid': self.kwargs['uuid'],
             'slug': self.object.slug,
+            'owns': owns,
         }
         context.update(data)
         return self.render_to_response(context)

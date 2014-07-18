@@ -95,7 +95,13 @@
 						<form id="buy-form" method="post" action="{{current_path}}">
 							{% csrf_token %}
 						</form>
-						<button form="buy-form" class="btn btn-success"><i class="fa fa-fw fa-shopping-cart"></i>Buy Me</button>
+						<button form="buy-form" class="btn btn-success">
+							{% if owns %}
+							<i class="fa fa-fw fa-shopping-cart"></i>View
+							{% else %}
+							<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
+							{% endif %}
+						</button>
 						<a target="_blank" href="http://www.facebook.com/sharer.php?u=_URL_&t=_ADDITIONAL_TEXT_" class="btn btn-facebook"><i class="fa fa-fw fa-facebook"></i> Share this</a>
 						<button data-clipboard-text="{{request.get_host}}{{current_path}}" id="copy-button" class="btn btn-warning"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 						<span class="copy-message"></span>
