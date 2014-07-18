@@ -1,5 +1,6 @@
 from storages.backends.s3 import S3Storage
 
+import base64
 import hmac
 import hashlib
 import time
@@ -22,15 +23,11 @@ class S3Auth:
                 "\n" +\
                 str(expires) + "\n" +\
                 '/'+bucket+key
-        print(StringToSign)
         sig = hmac.new(self.encode(self.AWS_SECRET_ACCESS_KEY), msg=self.encode(StringToSign),
                        digestmod='sha1').digest()
     
         base_url = '{}.s3.amazonaws.com'.format(bucket)
-        print(sig)
-        import base64
         sig = base64.b64encode(sig).decode()
-        print(sig)
         parms = [
             ('AWSAccessKeyId', self.AWS_ACCESS_KEY_ID),
             ('Expires', expires),
@@ -38,8 +35,6 @@ class S3Auth:
         ]
         encoded_parms = urllib.parse.urlencode(parms)
         url = 'https://' + base_url + '{}?{}'.format(key, encoded_parms)
-                                                          # '&response-content-type=application/octet-stream')
-
         return url
 
     # this one doesn't work 

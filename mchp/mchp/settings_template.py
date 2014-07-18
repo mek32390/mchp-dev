@@ -103,17 +103,25 @@ USE_L10N = True
 
 USE_TZ = True
 
+# django-storages
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', '')
+AWS_STORAGE_BUCKET_NAME = 'mchp-dev'
+#AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
+# callingformat.subdomain is 2, let's hope this doesn't change
+AWS_CALLING_FORMAT = 2
+
+DEFAULT_FILE_STORAGE = 'documents.s3utils.MediaS3Storage' 
+STATICFILES_STORAGE = 'documents.s3utils.StaticS3Storage'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '//{}.s3.amazonaws.com/static/'.format(AWS_STORAGE_BUCKET_NAME)
+STATIC_ROOT = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'mchp/static')
-
-MEDIA_URL = '/media/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'mchp/media')
+MEDIA_URL =  '//{}.s3.amazonaws.com/media/'.format(AWS_STORAGE_BUCKET_NAME)
+MEDIA_ROOT = '/media/'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
@@ -150,12 +158,12 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-# django-storages
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
-AWS_STORAGE_BUCKET_NAME = ''
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+# celery
+# default RabbitMQ broker
+BROKER_URL = 'amqp://'
+
+# default RabbitMQ backend
+CELERY_RESULT_BACKEND = 'amqp://'
 
 #Logging
 LOGGING = {
