@@ -13,6 +13,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
+from haystack.query import SearchQuerySet
+
 from documents.forms import DocumentUploadForm
 from documents.models import Document, Upload, DocumentPurchase
 from documents.exceptions import DuplicateFileError
@@ -23,11 +25,33 @@ import math
 import logging
 logger = logging.getLogger(__name__)
 
+class AjaxableResponseMixin(object):
+    """
+    Mixin to add AJAX support to a form.
+
+    I stole this right from the django website.
+    """
+    def render_to_json_response(self, context, **response_kwargs):
+        data = json.dumps(context)
+        response_kwargs['content_type'] = 'application/json'
+        return HttpResponse(data, **response_kwargs)
+
+    def ajax_messages(self):
+        django_messages = []
+
+        for message in messages.get_messages(self.request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "extra_tags": message.tags,
+            })
+        return django_messages
+
 '''
 url: add/
 name: document_upload
 '''
-class DocumentFormView(FormView):
+class DocumentFormView(FormView, AjaxableResponseMixin):
     template_name = 'documents/upload.html'
     form_class = DocumentUploadForm
 
@@ -35,6 +59,10 @@ class DocumentFormView(FormView):
         return reverse('document_list')
 
     def get(self, request, *args, **kwargs):
+        # for search results
+        if request.is_ajax():
+            return self.autocomplete(request)
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -53,6 +81,20 @@ class DocumentFormView(FormView):
         context_data = Context(self.get_context_data(form=form))
         context_data.update(data)
         return render(request, self.template_name, context_data)
+
+    # haystack autocompleter
+    def autocomplete(self, request):
+        if not 'q' in request.GET:
+            return self.render_to_json_response({}, status=400)
+
+        sqs = SearchQuerySet().filter(dept_auto=request.GET['q'])
+        suggestions = [result.pk for result in sqs]
+        suggestions = map(lambda pk: Course.objects.get(pk=pk), suggestions)
+        # TODO serialize the django objects
+        data = json.dumps({
+            'results': suggestions
+        })
+        return self.render_to_json_response(data, status=200)
 
     def form_invalid(self, form):
         messages.error(
@@ -227,20 +269,16 @@ class DocumentDetailView(DetailView):
         if not purchased and owner.pk != self.student.pk:
             return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'] + '/' +
                             self.object.slug)
-
         # check if they have reviewed it
         reviewed = False
         if purchased:
             reviewed = DocumentPurchase.objects.filter(document=self.object,
                                                     student=self.student).values_list('review_date',
                                                                                      flat=True)[0]
-        print(reviewed)
         # it they uploaded it or already reviewed it, they shouldn't be able to rate it again
         rated = False
         if owner == self.student.pk or reviewed != None:
             rated = True
-
-
         context['rated'] = rated
         return self.render_to_response(context)
 
@@ -263,28 +301,6 @@ class DocumentDetailView(DetailView):
             return super(DocumentDetailView, self).dispatch(*args, **kwargs)
 
 document_detail = DocumentDetailView.as_view()
-
-class AjaxableResponseMixin(object):
-    """
-    Mixin to add AJAX support to a form.
-
-    I stole this right from the django website.
-    """
-    def render_to_json_response(self, context, **response_kwargs):
-        data = json.dumps(context)
-        response_kwargs['content_type'] = 'application/json'
-        return HttpResponse(data, **response_kwargs)
-
-    def ajax_messages(self):
-        django_messages = []
-
-        for message in messages.get_messages(self.request):
-            django_messages.append({
-                "level": message.level,
-                "message": message.message,
-                "extra_tags": message.tags,
-            })
-        return django_messages
 
 '''
 url: remove/

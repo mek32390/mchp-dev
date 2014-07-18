@@ -1,5 +1,6 @@
 from django.db import models,IntegrityError
 from django.core.validators import MinValueValidator, MaxValueValidator
+
 from schedule.utils import clean_domain, US_STATES
 
 class School(models.Model):
@@ -55,6 +56,7 @@ class Course(models.Model):
     professor = models.CharField(max_length=30)
     creation_date = models.DateTimeField(auto_now_add=True)
 
+    # managers for 'deleted' cases
     objects = models.Manager() # The default manager.
     display_objects = DisplayCourseManager()
 

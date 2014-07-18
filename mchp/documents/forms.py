@@ -43,6 +43,10 @@ class DocumentUploadForm(ModelForm):
             'price': TextInput(attrs=dict({
                 'placeholder':'ex: 500'
             }.items() | input_attr.items())),
+            'course': TextInput(attrs=dict({
+                'placeholder':'ex: csc 245',
+                'autocomplete': 'off',
+            }.items() | input_attr.items())),
         }
 
         labels = {

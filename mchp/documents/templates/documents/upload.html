@@ -27,7 +27,7 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="upload-form">
-				<form id="upload_form" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
+				<form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
 					{% csrf_token %}
 					{{ form.as_style }}
 					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary btn-block" /></p>
