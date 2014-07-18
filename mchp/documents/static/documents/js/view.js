@@ -44,13 +44,14 @@ $(function(){
 			data: {
 				'document': pk,
 				'review': $review.val(),
-				'vote': $vote.val(),
+				'vote': $vote.data('vote'),
 			},
 		})
 		// success
 		.done(function(data) {
 			messages = data.messages;
 			$('#rate_document').modal('hide');
+			$('#rate-button').fadeOut(600);
 		})
 		.fail(function(data) {
 			messages = data.responseJSON.messages;

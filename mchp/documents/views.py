@@ -223,13 +223,15 @@ class DocumentDetailView(DetailView):
         owner = Upload.objects.get(document=self.object).owner
 
         # check if they have reviewed it
-        reviewed = DocumentPurchase.objects.filter(document=self.object,
+        reviewed = False
+        if purchased:
+            reviewed = DocumentPurchase.objects.filter(document=self.object,
                                                     student=self.student).values_list('review_date',
-                                                                                     flat=True)
+                                                                                     flat=True)[0]
         print(reviewed)
-        # it they uploaded it, they shouldn't be able to rate it
+        # it they uploaded it or already reviewed it, they shouldn't be able to rate it again
         rated = False
-        if owner == self.student.pk:
+        if owner == self.student.pk or reviewed != None:
             rated = True
 
         # if not, redirect to the preview page

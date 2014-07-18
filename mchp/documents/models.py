@@ -76,6 +76,9 @@ class Document(models.Model):
     def purchase_count(self):
         return DocumentPurchase.objects.filter(document=self).count()
 
+    def review_count(self):
+        return DocumentPurchase.objects.filter(document=self).exclude(review_date=None).count()
+
     def rating(self):
         return self.up - self.down
 
@@ -100,8 +103,10 @@ class Document(models.Model):
 
     # same, but for negative votes
     def normalize_negative_votes(self):
-        if self.normalize_positive_votes() == 0:
+        if self.down < 1:
             return 0
+        elif self.normalize_positive_votes() == 0:
+            return 100
         else: 
             return 100 - self.normalize_positive_votes()
 

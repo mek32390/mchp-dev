@@ -27,12 +27,12 @@
 							<div id="vote" class="text-center">
 								<div class="form-group">
 									<label class="radio-inline" style="margin-left: none;">
-										<input type="radio" name="reviewRating" value="1">
+										<input type="radio" name="reviewRating" data-vote="1" >
 										<i class="fa fa-thumbs-up text-success"></i>
 									</label>
 
 									<label class="radio-inline">
-										<input type="radio" name="reviewRating" value="0">
+										<input type="radio" name="reviewRating" data-vote="0" >
 										<i class="fa fa-thumbs-down text-danger"></i>
 									</label>
 								</div>
@@ -70,11 +70,14 @@
 			</ol>
 			<h2>{{document.title}}
 				<div class="pull-right">
-					<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#rate_document"> <i class="fa fa-fw fa-star-half-o"></i> Rate Document</button>
+					{% if not rated %}
+					<button id="rate-button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#rate_document"> <i class="fa fa-fw fa-star-half-o"></i> Rate Document</button>
+					{% endif %}
 					<button class="btn btn-primary btn-sm btn-facebook"> <i class="fa fa-fw fa-facebook"></i> Share</button>
 					<button id="copy-button" class="btn btn-warning btn-md"
 						data-clipboard-text="http://{{request.get_host}}{{request.path}}">
 						<i class="fa fa-paperclip fa-fw"></i>Copy link</button>
+					<span class="copy-message"></span>
 				</div>
 			</h2>
 			<div class="progress">
