@@ -58,3 +58,6 @@ Amazon access id and secret key are now taken from environmental variables. Put 
 export AWS_ACCESS_KEY_ID=--your-access-key--
 export AWS_SECRET_ACCESS_KEY=--your-secret-key--
 ```
+
+pip install django-storages leaves out S3.py, so you'll need to make the file yourself in the proper folder where (lowercase) s3.py is located. Here are the contents of that file: https://raw.githubusercontent.com/coagulant/django-storages-py3/py3/S3.py
+```
