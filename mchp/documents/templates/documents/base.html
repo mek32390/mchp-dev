@@ -3,6 +3,9 @@
 {% block head_title %}{% endblock %}
 
 {% block head %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'documents/css/documents.css' %}">
+<script src="{% static 'documents/js/documents.js' %}"></script>
 {% endblock %}
 
 {% block extra_head %}
