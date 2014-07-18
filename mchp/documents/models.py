@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.conf import settings
+from django.utils import timezone
 
 from documents.exceptions import DuplicateFileError
 from documents.s3utils import S3Auth
@@ -140,3 +141,51 @@ class DocumentPurchase(models.Model):
         return "{} bought {}".format(
             self.student.user.username, 
             self.document.title)
+
+'''
+Document flagging
+'''
+# flag status
+FLAGGED = 1
+REVIEWED = 2
+CLOSED = 3
+REMOVED = 4
+FLAG_CHOICES = [
+    (FLAGGED, 'Flagged'),
+    (REVIEWED, 'Under review'),
+    (CLOSED, 'Ticket closed'),
+    (REMOVED, 'Content removed'),
+]
+
+# report reasons
+PROFESSOR = 1
+DUPLICATE = 2
+OTHER = 3
+FLAG_REASONS = [
+    (PROFESSOR, 'Instructor notes'),
+    (DUPLICATE, 'Duplication Document'),
+    (OTHER, 'Other reason'),
+]
+
+class DocumentFlag(models.Model):
+    document = models.ForeignKey('Document', related_name='flags')
+    
+    status = models.PositiveIntegerField(choices=FLAG_CHOICES, default=FLAGGED)
+    reason = models.PositiveSmallIntegerField(choices=FLAG_REASONS)
+    created = models.DateTimeField(auto_now_add=True)
+    closed = models.DateTimeField(blank=True, null=True)
+
+    student = models.ForeignKey('user_profile.Student')
+    ip = models.IPAddressField(blank=True, null=True)
+    
+    detail = models.CharField(max_length=300, blank=True)
+    staff_comment = models.TextField(blank=True, null=True)
+
+    def close(self, status=CLOSED):
+        self.status = status
+        self.closed = timezone.now()
+
+    def __unicode__(self):
+        return '{} has been flagged by {} ({})'.format(self.document.name, 
+                                                       self.student.user.user_name,
+                                                       self.ip)
