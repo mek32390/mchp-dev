@@ -8,9 +8,10 @@
 {% block extra_head %}
 	{% load staticfiles %}
 	<script src="{% static 'dashboard/js/quicklinks.js' %}"></script>
+  <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/quicklinks.css' %}">
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -37,7 +38,7 @@
         </form>
     </div>
    <!-- End Quicklinks -->
-  <div class="row"><!-- Begin Row -->
+   <div class="row"><!-- Begin Row --> 
     <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
       <h2 style>Today&nbsp;<small>in your life</small></h2>
       <hr style="margin-top:5px;">
@@ -71,11 +72,77 @@
           <h class="pull-right text-default"><small>in 5 hrs</small></h>
           <p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ENGR 102</strong></a></p>
         </div>
-      </div>  -->   
+      </div>  --> 
+      
+    <!-- h2>News <small>for your brain</small></h2>
+      <hr style="margin-top:5px;">
+      <ul class="list-group">
+  <li class="list-group-item">
+    <a>The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
+    <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
+  </li>
+  <li class="list-group-item">
+    <a>The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
+    <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
+  </li>
+</ul> -->
+      <!-- <div class="list-group"> -->
+        <!-- <div class="list-group-item"> -->
+    <!--          <div class="media">
+        <a class="pull-left" href="#">
+        <img src="http://1.bp.blogspot.com/-LxboJJo_drw/T_QfPeEK6JI/AAAAAAAACB8/p6R0zGys8hk/s1600/sketch185-July3rd.jpg" class="media-object img-circle img-thumbnail img-responsive center-block" width="55px"  alt="...">
+        </a>
+        <div class="media-body">
+          <h5 class="media-heading">Mitch Kessler <small>256 points <span class="pull-right">Level 4</span></small></h5>
+          <div class="progress" style="margin-bottom: 5px;">
+            <a href="#" class="progress-bar progress-bar-success" id="score_1">
+              <span class="sr-only">35% Complete (success)</span>
+            </a>
+            <a href="#" class="progress-bar progress-bar-primary" id="score_2">
+              <span class="sr-only">20% Complete (warning)</span>
+            </a>
+            <a href="#" class="progress-bar progress-bar-info" id="score_3" >
+              <span class="sr-only">45% Complete (danger)</span>
+            </a>
+          </div>
+          <p><span class="label label-primary">Novice</span> <span class="label label-default">10 Achievements</span></p>
+
+        </div>
+      </div> -->
+    <!-- </div> -->
+  <!-- </div> -->
+      <!-- <h5><strong><i class="fa fa-fw fa-users"></i> Friends</strong><span class="badge pull-right">25</span></h5>
+      <div class="list-group">
+        <div class="list-group-item">
+      <div class="media">
+        <a class="pull-left" href="#">
+        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/c0.35.160.160/p160x160/1546197_10152408453121654_377514791880411854_n.jpg" class="media-object img-circle img-thumbnail img-responsive center-block" width="40px"  alt="...">
+        </a>
+        <div class="media-body">
+          <h5 class="media-heading">Mike Attwood</h5>
+          <div class="progress">
+            <a href="#" class="progress-bar progress-bar-success" id="score_1">
+              <span class="sr-only">35% Complete (success)</span>
+            </a>
+            <a href="#" class="progress-bar progress-bar-primary" id="score_2">
+              <span class="sr-only">20% Complete (warning)</span>
+            </a>
+            <a href="#" class="progress-bar progress-bar-info" id="score_3" >
+              <span class="sr-only">45% Complete (danger)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
     </div><!-- End Today Col -->
-	<div class="col-sm-8 col-md-4 animated animated-sm bounceInUp delayed-sm"><!-- Begin Pulse Col -->
+
+	<div class="col-sm-4 col-md-5 animated animated-sm bounceInUp delayed-sm"><!-- Begin Pulse Col -->
       <h2 style>Pulse <small> feel the vibe</small></h2>
       <hr style="margin-top:5px;">
+      <!-- <div class="row">
+        <div class="col-sm-8"> -->
       <div class="list-group scrolls" id="pulse">
         <div class="list-group-item">
           <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
@@ -161,59 +228,47 @@
           </div>
         </div>
       </div>
-    </div><!-- End Pulse Col-->
-    <div class="col-md-5 animated animated-md bounceInUp delayed-md"><!-- Begin News Col -->
+    </div>
+    
+    <!-- </div> End Pulse Col -->
+    <div class="col-md-4 col-sm-4 animated animated-md bounceInUp delayed-md">
       <h2 style>News <small> for your brain</small></h2>
       <hr style="margin-top:5px;">
-      <ul class="nav nav-pills h6" id="newsTabs">
+      <ul class="list-group">
+  <li class="list-group-item">
+    <small class="pull-right"><small>11m</small></small>
+    <a>The Apple Mac Turns 30</a><small><span class="label  alert-info">FOX</span></small>
+    <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
+  </li>
+  <li class="list-group-item">
+    <small class="pull-right"><small>11m</small></small>
+    <a>Hit the Slopes in Comfort With These Top Three Goggles</a> <small><span class="label  alert-info">FOX</span></small>
+    <p class="small">Without the right goggles, a bluebird day on the mountain is nothing more than a recipe for snow blindness.</p>
+  </li>
+  <li class="list-group-item">
+    <small class="pull-right"><small>11m</small></small>
+    <a>This Might be the Best Reason EVER to Not Drop Out of School</a> <small><span class="label  alert-info">FOX</span></small>
+    <p class="small">A Reddit user posted this photo of a ten dollar bill. It contains perhaps the best reason ever to complete the highest level of eduction possible.</p>
+  </li>
+  <li class="list-group-item">
+    <small class="pull-right"><small>11m</small></small>
+    <a>Hobbyists pilot small drones for dogfights</a> <small><span class="label  alert-info">FOX</span></small>
+    <p class="small">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.</p>
+  </li>
+</ul>
+      <!-- <ul class="nav nav-pills h6" id="newsTabs">
         <li class="active"><a href="#" data-section="top">Top</a> </li>
         <li><a href="#" data-section="sports">Sports</a> </li>
         <li><a href="#" data-section="tech">Tech</a> </li>
         <li><a href="#" data-section="entertainment">Ent</a> </li>
         <li class="pull-right"><a href="#newsfeedModal" data-toggle="modal"><i class="fa fa-list-ul fa-fw"></i></a></li>
-      </ul>
-      <p></p>
-      <div class="list-group scrolls" id="news">
-        <div class="list-group-item">
-          <div class="media"><a class="pull-left newsImage" href="#"><img class="media-object img-thumbnail" alt="64x64" style="width: 85px; height: 64px;" src="http://global.fncstatic.com/static/managed/img/Scitech/Mac%20Turns%2030%20today.jpg"></a>
-            <div class="media-body">
-              <h5 class="media-heading"><a href="http://www.foxnews.com/tech/2014/01/24/apple-mac-still-influences-30-years-after-debut/" target="_blank">The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
-                <h class="pull-right"><small>11m</small></h>
-              </h5>
-              <span class="description">Look around. Many of the gadgets you see drew inspiration from the original Mac computer.</span> </div>
-          </div>
-        </div>
-        <div class="list-group-item">
-          <div class="media"><a class="pull-left newsImage" href="#"><img class="media-object img-thumbnail" alt="64x64" style="width: 85px; height: 64px;" src="http://www.wired.com/reviews/wp-content/uploads/2014/01/20131219-WIRED-WINTER-0495edit-1000x666-660x439.jpg"</a>
-            <div class="media-body">
-              <h5 class="media-heading"> <a href="http://www.wired.com/reviews/2014/01/ski-goggle-roundup/" target="_blank">Hit the Slopes in Comfort With These Top Three Goggles</a> <small><span class="label  alert-info">FOX</span></small>
-                <h class="pull-right"><small>15m</small></h>
-              </h5>
-              <span class="description">Without the right goggles, a bluebird day on the mountain is nothing more than a recipe for snow blindness.</span> </div>
-          </div>
-        </div>
-        <div class="list-group-item">
-          <div class="media"><a class="pull-left newsImage" href="#"><img class="media-object img-thumbnail" alt="64x64" style="width: 85px; height: 64px;" src="http://brobible.com/files/uploads/images/bro-life/WTF/Ten_Dollar_Bill_Warning.jpg"</a>
-            <div class="media-body">
-              <h5 class="media-heading"> <a href="http://brobible.com/college/article/message-on-ten-dollar-bill" target="_blank">This Might be the Best Reason EVER to Not Drop Out of School</a> <small><span class="label  alert-info">BroBible</span></small>
-                <h class="pull-right"><small>30m</small></h>
-              </h5>
-              <span class="description">A Reddit user posted this photo of a ten dollar bill. It contains perhaps the best reason ever to complete the highest level of eduction possible.</span> </div>
-          </div>
-        </div>
-        <div class="list-group-item">
-          <div class="media"><a class="pull-left newsImage" href="#"><img class="media-object img-thumbnail" alt="64x64" style="width: 85px; height: 64px;" src="http://i2.cdn.turner.com/cnn/dam/assets/140122133547-drone-fly-in-12-horizontal-gallery.jpg"</a>
-            <div class="media-body">
-              <h5 class="media-heading"> <a href="http://www.cnn.com/2014/01/24/tech/innovation/drone-hobbyists/index.html?hpt=hp_bn5" target="_blank">Hobbyists pilot small drones for dogfights</a> <small><span class="label  alert-info">CNN</span></small>
-                <h class="pull-right"><small>1h</small></h>
-              </h5>
-              <span class="description">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.
-              He began attending "Fight Club"-like meetups in the Bay Area where enthusiasts pit the amateur flying machines against each other in bloodless battles of strength and flying technique.</span> </div>
-          </div>
-        </div>
-      </div>
-    </div><!-- End News Col -->
-  </div><!-- End Row -->
+      </ul> -->
+<!--       <p></p> -->
+      <!-- div class="list-group scrolls" id="news">
+        
+      </div>  -->
+    </div>  <!-- End News Col  -->
+   </div> <!--End Row -->
 </div><!-- End Container -->
 
 {% endblock %}
