@@ -164,11 +164,12 @@ class DocumentDetailPreview(DetailView):
 
         document = self.get_object()
         owns = False
-        # check if they already bought the doc
-        uploader = Upload.objects.get(document=document).owner
-        if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
-           uploader.pk == self.student.pk:
-            owns = True
+        if not request.user.is_anonymous():
+            # check if they already bought the doc
+            uploader = Upload.objects.get(document=document).owner
+            if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
+               uploader.pk == self.student.pk:
+                owns = True
 
         # for the form to submit to the right page
         data = {
@@ -222,6 +223,11 @@ class DocumentDetailView(DetailView):
         # or if they own the doc
         owner = Upload.objects.get(document=self.object).owner
 
+        # if not, redirect to the preview page
+        if not purchased and owner.pk != self.student.pk:
+            return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'] + '/' +
+                            self.object.slug)
+
         # check if they have reviewed it
         reviewed = False
         if purchased:
@@ -234,10 +240,6 @@ class DocumentDetailView(DetailView):
         if owner == self.student.pk or reviewed != None:
             rated = True
 
-        # if not, redirect to the preview page
-        if not purchased and owner.pk != self.student.pk:
-            return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'] + '/' +
-                            self.object.slug)
 
         context['rated'] = rated
         return self.render_to_response(context)

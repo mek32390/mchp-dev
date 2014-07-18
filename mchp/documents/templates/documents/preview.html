@@ -154,7 +154,11 @@
 								{% for purchase in reviews %}
 								<tr>
 									<td>"{{purchase.review}}" &nbsp;-
+										{% if not request.user.is_anonymous %}
 										<a href="{% url "profile" %}{{purchase.student.user.username}}">{{purchase.student.user.username}}</a>
+										{% else %}
+										<a href="#">Anonymous</a>
+										{% endif %}
 									</td>
 									<td>
 										<small class="pull-right">{{purchase.review_date | naturaltime}}</small>
