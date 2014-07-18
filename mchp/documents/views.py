@@ -176,8 +176,8 @@ class DocumentDetailPreview(DetailView):
             'docs_sold': uploader.sales(),
             'uploader': uploader.user.username,
             'student': self.student,
-            'reviews': self.object.purchased_document.all(),
-            'review_count': self.object.purchased_document.count(),
+            'reviews': self.object.purchased_document.exclude(review_date=None),
+            'review_count': self.object.purchased_document.exclude(review_date=None).count(),
             'uuid': self.kwargs['uuid'],
             'slug': self.object.slug,
             'owns': owns,
@@ -221,11 +221,23 @@ class DocumentDetailView(DetailView):
                                                     student=self.student).exists()
         # or if they own the doc
         owner = Upload.objects.get(document=self.object).owner
+
+        # check if they have reviewed it
+        reviewed = DocumentPurchase.objects.filter(document=self.object,
+                                                    student=self.student).values_list('review_date',
+                                                                                     flat=True)
+        print(reviewed)
+        # it they uploaded it, they shouldn't be able to rate it
+        rated = False
+        if owner == self.student.pk:
+            rated = True
+
         # if not, redirect to the preview page
         if not purchased and owner.pk != self.student.pk:
             return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'] + '/' +
                             self.object.slug)
 
+        context['rated'] = rated
         return self.render_to_response(context)
 
     def get_object(self):
