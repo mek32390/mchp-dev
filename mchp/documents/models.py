@@ -3,6 +3,7 @@ from django.template.defaultfilters import slugify
 from django.conf import settings
 
 from documents.exceptions import DuplicateFileError
+from documents.s3utils import S3Auth
 from schedule.models import School, Course
 
 import hashlib
@@ -80,17 +81,8 @@ class Document(models.Model):
 
     def tmp_url(self):
         doc = self.document
-        from storages.backends.S3 import QueryStringAuthGenerator
-        q = QueryStringAuthGenerator(doc.storage.connection.aws_access_key_id, doc.storage.connection.aws_secret_access_key)
-        q.set_expires_in(60)
-        url = q.generate_url('post', settings.AWS_STORAGE_BUCKET_NAME, 'media/' + doc.name)
-        logger.debug(url)
-        import subprocess
-
-        proc = subprocess.Popen(["./url2.py {}".format('media/' + doc.name)], stdout=subprocess.PIPE, shell=True)
-        (out, err) = proc.communicate()
-        url = out
-        logger.debug(url)
+        s = S3Auth(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+        url = s.get_v2('mchp-dev', '/media/' + doc.name)
         return url
 
     '''

@@ -2,12 +2,21 @@ from django.test import TestCase
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from django.db.transaction import atomic
+from django.conf import settings
 
 from documents.models import Document, Upload
+from documents.s3utils import S3Auth
 from schedule.models import School, Course
 from user_profile.models import Student
 
 # import mock
+
+class DocumentUtilsTest(TestCase):
+
+    def s3_url(self):
+        s = S3Auth(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+        url = s.get_v2('mchp-dev', '/media/documents/1880s_uncle_grandpa.gif')
+        print(url)
 
 class DocumentModelTest(TestCase):
     def setUp(self):
