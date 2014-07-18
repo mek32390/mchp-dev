@@ -55,4 +55,43 @@ $(function() {
 
     	width: 350, // optional — default 350px
 	});
+
+	// hover opacity for score bar
+	$('.score-bar').on( "mouseenter", function () {
+		$(this).css({'transition':'opacity .5s ease 0s', 'opacity':'1'});
+	});
+	$('.score-bar').on( "mouseleave", function () {
+		$(this).css({'transition':'opacity .5s ease 0s', 'opacity':'.5'} );
+	});		
+	//Score bar double click
+	$('.score-bar').on( "dblclick", function () {
+		// $('.score-breakdown').toggleClass('hidden').toggleClass('animated slideInRight');
+		$('#score_1').toggleClass('hidden').toggleClass('animated slideInLeft');
+		$('#score_2').toggleClass('hidden').toggleClass('animated slideInRight');
+		$('#score_3').toggleClass('hidden').toggleClass('animated slideInRight');
+		$('#level_score').removeClass('hidden').toggleClass('animated slideInLeft');
+	});
+	// score bar entrance on page load
+	$('#score_1').css({'width':'35%', 'transition':'width 1.5s ease 0s'});
+	$('#score_2').css({'width':'55%', 'transition':'width 2s ease 0s'});
+	$('#score_3').css({'width':'10%', 'transition':'width 1s ease 0s'});
+
+	//giving each score section a tooltip on user's total score
+	$('#score_1').tooltip({
+    'show': true,
+        'placement': 'bottom',
+        'title': "Score 1"
+	});
+
+	$('#score_2').tooltip({
+    'show': true,
+        'placement': 'bottom',
+        'title': "Score 2"
+	});
+
+	$('#score_3').tooltip({
+    'show': true,
+        'placement': 'bottom',
+        'title': "Score 3"
+	});
 });
