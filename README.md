@@ -52,3 +52,9 @@ To start elasticsearch:
 ```
 # elasticsearch -d es.config=/path/to/elasticsearch.yml
 ```
+
+Amazon access id and secret key are now taken from environmental variables. Put these commands in a .bashrc or similar file to have them run every time a new shell is started. The settings file will take care about loading these.
+```
+export AWS_ACCESS_KEY_ID=--your-access-key--
+export AWS_SECRET_ACCESS_KEY=--your-secret-key--
+```
