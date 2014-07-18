@@ -63,3 +63,12 @@ pip install django-storages leaves out S3.py, so you'll need to make the file yo
 ```
 Here are the contents of that file: https://raw.githubusercontent.com/coagulant/django-storages-py3/py3/S3.py
 ```
+For rabbitMQ (maybe):
+```
+# rabbitmq-server
+```
+For starting celery (start rabbitMQ first):
+``` 
+# celery -A mchp worker -l info
+```
+
