@@ -9,5 +9,10 @@
   /*max-width: 245px;*/
 }
 
+li {
+	list-style: none;
+}
 
-
+.upload-form .dropdown-menu {
+	margin-top: 45px;
+}

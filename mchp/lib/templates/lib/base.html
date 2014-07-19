@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{% block head_title %}{% endblock %}</title>
+	<head>
+		<title>{% block head_title %}{% endblock %}</title>
 
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css">
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/css/card.min.css" >
+		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css">
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/css/card.min.css" >
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/js/card.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/js/card.min.js"></script>
 
 		{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/mchp.css' %}">
@@ -18,310 +18,310 @@
 		<script src="{% static 'lib/js/mchp.js' %}"></script>
 		<!-- // <script src="{% static 'lib/js/card.js' %}"></script> -->
 		<script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
-    {% block head %}
-    {% endblock %}
-    {% block extra_head %}
-    {% endblock %}
+		{% block head %}
+		{% endblock %}
+		{% block extra_head %}
+		{% endblock %}
 
-  </head>
-  <body>
+	</head>
+	<body>
 
-<!-- Set Homepage Modal -->
-<div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="sethomeModalLabel">Make us your Homepage!</h4>
-      </div>
-      <div class="modal-body">
-      <img class="center-block" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" alt="select browser">
-      <h4 class="text-center">Pick your poison:</h4>
-      <!-- Start Collapse -->
-      <div class="panel-group" id="accordion">
-  <div class="panel panel-primary">
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="cursor:pointer;">
-      <h4 class="panel-title">
-          Safari
-      </h4>
-    </div>
-		    <div id="collapseOne" class="panel-collapse collapse in">
-		      <div class="panel-body">
-		      <ol>
-						<li>Click <strong>"Safari"</strong> and choose <strong>"Preferences"</strong> from the navigation toolbar.</li>
-						<li>Select the <strong>"General"</strong> tab and in the Homepage field, copy and paste <strong>"http://mycollegehomepage.com/"</strong></li>
-		                <li>Set both the <strong>"New windows open with"</strong> and <strong>"New tabs open with"</strong> options to <strong>"Homepage"</strong>.</li>
-			  </ol>
-		      </div>
-		    </div>
-		  </div>
-		  <div class="panel panel-success">
-		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="cursor:pointer;">
-		      <h4 class="panel-title">
-		          Chrome
-		      </h4>
-		    </div>
-		    <div id="collapseTwo" class="panel-collapse collapse">
-		      <div class="panel-body">
-		      <ol>
-						<li>Click the Chrome menu on the browser toolbar (Three horizontal lines in the top right)</li>
-						<li>Click on <strong>Settings</strong></li>
-						<li>In the <strong>"On Startup"</strong> section, select the <strong>"Open a specific page or set of pages."</strong> option, and then click <strong>"Set Pages"</strong></li>
-						<li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
-						<li>In the <strong>"Appearance"</strong> section, select the <strong>"Show Home button"</strong> checkbox, and a web address will appear below it.</li>
-						<li>Click <strong>"Change"</strong> and in the pop up window, select <strong>"Open this page"</strong></li>
-						<li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
-			  </ol>
-		      </div>
-		    </div>
-		  </div>
-		  <div class="panel panel-warning">
-		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="cursor:pointer;">
-		      <h4 class="panel-title">
-		          Firefox
-		      </h4>
-		    </div>
-		    <div id="collapseThree" class="panel-collapse collapse">
-		      <div class="panel-body">
-				<ol>
-					<li>At the top of your browser window, you'll see the Firefox tool bar (this includes the words "File", "Edit", etc.). Click on <strong>Tools,</strong> then <strong>Options.</strong></li>
-					<li>The popup window will open up with the default option of General. At the top of the window, you'll see <strong>"Home Page Locations."</strong> Click on <strong>"Use Current Page."</strong></li>
-				</ol>
-		      </div>
-		    </div>
-		    </div>
-		    <div class="panel panel-danger">
-		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="cursor:pointer;">
-		      <h4 class="panel-title">
-		          Internet Explorer
-		      </h4>
-		    </div>
-		    <div id="collapseFour" class="panel-collapse collapse">
-		      <div class="panel-body">
-		      <ol>
-						<li>Go to toolbar at the top of browser, and click on <strong>"Tools",</strong> then <strong>"Internet Options".</strong> </li>
-						<li>At the top of the pop-up, you'll see a <strong>"Home Page"</strong> box. The address of the site that you are currently at is there. Press the <strong>"Use Current"</strong> button to specify this page as your home page.</li>
-					</ol>
-		    </div>
-		  </div>
-		  </div>
-		  <div class="panel panel-default">
-		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" style="cursor:pointer;">
-		      <h4 class="panel-title">
-		          iPhone or IPad
-		      </h4>
-		    </div>
-		    <div id="collapseFive" class="panel-collapse collapse">
-		      <div class="panel-body">
-		      <ol>
-		               <li>Click on the button on the bottom or top that looks like an arrow popping out of a rectangle. </li>
-					   <li>Select <strong>"Add to Home Screen"</strong></li>
-					   <li>This will create a shortcut to My College Homepage on your desktop.</li>
-			  </ol>
-		    </div>
-		  </div>
-		  </div>
-		</div>
-	  <!-- End Collapse -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- END HOMEPAGE MODAL -->
-
-<!-- Purchase Points Modal -->
-<div class="modal fade" id="pointsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-  <div class="modal-dialog" style="width:400px;">
-    <div class="modal-content">
-      <div class="modal-body">
-	<!-- Nav tabs -->
-<ul class="nav nav-pills nav-justified" role="tablist">
-  <li class="active"><a href="#purchasePoints" role="tab" data-toggle="tab">Purchase Points</a></li>
-  <li><a href="#cashOut" role="tab" data-toggle="tab">Cash Out</a></li>
-  <li><a href="#cardInfo" role="tab" data-toggle="tab">Card Info</a></li>
-</ul>
-<hr>
-<div class="tab-content text-center">
-  <div class="tab-pane fade in active" id="purchasePoints">
-  	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/games.svg" class="animated rotateIn rollIn duration-sm" />
-  	<p></p>
-  	<p class="lead">How many points would you like today?</p>
-  	<form id="purchase_points">
-  	<select class="form-control">
-  		<option>500 Points</option>
-		<option>1,000 Points</option>
-		<option>2,000 Points</option>
-		<option>5,000 Points</option>
-	</select>
-	<p></p>
-	<button type="submit" class="btn btn-primary btn-block">Purchase</button>
-	</form>
-  </div><!-- end of purchase points tab -->
-  <div class="tab-pane fade" id="cashOut">
-  	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pig.svg" class="animated rubberBand"/>
-  	<p></p>
-  	<p class="lead">Thanks for doing business with us!</p>
-  	<button class="btn btn-primary btn-block">Cash Out</button>
-  </div><!-- end of cash out tab -->
-  <div class="tab-pane fade" id="cardInfo">
-        <div class="card-wrapper"></div>
-        <p></p>
-        <form id="cardForm" class="text-center">
-            <div class="form-group">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa-fw fa fa-credit-card"></i></span>
-                <input type="text" class="form-control" placeholder="Card number" name="number"/>
-                </div>    
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa-fw fa fa-user"></i></span>
-                <input type="text" class="form-control" placeholder="Full name" name="first-name"/>
-                </div>
-            </div>
-            <!--<input type="text" class="form-control" name="last-name"/>-->
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="form-group">
-                        <div class="input-group">
-                          <span class="input-group-addon"><i class="fa-fw fa fa-calendar-o"></i></span>
-                        <input type="text" class="form-control" placeholder="MM/YY"name="expiry"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="form-group">
-                        <div class="input-group">
-                          <span class="input-group-addon"><i class="fa-fw fa fa-barcode"></i></span>
-                        <input type="text" class="form-control" placeholder="CVC" name="cvc"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-primary btn-block" type="submit">Save Card</button>
-        </form>
-  </div><!-- end of card info tab -->
-</div><!-- end of tab content -->
-
-
-      </div><!-- end of modal body -->
-    </div>
-  </div>
-</div><!-- end of points modal -->
-
-    <!-- Start Navigation -->
-	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">mchp <small>beta</small></a>
+		<!-- Set Homepage Modal -->
+		<div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="sethomeModalLabel">Make us your Homepage!</h4>
+					</div>
+					<div class="modal-body">
+						<img class="center-block" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" alt="select browser">
+						<h4 class="text-center">Pick your poison:</h4>
+						<!-- Start Collapse -->
+						<div class="panel-group" id="accordion">
+							<div class="panel panel-primary">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="cursor:pointer;">
+									<h4 class="panel-title">
+										Safari
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<ol>
+											<li>Click <strong>"Safari"</strong> and choose <strong>"Preferences"</strong> from the navigation toolbar.</li>
+											<li>Select the <strong>"General"</strong> tab and in the Homepage field, copy and paste <strong>"http://mycollegehomepage.com/"</strong></li>
+											<li>Set both the <strong>"New windows open with"</strong> and <strong>"New tabs open with"</strong> options to <strong>"Homepage"</strong>.</li>
+										</ol>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-success">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="cursor:pointer;">
+									<h4 class="panel-title">
+										Chrome
+									</h4>
+								</div>
+								<div id="collapseTwo" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ol>
+											<li>Click the Chrome menu on the browser toolbar (Three horizontal lines in the top right)</li>
+											<li>Click on <strong>Settings</strong></li>
+											<li>In the <strong>"On Startup"</strong> section, select the <strong>"Open a specific page or set of pages."</strong> option, and then click <strong>"Set Pages"</strong></li>
+											<li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
+											<li>In the <strong>"Appearance"</strong> section, select the <strong>"Show Home button"</strong> checkbox, and a web address will appear below it.</li>
+											<li>Click <strong>"Change"</strong> and in the pop up window, select <strong>"Open this page"</strong></li>
+											<li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
+										</ol>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-warning">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="cursor:pointer;">
+									<h4 class="panel-title">
+										Firefox
+									</h4>
+								</div>
+								<div id="collapseThree" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ol>
+											<li>At the top of your browser window, you'll see the Firefox tool bar (this includes the words "File", "Edit", etc.). Click on <strong>Tools,</strong> then <strong>Options.</strong></li>
+											<li>The popup window will open up with the default option of General. At the top of the window, you'll see <strong>"Home Page Locations."</strong> Click on <strong>"Use Current Page."</strong></li>
+										</ol>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-danger">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="cursor:pointer;">
+									<h4 class="panel-title">
+										Internet Explorer
+									</h4>
+								</div>
+								<div id="collapseFour" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ol>
+											<li>Go to toolbar at the top of browser, and click on <strong>"Tools",</strong> then <strong>"Internet Options".</strong> </li>
+											<li>At the top of the pop-up, you'll see a <strong>"Home Page"</strong> box. The address of the site that you are currently at is there. Press the <strong>"Use Current"</strong> button to specify this page as your home page.</li>
+										</ol>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" style="cursor:pointer;">
+									<h4 class="panel-title">
+										iPhone or IPad
+									</h4>
+								</div>
+								<div id="collapseFive" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ol>
+											<li>Click on the button on the bottom or top that looks like an arrow popping out of a rectangle. </li>
+											<li>Select <strong>"Add to Home Screen"</strong></li>
+											<li>This will create a shortcut to My College Homepage on your desktop.</li>
+										</ol>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- End Collapse -->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+					</div>
+				</div>
 			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-					{% if user.is_authenticated %}
+		</div>
+		<!-- END HOMEPAGE MODAL -->
+
+		<!-- Purchase Points Modal -->
+		<div class="modal fade" id="pointsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+			<div class="modal-dialog" style="width:400px;">
+				<div class="modal-content">
+					<div class="modal-body">
+						<!-- Nav tabs -->
+						<ul class="nav nav-pills nav-justified" role="tablist">
+							<li class="active"><a href="#purchasePoints" role="tab" data-toggle="tab">Purchase Points</a></li>
+							<li><a href="#cashOut" role="tab" data-toggle="tab">Cash Out</a></li>
+							<li><a href="#cardInfo" role="tab" data-toggle="tab">Card Info</a></li>
+						</ul>
+						<hr>
+						<div class="tab-content text-center">
+							<div class="tab-pane fade in active" id="purchasePoints">
+								<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/games.svg" class="animated rotateIn rollIn duration-sm" />
+								<p></p>
+								<p class="lead">How many points would you like today?</p>
+								<form id="purchase_points">
+									<select class="form-control">
+										<option>500 Points</option>
+										<option>1,000 Points</option>
+										<option>2,000 Points</option>
+										<option>5,000 Points</option>
+									</select>
+									<p></p>
+									<button type="submit" class="btn btn-primary btn-block">Purchase</button>
+								</form>
+							</div><!-- end of purchase points tab -->
+							<div class="tab-pane fade" id="cashOut">
+								<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pig.svg" class="animated rubberBand"/>
+								<p></p>
+								<p class="lead">Thanks for doing business with us!</p>
+								<button class="btn btn-primary btn-block">Cash Out</button>
+							</div><!-- end of cash out tab -->
+							<div class="tab-pane fade" id="cardInfo">
+								<div class="card-wrapper"></div>
+								<p></p>
+								<form id="cardForm" class="text-center">
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa-fw fa fa-credit-card"></i></span>
+											<input type="text" class="form-control" placeholder="Card number" name="number"/>
+										</div>    
+									</div>
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa-fw fa fa-user"></i></span>
+											<input type="text" class="form-control" placeholder="Full name" name="first-name"/>
+										</div>
+									</div>
+									<!--<input type="text" class="form-control" name="last-name"/>-->
+									<div class="row">
+										<div class="col-xs-8">
+											<div class="form-group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa-fw fa fa-calendar-o"></i></span>
+													<input type="text" class="form-control" placeholder="MM/YY"name="expiry"/>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-4">
+											<div class="form-group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa-fw fa fa-barcode"></i></span>
+													<input type="text" class="form-control" placeholder="CVC" name="cvc"/>
+												</div>
+											</div>
+										</div>
+									</div>
+									<button class="btn btn-primary btn-block" type="submit">Save Card</button>
+								</form>
+							</div><!-- end of card info tab -->
+						</div><!-- end of tab content -->
+
+
+					</div><!-- end of modal body -->
+				</div>
+			</div>
+		</div><!-- end of points modal -->
+
+		<!-- Start Navigation -->
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">mchp <small>beta</small></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+						{% if user.is_authenticated %}
 						{% if user.student %}
-							<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{user.student.total_points}}</span> <i class="fa fa-cubes"></i></a>
-          <ul class="dropdown-menu">
-            <li> <a href="#pointsModal" data-toggle="modal" id="purchasePointsMenu"><span class="label label-primary"><i class="fa fa-usd"></i></span><strong class="text-primary"> Manage My Points</strong></a></li>
-            <li class="divider"></li>
-            <li> <a><span class="label label-success">+</span> 1000 Points Purchase</a> </li>
-            <li> <a><span class="label label-success">+</span> 500 Document Sold</a> </li>
-            <li> <a><span class="label label-danger">-</span> 200 Document Bought</a> </li>
-            <li> <a><span class="label label-danger">-</span> 100 Class Unlocked</a> </li>
-            <li> <a><span class="label label-success">+</span> 50 Achievement</a> </li>
-          </ul>
-        </li>
+						<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{user.student.total_points}}</span> <i class="fa fa-cubes"></i></a>
+							<ul class="dropdown-menu">
+								<li> <a href="#pointsModal" data-toggle="modal" id="purchasePointsMenu"><span class="label label-primary"><i class="fa fa-usd"></i></span><strong class="text-primary"> Manage My Points</strong></a></li>
+								<li class="divider"></li>
+								<li> <a><span class="label label-success">+</span> 1000 Points Purchase</a> </li>
+								<li> <a><span class="label label-success">+</span> 500 Document Sold</a> </li>
+								<li> <a><span class="label label-danger">-</span> 200 Document Bought</a> </li>
+								<li> <a><span class="label label-danger">-</span> 100 Class Unlocked</a> </li>
+								<li> <a><span class="label label-success">+</span> 50 Achievement</a> </li>
+							</ul>
+						</li>
 						{% endif %}
 						<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">5</span> <i class="fa fa-lightbulb-o"></i></a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a><span class="label label-success">New</span> ACCT-200 Document Added </a> 
-                </li>
-                <li>
-                  <a><span class="label label-success">New</span> ACCT-200 Assignment Updated</a> 
-                </li>
-                <li>
-                  <a><span class="label label-default">Read</span> Some notification</a> 
-                </li>
-                <li>
-                  <a><span class="label label-default">Read</span> Some notification</a> 
-                </li>
-                <li>
-                  <a><span class="label label-default">Read</span> Some notification</a> 
-                </li>
-              </ul>
-            </li>
- 					<li class="dropdown">
-          <a href="#" class="dropdown-toggle" id="user-dropdown" data-toggle="dropdown"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/profile.png" style="width:17px;" class="img-circle"> {{user.username}}
-          	<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="{% url 'profile' %}">My Page</a></li>
-            <li class="divider"></li>
-            <li><a href="{% url 'course_create'%}">Create class</a></li>
-            <li><a href="{% url 'course_add'%}">Add class</a></li>
-            <li class="divider"></li>
-            <li><a href="{% url 'document_upload'%}">Upload Document</a></li>
-            <li><a href="{% url 'document_list'%}">My Documents</a></li>
-            <li class="divider"></li>
-            <li><a href="{% url 'dashboard'%}">My Homepage</a></li>
-            <li><a data-toggle="modal" href="#sethomeModal">Set Homepage</a></li>
-            <li class="divider"></li>
-						<li><a href="{% url 'account_logout' %}">Log Out</a></li>
-          </ul>
-        </li>
-					{% else %}
-					<li><a href="/accounts/login">Login</a></li>
-					{% endif %}
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">5</span> <i class="fa fa-lightbulb-o"></i></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a><span class="label label-success">New</span> ACCT-200 Document Added </a> 
+								</li>
+								<li>
+									<a><span class="label label-success">New</span> ACCT-200 Assignment Updated</a> 
+								</li>
+								<li>
+									<a><span class="label label-default">Read</span> Some notification</a> 
+								</li>
+								<li>
+									<a><span class="label label-default">Read</span> Some notification</a> 
+								</li>
+								<li>
+									<a><span class="label label-default">Read</span> Some notification</a> 
+								</li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" id="user-dropdown" data-toggle="dropdown"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/profile.png" style="width:17px;" class="img-circle"> {{user.username}}
+								<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="{% url 'profile' %}">My Page</a></li>
+								<li class="divider"></li>
+								<li><a href="{% url 'course_create'%}">Create class</a></li>
+								<li><a href="{% url 'course_add'%}">Add class</a></li>
+								<li class="divider"></li>
+								<li><a href="{% url 'document_upload'%}">Upload Document</a></li>
+								<li><a href="{% url 'document_list'%}">My Documents</a></li>
+								<li class="divider"></li>
+								<li><a href="{% url 'dashboard'%}">My Homepage</a></li>
+								<li><a data-toggle="modal" href="#sethomeModal">Set Homepage</a></li>
+								<li class="divider"></li>
+								<li><a href="{% url 'account_logout' %}">Log Out</a></li>
+							</ul>
+						</li>
+						{% else %}
+						<li><a href="/accounts/login">Login</a></li>
+						{% endif %}
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div><!-- End Nav -->
+		<div class="progress score-bar" style="margin-top:-20px; opacity:.5;"><!-- Score Bar -->
+			<span class="score-breakdown">
+				<a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
+					<span class="sr-only">35% Complete (success)</span>
+				</a>
+				<a href="#" class="progress-bar progress-bar-primary animated slideInLeft" id="score_2">
+					<span class="sr-only">20% Complete (warning)</span>
+				</a>
+				<a href="#" class="progress-bar progress-bar-info animated slideInLeft" id="score_3" >
+					<span class="sr-only">45% Complete (danger)</span>
+				</a>
+			</span>
+			<a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
+				<span class="sr-only">35% Complete (success)</span>
+			</a>
+		</div><!-- End Score Bar -->
+
+
+
+
+		<!-- Django Messages -->
+		<div class="django-messages">
+			{% if messages %}
+			{% for message in messages %}
+			<div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<ul class="messages">
+					<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
 				</ul>
-			</div><!--/.nav-collapse -->
+			</div>
+			{% endfor %}
+			{% endif %}
 		</div>
-	</div><!-- End Nav -->
-			<div class="progress score-bar" style="margin-top:-20px; opacity:.5;"><!-- Score Bar -->
-				<span class="score-breakdown">
-			        <a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
-			          <span class="sr-only">35% Complete (success)</span>
-			        </a>
-			        <a href="#" class="progress-bar progress-bar-primary animated slideInLeft" id="score_2">
-			          <span class="sr-only">20% Complete (warning)</span>
-			        </a>
-			        <a href="#" class="progress-bar progress-bar-info animated slideInLeft" id="score_3" >
-			          <span class="sr-only">45% Complete (danger)</span>
-			        </a>
-			    </span>
-			    	<a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
-			          <span class="sr-only">35% Complete (success)</span>
-			        </a>
-		 	</div><!-- End Score Bar -->
-	
+		{% block body %}
+		{% endblock %}
 
-
-
-	<!-- Django Messages -->
-	<div class="django-messages">
-		{% if messages %}
-		{% for message in messages %}
-		<div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-			<ul class="messages">
-				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-			</ul>
-		</div>
-		{% endfor %}
-		{% endif %}
-	</div>
-    {% block body %}
-    {% endblock %}
-
-    {% block extra_body %}
-    {% endblock %}
-  </body>
+		{% block extra_body %}
+		{% endblock %}
+	</body>
 </html>

@@ -2,6 +2,7 @@ from allauth.account.decorators import verified_email_required
 
 from django.contrib import messages
 from django.conf import settings
+from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, get_object_or_404, redirect
@@ -65,19 +66,22 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-
         course_field = form.fields['course']
 
-        course_field.queryset = Course.display_objects.filter(
+        enrolled_courses = Course.display_objects.filter(
             student__user = self.request.user
         ).order_by('dept', 'course_number', 'professor')
+
+        course_field.queryset = enrolled_courses
         course_field.empty_label = 'Pick a course'
-        # the way the course is displayed in the dropdown , 
+
         # course.display comes from the model
         course_field.label_from_instance = lambda course: course.display()
-        data = {
 
+        data = {
+            'enrolled_courses': (enrolled_courses),
         }
+
         context_data = Context(self.get_context_data(form=form))
         context_data.update(data)
         return render(request, self.template_name, context_data)
@@ -87,12 +91,14 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         if not 'q' in request.GET:
             return self.render_to_json_response({}, status=400)
 
+        school = self.student.school
         sqs = SearchQuerySet().filter(dept_auto=request.GET['q'])
         suggestions = [result.pk for result in sqs]
-        suggestions = map(lambda pk: Course.objects.get(pk=pk), suggestions)
-        # TODO serialize the django objects
+        suggestions = list(map(lambda pk: Course.objects.get(pk=pk), suggestions))
+        suggestions = filter((lambda course: course.domain == school), suggestions)
+        course_data = serializers.serialize('json', suggestions)
         data = json.dumps({
-            'results': suggestions
+            'results': course_data
         })
         return self.render_to_json_response(data, status=200)
 

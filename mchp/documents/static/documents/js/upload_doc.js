@@ -10,31 +10,7 @@ $(function() {
 	$("#id_course").addClass("form-control input-lg");
 	// convert default browse file to nice input
 	$("#id_document").wrap("<div class='input-lg form-control'></div>").addClass("btn");
-    // convert course select to column
-    $("div.form-group:nth-child(4)").wrap("<div class='row'><div class='col-xs-8'></div></div>");
-    // add hidden course search input to column
-    $('div.form-group:nth-child(1)').before("<div class='form-group hidden' id='course_search_form'><div class='input-group'><span class='input-group-addon'><strong>Course Search:</strong></span><input type='text' placeholder='ex: ECON 200' class='form-control input-lg'></div></div>");
-    // add browse class button in it's own column
-    $("div.row:nth-child(4)").append("<div class='col-xs-4'><a href='#' id='course_search' class='btn btn-primary btn-block btn-lg'>Browse Classes</a></div>");
-    // swap the course select with the course search when search button is clicked
-    $('#course_search').click( function () {
-        $('.col-xs-8 > div:nth-child(2)').fadeOut(400, function () {
-        $('#course_search_form').fadeIn(500).removeClass('hidden');
-        });
-    });
 
-	// convert browse file button to BS3 button
-	// $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-        
- //        var input = $(this).parents('.input-group').find(':text'),
- //            log = numFiles > 1 ? numFiles + ' files selected' : label;
-        
- //        if( input.length ) {
- //            input.val(log);
- //        } else {
- //            if( log ) alert(log);
- //        }     
- //    });
     // Upload Doc Form Validation
   	$('#upload_form').bootstrapValidator({
         message: 'This value is not valid',
@@ -105,7 +81,7 @@ $(function() {
     
 	window.autocomplete = new Autocomplete({
 		form_selector: '.autocomplete',
-		minimum_length: 1,
+		minimum_length: 2,
 	});
 	window.autocomplete.setup();
 });
@@ -123,12 +99,18 @@ Autocomplete.prototype.setup = function() {
 	var self = this;
 
 	this.form_elem = $(this.form_selector);
-	console.log(this.form_elem);
-	this.query_box = this.form_elem.find('input[name=course]');
-	console.log(this.query_box);
+	this.query_box = $('#id_course');
+	// rename input field
+	self.query_box.name = "display";
+	var $drop = $('#ac-dropdown');
 
 	// Watch the input box.
 	this.query_box.on('keyup', function() {
+		$('#drop-li').attr('class', 'dropdown open');
+		// remove the old search results
+		$drop.find('.divider').remove();
+		$drop.find('.search-results').remove();
+
 		var query = self.query_box.val();
 
 		if(query.length < self.minimum_length) {
@@ -138,11 +120,20 @@ Autocomplete.prototype.setup = function() {
 	});
 
 	// On selecting a result, populate the search field.
-	this.form_elem.on('click', '.ac-result', function(ev) {
-		self.query_box.val($(this).text());
-		$('.ac-results').remove();
-		return false;
+	$drop.click(function(what){
+		// get the li element
+		var $link = $(what.target).parent();
+
+		// take off the + sign and whitespace
+		var display = $link.text().slice(2).trim();
+		self.query_box.val(display);
+
+		// add the data-course to the hidden field
+		var pk = $link.data('course');
+		$hidden = $('#hidden_course');
+		$hidden.val(pk);
 	});
+	
 };
 
 Autocomplete.prototype.fetch = function(query) {
@@ -153,42 +144,31 @@ Autocomplete.prototype.fetch = function(query) {
 		data: {
 			'q': query,
 		},
+		dataType: 'json',
 		success: function(data) {
-			self.show_results(data);
+			var results = JSON.parse(data).results || [];
+			results = JSON.parse((results));
+			self.show_results(results);
 		}
 	});
 };
 
-Autocomplete.prototype.show_results = function(data) {
-	// Remove any existing results.
-	$('.ac-results').remove();
+Autocomplete.prototype.show_results = function(results) {
+	$drop = $('#ac-dropdown');
 
-	var results = data.results || [];
-	var results_wrapper = $('<div class="ac-results"></div>');
-	var base_elem = $('<div class="result-wrapper"><a href="#" class="ac-result"></a></div>');
-
-	if(results.length > 0) {
-		for(var res_offset in results) {
-			var elem = base_elem.clone();
-			// Don't use .html(...) here, as you open yourself to XSS.
-			// Really, you should use some form of templating.
-			elem.find('.ac-result').text(results[res_offset]);
-			results_wrapper.append(elem);
-		}
+	// a new line for a class
+	var $base_result_elem = $('<li class="search-results"> <a class="ac-link"><span class="label label-success">+</span></a></li>');
+	// if there are results, add a divider to divide them from enrolled classes
+	if (results.length > 0) {
+		$divider = $('<li class=divider><li>');
+		$drop.append($divider);
 	}
-	else {
-		var elemn = base_elem.clone();
-		elemn.text("No results found.");
-		results_wrapper.append(elemn);
-	}
-
-	this.query_box.after(results_wrapper);
+	// add a new li for each result
+	$.each(results, function(i, result){
+		var $result_elem = $base_result_elem.clone();
+		var display = result.fields.dept + result.fields.course_number + " with Instructor " + result.fields.professor;
+		$result_elem.children('a').append(display);
+		$result_elem.data('course', result.pk);
+		$drop.append($result_elem);
+	});
 };
-
-// provide feedback on browse file button
-// $(document).on('change', '.btn-file :file', function() {
-//   var input = $(this),
-//       numFiles = input.get(0).files ? input.get(0).files.length : 1,
-//       label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-//   input.trigger('fileselect', [numFiles, label]);
-// });

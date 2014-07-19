@@ -46,7 +46,9 @@ class DocumentUploadForm(ModelForm):
             'course': TextInput(attrs=dict({
                 'placeholder':'ex: csc 245',
                 'autocomplete': 'off',
-            }.items() | input_attr.items())),
+                'data-toggle': 'dropdown',
+                'class': 'form-control input-lg dropdown-toggle'
+            }.items())),
         }
 
         labels = {

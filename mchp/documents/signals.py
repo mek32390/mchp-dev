@@ -18,8 +18,11 @@ def create_preview_task(sender, instance, **kwargs):
         return 
 
     # this queues a celery task
-    # create_preview.delay(instance)
-    create_preview(instance)
+    try:
+        create_preview.delay(instance)
+    except OSError:
+        # no thumbs for you (start celery/MQ process)
+        pass
 
 # Receive the pre_delete signal and delete the file associated with the model instance.
 @receiver(post_delete, sender=Document)
