@@ -15,6 +15,23 @@
 {% endblock %}
 
 {% block body %}
+<div class="progress score-bar" style="margin-top:-20px; opacity:.5;"><!-- Score Bar -->
+  <span class="score-breakdown">
+    <a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
+      <span class="sr-only">35% Complete (success)</span>
+    </a>
+    <a href="#" class="progress-bar progress-bar-primary animated slideInLeft" id="score_2">
+      <span class="sr-only">20% Complete (warning)</span>
+    </a>
+    <a href="#" class="progress-bar progress-bar-info animated slideInLeft" id="score_3" >
+      <span class="sr-only">45% Complete (danger)</span>
+    </a>
+  </span>
+  <a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
+    <span class="sr-only">35% Complete (success)</span>
+  </a>
+</div><!-- End Score Bar -->
+
 <div class="container">
   <ol id="columns" class="breadcrumb animated animated-s fadeInLeft" style="margin-bottom:5px; background-color:;">
     <li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span>  <span id="weather_temp">66&deg; F</span> &nbsp;</li>			 
@@ -237,26 +254,26 @@
       <ul class="list-group">
   <li class="list-group-item">
     <small class="pull-right"><small>11m</small></small>
-    <a>The Apple Mac Turns 30</a><small><span class="label  alert-info">FOX</span></small>
+    <a href="#">The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
     <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
   </li>
   <li class="list-group-item">
     <small class="pull-right"><small>11m</small></small>
-    <a>Hit the Slopes in Comfort With These Top Three Goggles</a> <small><span class="label  alert-info">FOX</span></small>
+    <a href="#">Hit the Slopes in Comfort With These Top Three Goggles</a> <small><span class="label  alert-info">FOX</span></small>
     <p class="small">Without the right goggles, a bluebird day on the mountain is nothing more than a recipe for snow blindness.</p>
   </li>
   <li class="list-group-item">
     <small class="pull-right"><small>11m</small></small>
-    <a>This Might be the Best Reason EVER to Not Drop Out of School</a> <small><span class="label  alert-info">FOX</span></small>
+    <a href="#">This Might be the Best Reason EVER to Not Drop Out of School</a> <small><span class="label  alert-info">FOX</span></small>
     <p class="small">A Reddit user posted this photo of a ten dollar bill. It contains perhaps the best reason ever to complete the highest level of eduction possible.</p>
   </li>
   <li class="list-group-item">
     <small class="pull-right"><small>11m</small></small>
-    <a>Hobbyists pilot small drones for dogfights</a> <small><span class="label  alert-info">FOX</span></small>
+    <a href="#">Hobbyists pilot small drones for dogfights</a> <small><span class="label  alert-info">FOX</span></small>
     <p class="small">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.</p>
   </li>
 </ul>
-      <!-- <ul class="nav nav-pills h6" id="newsTabs">
+      <!-- <! <ul class="nav nav-pills h6" id="newsTabs">
         <li class="active"><a href="#" data-section="top">Top</a> </li>
         <li><a href="#" data-section="sports">Sports</a> </li>
         <li><a href="#" data-section="tech">Tech</a> </li>
@@ -266,8 +283,10 @@
 <!--       <p></p> -->
       <!-- div class="list-group scrolls" id="news">
         
-      </div>  -->
-    </div>  <!-- End News Col  -->
+      </div> -->
+
+    </div>
+    </div>  <!--End News Col  --> 
    </div> <!--End Row -->
 </div><!-- End Container -->
 
