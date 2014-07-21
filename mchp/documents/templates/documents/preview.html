@@ -101,9 +101,15 @@
 							<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
 							{% endif %}
 						</button>
-						<a href="{{request.get_host}}{{current_path}}" data-image="{{document.preview.url}}"
-							data-title="{{document.title}}" data-desc="{{document.description}}" class="btnShare
-							btn btn-facebook fb-share-button">
+						<a href="{{request.get_host}}{{current_path}}" 
+						{% if document.preview %}
+							data-image="{{document.preview.url}}"
+						{% else %}
+							data-image=""
+						{% endif %}
+							data-title="{{document.title}}" 
+							data-desc="{{document.description}}" 
+							class="btnShare btn btn-facebook fb-share-button">
 							<i class="fa fa-fw fa-facebook"></i>Share this</a>
 						<button data-clipboard-text="{{request.get_host}}{{current_path}}" id="copy-button" class="btn btn-warning"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 						<span class="copy-message"></span>
@@ -115,10 +121,15 @@
 							<div class="media">
 								<a class="pull-left" href="#">
 									<img class="media-object img-circle img-thumbnail" 
-									src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="65px">
+									src="{{uploader.profile.profile_image_url}}" width="65px">
 								</a>
 								<div class="media-body">
-									<h4 class="media-heading">{{uploader}}
+									<h4 class="media-heading">
+										{% if uploader.user.first_name %}
+										{{uploader.user.first_name}}
+										{% else %}
+										{{uploader.user.username}}
+										{% endif %}
 										<span class="pull-right small">{{document.create_date | naturaltime}}</span>
 									</h4>
 									<p><span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> <span

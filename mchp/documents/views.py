@@ -223,7 +223,7 @@ class DocumentDetailPreview(DetailView):
         data = {
             'current_path': request.get_full_path(),
             'docs_sold': uploader.sales(),
-            'uploader': uploader.user.username,
+            'uploader': uploader,
             'student': self.student,
             'reviews': self.object.purchased_document.exclude(review_date=None),
             'review_count': self.object.purchased_document.exclude(review_date=None).count(),
