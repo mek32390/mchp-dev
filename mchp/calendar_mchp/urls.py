@@ -1,12 +1,13 @@
 from django.conf.urls import patterns, url
-from django.core.urlresolvers import reverse_lazy
-from django.views.generic import RedirectView
 
 from calendar_mchp import views
 
 urlpatterns = patterns('',
-    url(r'^course/create/', views.course_create, name='course_create'),
-    url(r'^course/remove/', views.course_remove, name='course_remove'),
-    url(r'^course/add/', views.course_add, name='course_add'),
-    url(r'^$', RedirectView.as_view(url=reverse_lazy('user_profile'))),
+    url(r'^create/', views.calendar_create, name='calendar_create'),
+    url(r'^delete/', views.calendar_delete, name='calendar_delete'),
+    url(r'^events/add/', views.event_add, name='event_add'),
+
+    url(r'^preview/(?P<uuid>[^/]+)', views.calendar_preview, name='calendar_preview'),
+
+    url(r'^$', views.calendar, name='calendar'),
 )
