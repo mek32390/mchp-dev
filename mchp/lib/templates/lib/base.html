@@ -263,10 +263,10 @@
 						<li class="dropdown">
 							{% if user.student %}
 							<a href="#" class="dropdown-toggle" id="user-dropdown" data-toggle="dropdown"><img
-								src="{{user.student.profile.profile_image_url}}" style="width:17px;"
+								src="{{user.student.profile.profile_image_url}}" style="width:21px;"
 								class="img-circle"> {% if user.first_name %}{{user.first_name}}{%else%}{{user.username}}{% endif %}
 								{% else %}
-							<a href="#" class="dropdown-toggle" id="user-dropdown" data-toggle="dropdown"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/profile.png" style="width:17px;" class="img-circle"> {{user.username}}
+							<a href="#" class="dropdown-toggle" id="user-dropdown" data-toggle="dropdown"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/profile.png" style="width:21px;" class="img-circle"> {{user.username}}
 								{% endif %}
 								<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
 							<ul class="dropdown-menu" role="menu">

@@ -1,4 +1,11 @@
-[draggable] {
+.ql-placeholder { 
+    width: 50px;
+    background: #CCC;
+    margin-left: 5px;
+    border-radius: 3px;
+}
+
+/*[draggable] {
     -moz-user-select:none;
     -khtml-user-select:none;
     -webkit-user-select:none;
@@ -82,3 +89,4 @@
     border:1px solid transparent;
     padding:.3em
 }
+*/
