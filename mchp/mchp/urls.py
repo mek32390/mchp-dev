@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 
 from django.contrib import admin
 admin.autodiscover()
@@ -17,4 +18,5 @@ urlpatterns = patterns('',
     url(r'^dashboard/', include('dashboard.urls')),
     url('^\u262d', 'landing.views.party'),
     url(r'^$', include('landing.urls')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/lib/img/favicon.ico')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
