@@ -19,11 +19,14 @@ logger = logging.getLogger(__name__)
 @verified_email_required
 def profile(request):
     student = Student.objects.filter(user=request.user)
-    data = {}
     if not len(student):
         return redirect(reverse('confirm_school')+"?next="+request.get_full_path())
     else:
-        return render(request, 'user_profile/profile.html', Context(data))
+        data = {
+            'student': student[0],
+            'profile': student[0].profile,
+        }
+        return render(request, 'user_profile/profile.html', data)
 
 # FIXME: wow this is bad
 # this should at least be a form view

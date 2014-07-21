@@ -1,10 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 from allauth.account.models import EmailAddress
+from allauth.socialaccount.models import SocialAccount
 
 from documents.models import Upload,DocumentPurchase
 
 from functools import reduce
+import urllib
+import json
 
 class Student(models.Model):
     user = models.OneToOneField(User, related_name='student_user')
@@ -71,6 +75,20 @@ User.student = property(lambda u: Student.objects.get(user=u))
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
+    pic = models.ImageField(upload_to="profile_pic/", blank=True, null=True)
+ 
+    def profile_image_url(self):
+        fb_uid = SocialAccount.objects.filter(user=self.student.user, provider='facebook')
+     
+        if len(fb_uid):
+            request = 'https://graph.facebook.com/{}/picture/?width=800&redirect=false'.format(fb_uid[0].uid)
+            response = urllib.request.urlopen(request)
+            obj = json.loads(response.readall().decode('utf-8'))
+            return obj['data']['url']
+        elif self.pic:
+            return self.pic.url
+        else:
+            return "https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/profile.png"
 
     def __str__(self):
         return 'Profile for {}'.format(self.student.user.username)
