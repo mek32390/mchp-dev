@@ -281,6 +281,7 @@ class DocumentDetailView(DetailView):
         if owner == self.student.pk or reviewed != None:
             rated = True
         context['rated'] = rated
+        context['current_path'] = request.get_full_path()
         return self.render_to_response(context)
 
     def get_object(self):
