@@ -3,6 +3,7 @@ from django.template import Context
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.views.generic.edit import View
 from django.http import HttpResponse, HttpResponseGone
 
 from allauth.account.decorators import verified_email_required
@@ -27,6 +28,21 @@ def profile(request):
             'profile': student[0].profile,
         }
         return render(request, 'user_profile/profile.html', data)
+
+'''
+url: /accounts/settings/
+name: account_settings
+'''
+class AccountSettingsView(View):
+    template_name = 'user_profile/account_settings.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {
+
+        }
+        return render(request, self.template_name, data)
+
+account_settings = AccountSettingsView.as_view()
 
 # FIXME: wow this is bad
 # this should at least be a form view

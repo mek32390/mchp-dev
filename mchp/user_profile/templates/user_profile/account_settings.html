@@ -1,0 +1,13 @@
+{% extends 'user_profile/base.html' %}
+
+{% block head_title %}Change account settings{% endblock %}
+{% block extra_head %}
+
+  {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/account_settings.css' %}">
+    <script src="{% static 'user_profile/js/account_settings.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+account settings
+{% endblock %}
