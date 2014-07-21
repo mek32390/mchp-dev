@@ -38,6 +38,7 @@
 							<li class="dropdown" id="drop-li"> 
 								{{ field }}
 								<ul class="dropdown-menu" id="ac-dropdown">
+									<li role="presentation" class="dropdown-header">Your Classes</li>
 									{% for course in enrolled_courses %}
 									<li data-course="{{course.pk}}"> <a><span class="label label-success">+</span> {{course.display}}</a> </li>
 									{% endfor %}

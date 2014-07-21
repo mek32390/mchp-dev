@@ -7,7 +7,7 @@
 $(function() {
 
 	// convert select to nice input
-	$("#id_course").addClass("form-control input-lg");
+	$("#id_course").addClass("form-control");
 	// convert default browse file to nice input
 	$("#id_document").wrap("<div class='input-lg form-control'></div>").addClass("btn");
 
@@ -157,10 +157,10 @@ Autocomplete.prototype.show_results = function(results) {
 	$drop = $('#ac-dropdown');
 
 	// a new line for a class
-	var $base_result_elem = $('<li class="search-results"> <a class="ac-link"><span class="label label-success">+</span></a></li>');
+	var $base_result_elem = $('<li class="search-results"><a class="ac-link"><span class="label label-success">+</span> </a></li>');
 	// if there are results, add a divider to divide them from enrolled classes
 	if (results.length > 0) {
-		$divider = $('<li class=divider><li>');
+		$divider = $('<li class=divider><li><li role="presentation" class="dropdown-header">More Classes</li>');
 		$drop.append($divider);
 	}
 	// add a new li for each result
