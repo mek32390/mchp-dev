@@ -64,7 +64,7 @@ class Course(models.Model):
         unique_together = ("domain", "dept", "course_number", "professor")
 
     def display(self):
-        return "{}{} with Instructor {}".format(self.dept,
+        return "{} {} with Instructor {}".format(self.dept,
                                                 self.course_number, 
                                                 self.professor)
 
