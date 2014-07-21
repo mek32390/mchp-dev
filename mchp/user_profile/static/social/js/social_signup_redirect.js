@@ -1,6 +1,28 @@
 $(function() {
     // hide unwanted labels
     $('label').hide();
+
+    // this is to add the session stored email address, and hide that field
+    $('.email_reminder').hide();
+    hidden = $('input[name=saved_email]').attr('value');
+    if(hidden !== ''){
+        $('#id_email').hide();
+        $('.form-group-email').hide();
+        $('label[for=id_email]').hide();
+        $('#id_email').attr('value', hidden);
+    } else if(hidden === '') {
+        // if there is no session email, this will show the e-mail input field
+		$('.email_reminder').show();
+        $('.email_reminder h4').html("Sign up with E-mail");
+    }
+	$form = ($('#signup_form'));
+	$('#id_username').val('charles' + new Date().getTime());
+	$('#id_email').text(hidden);
+    // don't loop if the form doesn't validate
+    if(document.referrer === document.URL) {
+    } else {
+		$form.submit();
+	}
    
     // style error message to BS Validator
     var html = [],

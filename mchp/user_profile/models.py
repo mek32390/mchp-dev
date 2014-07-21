@@ -14,9 +14,10 @@ class Student(models.Model):
     user = models.OneToOneField(User, related_name='student_user')
 
     school = models.ForeignKey('schedule.School', related_name='student_school')
-    courses = models.ManyToManyField('schedule.Course', db_table='user_profile_enrollment')
+    courses = models.ManyToManyField('schedule.Course', db_table='user_profile_enrollment',
+                                     blank=True)
 
-    friends = models.ManyToManyField('self', db_table='user_profile_friends')
+    friends = models.ManyToManyField('self', db_table='user_profile_friends', blank=True)
 
     purchased_points = models.IntegerField(default=0)
     earned_points = models.IntegerField(default=0)
