@@ -36,9 +36,10 @@ fake_course.add_provider(ClassProvider)
 
 def add_course_to_db(school, num, **kwargs):
     for _ in range(num):
-        dept = fake_course.dept()
         if 'dept' in kwargs:
             dept = kwargs['dept']
+        else:
+            dept = fake_course.dept()
         course = schedule.models.Course(
             domain=school, 
             dept=dept,

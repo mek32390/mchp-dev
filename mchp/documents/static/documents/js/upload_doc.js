@@ -166,8 +166,6 @@ Autocomplete.prototype.show_results = function(results) {
 	// if there are results, add a divider to divide them from enrolled classes
 	if (results.length > 0) {
 		$divider = $('<li class=divider></li><li role="presentation" class="dropdown-header dropdown-header-added">More Courses</li>');
-		if ($('.divider').length) {
-		}
 		$drop.append($divider);
 	}
 	// add a new li for each result

@@ -19,7 +19,8 @@ def create_preview_task(sender, instance, **kwargs):
 
     # this queues a celery task
     try:
-        create_preview.delay(instance)
+        # queue task after 10 seconds
+        create_preview.apply_async(args=[instance], countdown=10)
     except OSError:
         # no thumbs for you (start celery/MQ process)
         pass

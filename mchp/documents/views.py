@@ -14,8 +14,6 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
-from haystack.query import SearchQuerySet
-
 from documents.forms import DocumentUploadForm
 from documents.models import Document, Upload, DocumentPurchase
 from documents.exceptions import DuplicateFileError

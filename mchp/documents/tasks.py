@@ -23,7 +23,6 @@ def create_preview(instance):
 
     size = 500
     with Image(filename=instance.document.url+'[0]') as img:
-        logger.debug(img)
         preview_name = 'tmp{}.png'.format(uuid.uuid4().hex)
         img.save(filename=preview_name)
         img = Image(filename=preview_name)
