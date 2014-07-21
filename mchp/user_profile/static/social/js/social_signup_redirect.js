@@ -30,14 +30,6 @@ $(function() {
     $("#id_email").before( "<span class='input-group-addon'><i class='fa fa-fw fa-envelope'></i></span>" );
     $("#id_email").addClass("form-control input-lg");
 
-    $("#id_password1").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_password1").before( "<span class='input-group-addon'><i class='fa fa-fw fa-lock'></i></span>" );
-    $("#id_password1").addClass("form-control input-lg");
-
-    $("#id_password2").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
-    $("#id_password2").before( "<span class='input-group-addon'><i class='fa fa-fw fa-lock'></i></span>" );
-    $("#id_password2").addClass("form-control input-lg");
-
     //validate signup form 
     $('#signup_form').bootstrapValidator({
         message: 'This value is not valid',
