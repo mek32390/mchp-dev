@@ -88,11 +88,9 @@ class S3Auth:
         import base64
         sig = base64.b64encode(sig).decode()
         url = 'https://' + base_url + '{}?{}&{}'.format(key, encoded_parms,
-                                                          # 'X-Amz-Signature={}'.format(sig),
                                                            urllib.parse.urlencode({
                                                                'X-Amz-Signature': sig
                                                            }))
-                                                          # '&response-content-type=application/octet-stream')
 
         return url
 

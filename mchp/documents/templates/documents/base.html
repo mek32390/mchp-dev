@@ -12,6 +12,9 @@
 {% endblock %}
 
 {% block body %}
+<div id="fb-root"></div>
+{% load socialaccount %}
+{% providers_media_js %}
 	{% block content %}
 	{% endblock %}
 {% endblock %}
