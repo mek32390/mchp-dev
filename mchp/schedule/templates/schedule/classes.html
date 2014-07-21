@@ -1,0 +1,13 @@
+{% extends 'schedule/base.html' %}
+
+{% block head_title %}My classes{% endblock %}
+
+{% block extra_head %}
+	{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/classes.css' %}">
+		<script src="{% static 'schedule/js/classes.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+classes
+{% endblock %}

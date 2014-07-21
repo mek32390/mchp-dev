@@ -280,3 +280,18 @@ class SchoolView(View):
         return render(request, self.template_name, data)
 
 school = SchoolView.as_view()
+
+'''
+url: /classes/
+name: classes
+'''
+class ClassesView(View):
+    template_name = 'schedule/classes.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {
+
+        }
+        return render(request, self.template_name, data)
+
+classes = ClassesView.as_view()
