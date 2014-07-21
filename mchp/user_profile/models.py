@@ -71,7 +71,7 @@ User.student = property(lambda u: Student.objects.get(user=u))
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
-    pic = models.ImageField()
+    pic = models.ImageField(upload_to="profile_pic")
 
     def __str__(self):
         return 'Profile for {}'.format(self.student.user.username)
