@@ -86,16 +86,13 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         context_data.update(data)
         return render(request, self.template_name, context_data)
 
-    # haystack autocompleter
     def autocomplete(self, request):
         if not 'q' in request.GET:
             return self.render_to_json_response({}, status=400)
 
-        school = self.student.school
-        sqs = SearchQuerySet().filter(dept_auto=request.GET['q'])
-        suggestions = [result.pk for result in sqs]
-        suggestions = list(map(lambda pk: Course.objects.get(pk=pk), suggestions))
-        suggestions = filter((lambda course: course.domain == school), suggestions)
+        q = request.GET['q'].replace(' ', '').upper()
+        suggestions = Course.objects.filter(name__contains=q).order_by('dept', 'course_number',
+                                                                       'professor')[:10]
         course_data = serializers.serialize('json', suggestions)
         data = json.dumps({
             'results': course_data

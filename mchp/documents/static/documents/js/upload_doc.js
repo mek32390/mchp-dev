@@ -81,7 +81,7 @@ $(function() {
     
 	window.autocomplete = new Autocomplete({
 		form_selector: '.autocomplete',
-		minimum_length: 2,
+		minimum_length: 1,
 	});
 	window.autocomplete.setup();
 });
@@ -107,14 +107,14 @@ Autocomplete.prototype.setup = function() {
 	// Watch the input box.
 	this.query_box.on('keyup', function() {
 		$('#drop-li').attr('class', 'dropdown open');
-		// remove the old search results
-		$drop.find('.divider').remove();
-		$drop.find('.dropdown-header-added').remove();
-		$drop.find('.search-results').remove();
 
 		var query = self.query_box.val();
 
 		if(query.length < self.minimum_length) {
+			// remove the old search results
+			$drop.find('.divider').remove();
+			$drop.find('.dropdown-header-added').remove();
+			$drop.find('.search-results').remove();
 			return false;
 		}
 		self.fetch(query);
@@ -156,12 +156,18 @@ Autocomplete.prototype.fetch = function(query) {
 
 Autocomplete.prototype.show_results = function(results) {
 	$drop = $('#ac-dropdown');
+	// remove the old search results
+	$drop.find('.divider').remove();
+	$drop.find('.dropdown-header-added').remove();
+	$drop.find('.search-results').remove();
 
 	// a new line for a class
 	var $base_result_elem = $('<li class="search-results"><a href="#" class="ac-link"><i class="fa fa-fw fa-plus-circle text-success"></i> </a></li>');
 	// if there are results, add a divider to divide them from enrolled classes
 	if (results.length > 0) {
-		$divider = $('<li class=divider></li><li role="presentation" class="dropdown-header dropdown-header-added">More Classes</li>');
+		$divider = $('<li class=divider></li><li role="presentation" class="dropdown-header dropdown-header-added">More Courses</li>');
+		if ($('.divider').length) {
+		}
 		$drop.append($divider);
 	}
 	// add a new li for each result

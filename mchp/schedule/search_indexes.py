@@ -9,9 +9,7 @@ class CourseIndex(indexes.SearchIndex, indexes.Indexable):
     domain = indexes.CharField(model_attr='domain')
 
     # for auto complete
-    dept_auto = indexes.EdgeNgramField(model_attr='dept')
-    course_number_auto = indexes.EdgeNgramField(model_attr='course_number')
-    professor_auto = indexes.EdgeNgramField(model_attr='professor')
+    name_auto = indexes.EdgeNgramField(model_attr='name')
 
     def get_model(self):
         return Course

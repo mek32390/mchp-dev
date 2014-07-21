@@ -28,7 +28,7 @@ $(function(){
 		js.async = true;
 		js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
 		ref.parentNode.insertBefore(js, ref);
-	}(document, /*debug*/ true));
+	}(document, /*debug*/ false));
 
 	function postToFeed(title, desc, url, image){
 		var obj = {

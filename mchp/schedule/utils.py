@@ -34,14 +34,13 @@ class ClassProvider(BaseProvider):
 
 fake_course.add_provider(ClassProvider)
 
-def add_course_to_db(domain, num, **kwargs):
-    domain = schedule.models.School.objects.filter(name=domain)[0]
-    dept = fake_course.dept()
-    if 'dept' in kwargs:
-        dept = kwargs['dept']
+def add_course_to_db(school, num, **kwargs):
     for _ in range(num):
+        dept = fake_course.dept()
+        if 'dept' in kwargs:
+            dept = kwargs['dept']
         course = schedule.models.Course(
-            domain=domain, 
+            domain=school, 
             dept=dept,
             course_number=fake_course.course_number(),
             professor=fake_course.professor(),

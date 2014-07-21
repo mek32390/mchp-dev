@@ -38,9 +38,11 @@
 							<li class="dropdown" id="drop-li"> 
 								{{ field }}
 								<ul class="dropdown-menu" id="ac-dropdown">
-									<li role="presentation" class="dropdown-header">Your Classes</li>
+									<li role="presentation" class="dropdown-header">Your Courses</li>
 									{% for course in enrolled_courses %}
 									<li data-course="{{course.pk}}" class="strong"> <a href="#"><i class="fa fa-fw fa-plus-circle text-success"></i> {{course.display}}</a> </li>
+									{% empty %}
+									<li class="strong"> <a href="{%url "course_add"%}"><i class="fa fa-fw fa-plus-circle text-danger"></i>Add a course</a> </li>
 									{% endfor %}
 								</ul>
 							</li>

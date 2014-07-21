@@ -53,12 +53,17 @@ class Course(models.Model):
     course_number = models.IntegerField(
         validators=[MaxValueValidator(99999), MinValueValidator(99)]
     )
+    name = models.CharField(max_length=13)
     professor = models.CharField(max_length=30)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     # managers for 'deleted' cases
     objects = models.Manager() # The default manager.
     display_objects = DisplayCourseManager()
+
+    def save(self, *args, **kwargs):
+        self.name = self.dept + str(self.course_number)
+        super(Course, self).save(*args, **kwargs)
 
     class Meta:
         unique_together = ("domain", "dept", "course_number", "professor")
