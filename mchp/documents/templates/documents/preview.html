@@ -121,10 +121,15 @@
 							<div class="media">
 								<a class="pull-left" href="#">
 									<img class="media-object img-circle img-thumbnail" 
-									src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="65px">
+									src="{{uploader.profile.profile_image_url}}" width="65px">
 								</a>
 								<div class="media-body">
-									<h4 class="media-heading">{{uploader}}
+									<h4 class="media-heading">
+										{% if uploader.user.first_name %}
+										{{uploader.user.first_name}}
+										{% else %}
+										{{uploader.user.username}}
+										{% endif %}
 										<span class="pull-right small">{{document.create_date | naturaltime}}</span>
 									</h4>
 									<p><span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> <span
