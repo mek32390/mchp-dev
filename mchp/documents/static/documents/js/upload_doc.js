@@ -109,6 +109,7 @@ Autocomplete.prototype.setup = function() {
 		$('#drop-li').attr('class', 'dropdown open');
 		// remove the old search results
 		$drop.find('.divider').remove();
+		$drop.find('.dropdown-header-added').remove();
 		$drop.find('.search-results').remove();
 
 		var query = self.query_box.val();
@@ -124,8 +125,8 @@ Autocomplete.prototype.setup = function() {
 		// get the li element
 		var $link = $(what.target).parent();
 
-		// take off the + sign and whitespace
-		var display = $link.text().slice(2).trim();
+		// take off whitespace
+		var display = $link.text().trim();
 		self.query_box.val(display);
 
 		// add the data-course to the hidden field
@@ -160,7 +161,7 @@ Autocomplete.prototype.show_results = function(results) {
 	var $base_result_elem = $('<li class="search-results"><a href="#" class="ac-link"><i class="fa fa-fw fa-plus-circle text-success"></i> </a></li>');
 	// if there are results, add a divider to divide them from enrolled classes
 	if (results.length > 0) {
-		$divider = $('<li class=divider><li><li role="presentation" class="dropdown-header">More Classes</li>');
+		$divider = $('<li class=divider></li><li role="presentation" class="dropdown-header dropdown-header-added">More Classes</li>');
 		$drop.append($divider);
 	}
 	// add a new li for each result
