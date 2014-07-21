@@ -2,7 +2,7 @@ from allauth.account.decorators import verified_email_required
 
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
-from django.views.generic.edit import FormView 
+from django.views.generic.edit import FormView, View
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.template import Context
@@ -12,7 +12,7 @@ from django.http import HttpResponse
 from django.core import serializers
 
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
-from schedule.models import Course
+from schedule.models import Course, School
 
 from haystack.query import SQ
 
@@ -248,3 +248,35 @@ class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
             return redirect(reverse('course_add'))
 
 course_remove = CourseRemoveView.as_view()
+
+'''
+url: /school/course
+name: course
+'''
+class CourseView(View):
+    template_name = 'schedule/course.html'
+    model = Course
+
+    def get(self, request, *args, **kwargs):
+        data = {
+
+        }
+        return render(request, self.template_name, data)
+
+course = CourseView.as_view()
+
+'''
+url: /school/
+name: school
+'''
+class SchoolView(View):
+    template_name = 'schedule/school.html'
+    model = School
+
+    def get(self, request, *args, **kwargs):
+        data = {
+
+        }
+        return render(request, self.template_name, data)
+
+school = SchoolView.as_view()
