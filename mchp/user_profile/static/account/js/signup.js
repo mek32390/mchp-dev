@@ -1,19 +1,42 @@
 $(function() {
 
-    // show email sign up form when clicked
-    $('#show-signUp').on('click', function () {
-        $('.facebookSignup').fadeOut(250, function () {
-            $('.emailSignup').fadeIn(500);
-            $('.email_reminder').fadeIn(500);
-            $('.email_reminder').toggleClass('hidden');
-        });
-    });
-    // hide unwanted labels
-    $('label').hide();
-   
-    // style error message to BS Validator
-    var html = [],
-        $list = $('.errorlist');
+    hidden = $('input[name=saved_email]').attr('value');
+    if(hidden !== ''){
+		// hide the email field and fill it with the hidden value
+        $('#id_email').parent().hide();
+        $('label[for=id_email]').hide();
+        $('#id_email').attr('value', hidden);
+    } else if(hidden === '') {
+		// change the dispaly text at the top of the form
+		$('.email_reminder').show();
+        $('.email_reminder p strong').html("Sign up with E-mail");
+		$('.text-danger').remove();
+    }
+
+	// don't close the signup box on refresh
+	if (document.location.hash === '#v') {
+		$('.email_reminder').attr('class', 'email_reminder text-center');
+		$('#signup-form').show();
+		$('.facebookSignup').hide();
+	} else {
+		document.location.hash = 'v';
+	}
+
+	// show email sign up form when clicked
+	$('#show-signUp').on('click', function () {
+		$('.facebookSignup').fadeOut(250, function () {
+			$('.emailSignup').fadeIn(500);
+			$('.email_reminder').fadeIn(500);
+			$('.email_reminder').toggleClass('hidden');
+		});
+	});
+	// hide unwanted labels
+	$('label').hide();
+	$('#id_confirmation_key').remove();
+
+	// style error message to BS Validator
+	var html = [];
+	var $list = $('.errorlist');
 
     html.push('<div class="errorlist">');
         $list.find('li').each(function() {
