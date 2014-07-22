@@ -3,6 +3,7 @@ imagemagick
 postgres
 
 rabbitmq
+unoconv
 
 python3
 pip
