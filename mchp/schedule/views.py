@@ -1,8 +1,9 @@
 from allauth.account.decorators import verified_email_required
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import FormView, View
+from django.views.generic.detail import DetailView
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.template import Context
@@ -253,15 +254,19 @@ course_remove = CourseRemoveView.as_view()
 url: /school/course
 name: course
 '''
-class CourseView(View):
+class CourseView(DetailView):
     template_name = 'schedule/course.html'
     model = Course
 
-    def get(self, request, *args, **kwargs):
-        data = {
+    def get_object(self):
+        return get_object_or_404(self.model, id=self.kwargs['number'])
 
-        }
-        return render(request, self.template_name, data)
+    # def get(self, request, *args, **kwargs):
+    #     course = get_object_or_404(self.model, id=request.GET['course'])
+    #     data = {
+    #         'course': course,
+    #     }
+    #     return render(request, self.template_name, data)
 
 course = CourseView.as_view()
 
@@ -293,5 +298,10 @@ class ClassesView(View):
 
         }
         return render(request, self.template_name, data)
+
+    @method_decorator(verified_email_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(ClassesView, self).dispatch(*args, **kwargs)
 
 classes = ClassesView.as_view()
