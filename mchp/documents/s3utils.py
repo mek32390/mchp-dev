@@ -4,10 +4,15 @@ import base64
 import hmac
 import hashlib
 import time
+import magic
 import urllib.parse
 
 StaticS3Storage = lambda: S3Storage(location='static')
 MediaS3Storage = lambda: S3Storage(location='media')
+
+def filetype(loc):
+    mime = magic.Magic(mime=True)
+    print(mime.from_file(loc))
 
 class S3Auth:
 

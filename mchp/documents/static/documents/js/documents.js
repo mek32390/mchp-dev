@@ -6,7 +6,10 @@ $(function(){
 		var client = new ZeroClipboard(document.getElementById("copy-button") );
 		client.on("aftercopy", function(){
 			// $('.copy-message').html("&#x2714; Link copied.").delay(2000).fadeOut(600);
-			$('.copy-message').html("&#x2714; Link copied.");
+			// $('.copy-message').html("&#x2714; Link copied.");
+			$copy = $('#copy-button');
+			$copy.attr('class', 'btn-success btn');
+			$copy.text('Link copied');
 		});
 	}
 	/* fb stuff */
