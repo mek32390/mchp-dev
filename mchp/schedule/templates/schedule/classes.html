@@ -9,5 +9,85 @@
 {% endblock %}
 
 {% block body %}
-classes
+<div class="container">
+	<h2>Your Classes
+	<div class="pull-right">
+		<a href="/schedule" class="btn btn-primary btn-sm"><i class="fa fa-calendar-o"></i> Your Schedule &raquo;</a>
+		<a href="/sell/" class="btn btn-success btn-sm"><i class="fa fa-money"></i> Sell a Document &raquo;</a>
+		<a href="/docs/" class="btn btn-info btn-sm"><i class="fa fa-file-o "></i> Your Documents &raquo;</a>
+	</div>
+	</h2>
+	<ul class="nav nav-tabs nav-justified" role="tablist">
+		<li class="active"><a href="#course1" data-toggle="tab"><h5><i class="fa fa-book"></i> ECON 200</h5></a></li>
+		<li><a href="#course2" data-toggle="tab"><h5><i class="fa fa-book"></i> ECON 300</h5></a></li>
+		<li><a href="#course3" data-toggle="tab"><h5><i class="fa fa-book"></i> MIS 111</h5></a></li>
+		<li><a href="#course4" data-toggle="tab"><h5><i class="fa fa-book"></i> ENGR 102</h5></a></li>
+		<li><a href="#course5" data-toggle="tab"><h5><i class="fa fa-book"></i> FIN 360</h5></a></li>
+	</ul>
+	<div class="tab-content">
+  		<div class="tab-pane fade in active" id="course1">
+  			<div class="well well-md animated slideInRight" style="padding-bottom:0px; margin-top:20px;">
+          		<div class="panel panel-default">
+            		<div class="panel-body">
+            			<div class="media">
+							<a class="pull-left" href="#">
+						    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" width="74px" alt="class">
+						  	</a>
+						  	<div class="media-body">
+						    	<h2 class="media-heading"><a href="#">ECON 200</a></h2>
+						    	<h5>
+					              	<i class="fa fa-file-o"></i> <a href="#">Syllabus</a> &nbsp;
+					              	<i class="fa fa-male"></i> Professor Reff &nbsp; 
+					              	<i class="fa fa-university"></i> <a href="#"> University of Arizona</a>
+					            </h5>
+						    	<div class="progress" style="width: 68%">
+					                <div class="progress-bar progress-bar-primary" style="width: 30%">
+					                  <span class="sr-only">67% Complete (info)</span> 
+					                </div>
+					                <div class="progress-bar progress-bar-success" style="width: 30%">
+					                  <span class="sr-only">11% Complete (primary)</span> 
+					                </div>
+					                <div class="progress-bar progress-bar-danger" style="width: 40%">
+					                  <span class="sr-only">22% Complete (warning)</span> 
+					                </div>
+					            </div>
+						  	</div>
+						</div>
+            		</div><!-- end panel body -->
+            	</div><!-- end panel -->
+            </div><!-- end well -->
+            <div class="row">
+          		<div class="col-sm-5 animated slideInLeft">
+            		<div class="panel panel-default">
+              			<div class="panel-heading">
+                			<h3 class="panel-title">Activity <span class="badge">16</span></h3>
+                		</div><!-- end panel heading -->
+                		<div class="panel-body">
+                		</div><!-- end panel body -->
+                	</div><!-- end panel -->
+                	<div class="panel panel-default">
+              			<div class="panel-heading">
+                			<h3 class="panel-title">Classmates <span class="badge">20</span></h3>
+                		</div><!-- end panel heading -->
+                		<div class="panel-body">
+                		</div><!-- end panel body -->
+                	</div><!-- end panel -->
+                </div><!-- end col -->
+                <div class="col-sm-7 animated slideInRight">
+            		<div class="panel panel-default">
+              			<div class="panel-heading">
+                			<h3 class="panel-title">Documents <span class="badge">20</span></h3>
+                		</div><!-- end panel heading -->
+                		<div class="panel-body">
+                		</div><!-- end panel body -->
+                	</div><!-- end panel -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+  		</div><!-- end tab 1 -->
+		<div class="tab-pane fade" id="course2">...</div>
+		<div class="tab-pane fade" id="course3">...</div>
+		<div class="tab-pane fade" id="course4">...</div>
+		<div class="tab-pane fade" id="course5">...</div>
+	</div>
+</div>
 {% endblock %}
