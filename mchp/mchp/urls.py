@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^documents/', include('documents.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
     url('^\u262d', 'landing.views.party'),
+
     url(r'^$', include('landing.urls')),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/lib/img/favicon.ico')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
