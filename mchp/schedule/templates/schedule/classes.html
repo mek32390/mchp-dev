@@ -1,6 +1,10 @@
 {% extends 'schedule/base.html' %}
 
-{% block head_title %}My classes{% endblock %}
+{% block head_title %}My Classes{% endblock %}
+
+<script>
+
+</script>
 
 {% block extra_head %}
 	{% load staticfiles %}
@@ -40,7 +44,7 @@
 					              	<i class="fa fa-male"></i> Professor Reff &nbsp; 
 					              	<i class="fa fa-university"></i> <a href="#"> University of Arizona</a>
 					            </h5>
-						    	<div class="progress" style="width: 68%">
+						    	<div class="progress" style="width: 68%; margin-bottom:5px;">
 					                <div class="progress-bar progress-bar-primary" style="width: 30%">
 					                  <span class="sr-only">67% Complete (info)</span> 
 					                </div>
@@ -86,20 +90,86 @@
                 		<div class="panel-body">
                 			<div class="list-group">
 			                  <li class="list-group-item">
-			                    <h5 class="list-group-item-heading"><img src="http://photos3.zillow.com/h_b/ISmrj6mocupx9f.jpg" alt="..." class="img-circle pull-left" style="margin-right:10px;"><a href="#">Wildcatman</a></h5>
-			                    <p class="list-group-item-text"><small>joined 2 hours ago</small></p>
+			                    <div class="media">
+								  <a class="pull-left" href="#">
+								    <img class="media-object img-circle img-thumbnail" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="50px" alt="...">
+								  </a>
+								  <div class="media-body">
+								    <h5 class="media-heading" style="margin-bottom:0px;"><a href="#" class="friend-popover">Mitchellias</a><small></small><span class="pull-right"><small>active 2 hours ago</small></span></h5>
+								    <!-- <small>
+								    	<div class="progress" style="width:60%; margin-bottom:0px;">
+											<a href="#" class="progress-bar progress-bar-success" id="score_1">
+												<span class="sr-only">35% Complete (success)</span>
+											</a>
+											<a href="#" class="progress-bar progress-bar-primary" id="score_2">
+												<span class="sr-only">20% Complete (warning)</span>
+											</a>
+											<a href="#" class="progress-bar progress-bar-info" id="score_3" >
+												<span class="sr-only">45% Complete (danger)</span>
+											</a>
+										</div>
+								    </small> -->
+
+								    <small>
+								    	<span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 12</span> <i class="fa fa-check"></i> Friends
+								    </small>
+								    <small>
+								  
+									</small>
+								  </div>
+								</div>
 			                  </li>
 			                  <li class="list-group-item">
-			                    <h5 class="list-group-item-heading"><img src="http://photos3.zillow.com/h_b/ISmrj6mocupx9f.jpg" alt="..." class="img-circle pull-left" style="margin-right:10px;"><a href="#">themsquared</a></h5>
-			                    <p class="list-group-item-text"><small>joined 2 hours ago</small></p>
+			                    <div class="media">
+								  <a class="pull-left" href="#">
+								    <img class="media-object img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/64px/profile.png" width="50px" alt="...">
+								  </a>
+								  <div class="media-body">
+								    <h5 class="media-heading"><a href="#">Baxter</a><span class="pull-right"><small>active 3 hours ago</small></span></h5>
+								    <small>
+								    	<!-- <div class="progress" style="width:60%; margin-bottom:0px;">
+											<a href="#" class="progress-bar progress-bar-success" style="width:30%;">
+												<span class="sr-only">35% Complete (success)</span>
+											</a>
+											<a href="#" class="progress-bar progress-bar-primary" style="width:30%;">
+												<span class="sr-only">20% Complete (warning)</span>
+											</a>
+											<a href="#" class="progress-bar progress-bar-info" style="width:40%;" >
+												<span class="sr-only">45% Complete (danger)</span>
+											</a>
+										</div> -->
+								    </small>
+								    <small>
+								    	<span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 11</span>
+								    </small>
+								  </div>
+								</div>
 			                  </li>
 			                  <li class="list-group-item">
-			                    <h5 class="list-group-item-heading"><img src="http://photos3.zillow.com/h_b/ISmrj6mocupx9f.jpg" alt="..." class="img-circle pull-left" style="margin-right:10px;"><a href="#">Wilbur</a></h5>
-			                    <p class="list-group-item-text"><small>joined 12 hours ago</small></p>
-			                  </li>
-			                  <li class="list-group-item">
-			                    <h5 class="list-group-item-heading"><img src="http://photos3.zillow.com/h_b/ISmrj6mocupx9f.jpg" alt="..." class="img-circle pull-left" style="margin-right:10px;"><a href="#">Wilma</a></h5>
-			                    <p class="list-group-item-text"><small>joined 15 hours ago</small></p>
+			                    <div class="media">
+								  <a class="pull-left" href="#">
+								    <img class="media-object img-circle img-thumbnail" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/c0.0.160.160/p160x160/10517552_10152650070421654_3530025072014623093_n.jpg?oh=f5058fe314e993257083689be59e1562&oe=54452C8D&__gda__=1412673103_2cf0341e968f31bbb25b05304d3b47eb" width="50px" alt="...">
+								  </a>
+								  <div class="media-body">
+								    <h5 class="media-heading"><a href="#" class="classmate-popover">Mike</a><span class="pull-right"><small>active 3 hours ago</small></span></h5>
+								    <small>
+								    	<!-- <div class="progress" style="width:60%; margin-bottom:0px;">
+											<a href="#" class="progress-bar progress-bar-success" style="width:20%;">
+												<span class="sr-only">35% Complete (success)</span>
+											</a>
+											<a href="#" class="progress-bar progress-bar-primary" style="width:30%;">
+												<span class="sr-only">20% Complete (warning)</span>
+											</a>
+											<a href="#" class="progress-bar progress-bar-info" style="width:50%;" >
+												<span class="sr-only">45% Complete (danger)</span>
+											</a>
+										</div> -->
+								    </small>
+								    <small>
+								    	<span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 15</span>
+								    </small>
+								  </div>
+								</div>
 			                  </li>
 			                </div>
                 		</div><!-- end panel body -->

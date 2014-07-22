@@ -351,3 +351,25 @@ color: #5cb85c;
 .bs-callout-info h4 {
   color:#5bc0de;
 }
+
+/* nice borders */
+.border-warning {
+    border: 2px solid #faebcc;
+    background: #fcf8e3;
+}
+.border-success {
+    border: 2px solid #d6e9c6;
+    background: #dff0d8;
+}
+.border-danger {
+    border: 2px solid #ebccd1;
+    background: #f2dede;
+}
+.border-info {
+    border: 2px solid #bce8f1;
+    background: #d9edf7;
+}
+.border-default {
+    border: 2px solid #ddd;
+    background: #f5f5f5;
+}
