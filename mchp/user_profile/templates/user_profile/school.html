@@ -16,8 +16,8 @@
 		{% if school.domain|slice:"11:-1" in request.session.initial_email %}
 		{% endif %}		
 	{% endfor %}
-<div class="container text-center">
-	<div class="display-college">
+<div class="container">
+	<div class="display-college text-center">
 	<h3 class="text-center">You must attend:<small></small></h3>
 	<form class="form-signin" role="form" id='college_form' method="post" action="{% url  'confirm_school' %}">
 	<input type="hidden" id="action" value="confirm">
@@ -28,9 +28,11 @@
 		<hr style="width: 300px;" >
 	<p><a class="show-college text-center">Nope, your magic didn't work on me</a></p>
 	</div>
-		<div id="college_select" class="acct-form">
-		<h4>We couldn't find your college!</h4>
-		<p>Choose your college from the list below.</p>
+		<div id="college_select">
+			<div class="row">
+				<div class="col-sm-6 col-sm-offset-3">
+		<h4 class="text-center">We couldn't find your college!</h4>
+		<p class="text-center">Choose your college from the list below.</p>
 	</p>
 	
 		{% csrf_token %}
@@ -54,6 +56,8 @@
 		{% endif %}
 		<button id="joinCollege" class="btn btn-lg btn-primary btn-block btn-md" type="submit"><i class="fa fa-check-square-o"></i> Join College</button>
 	</form>
+</div>
+</div>
 </div>
 </div>
 {% endblock %}
