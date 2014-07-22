@@ -9,5 +9,55 @@
 {% endblock %}
 
 {% block body %}
-courses
+<div class="container">
+  <ol class="breadcrumb">
+    <li><a href='/college/{{ college.uuid }}'><i class="fa fa-building-o"></i> {{ college.name }}</a></li>
+    <li class="active"><i class="fa fa-book"></i> {{ course.name }}</li>
+  </ol>
+    <div class="media"> <a class="pull-left"> <img class="media-object img-responsive hidden-xs animated slideInLeft" width="75px" src="/images/svg/book.svg" alt="course"></a>
+      <div class="media-body">
+        <h2 class="media-heading  animated slideInRight">COURSE CODE - COURSE NUMBER <small>{{ course.name }}</small>
+          <div class="pull-right"> <a button type="button" class="btn btn-success" href="/sell/"><i class="fa fa-money fa-fw"></i> Sell Document</a> <a onclick="javascript:fb_popup('https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F{{ config.SITE_URL }}%2Fclass%2F{{ course.uuid }}');" target="_blank" class="btn btn-facebook"><i class="fa fa-fw fa-facebook"></i> Share</a> </div>
+        </h2>
+        <p class="lead animated animated-sm slideInRight"><i class="fa fa-building-o"></i> <a href='/college/{{ college.uuid }}'>{{ college.name }}</a>&nbsp; <i class="fa fa-file-o"></i> 425 Documents &nbsp;</p>
+        
+        <!--<div class="progress progress-striped animated animated-md slideInRight" style="width: 68%">
+              <div class="progress-bar progress-bar-info" style="width: 67%"> <span class="sr-only">67% Complete (info)</span> </div>
+              <div class="progress-bar progress-bar-primary" style="width: 11%"> <span class="sr-only">11% Complete (primary)</span> </div>
+              <div class="progress-bar progress-bar-warning" style="width: 22%"> <span class="sr-only">22% Complete (warning)</span> </div>
+            </div>--> 
+      </div>
+    </div>
+
+<div class="row">
+  <div class='col-sm-6'>
+    <div class="panel panel-default" id="popular-documents">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title tour-step-four"> Popular Documents <span class="badge"><span class="item-count"></span> <i class="fa fa-spinner fa-spin loading"></i></span></h3>
+        <ul class="pagination pagination-sm pull-right" style="margin-top:-24px;">
+          <li class="prev-page"><a href="javascript:void(0)"><i class="fa fa-chevron-left"></i></a></li>
+          <li class="next-page"><a href="javascript:void(0)"><i class="fa fa-chevron-right"></i></a></li>
+        </ul>
+      </div>
+      <div class="panel-body">
+        <div class="list-group item-list"></div>
+      </div>
+    </div>
+  </div>
+  <div class='col-sm-6'>
+    <div class="panel panel-default" id="recent-documents">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title tour-step-four"> Recent Documents <span class="badge"><span class="item-count"></span> <i class="fa fa-spinner fa-spin loading"></i></span></h3>
+        <ul class="pagination pagination-sm pull-right" style="margin-top:-24px;">
+          <li class="prev-page"><a href="javascript:void(0)"><i class="fa fa-chevron-left"></i></a></li>
+          <li class="next-page"><a href="javascript:void(0)"><i class="fa fa-chevron-right"></i></a></li>
+        </ul>
+      </div>
+      <div class="panel-body">
+        <div class="list-group item-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 {% endblock %}
