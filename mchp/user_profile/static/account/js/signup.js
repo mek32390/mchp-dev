@@ -5,6 +5,7 @@ $(function() {
         $('.facebookSignup').fadeOut(250, function () {
             $('.emailSignup').fadeIn(500);
             $('.email_reminder').fadeIn(500);
+            $('.email_reminder').toggleClass('hidden');
         });
     });
     // hide unwanted labels
