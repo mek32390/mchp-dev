@@ -16,7 +16,7 @@
 			<a button type="button" class="btn btn-success btn-xs" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
 			<a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a>
 		</div>
-		<li><a href="#"><i class="fa fa-university fa-fw"></i> {{course.domain.name}}</a> </li>
+		<li><a href="{%url "school" course.domain.pk%}{{course.domain.name}}"><i class="fa fa-university fa-fw"></i> {{course.domain.name}}</a> </li>
 		<li class="active"><i class="fa fa-book fa-fw"></i> {{course.display}}</li>
 	</ol>
 	<!-- <div class="well"> -->
