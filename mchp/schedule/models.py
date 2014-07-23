@@ -3,6 +3,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 from schedule.utils import clean_domain, US_STATES
 
+from functools import reduce
+
 class School(models.Model):
     domain = models.URLField(validators=[clean_domain])
     name = models.CharField(max_length=100)
@@ -15,6 +17,11 @@ class School(models.Model):
     # a list of all school names stored in the database
     def school_list(self):
         return School.objects.all().name
+
+    def document_count(self):
+        documents = map(lambda student: student.upload_set.count(), 
+                        self.student_school.all())
+        return reduce(lambda c1, c2: c1 + c2, documents)
 
     def __str__(self):
         return "{} :: {}".format(self.name, self.domain)

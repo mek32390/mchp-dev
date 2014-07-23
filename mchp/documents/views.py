@@ -89,7 +89,10 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
             return self.render_to_json_response({}, status=400)
 
         q = request.GET['q'].replace(' ', '').upper()
-        suggestions = Course.objects.filter(name__contains=q).order_by('dept', 'course_number',
+        suggestions = Course.objects.filter(
+            name__contains=q,
+            domain=self.student.school,
+        ).order_by('dept', 'course_number',
                                                                        'professor')[:10]
         course_data = serializers.serialize('json', suggestions)
         data = json.dumps({

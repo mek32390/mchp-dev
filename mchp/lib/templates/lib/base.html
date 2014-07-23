@@ -239,7 +239,8 @@
 					<ul class="nav navbar-nav navbar-right">
 						{% if user.is_authenticated %}
 						{% if user.student %}
-						<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{user.student.total_points}}</span> <i class="fa fa-cubes"></i></a>
+						{% with user.student as student %}
+						<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{student.total_points}}</span> <i class="fa fa-cubes"></i></a>
 							<ul class="dropdown-menu">
 								<li> <a href="#pointsModal" data-toggle="modal" id="purchasePointsMenu"><span class="label label-primary"><i class="fa fa-usd"></i></span><strong class="text-primary"> Manage My Points</strong></a></li>
 								<li class="divider"></li>
@@ -250,7 +251,6 @@
 								<li> <a><span class="label label-success">+</span> 50 Achievement</a> </li>
 							</ul>
 						</li>
-						{% endif %}
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">5</span> <i class="fa fa-lightbulb-o"></i></a>
 							<ul class="dropdown-menu">
@@ -272,13 +272,9 @@
 							</ul>
 						</li>
 						<li class="dropdown">
-							{% if user.student %}
 							<a href="#" class="dropdown-toggle" id="user-dropdown" data-toggle="dropdown"><img
-								src="{{user.student.profile.profile_image_url}}" style="width:21px;"
-								class="img-circle"> {% if user.first_name %}{{user.first_name}}{%else%}{{user.username}}{% endif %}
-								{% else %}
-							<a href="#" class="dropdown-toggle" id="user-dropdown" data-toggle="dropdown"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/profile.png" style="width:21px;" class="img-circle"> {{user.username}}
-								{% endif %}
+								src="{{student.profile.profile_image_url}}" style="width:21px;"
+								class="img-circle"> {{.student.name}}
 								<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{% url 'profile' %}">My Page</a></li>
@@ -295,6 +291,8 @@
 								<li><a href="{% url 'account_logout' %}">Log Out</a></li>
 							</ul>
 						</li>
+						{% endwith %}
+						{% endif %}
 						{% else %}
 						<li><a href="/accounts/login">Login</a></li>
 						{% endif %}
