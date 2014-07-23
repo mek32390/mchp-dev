@@ -62,7 +62,7 @@
 					<a href="#"><i class="fa fa-university"></i>&nbsp;{{ document.course.domain.name }}</a> 
 				</li>
 				<li>
-					<a href="#"><i class="fa fa-book">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
+					<a href='{% url "course" document.course.pk %}'><i class="fa fa-book">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
 				</li>
 				<li class="active">
 					<a href="http://{{request.get_host}}{%url "document_list" %}preview/{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{document.title}}</a>

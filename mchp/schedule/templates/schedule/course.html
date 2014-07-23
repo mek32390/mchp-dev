@@ -12,7 +12,7 @@
 <div class="container">
 	<ol class="breadcrumb">
 		<div class="pull-right">
-			<a button type="button" class="btn btn-success btn-xs" href="/sell/"><i class="fa fa-money fa-fw"></i> Sell Document</a>
+			<a button type="button" class="btn btn-success btn-xs" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
 			<a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a>
 		</div>
 		<li><a href="#"><i class="fa fa-university fa-fw"></i> {{course.domain.name}}</a> </li>
@@ -27,8 +27,8 @@
 			<h2 class="media-heading  animated slideInRight">{{course.dept}} {{course.course_number}}
 				<small><a href='{% url "school" %}{{ course.domain.name}}'>{{course.domain.name}}</a></small></h2>
 			<p class="animated animated-sm slideInRight">
-				<i class="fa fa-users"></i> 300 Students &nbsp;
-				<i class="fa fa-file"></i> 425 Documents &nbsp;
+				<i class="fa fa-users"></i> {{course.course_set.count}} Students &nbsp;
+				<i class="fa fa-file"></i> {{course.document_set.count}} Documents &nbsp;
 				<i class="fa fa-calendar"></i> 60 Calendars &nbsp;
 			</p>
 		</div>
@@ -49,7 +49,11 @@
 					<h3 class="panel-title tour-step-four"> Popular Documents <span class="badge">15</span></h3>
 				</div>
 				<div class="panel-body">
-					<div class="list-group item-list"></div>
+					<div class="list-group item-list">
+						{% for document in course.document_set.all %}
+						{{document}}
+						{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>
