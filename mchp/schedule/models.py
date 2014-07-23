@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from schedule.utils import clean_domain, US_STATES
 
 class School(models.Model):
-    domain = models.URLField(primary_key=True, validators=[clean_domain])
+    domain = models.URLField(validators=[clean_domain])
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20, blank=True)
     address = models.CharField(max_length=60, blank=True)
@@ -45,7 +45,8 @@ class DisplayCourseManager(models.Manager):
         deleted_school, created = School.objects.get_or_create(
             domain='deleted.edu', name='deleted')
         return super(DisplayCourseManager, self).get_queryset().exclude(
-           domain = deleted_school)
+           domain = deleted_school
+        )
 
 class Course(models.Model):
     domain = models.ForeignKey('School')

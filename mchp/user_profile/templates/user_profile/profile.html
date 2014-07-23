@@ -26,13 +26,14 @@
  -->
 <span class="text-center center-block">
 	<img src="{{profile.profile_image_url}}" width="165px" class="animated flipInX img-thumbnail img-responsive img-circle">
-	<h2 style="color:;">{{user.first_name}} {{user.last_name}}</h2>
-	<p class="lead" id="about" data-type="text" data-title="">Say something about yourself here!</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
-	<h5 style="color:;">
-		<i class="fa fa-user fa-fw"></i>
-		{% if user.first_name %}{{user.first_name}}{%else%}{{user.username}}{% endif %} &nbsp;<i class="fa fa-university fa-fw"></i>{{student.school.name}}</h5>
-	<h5><small style="color:;">joined {{student.create_date | naturaltime}}</small></h5>
+	<h2 style="margin-bottom:;">{{user.first_name}} {{user.last_name}}</h2>
+	<p class="small">@{% if user.first_name %}{{user.first_name}}{%else%}{{user.username}}{% endif %} &nbsp;
+		<i class="fa fa-graduation-cap fa-fw"></i> Marketing Major &nbsp;
+		<i class="fa fa-university fa-fw"></i>{{student.school.name}}</p>
+	<!-- <h5><small style="color:;">joined {{student.create_date | naturaltime}}</small></h5> -->
+	<p class="lead" id="about" data-type="text" data-title="">Look deep into nature, and then you will understand everything better.</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
 </span>
+<p></p>
 <!-- </div> -->
 <div class="container">
 	<div class="row">

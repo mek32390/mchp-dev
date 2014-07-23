@@ -138,7 +138,6 @@ class DocumentListView(ListView):
     model = Upload
 
     def get_queryset(self):
-        return Upload.objects.all().select_related().order_by('-document__create_date')
         return Upload.objects.filter(owner=self.student).select_related().order_by('-document__create_date')
 
     def get_context_data(self, **kwargs):
