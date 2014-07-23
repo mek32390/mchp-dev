@@ -76,6 +76,12 @@ class Course(models.Model):
     class Meta:
         unique_together = ("domain", "dept", "course_number", "professor")
 
+    def student_count(self):
+        return self.student_set.count()
+
+    def document_count(self):
+        return self.document_set.count()
+
     def display(self):
         return "{} {} with Instructor {}".format(self.dept,
                                                 self.course_number, 
