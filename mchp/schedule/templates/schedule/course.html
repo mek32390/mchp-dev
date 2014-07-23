@@ -26,7 +26,7 @@
 	<div class="media"> <a class="pull-left"> <img class="media-object img-responsive animated slideInLeft" width="75px" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="course"></a>
 		<div class="media-body">
 			<h2 class="media-heading  animated slideInRight">{{course.dept}} {{course.course_number}}
-				<small><a href='{% url "school" %}{{ course.domain.name}}'>{{course.domain.name}}</a></small></h2>
+				<small><a href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></small></h2>
 			<p class="animated animated-sm slideInRight">
 				{% with course.student_set.count as student_count %}
 				<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;

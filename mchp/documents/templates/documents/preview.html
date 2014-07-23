@@ -49,10 +49,10 @@
 		<a href="#flag_doc" data-toggle="modal" class="text-danger small"><i class="fa fa-flag text-danger"></i> Report this Document</a> 
 		</h>
 		<li>
-			<a href="#"><i class="fa fa-university"></i>&nbsp;{{ document.course.domain.name }}</a> 
+			<a href="{%url "school" document.course.domain.pk%}{{document.course.domain.name}}"><i class="fa fa-university"></i>&nbsp;{{ document.course.domain.name }}</a> 
 		</li>
 		<li>
-			<a href="{%url "course" document.course.pk%}"><i class="fa fa-book">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
+			<a href="{%url "course" document.course.pk%}{{document.course.name}}"><i class="fa fa-book">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
 		</li>
 		<li class="active">
 			<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{document.title}}</a>
