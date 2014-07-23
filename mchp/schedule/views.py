@@ -261,6 +261,21 @@ class CourseView(DetailView):
     def get_object(self):
         return get_object_or_404(self.model, id=self.kwargs['number'])
 
+    def get(self, request, *args, **kwargs):
+        # if the user types a different slug, and that slug is actually a course that exists
+        # redirect to that course instead, otherwise just use the pk value and ignore the slug
+        if 'slug' in kwargs:
+            slug = self.kwargs['slug']
+            number = self.kwargs['number']
+            course = Course.objects.filter(name=slug.upper())
+            if course.exists() and course[0].pk != int(number):
+                kw = {
+                    'number': course[0].pk,
+                    'slug': slug,
+                }
+                return redirect(reverse('course_slug', kwargs=kw))
+        return super(CourseView, self).get(self, request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(CourseView, self).get_context_data(**kwargs)
         docs = self.object.document_set.all().annotate(
