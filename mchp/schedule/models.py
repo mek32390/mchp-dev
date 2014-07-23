@@ -19,8 +19,10 @@ class School(models.Model):
         return School.objects.all().name
 
     def document_count(self):
-        documents = map(lambda student: student.upload_set.count(), 
-                        self.student_school.all())
+        documents = list(map(lambda student: student.upload_set.count(), 
+                        self.student_school.all()))
+        if not documents:
+            return 0
         return reduce(lambda c1, c2: c1 + c2, documents)
 
     def __str__(self):

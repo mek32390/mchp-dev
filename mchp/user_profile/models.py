@@ -70,7 +70,7 @@ class Student(models.Model):
     # and the other 2 times, this function returns 3
     def sales(self):
         all_uploads = Upload.objects.filter(owner=self)
-        counts = map(lambda upload: upload.document.purchase_count(), all_uploads)
+        counts = list(map(lambda upload: upload.document.purchase_count(), all_uploads))
         return reduce(lambda doc1, doc2: doc1 + doc2, counts)
 
     def __str__(self):
