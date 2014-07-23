@@ -100,7 +100,7 @@ def confirm_school(request):
             else:
                 return redirect('/profile/')
 
-    schools = School.objects.all().values('name', 'domain')
+    schools = School.objects.all().values('name', 'domain').order_by('name')
     if 'next' in request.GET:
         next_page = request.GET['next']
         data = {'schools': schools, 'next': next_page}
