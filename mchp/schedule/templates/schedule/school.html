@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container animated bounceInUp">
   <ol class="breadcrumb">
   	<div class="pull-right">
 			<a button type="button" class="btn btn-success btn-xs" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Document</a>
@@ -20,10 +20,10 @@
   <div class="well" style="padding-bottom:0px;">
   <div class="panel panel-default">
   	<div class="panel-body">
-    <div class="media"> <a class="pull-left"> <img class="media-object img-responsive animated slideInLeft" width="75px" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building.svg" alt="school"></a>
+    <div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building.svg" alt="school"></a>
       <div class="media-body">
-				<h2 class="media-heading  animated slideInRight">{{school.name}} <small>in {{school.city}}, {{school.state}}</small></h2>
-        <p class="animated animated-sm slideInRight">
+				<h2 class="media-heading">{{school.name}} <small>in {{school.city}}, {{school.state}}</small></h2>
+        <p>
 					{% with school.student_school.count as student_count %}
 					<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
 					{% endwith %}
@@ -33,7 +33,7 @@
         	<i class="fa fa-calendar"></i> 60 Calendars &nbsp;
         </p>
   	  </div>
-  	  <div class="progress animated-md slideInRight" style="width:68%;">
+  	  <div class="progress" style="width:68%;">
               <div class="progress-bar progress-bar-info" style="width: 67%"> <span class="sr-only">67% Complete (info)</span> </div>
               <div class="progress-bar progress-bar-primary" style="width: 11%"> <span class="sr-only">11% Complete (primary)</span> </div>
               <div class="progress-bar progress-bar-warning" style="width: 22%"> <span class="sr-only">22% Complete (warning)</span> </div>
