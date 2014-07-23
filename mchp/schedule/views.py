@@ -264,7 +264,7 @@ class CourseView(DetailView):
     def get(self, request, *args, **kwargs):
         # if the user types a different slug, and that slug is actually a course that exists
         # redirect to that course instead, otherwise just use the pk value and ignore the slug
-        if 'slug' in kwargs:
+        if 'slug' in kwargs and not request.user.is_anonymous():
             slug = self.kwargs['slug']
             number = self.kwargs['number']
             course = Course.objects.filter(name=slug.upper(),
