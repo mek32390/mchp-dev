@@ -1,10 +1,13 @@
-from django.shortcuts import redirect,render
+from django.shortcuts import redirect,render, get_object_or_404
 from django.template import Context
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import View
-from django.http import HttpResponse, HttpResponseGone
+from django.http import HttpResponse, HttpResponseGone, Http404
+from django.utils.decorators import method_decorator
+# from django.db.models import Count
 
 from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
@@ -12,22 +15,51 @@ from allauth.account.adapter import get_adapter
 
 from schedule.models import School
 from user_profile.models import Student, UserProfile
+from lib.decorators import school_required
 
 import json
 import logging
 logger = logging.getLogger(__name__)
 
-@verified_email_required
-def profile(request):
-    student = Student.objects.filter(user=request.user)
-    if not len(student):
-        return redirect(reverse('confirm_school')+"?next="+request.get_full_path())
-    else:
-        data = {
-            'student': student[0],
-            'profile': student[0].profile,
-        }
-        return render(request, 'user_profile/profile.html', data)
+'''
+url: /profile/<number>/slug
+url: /profile/<number>
+url: /profile/
+name: profile
+name: my_profile
+'''
+class ProfileView(DetailView):
+    template_name = 'user_profile/profile.html'
+    model = Student
+
+    def get_object(self):
+        if 'number' in self.kwargs:
+            # url: /profile/<number>/
+            return get_object_or_404(self.model, id=self.kwargs['number'])
+        else:
+            # url: /profile/ (logged in users account)
+            return get_object_or_404(self.model, user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        # if there was no student object 
+        try:
+            self.object = self.get_object()
+        except Http404:
+            return redirect(reverse('confirm_school')+"?next="+request.get_full_path())
+        context = self.get_context_data(object=self.object)
+        return render(request, self.template_name, context)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        context['profile'] = self.object.profile,
+        return context
+
+    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ProfileView, self).dispatch(*args, **kwargs)
+
+profile = ProfileView.as_view()
 
 '''
 url: /accounts/settings/
