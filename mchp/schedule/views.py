@@ -286,6 +286,12 @@ class SchoolView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SchoolView, self).get_context_data(**kwargs)
         docs = ['what', 'um']
+        from documents.models import Document
+        docs = Document.objects.filter(
+            course__in = self.object.course_set.all()
+        ).annotate(
+            sold=Count('purchased_document__document')
+        ).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
         return context
