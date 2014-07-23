@@ -67,7 +67,7 @@ For rabbitMQ (maybe):
 ```
 # rabbitmq-server
 ```
-For starting celery (start rabbitMQ first):
+For starting celery, make sure you are on the same level as manage.py (start rabbitMQ first):
 ``` 
 # celery -A mchp worker -l info
 ```

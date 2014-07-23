@@ -43,8 +43,8 @@
 <!-- End Modal -->
 
 
-<div class="container">
-	<ol class="breadcrumb animated flipInX">
+<div class="container animated bounceInUp">
+	<ol class="breadcrumb">
 		<h class="pull-right">
 		<a href="#flag_doc" data-toggle="modal" class="text-danger small"><i class="fa fa-flag text-danger"></i> Report this Document</a> 
 		</h>
@@ -58,7 +58,7 @@
 			<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{document.title}}</a>
 		</li>
 	</ol>
-	<div class="well animated bounceInUp">
+	<div class="well">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="row">
@@ -66,7 +66,14 @@
 						{% if document.preview %}
 						<img class="img-thumbnail center-block" style="margin-bottom:10px;" src={{document.preview.url}}></img>
 						{% else %}
-						No preview is avaliable.
+						<div class="panel panel-default center-block">
+							<div class="panel-body">
+								<h5 class="text-center">Hey there!</h5>
+								<p class="text-center">We're working hard to figure out why the preview of this document isn't showing. Have no fear; the document still exists and will be viewable when purchased.</p>
+								<p class="text-center">Best of luck on your studying,</p>
+								<p class="text-center">-mchp</p>
+							</div>
+						</div>
 						{% endif %}
 					</div>
 					<div class="col-sm-7">
