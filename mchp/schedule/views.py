@@ -308,11 +308,11 @@ class ClassesView(ListView):
     def get_queryset(self):
         return Course.objects.filter(student__user=self.request.user)
 
-    # def get(self, request, *args, **kwargs):
-    #     data = {
-
-    #     }
-    #     return render(request, self.template_name, data)
+    # def get_context_data(self, **kwargs):
+    #     context = super(ClassesView, self).get_context_data(**kwargs)
+    #     class_mates = self.object.student_set.all().select_related()
+    #     context['popular_documents'] = class_mates
+    #     return context
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):

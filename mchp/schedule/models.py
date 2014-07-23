@@ -78,6 +78,9 @@ class Course(models.Model):
     class Meta:
         unique_together = ("domain", "dept", "course_number", "professor")
 
+    def students(self):
+        return self.student_set.all().select_related()
+
     def student_count(self):
         return self.student_set.count()
 
