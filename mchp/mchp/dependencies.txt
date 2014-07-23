@@ -3,6 +3,8 @@ imagemagick
 postgres
 
 rabbitmq
+celery
+libreOffice
 unoconv
 
 python3
