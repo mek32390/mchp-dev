@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block body %}
+{% load humanize %}
 <div class="container">
 	<ol class="breadcrumb">
 		<div class="pull-right">
@@ -27,8 +28,12 @@
 			<h2 class="media-heading  animated slideInRight">{{course.dept}} {{course.course_number}}
 				<small><a href='{% url "school" %}{{ course.domain.name}}'>{{course.domain.name}}</a></small></h2>
 			<p class="animated animated-sm slideInRight">
-				<i class="fa fa-users"></i> {{course.course_set.count}} Students &nbsp;
-				<i class="fa fa-file"></i> {{course.document_set.count}} Documents &nbsp;
+				{% with course.student_set.count as student_count %}
+				<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
+				{% endwith %}
+				{% with course.document_set.count as doc_count %}
+				<i class="fa fa-file"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
+				{% endwith %}
 				<i class="fa fa-calendar"></i> 60 Calendars &nbsp;
 			</p>
 		</div>
@@ -46,12 +51,45 @@
 		<div class='col-sm-6'>
 			<div class="panel panel-default" id="popular-documents">
 				<div class="panel-heading clearfix">
-					<h3 class="panel-title tour-step-four"> Popular Documents <span class="badge">15</span></h3>
+					<h3 class="panel-title tour-step-four"> Popular Documents <span
+					class="badge">{{popular_documents|length}}</span></h3>
 				</div>
 				<div class="panel-body">
 					<div class="list-group item-list">
-						{% for document in course.document_set.all %}
-						{{document}}
+						{% for document in popular_documents %}
+						<div class="list-group-item">
+							<div class="media">
+								<span class="pull-left" href="#">
+									<div class="media-object img-thumbnail">
+										<a href="#"><img src="{{document.preview.url}}" style="width:64px"></a>
+								</div></span>
+								<div class="media-body">
+									<h4 class="media-heading"><a href="#">{{document.title}}</a>
+									<small>{{document.price}} points</small><div class="pull-right small
+										text-muted">uploaded {{document.create_date|naturaltime}}</div></h4>
+									<span class="description">
+										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}&nbsp;
+										<i class="fa fa-fw fa-thumbs-o-down text-danger
+											fa-flip-horizontal"></i>{{document.down}}&nbsp;|&nbsp;
+										{% with document.review_count as review_count %}
+										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{review_count}} Review{{review_count|pluralize}}&nbsp;|&nbsp;
+										{% endwith %}
+										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.sold}}
+										Purchase{{document.sold|pluralize}}
+										{% with document.upload_set.get.owner.name as name %}
+										<p class="small">Uploaded by <a href="{%url "profile" %}{{name}}">{{name}}</a></p>
+										{% endwith %}
+									</span>
+								</div>
+							</div>
+						</div>
+						{% empty %}
+						<p>
+							<a button type="button" class="btn btn-success btn-xs" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
+						</p>
+						<p>
+							Be the first to sell a document for this class!
+						</p>
 						{% endfor %}
 					</div>
 				</div>

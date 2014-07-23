@@ -24,6 +24,12 @@ class Student(models.Model):
     kudos = models.IntegerField(default=0)
     create_date = models.DateTimeField(auto_now_add=True)
 
+    def name(self):
+        if self.user.first_name:
+            return self.user.first_name + " " + self.user.last_name
+        else:
+            return self.user.username
+
     def work_score(self):
         return\
                 Upload.objects.filter(owner=self).count()\

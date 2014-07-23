@@ -261,12 +261,14 @@ class CourseView(DetailView):
     def get_object(self):
         return get_object_or_404(self.model, id=self.kwargs['number'])
 
-    # def get(self, request, *args, **kwargs):
-    #     course = get_object_or_404(self.model, id=request.GET['course'])
-    #     data = {
-    #         'course': course,
-    #     }
-    #     return render(request, self.template_name, data)
+    def get_context_data(self, **kwargs):
+        context = super(CourseView, self).get_context_data(**kwargs)
+        docs = self.object.document_set.all().annotate(
+            sold=Count('purchased_document__document')
+        ).order_by('sold')[:15]
+
+        context['popular_documents'] = docs
+        return context
 
 course = CourseView.as_view()
 
