@@ -1,11 +1,10 @@
 from django.shortcuts import redirect,render, get_object_or_404
 from django.template import Context
-from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import View
-from django.http import HttpResponse, HttpResponseGone, Http404
+from django.http import HttpResponse, HttpResponseGone
 from django.utils.decorators import method_decorator
 # from django.db.models import Count
 
@@ -41,11 +40,7 @@ class ProfileView(DetailView):
             return get_object_or_404(self.model, user=self.request.user)
 
     def get(self, request, *args, **kwargs):
-        # if there was no student object 
-        try:
-            self.object = self.get_object()
-        except Http404:
-            return redirect(reverse('confirm_school')+"?next="+request.get_full_path())
+        self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         return render(request, self.template_name, context)
 
