@@ -276,15 +276,19 @@ course = CourseView.as_view()
 url: /school/
 name: school
 '''
-class SchoolView(View):
+class SchoolView(DetailView):
     template_name = 'schedule/school.html'
     model = School
 
-    def get(self, request, *args, **kwargs):
-        data = {
+    def get_object(self):
+        return get_object_or_404(self.model, id=self.kwargs['number'])
 
-        }
-        return render(request, self.template_name, data)
+    def get_context_data(self, **kwargs):
+        context = super(SchoolView, self).get_context_data(**kwargs)
+        docs = ['what', 'um']
+
+        context['popular_documents'] = docs
+        return context
 
 school = SchoolView.as_view()
 
