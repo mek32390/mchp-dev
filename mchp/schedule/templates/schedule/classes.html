@@ -15,89 +15,96 @@
 {% block body %}
 <div class="container animated bounceInUp">
 	<h2>Your Classes
-	<!-- <div class="pull-right">
+		<!-- <div class="pull-right">
 		<a href="/schedule" class="btn btn-primary btn-sm"><i class="fa fa-calendar-o"></i> Your Schedule &raquo;</a>
 		<a href="/sell/" class="btn btn-success btn-sm"><i class="fa fa-money"></i> Sell a Document &raquo;</a>
 		<a href="/docs/" class="btn btn-info btn-sm"><i class="fa fa-file-o "></i> Your Documents &raquo;</a>
 	</div> -->
 	</h2>
 	<ul class="nav nav-tabs nav-justified" role="tablist">
-		<li class="active"><a href="#course1" data-toggle="tab"><h5><i class="fa fa-book"></i> ECON 200</h5></a></li>
-		<li><a href="#course2" data-toggle="tab"><h5><i class="fa fa-book"></i> ECON 300</h5></a></li>
-		<li><a href="#course3" data-toggle="tab"><h5><i class="fa fa-book"></i> MIS 111</h5></a></li>
-		<li><a href="#course4" data-toggle="tab"><h5><i class="fa fa-book"></i> ENGR 102</h5></a></li>
-		<li><a href="#course5" data-toggle="tab"><h5><i class="fa fa-book"></i> FIN 360</h5></a></li>
+		{% for course in course_list %}
+		{% ifequal forloop.counter 1 %}
+		<li class="active"><a href="#course{{forloop.counter}}" data-toggle="tab">
+				<h5><i class="fa fa-book"></i> {{course.dept}} {{course.course_number}}</h5>
+		</a></li>
+		{% else %}
+		<li><a href="#course{{forloop.counter}}" data-toggle="tab">
+				<h5><i class="fa fa-book"></i> {{course.dept}} {{course.course_number}}</h5>
+		</a></li>
+		{% endifequal %}
+		{% empty %}
+		{% endfor %}
 	</ul>
 	<div class="tab-content">
-  		<div class="tab-pane fade in active" id="course1">
-  			<div class="well well-md animated " style="padding-bottom:0px; margin-top:20px;">
-          		<div class="panel panel-default">
-            		<div class="panel-body">
-            			<div class="media">
+		<div class="tab-pane fade in active" id="course1">
+			<div class="well well-md animated " style="padding-bottom:0px; margin-top:20px;">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="media">
 							<a class="pull-left" href="#">
-						    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" width="74px" alt="class">
-						  	</a>
-						  	<div class="media-body">
-						    	<h2 class="media-heading"><a href="#">ECON 200</a></h2>
-						    	<h5>
-					              	<i class="fa fa-file-o"></i> <a href="#">Syllabus</a> &nbsp;
-					              	<i class="fa fa-male"></i> Professor Reff &nbsp; 
-					              	<i class="fa fa-university"></i> <a href="#"> University of Arizona</a>
-					            </h5>
-						    	<div class="progress" style="width: 68%; margin-bottom:5px;">
-					                <div class="progress-bar progress-bar-primary" style="width: 30%">
-					                  <span class="sr-only">67% Complete (info)</span> 
-					                </div>
-					                <div class="progress-bar progress-bar-success" style="width: 30%">
-					                  <span class="sr-only">11% Complete (primary)</span> 
-					                </div>
-					                <div class="progress-bar progress-bar-danger" style="width: 40%">
-					                  <span class="sr-only">22% Complete (warning)</span> 
-					                </div>
-					            </div>
-						  	</div>
+								<img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" width="74px" alt="class">
+							</a>
+							<div class="media-body">
+								<h2 class="media-heading"><a href="#">ECON 200</a></h2>
+								<h5>
+									<i class="fa fa-file-o"></i> <a href="#">Syllabus</a> &nbsp;
+									<i class="fa fa-male"></i> Professor Reff &nbsp; 
+									<i class="fa fa-university"></i> <a href="#"> University of Arizona</a>
+								</h5>
+								<div class="progress" style="width: 68%; margin-bottom:5px;">
+									<div class="progress-bar progress-bar-primary" style="width: 30%">
+										<span class="sr-only">67% Complete (info)</span> 
+									</div>
+									<div class="progress-bar progress-bar-success" style="width: 30%">
+										<span class="sr-only">11% Complete (primary)</span> 
+									</div>
+									<div class="progress-bar progress-bar-danger" style="width: 40%">
+										<span class="sr-only">22% Complete (warning)</span> 
+									</div>
+								</div>
+							</div>
 						</div>
-            		</div><!-- end panel body -->
-            	</div><!-- end panel -->
-            </div><!-- end well -->
-            <div class="row">
-          		<div class="col-sm-5 animated ">
-            		<div class="panel panel-default">
-              			<div class="panel-heading">
-                			<h3 class="panel-title">Activity <span class="badge">16</span></h3>
-                		</div><!-- end panel heading -->
-                		<div class="panel-body">
-                			<div class="list-group">
-			                  <li class="list-group-item">
-			                    <h5 class="list-group-item-heading"><i class="fa fa-file-text-o fa-lg pull-left"></i><a href="#">Exam 1 Study Guide</a> added to Documents</h5>
-			                    <p class="list-group-item-text"><small>1 hour ago by <a href="#">themsquared</a></small></p>
-			                  </li>
-			                  <li class="list-group-item">
-			                    <h5 class="list-group-item-heading"><i class="fa fa-bookmark fa-lg pull-left"></i><a href="#">Read Ch. 8 &amp; 9</a> added to Calendar</h5>
-			                    <p class="list-group-item-text"><small>5 hours ago by <a href="#">mitch</a></small></p>
-			                  </li>
-			                  <li class="list-group-item">
-			                    <h5 class="list-group-item-heading"><i class="fa fa-user fa-lg pull-left"></i><a href="#">JohnWildcat</a> joined the class</h5>
-			                    <p class="list-group-item-text"><small>14 hours ago</small></p>
-			                  </li>
-			                </div>
-                		</div><!-- end panel body -->
-                	</div><!-- end panel -->
-                	<div class="panel panel-default">
-              			<div class="panel-heading">
-                			<h3 class="panel-title">Classmates <span class="badge">20</span></h3>
-                		</div><!-- end panel heading -->
-                		<div class="panel-body">
-                			<div class="list-group">
-			                  <li class="list-group-item">
-			                    <div class="media">
-								  <a class="pull-left" href="#">
-								    <img class="media-object img-circle img-thumbnail" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="40px" alt="...">
-								  </a>
-								  <div class="media-body">
-								    <h5 class="media-heading" style="margin-bottom:0px;"><a href="#" class="friend-popover">Mitchellias</a><small></small><span class="pull-right"><small>active 2 hours ago</small></span></h5>
-								    <!-- <small>
-								    	<div class="progress" style="width:60%; margin-bottom:0px;">
+					</div><!-- end panel body -->
+				</div><!-- end panel -->
+			</div><!-- end well -->
+			<div class="row">
+				<div class="col-sm-5 animated ">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Activity <span class="badge">16</span></h3>
+						</div><!-- end panel heading -->
+						<div class="panel-body">
+							<div class="list-group">
+								<li class="list-group-item">
+									<h5 class="list-group-item-heading"><i class="fa fa-file-text-o fa-lg pull-left"></i><a href="#">Exam 1 Study Guide</a> added to Documents</h5>
+									<p class="list-group-item-text"><small>1 hour ago by <a href="#">themsquared</a></small></p>
+								</li>
+								<li class="list-group-item">
+									<h5 class="list-group-item-heading"><i class="fa fa-bookmark fa-lg pull-left"></i><a href="#">Read Ch. 8 &amp; 9</a> added to Calendar</h5>
+									<p class="list-group-item-text"><small>5 hours ago by <a href="#">mitch</a></small></p>
+								</li>
+								<li class="list-group-item">
+									<h5 class="list-group-item-heading"><i class="fa fa-user fa-lg pull-left"></i><a href="#">JohnWildcat</a> joined the class</h5>
+									<p class="list-group-item-text"><small>14 hours ago</small></p>
+								</li>
+							</div>
+						</div><!-- end panel body -->
+					</div><!-- end panel -->
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Classmates <span class="badge">20</span></h3>
+						</div><!-- end panel heading -->
+						<div class="panel-body">
+							<div class="list-group">
+								<li class="list-group-item">
+									<div class="media">
+										<a class="pull-left" href="#">
+											<img class="media-object img-circle img-thumbnail" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="40px" alt="...">
+										</a>
+										<div class="media-body">
+											<h5 class="media-heading" style="margin-bottom:0px;"><a href="#" class="friend-popover">Mitchellias</a><small></small><span class="pull-right"><small>active 2 hours ago</small></span></h5>
+											<!-- <small>
+											<div class="progress" style="width:60%; margin-bottom:0px;">
 											<a href="#" class="progress-bar progress-bar-success" id="score_1">
 												<span class="sr-only">35% Complete (success)</span>
 											</a>
@@ -108,27 +115,27 @@
 												<span class="sr-only">45% Complete (danger)</span>
 											</a>
 										</div>
-								    </small> -->
+										</small> -->
 
-								    <small>
-								    	Marketing Major
-								    	<!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 12</span> <i class="fa fa-check"></i> Friends -->
-								    </small>
-								    <small>
-								  
-									</small>
-								  </div>
-								</div>
-			                  </li>
-			                  <li class="list-group-item">
-			                    <div class="media">
-								  <a class="pull-left" href="#">
-								    <img class="media-object img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/64px/profile.png" width="40px" alt="...">
-								  </a>
-								  <div class="media-body">
-								    <h5 class="media-heading" style="margin-bottom:0px;"><a href="#">Baxter</a><span class="pull-right"><small>active 3 hours ago</small></span></h5>
-								    <small>
-								    	<!-- <div class="progress" style="width:60%; margin-bottom:0px;">
+											<small>
+												Marketing Major
+												<!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 12</span> <i class="fa fa-check"></i> Friends -->
+											</small>
+											<small>
+
+											</small>
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item">
+									<div class="media">
+										<a class="pull-left" href="#">
+											<img class="media-object img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/64px/profile.png" width="40px" alt="...">
+										</a>
+										<div class="media-body">
+											<h5 class="media-heading" style="margin-bottom:0px;"><a href="#">Baxter</a><span class="pull-right"><small>active 3 hours ago</small></span></h5>
+											<small>
+												<!-- <div class="progress" style="width:60%; margin-bottom:0px;">
 											<a href="#" class="progress-bar progress-bar-success" style="width:30%;">
 												<span class="sr-only">35% Complete (success)</span>
 											</a>
@@ -139,23 +146,23 @@
 												<span class="sr-only">45% Complete (danger)</span>
 											</a>
 										</div> -->
-								    </small>
-								    <small>
-								    	ECON 200 and 4 other classes
-								    	<!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 11</span> -->
-								    </small>
-								  </div>
-								</div>
-			                  </li>
-			                  <li class="list-group-item">
-			                    <div class="media">
-								  <a class="pull-left" href="#">
-								    <img class="media-object img-circle img-thumbnail" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/c0.0.160.160/p160x160/10517552_10152650070421654_3530025072014623093_n.jpg?oh=f5058fe314e993257083689be59e1562&oe=54452C8D&__gda__=1412673103_2cf0341e968f31bbb25b05304d3b47eb" width="40px" alt="...">
-								  </a>
-								  <div class="media-body">
-								    <h5 class="media-heading" style="margin-bottom:0px;"><a href="#" class="classmate-popover">Mike</a><span class="pull-right"><small>active 3 hours ago</small></span></h5>
-								    <small>
-								    	<!-- <div class="progress" style="width:60%; margin-bottom:0px;">
+											</small>
+											<small>
+												ECON 200 and 4 other classes
+												<!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 11</span> -->
+											</small>
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item">
+									<div class="media">
+										<a class="pull-left" href="#">
+											<img class="media-object img-circle img-thumbnail" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/c0.0.160.160/p160x160/10517552_10152650070421654_3530025072014623093_n.jpg?oh=f5058fe314e993257083689be59e1562&oe=54452C8D&__gda__=1412673103_2cf0341e968f31bbb25b05304d3b47eb" width="40px" alt="...">
+										</a>
+										<div class="media-body">
+											<h5 class="media-heading" style="margin-bottom:0px;"><a href="#" class="classmate-popover">Mike</a><span class="pull-right"><small>active 3 hours ago</small></span></h5>
+											<small>
+												<!-- <div class="progress" style="width:60%; margin-bottom:0px;">
 											<a href="#" class="progress-bar progress-bar-success" style="width:20%;">
 												<span class="sr-only">35% Complete (success)</span>
 											</a>
@@ -166,67 +173,67 @@
 												<span class="sr-only">45% Complete (danger)</span>
 											</a>
 										</div> -->
-								    </small>
-								    <small>
-								    	ECON 200 and 4 other classes
-								    	<!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 15</span> -->
-								    </small>
-								  </div>
-								</div>
-			                  </li>
-			                </div>
-                		</div><!-- end panel body -->
-                	</div><!-- end panel -->
-                </div><!-- end col -->
-                <div class="col-sm-7 animated ">
-            		<div class="panel panel-default">
-              			<div class="panel-heading">
-                			<h3 class="panel-title">Documents <span class="badge">20</span>
-                				<div class="btn-group pull-right">
-								  <button type="button" class="btn btn-default btn-xs">Recent</button>
-								  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-								    <span class="caret"></span>
-								    <span class="sr-only">Toggle Dropdown</span>
-								  </button>
-								  <ul class="dropdown-menu" role="menu">
-								    <li><a href="#">Rating</a></li>
-								    <li><a href="#">Most Purchased</a></li>
-								  </ul>
+											</small>
+											<small>
+												ECON 200 and 4 other classes
+												<!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 15</span> -->
+											</small>
+										</div>
+									</div>
+								</li>
+							</div>
+						</div><!-- end panel body -->
+					</div><!-- end panel -->
+				</div><!-- end col -->
+				<div class="col-sm-7 animated ">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Documents <span class="badge">20</span>
+								<div class="btn-group pull-right">
+									<button type="button" class="btn btn-default btn-xs">Recent</button>
+									<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+										<span class="caret"></span>
+										<span class="sr-only">Toggle Dropdown</span>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="#">Rating</a></li>
+										<li><a href="#">Most Purchased</a></li>
+									</ul>
 								</div>
 							</h3>
-                		</div><!-- end panel heading -->
-                		<div class="panel-body">
-                			<div class="list-group">
-			                  <div class="list-group-item">
-			                    <div class="media">
-			                      <span class="pull-left" href="#">
-			                      	<div class="media-object img-thumbnail"><a href="#"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div></span>
-			                      <div class="media-body">
-			                        <h4 class="media-heading"><a href="#">Exam 1 Study Guide</a> <small>500 points</small><div class="pull-right small text-muted">10 m</div></h4>
-			                        <span class="description">
-			                        	<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85&nbsp;
-			                        	<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;|&nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;|&nbsp;
-			                        	<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases
-			                        	<p class="small">Uploaded by <a href="#">themsquared</a></p>
-			                        </span>
-			                      </div>
-			                    </div>
-			                  </div>
-			                  <div class="list-group-item">
-			                    <div class="media">
-			                      <span class="pull-left" href="#">
-			                      	<div class="media-object img-thumbnail"><a href="#"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div></span>
-			                      <div class="media-body">
-			                        <h4 class="media-heading"><a href="#">Exam 1 Study Guide</a> <small>500 points</small><div class="pull-right small text-muted">10 m</div></h4>
-			                        <span class="description">
-			                        	<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85&nbsp;
-			                        	<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;|&nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;|&nbsp;
-			                        	<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases
-			                        	<p class="small">Uploaded by <a href="#">themsquared</a></p>
-			                        </span>
-			                      </div>
-			                    </div>
-			                  </div>
+						</div><!-- end panel heading -->
+						<div class="panel-body">
+							<div class="list-group">
+								<div class="list-group-item">
+									<div class="media">
+										<span class="pull-left" href="#">
+											<div class="media-object img-thumbnail"><a href="#"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div></span>
+										<div class="media-body">
+											<h4 class="media-heading"><a href="#">Exam 1 Study Guide</a> <small>500 points</small><div class="pull-right small text-muted">10 m</div></h4>
+											<span class="description">
+												<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85&nbsp;
+												<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;|&nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;|&nbsp;
+												<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases
+												<p class="small">Uploaded by <a href="#">themsquared</a></p>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="list-group-item">
+									<div class="media">
+										<span class="pull-left" href="#">
+											<div class="media-object img-thumbnail"><a href="#"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div></span>
+										<div class="media-body">
+											<h4 class="media-heading"><a href="#">Exam 1 Study Guide</a> <small>500 points</small><div class="pull-right small text-muted">10 m</div></h4>
+											<span class="description">
+												<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85&nbsp;
+												<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;|&nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;|&nbsp;
+												<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases
+												<p class="small">Uploaded by <a href="#">themsquared</a></p>
+											</span>
+										</div>
+									</div>
+								</div>
 			                  <div class="list-group-item">
 			                    <div class="media">
 			                      <span class="pull-left" href="#">

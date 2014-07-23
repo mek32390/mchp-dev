@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from django.views.generic.edit import FormView, View
+from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.template import Context
@@ -301,14 +302,17 @@ school = SchoolView.as_view()
 url: /classes/
 name: classes
 '''
-class ClassesView(View):
+class ClassesView(ListView):
     template_name = 'schedule/classes.html'
 
-    def get(self, request, *args, **kwargs):
-        data = {
+    def get_queryset(self):
+        return Course.objects.filter(student__user=self.request.user)
 
-        }
-        return render(request, self.template_name, data)
+    # def get(self, request, *args, **kwargs):
+    #     data = {
+
+    #     }
+    #     return render(request, self.template_name, data)
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
