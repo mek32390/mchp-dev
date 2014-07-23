@@ -265,7 +265,7 @@ class CourseView(DetailView):
         context = super(CourseView, self).get_context_data(**kwargs)
         docs = self.object.document_set.all().annotate(
             sold=Count('purchased_document__document')
-        ).order_by('sold')[:15]
+        ).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
         return context

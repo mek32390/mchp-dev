@@ -64,7 +64,7 @@
 										<a href="#"><img src="{{document.preview.url}}" style="width:64px"></a>
 								</div></span>
 								<div class="media-body">
-									<h4 class="media-heading"><a href="#">{{document.title}}</a>
+									<h4 class="media-heading"><a href="{%url "document_detail" document.uuid %}">{{document.title}}</a>
 									<small>{{document.price}} points</small><div class="pull-right small
 										text-muted">uploaded {{document.create_date|naturaltime}}</div></h4>
 									<span class="description">
