@@ -267,7 +267,8 @@ class CourseView(DetailView):
         if 'slug' in kwargs:
             slug = self.kwargs['slug']
             number = self.kwargs['number']
-            course = Course.objects.filter(name=slug.upper())
+            course = Course.objects.filter(name=slug.upper(),
+                                           domain=self.request.user.student.school)
             if course.exists() and course[0].pk != int(number):
                 kw = {
                     'number': course[0].pk,
