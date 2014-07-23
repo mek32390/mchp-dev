@@ -1,10 +1,10 @@
-from allauth.account.decorators import verified_email_required
-
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import View
+
+from lib.decorators import school_required
 
 class DashboardView(View):
     template_name = 'dashboard.html'
@@ -19,7 +19,7 @@ class DashboardView(View):
         return HttpResponseNotAllowed(['GET'])
 
     @method_decorator(ensure_csrf_cookie)
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardView, self).dispatch(*args, **kwargs)

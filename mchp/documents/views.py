@@ -1,5 +1,3 @@
-from allauth.account.decorators import verified_email_required
-
 from django.contrib import messages
 from django.conf import settings
 from django.core import serializers
@@ -17,6 +15,7 @@ from django.views.generic.list import ListView
 from documents.forms import DocumentUploadForm
 from documents.models import Document, Upload, DocumentPurchase
 from documents.exceptions import DuplicateFileError
+from lib.decorators import school_required
 from schedule.models import Course
 
 import json
@@ -125,7 +124,7 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         )
         return super(DocumentFormView, self).form_valid(form)
 
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DocumentFormView, self).dispatch(*args, **kwargs)
@@ -154,7 +153,7 @@ class DocumentListView(ListView):
         return context
 
     @method_decorator(ensure_csrf_cookie)
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DocumentListView, self).dispatch(*args, **kwargs)
@@ -209,7 +208,7 @@ class DocumentDetailPreview(DetailView):
 
         document = self.get_object()
         owns = False
-        if not request.user.is_anonymous():
+        if not request.user.is_anonymous() and request.user.student_exists():
             # check if they already bought the doc
             uploader = Upload.objects.get(document=document).owner
             if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
@@ -237,10 +236,10 @@ class DocumentDetailPreview(DetailView):
 
     # this page is publically viewable 
     def dispatch(self, *args, **kwargs):
-        if self.request.user.is_anonymous():
-            self.student = None
-        else:
+        if self.request.user.student_exists():
             self.student = self.request.user.student
+        else:
+            self.student = None
         return super(DocumentDetailPreview, self).dispatch(*args, **kwargs)
 
 document_preview = DocumentDetailPreview.as_view()
@@ -256,7 +255,7 @@ class DocumentDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(['GET'])
 
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     def get(self, request, *args, **kwargs):
         # parent stuff, getting the object
         self.object = self.get_object()
@@ -298,11 +297,11 @@ class DocumentDetailView(DetailView):
 
     # this page needs to be publically viewable to redirect properly
     def dispatch(self, *args, **kwargs):
-        if self.request.user.is_anonymous():
-            return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'])
-        else:
+        if self.request.user.student_exists():
             self.student = self.request.user.student
             return super(DocumentDetailView, self).dispatch(*args, **kwargs)
+        else:
+            return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'])
 
 document_detail = DocumentDetailView.as_view()
 
@@ -354,7 +353,7 @@ class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
             return redirect(reverse('document_list'))
 
 
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     @method_decorator(ensure_csrf_cookie)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
@@ -409,7 +408,7 @@ class PurchaseDeleteView(DeleteView, AjaxableResponseMixin):
         else:
             return redirect(reverse('document_list'))
 
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     @method_decorator(ensure_csrf_cookie)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
@@ -494,7 +493,7 @@ class PurchaseUpdateView(UpdateView, AjaxableResponseMixin):
         else:
             return redirect(reverse('document_list'))
 
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(PurchaseUpdateView, self).dispatch(*args, **kwargs)

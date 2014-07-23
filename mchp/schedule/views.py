@@ -1,5 +1,3 @@
-from allauth.account.decorators import verified_email_required
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import FormView, View
@@ -12,6 +10,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse
 from django.core import serializers
 
+from lib.decorators import school_required
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
 from schedule.models import Course, School
 
@@ -33,7 +32,7 @@ class _BaseCourseView(FormView):
 
     # dispatch takes care of calling default get and post functions
     # and the decorator will happen in every subclass that doens't override
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(_BaseCourseView, self).dispatch(*args, **kwargs)
@@ -311,7 +310,7 @@ class ClassesView(View):
         }
         return render(request, self.template_name, data)
 
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(ClassesView, self).dispatch(*args, **kwargs)

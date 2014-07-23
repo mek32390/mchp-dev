@@ -1,5 +1,3 @@
-from allauth.account.decorators import verified_email_required
-
 from django.contrib import messages
 # from django.conf import settings
 # from django.core import serializers
@@ -14,6 +12,7 @@ from django.views.generic.edit import FormView, DeleteView,View
 # from django.views.generic.list import ListView
 
 from calendar_mchp.models import ClassCalendar
+from lib.decorators import school_required
 
 import json
 import logging
@@ -55,7 +54,7 @@ class CalendarCreateView(FormView, AjaxableResponseMixin):
         }
         return render(request, self.template_name, data)
 
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarCreateView, self).dispatch(*args, **kwargs)
@@ -114,7 +113,7 @@ class CalendarView(View):
         }
         return render(request, self.template_name, data)
 
-    @method_decorator(verified_email_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarView, self).dispatch(*args, **kwargs)
