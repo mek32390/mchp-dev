@@ -45,8 +45,8 @@ def create_preview(instance):
         logger.debug(new_doc)
         instance.document.delete()
         instance.document.save(new_doc, File(open(output,'rb'), output))
-        os.remove(input)
-        os.remove(output)
+        # os.remove(input)
+        # os.remove(output)
 
     size = 500
     with Image(filename=instance.document.url+'[0]') as img:
@@ -59,7 +59,7 @@ def create_preview(instance):
             os.path.splitext(instance.filename())[0]
         )
         instance.preview.save(preview, ImageFile(open(preview_name, 'rb'), preview_name))
-        os.remove(preview_name)
+        # os.remove(preview_name)
 
     instance.document.storage.connection.put_acl('mchp-dev', 'media/' + instance.document.name, '',
                                                {'x-amz-acl':'private'})
