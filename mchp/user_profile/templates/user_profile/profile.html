@@ -27,7 +27,7 @@
 <span class="text-center center-block">
 	<img src="{{profile.profile_image_url}}" width="165px" class="animated flipInX img-thumbnail img-responsive img-circle">
 	<h2 style="margin-bottom:;">{{user.first_name}} {{user.last_name}}</h2>
-	<p class="small">@{% if user.first_name %}{{user.first_name}}{%else%}{{user.username}}{% endif %} &nbsp;
+	<p class="small">@{{student.name}} &nbsp;
 		<i class="fa fa-graduation-cap fa-fw"></i> Marketing Major &nbsp;
 		<i class="fa fa-university fa-fw"></i>{{student.school.name}}</p>
 	<!-- <h5><small style="color:;">joined {{student.create_date | naturaltime}}</small></h5> -->
@@ -63,7 +63,8 @@
 					<p></p>
 					<div id="friend_message" class="lead">
 						<hr>
-						To see more of what Mitch shares, become friends with him! <div class="btn btn-primary" id="friend_button" >Friend {{user.first_name}}</div>
+						To see more of what {{student.name}} shares, become friends with them! <div class="btn
+						btn-primary" id="friend_button" >Friend {{student.name}}</div>
 						<hr>
 					</div>
 					<div class="well">
