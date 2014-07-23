@@ -79,6 +79,7 @@ class Student(models.Model):
         )
 
 User.student = property(lambda u: Student.objects.get(user=u))
+User.student_exists = lambda u: Student.objects.filter(user=u).exists()
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
