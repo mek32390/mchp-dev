@@ -43,8 +43,8 @@
 <!-- End Modal -->
 
 
-<div class="container">
-	<ol class="breadcrumb animated flipInX">
+<div class="container animated bounceInUp">
+	<ol class="breadcrumb">
 		<h class="pull-right">
 		<a href="#flag_doc" data-toggle="modal" class="text-danger small"><i class="fa fa-flag text-danger"></i> Report this Document</a> 
 		</h>
@@ -58,7 +58,7 @@
 			<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{document.title}}</a>
 		</li>
 	</ol>
-	<div class="well animated bounceInUp">
+	<div class="well">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="row">
