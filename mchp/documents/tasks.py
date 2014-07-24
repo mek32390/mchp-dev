@@ -24,6 +24,7 @@ def create_preview(instance):
                     b'application/CDFV2-corrupt',
                     b'text/plain',
                     b'text/html',
+                    b'application/vnd.oasis.opendocument.spreadsheet',
                    ]
 
     logger.debug(instance.filetype)
@@ -31,8 +32,8 @@ def create_preview(instance):
         return
 
     if instance.filetype in convert_type:
-        output = '/tmp/tmp{}.pdf'.format(uuid.uuid4())
-        input = '/tmp/old{}'.format(uuid.uuid4())
+        output = 'tmp{}.pdf'.format(uuid.uuid4())
+        input = 'old{}'.format(uuid.uuid4())
 
         urllib.request.urlretrieve(instance.document.url, input)
 
