@@ -92,7 +92,7 @@ def confirm_school(request):
             if 'next' in request.POST and request.POST['next'] != '':
                 return redirect(request.POST['next'])
             else:
-                return redirect('/profile/')
+                return redirect('/school/course/add/')
 
     schools = School.objects.all().values('name', 'domain').order_by('name')
     if 'next' in request.GET:
