@@ -57,7 +57,11 @@
 								<div class="media">
 									<span class="pull-left" href="#">
 										<div class="media-object img-thumbnail">
+											{% if document.preview %}
 											<a href="#"><img src="{{document.preview.url}}" style="width:64px"></a>
+											{% else %}
+											<a href="#"><img src="" style="width:64px"></a>
+											{% endif %}
 									</div></span>
 									<div class="media-body">
 										<h4 class="media-heading"><a href="{%url "document_detail" document.uuid %}">{{document.title}}</a>
