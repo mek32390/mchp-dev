@@ -50,13 +50,20 @@
 										{% if upload.document.preview %}
 										<img src="{{upload.document.preview.url}}" style="width:64px"></a></div>
 								{% else %}
-										<img src="" style="width:64px"></a></div>
+								<img src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
 								{% endif %}
 								<div class="media-body">
-									<h4 class="media-heading"><a href="{% url 'document_list' %}
+									<h4 class="media-heading">
+										{% if upload.document.preview %}
+										<a href="{% url 'document_list' %}
 											{{ upload.document.uuid}}/
 											{{ upload.document.slug}}
-											">{{ upload.document.title }}</a> <small>{{upload.document.price}} <i class="fa fa-fw fa-cube"></i></small>
+											">{{ upload.document.title }}</a> 
+										<small>{{upload.document.price}} <i class="fa fa-fw fa-cube"></i></small>
+										{% else %}
+										Your link is being generated. Appreciate the time you have left.
+										<!-- <img src="{% static 'documents/img/loading.gif'%}" style="width:20px"></a></div> -->
+										{% endif %}
 										<div class="pull-right small text-muted">{{upload.document.create_date | naturaltime}}</div>
 									</h4>
 									<small class="pull-right">
@@ -109,7 +116,7 @@
 										{% if doc.document.preview %}
 										<img src="{{doc.document.preview.url}}" style="width:64px"></a></div>
 								{% else %}
-										<img src="" style="width:64px"></a></div>
+								<img src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
 								{% endif %}
 
 								<div class="media-body">
