@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block body %}
+{% load humanize %}
 <div class="container animated bounceInUp">
 	<h2>Your Classes
 		<!-- <div class="pull-right">
@@ -97,7 +98,7 @@
 					</div><!-- end panel -->
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Classmates <span class="badge">20</span></h3>
+							<h3 class="panel-title">Classmates <span class="badge">{{course.students|length}}</span></h3>
 						</div><!-- end panel heading -->
 						<div class="panel-body">
 							<div class="list-group">
@@ -143,7 +144,7 @@
 				<div class="col-sm-7 animated ">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Documents <span class="badge">20</span>
+							<h3 class="panel-title">Documents <span class="badge">{{course.doc_count}}</span>
 								<div class="btn-group pull-right">
 									<button type="button" class="btn btn-default btn-xs">Recent</button>
 									<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -159,66 +160,38 @@
 						</div><!-- end panel heading -->
 						<div class="panel-body">
 							<div class="list-group">
+								{% for document in documents %}
+								{% ifequal document.course course %}
 								<div class="list-group-item">
 									<div class="media">
 										<span class="pull-left" href="#">
-											<div class="media-object img-thumbnail"><a href="#"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div></span>
+											<div class="media-object img-thumbnail">
+												{% if document.preview %}
+												<a href="#"><img src="{{document.preview.url}}" style="width:64px"></a>
+												{% else %}
+												<a href="#"><img src="" style="width:64px"></a>
+												{% endif %}
+											</div>
+										</span>
 										<div class="media-body">
-											<h4 class="media-heading"><a href="#">Exam 1 Study Guide</a> <small>500 points</small><div class="pull-right small text-muted">10 m</div></h4>
+											<h4 class="media-heading"><a href="{% url "document_list" %}{{document.uuid}}">{{document.title}}</a>
+												<small>{{document.price}} points</small><div class="pull-right small
+													text-muted">uploaded {{document.create_date|naturaltime}}</div></h4>
 											<span class="description">
-												<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85&nbsp;
-												<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;|&nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;|&nbsp;
-												<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases
-												<p class="small">Uploaded by <a href="#">themsquared</a></p>
+												<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}&nbsp;
+												<i class="fa fa-fw fa-thumbs-o-down text-danger
+													fa-flip-horizontal"></i>{{document.down}}&nbsp;|&nbsp;<i class="fa
+													fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}}
+												Review{{document.review_count|pluralize}}&nbsp;|&nbsp;
+												<i class="fa fa-fw fa-money
+													text-success"></i>&nbsp;{{document.sold}}
+												Purchase{{document.sold|pluralize}}
 											</span>
 										</div>
 									</div>
 								</div>
-								<div class="list-group-item">
-									<div class="media">
-										<span class="pull-left" href="#">
-											<div class="media-object img-thumbnail"><a href="#"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div></span>
-										<div class="media-body">
-											<h4 class="media-heading"><a href="#">Exam 1 Study Guide</a> <small>500 points</small><div class="pull-right small text-muted">10 m</div></h4>
-											<span class="description">
-												<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85&nbsp;
-												<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;|&nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;|&nbsp;
-												<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases
-												<p class="small">Uploaded by <a href="#">themsquared</a></p>
-											</span>
-										</div>
-									</div>
-								</div>
-								<div class="list-group-item">
-									<div class="media">
-										<span class="pull-left" href="#">
-											<div class="media-object img-thumbnail"><a href="#"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div></span>
-										<div class="media-body">
-											<h4 class="media-heading"><a href="#">Exam 1 Study Guide</a> <small>500 points</small><div class="pull-right small text-muted">10 m</div></h4>
-											<span class="description">
-												<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85&nbsp;
-												<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;|&nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;|&nbsp;
-												<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases
-												<p class="small">Uploaded by <a href="#">themsquared</a></p>
-											</span>
-										</div>
-									</div>
-								</div>
-								<div class="list-group-item">
-									<div class="media">
-										<span class="pull-left" href="#">
-											<div class="media-object img-thumbnail"><a href="#"><img src="https://s3.amazonaws.com/mchpstore/thumbs/ksoVVkkBJwJNTCrXVY3AbB.png" style="width:64px"></a></div></span>
-										<div class="media-body">
-											<h4 class="media-heading"><a href="#">Exam 1 Study Guide</a> <small>500 points</small><div class="pull-right small text-muted">10 m</div></h4>
-											<span class="description">
-												<i class="fa fa-fw fa-thumbs-o-up text-success"></i>85&nbsp;
-												<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>15&nbsp;|&nbsp;<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;6 Reviews&nbsp;|&nbsp;
-												<i class="fa fa-fw fa-money text-success"></i>&nbsp;15 Purchases
-												<p class="small">Uploaded by <a href="#">themsquared</a></p>
-											</span>
-										</div>
-									</div>
-								</div>
+								{% endifequal %}
+								{% endfor %}
 							</div>
 						</div><!-- end panel body -->
 					</div><!-- end panel -->
