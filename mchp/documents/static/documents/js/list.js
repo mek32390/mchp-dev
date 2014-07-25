@@ -96,6 +96,24 @@ $(function(){
 		});
 	});
 
+	/*
+	 * refreshing the holding icon when docs are uploaded
+	 * taken from: https://stackoverflow.com/questions/5052543/how-to-fire-ajax-request-periodically
+	 */
+	// (function worker() {
+	// 	$.ajax({
+	// 		url: 'documents/fetch-preview/', 
+	// 		type: 'GET',
+	// 		success: function(data) {
+                // addMessage('what', 'success');
+	// 		},
+	// 		complete: function() {
+	// 			// Schedule the next request when the current one's complete
+	// 			setTimeout(worker, 500);
+	// 		}
+	// 	});
+	// })();
+
 });
 
 function addMessage(text, extra_tags) {

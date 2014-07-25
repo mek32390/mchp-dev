@@ -37,48 +37,52 @@
 			<div class="tab-content">
 				<div class="tab-pane active" id="selling_docs">
  					<p></p>
- 						{% if upload_list %} 
+ 						{% if document_list %} 
 					<div class="list-group scrolls" id="document-list"> 
-							{% for upload in upload_list %} 
-						<li class="list-group-item" id="document_{{upload.document.pk}}"> 
+							{% for document in document_list %} 
+							{{document.purchased_count}}
+						<li class="list-group-item" id="document_{{document.pk}}"> 
 
  							<div class="media">
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
-										{{ upload.document.uuid}}/
-										{{ upload.document.slug}}">
+										{{ document.uuid}}/
+										{{ document.slug}}">
 
-										{% if upload.document.preview %}
-										<img src="{{upload.document.preview.url}}" style="width:64px"></a></div>
+										{% if document.preview %}
+										<img src="{{document.preview.url}}" style="width:64px"></a></div>
 								{% else %}
 								<img src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
 								{% endif %}
 								<div class="media-body">
 									<h4 class="media-heading">
-										{% if upload.document.preview %}
+										{% if document.preview %}
 										<a href="{% url 'document_list' %}
-											{{ upload.document.uuid}}/
-											{{ upload.document.slug}}
-											">{{ upload.document.title }}</a> 
-										<small>{{upload.document.price}} <i class="fa fa-fw fa-cube"></i></small>
+											{{ document.uuid}}/
+											{{ document.slug}}
+											">{{ document.title }}</a> 
+										<small>{{document.price}} <i class="fa fa-fw fa-cube"></i></small>
 										{% else %}
-										Your link is being generated. Appreciate the time you have left.
-										<!-- <img src="{% static 'documents/img/loading.gif'%}" style="width:20px"></a></div> -->
+										Your link is being generated. Appreciate the time you have left.<i class="fa fa-spinner fa-spin"></i>
 										{% endif %}
-										<div class="pull-right small text-muted">{{upload.document.create_date | naturaltime}}</div>
+										<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
 									</h4>
 									<small class="pull-right">
-										<a href="javascript:void(0)" class="badge delete-button" data-document="{{upload.document.pk}}">delete</a>
+										<a href="javascript:void(0)" class="badge delete-button" data-document="{{document.pk}}">delete</a>
 									</small> 
 
 									<span class="description">
-										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{upload.document.up}}
-										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ upload.document.down}}&nbsp;&nbsp;
+										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
+										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
+										{% with document.review_count as review_count %}
 										<i class="fa fa-comments-o text-info
-											fa-fw"></i>&nbsp;{{ upload.document.review_count }}
-										Review{{upload.document.review_count|pluralize}}&nbsp;&nbsp;
+											fa-fw"></i>&nbsp;{{ review_count }}
+										Review{{review_count|pluralize}}&nbsp;&nbsp;
+										{% endwith %}
+										{% with document.purchase_count as purchase_count %}
 										<i class="fa fa-fw fa-money
-											text-success"></i>&nbsp;{{upload.document.purchase_count}}
-										Purchase{{upload.document.purchase_count|pluralize}}
+											text-success"></i>&nbsp;{{purchase_count}}
+										Purchase{{purchase_count|pluralize}}
+										{% endwith %}
 									</span> 
 								</div> 
 							</div> 
@@ -105,36 +109,39 @@
 					<p></p>
 					{% if purchases %}
 					<div class="list-group" id="purchased_list">
-						{% for doc in purchases %}
-						<li class="list-group-item" id="purchased_{{doc.document.pk}}">
+						{% for document in purchases %}
+						<li class="list-group-item" id="purchased_{{document.pk}}">
 
 							<div class="media">
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
-										{{ doc.document.uuid}}/
-										{{ doc.document.slug}}
+										{{ document.uuid}}/
+										{{ document.slug}}
 										">
-										{% if doc.document.preview %}
-										<img src="{{doc.document.preview.url}}" style="width:64px"></a></div>
+										{% if document.preview %}
+										<img src="{{document.preview.url}}" style="width:64px"></a></div>
 								{% else %}
 								<img src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
 								{% endif %}
 
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{% url 'document_list' %}
-											{{ doc.document.uuid}}/
-											{{ doc.document.slug}}
-											">{{ doc.document.title }}</a> <small>{{doc.document.price}} points</small>
-										<div class="pull-right small text-muted">{{doc.document.create_date | naturaltime}}</div></h4>
+											{{ document.uuid}}/
+											{{ document.slug}}
+											">{{ document.title }}</a> <small>{{document.price}} points</small>
+										<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div></h4>
 									<small class="pull-right">
-										<a href="javascript:void(0)" class="badge remove-button" data-document="{{doc.document.pk}}">remove</a>
+										<a href="javascript:void(0)" class="badge remove-button" data-document="{{document.pk}}">remove</a>
 									</small>
 
 									<span class="description">
-										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{doc.document.up}}
-										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ doc.document.down}}&nbsp;&nbsp;
-										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{doc.document.review_count}} Reviews&nbsp;&nbsp;
-										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{doc.document.purchase_count}} Purchases
-										<p class="small">Uploaded by <a href="#">{{doc.document.upload_set.get.owner.user.username}}</a></p>
+										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
+										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
+										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}}
+										Review{{document.review_count|pluralize}}&nbsp;&nbsp;
+										<i class="fa fa-fw fa-money
+											text-success"></i>&nbsp;{{document.purchase_count}}
+										Purchase{{document.purchase_count|pluralize}}
+										<p class="small">Uploaded by <a href="#">{{document.upload_set.get.owner.user.student.name}}</a></p>
 									</span>
 								</div>
 							</div>

@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.core import serializers
 from django.core.urlresolvers import reverse
+from django.db.models import Count
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import Context
@@ -137,17 +138,30 @@ name: document_list
 '''
 class DocumentListView(ListView):
     template_name = 'documents/list.html'
-    model = Upload
+    model = Document
 
     def get_queryset(self):
-        return Upload.objects.filter(owner=self.student).select_related().order_by('-document__create_date')
+        return Document.objects.filter(upload__owner=self.student).order_by('-create_date').annotate(
+            purchase_count = Count('purchased_document'),
+        ).extra(select = {
+            # can't filter on annotations so get the count manually
+            'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+\
+            'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"'+\
+            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+        })
 
     def get_context_data(self, **kwargs):
         context = super(DocumentListView, self).get_context_data(**kwargs)
         context['upload_count'] = Upload.objects.filter(owner=self.student).count()
         context['purchase_count'] = DocumentPurchase.objects.filter(student=self.student).count()
         # this kind of defeats the purpose of a list view, but eh
-        purchases = DocumentPurchase.objects.filter(student=self.student).select_related().order_by('document__title')
+        purchases = Document.objects.filter(purchased_document__student=self.student).select_related().order_by('title').annotate(
+            purchase_count = Count('purchased_document')
+        ).extra(select = {
+            'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+\
+            'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"'+\
+            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+        })
         context['purchases'] = purchases
 
         return context

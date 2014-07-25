@@ -22,7 +22,9 @@ class Student(models.Model):
     purchased_points = models.IntegerField(default=0)
     earned_points = models.IntegerField(default=0)
     kudos = models.IntegerField(default=0)
-    create_date = models.DateTimeField(auto_now_add=True)
+
+    def create_date(self):
+        return self.user.date_joined
 
     def name(self):
         if self.user.first_name:
@@ -74,9 +76,10 @@ class Student(models.Model):
         return reduce(lambda doc1, doc2: doc1 + doc2, counts)
 
     def __str__(self):
-        return 'Student: {} goes to {}. Joined: {}'.format(
-            self.user.username, self.school.name, self.create_date
-        )
+        if self.user.first_name:
+            return self.user.first_name + " " + self.user.last_name
+        else:
+            return self.user.username
 
 User.student = property(lambda u: Student.objects.get(user=u))
 User.student_exists = lambda u: Student.objects.filter(user=u).exists()
