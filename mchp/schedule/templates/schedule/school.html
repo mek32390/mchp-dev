@@ -18,7 +18,7 @@
 		</div>
 		<li class="active"><i class="fa fa-university fa-fw"></i> {{school.name}}</li>
 	</ol>
-	<div class="well">
+	<div class="well" style="padding-bottom:0px;">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building.svg" alt="school"></a>
@@ -34,7 +34,7 @@
 							<i class="fa fa-calendar"></i> 60 Calendars &nbsp;
 						</p>
 					</div>
-					<div class="progress" style="width:">
+					<div class="progress" style="width:68%;">
 						<div class="progress-bar progress-bar-info" style="width: 67%"> <span class="sr-only">67% Complete (info)</span> </div>
 						<div class="progress-bar progress-bar-primary" style="width: 11%"> <span class="sr-only">11% Complete (primary)</span> </div>
 						<div class="progress-bar progress-bar-warning" style="width: 22%"> <span class="sr-only">22% Complete (warning)</span> </div>
@@ -66,15 +66,21 @@
 									<div class="media-body">
 										<h4 class="media-heading"><a href="{%url "document_detail" document.uuid %}">{{document.title}}</a>
 											<small>{{document.price}} points</small><div class="pull-right small
-												text-muted">uploaded {{document.create_date|naturaltime}}</div></h4>
-										<span class="description">
-											<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}&nbsp;
-											<i class="fa fa-fw fa-thumbs-o-down text-danger
-												fa-flip-horizontal"></i>{{document.down}}&nbsp;|&nbsp;
+												text-muted">{{document.create_date|naturaltime}}</div></h4>
+										<span class="description small">
+											<div class="progress" style="width:220px; margin-bottom:2px; margin-top:6px;">
+												<div class="progress-bar progress-bar-success" style="width:60%;">
+												</div>
+												<div class="progress-bar progress-bar-danger" style="width:40%;">
+												</div>
+											</div>
+											<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
+											<i class="fa fa-fw fa-thumbs-down text-danger
+												fa-flip-horizontal"></i>{{document.down}}&nbsp;
 											{% with document.review_count as review_count %}
-											<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{review_count}} Review{{review_count|pluralize}}&nbsp;|&nbsp;
+											<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
 											{% endwith %}
-											<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.sold}}
+											<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 											Purchase{{document.sold|pluralize}}
 											{% with document.upload_set.get.owner as owner %}
 											<p class="small">Uploaded by <a href="{%url "profile" owner.pk %}{{owner.name}}">{{owner.name}}</a></p>

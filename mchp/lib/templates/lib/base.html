@@ -156,14 +156,22 @@
 										<option>2,000 Points</option>
 										<option>5,000 Points</option>
 									</select>
-									<p></p>
-									<button type="submit" class="btn btn-primary btn-block">Purchase</button>
+								
+									<hr>
+									<div class="row">
+										<div class="col-xs-5">
+											<button type="submit" class="btn btn-primary btn-block">Pay with my Card</button>
+										</div>
+										<div class="col-xs-7">
+											<button type="submit" class="btn btn-success btn-block">From my Savings ($18.00)</button>
+										</div>
+									</div>
 								</form>
 							</div><!-- end of purchase points tab -->
 							<div class="tab-pane fade" id="cashOut">
 								<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pig.svg" class="animated rubberBand"/>
 								<p></p>
-								<p class="lead">Thanks for doing business with us!</p>
+								<p class="lead">You've got <strong>$18.00</strong> in the bank!</p>
 								<button class="btn btn-primary btn-block">Cash Out</button>
 							</div><!-- end of cash out tab -->
 							<div class="tab-pane fade" id="cardInfo">
@@ -242,7 +250,9 @@
 						{% with user.student as student %}
 						<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{student.total_points}}</span> <i class="fa fa-cubes"></i></a>
 							<ul class="dropdown-menu">
-								<li> <a href="#pointsModal" data-toggle="modal" id="purchasePointsMenu"><span class="label label-primary"><i class="fa fa-usd"></i></span><strong class="text-primary"> Manage My Points</strong></a></li>
+								<li> <a href="#pointsModal" data-toggle="modal" id="purchasePointsMenu"><i class="fa fa-fw fa-cubes text-primary"></i></span><strong class="text-primary"> Manage My Points</strong></a></li>
+								<li class="divider"></li>
+								<li> <a href="#"><strong><i class="fa fa-star fa-fw"></i> Redeem Promo Code</strong></a> </li>
 								<li class="divider"></li>
 								<li> <a><span class="label label-success">+</span> 1000 Points Purchase</a> </li>
 								<li> <a><span class="label label-success">+</span> 500 Document Sold</a> </li>
@@ -254,6 +264,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">5</span> <i class="fa fa-lightbulb-o"></i></a>
 							<ul class="dropdown-menu">
+								<li> <a href="#"><span class="label label-success">New</span><strong> Redeem Promo Code</strong></a> </li>
 								<li>
 									<a><span class="label label-success">New</span> ACCT-200 Document Added </a> 
 								</li>
@@ -274,7 +285,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" id="user-dropdown" data-toggle="dropdown"><img
 								src="{{student.profile.profile_image_url}}" style="width:21px;"
-								class="img-circle"> {{student.name}}
+								class="img-circle"> {{user.first_name}}
 								<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{% url 'my_profile' %}">My Page</a></li>
