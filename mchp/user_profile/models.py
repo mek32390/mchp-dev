@@ -7,6 +7,7 @@ from allauth.socialaccount.models import SocialAccount
 
 from documents.models import Upload,DocumentPurchase, Document
 
+from decimal import Decimal, ROUND_HALF_DOWN
 from functools import reduce
 import urllib
 import json
@@ -22,6 +23,8 @@ class Student(models.Model):
 
     purchased_points = models.IntegerField(default=0)
     earned_points = models.IntegerField(default=0)
+    balance = models.DecimalField(max_digits=19, decimal_places=4, default=Decimal('0.00'))
+
     kudos = models.IntegerField(default=0)
 
     def create_date(self):
@@ -44,7 +47,15 @@ class Student(models.Model):
         return 8
         return self.kudos + self.work_score()
 
-    # things to do with points
+    # things to do with points and money
+    def modify_balance(self, amount):
+        amount = Decimal(amount).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
+        self.balance = self.balance + amount
+        self.save()
+
+    def display_balance(self):
+        return str(Decimal(self.balance).quantize(Decimal('1.00'), rounding=ROUND_HALF_DOWN))
+
     def total_points(self):
         return self.earned_points + self.purchased_points
 

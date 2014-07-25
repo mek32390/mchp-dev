@@ -15,11 +15,8 @@ $(function(){
 		school_domain = $('.dropdown-menu li').attr('value');
 		$('.form-signin input[name=school]').attr('value', school_domain);
 	});
-	// display college name
-	$(".college_name").text("{{ school.name }}");
-	$('input[name=school]').val("{{ school.domain }}");
 
-	if($('input[name=school]').val()==""){
+	if($('input[name=school]').val()===""){
 		$('.display-college').hide();
 		$('#college_select').show();
 		$("#joinCollege").attr("disabled", "disabled");
