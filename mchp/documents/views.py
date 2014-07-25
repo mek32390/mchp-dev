@@ -10,7 +10,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView, DeleteView, UpdateView
+from django.views.generic.edit import FormView, DeleteView, UpdateView, View
 from django.views.generic.list import ListView
 
 from documents.forms import DocumentUploadForm
@@ -447,6 +447,7 @@ class PurchaseUpdateView(UpdateView, AjaxableResponseMixin):
         if self.request.is_ajax():
             if 'document' in request.POST:
                 data = {}
+                #FIXME this should probably be a filter?
                 purchase = DocumentPurchase.objects.get(
                     document__id=request.POST['document'],
                     student = self.student,
@@ -513,3 +514,56 @@ class PurchaseUpdateView(UpdateView, AjaxableResponseMixin):
         return super(PurchaseUpdateView, self).dispatch(*args, **kwargs)
 
 purchase_update = PurchaseUpdateView.as_view()
+
+'''
+url: fetch-preview/
+name: fetch_preview
+'''
+class FetchPreview(View, AjaxableResponseMixin):
+    model = Document
+
+    def post(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['GET'])
+
+    def get(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            data = {}
+            if 'document' in request.GET:
+                document = Document.objects.filter(
+                    id=request.GET['document'],
+                    upload__owner = self.student,
+                )
+                if not document.exists():
+                    # couldn't find the document
+                    data['found'] = False
+                    return self.render_to_json_response(data, status=403)
+                else:
+                    document = document[0]
+                    # the preview has been created
+                    if document.preview:
+                        data['thumbnail_url'] = document.preview.url
+                        data['document_title'] = document.title
+                        data['price'] = document.price
+                        data['document_url'] = request.get_host() + reverse('document_list') + \
+                                document.uuid + '/' + \
+                                document.slug
+                        data['found'] = True
+                        return self.render_to_json_response(data, status=200)
+                    else:
+                        # the preview has not yet been created
+                        data['found'] = False
+                        return self.render_to_json_response(data, status=200)
+
+            else:
+                # no pk sent
+                data['found'] = False
+                return self.render_to_json_response(data, status=403)
+        else:
+            return redirect(reverse('document_list'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(FetchPreview, self).dispatch(*args, **kwargs)
+
+fetch_preview = FetchPreview.as_view()

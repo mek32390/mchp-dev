@@ -12,6 +12,8 @@ urlpatterns = patterns('',
 
     url(r'^$', views.document_list, name='document_list'),
 
+    url(r'^fetch-preview/', views.fetch_preview, name='fetch_preview'),
+
     url(r'^preview/(?P<uuid>[^/]+)', views.document_preview, name='document_preview'),
 
     url(r'^(?P<uuid>[^/]+)/[^/]+/', 
