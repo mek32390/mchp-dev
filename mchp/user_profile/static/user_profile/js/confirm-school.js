@@ -3,6 +3,7 @@ $(function(){
 	$('.show-college').on('click', function () {
 		$('.display-college').fadeOut(250, function () {
 			$('#college_select').fadeIn(500);
+			$('#college_select').removeClass("hidden");
 		});
 	});
 	// populate college dropdown when we guess wrong (never!)

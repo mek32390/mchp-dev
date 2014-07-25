@@ -28,17 +28,29 @@ $(document).ready(function() {
 	// switch to calendar list tab when clicked
 	$('.stepThreeNext2').on('click', function () {
 		$('.nav-tabs > .active').next('li').find('a').trigger('click');
-		$('#col_1').addClass('col-md-8', 1000, "easeOutQuart");
-		$('#col_2').addClass('col-md-4', 1000, "easeOutQuart");
+		$('#col_1').addClass('col-sm-8', 1000, "easeOutQuart");
+		$('#col_2').addClass('col-sm-4', 1000, "easeOutQuart");
+		// $('.cal-intro').fadeOut(250);
+
 	});
 	// expand col_1 when cal list tab is clicked
 	$('#calListTab').on('click', function () {
-		$('#col_1').toggleClass('col-md-8', 1000, "easeOutQuart");
-		$('#col_2').toggleClass('col-md-4', 1000, "easeOutQuart");
+		$('#col_1').addClass('col-sm-8', 1000, "easeOutQuart");
+		$('#col_1').removeClass('col-sm-4', 1000, "easeOutQuart");
+		$('#col_2').addClass('col-sm-4', 1000, "easeOutQuart");
+		$('#col_2').removeClass('col-sm-8', 1000, "easeOutQuart");
 	});
 	// contract col_1 when your cal tab is clicked
 	$('#yourCalTab').on('click', function () {
-		$('#col_1').removeClass('col-md-8', 1000, "easeOutQuart");
-		$('#col_2').removeClass('col-md-4', 1000, "easeOutQuart");
+		$('#col_1').addClass('col-sm-4', 1000, "easeOutQuart");
+		$('#col_2').switchClass('col-sm-4','col-sm-8', 1000, "easeOutQuart");
 	});
+	
+	// fullcalendar
+	$('#calendar').fullCalendar({
+        // put your options and callbacks here
+        dayClick: function() {
+        	alert('a day has been clicked!');
+    	}
+    });
 });
