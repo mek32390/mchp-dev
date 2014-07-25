@@ -12,6 +12,7 @@ from django.http import HttpResponse
 from django.core import serializers
 
 from lib.decorators import school_required
+from documents.models import Document
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
 from schedule.models import Course, School
 
@@ -280,12 +281,29 @@ class CourseView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(CourseView, self).get_context_data(**kwargs)
-        docs = self.object.document_set.all().annotate(
-            sold=Count('purchased_document__document')
-        ).order_by('-sold')[:15]
+        docs = self.object.document_set.all(
+        ).annotate(
+            sold=Count('purchased_document__document'),
+        ).extra(select = {
+            'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
+            'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
+            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+        }).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
+        if self.student:
+            context['student'] = self.student
+            context['enrolled'] = Course.objects.filter(pk=self.object.pk,
+                                                        student=self.student
+                                                       ).exists()
         return context
+
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.student_exists():
+            self.student = self.request.user.student
+        else:
+            self.student = None
+        return super(CourseView, self).dispatch(*args, **kwargs)
 
 course = CourseView.as_view()
 
@@ -337,12 +355,15 @@ class SchoolView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SchoolView, self).get_context_data(**kwargs)
         docs = ['what', 'um']
-        from documents.models import Document
         docs = Document.objects.filter(
             course__in = self.object.course_set.all()
         ).annotate(
             sold=Count('purchased_document__document')
-        ).order_by('-sold')[:15]
+        ).extra(select = {
+            'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
+            'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
+            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+        }).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
         return context
@@ -370,13 +391,26 @@ class ClassesView(ListView):
     template_name = 'schedule/classes.html'
 
     def get_queryset(self):
-        return Course.objects.filter(student__user=self.request.user)
+        return Course.objects.filter(student__user=self.request.user).annotate(
+            doc_count=Count('document')
+        )
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(ClassesView, self).get_context_data(**kwargs)
-    #     class_mates = self.object.student_set.all().select_related()
-    #     context['popular_documents'] = class_mates
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super(ClassesView, self).get_context_data(**kwargs)
+        query_set = self.get_queryset()
+        docs = []
+        for query in query_set:
+            doc = Document.objects.select_related('course').filter(course=query).annotate(
+                sold=Count('purchased_document__document'),
+            ).extra(select = {
+                'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
+                'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
+                'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+            }).order_by('-sold')[:15]
+            docs = docs + list(doc)
+
+        context['documents'] = docs
+        return context
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):

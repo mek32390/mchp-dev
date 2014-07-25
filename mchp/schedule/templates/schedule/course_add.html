@@ -33,9 +33,12 @@
 						{% if enrolled_courses %}
 							{% for course in enrolled_courses %}
 							<div class="list-group-item enrolled-class-id" id="enrolled_{{course.pk}}">
-								<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
+								<h4 class="list-group-item-heading">
+									<a href="{% url "course" course.pk %}{{course.name}}">
+									{{course.dept}} {{course.course_number}}
+									</a>
 									<small class="pull-right">
-										<a href="javascript:void(0)" class="badge" data-course="{{course.pk}}">drop</a>
+										<a href="javascript:void(0)" class="badge drop-button" data-course="{{course.pk}}">drop</a>
 									</small>
 								</h4>
 								<p class="list-group-item-text small">with Instructor {{course.professor}}</p>
