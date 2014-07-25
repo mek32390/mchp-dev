@@ -19,8 +19,8 @@ from documents.exceptions import DuplicateFileError
 from lib.decorators import school_required
 from schedule.models import Course
 
+from decimal import Decimal, ROUND_HALF_DOWN
 import json
-import math
 import logging
 logger = logging.getLogger(__name__)
 
@@ -206,8 +206,9 @@ class DocumentDetailPreview(DetailView):
             purchase = DocumentPurchase(document=document, student=self.student)
             purchase.save()
             # give uploader the points 
-            uploader.add_earned_points(math.floor(document.price *
-                                                  (settings.MCHP_PRICING['commission_rate'] / 100)))
+            points = document.price * (settings.MCHP_PRICING['commission_rate'] / 100)
+            points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
+            uploader.modify_balance(points)
             uploader.save()
 
         return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
