@@ -53,3 +53,49 @@ class StudentModelTest(TestCase):
 
         self.assertEqual(student.reduce_points(5), None)
         self.assertEqual(student.reduce_points(4), 0)
+
+    def testStudentBalance(self):
+        from decimal import Decimal
+        student = self.student
+        self.assertEqual(student.balance, 0)
+        self.assertEqual(student.balance, Decimal(0))
+        self.assertEqual(student.balance, Decimal('0'))
+        self.assertEqual(student.balance, Decimal('0.00'))
+        self.assertEqual(student.display_balance(), '0.00')
+
+        student.modify_balance(1)
+        self.assertEqual(student.balance, Decimal(1))
+        self.assertEqual(student.display_balance(), '1.00')
+
+        student.modify_balance('1.000')
+        self.assertEqual(student.balance, Decimal(2))
+        self.assertEqual(student.display_balance(), '2.00')
+
+        student.modify_balance('1.001')
+        self.assertEqual(student.balance, Decimal('3.001'))
+        self.assertEqual(student.display_balance(), '3.00')
+
+        student.modify_balance('.0039')
+        self.assertEqual(student.balance, Decimal('3.0049'))
+        self.assertEqual(student.display_balance(), '3.00')
+
+        student.modify_balance('.0001')
+        self.assertEqual(student.balance, Decimal('3.005'))
+        self.assertEqual(student.display_balance(), '3.00')
+
+        student.modify_balance('.0001')
+        self.assertEqual(student.balance, Decimal('3.0051'))
+        self.assertEqual(student.display_balance(), '3.01')
+
+        student.modify_balance('.0010')
+        self.assertEqual(student.balance, Decimal('3.0061'))
+        self.assertEqual(student.display_balance(), '3.01')
+
+        student.modify_balance('.00001')
+        self.assertEqual(student.balance, Decimal('3.0061'))
+        self.assertEqual(student.display_balance(), '3.01')
+        
+        student.modify_balance('-4')
+        self.assertEqual(student.balance, Decimal('-.9939'))
+        self.assertEqual(student.display_balance(), '-0.99')
+        

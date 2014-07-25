@@ -28,7 +28,9 @@
 
 	</head>
 	<body>
-
+		{% if user.is_authenticated %}
+		{% if user.student %}
+		{% with user.student as student %}
 		<!-- Set Homepage Modal -->
 		<div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -166,7 +168,7 @@
 											<button type="submit" class="btn btn-primary btn-block">Pay with my Card</button>
 										</div>
 										<div class="col-xs-7">
-											<button type="submit" class="btn btn-success btn-block">From my Savings ($18.00)</button>
+											<button type="submit" class="btn btn-success btn-block">From my Savings ${{student.display_balance}}</button>
 										</div>
 									</div>
 								</form>
@@ -174,7 +176,7 @@
 							<div class="tab-pane fade" id="cashOut">
 								<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pig.svg" class="animated rubberBand"/>
 								<p></p>
-								<p class="lead">You've got <strong>$18.00</strong> in the bank!</p>
+								<p class="lead">You've got <strong>${{student.display_balance}}</strong> in the bank!</p>
 								<button class="btn btn-primary btn-block">Cash Out</button>
 							</div><!-- end of cash out tab -->
 							<div class="tab-pane fade" id="cardInfo">
@@ -255,9 +257,6 @@
 				        <!-- <button type="submit" class="btn btn-default">Submit</button> -->
 				      </form>
 					<ul class="nav navbar-nav navbar-right">
-						{% if user.is_authenticated %}
-						{% if user.student %}
-						{% with user.student as student %}
 						<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{student.total_points}}</span> <i class="fa fa-cubes"></i></a>
 							<ul class="dropdown-menu">
 								<li> <a href="#pointsModal" data-toggle="modal" id="purchasePointsMenu"><i class="fa fa-fw fa-cubes text-primary"></i></span><strong class="text-primary"> Manage My Points</strong></a></li>
