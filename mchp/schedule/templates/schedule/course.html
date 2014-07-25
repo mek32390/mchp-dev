@@ -28,11 +28,13 @@
 		<div class="media-body">
 			<h2 class="media-heading">{{course.dept}} {{course.course_number}}
 				<small> at <a href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></small>
-				{% if student and not enrolled %}
 				<small class="pull-right">
-					<a id="join-button" href="javascript:void(0)" class="badge" data-course="{{course.pk}}">Join this class</a>
+					{% if student and not enrolled %}
+					<a id="join-button" href="javascript:void(0)" class="btn btn-success" data-course="{{course.pk}}">Join this class</a>
+					{% else %}
+					<button class="btn btn-success disabled"><i class="fa fa-check"></i> Enrolled</button>
+					{% endif %}
 				</small>
-				{% endif %}
 			</h2>
 			<p class="animated">
 				{% with course.student_count as student_count %}
@@ -91,12 +93,12 @@
 							</div>
 						</div>
 						{% empty %}
-						<p>
-							<a button type="button" class="btn btn-success btn-xs" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
-						</p>
-						<p>
-							Be the first to sell a document for this class!
-						</p>
+						<div class="list-group">
+							<div class="list-group-item">
+							    <p class="h5">Be the first to sell a document for this class!</p>
+							    <a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
+						    </div>					  
+						</div>
 						{% endfor %}
 					</div>
 				</div>

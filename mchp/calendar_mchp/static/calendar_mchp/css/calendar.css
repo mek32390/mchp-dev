@@ -1,0 +1,21 @@
+/*
+/* This is for styling the calendar page
+/*
+*/
+
+/* adds assignment number over calendar icon */
+.assignment-number {
+	position: relative;
+	padding: 15px 0px;
+	margin-top: -57px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.cal-followers {
+	position: relative;
+	padding: 5px;
+	margin-top: -40px;
+	margin-left: 45px;
+	margin-right: -50px;
+}
+
