@@ -57,7 +57,7 @@ $(function() {
 	 * Dropping classes
 	 */
 	// when the user clicks on the drop link, send ajax request
-	$('.enrolled-class-id').find('a').click(function() {
+	$('.enrolled-class-id').find('.drop-button').click(function() {
 		// course number is stored in the link itself with html5 data-* attribute
 		var course = $(this).data('course');
 		var messages = [];

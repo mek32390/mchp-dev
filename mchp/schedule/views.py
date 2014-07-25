@@ -291,7 +291,19 @@ class CourseView(DetailView):
         }).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
+        if self.student:
+            context['student'] = self.student
+            context['enrolled'] = Course.objects.filter(pk=self.object.pk,
+                                                        student=self.student
+                                                       ).exists()
         return context
+
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.student_exists():
+            self.student = self.request.user.student
+        else:
+            self.student = None
+        return super(CourseView, self).dispatch(*args, **kwargs)
 
 course = CourseView.as_view()
 
