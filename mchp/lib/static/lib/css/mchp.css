@@ -352,6 +352,11 @@ color: #5cb85c;
   color:#5bc0de;
 }
 
+/* text-default */
+.text-default {
+  color: #333;
+}
+
 /* nice borders */
 .border-warning {
     border: 2px solid #faebcc;
