@@ -1,10 +1,11 @@
 from django.db import models
+from django.db.models import Count
 from django.contrib.auth.models import User
 
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 
-from documents.models import Upload,DocumentPurchase
+from documents.models import Upload,DocumentPurchase, Document
 
 from functools import reduce
 import urllib
@@ -71,8 +72,8 @@ class Student(models.Model):
     # e.x. they uploaded two docs and the first was bought 1 time,
     # and the other 2 times, this function returns 3
     def sales(self):
-        all_uploads = Upload.objects.filter(owner=self)
-        counts = list(map(lambda upload: upload.document.purchase_count(), all_uploads))
+        all_uploads = Document.objects.filter(upload__owner=self).annotate(sales=Count('purchased_document'))
+        counts = list(map(lambda document: document.sales, all_uploads))
         return reduce(lambda doc1, doc2: doc1 + doc2, counts)
 
     def __str__(self):

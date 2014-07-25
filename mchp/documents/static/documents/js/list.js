@@ -111,7 +111,7 @@ $(function(){
 				if(data.found) {
 					done = true;
 					$('#generating_message_' + pk).fadeOut(700, function() {
-						$link = '<a href="' + data.document_url + '">' + data.document_title + '</a> ';
+						$link = '<a href="http://' + data.document_url + '">' + data.document_title + '</a> ';
 						$price = $('<small>' + data.price + ' <i class="fa fa-fw fa-cube"></i></small>');
 						$link_div = $('#document_link_'+pk);
 						$link_div.append($link);
