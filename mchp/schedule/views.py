@@ -280,9 +280,14 @@ class CourseView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(CourseView, self).get_context_data(**kwargs)
-        docs = self.object.document_set.all().annotate(
-            sold=Count('purchased_document__document')
-        ).order_by('-sold')[:15]
+        docs = self.object.document_set.all(
+        ).annotate(
+            sold=Count('purchased_document__document'),
+        ).extra(select = {
+            'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
+            'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
+            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+        }).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
         return context
@@ -342,7 +347,11 @@ class SchoolView(DetailView):
             course__in = self.object.course_set.all()
         ).annotate(
             sold=Count('purchased_document__document')
-        ).order_by('-sold')[:15]
+        ).extra(select = {
+            'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
+            'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
+            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+        }).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
         return context

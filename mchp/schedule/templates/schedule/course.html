@@ -78,9 +78,6 @@
 										{% endwith %}
 										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.sold}}
 										Purchase{{document.sold|pluralize}}
-										{% with document.upload_set.get.owner as owner %}
-										<p class="small">Uploaded by <a href="{%url "profile" owner.pk%}{{owner.name}}">{{owner.name}}</a></p>
-										{% endwith %}
 									</span>
 								</div>
 							</div>

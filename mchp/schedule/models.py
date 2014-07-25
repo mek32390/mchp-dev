@@ -1,4 +1,5 @@
 from django.db import models,IntegrityError
+from django.db.models import Count
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 from schedule.utils import clean_domain, US_STATES
@@ -19,8 +20,10 @@ class School(models.Model):
         return School.objects.all().name
 
     def document_count(self):
-        documents = list(map(lambda student: student.upload_set.count(), 
-                        self.student_school.all()))
+        s = self.student_school.all().annotate(
+            count = Count('upload')
+        )
+        documents = list(map(lambda student: student.count, s))
         if not documents:
             return 0
         return reduce(lambda c1, c2: c1 + c2, documents)
