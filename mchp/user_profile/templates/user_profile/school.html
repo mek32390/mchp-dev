@@ -4,60 +4,61 @@
 
 {% block head_title %}{% trans "Choose your School" %}{% endblock %}
 {% block extra_head %}
-	{% load staticfiles %}
-	<script src="{% static 'user_profile/js/confirm-school.js' %}"></script>
-	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/confirm-school.css' %}">
-	{% load socialaccount %}
-	{% providers_media_js %}
+{% load staticfiles %}
+<script src="{% static 'user_profile/js/confirm-school.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/confirm-school.css' %}">
+{% load socialaccount %}
+{% providers_media_js %}
 {% endblock %}
 
 {% block content %}
-	{% for school in schools %}		
-		{% if school.domain|slice:"11:-1" in request.session.initial_email %}
-		{% endif %}		
-	{% endfor %}
+{% for school in schools %}		
+{% if school.domain|slice:"11:-1" in request.session.initial_email %}
+{% endif %}		
+{% endfor %}
 <div class="container">
 	<div class="display-college text-center">
-	<h3 class="text-center">You must attend:<small></small></h3>
-	<form class="form-signin" role="form" id='college_form' method="post" action="{% url  'confirm_school' %}">
-	<input type="hidden" id="action" value="confirm">
-		<h2 class="text-center college_name">College Name</h2>
-		<img class="media-object img-responsive center-block" style="" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building.svg" alt="college">
-		<h4 class="text-center"><small>Our MCHP wizard determined that you go to "</small><small class="college_name">College Name</small><small>".</small></h4>
-		<button class="btn btn-lg btn-primary btn-block  acct-form" type="submit"><i class="fa fa-check-square-o"></i> Yes, I do!</button>
-		<hr style="width: 300px;" >
-	<p><a class="show-college text-center">Nope, your magic didn't work on me</a></p>
-	</div>
+		<h3 class="text-center">You must attend:<small></small></h3>
+		<form class="form-signin" role="form" id='college_form' method="post" action="{% url  'confirm_school' %}">
+			<input type="hidden" id="action" value="confirm">
+			<h2 class="text-center college_name">{{school.name}}</h2>
+			<img class="media-object img-responsive center-block" style="" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building.svg" alt="college">
+			<h4 class="text-center"><small>Our MCHP wizard determined that you go to "</small><small
+					class="college_name">{{school.name}}</small><small>".</small></h4>
+			<button class="btn btn-lg btn-primary btn-block  acct-form" type="submit"><i class="fa fa-check-square-o"></i> Yes, I do!</button>
+			<hr style="width: 300px;" >
+			<p><a class="show-college text-center">Nope, your magic didn't work on me</a></p>
+		</div>
 		<div id="college_select">
 			<div class="row">
 				<div class="col-sm-6 col-sm-offset-3">
-		<h4 class="text-center">We couldn't find your college!</h4>
-		<p class="text-center">Choose your college from the list below.</p>
-	</p>
-	
-		{% csrf_token %}
-		<div class="dropdown">
-			<button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu1" data-toggle="dropdown">
-				Choose Your College
-				<span class="caret"></span>
-			</button>
-			<p></p>
-			<ul class="dropdown-menu btn-block pull-left" role="menu" aria-labelledby="dropdownMenu1">
-				{% for school in schools %}
-				<li value="{{ school.domain }}" role="presentation">
-					<a role="menuitem" tabindex="-1" href="#">{{ school.name }}</a>
-				</li>
-				{% endfor %}
-			</ul>
+					<h4 class="text-center">We couldn't find your college!</h4>
+					<p class="text-center">Choose your college from the list below.</p>
+				</p>
+
+				{% csrf_token %}
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu1" data-toggle="dropdown">
+						Choose Your College
+						<span class="caret"></span>
+					</button>
+					<p></p>
+					<ul class="dropdown-menu btn-block pull-left" role="menu" aria-labelledby="dropdownMenu1">
+						{% for school in schools %}
+						<li value="{{ school.pk }}" role="presentation">
+							<a role="menuitem" tabindex="-1" href="#">{{ school.name }}</a>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<input type="hidden" name="school" value="{{school.pk}}">
+				{% if next %}
+				<input type="hidden" name="next" value="{{ next }}">
+				{% endif %}
+				<button id="joinCollege" class="btn btn-lg btn-primary btn-block btn-md" type="submit"><i class="fa fa-check-square-o"></i> Join College</button>
+			</form>
 		</div>
-		<input type="hidden" name="school" value="">
-		{% if next %}
-			<input type="hidden" name="next" value="{{ next }}">
-		{% endif %}
-		<button id="joinCollege" class="btn btn-lg btn-primary btn-block btn-md" type="submit"><i class="fa fa-check-square-o"></i> Join College</button>
-	</form>
-</div>
-</div>
+	</div>
 </div>
 </div>
 {% endblock %}

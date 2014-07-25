@@ -78,7 +78,7 @@ def confirm_school(request):
         if 'school' in request.POST:
             logger.debug(request)
             school = request.POST['school']
-            school = School.objects.get(domain=school)
+            school = School.objects.get(pk=school)
             logger.debug(school)
             student, created = Student.objects.get_or_create(
                 user=request.user, school=school
@@ -95,11 +95,18 @@ def confirm_school(request):
                 return redirect('/school/course/add/')
 
     schools = School.objects.all().values('name', 'domain').order_by('name')
+    data = {}
     if 'next' in request.GET:
         next_page = request.GET['next']
-        data = {'schools': schools, 'next': next_page}
+        data['schools'] = schools
+        data['next'] = next_page
     else:
-        data = {'schools': schools}
+        data['schools']= schools
+    email = request.user.email.split('@')[1]
+    school = School.objects.filter(domain__icontains=email)
+    if not school.exists():
+        school = School.objects.all()[0]
+    data['school'] = school
     return render(request, 'user_profile/school.html', Context(data))
 
 @require_POST
