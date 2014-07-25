@@ -207,6 +207,7 @@ class DocumentDetailPreview(DetailView):
             purchase.save()
             # give uploader the points 
             points = document.price * (settings.MCHP_PRICING['commission_rate'] / 100)
+            points = points / 100
             points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
             uploader.modify_balance(points)
             uploader.save()
