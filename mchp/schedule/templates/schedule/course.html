@@ -28,11 +28,13 @@
 		<div class="media-body">
 			<h2 class="media-heading">{{course.dept}} {{course.course_number}}
 				<small> at <a href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></small>
-				{% if student and not enrolled %}
 				<small class="pull-right">
-					<a id="join-button" href="javascript:void(0)" class="badge" data-course="{{course.pk}}">Join this class</a>
+					{% if student and not enrolled %}
+					<a id="join-button" href="javascript:void(0)" class="btn btn-success" data-course="{{course.pk}}">Join this class</a>
+					{% else %}
+					<button class="btn btn-success disabled"><i class="fa fa-check"></i> Enrolled</button>
+					{% endif %}
 				</small>
-				{% endif %}
 			</h2>
 			<p class="animated">
 				{% with course.student_count as student_count %}
@@ -77,31 +79,26 @@
 									<h4 class="media-heading"><a href="{%url "document_detail" document.uuid %}">{{document.title}}</a>
 									<small>{{document.price}} points</small><div class="pull-right small
 										text-muted">{{document.create_date|naturaltime}}</div></h4>
-									<span class="description small">
-										<div class="progress" style="width:220px; margin-bottom:2px; margin-top:6px;">
-											<div class="progress-bar progress-bar-success" style="width:60%;">
-											</div>
-											<div class="progress-bar progress-bar-danger" style="width:40%;">
-											</div>
-										</div>
-										<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}
-										<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{document.down}}&nbsp;
+									<span class="description">
+										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}&nbsp;
+										<i class="fa fa-fw fa-thumbs-o-down text-danger
+											fa-flip-horizontal"></i>{{document.down}}&nbsp;|&nbsp;
 										{% with document.review_count as review_count %}
-										<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
+										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{review_count}} Review{{review_count|pluralize}}&nbsp;|&nbsp;
 										{% endwith %}
-										<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
+										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.sold}}
 										Purchase{{document.sold|pluralize}}
 									</span>
 								</div>
 							</div>
 						</div>
 						{% empty %}
-						<p>
-							<a button type="button" class="btn btn-success btn-xs" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
-						</p>
-						<p>
-							Be the first to sell a document for this class!
-						</p>
+						<div class="list-group">
+							<div class="list-group-item">
+							    <p class="h5">Be the first to sell a document for this class!</p>
+							    <a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
+						    </div>					  
+						</div>
 						{% endfor %}
 					</div>
 				</div>

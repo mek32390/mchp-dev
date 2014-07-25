@@ -5,11 +5,14 @@
 
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+		<!-- <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css" > -->
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css">
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/css/card.min.css" >
 
+
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/js/card.min.js"></script>
 
 		{% load staticfiles %}
@@ -213,12 +216,19 @@
 								</form>
 							</div><!-- end of card info tab -->
 						</div><!-- end of tab content -->
-
-
 					</div><!-- end of modal body -->
 				</div>
 			</div>
 		</div><!-- end of points modal -->
+
+		<!-- Promo Code modal -->
+		<div class="modal fade" id="promoModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		      ...
+		    </div>
+		  </div>
+		</div><!--end promo code modal"
 
 		<!-- Start Navigation -->
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -252,7 +262,7 @@
 							<ul class="dropdown-menu">
 								<li> <a href="#pointsModal" data-toggle="modal" id="purchasePointsMenu"><i class="fa fa-fw fa-cubes text-primary"></i></span><strong class="text-primary"> Manage My Points</strong></a></li>
 								<li class="divider"></li>
-								<li> <a href="#"><strong><i class="fa fa-star fa-fw"></i> Redeem Promo Code</strong></a> </li>
+								<li> <a href="#promoModal" data-toggle="modal"><strong><i class="fa fa-star fa-fw"></i> Redeem Promo Code</strong></a> </li>
 								<li class="divider"></li>
 								<li> <a><span class="label label-success">+</span> 1000 Points Purchase</a> </li>
 								<li> <a><span class="label label-success">+</span> 500 Document Sold</a> </li>
@@ -264,7 +274,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">5</span> <i class="fa fa-lightbulb-o"></i></a>
 							<ul class="dropdown-menu">
-								<li> <a href="#"><span class="label label-success">New</span><strong> Redeem Promo Code</strong></a> </li>
+								<li> <a href="#promoModal" data-toggle="modal"><span class="label label-success">New</span><strong> Redeem Promo Code</strong></a> </li>
 								<li>
 									<a><span class="label label-success">New</span> ACCT-200 Document Added </a> 
 								</li>
