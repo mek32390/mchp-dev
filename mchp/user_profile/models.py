@@ -1,10 +1,11 @@
 from django.db import models
+from django.db.models import Count
 from django.contrib.auth.models import User
 
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 
-from documents.models import Upload,DocumentPurchase
+from documents.models import Upload,DocumentPurchase, Document
 
 from functools import reduce
 import urllib
@@ -22,7 +23,9 @@ class Student(models.Model):
     purchased_points = models.IntegerField(default=0)
     earned_points = models.IntegerField(default=0)
     kudos = models.IntegerField(default=0)
-    create_date = models.DateTimeField(auto_now_add=True)
+
+    def create_date(self):
+        return self.user.date_joined
 
     def name(self):
         if self.user.first_name:
@@ -69,14 +72,15 @@ class Student(models.Model):
     # e.x. they uploaded two docs and the first was bought 1 time,
     # and the other 2 times, this function returns 3
     def sales(self):
-        all_uploads = Upload.objects.filter(owner=self)
-        counts = list(map(lambda upload: upload.document.purchase_count(), all_uploads))
+        all_uploads = Document.objects.filter(upload__owner=self).annotate(sales=Count('purchased_document'))
+        counts = list(map(lambda document: document.sales, all_uploads))
         return reduce(lambda doc1, doc2: doc1 + doc2, counts)
 
     def __str__(self):
-        return 'Student: {} goes to {}. Joined: {}'.format(
-            self.user.username, self.school.name, self.create_date
-        )
+        if self.user.first_name:
+            return self.user.first_name + " " + self.user.last_name
+        else:
+            return self.user.username
 
 User.student = property(lambda u: Student.objects.get(user=u))
 User.student_exists = lambda u: Student.objects.filter(user=u).exists()

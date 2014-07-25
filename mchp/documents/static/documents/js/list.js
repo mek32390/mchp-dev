@@ -96,15 +96,53 @@ $(function(){
 		});
 	});
 
+	/*
+	 * refreshing the holding icon when docs are uploaded
+	 * taken from: https://stackoverflow.com/questions/5052543/how-to-fire-ajax-request-periodically
+	 */
+	newly_uploaded = (typeof newly_uploaded != 'undefined' && newly_uploaded instanceof Array) ? newly_uploaded : [];
+	function worker(pk) {
+		var done = false;
+		$.ajax({
+			url: '/documents/fetch-preview/', 
+			type: 'GET',
+			data: {'document': pk},
+			success: function(data) {
+				if(data.found) {
+					done = true;
+					$('#generating_message_' + pk).fadeOut(700, function() {
+						$link = '<a href="http://' + data.document_url + '">' + data.document_title + '</a> ';
+						$price = $('<small>' + data.price + ' <i class="fa fa-fw fa-cube"></i></small>');
+						$link_div = $('#document_link_'+pk);
+						$link_div.append($link);
+						$link_div.append($price);
+						$img = $('#preview_image_'+pk);
+						$img.fadeOut(500);
+						$img.attr("src", data.thumbnail_url);
+						$img.fadeIn(500);
+					});
+				}
+			},
+			complete: function() {
+				// Schedule the next request when the current one's complete
+				if (!done){
+					setTimeout(worker, 1000, pk);
+				}
+			}
+		});
+	}
+	for (var pk in newly_uploaded) {
+		worker(newly_uploaded[pk]);
+	}
 });
 
 function addMessage(text, extra_tags) {
-    var message = $(
-		'<div class="alert alert-' + extra_tags + ' alert-dismissible" role="alert">' +
+	var message = $(
+			'<div class="alert alert-' + extra_tags + ' alert-dismissible" role="alert">' +
 			'<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
 			'<ul class="messages">'+
-				'<li class="' + extra_tags + '">' + text + '</li>'+
+			'<li class="' + extra_tags + '">' + text + '</li>'+
 			'</ul>'+
-		'</div>');
-    $(".django-messages").append(message);
+			'</div>');
+	$(".django-messages").append(message);
 }
