@@ -251,7 +251,8 @@ class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
 course_remove = CourseRemoveView.as_view()
 
 '''
-url: /school/course
+url: /school/course/<number>/<slug>/
+url: /school/course/<number>/
 name: course
 '''
 class CourseView(DetailView):
@@ -289,7 +290,41 @@ class CourseView(DetailView):
 course = CourseView.as_view()
 
 '''
-url: /school/
+url: /school/course/
+name: course_list
+'''
+class CourseListView(ListView):
+    template_name = 'schedule/course_list.html'
+
+    def get(self, request, *args, **kwargs):
+        if not 'school' in request.GET:
+            return super(CourseListView, self).get(self, request, *args, **kwargs)
+        else:
+            data = {
+                'course_list': Course.objects.filter(
+                    domain__name__icontains=request.GET['school'].lower()
+                ).order_by('dept', 'course_number', 'professor',)
+            }
+            return render(request, self.template_name, data)
+
+    def get_queryset(self):
+        if self.student:
+            return Course.objects.filter(
+                domain=self.request.user.student.school
+            ).order_by('dept', 'course_number', 'professor',)
+        else:
+            return []
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.student_exists():
+            self.student = self.request.user.student
+        return super(CourseListView, self).dispatch(*args, **kwargs)
+
+course_list = CourseListView.as_view()
+
+'''
+url: /school/<number>/name
 name: school
 '''
 class SchoolView(DetailView):
@@ -313,6 +348,19 @@ class SchoolView(DetailView):
         return context
 
 school = SchoolView.as_view()
+
+'''
+url: /school/
+name: school_list
+'''
+class SchoolListView(ListView):
+    template_name = 'schedule/school_list.html'
+    model = School
+
+    def get_queryset(self):
+        return School.objects.all().order_by('name')
+
+school_list = SchoolListView.as_view()
 
 '''
 url: /classes/

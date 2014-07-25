@@ -1,0 +1,19 @@
+{% extends 'schedule/base.html' %}
+
+{% block head_title %}School Listings{% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block body %}
+
+<ul>
+	{% for school in school_list %}
+	<li>
+		<a href="{% url "school" school.pk %}{{school.name}}">
+			{{ school }}
+		</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}
