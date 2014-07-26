@@ -74,15 +74,47 @@ calendar_delete = CalendarDeleteView.as_view()
 url: /calendar/events/add
 name: event_add
 '''
-class EventAddView(FormView):
+class EventAddView(FormView, AjaxableResponseMixin):
     template_name = 'calendar_mchp/event_add.html'
     model = ClassCalendar
+
+    def post(self, request, *args, **kwargs):
+        logger.debug(request.POST)
+        print(request.POST)
+        from datetime import datetime
+        start = request.POST['start']
+        start = datetime.strptime(start, "%Y-%m-%dT%H:%M:%S.%fZ")
+        end = request.POST['end']
+        end = datetime.strptime(end, "%Y-%m-%dT%H:%M:%S.%fZ")
+        event_data = {
+            'title': request.POST['title'],
+            'start': start,
+            'end': end,
+        }
+        print(start)
+        print(end)
+        print(event_data)
+        event = CalendarEvent(event_data)
+        print(event)
+        data = {
+        }
+        if self.request.is_ajax():
+            data = json.dumps(data)
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('calendar'))
 
     def get(self, request, *args, **kwargs):
         data = {
 
         }
         return render(request, self.template_name, data)
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(EventAddView, self).dispatch(*args, **kwargs)
+
 event_add = EventAddView.as_view()
 
 '''
@@ -124,7 +156,6 @@ calendar = CalendarView.as_view()
 url: /calendar/feed/
 name: calendar_feed
 '''
-
 class CalendarFeed(View, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
@@ -136,15 +167,14 @@ class CalendarFeed(View, AjaxableResponseMixin):
             data = json.dumps({
                 'what': list(events),
             })
-            what = [
-                {
-                    "title" : "New shift",
-                    "start" : "2014-07-25 09: 30: 00 +0100",
-                    "end" : "2014-07-25 13: 30: 00 +0100",
-                    "allDay" : False 
-                },
-            ]
-            data = json.dumps([what])
+            what = [{
+                "id" : "6",
+                "title" : "New shift",
+                "start" : "2014-07-27 09:30:00 +0100",
+                "end" : "2014-07-27 13:30:00 +0100",
+                "allDay" : False 
+            }]
+            data = json.dumps(what)
             return self.render_to_json_response(data, status=200)
         else:
             return redirect(reverse('calendar'))

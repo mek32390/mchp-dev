@@ -46,6 +46,20 @@ $(document).ready(function() {
 		$('#col_2').switchClass('col-sm-4','col-sm-8', 1000, "easeOutQuart");
 	});
 	
+	// using jquery.cookie plugin
+	var csrftoken = $.cookie('csrftoken');
+	function csrfSafeMethod(method) {
+		// these HTTP methods do not require CSRF protection
+		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+	// csrf token stuff
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		}
+	});
 	/**********************
 	 * FULLCALENDAR STUFF *
 	 **********************/
@@ -53,7 +67,6 @@ $(document).ready(function() {
 	var today = new Date().toJSON().slice(0,10);
 
 	$('#calendar').fullCalendar({
-		// put your options and callbacks here
 		header: {
 			left: 'prev,next today',
 			center: 'title',
@@ -81,6 +94,7 @@ $(document).ready(function() {
 					end: end
 				};
 				$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+				save_event({title: title, start: start._d.toJSON(), end: end._d.toJSON()});
 			}
 			$('#calendar').fullCalendar('unselect');
 		},
@@ -88,3 +102,25 @@ $(document).ready(function() {
 	});
 
 });
+
+var save_event = function (eventData) {
+	console.log(eventData);
+	$.ajax({
+		url: '/calendar/events/add/',
+		type: 'POST',
+		data: {
+			title: eventData.title,	
+			start: eventData.start,	
+			end: eventData.end
+		},
+		success: function(data) {
+
+		},
+		fail: function(data) {
+			addMessage('what', 'danger');
+		},
+		always: function(data) {
+
+		},
+	});
+};
