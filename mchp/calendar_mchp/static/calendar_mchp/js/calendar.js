@@ -46,11 +46,45 @@ $(document).ready(function() {
 		$('#col_2').switchClass('col-sm-4','col-sm-8', 1000, "easeOutQuart");
 	});
 	
-	// fullcalendar
+	/**********************
+	 * FULLCALENDAR STUFF *
+	 **********************/
+
+	var today = new Date().toJSON().slice(0,10);
+
 	$('#calendar').fullCalendar({
-        // put your options and callbacks here
-        dayClick: function() {
-        	alert('a day has been clicked!');
-    	}
-    });
+		// put your options and callbacks here
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay'
+		},
+		events: {
+			url: '/calendar/feed/',
+			type: 'GET',
+			error: function() {
+				addMessage('Error getting events', 'danger');
+			},
+			// color: 'blue',   // a non-ajax option
+			// textColor: 'black' // a non-ajax option
+		},
+		// defaultDate: today,
+		selectable: true,
+		selectHelper: true,
+		select: function(start, end) {
+			var title = prompt('Event Title:');
+			var eventData;
+			if (title) {
+				eventData = {
+					title: title,
+					start: start,
+					end: end
+				};
+				$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+			}
+			$('#calendar').fullCalendar('unselect');
+		},
+		editable: true,
+	});
+
 });

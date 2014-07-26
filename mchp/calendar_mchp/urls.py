@@ -9,5 +9,6 @@ urlpatterns = patterns('',
 
     url(r'^preview/(?P<uuid>[^/]+)', views.calendar_preview, name='calendar_preview'),
 
+    url(r'^feed/$', views.calendar_feed, name='calendar_feed'),
     url(r'^$', views.calendar, name='calendar'),
 )
