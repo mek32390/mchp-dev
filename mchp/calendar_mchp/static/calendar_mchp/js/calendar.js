@@ -48,7 +48,26 @@ $(document).ready(function() {
 		$('#calendar').fullCalendar( 'changeView', 'month' )
 	});
 	
-	// fullcalendar
+	// using jquery.cookie plugin
+	var csrftoken = $.cookie('csrftoken');
+	function csrfSafeMethod(method) {
+		// these HTTP methods do not require CSRF protection
+		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+	// csrf token stuff
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		}
+	});
+	/**********************
+	 * FULLCALENDAR STUFF *
+	 **********************/
+
+	var today = new Date().toJSON().slice(0,10);
+
 	$('#calendar').fullCalendar({
 		header: false,
     	weekMode: 'liquid',
@@ -152,4 +171,55 @@ $(document).ready(function() {
 		});
 	});
 		
+		events: {
+			url: '/calendar/feed/',
+			type: 'GET',
+			error: function() {
+				addMessage('Error getting events', 'danger');
+			},
+			// color: 'blue',   // a non-ajax option
+			// textColor: 'black' // a non-ajax option
+		},
+		// defaultDate: today,
+		selectable: true,
+		selectHelper: true,
+		select: function(start, end) {
+			var title = prompt('Event Title:');
+			var eventData;
+			if (title) {
+				eventData = {
+					title: title,
+					start: start,
+					end: end
+				};
+				$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+				save_event({title: title, start: start._d.toJSON(), end: end._d.toJSON()});
+			}
+			$('#calendar').fullCalendar('unselect');
+		},
+		editable: true,
+	});
+
 });
+
+var save_event = function (eventData) {
+	console.log(eventData);
+	$.ajax({
+		url: '/calendar/events/add/',
+		type: 'POST',
+		data: {
+			title: eventData.title,	
+			start: eventData.start,	
+			end: eventData.end
+		},
+		success: function(data) {
+
+		},
+		fail: function(data) {
+			addMessage('what', 'danger');
+		},
+		always: function(data) {
+
+		},
+	});
+};
