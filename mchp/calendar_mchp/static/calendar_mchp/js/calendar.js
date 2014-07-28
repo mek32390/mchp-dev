@@ -176,7 +176,6 @@ $(document).ready(function() {
 });
 
 var saveEvent = function (eventData, create) {
-	console.log(eventData);
 	var url = '';
 	if (create) {
 		url = '/calendar/events/add/';
@@ -188,9 +187,7 @@ var saveEvent = function (eventData, create) {
 		type: 'POST',
 		data: eventData,
 		success: function(data) {
-			console.log(data);
 			$.each(data.messages, function(index, message){
-				console.log(message);
 				addMessage(message.message, message.extra_tags);
 			});
 		},
@@ -209,7 +206,6 @@ var deleteEvent = function(eventData) {
 		data: eventData,
 		success: function(data) {
 			$.each(data.messages, function(index, message){
-				console.log(message);
 				addMessage(message.message, message.extra_tags);
 			});
 		},
@@ -225,6 +221,6 @@ var toggle_flag = function() {
 	$.ajax({
 		url: '/profile/toggle-flag/',
 		type: 'POST',
-		data: {'flag': 'calenda_tutorial'},
+		data: {'flag': 'calendar_tutorial'},
 	});
 };
