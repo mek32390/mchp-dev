@@ -147,8 +147,7 @@ Autocomplete.prototype.fetch = function(query) {
 		},
 		dataType: 'json',
 		success: function(data) {
-			var results = JSON.parse(data).results || [];
-			results = JSON.parse((results));
+			var results = JSON.parse(data) || [];
 			self.show_results(results);
 		}
 	});
