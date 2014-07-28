@@ -14,15 +14,21 @@ class ClassCalendar(models.Model):
                                          db_table='calendar_mchp_calendarsubscription', blank=True)
 
     title = models.CharField(max_length=150)
-    section = models.ForeignKey('schedule.section', related_name="calendar_sections", 
-                                blank=True, null=True)
+    section = models.ForeignKey('schedule.section', related_name="calendar_sections")
 
     create_date = models.DateTimeField(auto_now_add=True)
 
     objects = ClassCalendarManager()
 
     class Meta:
-        unique_together = ('owner', 'title')
+        unique_together = (('owner', 'section'))
+
+    def save(self, *args, **kwargs):
+        if not self.pk: # object is new
+            course = self.section.course
+            self.title = course.dept + " " + str(course.course_number) + " Calendar"
+
+        super(ClassCalendar, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.title)
@@ -35,7 +41,7 @@ class CalendarEvent(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True)
-
+    
     create_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
