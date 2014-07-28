@@ -71,7 +71,7 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
 calendar_delete = CalendarDeleteView.as_view()
 
 '''
-url: /calendar/events/add
+url: /calendar/events/add/
 name: event_add
 '''
 class EventAddView(View, AjaxableResponseMixin):
@@ -79,7 +79,7 @@ class EventAddView(View, AjaxableResponseMixin):
     model = CalendarEvent
 
     def post(self, request, *args, **kwargs):
-        # convert FC time strings to datetime objects, with timezones
+        # convert Full Calendar time strings to datetime objects, with timezones
         start = timezone.make_aware(datetime.strptime(request.POST['start'], DATE_FORMAT),
                                   timezone.get_current_timezone())
         end = timezone.make_aware(datetime.strptime(request.POST['end'], DATE_FORMAT),
@@ -123,7 +123,7 @@ class EventAddView(View, AjaxableResponseMixin):
 event_add = EventAddView.as_view()
 
 '''
-url: /calendar/events/update
+url: /calendar/events/update/
 name: event_update
 '''
 class EventUpdateView(UpdateView, AjaxableResponseMixin):
@@ -215,6 +215,7 @@ class EventDeleteView(DeleteView, AjaxableResponseMixin):
         return super(EventDeleteView, self).dispatch(*args, **kwargs)
 
 event_delete = EventDeleteView.as_view()
+
 '''
 url: /calendar/preview/<uuid>
 name: calendar_preview
