@@ -68,7 +68,6 @@ $(document).ready(function() {
 
 	var today = new Date().toJSON().slice(0,10);
 	var extract_event = function(event, dateDelta, minuteDelta) {
-		console.log(event);
 		event_data = {
 			id: event.id,
 			title: event.title,
@@ -76,7 +75,7 @@ $(document).ready(function() {
 			end: event.end._d.toJSON(),
 			all_day: event.allDay,
 		};
-		save_event(event_data);
+		save_event(event_data, false);
 	};
 
 	$('#calendar').fullCalendar({
@@ -93,7 +92,6 @@ $(document).ready(function() {
 			url: '/calendar/feed/',
 			type: 'GET',
 			success: function(data) {
-				console.log(data);
 			},
 			error: function() {
 				addMessage('Error getting events', 'danger');
@@ -117,7 +115,7 @@ $(document).ready(function() {
 					end: end
 				};
 				$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-				save_event({title: title, start: start._d.toJSON(), end: end._d.toJSON()});
+				save_event({title: title, start: start._d.toJSON(), end: end._d.toJSON()}, true); // create = true
 			}
 			$('#calendar').fullCalendar('unselect');
 		},
@@ -185,24 +183,29 @@ $(document).ready(function() {
 
 });
 
-var save_event = function (eventData) {
+var save_event = function (eventData, create) {
 	console.log(eventData);
+	var url = '';
+	if (create) {
+		url = '/calendar/events/add/';
+	} else {
+		url = '/calendar/events/update/';
+	}
 	$.ajax({
-		url: '/calendar/events/add/',
+		url: url,
 		type: 'POST',
-		data: {
-			title: eventData.title,	
-			start: eventData.start,	
-			end: eventData.end
-		},
+		data: eventData,
 		success: function(data) {
-
+			console.log(data);
+			$.each(data.messages, function(index, message){
+				console.log(message);
+				addMessage(message.message, message.extra_tags);
+			});
 		},
 		fail: function(data) {
-			addMessage('what', 'danger');
+			addMessage('Failed to save event', 'danger');
 		},
 		always: function(data) {
-
 		},
 	});
 };

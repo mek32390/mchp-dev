@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect#, get_object_or_404
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView, DeleteView,View
+from django.views.generic.edit import FormView, DeleteView,View, UpdateView
 # from django.views.generic.list import ListView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent
@@ -76,7 +76,7 @@ name: event_add
 '''
 class EventAddView(View, AjaxableResponseMixin):
     template_name = 'calendar_mchp/event_add.html'
-    model = ClassCalendar
+    model = CalendarEvent
 
     def post(self, request, *args, **kwargs):
         # convert FC time strings to datetime objects, with timezones
@@ -98,7 +98,14 @@ class EventAddView(View, AjaxableResponseMixin):
         event = CalendarEvent(**event_data)
         event.save()
         if self.request.is_ajax():
-            return self.render_to_json_response({}, status=200)
+            messages.success(
+                self.request,
+                "Event added"
+            )
+            data = {
+                'messages': self.ajax_messages(),
+            }
+            return self.render_to_json_response(data, status=200)
         else:
             return redirect(reverse('calendar'))
 
@@ -114,6 +121,57 @@ class EventAddView(View, AjaxableResponseMixin):
         return super(EventAddView, self).dispatch(*args, **kwargs)
 
 event_add = EventAddView.as_view()
+
+'''
+url: /calendar/events/update
+name: event_update
+'''
+class EventUpdateView(UpdateView, AjaxableResponseMixin):
+    model = CalendarEvent
+
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            event = CalendarEvent.objects.filter(
+                calendar__owner=self.student,
+                id = request.POST.get('id', None)
+            )
+            if event.exists():
+                event = event[0]
+                start = timezone.make_aware(datetime.strptime(request.POST['start'], DATE_FORMAT),
+                                            timezone.get_current_timezone())
+                end = timezone.make_aware(datetime.strptime(request.POST['end'], DATE_FORMAT),
+                                          timezone.get_current_timezone())
+                all_day = request.POST.get('all_day', True)
+                event.start = start
+                event.end = end
+                event.all_day = all_day
+                event.save()
+
+                messages.success(
+                    self.request,
+                    "Event updated"
+                )
+            else:
+                messages.error(
+                    self.request,
+                    "Event not found"
+                )
+            data = {
+                'messages': self.ajax_messages(),
+            }
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('calendar'))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('calendar'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(EventUpdateView, self).dispatch(*args, **kwargs)
+
+event_update = EventUpdateView.as_view()
 
 '''
 url: /calendar/preview/<uuid>
