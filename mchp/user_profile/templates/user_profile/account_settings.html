@@ -9,5 +9,34 @@
 {% endblock %}
 
 {% block body %}
-account settings
+<div class='container'>
+  <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+        <img src="{{profile.profile_image_url}}" width="165px" class="animated flipInX img-thumbnail img-responsive img-circle center-block">
+        <h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
+        <p class="text-center"><small>@{{user.username}}</small></p>
+      <div class="well">
+		<a href="/login/facebook" class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook"></i> Connect with Facebook</a>
+            
+          <p>
+          
+          <ul class="list-group">
+          	<li class="list-group-item"> 
+              <i class="fa fa-book fa-fw"></i> 5 classes <a href="{%url 'course_add'%}" class="btn btn-xs btn-primary pull-right">Edit Schedule</a></span>
+            </li>
+            <li class="list-group-item">
+              <i class="fa fa-cubes fa-fw"></i> 100  points <a href="#pointsModal" data-toggle="modal" class='btn btn-xs btn-primary pull-right'>Manage Points</a>
+            </li>
+          	<li class="list-group-item">
+              <i class="fa fa-gear"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-primary pull-right'>Reset Password</a>
+            </li>
+          	<li class="list-group-item">
+              <i class="fa fa-university"></i> University of Arizona <a href="{%url 'account_email'%}" class='btn btn-xs btn-primary pull-right'>Transfer Schools</a>
+            </li>
+          </ul>
+          </p>
+        </div>   
+    </div>
+  </div>
+</div>
 {% endblock %}
