@@ -99,7 +99,6 @@ class EventAddView(FormView, AjaxableResponseMixin):
         data = {
         }
         if self.request.is_ajax():
-            data = json.dumps(data)
             return self.render_to_json_response(data, status=200)
         else:
             return redirect(reverse('calendar'))
@@ -164,17 +163,14 @@ class CalendarFeed(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
             events = CalendarEvent.objects.all()
-            data = json.dumps({
-                'what': list(events),
-            })
-            what = [{
-                "id" : "6",
-                "title" : "New shift",
-                "start" : "2014-07-27 09:30:00 +0100",
-                "end" : "2014-07-27 13:30:00 +0100",
-                "allDay" : False 
-            }]
-            data = json.dumps(what)
+            data = list(events)
+            # what = [{
+            #     "id" : "6",
+            #     "title" : "New shift",
+            #     "start" : "2014-07-27T09:30:00.000Z",
+            #     "end" : "2014-07-27T13:30:00.000Z",
+            #     "allDay" : False 
+            # }]
             return self.render_to_json_response(data, status=200)
         else:
             return redirect(reverse('calendar'))

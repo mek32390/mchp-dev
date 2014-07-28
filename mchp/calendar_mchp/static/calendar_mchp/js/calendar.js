@@ -39,13 +39,13 @@ $(document).ready(function() {
 		$('#col_1').removeClass('col-sm-3', 1000, "easeOutQuart");
 		$('#col_2').addClass('col-sm-3', 1000, "easeOutQuart");
 		$('#col_2').removeClass('col-sm-9', 1000, "easeOutQuart");
-		$('#calendar').fullCalendar( 'changeView', 'agendaDay' )
+		$('#calendar').fullCalendar( 'changeView', 'agendaDay' );
 	});
 	// contract col_1 when your cal tab is clicked
 	$('#yourCalTab').on('click', function () {
 		$('#col_1').addClass('col-sm-3', 1000, "easeOutQuart");
 		$('#col_2').switchClass('col-sm-3','col-sm-9', 1000, "easeOutQuart");
-		$('#calendar').fullCalendar( 'changeView', 'month' )
+		$('#calendar').fullCalendar( 'changeView', 'month' );
 	});
 	
 	// using jquery.cookie plugin
@@ -81,6 +81,9 @@ $(document).ready(function() {
 		events: {
 			url: '/calendar/feed/',
 			type: 'GET',
+			success: function(data) {
+				console.log(data);
+			},
 			error: function() {
 				addMessage('Error getting events', 'danger');
 			},
@@ -107,27 +110,6 @@ $(document).ready(function() {
 		editable: true,
 	});
 
-	var save_event = function (eventData) {
-		console.log(eventData);
-		$.ajax({
-			url: '/calendar/events/add/',
-			type: 'POST',
-			data: {
-				title: eventData.title,	
-				start: eventData.start,	
-				end: eventData.end
-			},
-			success: function(data) {
-
-			},
-			fail: function(data) {
-				addMessage('what', 'danger');
-			},
-			always: function(data) {
-
-			},
-		});
-	};
 
 	//	custom date above calendar, should be called each time a different view is triggered  
 	$('.cal-date').html(function () {
@@ -189,5 +171,25 @@ $(document).ready(function() {
 
 });
 
+var save_event = function (eventData) {
+	console.log(eventData);
+	$.ajax({
+		url: '/calendar/events/add/',
+		type: 'POST',
+		data: {
+			title: eventData.title,	
+		start: eventData.start,	
+		end: eventData.end
+		},
+		success: function(data) {
 
-	
+		},
+		fail: function(data) {
+			addMessage('what', 'danger');
+		},
+		always: function(data) {
+
+		},
+	});
+};
+
