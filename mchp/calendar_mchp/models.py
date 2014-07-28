@@ -17,6 +17,8 @@ class ClassCalendar(models.Model):
     section = models.ForeignKey('schedule.section', related_name="calendar_sections", 
                                 blank=True, null=True)
 
+    create_date = models.DateTimeField(auto_now_add=True)
+
     objects = ClassCalendarManager()
 
     class Meta:
@@ -33,6 +35,8 @@ class CalendarEvent(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True)
+
+    create_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.title)
