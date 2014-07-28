@@ -74,17 +74,19 @@ calendar_delete = CalendarDeleteView.as_view()
 url: /calendar/events/add
 name: event_add
 '''
-class EventAddView(FormView, AjaxableResponseMixin):
+class EventAddView(View, AjaxableResponseMixin):
     template_name = 'calendar_mchp/event_add.html'
     model = ClassCalendar
 
     def post(self, request, *args, **kwargs):
+        # convert FC time strings to datetime objects, with timezones
         start = timezone.make_aware(datetime.strptime(request.POST['start'], DATE_FORMAT),
                                   timezone.get_current_timezone())
         end = timezone.make_aware(datetime.strptime(request.POST['end'], DATE_FORMAT),
                                   timezone.get_current_timezone())
         all_day = request.POST.get('all_day', True)
         
+        # add the event
         calendar = ClassCalendar.objects.default(self.student)
         event_data = {
             'calendar': calendar,
@@ -159,8 +161,10 @@ class CalendarFeed(View, AjaxableResponseMixin):
 
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
-            events = list(CalendarEvent.objects.all().values('id', 'title', 'start', 'end',
-                                                             'all_day'))
+            events = list(CalendarEvent.objects.filter(
+                calendar__owner=self.student
+            ).values('id', 'title', 'start', 'end', 'all_day', 'url'))
+            # convert the returned events to a format fullcalendar understands
             for event in events:
                 event['start'] = event['start'].strftime(DATE_FORMAT)
                 event['end'] = event['end'].strftime(DATE_FORMAT)
