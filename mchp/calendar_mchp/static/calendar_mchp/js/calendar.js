@@ -4,6 +4,9 @@
  * This file handles the functionality of the calendar page.
  */
 $(document).ready(function() {
+	if($('#calStepOne').length) {
+		$('#yourCalList').hide();
+	}
 	// show calendar step three  when clicked
     $('.stepOneNext').on('click', function () {
     	$('#calStepOne').fadeOut(250, function () {
@@ -19,20 +22,13 @@ $(document).ready(function() {
 		});
 	});
 	// switch to your cal list tab when clicked
-	$('.stepThreeNext1').on('click', function () {
+	$('.stepThreeNext').on('click', function () {
 		$('.cal-intro').fadeOut(250, function () {
-		$('#yourCalList').fadeIn(500);
-		$('#yourCalList').removeClass("hidden");
+			$('#yourCalList').fadeIn(500);
 		});
+		toggle_flag();
 	});
-	// switch to calendar list tab when clicked
-	$('.stepThreeNext2').on('click', function () {
-		$('.nav-tabs > .active').next('li').find('a').trigger('click');
-		$('#col_1').addClass('col-sm-9', 1000, "easeOutQuart");
-		$('#col_2').addClass('col-sm-3', 1000, "easeOutQuart");
-		// $('.cal-intro').fadeOut(250);
 
-	});
 	// expand col_1 when cal list tab is clicked
 	$('#calListTab').on('click', function () {
 		$('#col_1').addClass('col-sm-9', 1000, "easeOutQuart");
@@ -62,6 +58,7 @@ $(document).ready(function() {
 			}
 		}
 	});
+
 	/**********************
 	 * FULLCALENDAR STUFF *
 	 **********************/
@@ -135,7 +132,7 @@ $(document).ready(function() {
 	});
 
 
-	//	custom date above calendar, should be called each time a different view is triggered  
+	//	custom date above calendar 
 	$('.cal-date').html(function () {
 		var view = $('#calendar').fullCalendar('getView');
 		return view.title;
@@ -147,47 +144,30 @@ $(document).ready(function() {
 	$('.cal-today-button').click(function() {
     	$('#calendar').fullCalendar('today');
 	});
+
 	// prev button
 	$('.cal-prev-button').click(function() {
     	$('#calendar').fullCalendar('prev');
-    	//resort to messy function from above for now
-    	$('.cal-date').html(function () {
-			var view = $('#calendar').fullCalendar('getView');
-			return view.title;
-		});
 	});
 	// next button
 	$('.cal-next-button').click(function() {
     	$('#calendar').fullCalendar('next');
-    	//resort to messy function from above for now
-    	$('.cal-date').html(function () {
-			var view = $('#calendar').fullCalendar('getView');
-			return view.title;
-		});
 	});
 	// month view button
 	$('.cal-month-button').click(function() {
     	$('#calendar').fullCalendar( 'changeView', 'month' );
-    	//resort to messy function from above for now
-    	$('.cal-date').html(function () {
-			var view = $('#calendar').fullCalendar('getView');
-			return view.title;
-		});
 	});
 	// agenda week view button
 	$('.cal-agendaWeek-button').click(function() {
     	$('#calendar').fullCalendar( 'changeView', 'agendaWeek' );
-    	//resort to messy function from above for now
-    	$('.cal-date').html(function () {
-			var view = $('#calendar').fullCalendar('getView');
-			return view.title;
-		});
 	});
 	// agenda day view button
 	$('.cal-agendaDay-button').click(function() {
     	$('#calendar').fullCalendar( 'changeView', 'agendaDay' );
-    	//resort to messy function from above for now
-    	$('.cal-date').html(function () {
+	});
+
+	$('.cal-button').click(function() {
+    	$('.cal-date').text(function () {
 			var view = $('#calendar').fullCalendar('getView');
 			return view.title;
 		});
@@ -238,5 +218,13 @@ var deleteEvent = function(eventData) {
 		},
 		always: function(data) {
 		},
+	});
+};
+
+var toggle_flag = function() {
+	$.ajax({
+		url: '/profile/toggle-flag/',
+		type: 'POST',
+		data: {'flag': 'calenda_tutorial'},
 	});
 };

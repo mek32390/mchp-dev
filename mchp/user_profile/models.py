@@ -148,13 +148,15 @@ class StudentQuicklink(models.Model):
 class OneTimeFlagManager(models.Manager):
     def default(self, student):
         flags, created = OneTimeFlag.objects.get_or_create(
-            owner=student
+            student=student
         )
         return flags
 
 class OneTimeFlag(models.Model):
     student = models.ForeignKey(Student, primary_key=True, related_name='one_time_flag')
     calendar_tutorial = models.BooleanField(default=False)
+
+    objects = OneTimeFlagManager()
 
     def __str__(self):
         return "cal: {}".format(self.calendar_tutorial)
