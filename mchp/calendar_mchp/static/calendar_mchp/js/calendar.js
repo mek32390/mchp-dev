@@ -67,15 +67,15 @@ $(document).ready(function() {
 	 **********************/
 
 	var today = new Date().toJSON().slice(0,10);
-	var extract_event = function(event, dateDelta, minuteDelta) {
-		event_data = {
+	var updateEvent = function(event, dateDelta, minuteDelta) {
+		eventData = {
 			id: event.id,
 			title: event.title,
 			start: event.start._d.toJSON(),
 			end: event.end._d.toJSON(),
 			all_day: event.allDay,
 		};
-		save_event(event_data, false);
+		saveEvent(eventData, false);
 	};
 
 	$('#calendar').fullCalendar({
@@ -99,8 +99,20 @@ $(document).ready(function() {
 			// color: 'blue',   // a non-ajax option
 			// textColor: 'black' // a non-ajax option
 		},
-		eventDrop: extract_event,
-		eventResize: extract_event,
+		eventClick: function(calEvent, jsEvent, view) {
+			eventData = {
+				id: calEvent.id,
+				title: calEvent.title,
+				start: calEvent.start._d.toJSON(),
+				end: calEvent.end._d.toJSON(),
+				all_day: calEvent.allDay,
+			};
+			deleteEvent(eventData);
+			$('#calendar').fullCalendar('removeEvents', calEvent.id);
+			return false;
+		},
+		eventDrop: updateEvent,
+		eventResize: updateEvent,
 
 		// defaultDate: today,
 		selectable: true,
@@ -115,7 +127,7 @@ $(document).ready(function() {
 					end: end
 				};
 				$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-				save_event({title: title, start: start._d.toJSON(), end: end._d.toJSON()}, true); // create = true
+				saveEvent({title: title, start: start._d.toJSON(), end: end._d.toJSON()}, true); // create = true
 			}
 			$('#calendar').fullCalendar('unselect');
 		},
@@ -183,7 +195,7 @@ $(document).ready(function() {
 
 });
 
-var save_event = function (eventData, create) {
+var saveEvent = function (eventData, create) {
 	console.log(eventData);
 	var url = '';
 	if (create) {
@@ -210,3 +222,21 @@ var save_event = function (eventData, create) {
 	});
 };
 
+var deleteEvent = function(eventData) {
+	$.ajax({
+		url: '/calendar/events/delete/',
+		type: 'POST',
+		data: eventData,
+		success: function(data) {
+			$.each(data.messages, function(index, message){
+				console.log(message);
+				addMessage(message.message, message.extra_tags);
+			});
+		},
+		fail: function(data) {
+			addMessage('Failed to delete event', 'danger');
+		},
+		always: function(data) {
+		},
+	});
+};

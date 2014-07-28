@@ -174,6 +174,48 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
 event_update = EventUpdateView.as_view()
 
 '''
+url: /calendar/events/delete/
+name: event_delete
+'''
+class EventDeleteView(DeleteView, AjaxableResponseMixin):
+    model = CalendarEvent
+
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            event = CalendarEvent.objects.filter(
+                calendar__owner=self.student,
+                id = request.POST.get('id', None)
+            )
+            if event.exists():
+                event = event[0]
+                event.delete()
+
+                messages.success(
+                    self.request,
+                    "Event deleted"
+                )
+            else:
+                messages.error(
+                    self.request,
+                    "Event not found"
+                )
+            data = {
+                'messages': self.ajax_messages(),
+            }
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('calendar'))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('calendar'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(EventDeleteView, self).dispatch(*args, **kwargs)
+
+event_delete = EventDeleteView.as_view()
+'''
 url: /calendar/preview/<uuid>
 name: calendar_preview
 '''
