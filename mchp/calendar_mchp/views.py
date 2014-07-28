@@ -1,11 +1,8 @@
 from django.contrib import messages
-# from django.conf import settings
-# from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect#, get_object_or_404
-# from django.template import Context
-# from django.utils import timezone
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, DeleteView,View
@@ -14,9 +11,12 @@ from django.views.generic.edit import FormView, DeleteView,View
 from calendar_mchp.models import ClassCalendar, CalendarEvent
 from lib.decorators import school_required
 
+from datetime import datetime
 import json
 import logging
 logger = logging.getLogger(__name__)
+
+DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
 
 class AjaxableResponseMixin(object):
     """
@@ -79,27 +79,24 @@ class EventAddView(FormView, AjaxableResponseMixin):
     model = ClassCalendar
 
     def post(self, request, *args, **kwargs):
-        logger.debug(request.POST)
-        print(request.POST)
-        from datetime import datetime
-        start = request.POST['start']
-        start = datetime.strptime(start, "%Y-%m-%dT%H:%M:%S.%fZ")
-        end = request.POST['end']
-        end = datetime.strptime(end, "%Y-%m-%dT%H:%M:%S.%fZ")
+        start = timezone.make_aware(datetime.strptime(request.POST['start'], DATE_FORMAT),
+                                  timezone.get_current_timezone())
+        end = timezone.make_aware(datetime.strptime(request.POST['end'], DATE_FORMAT),
+                                  timezone.get_current_timezone())
+        all_day = request.POST.get('all_day', True)
+        
+        calendar = ClassCalendar.objects.default(self.student)
         event_data = {
+            'calendar': calendar,
             'title': request.POST['title'],
             'start': start,
             'end': end,
+            'all_day': all_day
         }
-        print(start)
-        print(end)
-        print(event_data)
-        event = CalendarEvent(event_data)
-        print(event)
-        data = {
-        }
+        event = CalendarEvent(**event_data)
+        event.save()
         if self.request.is_ajax():
-            return self.render_to_json_response(data, status=200)
+            return self.render_to_json_response({}, status=200)
         else:
             return redirect(reverse('calendar'))
 
@@ -162,16 +159,14 @@ class CalendarFeed(View, AjaxableResponseMixin):
 
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
-            events = CalendarEvent.objects.all()
-            data = list(events)
-            # what = [{
-            #     "id" : "6",
-            #     "title" : "New shift",
-            #     "start" : "2014-07-27T09:30:00.000Z",
-            #     "end" : "2014-07-27T13:30:00.000Z",
-            #     "allDay" : False 
-            # }]
-            return self.render_to_json_response(data, status=200)
+            events = list(CalendarEvent.objects.all().values('id', 'title', 'start', 'end',
+                                                             'all_day'))
+            for event in events:
+                event['start'] = event['start'].strftime(DATE_FORMAT)
+                event['end'] = event['end'].strftime(DATE_FORMAT)
+                event['allDay'] = event['all_day']
+                del event['all_day']
+            return self.render_to_json_response(events, status=200)
         else:
             return redirect(reverse('calendar'))
 

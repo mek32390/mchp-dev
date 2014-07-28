@@ -67,16 +67,27 @@ $(document).ready(function() {
 	 **********************/
 
 	var today = new Date().toJSON().slice(0,10);
+	var extract_event = function(event, dateDelta, minuteDelta) {
+		console.log(event);
+		event_data = {
+			id: event.id,
+			title: event.title,
+			start: event.start._d.toJSON(),
+			end: event.end._d.toJSON(),
+			all_day: event.allDay,
+		};
+		save_event(event_data);
+	};
 
 	$('#calendar').fullCalendar({
 		header: false,
     	weekMode: 'liquid',
 
-	//trigger add event pop-up on click and stay
-    dayClick: function(date, jsEvent, view) {
-    	$(this).popover('show');
+		//trigger add event pop-up on click and stay
+		dayClick: function(date, jsEvent, view) {
+			$(this).popover('show');
 
-	},
+		},
 		
 		events: {
 			url: '/calendar/feed/',
@@ -90,6 +101,9 @@ $(document).ready(function() {
 			// color: 'blue',   // a non-ajax option
 			// textColor: 'black' // a non-ajax option
 		},
+		eventDrop: extract_event,
+		eventResize: extract_event,
+
 		// defaultDate: today,
 		selectable: true,
 		selectHelper: true,
@@ -178,8 +192,8 @@ var save_event = function (eventData) {
 		type: 'POST',
 		data: {
 			title: eventData.title,	
-		start: eventData.start,	
-		end: eventData.end
+			start: eventData.start,	
+			end: eventData.end
 		},
 		success: function(data) {
 

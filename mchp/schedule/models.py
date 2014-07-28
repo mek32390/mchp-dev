@@ -99,15 +99,12 @@ class Course(models.Model):
         return "{}{} with prof. {} ".format(self.dept, self.course_number, self.professor)
 
 class Section(models.Model):
-    domain = models.ForeignKey('School', related_name='Section_domain')
-    dept = models.ForeignKey('Course', related_name='Section_dept')
-    course_number = models.ForeignKey('Course', related_name='Section_course_number')
-    professor = models.ForeignKey('Course', related_name='Section_professor')
+    course = models.ForeignKey(Course)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
     class Meta:
-        unique_together = ('domain', 'dept', 'course_number', 'professor', 'start_date', 'end_date')
+        unique_together = ('course', 'start_date', 'end_date')
 
     def save(self, *args, **kwargs):
         if(self.end_date > self.start_date):
@@ -116,5 +113,4 @@ class Section(models.Model):
             raise IntegrityError("Start date must come before end date")
 
     def __str__(self):
-        return "{}{} from {} to {}".format(self.dept, self.course_number, self.start_date,
-                                           self.end_date)
+        return "Section from {} to {}".format(self.start_date, self.end_date)
