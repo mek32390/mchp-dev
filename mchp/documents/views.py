@@ -92,13 +92,9 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         suggestions = Course.objects.filter(
             name__contains=q,
             domain=self.student.school,
-        ).order_by('dept', 'course_number',
-                                                                       'professor')[:10]
+        ).order_by('dept', 'course_number', 'professor')[:10]
         course_data = serializers.serialize('json', suggestions)
-        data = json.dumps({
-            'results': course_data
-        })
-        return self.render_to_json_response(data, status=200)
+        return self.render_to_json_response(course_data, status=200)
 
     def form_invalid(self, form):
         messages.error(
