@@ -8,9 +8,11 @@
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/calendar_create.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/fullcalendar.css' %}">
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/fullcalendar.css' %}"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/datepicker.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/bootstrap-clockpicker.min.css' %}">
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-clockpicker.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-datepicker.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/calendar_create.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/fullcalendar.min.js' %}"></script>
 {% endblock %}
@@ -58,14 +60,32 @@
 					<div class="form-group select-class">
 						<div class="input-group input-group-lg">
 							<span class='input-group-addon'>Class</span>
-							<select class="form-control">
-								<option>ECON 200</option>
-								<option>ACCT 200</option>
+							<select class="form-control course-select">
+								<option class="default" selected="selected">Choose a Class</option>
+								<option value="course-1">ECON 200</option>
+								<option value="course-1">ACCT 200</option>
 								<option>MGMT 200</option>
 							</select>
 						</div>
 					</div>
-					<div class="course-meetings">
+					<div class="form-group cal-sell">   
+						<div class="radio">
+							<label>
+								<input type="radio" name="cal_sell" id="sell" value="Sell">
+								<strong>Sell</strong>&mdash;Your classmates will be able to follow this calendar, and you'll get paid for every one of them that does!
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="cal_sell" id="notSell" value="notSell">
+								<strong>Keep Private</strong>&mdash;Your classmates will never see this calendar. It will be used only by you for your <strong>ECON 200</strong> class.
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="course-meetings hidden">
+					<hr>
+						<h4>Select the days and times this class meets. <small>This is how your classmates will identify which calendar to follow, so make sure you provide the correct information!</small></h4>
 						<div class="row">
 							<div class="col-sm-2">
 								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="mon">Mon</a>
@@ -153,28 +173,32 @@
 							</div>	
 						</div>		
 					</div>
-					<div class="form-group cal-sell">   
-						<div class="radio">
-							<label>
-								<input type="radio" name="cal_sell" id="sell" value="Sell">
-								<strong>Sell</strong>&mdash;Your classmates will be able to follow this calendar, and you'll get paid for every one of them that does!
-							</label>
-						</div>
-						<div class="radio">
-							<label>
-								<input type="radio" name="cal_sell" id="notSell" value="notSell">
-								<strong>Keep Private</strong>&mdash;Your classmates will never see this calendar. It will be used only by you for your <strong>ECON 200</strong> class.
-							</label>
-						</div>
+					<div class="cal-start-end hidden">
+						<hr>
+						<h4>Select the end date of this calendar.<small> I am not sure why we need this, but we do.</small></h4>
+						
+							<ul class="list-inline">
+								<!-- <li>Start: Today</li> -->
+								<li>
+									    <div class="input-group date">
+									    	<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+    <input type="text" class="form-control input-lg" placeholder="Select an End Date">
+    </div>
+								</li>
+							</ul>
+						
+
 					</div>
-				</div>
 				<div class="form-group cal-description hidden">
+					<hr>
+					<h4>Provide a Description<small> A chance for you to stand out from your competition!</small></h4>
 					<div class="input-group input-group-lg">
 						<span class='input-group-addon'>Description</span>
 						<input type="text" class="form-control" name="description" placeholder='try "I will make it a priority to keep this calendar as accurate as possible!"' />
 					</div>
 				</div>
 				<div class="form-group cal-submit hidden">
+					<hr>
 					<button type="submit" class="btn btn-lg btn-primary btn-block">Create Calendar</button>
 				</div>
 			</form>

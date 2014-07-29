@@ -13,7 +13,34 @@ $(function() {
 		    $('.course-fields').fadeIn(500).removeClass('hidden');
 		    $('.cal-name').fadeOut(500);
 		    $('.cal-submit').addClass('hidden');
-		    // when the meeting days button option changes
+		    
+		    // it would be better if the course meetings field only were shown when an actual course option was selected
+		    $('.course-select option').each(function() {
+    			if(!$(this).is(':selected')) {
+    				$('.cal-sell').fadeIn(250).removeClass('hidden');
+    			}
+    		});
+
+    		// when the sell/not sell option changes
+		    $("input[name='cal_sell']:radio").change(function() {
+			    if ($('#sell').is(':checked')) {
+		        	$('.course-meetings').fadeIn(500).removeClass('hidden');
+		        	$('.cal-start-end').fadeIn(500).removeClass('hidden');
+		        	$('.cal-description').fadeIn(500).removeClass('hidden');
+		        	
+		    	}
+		    	else {
+		    		$('.course-meetings').fadeOut(500);
+		    		$('.cal-start-end').fadeOut(500);
+		    		$('.cal-description').fadeOut(500);
+		    		$('.cal-submit').fadeIn(600).removeClass('hidden');
+		    	}
+		   	});
+
+			// initializing clockpicker
+		    $('.clockpicker').clockpicker();
+
+		   	// when the meeting days button option changes
 			$("#mon").on('click', function() {
 				$(".mon-times").fadeIn(250).toggleClass('hidden');
 		    });
@@ -35,24 +62,6 @@ $(function() {
 		    $("#sun").on('click', function() {
 				$(".sun-times").fadeIn(250).toggleClass('hidden');
 		    });
-
-
-
-			// initializing clockpicker
-		    $('.clockpicker').clockpicker();
-
-		    // when the sell/not sell option changes
-		    $("input[name='cal_sell']:radio").change(function() {
-			    if ($('#sell').is(':checked')) {
-		        	$('.cal-description').fadeIn(500).removeClass('hidden');
-		        	$('.cal-submit').fadeIn(600).removeClass('hidden');
-		    	}
-		    	else {
-		    		$('.cal-description').fadeOut(500);
-		    		$('.cal-submit').fadeIn(600).removeClass('hidden');
-		    		$('.cal-submit').fadeIn(600).removeClass('hidden');
-		    	}
-		   	});
 		}
 
 		// Else if the personal calendar option is selected
@@ -63,6 +72,14 @@ $(function() {
 		    $('.cal-submit').fadeIn(600).removeClass('hidden');
 		}
 	});
+
+	// initialize date picker
+	$('.input-group.date').datepicker({
+		startView: 1,
+		multidate: false,
+		autoclose: true,
+		todayHighlight: true
+    });
 
 	// reset form on page reload or other unload actions
 	$( window ).unload(function() {
