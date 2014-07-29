@@ -80,13 +80,13 @@
 									<small>{{document.price}} points</small><div class="pull-right small
 										text-muted">{{document.create_date|naturaltime}}</div></h4>
 									<span class="description">
-										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}&nbsp;
-										<i class="fa fa-fw fa-thumbs-o-down text-danger
-											fa-flip-horizontal"></i>{{document.down}}&nbsp;|&nbsp;
+										<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
+										<i class="fa fa-fw fa-thumbs-down text-danger
+											fa-flip-horizontal"></i>{{document.down}}&nbsp;
 										{% with document.review_count as review_count %}
-										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{review_count}} Review{{review_count|pluralize}}&nbsp;|&nbsp;
+										<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
 										{% endwith %}
-										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.sold}}
+										<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 										Purchase{{document.sold|pluralize}}
 									</span>
 								</div>
