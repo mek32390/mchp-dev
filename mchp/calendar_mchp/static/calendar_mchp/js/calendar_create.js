@@ -50,26 +50,8 @@ $(function() {
 	$('.clockpicker').clockpicker();
 
    	// when the meeting days button option changes
-   	$("#mon").on('click', function() {
-   		$(".mon-times").fadeIn(250).toggleClass('hidden');
-   	});
-   	$("#tues").on('click', function() {
-   		$(".tues-times").fadeIn(250).toggleClass('hidden');
-   	});
-   	$("#wed").on('click', function() {
-   		$(".wed-times").fadeIn(250).toggleClass('hidden');
-   	});
-   	$("#thur").on('click', function() {
-   		$(".thur-times").fadeIn(250).toggleClass('hidden');
-   	});
-   	$("#fri").on('click', function() {
-   		$(".fri-times").fadeIn(250).toggleClass('hidden');
-   	});
-   	$("#sat").on('click', function() {
-   		$(".sat-times").fadeIn(250).toggleClass('hidden');
-   	});
-   	$("#sun").on('click', function() {
-   		$(".sun-times").fadeIn(250).toggleClass('hidden');
+   	$(".day-button").click(function(event) {
+		$(event.target).siblings('.day-times').fadeIn(250).toggleClass('hidden');
    	});
 
 	// initialize date picker
@@ -77,7 +59,7 @@ $(function() {
 		startView: 1,
 		multidate: false,
 		autoclose: true,
-		todayHighlight: true
+		todayHighlight: false
 	});
 
 	// reset form on page reload or other unload actions

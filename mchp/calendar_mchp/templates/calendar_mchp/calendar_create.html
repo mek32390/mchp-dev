@@ -8,16 +8,15 @@
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/calendar_create.css' %}">
-<!-- <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/fullcalendar.css' %}"> -->
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/datepicker.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/bootstrap-clockpicker.min.css' %}">
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-clockpicker.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-datepicker.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/calendar_create.js' %}"></script>
-<script src="{% static 'calendar_mchp/js/fullcalendar.min.js' %}"></script>
 {% endblock %}
 
 {% block body %}
+{% load calendar %}
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12">
@@ -86,9 +85,11 @@
 					<hr>
 						<h4>Select the days and times this class meets. <small>This is how your classmates will identify which calendar to follow, so make sure you provide the correct information!</small></h4>
 						<div class="row">
+							{% get_week %}
+							{% for day in week %}
 							<div class="col-sm-2">
-								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="mon">Mon</a>
-								<h5 class="mon-times hidden">
+								<a href="#" class="btn btn-default btn-lg btn-block day-button" data-toggle="button" id="{{day}}">{{day}}</a>
+								<h5 class="day-times hidden">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
 										<input type="text" class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
@@ -100,76 +101,7 @@
 									</div>
 								</h5>
 							</div>
-							<div class="col-sm-2">
-								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="tues">Tues</a>
-								<h5 class="tues-times hidden">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
-									</div>
-									<p></p>
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
-									</div>
-								</h5>
-							</div>
-							<div class="col-sm-2">	
-								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="wed">Wed</a>
-								<h5 class="wed-times hidden">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
-									</div>
-									<p></p>
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
-									</div>
-								</h5>
-							</div>	
-							<div class="col-sm-2">	
-								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="thur">Thur</a>
-								<h5 class="thur-times hidden">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
-									</div>
-									<p></p>
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
-									</div>
-								</h5>
-							</div>	
-							<div class="col-sm-2">	
-								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="fri">Fri</a>
-								<h5 class="fri-times hidden">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
-									</div>
-									<p></p>
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
-									</div>
-								</h5>
-							</div>	
-							<div class="col-sm-2">	
-								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="sat">Sat</a>
-								<h5 class="sat-times hidden">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
-									</div>
-									<p></p>
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
-									</div>
-								</h5>
-							</div>	
+							{% endfor %}
 						</div>		
 					</div>
 					<div class="cal-start-end hidden">
