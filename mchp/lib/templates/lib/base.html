@@ -224,7 +224,16 @@
 		<div class="modal fade" id="promoModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
-					...
+					<div class="modal-body text-center">
+						<img class="center-block" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/ticket.svg" alt="select browser">
+						<h4>Do you have the lucky ticket?</h4>
+						<div class="input-group input-group-lg">
+						  <span class="input-group-addon"><i class="fa fa-gift"></i></span>
+						  <input type="text" class="form-control" placeholder="Enter code">
+						</div>
+							<hr>
+							<button type="submit" class="btn btn-primary btn-block">Redeem</button>
+					</div>
 				</div>
 			</div>
 		</div><!--end promo code modal" -->
@@ -306,6 +315,7 @@
 							<li><a href="{% url 'dashboard'%}">My Homepage</a></li>
 							<li><a data-toggle="modal" href="#sethomeModal">Set Homepage</a></li>
 							<li class="divider"></li>
+							<li><a href="{% url 'account_settings'%}">My Account</a></li>
 							<li><a href="{% url 'account_logout' %}">Log Out</a></li>
 						</ul>
 					</li>

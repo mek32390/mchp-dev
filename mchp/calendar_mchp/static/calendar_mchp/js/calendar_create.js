@@ -60,9 +60,63 @@ $(function() {
 		$('#calendar_create')[0].reset();
 	});	
 
+
+	/**********************
+	 * FULLCALENDAR STUFF *
+	 **********************/
+	var dayDisplay = 'dddd';
+	if($(window).width() < 620) {
+		dayDisplay = 'ddd';
+	}
+
+	$('#calendar').fullCalendar({
+		aspectRatio: 2,
+		allDaySlot: false,
+		columnFormat: {
+			week: dayDisplay
+		},
+		defaultView: 'agendaWeek',
+		editable: true,
+
+		events: {
+		},
+
+		firstDay: 1,
+		header: {
+			left: '',
+			center: 'title',
+			right:'',
+		},
+		// minTime: "06:00:00",
+		// maxTime: "23:00:00",
+		// eventDrop: updateEvent,
+		// eventResize: updateEvent,
+
+		// defaultDate: today,
+		selectable: true,
+		selectHelper: true,
+		select: function(start, end) {
+			var title = prompt('Event Title:');
+			var eventData;
+			console.log(start);
+			console.log(end._d.getTime());
+			var calendar = $('#calendar').fullCalendar('getCalendar');
+			var m = calendar.moment();
+			console.log(m);
+			var newEnd = new Date(end._d.getTime() + 45*60000);
+			console.log(newEnd);
+			end._d = newEnd;
+			if (title) {
+				eventData = {
+					title: title,
+					start: start,
+					end: end
+				};
+				$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+			}
+		},
+		snapDuration: "00:15:00"
+	});
+	$('.fc-center h2').text('Class Schedule');
+
 });
-
-
-
-
-	

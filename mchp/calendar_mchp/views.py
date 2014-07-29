@@ -240,7 +240,7 @@ class CalendarView(View):
 
     def get(self, request, *args, **kwargs):
         data = {
-
+            'flags': self.student.one_time_flag.default(self.student)
         }
         return render(request, self.template_name, data)
 

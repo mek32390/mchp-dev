@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import redirect,render, get_object_or_404
 from django.template import Context
 from django.contrib import messages
@@ -7,13 +8,14 @@ from django.views.generic.edit import View
 from django.http import HttpResponse, HttpResponseGone
 from django.utils.decorators import method_decorator
 # from django.db.models import Count
+from django.db.models import FieldDoesNotExist
 
 from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
 from schedule.models import School
-from user_profile.models import Student, UserProfile
+from user_profile.models import Student, UserProfile, OneTimeFlag
 from lib.decorators import school_required
 
 import json
@@ -139,3 +141,47 @@ def resend_email(request):
         return HttpResponse(json.dumps({}), content_type='application/javascript')
     else:
         return redirect('/')
+
+class AjaxableResponseMixin(object):
+    """
+    Mixin to add AJAX support to a form.
+
+    I stole this right from the django website.
+    """
+    def render_to_json_response(self, context, **response_kwargs):
+        data = json.dumps(context)
+        response_kwargs['content_type'] = 'application/json'
+        return HttpResponse(data, **response_kwargs)
+
+    def ajax_messages(self):
+        django_messages = []
+
+        for message in messages.get_messages(self.request):
+            django_messages.append({
+                "level": message.level,
+                "message": message.message,
+                "extra_tags": message.tags,
+            })
+        return django_messages
+
+'''
+url: /profile/toggle-flag/
+name: toggle_flag
+'''
+class ToggleFlag(View, AjaxableResponseMixin):
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            flag = request.POST.get('flag', '')
+            try:
+                OneTimeFlag.objects.update(**{'student': request.user.student, flag: True})
+                return self.render_to_json_response({}, status=200)
+            except FieldDoesNotExist:
+                # there should be error logging here
+                return self.render_to_json_response({}, status=403)
+        else:
+            return redirect(reverse('my_profile'))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('my_profile'))
+
+toggle_flag = ToggleFlag.as_view()

@@ -1,12 +1,13 @@
 from django.test import TestCase
-
 from django.contrib.auth.models import User
 from django.utils import timezone
-# from django.db.utils import IntegrityError
-# from django.db.transaction import atomic
+from django.db.utils import IntegrityError
+from django.db.transaction import atomic
 from user_profile.models import Student
-from schedule.models import School
-from calendar_mchp.models import CalendarEvent
+from schedule.models import School, Course, Section
+from calendar_mchp.models import CalendarEvent, ClassCalendar
+
+from datetime import timedelta
 
 class StudentModelTest(TestCase):
     def setUp(self):
@@ -28,12 +29,49 @@ class StudentModelTest(TestCase):
         self.student = Student(**student_data)
         self.student.save()
 
+        course_data = {
+            'dept': 'CSC',
+            'course_number': '245',
+            'professor': 'mccann',
+            'domain': self.school,
+        }
+
+        self.course = Course(**course_data)
+        self.course.save()
+        self.student.courses.add(self.course)
+
     def testCalendarEvent(self):
         test_event = {
             'title': 'test event',
-            'allDay': False,
+            'all_day': False,
             'start': timezone.now(),
             'url': '',
         }
         event = CalendarEvent(**test_event)
         self.assertEqual(event.title, 'test event')
+
+    def testsaveCalendar(self):
+        self.assertEqual(self.course.dept, 'CSC')
+        now = timezone.now()
+        section_data = {
+            'course': self.student.courses.all()[0],
+            'start_date': now,
+            'end_date': now + timedelta(days=1)
+        }
+        section = Section(**section_data)
+        section.save()
+        self.assertEqual(section.course.dept, 'CSC')
+        self.assertGreater(section.end_date, section.start_date)
+
+        calendar_data = {
+            'owner': self.student,
+            'section':  section,
+        }
+        calendar = ClassCalendar(**calendar_data)
+        calendar.save()
+        self.assertEqual(calendar.owner, self.student)
+        self.assertEqual('CSC 245 Calendar', calendar.title)
+
+        second_calendar = ClassCalendar(**calendar_data)
+        with atomic():
+            self.assertRaises(IntegrityError, second_calendar.save)

@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^resend-email/', views.resend_email, name='resend_email'),
     url(r'^documents/', RedirectView.as_view(url=reverse_lazy('document_list'))),
     url(r'^(?P<number>\d+)/', views.profile, name='profile'),
+    url(r'^toggle-flag/', views.toggle_flag, name='toggle_flag'),
     url(r'^$', views.profile, name='my_profile'),
 )
