@@ -3,9 +3,14 @@
 {% block head_title %}Create Calendar{% endblock %}
 
 {% block extra_head %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
-	{% load staticfiles %}
-	<script src="{% static 'calendar_mchp/js/calendar_create.js' %}"></script>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/calendar_create.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/fullcalendar.css' %}">
+<script src="{% static 'calendar_mchp/js/calendar_create.js' %}"></script>
+<script src="{% static 'calendar_mchp/js/fullcalendar.min.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -13,10 +18,10 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="media">
-    			<img class="media-object pull-left animated slideInLeft" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar.svg" height="50px" alt="create calendar">
-  				<div class="media-body">
-    			<h2 class="media-heading">Create a Calendar</h2>
-				let's make this quick and easy</div>
+				<img class="media-object pull-left animated slideInLeft" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar.svg" height="50px" alt="create calendar">
+				<div class="media-body">
+					<h2 class="media-heading">Create a Calendar</h2>
+					let's make this quick and easy</div>
 			</div>
 			<hr>
 		</div>
@@ -25,63 +30,64 @@
 		<div class="col-sm-12">
 			<h4>What type of calendar would you like to create?</h4>
 			<form id ="calendar_create">
-			    <div class="form-group">   
-		            <div class="radio cal-type">
-					  <label>
-					    <input type="radio" name="calTypes" id="personalCal" value="Personal">
-					    <strong>Personal</strong>&mdash;this calendar is for events not related to school, and will not be seen by anyone else but you!
-					  </label>
+				<div class="form-group">   
+					<div class="radio cal-type">
+						<label>
+							<input type="radio" name="calTypes" id="personalCal" value="Personal">
+							<strong>Personal</strong>&mdash;this calendar is for events not related to school, and will not be seen by anyone else but you!
+						</label>
 					</div>
 					<div class="radio">
-					  <label>
-					    <input type="radio" name="calTypes" id="classCal" value="Class">
-					    <strong>Class</strong>&mdash;this calendar is for events for a specific class. You can can sell this calendar to your classmates, or keep it private. 
-					  </label>
+						<label>
+							<input type="radio" name="calTypes" id="classCal" value="Class">
+							<strong>Class</strong>&mdash;this calendar is for events for a specific class. You can can sell this calendar to your classmates, or keep it private. 
+						</label>
 					</div>
-		    	</div>
-		    	<hr>
-		    <div class="form-group cal-name hidden">
-				<div class="input-group input-group-lg">
-					<span class='input-group-addon'>Calendar Name</span>
-		            <input type="text" class="form-control" name="name" placeholder='try "My Calendar" or "Work"' />
-		        </div>
-		    </div>
-		    <div class="course-fields hidden">
-			    <div class="form-group select-class">
+				</div>
+				<hr>
+				<div class="form-group cal-name">
 					<div class="input-group input-group-lg">
-						<span class='input-group-addon'>Class</span>
-						<select class="form-control">
-						  <option>ECON 200</option>
-						  <option>ACCT 200</option>
-						  <option>MGMT 200</option>
-						</select>
-			        </div>
-			    </div>
-			    <div class="form-group cal-sell">   
-		            <div class="radio">
-					  <label>
-					    <input type="radio" name="cal_sell" id="sell" value="Sell">
-					    <strong>Sell</strong>&mdash;Your classmates will be able to follow this calendar, and you'll get paid for every one of them that does!
-					  </label>
+						<span class='input-group-addon'>Calendar Name</span>
+						<input type="text" class="form-control" name="name" placeholder='try "My Calendar" or "Work"' />
 					</div>
-					<div class="radio">
-					  <label>
-					    <input type="radio" name="cal_sell" id="notSell" value="notSell">
-					    <strong>Keep Private</strong>&mdash;Your classmates will never see this calendar. It will be used only by you for your <strong>ECON 200</strong> class.
-					  </label>
+				</div>
+				<div class="course-fields ">
+					<div class="form-group select-class">
+						<div class="input-group input-group-lg">
+							<span class='input-group-addon'>Class</span>
+							<select class="form-control">
+								<option>ECON 200</option>
+								<option>ACCT 200</option>
+								<option>MGMT 200</option>
+							</select>
+						</div>
 					</div>
-		    	</div>
-		    </div>
-		    	<div class="form-group cal-description hidden">
+					<div id="calendar"></div>
+					<div class="form-group cal-sell">   
+						<div class="radio">
+							<label>
+								<input type="radio" name="cal_sell" id="sell" value="Sell">
+								<strong>Sell</strong>&mdash;Your classmates will be able to follow this calendar, and you'll get paid for every one of them that does!
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="cal_sell" id="notSell" value="notSell">
+								<strong>Keep Private</strong>&mdash;Your classmates will never see this calendar. It will be used only by you for your <strong>ECON 200</strong> class.
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group cal-description hidden">
 					<div class="input-group input-group-lg">
 						<span class='input-group-addon'>Description</span>
-			            <input type="text" class="form-control" name="description" placeholder='try "I will make it a priority to keep this calendar as accurate as possible!"' />
-			        </div>
-			    </div>
-	    	<div class="form-group cal-submit hidden">
-	    		<button type="submit" class="btn btn-lg btn-primary btn-block">Create Calendar</button>
-			</div>
-		</form>
+						<input type="text" class="form-control" name="description" placeholder='try "I will make it a priority to keep this calendar as accurate as possible!"' />
+					</div>
+				</div>
+				<div class="form-group cal-submit hidden">
+					<button type="submit" class="btn btn-lg btn-primary btn-block">Create Calendar</button>
+				</div>
+			</form>
+		</div>
 	</div>
-</div>
-{% endblock %}
+	{% endblock %}
