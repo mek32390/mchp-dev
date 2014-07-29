@@ -4,7 +4,7 @@
  * This file handles the functionality of the calendar page.
  */
 $(document).ready(function() {
-	// show calendar step three  when clicked
+	// show calendar step two  when clicked
     $('.stepOneNext').on('click', function () {
     	$('#calStepOne').fadeOut(250, function () {
     		$('#calStepTwo').fadeIn(500);
@@ -21,7 +21,6 @@ $(document).ready(function() {
 	// switch to your cal list tab when clicked
 	$('.stepThreeNext1').on('click', function () {
 		$('.cal-intro').fadeOut(250, function () {
-		$('#yourCalList').fadeIn(500);
 		$('#yourCalList').removeClass("hidden");
 		});
 	});
@@ -146,6 +145,11 @@ $(document).ready(function() {
 	// today button
 	$('.cal-today-button').click(function() {
     	$('#calendar').fullCalendar('today');
+    	//resort to messy function from above for now
+    	$('.cal-date').html(function () {
+			var view = $('#calendar').fullCalendar('getView');
+			return view.title;
+		});
 	});
 	// prev button
 	$('.cal-prev-button').click(function() {

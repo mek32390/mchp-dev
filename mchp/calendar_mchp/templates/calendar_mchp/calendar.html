@@ -59,7 +59,7 @@
 										<a href="#"><div class="media-object img-circle img-thumbnail"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:64px"></div><div class="assignment-number text-center text-default h4">15</div></a>
 										<!-- <div class="cal-followers small h6"><small><i class="fa fa-fw fa-users text-muted"></i></small></div> --></span>
 									<div class="media-body">
-										<h4 class="media-heading"><a href="#">ECON 200 Calendar</a> <small>500 points <label class="label label-success">Following</button></small><div class="pull-right small text-muted">10 m</div></h4>
+										<h4 class="media-heading"><a href="preview/test">ECON 200 Calendar</a> <small>500 points <label class="label label-success">Following</button></small><div class="pull-right small text-muted">10 m</div></h4>
 										<span class="description">
 											<i class="fa fa-fw fa-thumbs-up text-success"></i>85
 											<i class="fa fa-fw fa-thumbs-down text-danger"></i>15&nbsp;
@@ -104,7 +104,7 @@
 <div class="container">
 	<div class="row">
 		<div id="col_1" class="col-sm-3 animated bounceInUp">
-			<h3>Your Calendars</h3>
+			<h3>My Calendars <a href="{% url 'calendar_create' %}" class="pull-right text-default"><small><i class="fa fa-plus"></i></small></a></h3>
 			<hr style="margin-top:12px;">
 
 			<!-- Nav tabs -->
@@ -137,16 +137,16 @@
 								<p>You can also <em>follow</em> one of your classmate's class calendars, and for every calendar you follow, you'll fork over some points!</p>
 								<p>What would you like to do?</p>
 								<hr>
-								<div class="row">
-									<div class="col-xs-6">
-										<p><a type="button" href='#' class="btn btn-primary btn-xs btn-block stepThreeNext1">Create my Own</a>
-										</div>
-										<div class="col-xs-6">
-											<button class="btn btn-success btn-xs btn-block" data-toggle="modal" data-target="#myModal">View others</button>
+								<!-- <div class="row">
+									<div class="col-xs-7"> -->
+										<p><a type="button" href="#" class="btn btn-primary btn-xs btn-block stepThreeNext1">Create my Own</a>
+										<!-- </div> -->
+										<!-- <div class="col-xs-5"> -->
+											<button class="btn btn-success btn-xs btn-block" data-toggle="modal" data-target="#myModal">View Others</button>
 											<!-- <button type="button" class="btn btn-success btn-xs btn-block stepThreeNext2">View Others</button> -->
 										</p>
-									</div>
-								</div>
+									<!-- </div> -->
+								<!-- </div> -->
 							</div>
 						</div>
 					</div><!-- end panel -->
@@ -155,28 +155,50 @@
 						<!-- <hr style="margin-top:0px;"> -->
 						<!-- <div class="panel panel-default">
 								<div class="panel-body"> -->
-						<h5>Calendars you created<span class="badge pull-right">2</span></h5>
+						<h5>Personal<span class="badge pull-right">2</span></h5>
 						<!-- <div class="list-group">
 								<div class="list-group-item"> -->
 
-						<span class="checkbox text-success">
+						<div class="checkbox text-info">
+							<label>
+								<input type="checkbox" value="">
+								My Calendar
+							</label>
+							<a href="preview/test" class="pull-right text-info"><i class="fa fa-fw fa-external-link"></i></a>
+						</div>
+
+
+						<div class="checkbox text-default">
+							<label>
+								<input type="checkbox" value="">
+								Work
+							</label>
+							<a href="#" class="pull-right text-default"><i class="fa fa-fw fa-external-link"></i></a>
+						</div>
+						<!-- </div>
+							</div> -->
+							<hr>
+						<h5>School<span class="badge pull-right">2</span></h5>
+						<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Own</li>
+						<div class="checkbox text-success">
 							<label>
 								<input type="checkbox" value="">
 								ECON 200
 							</label>
-							<a href="#" class="pull-right text-success"><i class="fa fa-fw fa-external-link"></i></a>
-						</span>
+							<small class="text-muted pull-right"><a href="#" class="pull-right text-success"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-eye-slash"></i>&nbsp;</small>
+							
+						</div>
 
 
 						<div class="checkbox text-danger">
 							<label>
 								<input type="checkbox" value="">
-								ACCT 200
+								ACCT 200 
 							</label>
-							<a href="#" class="pull-right text-danger"><i class="fa fa-fw fa-external-link"></i></a>
+							<small class="pull-right text-muted"><a href="#" class="pull-right text-danger"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-users text-muted"></i>12&nbsp;</small>
 						</div>
-						<!-- </div>
-							</div> -->
+						<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
+
 						<hr>
 						<div class="panel panel-default">
 							<div class="panel-body">
@@ -298,9 +320,9 @@
 							<div class="col-sm-3">
 								<div class="btn-group">
 									<button type="button" class="cal-prev-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-left"></i></button>
+									<button type="button" class="cal-today-button btn-xs btn btn-default">Today</button>
 									<button type="button" class="cal-next-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-right"></i></button>	
 								</div>
-								<button type="button" data-toggle="button" class="cal-today-button btn-xs btn btn-default">Today</button>
 							</div>
 							<div class="col-sm-6">
 								<span class="cal-date text-center center-block"></span>
