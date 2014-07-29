@@ -9,6 +9,8 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/calendar_create.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/fullcalendar.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/bootstrap-clockpicker.min.css' %}">
+<script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-clockpicker.min.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/calendar_create.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/fullcalendar.min.js' %}"></script>
 {% endblock %}
@@ -21,7 +23,8 @@
 				<img class="media-object pull-left animated slideInLeft" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar.svg" height="50px" alt="create calendar">
 				<div class="media-body">
 					<h2 class="media-heading">Create a Calendar</h2>
-					let's make this quick and easy</div>
+					let's make this quick and easy
+				</div>
 			</div>
 			<hr>
 		</div>
@@ -45,117 +48,13 @@
 					</div>
 				</div>
 				<hr>
-				<div class="form-group cal-name">
+				<div class="form-group cal-name hidden">
 					<div class="input-group input-group-lg">
-<!-- <<<<<<< HEAD
-						<span class='input-group-addon'>Class</span>
-						<select class="form-control">
-						  <option>ECON 200</option>
-						  <option>ACCT 200</option>
-						  <option>MGMT 200</option>
-						</select>
-			        </div>
-			    </div>
-			    <div class="form-group course-meetings">
-					<ul class="list-inline">
-					  	<li>
-					  		<div class="input-group">
-				    			<span class="input-group-btn">
-						 		<label class="btn btn-default btn-lg">
-						    		<input type="checkbox" class="btn btn-default" name="course_days" id="mon" value="Mon"> Mon
-								</label>
-							  	</span>
-							  	<select class="form-control input-lg course-time-mon hidden">
-								  <option>1</option>
-								  <option>2</option>
-								  <option>3</option>
-								  <option>4</option>
-								  <option>5</option>
-								</select>
-							</div>
-						</li>
-						<li>
-							<div class="input-group">
-				    			<span class="input-group-btn">
-						 		<label class="btn btn-default btn-lg">
-						    		<input type="checkbox" class="btn btn-default" name="course_days" id="tue" value="Tue"> Tue
-								</label>
-							  	</span>
-							  	<select class="form-control input-lg course-time-tue hidden">
-								  <option>1</option>
-								  <option>2</option>
-								  <option>3</option>
-								  <option>4</option>
-								  <option>5</option>
-								</select>
-							</div>		
-						</li>
-						<li>
-							<div class="input-group">
-				    			<span class="input-group-btn">
-						 		<label class="btn btn-default btn-lg">
-						    		<input type="checkbox" class="btn btn-default" name="course_days" id="wed" value="Wed"> Wed
-								</label>
-							  	</span>
-							  	<select class="form-control input-lg course-time-wed hidden">
-								  <option>1</option>
-								  <option>2</option>
-								  <option>3</option>
-								  <option>4</option>
-								  <option>5</option>
-								</select>
-							</div>		
-						</li>
-						<li>
-							<div class="input-group">
-				    			<span class="input-group-btn">
-						 		<label class="btn btn-default btn-lg">
-						    		<input type="checkbox" class="btn btn-default" name="course_days" id="thur" value="Thur"> Thur
-								</label>
-							  	</span>
-							  	<select class="form-control input-lg course-time-thur hidden">
-								  <option>1</option>
-								  <option>2</option>
-								  <option>3</option>
-								  <option>4</option>
-								  <option>5</option>
-								</select>
-							</div>		
-						</li>
-						<li>
-							<div class="input-group">
-				    			<span class="input-group-btn">
-						 		<label class="btn btn-default btn-lg">
-						    		<input type="checkbox" class="btn btn-default" name="course_days" id="fri" value="Fri"> Fri
-								</label>
-							  	</span>
-							  	<select class="form-control input-lg course-time-fri hidden">
-								  <option>1</option>
-								  <option>2</option>
-								  <option>3</option>
-								  <option>4</option>
-								  <option>5</option>
-								</select>
-							</div>		
-						</li>
-					</ul>
-				    	
-
-	
-			    </div>
-			    <div class="form-group cal-sell">   
-		            <div class="radio">
-					  <label>
-					    <input type="radio" name="cal_sell" id="sell" value="Sell">
-					    <strong>Sell</strong>&mdash;Your classmates will be able to follow this calendar, and you'll get paid for every one of them that does!
-					  </label> -->
-<!-- =======
 						<span class='input-group-addon'>Calendar Name</span>
 						<input type="text" class="form-control" name="name" placeholder='try "My Calendar" or "Work"' />
->>>>>>> 00927d7a26deec39d9daff79e4b11a4718b1a9ee -->
 					</div>
 				</div>
-				<div class="course-fields ">
+				<div class="course-fields hidden">
 					<div class="form-group select-class">
 						<div class="input-group input-group-lg">
 							<span class='input-group-addon'>Class</span>
@@ -166,7 +65,94 @@
 							</select>
 						</div>
 					</div>
-					<div id="calendar"></div>
+					<div class="course-meetings">
+						<div class="row">
+							<div class="col-sm-2">
+								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="mon">Mon</a>
+								<h5 class="mon-times hidden">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input type="text" class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
+									</div>
+									<p></p>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
+									</div>
+								</h5>
+							</div>
+							<div class="col-sm-2">
+								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="tues">Tues</a>
+								<h5 class="tues-times hidden">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
+									</div>
+									<p></p>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
+									</div>
+								</h5>
+							</div>
+							<div class="col-sm-2">	
+								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="wed">Wed</a>
+								<h5 class="wed-times hidden">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
+									</div>
+									<p></p>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
+									</div>
+								</h5>
+							</div>	
+							<div class="col-sm-2">	
+								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="thur">Thur</a>
+								<h5 class="thur-times hidden">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
+									</div>
+									<p></p>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
+									</div>
+								</h5>
+							</div>	
+							<div class="col-sm-2">	
+								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="fri">Fri</a>
+								<h5 class="fri-times hidden">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
+									</div>
+									<p></p>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
+									</div>
+								</h5>
+							</div>	
+							<div class="col-sm-2">	
+								<a href="#" class="btn btn-default btn-lg btn-block" data-toggle="button" id="sat">Sat</a>
+								<h5 class="sat-times hidden">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
+									</div>
+									<p></p>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input class="form-control clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
+									</div>
+								</h5>
+							</div>	
+						</div>		
+					</div>
 					<div class="form-group cal-sell">   
 						<div class="radio">
 							<label>
@@ -194,4 +180,5 @@
 			</form>
 		</div>
 	</div>
-	{% endblock %}
+</div>
+{% endblock %}

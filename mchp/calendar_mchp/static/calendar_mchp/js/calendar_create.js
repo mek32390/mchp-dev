@@ -14,24 +14,33 @@ $(function() {
 		    $('.cal-name').fadeOut(500);
 		    $('.cal-submit').addClass('hidden');
 		    // when the meeting days button option changes
-			$("input[name='course_days']:checkbox").click(function() {
-			    if ($("input[id='mon']:checkbox").is(':checked')) {
-		        	$('.course-time-mon').toggleClass('hidden');
-		    	}
-		    	else if ($("input[id='tue']:checkbox").is(':checked')) {
-		        	$('.course-time-tue').fadeIn(500).removeClass('hidden');
-		    	}
-		    	else if ($("input[id='wed']:checkbox").is(':checked')) {
-		        	$('.course-time-wed').fadeIn(500).removeClass('hidden');
-		    	}
-		    	else if ($("input[id='thur']:checkbox").is(':checked')) {
-		        	$('.course-time-thur').fadeIn(500).removeClass('hidden');
-		    	}
-		    	else if ($("input[id='fri']:checkbox").is(':checked')) {
-		        	$('.course-time-fri').fadeIn(500).removeClass('hidden');
-		    	}
-
+			$("#mon").on('click', function() {
+				$(".mon-times").fadeIn(250).toggleClass('hidden');
 		    });
+		    $("#tues").on('click', function() {
+				$(".tues-times").fadeIn(250).toggleClass('hidden');
+		    });
+		    $("#wed").on('click', function() {
+				$(".wed-times").fadeIn(250).toggleClass('hidden');
+		    });
+		    $("#thur").on('click', function() {
+				$(".thur-times").fadeIn(250).toggleClass('hidden');
+		    });
+		    $("#fri").on('click', function() {
+				$(".fri-times").fadeIn(250).toggleClass('hidden');
+		    });
+		    $("#sat").on('click', function() {
+				$(".sat-times").fadeIn(250).toggleClass('hidden');
+		    });
+		    $("#sun").on('click', function() {
+				$(".sun-times").fadeIn(250).toggleClass('hidden');
+		    });
+
+
+
+			// initializing clockpicker
+		    $('.clockpicker').clockpicker();
+
 		    // when the sell/not sell option changes
 		    $("input[name='cal_sell']:radio").change(function() {
 			    if ($('#sell').is(':checked')) {

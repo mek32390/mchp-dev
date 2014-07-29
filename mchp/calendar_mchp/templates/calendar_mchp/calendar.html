@@ -16,12 +16,12 @@
 
 {% block body %}
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="classCalendars" tabindex="-1" role="dialog" aria-labelledby="classCalendars" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title" id="myModalLabel">Calendars</h4>
+				<h4 class="modal-title" id="classCalendars">Calendars</h4>
 			</div>
 			<div class="modal-body">
 				<ul class="nav nav-pills nav-justified h6" role="tablist">
@@ -124,17 +124,17 @@
 						<p>What would you like to do?</p>
 						<hr>
 						<p><a type="button" href="#" class="btn btn-primary btn-xs btn-block stepThreeNext">Create my Own</a>
-							<button class="btn btn-success btn-xs btn-block stepThreeNext" data-toggle="modal" data-target="#myModal">View Others</button>
+							<button class="btn btn-success btn-xs btn-block stepThreeNext" data-toggle="modal" data-target="#classCalendars">View Others</button>
 						</p>
 					</div>
 				</div>
 			</div><!-- end panel -->
-			
+
 			{% endif %}
 			<div id="yourCalList" class="">
-				
+
 				<h5>Personal<span class="badge pull-right">2</span></h5>
-				
+
 
 				<div class="checkbox text-info">
 					<label>
@@ -152,7 +152,7 @@
 					</label>
 					<a href="#" class="pull-right text-default"><i class="fa fa-fw fa-external-link"></i></a>
 				</div>
-				
+
 				<hr>
 				<h5>School<span class="badge pull-right">2</span></h5>
 				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Own</li>
@@ -162,7 +162,7 @@
 						ECON 200
 					</label>
 					<small class="text-muted pull-right"><a href="#" class="pull-right text-success"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-eye-slash"></i>&nbsp;</small>
-					
+
 				</div>
 
 
@@ -174,8 +174,14 @@
 					<small class="pull-right text-muted"><a href="#" class="pull-right text-danger"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-users text-muted"></i>12&nbsp;</small>
 				</div>
 				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
+				<p></p>
+				<div class="panel panel-default">
+					<div class="panel-body text-default">
+						View the 10 calendars your classmates made!
+						<a href="#" data-toggle="modal" data-target="#classCalendars">View</a>
+					</div>
+				</div>
 			</div>
-			<p></p>
 		</div>
 		<div id="col_2" class="col-sm-9 animated bounceInUp">
 			<h3>	
