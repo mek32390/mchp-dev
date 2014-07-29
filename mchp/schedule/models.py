@@ -100,6 +100,7 @@ class Course(models.Model):
 
 class Section(models.Model):
     course = models.ForeignKey(Course)
+
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 

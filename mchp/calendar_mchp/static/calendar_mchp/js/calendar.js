@@ -210,6 +210,6 @@ var toggle_flag = function() {
 	$.ajax({
 		url: '/profile/toggle-flag/',
 		type: 'POST',
-		data: {'flag': 'calenda_tutorial'},
+		data: {'flag': 'calendar_tutorial'},
 	});
 };
