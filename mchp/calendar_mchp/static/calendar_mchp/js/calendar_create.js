@@ -47,7 +47,9 @@ $(function() {
 	});
 
 	// initializing clockpicker
-	$('.clockpicker').clockpicker();
+	$('.clockpicker').clockpicker( {
+		twelvehour: 'true'
+	});
 
    	// when the meeting days button option changes
    	$("#mon").on('click', function() {
