@@ -108,6 +108,11 @@ $(function() {
 				success: function(data) {
 					window.location.href = "/calendar/";
 				},
+				complete: function(data) {
+					$.each(data.responseJSON.messages, function(index, message) {
+						addMessage(message.message, message.extra_tags);
+					});
+				}
 			});
 		}
 		return false;

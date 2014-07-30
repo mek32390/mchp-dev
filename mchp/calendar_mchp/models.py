@@ -1,5 +1,8 @@
-from django.db import models,IntegrityError
+from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils import timezone
+
+from calendar_mchp.exceptions import TimeOrderError
 
 class ClassCalendarManager(models.Manager):
     def default(self, student):
@@ -15,7 +18,7 @@ class ClassCalendar(models.Model):
                                          db_table='calendar_mchp_calendarsubscription')
 
     title = models.CharField(max_length=150)
-    description = models.CharField(max_length=2000)
+    description = models.CharField(max_length=2000, blank=True)
     course = models.ForeignKey('schedule.course', related_name="calendar_courses")
 
     private = models.BooleanField(default=True)
@@ -31,17 +34,16 @@ class ClassCalendar(models.Model):
     def save(self, *args, **kwargs):
         # object is new and doesn't have a title
         if not self.pk and not self.title: 
-            self.title = self.course.dept + " " 
-            + str(self.course.course_number) + " Calendar"
+            self.title = str(self.course.dept) + " " + str(self.course.course_number) + " Calendar"
 
-        if(self.end_date > self.create_date):
+        if(self.end_date > timezone.now()):
             super().save()
         else:
-            raise IntegrityError("Start date must come before end date")
+            raise TimeOrderError("Start date must come before end date")
         super(ClassCalendar, self).save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.title)
+        return self.title
 
 class CalendarEvent(models.Model):
     calendar = models.ForeignKey(ClassCalendar)
@@ -55,7 +57,7 @@ class CalendarEvent(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.title)
+        return self.title
 
 from schedule.utils import WEEK_DAYS
 class CourseDay(models.Model):
@@ -74,8 +76,7 @@ class CourseDay(models.Model):
 
     def save(self):
         if not self.pk: 
-            self.event.title = self.calendar.course.dept + " " 
-            + str(self.calendar.course.course_number)
+            self.event.title = self.calendar.course.dept + " " + str(self.calendar.course.course_number)
             self.event.url = reverse('course', self.calendar.pk)
     
     def __str__(self):
