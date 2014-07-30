@@ -59,19 +59,18 @@
 						<input type="text" class="form-control" name="title" placeholder='try "My Calendar" or "Work"' />
 					</div>
 				</div>
-				<div class="course-fields hidden">
-					<div class="form-group select-class">
+					<div class="form-group select-class hidden">
 						<div class="input-group input-group-lg">
 							<span class='input-group-addon'>Class</span>
-							<select name="course" class="form-control course-select" required>
-								<option class="default" selected>Choose a Class</option>
+							<select name="course" class="form-control course-select">
+								<option class="default" value="-1" selected>Choose a Class</option>
 								{% for course in courses %}
-								<option value="{{course.pk}}">{{course.dept}} {{course.course_number}}</option>
+								<option class="course" value="{{course.pk}}">{{course.dept}} {{course.course_number}}</option>
 								{% endfor %}
 							</select>
 						</div>
 					</div>
-					<div class="form-group cal-sell">   
+					<div class="form-group cal-sell hidden">   
 						<div class="radio">
 							<label>
 								<input type="radio" name="private" id="sell" value="">
@@ -106,7 +105,7 @@
 									<div class="form-group">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-											<input id="{{day}}-clock-end" class="form-control clockpicker" 
+											<input id="{{day}}-clock-end" name="clockend" class="form-control clockpicker clockend" 
 											data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
 										</div>
 									</div>
@@ -137,7 +136,6 @@
 							<input required type="text" class="form-control" name="description" placeholder='try "I will make it a priority to keep this calendar as accurate as possible!"' />
 						</div>
 					</div>
-				</div>
 				<div class="form-group cal-submit hidden">
 					<hr>
 					<button href="#" type="submit" class="btn btn-lg btn-primary btn-block">Create Calendar</button>

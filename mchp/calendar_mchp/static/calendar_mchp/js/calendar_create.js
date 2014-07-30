@@ -10,33 +10,53 @@ $(function() {
 
 		// If the class calendar option is selected
 		if ($('#classCal').is(':checked')) {
-			$('.course-fields').fadeIn(500).removeClass('hidden');
+			$('.select-class').fadeIn(500).removeClass('hidden');
 			$('.cal-name').fadeOut(500);
-			$('.cal-submit').addClass('hidden');
+			// if the select changes, show sell or not sell radios
+			$('.course-select').change(function() {
+				$('.cal-sell').fadeIn(500).removeClass('hidden');
+			});
 
-		    // it would be better if the "sell radios" only were shown when an actual course option was selected
-		    // this currently isn't being used because it doesnt work
-		    $('.course-select option').each(function() {
-		    	if(!$(this).is(':selected')) {
-		    		$('.cal-sell').fadeIn(250).removeClass('hidden');
-		    	}
-		    });
-
+			var isprivate = true;
     		// when the sell/not sell option changes
 			$("input[name='private']:radio").change(function() {
-				$('.course-meetings').fadeIn(500).removeClass('hidden');
-				$('.cal-start-end').fadeIn(500).removeClass('hidden');
-				$('.cal-description').fadeIn(500).removeClass('hidden');
-				$('.cal-submit').fadeIn(600).removeClass('hidden');
+				if ($('#sell').is(':checked')) {
+					isprivate = false;
+					$('.course-meetings').fadeIn(500).removeClass('hidden');
+				}
+				if ($('#notSell').is(':checked')) {
+					isprivate = true;
+					$('.course-meetings').fadeIn(500).removeClass('hidden');
+					$('.cal-description').fadeOut(500);
+				}
+
     		});
+    		// when the clockend input changes, show cal end date field
+			$('.clockend').change(function(){
+			    $('.cal-start-end').fadeIn(500).removeClass('hidden');
+			});
+			// when the cal end date field changes, show cal description field
+			$('.cal-start-end').change(function(){
+				if (!isprivate) {
+			    $('.cal-description').fadeIn(500).removeClass('hidden');
+			}
+			    $('.cal-submit').fadeIn(500).removeClass('hidden');
+			});
     	}
 		// Else if the personal calendar option is selected
 		else if ($('#personalCal').is(':checked')) {
+			// $(this).closest('form').find("input[type=text], textarea").val("");
 			$('.cal-name').fadeIn(500).removeClass('hidden');
-			$('.course-fields').fadeOut(500);
+			$('.select-class').fadeOut(500);
+			$('.course-select').val('-1').change();
+			$('.cal-sell').fadeOut(500);
+			$('.course-meetings').fadeOut(500);
+			$('.cal-start-end').fadeOut(500);
+			$('.cal-description').fadeOut(500);
 			$('.cal-submit').fadeIn(600).removeClass('hidden');
 		}
 	});
+
 
 	// initializing clockpicker
 	$('.clockpicker').clockpicker( {
