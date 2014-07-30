@@ -64,6 +64,9 @@ def fill_schools():
             )
             s.save()
 
+WEEK_DAYS = [
+    'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'
+]
 US_STATES = (
     ('AL', 'Alabama'),
     ('AK', 'Alaska'),

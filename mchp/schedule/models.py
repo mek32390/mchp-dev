@@ -1,4 +1,4 @@
-from django.db import models,IntegrityError
+from django.db import models
 from django.db.models import Count
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -97,21 +97,3 @@ class Course(models.Model):
 
     def __str__(self):
         return "{}{} with prof. {} ".format(self.dept, self.course_number, self.professor)
-
-class Section(models.Model):
-    course = models.ForeignKey(Course)
-
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-
-    class Meta:
-        unique_together = ('course', 'start_date', 'end_date')
-
-    def save(self, *args, **kwargs):
-        if(self.end_date > self.start_date):
-            super().save()
-        else:
-            raise IntegrityError("Start date must come before end date")
-
-    def __str__(self):
-        return "Section from {} to {}".format(self.start_date, self.end_date)

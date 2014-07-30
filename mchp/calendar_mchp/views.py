@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect#, get_object_or_404
 from django.utils import timezone
@@ -8,12 +9,16 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView,View, UpdateView
 # from django.views.generic.list import ListView
 
-from calendar_mchp.models import ClassCalendar, CalendarEvent
+from calendar_mchp.models import ClassCalendar, CalendarEvent, CourseDay
+from calendar_mchp.exceptions import TimeOrderError
 from lib.decorators import school_required
+from schedule.models import Course
+from schedule.utils import WEEK_DAYS
 
 from datetime import datetime
 import json
 import logging
+import pytz
 logger = logging.getLogger(__name__)
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
@@ -40,6 +45,17 @@ class AjaxableResponseMixin(object):
             })
         return django_messages
 
+    def send_ajax_error_message(self, message, **kwargs):
+        messages.error(
+            self.request,
+            message,
+        )
+        data = {
+            'messages': self.ajax_messages(),
+        }
+        status = kwargs.get('status', 500)
+        return self.render_to_json_response(data, status=status)
+
 '''
 url: /calendar/create/
 name: calendar_create
@@ -51,18 +67,100 @@ class CalendarCreateView(View, AjaxableResponseMixin):
         return reverse('calendar')
 
     def get(self, request, *args, **kwargs):
-        courses = self.student.courses.all()
+        courses = self.student.courses.exclude(
+            id__in = self.student.calendars.all().values('course__pk')
+        )
         data = {
             'courses': courses,
         }
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
+        if not request.is_ajax():
+            return redirect(reverse('calendar'))
         # were just going to forgo any fancy django form saving for this one
-        # cal_type = request.POST.get('cal-type', '')
-        print(request.POST)
+        cal_type = request.POST.get('cal-type', '')
+
+        if cal_type.lower() == 'class':
+            # this is a sellable calendar
+            calendar = self._make_calendar(request)
+            try:
+                calendar.save()
+            except (IntegrityError, TimeOrderError) as err:
+                # they made a calendar for this class
+                if err.__class__ == IntegrityError:
+                    return self.send_ajax_error_message('You have already made a calendar for that course', status=403)
+                else:
+                    # the start date was too early
+                    return self.send_ajax_error_message(str(err), status=403)
+            # now add the times as recurring events
+            return self._make_times(request.POST.get('times', {}), calendar)
+            # succes in submitting form
+            return self.render_to_json_response({}, status=200)
+        elif cal_type.lower() == 'personal':
+            # this is a personal calendar, which we don't have yet
+            return self.send_ajax_error_message("We don't do those yet.", status=501)
+        else: 
+            # this wasn't anything
+            return self.send_ajax_error_message("Im not sure what calendar you wanted", status=403)
+
         return redirect(reverse('calendar_create'))
-        return redirect(self.get_success_url())
+
+    def _make_calendar(self, request):
+        course = Course.objects.filter(
+            pk=request.POST.get('course', ''),
+            student=self.student,
+        )
+        if not course.exists():
+            # you can only create a calendar for a course you're enrolled in
+            return self.send_ajax_error_message('You are not enrolled in that class', status=403)
+        else:
+            # course found
+            course = course[0]
+
+        end_date = timezone.make_aware(datetime.strptime(
+            request.POST.get('end-date', ''), "%m/%d/%Y"),
+            timezone.get_current_timezone())
+        calendar_data = {
+            'course': course,
+            'owner': self.student,
+            'description': request.POST.get('description', ''),
+            'end_date': end_date,
+            'private': request.POST.get('private', True),
+        }
+        return ClassCalendar(**calendar_data)
+    
+    def _make_times(self, times, calendar):
+        times = json.loads(times)
+        for day in times:
+            event_data = {
+                'calendar': calendar,
+                'title': 'hold',
+                'all_day': False,
+            }
+            event = CalendarEvent(**event_data)
+            # TODO error handling
+            event.save()
+
+            start_time = timezone.make_aware(datetime.strptime(
+                times[day]['start'], DATE_FORMAT),
+                pytz.utc)
+            end_time = timezone.make_aware(datetime.strptime(
+                times[day]['end'], DATE_FORMAT),
+                pytz.utc)
+            course_day_data = {
+                'calendar': calendar,
+                'event': event,
+
+                'day': WEEK_DAYS.index(day),
+                'start_time': start_time,
+                'end_time': end_time,
+            }
+            course_day = CourseDay(**course_day_data)
+            # TODO error handling
+            course_day.save()
+
+        return self.render_to_json_response({}, status=200)
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
@@ -249,8 +347,12 @@ class CalendarView(View):
     template_name = 'calendar_mchp/calendar.html'
 
     def get(self, request, *args, **kwargs):
+        owned_calendars = ClassCalendar.objects.filter(
+            owner=self.student
+        )
         data = {
-            'flags': self.student.one_time_flag.default(self.student)
+            'flags': self.student.one_time_flag.default(self.student),
+            'owned_calendars': owned_calendars,
         }
         return render(request, self.template_name, data)
 
