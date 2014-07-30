@@ -111,21 +111,7 @@
 										</a>
 										<div class="media-body">
 											<h5 class="media-heading" style="margin-bottom:0px;"><a href="#"
-													class="friend-popover">{{student.name}}</a><small></small><span class="pull-right"><small>active 2 hours ago</small></span></h5>
-											<!-- <small>
-												<div class="progress" style="width:60%; margin-bottom:0px;">
-												<a href="#" class="progress-bar progress-bar-success" id="score_1">
-													<span class="sr-only">35% Complete (success)</span>
-												</a>
-												<a href="#" class="progress-bar progress-bar-primary" id="score_2">
-													<span class="sr-only">20% Complete (warning)</span>
-												</a>
-												<a href="#" class="progress-bar progress-bar-info" id="score_3" >
-													<span class="sr-only">45% Complete (danger)</span>
-												</a>
-											</div>
-											</small> -->
-
+													class="user-popover">{{student.name}}</a><span class="pull-right"><small>active 2 hours ago</small></span></h5>
 											<small>
 												Marketing Major
 												<!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 12</span> <i class="fa fa-check"></i> Friends -->
@@ -175,17 +161,17 @@
 										</span>
 										<div class="media-body">
 											<h4 class="media-heading"><a href="{% url "document_list" %}{{document.uuid}}">{{document.title}}</a>
-												<small>{{document.price}} points</small><div class="pull-right small
-													text-muted">uploaded {{document.create_date|naturaltime}}</div></h4>
+												<small>{{document.price}} points</small><span class="pull-right"><small>{{document.create_date|naturaltime}}</small></span></h4>
 											<span class="description">
-												<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}&nbsp;
-												<i class="fa fa-fw fa-thumbs-o-down text-danger
-													fa-flip-horizontal"></i>{{document.down}}&nbsp;|&nbsp;<i class="fa
-													fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}}
-												Review{{document.review_count|pluralize}}&nbsp;|&nbsp;
-												<i class="fa fa-fw fa-money
-													text-success"></i>&nbsp;{{document.sold}}
+												<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
+												<i class="fa fa-fw fa-thumbs-down text-danger
+													fa-flip-horizontal"></i>{{document.down}}&nbsp;
+												{% with document.review_count as review_count %}
+												<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
+												{% endwith %}
+												<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 												Purchase{{document.sold|pluralize}}
+												<p class="small" style="margin-top:5px;">Uploaded by <a href="#">{{document.upload_set.get.owner.user.student.name}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
 											</span>
 										</div>
 									</div>

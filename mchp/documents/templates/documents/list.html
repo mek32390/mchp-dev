@@ -79,7 +79,7 @@
 							</small> 
 
 							<span class="description">
-								<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}
+								<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
 								<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{ document.down}}&nbsp;
 								{% with document.review_count as review_count %}
 								<i class="fa fa-comments text-info
@@ -142,14 +142,14 @@
 					</small>
 					
 					<span class="description">
-						<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}
+						<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
 						<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{ document.down}}&nbsp;
 						<i class="fa fa-comments-o text-info fa-fw"></i>{{document.review_count}}
 						Review{{document.review_count|pluralize}}&nbsp;
 						<i class="fa fa-fw fa-money
 							text-success"></i> {{document.purchase_count}}
 						Purchase{{document.purchase_count|pluralize}}
-						<p class="" style="margin-top:2px;">Uploaded by <a href="#">{{document.upload_set.get.owner.user.student.name}}</a></p>
+						<p class="small" style="margin-top:5px;">Uploaded by <a class="user-popover" href="#">{{document.upload_set.get.owner.user.student.name}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
 					</span>
 				</div>
 			</div>
