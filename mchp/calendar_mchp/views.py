@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect#, get_object_or_404
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView, DeleteView,View, UpdateView
+from django.views.generic.edit import DeleteView,View, UpdateView
 # from django.views.generic.list import ListView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent
@@ -44,15 +44,21 @@ class AjaxableResponseMixin(object):
 url: /calendar/create/
 name: calendar_create
 '''
-class CalendarCreateView(FormView, AjaxableResponseMixin):
+class CalendarCreateView(View, AjaxableResponseMixin):
     template_name = 'calendar_mchp/calendar_create.html'
-    model = ClassCalendar
+
+    def get_success_url(self):
+        return reverse('calendar')
 
     def get(self, request, *args, **kwargs):
-        data = {
-
-        }
+        data = {}
         return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        # were just going to forgo any fancy django form saving for this one
+        print(request.POST)
+        return redirect(reverse('calendar_create'))
+        return redirect(self.get_success_url())
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):

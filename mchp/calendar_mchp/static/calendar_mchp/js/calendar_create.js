@@ -6,7 +6,7 @@
 $(function() {
 
 	// When the calendar types's value changes
-	$("input[name='calTypes']:radio").change(function() {
+	$("input[name='cal-type']:radio").change(function() {
 
 		// If the class calendar option is selected
 		if ($('#classCal').is(':checked')) {
@@ -23,12 +23,12 @@ $(function() {
 		    });
 
     		// when the sell/not sell option changes
-    		$("input[name='cal_sell']:radio").change(function() {
+    		$("input[name='private']:radio").change(function() {
     			if ($('#sell').is(':checked')) {
     				$('.course-meetings').fadeIn(500).removeClass('hidden');
     				$('.cal-start-end').fadeIn(500).removeClass('hidden');
     				$('.cal-description').fadeIn(500).removeClass('hidden');
-
+    				$('.cal-submit').fadeIn(600).removeClass('hidden');
     			}
     			else {
     				$('.course-meetings').fadeOut(500);

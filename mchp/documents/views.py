@@ -59,6 +59,7 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
 
     def get(self, request, *args, **kwargs):
         # for search results
+        # really, this maybe be its own url
         if request.is_ajax():
             return self.autocomplete(request)
 

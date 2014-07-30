@@ -33,17 +33,18 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<h4>What type of calendar would you like to create?</h4>
-			<form id ="calendar_create">
+			<form id="calendar_create" action="{% url "calendar_create" %}" method="post">
+				{% csrf_token %}
 				<div class="form-group">   
 					<div class="radio cal-type">
 						<label>
-							<input type="radio" name="calTypes" id="personalCal" value="Personal">
+							<input type="radio" name="cal-type" id="personalCal" value="Personal">
 							<strong>Personal</strong>&mdash;this calendar is for events not related to school, and will not be seen by anyone else but you!
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" name="calTypes" id="classCal" value="Class">
+							<input type="radio" name="cal-type" id="classCal" value="Class">
 							<strong>Class</strong>&mdash;this calendar is for events for a specific class. You can can sell this calendar to your classmates, or keep it private. 
 						</label>
 					</div>
@@ -52,7 +53,7 @@
 				<div class="form-group cal-name hidden">
 					<div class="input-group input-group-lg">
 						<span class='input-group-addon'>Calendar Name</span>
-						<input type="text" class="form-control" name="name" placeholder='try "My Calendar" or "Work"' />
+						<input type="text" class="form-control" name="title" placeholder='try "My Calendar" or "Work"' />
 					</div>
 				</div>
 				<div class="course-fields hidden">
@@ -70,13 +71,13 @@
 					<div class="form-group cal-sell">   
 						<div class="radio">
 							<label>
-								<input type="radio" name="cal_sell" id="sell" value="Sell">
+								<input type="radio" name="private" id="sell" value="false">
 								<strong>Sell</strong>&mdash;Your classmates will be able to follow this calendar, and you'll get paid for every one of them that does!
 							</label>
 						</div>
 						<div class="radio">
 							<label>
-								<input type="radio" name="cal_sell" id="notSell" value="notSell">
+								<input type="radio" name="private" id="notSell" value="true">
 								<strong>Keep Private</strong>&mdash;Your classmates will never see this calendar. It will be used only by you for your <strong>ECON 200</strong> class.
 							</label>
 						</div>
