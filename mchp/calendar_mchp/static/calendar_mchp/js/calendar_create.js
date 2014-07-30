@@ -23,19 +23,11 @@ $(function() {
 		    });
 
     		// when the sell/not sell option changes
-    		$("input[name='private']:radio").change(function() {
-    			if ($('#sell').is(':checked')) {
-    				$('.course-meetings').fadeIn(500).removeClass('hidden');
-    				$('.cal-start-end').fadeIn(500).removeClass('hidden');
-    				$('.cal-description').fadeIn(500).removeClass('hidden');
-    				$('.cal-submit').fadeIn(600).removeClass('hidden');
-    			}
-    			else {
-    				$('.course-meetings').fadeOut(500);
-    				$('.cal-start-end').fadeOut(500);
-    				$('.cal-description').fadeOut(500);
-    				$('.cal-submit').fadeIn(600).removeClass('hidden');
-    			}
+			$("input[name='private']:radio").change(function() {
+				$('.course-meetings').fadeIn(500).removeClass('hidden');
+				$('.cal-start-end').fadeIn(500).removeClass('hidden');
+				$('.cal-description').fadeIn(500).removeClass('hidden');
+				$('.cal-submit').fadeIn(600).removeClass('hidden');
     		});
     	}
 		// Else if the personal calendar option is selected
@@ -73,6 +65,7 @@ $(function() {
 	 * Submitting the form *
 	 ***********************/
 	$('#calendar-create').submit(function(event){
+		// all the days the user selected
 		var $days = $('.day-button.active');
 		var times = {};
 		var error = false;

@@ -1,9 +1,8 @@
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from django.db.transaction import atomic
-from schedule.models import School, Course, Section
+from schedule.models import School, Course
 from schedule.forms import CourseCreateForm
-from datetime import datetime, timedelta, timezone
 
 class ScheduleModelFormTests(TestCase):
     def setUp(self):
@@ -62,27 +61,6 @@ class DatabaseTestCase(TestCase):
         self.course = Course(**test_course)
         self.course.save()
 
-    def testSectionUniqueAndTime(self):
-        time = datetime.now(timezone(timedelta(hours=8)))
-        data = {
-            'domain': self.school,
-            'dept': self.course,
-            'course_number': self.course,
-            'professor': self.course,
-            'start_date': time,
-            'end_date': time + timedelta(seconds=5)
-        }
-        section = Section(**data)
-        section.save()
-        data['start_date'] = time + timedelta(seconds=10)
-        section = Section(**data)
-        with atomic():
-            self.assertRaises(IntegrityError, section.save)
-
-        data['start_date'] = time
-        section = Section(**data)
-        with atomic():
-            self.assertRaises(IntegrityError, section.save)
 
     def testCourseMinMax(self):
         data = {
@@ -142,10 +120,3 @@ class DatabaseTestCase(TestCase):
         test_school = School()
         test_school_form = TestForm(post, instance=test_school)
         self.assertEqual(test_school_form.is_valid(), True)
-
-        test_school.save(force_insert=True)
-        other_school = School(domain='http://www.test.edu/', name='other')
-        # otherwise transaction errors occur, only happens with unittests
-        with atomic():
-            self.assertRaises(IntegrityError, other_school.save, force_insert=True)
-

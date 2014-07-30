@@ -10,6 +10,7 @@ from django.views.generic.edit import DeleteView,View, UpdateView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent
 from lib.decorators import school_required
+from schedule.models import Course
 
 from datetime import datetime
 import json
@@ -59,10 +60,62 @@ class CalendarCreateView(View, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
         # were just going to forgo any fancy django form saving for this one
-        # cal_type = request.POST.get('cal-type', '')
+        cal_type = request.POST.get('cal-type', '')
         print(request.POST)
+        # createing a class calendar
+
+        # what = {
+        #     'private': ['false'], 
+        #     'csrfmiddlewaretoken': ['J45zqJVgoCfokpmd9ug4Hoq2TQPEnNDV'], 
+        #     'description': ['asdf'], 
+        #     'title': [''], 
+        #     'end-date': ['07/24/2014'], 
+        #     'course': ['1'], 
+        #     'cal-type': ['Class'],
+        #     'times': ['{"Tues":{"start":"2014-07-29T19:00:00.000Z","end":"2014-07-29T20:05:00.000Z"}}']}
+        if cal_type.lower() == 'class':
+            private = request.POST.get('private', True)
+            # not doing private right now
+            if private:
+                return self.render_to_json_response({}, status=403)
+            else:
+                # this is a public, sellable calendar
+                # first make a section
+                course = Course.objects.filter(
+                    pk=request.POST.course,
+                    course_set__student=self.student,
+                )
+                if not course.exists():
+                    messages.error(
+                        self.request,
+                        "You are not enrolled in that course"
+                    )
+                    if request.is_ajax():
+                        data = {
+                            'messages': self.ajax_messages(),
+                        }
+                        return self.render_to_json_response(data, status=403)
+                    else:
+                        pass
+                        # idk
+                else:
+                    course = course[0]
+
+                # end_date = timezone.make_aware(datetime.strptime(
+                #     request.POST.get('end-date', ''), "%m/%d/%Y"),
+                #     timezone.get_current_timezone())
+                # section_data = {
+                #     'course': course,
+                #     'owner': self.student,
+                #     'end_date': end_date,
+                # }
+                # section = Section(**section_data)
+                # section.save()
+            return self.render_to_json_response({}, status=200)
+        else:
+            return self.render_to_json_response({}, status=403)
+
         return redirect(reverse('calendar_create'))
-        return redirect(self.get_success_url())
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
