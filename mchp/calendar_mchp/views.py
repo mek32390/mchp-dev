@@ -160,7 +160,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             # TODO error handling
             course_day.save()
 
-        return self.render_to_json_response({}, status=200)
+        return self.render_to_json_response({}, status=500)
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):

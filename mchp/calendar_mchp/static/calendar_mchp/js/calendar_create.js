@@ -107,7 +107,7 @@ $(function() {
 					window.location.href = "/calendar/";
 				},
 				complete: function(data) {
-					if (data.hasOwnProperty('responseJSON') && data.responseJSON.messages.length > 0) {
+					if (data.hasOwnProperty('responseJSON') && data.responseJSON.hasOwnProperty('messages')) {
 						$.each(data.responseJSON.messages, function(index, message) {
 							console.log(message);
 							addMessage(message.message, message.extra_tags);
