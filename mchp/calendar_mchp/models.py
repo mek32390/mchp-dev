@@ -69,15 +69,16 @@ class CourseDay(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
-    url = models.URLField(blank=True)
-
     class Meta:
         unique_together = ("calendar", "day", "start_time", "end_time")
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if not self.pk: 
             self.event.title = self.calendar.course.dept + " " + str(self.calendar.course.course_number)
-            self.event.url = reverse('course', self.calendar.pk)
+            self.event.url = reverse('course', kwargs={'number': self.calendar.course.pk})
+            self.event.save()
+        super(CourseDay, self).save(*args, **kwargs)
+
     
     def __str__(self):
         return "{} from {} to {}".format(WEEK_DAYS[self.day], self.start_time, self.end_time)

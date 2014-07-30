@@ -95,9 +95,7 @@ $(function() {
 		// add object to the form
 		var data = $(this).serialize();
 		times = JSON.stringify(times);
-		console.log(times);
 		data += "&times=" + encodeURIComponent(times);
-		console.log(data);
 
 		// submit the form if it was valid
 		if (!error) {
@@ -109,9 +107,12 @@ $(function() {
 					window.location.href = "/calendar/";
 				},
 				complete: function(data) {
-					$.each(data.responseJSON.messages, function(index, message) {
-						addMessage(message.message, message.extra_tags);
-					});
+					if (data.hasOwnProperty('responseJSON') && data.responseJSON.messages.length > 0) {
+						$.each(data.responseJSON.messages, function(index, message) {
+							console.log(message);
+							addMessage(message.message, message.extra_tags);
+						});
+					}
 				}
 			});
 		}
