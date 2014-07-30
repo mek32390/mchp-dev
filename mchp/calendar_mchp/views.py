@@ -119,7 +119,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             course = course[0]
 
         end_date = timezone.make_aware(datetime.strptime(
-            request.POST.get('end-date', ''), "%m/%d/%Y"),
+            request.POST.get('enddate', ''), "%m/%d/%Y"),
             timezone.get_current_timezone())
         calendar_data = {
             'course': course,

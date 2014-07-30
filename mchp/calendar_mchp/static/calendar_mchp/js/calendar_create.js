@@ -109,7 +109,11 @@ $(function() {
                 }
             },
         }
-    });
+	})
+	.on('success.form.bv', function(e) {
+		// Prevent form submission
+		e.preventDefault();
+	});
 
 	/***********************
 	 * Submitting the form *
