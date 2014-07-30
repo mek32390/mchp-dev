@@ -51,7 +51,10 @@ class CalendarCreateView(View, AjaxableResponseMixin):
         return reverse('calendar')
 
     def get(self, request, *args, **kwargs):
-        data = {}
+        courses = self.student.courses.all()
+        data = {
+            'courses': courses,
+        }
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):

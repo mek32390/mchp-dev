@@ -33,7 +33,7 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<h4>What type of calendar would you like to create?</h4>
-			<form id="calendar_create" action="{% url "calendar_create" %}" method="post">
+			<form id="calendar-create" action="{% url "calendar_create" %}" method="post">
 				{% csrf_token %}
 				<div class="form-group">   
 					<div class="radio cal-type">
@@ -60,11 +60,11 @@
 					<div class="form-group select-class">
 						<div class="input-group input-group-lg">
 							<span class='input-group-addon'>Class</span>
-							<select class="form-control course-select">
-								<option class="default" selected="selected">Choose a Class</option>
-								<option value="course-1">ECON 200</option>
-								<option value="course-1">ACCT 200</option>
-								<option>MGMT 200</option>
+							<select name="course" class="form-control course-select" required>
+								<option value="" class="default" selected>Choose a Class</option>
+								{% for course in courses %}
+								<option value="{{course.pk}}">{{course.dept}} {{course.course_number}}</option>
+								{% endfor %}
 							</select>
 						</div>
 					</div>
@@ -89,16 +89,19 @@
 							{% get_week %}
 							{% for day in week %}
 							<div class="col-sm-2">
-								<a href="#" class="btn btn-default btn-lg btn-block day-button" data-toggle="button" id="{{day}}">{{day}}</a>
+								<a href="#" class="btn btn-default btn-lg btn-block day-button" data-toggle="button"
+									data-day="{{day}}" id="{{day}}">{{day}}</a>
 								<h5 class="day-times hidden">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input type="text" class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
+										<input id="{{day}}-clock-start" type="text" class="form-control clockpicker" 
+										data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
 									</div>
 									<p></p>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-										<input class="form-control clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
+										<input id="{{day}}-clock-end" class="form-control clockpicker" 
+										data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
 									</div>
 								</h5>
 							</div>
@@ -112,7 +115,7 @@
 							<li>
 								<div class="input-group date">
 									<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
-									<input type="text" class="form-control input-lg" placeholder="Select an End Date">
+									<input required type="text" name="end-date" class="form-control input-lg" placeholder="Select an End Date">
 								</div>
 							</li>
 						</ul>
@@ -122,7 +125,7 @@
 						<h4>Provide a Description<small> A chance for you to stand out from your competition!</small></h4>
 						<div class="input-group input-group-lg">
 							<span class='input-group-addon'>Description</span>
-							<input type="text" class="form-control" name="description" placeholder='try "I will make it a priority to keep this calendar as accurate as possible!"' />
+							<input required type="text" class="form-control" name="description" placeholder='try "I will make it a priority to keep this calendar as accurate as possible!"' />
 						</div>
 					</div>
 				</div>

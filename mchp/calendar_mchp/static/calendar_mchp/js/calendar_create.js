@@ -66,6 +66,57 @@ $(function() {
 
 	// reset form on page reload or other unload actions
 	$( window ).unload(function() {
-		$('#calendar_create')[0].reset();
+		$('#calendar-create')[0].reset();
 	});	
+
+	/***********************
+	 * Submitting the form *
+	 ***********************/
+	$('#calendar-create').submit(function(event){
+		var $days = $('.day-button.active');
+		var times = {};
+		var error = false;
+		$days.each(function(index, day){
+			// get the times from the user
+			day_name = $(day).data('day');
+			var $start = $("#" + day_name + "-clock-start");
+			var $end = $("#" + day_name + "-clock-end");
+			if($start.val() ==='' || $end.val()=== '') {
+				addMessage('A day must have both a start and end date', 'info');
+				error = true;
+			}
+			// parse them
+			var start_moment = moment($start.val(), "hh:mmA");
+			var end_moment = moment($end.val(), "hh:mmA");
+			// validate them
+			if(start_moment > end_moment) {
+				error = true;
+				addMessage('Start times must come before end times', 'info');
+			}
+			// add them to the json object
+			times[day_name] = {
+				'start': start_moment,
+				'end': end_moment,
+			};
+		});
+		// add object to the form
+		var data = $(this).serialize();
+		times = JSON.stringify(times);
+		console.log(times);
+		data += "&times=" + encodeURIComponent(times);
+		console.log(data);
+
+		// submit the form if it was valid
+		if (!error) {
+			$.ajax({
+				method: 'post',
+				url: '/calendar/create/',
+				data: data,
+				success: function(data) {
+					window.location.href = "/calendar/";
+				},
+			});
+		}
+		return false;
+	});
 });
