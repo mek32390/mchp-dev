@@ -132,10 +132,7 @@
 
 			{% endif %}
 			<div id="yourCalList" class="">
-
 				<h5>Personal<span class="badge pull-right">2</span></h5>
-
-
 				<div class="checkbox text-info">
 					<label>
 						<input type="checkbox" value="">
@@ -143,8 +140,6 @@
 					</label>
 					<a href="preview/test" class="pull-right text-info"><i class="fa fa-fw fa-external-link"></i></a>
 				</div>
-
-
 				<div class="checkbox text-default">
 					<label>
 						<input type="checkbox" value="">
@@ -152,35 +147,37 @@
 					</label>
 					<a href="#" class="pull-right text-default"><i class="fa fa-fw fa-external-link"></i></a>
 				</div>
-
 				<hr>
-				<h5>School<span class="badge pull-right">2</span></h5>
+				<h5>School<span class="badge pull-right">{{owned_calendars|length}}</span></h5>
 				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Own</li>
+				{% for calendar in owned_calendars %}
 				<div class="checkbox text-success">
 					<label>
 						<input type="checkbox" value="">
-						ECON 200
+						{{calendar.title}}
 					</label>
-					<small class="text-muted pull-right"><a href="#" class="pull-right text-success"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-eye-slash"></i>&nbsp;</small>
-
+					<small class="text-muted pull-right">
+						<a href="#" class="pull-right text-success"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-eye-slash"></i>&nbsp;
+					</small>
 				</div>
-
-
-				<div class="checkbox text-danger">
-					<label>
-						<input type="checkbox" value="">
-						ACCT 200 
-					</label>
-					<small class="pull-right text-muted"><a href="#" class="pull-right text-danger"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-users text-muted"></i>12&nbsp;</small>
-				</div>
-				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
-				<p></p>
-				<div class="panel panel-default">
-					<div class="panel-body text-default">
-						View the 10 calendars your classmates made!
-						<a href="#" data-toggle="modal" data-target="#classCalendars">View</a>
+				{% empty %}
+				<p>
+					<div class="panel panel-default">
+						<div class="panel-body text-default">
+							Make your first <a href="{%url "calendar_create"%}">calendar!</a>
+						</div>
 					</div>
-				</div>
+				</p>
+				{% endfor %}
+				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
+				<p>
+					<div class="panel panel-default">
+						<div class="panel-body text-default">
+							View the 10 calendars your classmates made!
+							<a href="#" data-toggle="modal" data-target="#classCalendars">View</a>
+						</div>
+					</div>
+				</p>
 			</div>
 		</div>
 		<div id="col_2" class="col-sm-9 animated bounceInUp">
@@ -215,7 +212,6 @@
 			</h3>
 			<div class="panel panel-default">
 				<div class="panel-body">
-					
 					<div id='calendar'></div>
 				</div>
 			</div>
