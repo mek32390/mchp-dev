@@ -26,7 +26,7 @@ $(document).ready(function() {
 		$('.cal-intro').fadeOut(250, function () {
 			$('#yourCalList').fadeIn(500);
 		});
-		// toggle_flag();
+		toggle_flag();
 	});
 
 	// using jquery.cookie plugin

@@ -59,6 +59,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
         # were just going to forgo any fancy django form saving for this one
+        # cal_type = request.POST.get('cal-type', '')
         print(request.POST)
         return redirect(reverse('calendar_create'))
         return redirect(self.get_success_url())
