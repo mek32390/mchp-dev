@@ -219,7 +219,19 @@
 		</div>
 	</div>
 </div>
-<div id="popover-head" class="hidden">
-	hello
+<div id="popover-title" class="hidden">
+	<div>Add an event
+		<div class="pull-right">
+			<button class="close-popover btn btn-default btn-xs">X</button>
+		</div>
+	</div>
+</div>
+<div id="popover-content" class="hidden">
+	<div class="cal-popover">
+		<form method="post" id="add-event-form">
+			{% csrf_token %}
+			<button type="submit" class="btn btn-default">what</button>
+		</form>
+	</div>
 </div>
 {% endblock %}
