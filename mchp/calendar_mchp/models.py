@@ -53,6 +53,8 @@ class CalendarEvent(models.Model):
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True)
+
+    is_recurring = models.BooleanField()
     
     create_date = models.DateTimeField(auto_now_add=True)
 
@@ -82,4 +84,3 @@ class CourseDay(models.Model):
     
     def __str__(self):
         return "{} from {} to {}".format(WEEK_DAYS[self.day], self.start_time, self.end_time)
-

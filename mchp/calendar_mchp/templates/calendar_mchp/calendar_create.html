@@ -59,7 +59,6 @@
 						<input type="text" class="form-control" name="title" placeholder='try "My Calendar" or "Work"' />
 					</div>
 				</div>
-				<!-- <div class="course-fields hidden"> -->
 					<div class="form-group select-class hidden">
 						<div class="input-group input-group-lg">
 							<span class='input-group-addon'>Class</span>
@@ -74,7 +73,7 @@
 					<div class="form-group cal-sell hidden">   
 						<div class="radio">
 							<label>
-								<input type="radio" name="private" id="sell">
+								<input type="radio" name="private" id="sell" value="">
 								<strong>Sell</strong>&mdash;Your classmates will be able to follow this calendar, and you'll get paid for every one of them that does!
 							</label>
 						</div>
@@ -98,7 +97,7 @@
 									<div class="form-group">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-											<input id="{{day}}-clock-start" name="clockstart" type="text" class="form-control clockpicker" 
+											<input id="{{day}}-clock-start" type="text" class="form-control clockpicker" 
 											data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
 										</div>
 									</div>
@@ -137,7 +136,6 @@
 							<input required type="text" class="form-control" name="description" placeholder='try "I will make it a priority to keep this calendar as accurate as possible!"' />
 						</div>
 					</div>
-				<!-- </div> -->
 				<div class="form-group cal-submit hidden">
 					<hr>
 					<button href="#" type="submit" class="btn btn-lg btn-primary btn-block">Create Calendar</button>
