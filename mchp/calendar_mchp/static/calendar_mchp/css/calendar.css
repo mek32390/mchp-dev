@@ -6,7 +6,7 @@
 /* adds assignment number over calendar icon */
 .assignment-number {
 	position: relative;
-	padding: 15px 0px;
+	padding: 15px;
 	margin-top: -57px;
 	margin-left: auto;
 	margin-right: auto;
@@ -19,3 +19,7 @@
 	margin-right: -50px;
 }
 
+.cal-popover {
+	height: 200px;
+	width: 200px
+}

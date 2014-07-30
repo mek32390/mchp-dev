@@ -66,8 +66,10 @@ $(document).ready(function() {
 
 		//trigger add event pop-up on click and stay
 		dayClick: function(date, jsEvent, view) {
-			$(this).popover('show');
-
+			// remove the other popovers
+			$('.popover').remove();
+			// show the clicked day popover
+			$(jsEvent.target).popover('show');
 		},
 		
 		events: {
@@ -96,34 +98,56 @@ $(document).ready(function() {
 		eventDrop: updateEvent,
 		eventResize: updateEvent,
 
+		// don't delete this yet
 		// defaultDate: today,
-		selectable: true,
-		selectHelper: true,
-		select: function(start, end) {
-			var title = prompt('Event Title:');
-			var eventData;
-			if (title) {
-				eventData = {
-					title: title,
-					start: start,
-					end: end
-				};
-				$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-				saveEvent({title: title, start: start._d.toJSON(), end: end._d.toJSON()}, true); // create = true
-			}
-			$('#calendar').fullCalendar('unselect');
-		},
+			// 	eventData = {
+			// 		title: title,
+			// 		start: start,
+			// 		end: end
+			// 	};
+			// 	$('#calendar').fullCalendar('renderEvent', 
+			// 	eventData, true); // stick? = true
+			// 	saveEvent({title: title, start: 
+			// 	start._d.toJSON(), end: end._d.toJSON()}, true); // create = true
+			// }
 		editable: true,
 	});
 
+	/*****************
+	 * popover stuff *
+	 *****************/
+	// initalize the popovers for individual cal days
+	$('.fc-day').popover({
+		trigger: 'manual',
+		placement: 'auto top',
+		html: true,
+		title: function() {
+			return $('#popover-title').html();
+		},
+		content: function() {
+			return $('#popover-content').html();
+		},
+		container: 'body',
+	});
+	// close the popovers when you click the button
+	// this is add to the body so it can be registered
+	// with dynamically added popovers
+	$('body').on('click', '.close-popover', function() {
+		$('.popover').popover('hide');
+	});
+	// same, but with submitting the form in the popover
+	$('body').on('submit', '#add-event-form', function(event) {
+		return false;
+	});
 
+	/*********************************
+	 * CUSTOM HEADER BUTTONS FOR CAL *
+	 *********************************/
 	//	custom date above calendar 
 	$('.cal-date').html(function () {
 		var view = $('#calendar').fullCalendar('getView');
 		return view.title;
 	});
-
-	// CUSTOM HEADER BUTTONS FOR CAL
 
 	// today button
 	$('.cal-today-button').click(function() {
@@ -151,6 +175,7 @@ $(document).ready(function() {
     	$('#calendar').fullCalendar( 'changeView', 'agendaDay' );
 	});
 
+	// change the title when the view changes
 	$('.cal-button').click(function() {
     	$('.cal-date').text(function () {
 			var view = $('#calendar').fullCalendar('getView');
