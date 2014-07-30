@@ -137,6 +137,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
                 'calendar': calendar,
                 'title': 'hold',
                 'all_day': False,
+                'is_recurring': True,
             }
             event = CalendarEvent(**event_data)
             # TODO error handling
@@ -375,7 +376,8 @@ class CalendarFeed(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
             events = list(CalendarEvent.objects.filter(
-                calendar__owner=self.student
+                calendar__owner=self.student,
+                is_recurring=False,
             ).values('id', 'title', 'start', 'end', 'all_day', 'url'))
             # convert the returned events to a format fullcalendar understands
             for event in events:
