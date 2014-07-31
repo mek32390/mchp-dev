@@ -94,6 +94,29 @@ $(function() {
         'placement': 'bottom',
         'title': "Score 3"
 	});
+
+	//trigger user popover on hover and stay
+	$(".user-popover").popover ({ 
+		trigger: "manual",
+		html: true,
+		content : '<div class="text-center" style="width:200px;"><img class="img-circle img-thumbnail" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" width="120px"/><h5 style="margin-bottom:0px;">Mitch Kessler</h5><small style="margin-bottom:0px;">@mitchellias</small><h5><small>20 friends and 3 classes in common</small></h5><hr><small><div class="progress" style="margin-bottom:;"><a href="#" class="progress-bar progress-bar-success" style="width:20%;"></a><a href="#" class="progress-bar progress-bar-primary" style="width:20%;"></a><a href="#" class="progress-bar progress-bar-info" style="width:60%;" ></a></div></small></div>'
+		
+	})
+    .on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    })
+    .on("mouseleave", function () {
+        var _this = this;
+        setTimeout(function () {
+            if (!$(".popover:hover").length) {
+                $(_this).popover("hide")
+            }
+        }, 100);
+    });
 });
 
 function addMessage(text, extra_tags) {

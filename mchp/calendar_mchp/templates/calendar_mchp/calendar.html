@@ -220,17 +220,37 @@
 	</div>
 </div>
 <div id="popover-title" class="hidden">
-	<div>Add an event
-		<div class="pull-right">
+<strong>New Event</strong>
+<span class="pull-right">
+	<div class="dropdown">
+  <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
+  <i class="fa fa-calendar-o text-success"></i><span class="caret"></span>
+  </a>
+
+
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+  	<li role="presentation" class="dropdown-header" style="">Personal</li>
+  	<li><a href="#"><span class="text-success">My Calendar</span></a></li>
+  	<li><a href="#"><span class="text-danger">Work</span></a></li>
+  	<li role="presentation" class="dropdown-header" style="">You Own</li>
+    <li><a href="#"><span class="text-info">ECON 200</span></a></li>
+    <li><a href="#"><span class="text-warning">ACCT 200</span></a></li>
+  </ul>
+</div>
+</span>
+		<!-- <div class="pull-right">
 			<button class="close-popover btn btn-default btn-xs">X</button>
-		</div>
-	</div>
+		</div> -->
+
 </div>
 <div id="popover-content" class="hidden">
 	<div class="cal-popover">
 		<form method="post" id="add-event-form">
 			{% csrf_token %}
-			<button type="submit" class="btn btn-default">what</button>
+
+			<p><input class="form-control" placeholder="Event Title" ></p>
+			<p><input class="form-control" placeholder="Event Description" ></p>	
+			<button type="submit" class="btn btn-primary btn-block">Add Event</button>
 		</form>
 	</div>
 </div>

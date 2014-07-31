@@ -119,7 +119,7 @@ $(document).ready(function() {
 	// initalize the popovers for individual cal days
 	$('.fc-day').popover({
 		trigger: 'manual',
-		placement: 'auto top',
+		placement: 'auto',
 		html: true,
 		title: function() {
 			return $('#popover-title').html();

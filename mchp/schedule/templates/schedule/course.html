@@ -56,7 +56,7 @@
 	  </div>
 </div>
 	<div class="row">
-		<div class='col-sm-6'>
+		<div class='col-sm-7'>
 			<div class="panel panel-default" id="popular-documents">
 				<div class="panel-heading clearfix">
 					<h3 class="panel-title tour-step-four"> Popular Documents <span
@@ -78,16 +78,16 @@
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{%url "document_detail" document.uuid %}">{{document.title}}</a>
 									<small>{{document.price}} points</small><div class="pull-right small
-										text-muted">{{document.create_date|naturaltime}}</div></h4>
+										text-muted hidden-sm">{{document.create_date|naturaltime}}</div></h4>
 									<span class="description">
-										<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
-										<i class="fa fa-fw fa-thumbs-down text-danger
-											fa-flip-horizontal"></i>{{document.down}}&nbsp;
+										<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
+										<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{document.down}}&nbsp;
 										{% with document.review_count as review_count %}
 										<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
 										{% endwith %}
 										<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 										Purchase{{document.sold|pluralize}}
+										<p class="small" style="margin-top:5px;">Uploaded by <a class="user-popover" href="#">{{document.upload_set.get.owner.user.student.name}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
 									</span>
 								</div>
 							</div>
@@ -104,7 +104,7 @@
 				</div>
 			</div>
 		</div>
-		<div class='col-sm-6'>
+		<div class='col-sm-5'>
 			<div class="panel panel-default" id="recent-documents">
 				<div class="panel-heading clearfix">
 					<h3 class="panel-title tour-step-four"> Popular Calendars <span class="badge">10</span></h3>
