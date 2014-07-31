@@ -100,7 +100,20 @@
 <div class="container">
 	<div class="row">
 		<div id="col_1" class="col-sm-3 animated bounceInUp">
-			<h3>My Calendars <a href="{% url 'calendar_create' %}" class="pull-right text-default"><small><i class="fa fa-plus"></i></small></a></h3>
+			<h3>My Calendars 
+			<div class="dropdown pull-right">
+				<a href="#" class="dropdown-toggle" type="select" id="createOptions" data-toggle="dropdown"><i class="fa fa-plus text-default small"></i></a>
+				<ul class="dropdown-menu" id="" role="menu" aria-labelledby="createOptions">
+					<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li> -->
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class=""><i class="fa fa-bell-o fa-fw"></i> New Event</span></a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'calendar_create' %}"><span class=""><i class="fa fa-calendar fa-fw"></i> New Calendar</span></a></li>
+					<!-- <li role="presentation" class="divider"></li>
+					<li role="presentation" class="dropdown-header">School Calendars</li>
+					<li ><a href="#"><span class="text-success">ECON 200</span></a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-warning">ACCT 200</span></a></li> -->
+				</ul>
+			</div>
+			</h3>
 			<hr style="margin-top:12px;">
 			<p></p>
 			{% if not flags.calendar_tutorial %}
@@ -220,28 +233,19 @@
 	</div>
 </div>
 <div id="popover-title" class="hidden">
-<strong>New Event</strong>
-<span class="pull-right">
-	<div class="dropdown">
-  <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-  <i class="fa fa-calendar-o text-success"></i><span class="caret"></span>
-  </a>
-
-
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-  	<li role="presentation" class="dropdown-header" style="">Personal</li>
-  	<li><a href="#"><span class="text-success">My Calendar</span></a></li>
-  	<li><a href="#"><span class="text-danger">Work</span></a></li>
-  	<li role="presentation" class="dropdown-header" style="">You Own</li>
-    <li><a href="#"><span class="text-info">ECON 200</span></a></li>
-    <li><a href="#"><span class="text-warning">ACCT 200</span></a></li>
-  </ul>
-</div>
-</span>
-		<!-- <div class="pull-right">
-			<button class="close-popover btn btn-default btn-xs">X</button>
-		</div> -->
-
+<strong>New Event &nbsp; </strong>&nbsp; 
+<div class="dropdown pull-right">
+				<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown"><span class="cal-name"><span class="text-info">My Calendar</span></span> <span class="caret"></span></button>
+				<ul class="dropdown-menu" id="calSelect" role="menu" aria-labelledby="calDropDown">
+					<li role="presentation" class="dropdown-header">Personal Calendars</li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-info">My Calendar</span></a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-danger">Work</span></a></li>
+					<li role="presentation" class="divider"></li>
+					<li role="presentation" class="dropdown-header">School Calendars</li>
+					<li ><a href="#"><span class="text-success">ECON 200</span></a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-warning">ACCT 200</span></a></li>
+				</ul>
+			</div>
 </div>
 <div id="popover-content" class="hidden">
 	<div class="cal-popover">
@@ -250,7 +254,7 @@
 
 			<p><input class="form-control" placeholder="Event Title" ></p>
 			<p><input class="form-control" placeholder="Event Description" ></p>	
-			<button type="submit" class="btn btn-primary btn-block">Add Event</button>
+			<button type="submit" class="btn btn-primary btn-sm btn-block">Add Event</button>
 		</form>
 	</div>
 </div>

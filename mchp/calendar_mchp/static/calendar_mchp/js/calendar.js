@@ -119,8 +119,9 @@ $(document).ready(function() {
 	// initalize the popovers for individual cal days
 	$('.fc-day').popover({
 		trigger: 'manual',
-		placement: 'auto',
+		placement: 'auto left',
 		html: true,
+		viewport: '#calendar',
 		title: function() {
 			return $('#popover-title').html();
 		},
@@ -129,12 +130,32 @@ $(document).ready(function() {
 		},
 		container: 'body',
 	});
-	// close the popovers when you click the button
+	// close the popovers when you click outside
 	// this is add to the body so it can be registered
 	// with dynamically added popovers
-	$('body').on('click', '.close-popover', function() {
-		$('.popover').popover('hide');
+	$('body').on('click', function (e) {
+    	$('.fc-day').each(function () {
+        //the 'is' for buttons that trigger popups
+        //the 'has' for icons within a button that triggers a popup
+	        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+	            $(this).popover('hide');
+	        }
+    	});
+    	//display selected calendar in create event popover upper right
+    	$("#calSelect > li a").click(function(){
+	        //display the selected calendar in the button
+	        $(".cal-name").text($(this).text());
+	        $(".cal-name").val($(this).text()).append(' ');
+    	});
 	});
+
+
+	// $('body').on('click', 'fc-day', function() {
+	// 	$('.popover').popover('hide');
+	// });
+	// $('body').on('click', '.close-popover', function() {
+	// 	$('.popover').popover('toggle');
+	// });
 	// same, but with submitting the form in the popover
 	$('body').on('submit', '#add-event-form', function(event) {
 		return false;
