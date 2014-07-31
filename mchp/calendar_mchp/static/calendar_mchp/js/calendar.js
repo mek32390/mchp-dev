@@ -3,7 +3,7 @@
  *
  * This file handles the functionality of the calendar page.
  */
-$(document).ready(function() {
+$(function() {
 	if($('#calStepOne').length) {
 		$('#yourCalList').hide();
 	}
@@ -129,6 +129,8 @@ $(document).ready(function() {
 			return $('#popover-content').html();
 		},
 		container: 'body',
+
+
 	});
 	// close the popovers when you click outside
 	// this is add to the body so it can be registered
@@ -137,16 +139,31 @@ $(document).ready(function() {
     	$('.fc-day').each(function () {
         //the 'is' for buttons that trigger popups
         //the 'has' for icons within a button that triggers a popup
-	        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+        //can't get it to work with the datepicker
+	         if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
 	            $(this).popover('hide');
 	        }
     	});
+    	
     	//display selected calendar in create event popover upper right
     	$("#calSelect > li a").click(function(){
 	        //display the selected calendar in the button
 	        $(".cal-name").text($(this).text());
 	        $(".cal-name").val($(this).text()).append(' ');
     	});
+    	//display selected due date time in create event popover button addon
+    	$("#duedateSelect > li a").click(function(){
+	        //display the selected calendar in the button
+	        $(".due-date").text($(this).text());
+	        $(".due-date").val($(this).text()).append(' ');
+    	});
+    	// initialize date picker
+		$('input.date').datepicker({
+			format: "D, M d, yy",
+		    startDate: "today",
+			autoclose: true,
+			todayHighlight: true
+	    });
 	});
 
 
@@ -159,6 +176,21 @@ $(document).ready(function() {
 	// same, but with submitting the form in the popover
 	$('body').on('submit', '#add-event-form', function(event) {
 		return false;
+	});
+
+	//Create cal event with button
+	$('#createOptions').popover({
+		trigger: 'focus',
+		placement: 'bottom',
+		html: true,
+		// viewport: '#calendar',
+		title: function() {
+			return $('#newEventTitle').html();
+		},
+		content: function() {
+			return $('#newEventContent').html();
+		},
+		container: 'body',
 	});
 
 	/*********************************
