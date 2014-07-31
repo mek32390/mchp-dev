@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'calendar_mchp',
     'documents',
     'dashboard',
+    'referral',
     'schedule',
 
     'haystack',
@@ -63,6 +64,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'referral.middleware.ReferralMiddleware',
 )
 
 from django.contrib.messages import constants as message_constants
@@ -212,3 +214,6 @@ MCHP_PRICING = {
     # percent out of 100
     'commission_rate': 40
 }
+
+REF_GET_PARAMETER = 'ref'
+REF_SESSION_KEY = 'referrer'
