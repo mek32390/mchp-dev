@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.edit import View
 
 from lib.decorators import school_required
+from user_profile.models import Student
 from referral.models import ReferralCode, Referral
 
 import json
@@ -45,7 +46,8 @@ class RedeemView(View, AjaxableResponseMixin):
             code = request.POST.get('referral_code', '')
             referrer, message = ReferralCode.objects.get_user_by_code(code)
             if referrer:
-                referral, msg = Referral.objects.refer_user(request.user, referrer)
+                referral, msg = Referral.objects.refer_user(request.user, referrer,
+                                                            Student.objects.referral_reward)
                 if referral:
                     messages.success(
                         self.request,

@@ -3,6 +3,9 @@
  */
 $(function() {
 	$form = $('#referral-form');
+	$modal.on('shown.bs.modal', function() {
+		$(this).find('[autofocus]').focus();
+	});
 	$form.submit(function() {
 		var messages = [];
 		$.ajax({

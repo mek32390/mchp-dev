@@ -25,7 +25,7 @@ class ReferralCodeManager(models.Manager):
             return None, "We couldn't find that referral code!"
 
 class ReferralManager(models.Manager):
-    def refer_user(self, user, referrer):
+    def refer_user(self, user, referrer, reward=(lambda x,y: x)):
         if referral.models.Referral.objects.filter(user=user).exists():
             return None, "You have already redeemed a referral"
         else:
@@ -36,5 +36,5 @@ class ReferralManager(models.Manager):
                 referrer=referrer,
             )
             ref.save()
+            reward(user, referrer)
             return ref, "Referral Code redeemed!"
-
