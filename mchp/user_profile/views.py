@@ -1,13 +1,12 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect,render, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import View
 from django.http import HttpResponse, HttpResponseGone
 from django.utils.decorators import method_decorator
-# from django.db.models import Count
-from django.db.models import FieldDoesNotExist
 
 from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
@@ -16,7 +15,7 @@ from allauth.account.adapter import get_adapter
 from schedule.models import School
 from user_profile.models import Student, OneTimeFlag
 from lib.decorators import school_required
-from referral.models import ReferralCode
+from referral.models import ReferralCode, Referral
 
 import json
 import logging
@@ -91,29 +90,35 @@ class ConfirmSchoolView(View):
         next = request.GET.get('next', '')
         email = request.user.email.split('@')[1]
         email_parts = email.split('.')[:-1]
-        schools = None
+        guess_schools = None
         for part in email_parts:
             if part == 'email':
                 continue
             schools = School.objects.filter(domain__icontains=part)
             if schools.exists():
-                guess_schools = schools
+                guess_schools = schools[0]
                 break
 
         data = {
             'next': next,
             'schools': all_schools,
-            'guess_school': guess_schools[0]
+            'guess_school': guess_schools
         }
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
         school = request.POST.get('school', '')
+        school = 1
         school = School.objects.get(pk=school)
         try:
             request.user.student 
         except Student.DoesNotExist:
             Student.objects.create_student(request.user, school)
+
+        # referral stuff
+        ref = request.session.get('referrer', '')
+        referrer = User.objects.get(pk=ref)
+        Referral.objects.refer_user(request.user, referrer, Student.objects.referral_reward)
 
         next = request.POST.get('next', reverse('course_add'))
         next = reverse('course_add')
@@ -186,11 +191,12 @@ class ToggleFlag(View, AjaxableResponseMixin):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
             flag = request.POST.get('flag', '')
-            try:
-                OneTimeFlag.objects.update(**{'student': request.user.student, flag: True})
+            flags = OneTimeFlag.objects.default(request.user.student)
+            if hasattr(flags, flag):
+                setattr(flags, flag, True)
+                flags.save()
                 return self.render_to_json_response({}, status=200)
-            except FieldDoesNotExist:
-                # there should be error logging here
+            else:
                 return self.render_to_json_response({}, status=403)
         else:
             return redirect(reverse('my_profile'))
