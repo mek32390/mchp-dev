@@ -17,6 +17,7 @@ from documents.forms import DocumentUploadForm
 from documents.models import Document, Upload, DocumentPurchase
 from documents.exceptions import DuplicateFileError
 from lib.decorators import school_required
+from referral.models import ReferralCode
 from schedule.models import Course
 
 from decimal import Decimal, ROUND_HALF_DOWN
@@ -221,7 +222,9 @@ class DocumentDetailPreview(DetailView):
 
         document = self.get_object()
         owns = False
+        referral_link = ''
         if not request.user.is_anonymous() and request.user.student_exists():
+            referral_link = ReferralCode.objects.get_referral_code(request.user).referral_link,
             # check if they already bought the doc
             uploader = Upload.objects.get(document=document).owner
             if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
@@ -239,6 +242,7 @@ class DocumentDetailPreview(DetailView):
             'uuid': self.kwargs['uuid'],
             'slug': self.object.slug,
             'owns': owns,
+            'referral_link': referral_link,
         }
         context.update(data)
         return self.render_to_response(context)
@@ -249,7 +253,7 @@ class DocumentDetailPreview(DetailView):
 
     # this page is publically viewable 
     def dispatch(self, *args, **kwargs):
-        if self.request.user.student_exists():
+        if not self.request.user.is_anonymous() and self.request.user.student_exists():
             self.student = self.request.user.student
         else:
             self.student = None

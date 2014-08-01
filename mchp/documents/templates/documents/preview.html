@@ -108,7 +108,7 @@
 							<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
 							{% endif %}
 						</button>
-						<a href="{{request.get_host}}{{current_path}}" 
+						<a href="{{request.get_host}}{{current_path}}/?ref={{referral_link}}" 
 						{% if document.preview %}
 							data-image="{{document.preview.url}}"
 						{% else %}
@@ -118,7 +118,7 @@
 							data-desc="{{document.description}}" 
 							class="btnShare btn btn-facebook fb-share-button">
 							<i class="fa fa-fw fa-facebook"></i>Share this</a>
-						<button data-clipboard-text="{{request.get_host}}{{current_path}}" id="copy-button" class="btn btn-warning"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+						<button data-clipboard-text="{{request.get_host}}{{current_path}}/?ref={{referral_link}}" id="copy-button" class="btn btn-warning"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 						<span class="copy-message"></span>
 
 						<div class="bs-callout" style="border-top: 0;border-right: 0; border-bottom:0; padding-top:0;">
