@@ -260,7 +260,7 @@ var saveEvent = function (eventData, create) {
 		fail: function(data) {
 			addMessage('Failed to save event', 'danger');
 		},
-		always: function(data) {
+		complete: function(data) {
 		},
 	});
 };
@@ -279,7 +279,7 @@ var deleteEvent = function(eventData) {
 		fail: function(data) {
 			addMessage('Failed to delete event', 'danger');
 		},
-		always: function(data) {
+		complete: function(data) {
 		},
 	});
 };

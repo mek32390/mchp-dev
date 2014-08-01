@@ -1,6 +1,5 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect,render, get_object_or_404
-from django.template import Context
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.views.generic.detail import DetailView
@@ -15,8 +14,9 @@ from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
 from schedule.models import School
-from user_profile.models import Student, UserProfile, OneTimeFlag
+from user_profile.models import Student, OneTimeFlag
 from lib.decorators import school_required
+from referral.models import ReferralCode
 
 import json
 import logging
@@ -65,51 +65,65 @@ class AccountSettingsView(View):
     template_name = 'user_profile/account_settings.html'
 
     def get(self, request, *args, **kwargs):
+        ref = ReferralCode.objects.get_referral_code(request.user)
         data = {
-
+            'referral_code': ref.referral_code,
+            'referral_link': ref.referral_link,
         }
         return render(request, self.template_name, data)
 
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(AccountSettingsView, self).dispatch(*args, **kwargs)
+
 account_settings = AccountSettingsView.as_view()
 
-# FIXME: wow this is bad
-# this should at least be a form view
-@verified_email_required
-def confirm_school(request):
-    if request.method == 'POST':
-        if 'school' in request.POST:
-            logger.debug(request)
-            school = request.POST['school']
-            school = School.objects.get(pk=school)
-            logger.debug(school)
-            student, created = Student.objects.get_or_create(
-                user=request.user, school=school
-            )
-            logger.debug(student)
-            if not created:
-                student.save()
-                profile = UserProfile(student=student)
-                profile.save()
+'''
+url: /profile/confirm-school/
+name: confirm_school
+'''
+class ConfirmSchoolView(View):
+    template_name = 'user_profile/school.html'
 
-            if 'next' in request.POST and request.POST['next'] != '':
-                return redirect(request.POST['next'])
-            else:
-                return redirect('/school/course/add/')
+    def get(self, request, *args, **kwargs):
+        all_schools = School.objects.all().values('name', 'domain', 'pk').order_by('name')
+        next = request.GET.get('next', '')
+        email = request.user.email.split('@')[1]
+        email_parts = email.split('.')[:-1]
+        schools = None
+        for part in email_parts:
+            if part == 'email':
+                continue
+            schools = School.objects.filter(domain__icontains=part)
+            if schools.exists():
+                guess_schools = schools
+                break
 
-    schools = School.objects.all().values('name', 'domain').order_by('name')
-    data = {}
-    if 'next' in request.GET:
-        next_page = request.GET['next']
-        data['schools'] = schools
-        data['next'] = next_page
-    else:
-        data['schools']= schools
-    email = request.user.email.split('@')[1]
-    school = School.objects.filter(domain__icontains=email)
-    if not school.exists():
-        school = School.objects.all()[0]
-    data['school'] = school
-    return render(request, 'user_profile/school.html', Context(data))
+        data = {
+            'next': next,
+            'schools': all_schools,
+            'guess_school': guess_schools[0]
+        }
+        return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        school = request.POST.get('school', '')
+        school = School.objects.get(pk=school)
+        try:
+            request.user.student 
+        except Student.DoesNotExist:
+            Student.objects.create_student(request.user, school)
+
+        next = request.POST.get('next', reverse('course_add'))
+        next = reverse('course_add')
+        return redirect(next)
+
+    @method_decorator(verified_email_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ConfirmSchoolView, self).dispatch(*args, **kwargs)
+
+confirm_school = ConfirmSchoolView.as_view()
 
 @require_POST
 def get_email(request):

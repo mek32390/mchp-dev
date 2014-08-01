@@ -10,7 +10,7 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'
 #The URL to redirect to after a successful e-mail confirmation, in case no user is logged in.
 
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/school/course/add/'
+EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/school/course/add/'
 #The URL to redirect to after a successful e-mail confirmation, in case of an authenticated user. Set to None to use settings.LOGIN_REDIRECT_URL.
 
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1

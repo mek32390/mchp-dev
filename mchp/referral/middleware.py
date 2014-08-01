@@ -11,5 +11,3 @@ class ReferralMiddleware():
             # add it in the session so it can be referenced
             if not referrer is None:
                 request.session[settings.REF_SESSION_KEY] = referrer.pk
-
-

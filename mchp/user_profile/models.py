@@ -6,6 +6,7 @@ from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 
 from documents.models import Upload,DocumentPurchase, Document
+from user_profile import managers
 
 from decimal import Decimal, ROUND_HALF_DOWN
 from functools import reduce
@@ -26,6 +27,8 @@ class Student(models.Model):
     balance = models.DecimalField(max_digits=19, decimal_places=4, default=Decimal('0.00'))
 
     kudos = models.IntegerField(default=0)
+
+    objects = managers.StudentManager()
 
     def create_date(self):
         return self.user.date_joined
@@ -160,3 +163,12 @@ class OneTimeFlag(models.Model):
 
     def __str__(self):
         return "cal: {}".format(self.calendar_tutorial)
+
+class UserRole(models.Model):
+    user = models.OneToOneField(User, related_name='user_roles')
+    rep = models.BooleanField(default=False)
+
+    objects = managers.UserRoleManager()
+
+    def __str__(self):
+        return "Rep: {}".format(self.rep)
