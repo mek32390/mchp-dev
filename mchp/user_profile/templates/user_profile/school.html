@@ -12,11 +12,11 @@
 	<div id="college_select">
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<h3 class="text-center">You must attend: </h3>
+				<h3 class="text-center lead">You must attend...</h3>
 				<h2 class="text-center college_name">{{guess_school.name}}</h2>
 				<img class="media-object img-responsive center-block" style="" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building.svg" alt="college">
 				<h4 class="text-center">
-					<small>Our MCHP wizard determined that you go to "{{guess_school.name}}"</small>
+					<p><small>Our MCHP wizard determined that you go to "{{guess_school.name}}"</small></p>
 				</h4>
 				<form class="form-signin" role="form" id='college_form' method="post" action="{% url 'confirm_school' %}">
 					{% csrf_token %}
@@ -27,7 +27,7 @@
 					<button class="btn btn-lg btn-primary btn-block  acct-form" type="submit"><i class="fa fa-check-square-o"></i> Yes, I do!</button>
 					<hr style="width: 300px;" >
 				</form>
-				<button id="nope" class="btn btn-lg btn-primary btn-block acct-form" > Nope!</button>
+				<button id="nope" class="btn btn-danger btn-block acct-form" > Nope!</button>
 			</div>
 		</div>
 	</div>
@@ -35,7 +35,7 @@
 	<div id="school-list">
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<h4 class="text-center">We couldn't find your college!</h4>
+				<h4 class="text-center lead">We couldn't find your college!</h4>
 				<p class="text-center">Choose your college from the list below.</p>
 				<form class="form-signin" role="form" id='college-form2' method="post" action="{% url 'confirm_school' %}">
 					{% csrf_token %}

@@ -185,6 +185,13 @@
 			</div><!-- end row -->
 		</div>
 		{% empty %}
+		<div class="well">
+			<div class="panel panel-default">
+				<div class="panel-body">
+		<p class="lead">You haven't added any classes to your schedule yet!</p>
+		<a href="{% url 'classes' %}" class="btn btn-primary">Add Classes</a>
+	</div>
+		</div>
 		{% endfor %}
 	</div>
 </div>
