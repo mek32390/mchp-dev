@@ -32,3 +32,9 @@ class UserRoleManager(models.Manager):
             roles.save()
             return roles
 
+class OneTimeFlagManager(models.Manager):
+    def default(self, student):
+        flags, created = user_profile.models.OneTimeFlag.objects.get_or_create(
+            student=student
+        )
+        return flags

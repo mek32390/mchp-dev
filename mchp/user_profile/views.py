@@ -7,8 +7,6 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import View
 from django.http import HttpResponse, HttpResponseGone
 from django.utils.decorators import method_decorator
-# from django.db.models import Count
-from django.db.models import FieldDoesNotExist
 
 from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
@@ -193,11 +191,12 @@ class ToggleFlag(View, AjaxableResponseMixin):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
             flag = request.POST.get('flag', '')
-            try:
-                OneTimeFlag.objects.update(**{'student': request.user.student, flag: True})
+            flags = OneTimeFlag.objects.default(request.user.student)
+            if hasattr(flags, flag):
+                setattr(flags, flag, True)
+                flags.save()
                 return self.render_to_json_response({}, status=200)
-            except FieldDoesNotExist:
-                # there should be error logging here
+            else:
                 return self.render_to_json_response({}, status=403)
         else:
             return redirect(reverse('my_profile'))
