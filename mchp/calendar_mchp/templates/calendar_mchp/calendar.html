@@ -9,8 +9,11 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/calendar.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/fullcalendar.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/datepicker.css' %}">
+
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/calendar.js' %}"></script>
+<script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-datepicker.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/fullcalendar.min.js' %}"></script>
 {% endblock %}
 
@@ -173,7 +176,7 @@
 						{{calendar.title}}
 					</label>
 					<small class="text-muted pull-right">
-						<a href="#" class="pull-right text-success"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-eye-slash"></i>&nbsp;
+						<a href="#" class="pull-right text-success"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-users"></i>&nbsp;
 					</small>
 				</div>
 				{% empty %}
@@ -237,7 +240,7 @@
 <div id="popover-title" class="hidden">
 <strong>New Event &nbsp; </strong>&nbsp; 
 <div class="dropdown pull-right">
-				<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown"><span class="cal-name"><span class="text-info">My Calendar</span></span> <span class="caret"></span></button>
+				<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown"><span class="cal-name"><i class="fa fa-calendar text-info"></i></span> <span class="caret"></span></button>
 				<ul class="dropdown-menu" id="calSelect" role="menu" aria-labelledby="calDropDown">
 					<li role="presentation" class="dropdown-header">Personal Calendars</li>
 					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-info">My Calendar</span></a></li>
@@ -255,9 +258,27 @@
 			{% csrf_token %}
 
 			<p><input class="form-control" placeholder="Event Title" ></p>
+			<p>
+						 <div class="input-group">
+						 	<input type="text" class="form-control date" placeholder="Wed, Aug 14, 2014">
+						 	<div class="input-group-btn">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="due-date small">In Class</span> <span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right" id="duedateSelect" role="menu">
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="">In Class</span></a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="">Before Class</span></a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="">By Midnight</span></a></li>
+				</ul>
+      </div><!-- /btn-group -->
+    </div><!-- /input-group -->
+						
+
+	
+			    	
+					</p>
 			<p><input class="form-control" placeholder="Event Description" ></p>	
 			<button type="submit" class="btn btn-primary btn-sm btn-block">Add Event</button>
 		</form>
 	</div>
 </div>
+
 {% endblock %}

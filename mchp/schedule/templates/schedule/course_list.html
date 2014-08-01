@@ -3,10 +3,11 @@
 {% block head_title %}Course Listings{% endblock %}
 
 {% block extra_head %}
+
+{% load staticfiles %}
 {% endblock %}
 
 {% block body %}
-
 <ul>
 	{% for course in course_list %}
 	<li>
