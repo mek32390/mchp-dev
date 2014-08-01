@@ -45,7 +45,11 @@
 							</div>
 							{% endfor %}
 							{% else %}
-							<div id="no-classes">No classes added to your schedule yet.</div>
+							<div id="no-classes" class="text-center">
+								<!-- <hr> -->
+								<p class="lead">No classes added to your schedule yet.</p>
+								<!-- <hr> -->
+							</div>
 						{% endif %}
 						</div>
 					</div>
@@ -55,7 +59,7 @@
 			<div class="col-sm-8">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h2 class="panel-title">Search for a Class</h2>
+						<h2 class="panel-title">Add a Class</h2>
 					</div>
 					<div class="panel-body">							
 							<form id="class_search_form" class="" method="get" action="{% url 'course_add' %}">

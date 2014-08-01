@@ -99,14 +99,14 @@
 			</div>   
 			<div id="no-documents" class="text-center" style="display: none;">
 				<hr>
-				<h4>You're not selling any documents!</h4>
+				<h4 class="lead">You're not selling any documents!</h4>
 				<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
 				<hr>
 			</div> 
 			{% else %}
 			<div id="no-documents" class="text-center">
 				<hr>
-				<h4>You're not selling any documents!</h4>
+				<h4 class="lead">You're not selling any documents!</h4>
 				<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
 				<hr>
 			</div>
@@ -158,15 +158,15 @@
 	</div>
 	<div id="no-purchases" class="text-center" style="display: none">
 		<hr>
-		<h4>You haven't purchased any documents!</h4>
-		<a href={% url 'document_list'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+		<h4 class="lead">You haven't purchased any documents!</h4>
+		<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
 		<hr>
 	</div>
 	{% else %}
 	<div id="no-purchases" class="text-center">
 		<hr>
-		<h4>You haven't purchased any documents!</h4>
-		<a href={% url 'document_list'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+		<h4 class="lead">You haven't purchased any documents!</h4>
+		<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
 		<hr>
 	</div>
 	{% endif %}
