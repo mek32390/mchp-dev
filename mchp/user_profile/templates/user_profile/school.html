@@ -18,6 +18,7 @@
 				<h4 class="text-center">
 					<p><small>Our MCHP wizard determined that you go to "{{guess_school.name}}"</small></p>
 				</h4>
+				<hr>
 				<form class="form-signin" role="form" id='college_form' method="post" action="{% url 'confirm_school' %}">
 					{% csrf_token %}
 					<input type="hidden" name="school" value="{{guess_school.pk}}" autocomplete="off">
@@ -25,8 +26,8 @@
 					<input type="hidden" name="next" value="{{ next }}">
 					{% endif %}
 					<button class="btn btn-lg btn-primary btn-block  acct-form" type="submit"><i class="fa fa-check-square-o"></i> Yes, I do!</button>
-					<hr style="width: 300px;" >
 				</form>
+				<p></p>
 				<button id="nope" class="btn btn-danger btn-block acct-form" > Nope!</button>
 			</div>
 		</div>
