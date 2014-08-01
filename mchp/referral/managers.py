@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Q
 
 import referral.models
 
@@ -16,13 +15,21 @@ class ReferralCodeManager(models.Manager):
         
     def get_user_by_code(self, code):
         codes = referral.models.ReferralCode.objects.filter(
-            Q(referral_link=code) |
-            Q(referral_code=code)
+            referral_code=code
         )
         if codes.exists():
             return codes[0].user, ""
         else:
             return None, "We couldn't find that referral code!"
+
+    def get_user_by_link(self, link):
+        links = referral.models.ReferralCode.objects.filter(
+            referral_link=link
+        )
+        if links.exists():
+            return links[0].user, ""
+        else:
+            return None, "We couldn't find that referral link!"
 
 class ReferralManager(models.Manager):
     def refer_user(self, user, referrer, reward=(lambda x,y: x)):

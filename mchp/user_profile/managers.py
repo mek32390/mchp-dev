@@ -11,6 +11,8 @@ class StudentManager(models.Manager):
         student.save()
         profile = user_profile.models.UserProfile(student=student)
         profile.save()
+        roles = user_profile.models.UserRole(user=user)
+        roles.save()
         # also make user roles here
         return student
 
