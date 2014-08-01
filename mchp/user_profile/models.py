@@ -168,5 +168,7 @@ class UserRole(models.Model):
     user = models.OneToOneField(User, related_name='user_roles')
     rep = models.BooleanField(default=False)
 
+    objects = managers.UserRoleManager()
+
     def __str__(self):
         return "Rep: {}".format(self.rep)

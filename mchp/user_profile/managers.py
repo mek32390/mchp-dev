@@ -18,4 +18,17 @@ class StudentManager(models.Manager):
 
     def referral_reward(self, user, referrer):
         user.student.add_earned_points(500)
-        referrer.student.modify_balance(1)
+        referrer_roles = user_profile.models.UserRole.objects.get_roles(referrer)
+        if referrer_roles.rep:
+            referrer.student.modify_balance(1)
+
+class UserRoleManager(models.Manager):
+    def get_roles(self, user):
+        roles = user_profile.models.UserRole.objects.filter(user=user)
+        if roles.exists():
+            return roles[0]
+        else:
+            roles = user_profile.models.UserRole(user=user)
+            roles.save()
+            return roles
+
