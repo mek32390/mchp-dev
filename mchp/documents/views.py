@@ -224,7 +224,7 @@ class DocumentDetailPreview(DetailView):
         owns = False
         referral_link = ''
         if not request.user.is_anonymous() and request.user.student_exists():
-            referral_link = ReferralCode.objects.get_referral_code(request.user).referral_link,
+            referral_link = ReferralCode.objects.get_referral_code(request.user).referral_link
             # check if they already bought the doc
             uploader = Upload.objects.get(document=document).owner
             if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
@@ -310,12 +310,14 @@ class DocumentDetailView(DetailView):
         context['uuid'] = self.kwargs['uuid']
         context['slug'] = self.object.slug
         context['student'] = self.student 
+        context['referral_link'] = self.referral_link
         return context
 
     # this page needs to be publically viewable to redirect properly
     def dispatch(self, *args, **kwargs):
-        if self.request.user.student_exists():
+        if not self.request.user.is_anonymous() and self.request.user.student_exists():
             self.student = self.request.user.student
+            self.referral_link = ReferralCode.objects.get_referral_code(self.student.user).referral_link
             return super(DocumentDetailView, self).dispatch(*args, **kwargs)
         else:
             return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'])
