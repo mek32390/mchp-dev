@@ -25,6 +25,8 @@
 
 	</head>
 	<body>
+		{%load referral%}
+
 		{% if user.is_authenticated %}
 		{% if user.student %}
 		{% with user.student as student %}
@@ -219,25 +221,16 @@
 				</div>
 			</div>
 		</div><!-- end of points modal -->
-
-		<!-- Promo Code modal -->
-		<div class="modal fade" id="promoModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal fade" id="referral-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
 					<div class="modal-body text-center">
-						<img class="center-block" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/ticket.svg" alt="select browser">
-						<h4>Do you have the lucky ticket?</h4>
-						<hr>
-						<div class="input-group input-group-lg">
-						  <span class="input-group-addon"><i class="fa fa-gift"></i></span>
-						  <input type="text" class="form-control" placeholder="Enter promo code">
-						</div>
-						<p></p>
-							<button type="submit" class="btn btn-primary btn-block">Submit</button>
+						{% referral_dialog "referral-modal"%}
 					</div>
 				</div>
 			</div>
-		</div><!--end promo code modal" -->
+		</div>
+
 
 		<!-- Start Navigation -->
 
@@ -269,7 +262,9 @@
 							<ul class="dropdown-menu">
 								<li> <a href="#pointsModal" data-toggle="modal" id="purchasePointsMenu"><i class="fa fa-fw fa-cubes text-primary"></i></span><strong class="text-primary"> Manage My Points</strong></a></li>
 							<li class="divider"></li>
-							<li> <a href="#promoModal" data-toggle="modal"><strong><i class="fa fa-star fa-fw"></i> Redeem Promo Code</strong></a> </li>
+							<li>
+								<a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star fa-fw"></i> Redeem Referral Code</strong></a>
+							</li>
 							<li class="divider"></li>
 							<li> <a><span class="label label-success">+</span> 1000 Points Purchase</a> </li>
 							<li> <a><span class="label label-success">+</span> 500 Document Sold</a> </li>
@@ -281,7 +276,9 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">5</span> <i class="fa fa-lightbulb-o"></i></a>
 						<ul class="dropdown-menu">
-							<li> <a href="#promoModal" data-toggle="modal"><span class="label label-success">New</span><strong> Redeem Promo Code</strong></a> </li>
+							<li>
+								<a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star fa-fw"></i> Redeem Referral Code</strong></a>
+							</li>
 							<li>
 								<a><span class="label label-success">New</span> ACCT-200 Document Added </a> 
 							</li>

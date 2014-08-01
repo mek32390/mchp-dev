@@ -1,0 +1,22 @@
+<div id="referral">
+	<img class="center-block" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/ticket.svg" alt="select browser">
+	<h4>Do you have the lucky ticket?</h4>
+	<hr>
+	<div class="form-group">
+		<form method="post" id="referral-form" autocomplete="off">
+			{% csrf_token %}
+			<div class="input-group input-group-lg">
+				<span class="input-group-addon"><i class="fa fa-gift"></i></span>
+				<input id="referral-input" type="text" name="referral_code" class="form-control" placeholder="Enter referral code" required>
+			</div>
+		</form>
+	</div>
+	<p></p>
+	<button form="referral-form" type="submit" class="btn btn-primary btn-block">Submit</button>
+	<script type="text/javascript">
+		var dialog_url = '{%url "referral_redeem"%}';
+		var $modal = $('#{{modal_id}}');
+	</script>
+	{% load staticfiles %}
+	<script src="{% static 'referral/js/referral_dialog.js' %}"></script>
+</div>

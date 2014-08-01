@@ -17,6 +17,7 @@ from allauth.account.adapter import get_adapter
 from schedule.models import School
 from user_profile.models import Student, UserProfile, OneTimeFlag
 from lib.decorators import school_required
+from referral.models import ReferralCode
 
 import json
 import logging
@@ -65,10 +66,17 @@ class AccountSettingsView(View):
     template_name = 'user_profile/account_settings.html'
 
     def get(self, request, *args, **kwargs):
+        ref = ReferralCode.objects.get_referral_code(request.user)
         data = {
-
+            'referral_code': ref.referral_code,
+            'referral_link': ref.referral_link,
         }
         return render(request, self.template_name, data)
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(AccountSettingsView, self).dispatch(*args, **kwargs)
 
 account_settings = AccountSettingsView.as_view()
 

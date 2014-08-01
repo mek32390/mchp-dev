@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^classes/', 'schedule.views.classes', name='classes'),
     url(r'^documents/', include('documents.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
+    url(r'^referral/', include('referral.urls')),
     url('^\u262d', 'landing.views.party'),
 
     url(r'^$', include('landing.urls')),

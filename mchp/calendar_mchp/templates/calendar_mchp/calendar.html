@@ -15,6 +15,7 @@
 {% endblock %}
 
 {% block body %}
+{% load referral %}
 <!-- Modal -->
 <div class="modal fade" id="classCalendars" tabindex="-1" role="dialog" aria-labelledby="classCalendars" aria-hidden="true">
 	<div class="modal-dialog">
@@ -98,6 +99,7 @@
 	</div>
 </div>
 <div class="container">
+{% referral_dialog %}
 	<div class="row">
 		<div id="col_1" class="col-sm-3 animated bounceInUp">
 			<h3>My Calendars 
