@@ -14,8 +14,6 @@
 
 {% block body %}
 {% load referral %}
-<div class="container">
-
 	<!-- modal -->
 	<div class="modal fade" id="rate_document" tabindex="-1" role="dialog" aria-labelledby="ratedocument" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
@@ -55,7 +53,21 @@
 			</div>
 		</div>
 	</div>
-
+<div class="container">
+	<div class="alert alert-info alert-dismissible fade in" role="alert">
+		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		<div class="media" style="margin-top:0px;">
+			<img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="earn referral points">
+			<div class="media-body">
+				<h4 class="media-heading">Want to get <strong>free</strong> points back immediately?</h4>
+				Refer your friends to sign up on mchp! Each time you click the <a href="#" 
+				class="btnShare btn btn-facebook btn-xs fb-share-button">
+				<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button data-clipboard-text="#" 
+				id="copy-button" class="btn btn-warning btn-xs"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+				<span class="copy-message"></span> buttons, we'll reward both you and your friend <strong>500 points</strong> each if they sign up with us by clicking through one of the links you've shared. Remember, the same rules apply when you share your unique referall code and referall link. Happy studying, sharing, and earning!<strong>- mchp</strong>
+			</div>
+		</div>
+	</div><!-- end alert -->
 	<div class="row">
 		<div class="col-xs-12">
 			<ol class="breadcrumb">
