@@ -172,6 +172,14 @@ $(function() {
 				 $target.hasClass('day') ||
 				 $target.hasClass('date') ||
 				 $target.hasClass('fc-day') ||
+				 $target.hasClass('popover-title') ||
+				 $target.hasClass('popover-content') ||
+				 $target.hasClass('datepicker-switch') ||
+				 $target.hasClass('datepicker-days') ||
+				 $target.hasClass('table-condensed') ||
+				 $target.hasClass('prev') ||
+				 $target.hasClass('next') ||
+				 $target.hasClass('dow') ||
 				 $target.is('span') ||
 				 $target.is('a') ||
 				 $target.hasClass('form-control')
@@ -193,7 +201,7 @@ $(function() {
     	});
     	// initialize date picker
 		$('input.date').datepicker({
-			format: "yyyy-m-d",
+			format: "D M d, yyyy", //"yyyy-m-d"
 		    startDate: "today",
 			autoclose: true,
 			todayHighlight: true
