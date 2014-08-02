@@ -165,16 +165,20 @@
 					<a href="#" class="pull-right text-default"><i class="fa fa-fw fa-external-link"></i></a>
 				</div>
 				<hr>
-				<h5>School<span class="badge pull-right">{{owned_calendars|length}}</span></h5>
+				<h5>School<span class="badge pull-right" id="owned-calendar-count">{{owned_calendars|length}}</span></h5>
 				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Own</li>
 				{% for calendar in owned_calendars %}
-				<div class="checkbox text-success">
+				<div class="checkbox text-success owned-calendar-holder">
 					<label>
 						<input type="checkbox" value="">
 						{{calendar.title}}
 					</label>
 					<small class="text-muted pull-right">
-						<a href="#" class="pull-right text-success"><i class="fa fa-fw fa-external-link"></i></a> <i class="fa fa-fw fa-users"></i>&nbsp;
+						<a href="#" class="pull-right text-success"><i class="fa fa-fw
+								fa-external-link"></i></a> <i class="fa fa-fw fa-users"></i>&nbsp;
+						<a data-cal="{{calendar.pk}}" href="#" class="delete-cal">
+							<i class="fa fa-fw fa-gavel"></i>&nbsp;
+						</a>
 					</small>
 				</div>
 				{% empty %}
@@ -236,44 +240,46 @@
 	</div>
 </div>
 <div id="popover-title" class="hidden">
-<strong>New Event &nbsp; </strong>&nbsp; 
-<div class="dropdown pull-right">
-				<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown"><span class="cal-name"><i class="fa fa-calendar text-info"></i></span> <span class="caret"></span></button>
-				<ul class="dropdown-menu" id="calSelect" role="menu" aria-labelledby="calDropDown">
-					<li role="presentation" class="dropdown-header">Personal Calendars</li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-info">My Calendar</span></a></li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-danger">Work</span></a></li>
-					<li role="presentation" class="divider"></li>
-					<li role="presentation" class="dropdown-header">School Calendars</li>
-					<li ><a href="#"><span class="text-success">ECON 200</span></a></li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-warning">ACCT 200</span></a></li>
-				</ul>
-			</div>
+	<strong>New Event &nbsp; </strong>&nbsp; 
+	<div class="dropdown pull-right">
+		<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown">
+			<span class="cal-name" data-calendar="-1"><i class="fa fa-calendar text-info"></i></span> <span class="caret"></span></button>
+		<ul class="dropdown-menu" id="calSelect" role="menu" aria-labelledby="calDropDown">
+			<li role="presentation" class="dropdown-header">Personal Calendars</li>
+			<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-info">My Calendar</span></a></li>
+			<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-danger">Work</span></a></li>
+			<li role="presentation" class="divider"></li>
+			<li role="presentation" class="dropdown-header">School Calendars</li>
+			{% for calendar in owned_calendars %}
+			<li role="presentation">
+				<a role="menuitem" tabindex="-1" href="#" data-calendar="{{calendar.pk}}">
+					<span class="text-success">{{calendar.title}}</span>
+				</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
 </div>
 <div id="popover-content" class="hidden">
 	<div class="cal-popover">
 		<form method="post" id="add-event-form">
 			{% csrf_token %}
-
-			<p><input class="form-control" placeholder="Event Title" ></p>
+			<p><input class="form-control" name="title" placeholder="Event Title" required></p>
 			<p>
-						 <div class="input-group">
-						 	<input type="text" class="form-control date" placeholder="Wed, Aug 14, 2014">
-						 	<div class="input-group-btn">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="due-date small">In Class</span> <span class="caret"></span></button>
-        <ul class="dropdown-menu pull-right" id="duedateSelect" role="menu">
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="">In Class</span></a></li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="">Before Class</span></a></li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="">By Midnight</span></a></li>
-				</ul>
-      </div><!-- /btn-group -->
-    </div><!-- /input-group -->
-						
-
-	
-			    	
-					</p>
-			<p><input class="form-control" placeholder="Event Description" ></p>	
+				<div class="input-group">
+					<input type="text" name="date" id="date-input" class="form-control date" placeholder="Wed, Aug 14, 2014" required>
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+							<span data-due="1" class="due-date small">In Class</span> <span class="caret"></span></button>
+						<ul class="dropdown-menu pull-right" id="duedateSelect" role="menu">
+							<li role="presentation"><a data-due="1" role="menuitem" tabindex="-1" href="#"><span class="">In Class</span></a></li>
+							<li role="presentation"><a data-due="2" role="menuitem" tabindex="-1" href="#"><span class="">Before Class</span></a></li>
+							<li role="presentation"><a data-due="3" role="menuitem" tabindex="-1" href="#"><span class="">By Midnight</span></a></li>
+						</ul>
+					</div><!-- /btn-group -->
+				</div><!-- /input-group -->
+			</p>
+			<p><input name="description" class="form-control" placeholder="Event Description" required></p>	
 			<button type="submit" class="btn btn-primary btn-sm btn-block">Add Event</button>
 		</form>
 	</div>

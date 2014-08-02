@@ -49,12 +49,14 @@ class CalendarEvent(models.Model):
     calendar = models.ForeignKey(ClassCalendar)
 
     title = models.CharField(max_length=30)
-    all_day = models.BooleanField()
+    description = models.CharField(max_length=200)
+
+    all_day = models.BooleanField(default=False)
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True)
 
-    is_recurring = models.BooleanField()
+    is_recurring = models.BooleanField(default=False)
     
     create_date = models.DateTimeField(auto_now_add=True)
 

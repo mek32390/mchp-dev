@@ -15,7 +15,7 @@ from lib.decorators import school_required
 from schedule.models import Course
 from schedule.utils import WEEK_DAYS
 
-from datetime import datetime
+from datetime import datetime,timedelta
 import json
 import logging
 import pytz
@@ -177,6 +177,43 @@ name: calendar_delete
 class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
     model = ClassCalendar
 
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            print(request.POST)
+            cal = ClassCalendar.objects.filter(
+                owner=self.student,
+                pk = request.POST.get('id', None)
+            )
+            if cal.exists():
+                cal = cal[0]
+                cal.delete()
+
+                messages.success(
+                    self.request,
+                    "Calendar deleted"
+                )
+                status = 200
+            else:
+                messages.error(
+                    self.request,
+                    "Is that really your calendar?"
+                )
+                status = 403
+            data = {
+                'messages': self.ajax_messages(),
+            }
+            return self.render_to_json_response(data, status=status)
+        else:
+            return redirect(reverse('calendar'))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('calendar'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(CalendarDeleteView, self).dispatch(*args, **kwargs)
+
 calendar_delete = CalendarDeleteView.as_view()
 
 '''
@@ -188,24 +225,61 @@ class EventAddView(View, AjaxableResponseMixin):
     model = CalendarEvent
 
     def post(self, request, *args, **kwargs):
+        print(request.POST)
         # convert Full Calendar time strings to datetime objects, with timezones
-        start = timezone.make_aware(datetime.strptime(request.POST['start'], DATE_FORMAT),
-                                  timezone.get_current_timezone())
-        end = timezone.make_aware(datetime.strptime(request.POST['end'], DATE_FORMAT),
-                                  timezone.get_current_timezone())
-        all_day = request.POST.get('all_day', True)
-        
+        date = request.POST.get('date', '1970-1-1')
+        date_format = '%Y-%m-%d'
+
+        start = timezone.make_aware(
+            datetime.strptime(date, date_format),
+            timezone.utc)
+        end = start + timedelta(hours=1)
+
+        # the calendar this event belongs to
+        # TODO errors...
+        calendar = ClassCalendar.objects.filter(
+            pk=request.POST['calendar'],
+            owner=self.student
+        )[0]
+
+        due = request.POST.get('due', 1)
+        # 3 == at midnight
+        if due == 3:
+            all_day = True 
+            start_time = start 
+            end_time = end
+        else:
+            # otherwise, try to match the time to class start
+            all_day = False
+
+            # the course
+            course_day = CourseDay.objects.filter(
+                calendar=calendar,
+                day = start.weekday()
+            )
+            if course_day.exists():
+                course_day = course_day[0]
+                start_time = datetime.combine(start, course_day.start_time)
+                print(course_day.start_time)
+                print(start_time)
+                end_time = datetime.combine(start, course_day.end_time)
+            else:
+                start_time = start 
+                end_time = end
+
         # add the event
-        calendar = ClassCalendar.objects.default(self.student)
+
         event_data = {
             'calendar': calendar,
             'title': request.POST['title'],
-            'start': start,
-            'end': end,
+            'description': request.POST['description'],
+            'start': start_time,
+            'end': end_time,
             'all_day': all_day
         }
         event = CalendarEvent(**event_data)
         event.save()
+        print(event)
         if self.request.is_ajax():
             messages.success(
                 self.request,
