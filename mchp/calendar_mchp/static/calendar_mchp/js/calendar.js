@@ -44,6 +44,20 @@ $(function() {
 		}
 	});
 
+	/* delete calendar */
+	$('.delete-cal').click(function() {
+		$link = $(this);
+		var pk = $link.data('cal');
+		deleteCalendar(pk);
+		var $link_parent = $link.parents('.owned-calendar-holder');
+		$link_parent.fadeOut(500, function() {
+			$link_parent.remove();
+			var count = parseInt($('#owned-calendar-count').text()) - 1;
+			$('#owned-calendar-count').text(count);
+		});
+	});
+
+
 	/**********************
 	 * FULLCALENDAR STUFF *
 	 **********************/
@@ -69,6 +83,9 @@ $(function() {
 			// remove the other popovers
 			$('.popover').remove();
 			// show the clicked day popover
+			var date_string = date.year() + '-' + (date.month() + 1) + '-' + date.date();
+			console.log(date_string);
+			$('#date-input').attr('value', date_string);
 			$(jsEvent.target).popover('show');
 		},
 		
@@ -132,34 +149,49 @@ $(function() {
 
 
 	});
+	var observer = new MutationObserver(function(mutations) {
+		alert('what');
+		mutations.forEach(function(mutation) {
+			console.log(mutation);
+		});
+	});
+	// configuration of the observer:
+	var config = { attributes: true, childList: true, characterData: true };
+	// pass in the target node, as well as the observer options
+	observer.observe($('.fc-day-grid').get(0), config);
+
 	// close the popovers when you click outside
 	// this is add to the body so it can be registered
 	// with dynamically added popovers
-	$('body').on('click', function (e) {
-    	$('.fc-day').each(function () {
-        //the 'is' for buttons that trigger popups
-        //the 'has' for icons within a button that triggers a popup
-        //can't get it to work with the datepicker
-	         if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-	            $(this).popover('hide');
-	        }
-    	});
-    	
-    	//display selected calendar in create event popover upper right
+	$('body').on('click', function (event) {
+		var $target = $(event.target);
+		// this makes baby pandas around the world cry salty tears
+		if(!($target.hasClass('btn') ||
+				 $target.hasClass('day') ||
+				 $target.hasClass('date') ||
+				 $target.hasClass('fc-day') ||
+				 $target.is('span') ||
+				 $target.is('a') ||
+				 $target.hasClass('form-control')
+				)) {
+			$('.popover').popover('hide');
+		}
+		// when you click on any of the list items in the drop down
     	$("#calSelect > li a").click(function(){
-	        //display the selected calendar in the button
-	        $(".cal-name").text($(this).text());
-	        $(".cal-name").val($(this).text()).append(' ');
+			// replace the cal icon with the title of the calendar
+	        $(".cal-name").text($(this).text() + ' ');
+	        $(".cal-name").data('calendar', $(this).data('calendar'));
     	});
+
     	//display selected due date time in create event popover button addon
     	$("#duedateSelect > li a").click(function(){
 	        //display the selected calendar in the button
-	        $(".due-date").text($(this).text());
-	        $(".due-date").val($(this).text()).append(' ');
+	        $(".due-date").text($(this).text() + ' ');
+	        $(".due-date").data('due', $(this).data('due'));
     	});
     	// initialize date picker
 		$('input.date').datepicker({
-			format: "D, M d, yy",
+			format: "yyyy-m-d",
 		    startDate: "today",
 			autoclose: true,
 			todayHighlight: true
@@ -167,14 +199,42 @@ $(function() {
 	});
 
 
-	// $('body').on('click', 'fc-day', function() {
-	// 	$('.popover').popover('hide');
-	// });
-	// $('body').on('click', '.close-popover', function() {
-	// 	$('.popover').popover('toggle');
-	// });
-	// same, but with submitting the form in the popover
+	// submitting the form in the popover
 	$('body').on('submit', '#add-event-form', function(event) {
+		var $form = $(event.target);
+		var url = '/calendar/events/add/';
+		var messages = [];
+		var data = $form.serialize();
+
+		// which calendar this event is for 
+		var cal = $('.cal-name').data('calendar');
+		cal = JSON.stringify(cal);
+		data += "&calendar=" + encodeURIComponent(cal);
+
+		// approx. time it is due
+		var due = $('.due-date').data('due');
+		due_json = JSON.stringify(due);
+		data += "&due=" + encodeURIComponent(due_json);
+
+		$.ajax({
+			url: url,
+			type: 'POST',
+			data: data,
+			success: function(data) {
+				messages = data.messages;
+				console.log(data);
+			},
+			fail: function(data) {
+				addMessage('Failed to save event', 'danger');
+			},
+			complete: function(data) {
+				$.each(messages, function(index, message){
+					console.log(message);
+					addMessage(message.message, message.extra_tags);
+				});
+			},
+
+		});
 		return false;
 	});
 
@@ -289,5 +349,28 @@ var toggle_flag = function() {
 		url: '/profile/toggle-flag/',
 		type: 'POST',
 		data: {'flag': 'calendar_tutorial'},
+	});
+};
+
+var deleteCalendar = function(cal_pk) {
+	var messages = [];
+	$.ajax({
+		url: '/calendar/delete/',
+		type: 'POST',
+		data: {
+			'id': cal_pk,
+		},
+		dataType: 'json',
+		success: function(data) {
+		},
+		fail: function(data) {
+		},
+		complete: function(data) {
+			messages = data.responseJSON.messages;
+			$.each(messages, function(index, message){
+				console.log(message);
+				addMessage(message.message, message.extra_tags);
+			});
+		},
 	});
 };
