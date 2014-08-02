@@ -218,6 +218,12 @@ $(function() {
 		due_json = JSON.stringify(due);
 		data += "&due=" + encodeURIComponent(due_json);
 
+		var date = $('#date-input').attr('value');
+		date_json = JSON.stringify(date);
+		data += "&date=" + encodeURIComponent(date_json);
+		alert(date);
+		return false;
+
 		$.ajax({
 			url: url,
 			type: 'POST',
