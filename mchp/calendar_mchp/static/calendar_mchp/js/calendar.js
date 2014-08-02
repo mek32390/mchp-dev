@@ -54,6 +54,7 @@ $(function() {
 			$link_parent.remove();
 			var count = parseInt($('#owned-calendar-count').text()) - 1;
 			$('#owned-calendar-count').text(count);
+			$('#make-a-calendar').removeClass('hidden');
 		});
 	});
 
@@ -64,11 +65,12 @@ $(function() {
 
 	var today = new Date().toJSON().slice(0,10);
 	var updateEvent = function(event, dateDelta, minuteDelta) {
+		console.log(event);
 		eventData = {
 			id: event.id,
 			title: event.title,
-			start: event.start._d.toJSON(),
-			end: event.end._d.toJSON(),
+			start: event.start.toJSON(),
+			end: event.end.toJSON(),
 			all_day: event.allDay,
 		};
 		saveEvent(eventData, false);
@@ -84,7 +86,6 @@ $(function() {
 			$('.popover').remove();
 			// show the clicked day popover
 			var date_string = date.year() + '-' + (date.month() + 1) + '-' + date.date();
-			console.log(date_string);
 			$('#date-input').attr('value', date_string);
 			$(jsEvent.target).popover('show');
 		},
@@ -128,6 +129,7 @@ $(function() {
 			// 	start._d.toJSON(), end: end._d.toJSON()}, true); // create = true
 			// }
 		editable: true,
+		timezone: 'local',
 	});
 
 	/*****************
@@ -222,19 +224,18 @@ $(function() {
 			data: data,
 			success: function(data) {
 				messages = data.messages;
-				console.log(data);
 			},
 			fail: function(data) {
 				addMessage('Failed to save event', 'danger');
 			},
 			complete: function(data) {
 				$.each(messages, function(index, message){
-					console.log(message);
 					addMessage(message.message, message.extra_tags);
 				});
 			},
 
 		});
+		$('.popover').popover('hide');
 		return false;
 	});
 
@@ -299,7 +300,6 @@ $(function() {
 });
 
 var saveEvent = function (eventData, create) {
-	console.log(eventData);
 	var url = '';
 	if (create) {
 		url = '/calendar/events/add/';
@@ -311,9 +311,7 @@ var saveEvent = function (eventData, create) {
 		type: 'POST',
 		data: eventData,
 		success: function(data) {
-			console.log(data);
 			$.each(data.messages, function(index, message){
-				console.log(message);
 				addMessage(message.message, message.extra_tags);
 			});
 		},
@@ -332,7 +330,6 @@ var deleteEvent = function(eventData) {
 		data: eventData,
 		success: function(data) {
 			$.each(data.messages, function(index, message){
-				console.log(message);
 				addMessage(message.message, message.extra_tags);
 			});
 		},
@@ -368,7 +365,6 @@ var deleteCalendar = function(cal_pk) {
 		complete: function(data) {
 			messages = data.responseJSON.messages;
 			$.each(messages, function(index, message){
-				console.log(message);
 				addMessage(message.message, message.extra_tags);
 			});
 		},

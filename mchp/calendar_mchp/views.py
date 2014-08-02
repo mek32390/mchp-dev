@@ -18,7 +18,6 @@ from schedule.utils import WEEK_DAYS
 from datetime import datetime,timedelta
 import json
 import logging
-import pytz
 logger = logging.getLogger(__name__)
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
@@ -120,7 +119,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
 
         end_date = timezone.make_aware(datetime.strptime(
             request.POST.get('enddate', ''), "%m/%d/%Y"),
-            timezone.get_current_timezone())
+            timezone.utc)
         calendar_data = {
             'course': course,
             'owner': self.student,
@@ -145,10 +144,10 @@ class CalendarCreateView(View, AjaxableResponseMixin):
 
             start_time = timezone.make_aware(datetime.strptime(
                 times[day]['start'], DATE_FORMAT),
-                pytz.utc)
+                timezone.utc)
             end_time = timezone.make_aware(datetime.strptime(
                 times[day]['end'], DATE_FORMAT),
-                pytz.utc)
+                timezone.utc)
             course_day_data = {
                 'calendar': calendar,
                 'event': event,
@@ -260,9 +259,15 @@ class EventAddView(View, AjaxableResponseMixin):
             if course_day.exists():
                 course_day = course_day[0]
                 start_time = datetime.combine(start, course_day.start_time)
-                print(course_day.start_time)
-                print(start_time)
+                start_time = timezone.make_aware(
+                    start_time,
+                    timezone.utc
+                )
                 end_time = datetime.combine(start, course_day.end_time)
+                end_time = timezone.make_aware(
+                    end_time,
+                    timezone.utc
+                )
             else:
                 start_time = start 
                 end_time = end
