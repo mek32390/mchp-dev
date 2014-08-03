@@ -226,12 +226,12 @@ class EventAddView(View, AjaxableResponseMixin):
     def post(self, request, *args, **kwargs):
         print(request.POST)
         # convert Full Calendar time strings to datetime objects, with timezones
-        date = request.POST.get('date', '1970-1-1')
-        date_format = '%Y-%m-%d'
+        date = request.POST.get('date', '')
+        date = json.loads(date)
+        print(date)
 
-        start = timezone.make_aware(
-            datetime.strptime(date, date_format),
-            timezone.utc)
+        start = datetime.strptime(date, DATE_FORMAT)
+        print(start)
         end = start + timedelta(hours=1)
 
         # the calendar this event belongs to
@@ -274,6 +274,7 @@ class EventAddView(View, AjaxableResponseMixin):
 
         # add the event
 
+        print(start_time)
         event_data = {
             'calendar': calendar,
             'title': request.POST['title'],

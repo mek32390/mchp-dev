@@ -85,7 +85,9 @@ $(function() {
 			// remove the other popovers
 			$('.popover').remove();
 			// show the clicked day popover
-			var date_string = date.year() + '-' + (date.month() + 1) + '-' + date.date();
+			date_string = date.format('ddd MMM DD, YYYY');
+			console.log(date);
+			$('#date-input').data('date', date);
 			$('#date-input').attr('value', date_string);
 			$(jsEvent.target).popover('show');
 		},
@@ -205,7 +207,11 @@ $(function() {
 		    startDate: "today",
 			autoclose: true,
 			todayHighlight: true
-	    });
+	    }).on('changeDate', function(event) {
+			var pick = moment(event.date);
+			$('#date-input').data('date', pick);
+			console.log(pick);
+		});
 	});
 
 
@@ -226,11 +232,10 @@ $(function() {
 		due_json = JSON.stringify(due);
 		data += "&due=" + encodeURIComponent(due_json);
 
-		var date = $('#date-input').attr('value');
+		var date = $('#date-input').data('date');
 		date_json = JSON.stringify(date);
+		console.log(date_json);
 		data += "&date=" + encodeURIComponent(date_json);
-		alert(date);
-		return false;
 
 		$.ajax({
 			url: url,
