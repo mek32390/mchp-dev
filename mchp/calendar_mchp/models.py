@@ -34,7 +34,7 @@ class ClassCalendar(models.Model):
     def save(self, *args, **kwargs):
         # object is new and doesn't have a title
         if not self.pk and not self.title: 
-            self.title = str(self.course.dept) + " " + str(self.course.course_number) + " Calendar"
+            self.title = str(self.course.dept) + " " + str(self.course.course_number)
 
         if(self.end_date > timezone.now()):
             super().save()
