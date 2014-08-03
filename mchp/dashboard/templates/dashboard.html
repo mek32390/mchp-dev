@@ -10,7 +10,7 @@
 
 	{% load staticfiles %}
 	<!-- // <script src="{% static 'dashboard/js/quicklinks.js' %}"></script> -->
-	<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/quicklinks.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
 	<!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
   <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 
@@ -277,9 +277,15 @@
     
     <!-- </div> End Pulse Col -->
     <div class="col-md-4 col-sm-4 animated animated-md bounceInUp delayed-md">
-      <h2 style>News <small> for your brain</small></h2>
+
+        <h2>News <small> for your brain</small><a href="#" id="edit_sections" class='pull-right'><small><i class="fa fa-bars"></i></small></a></h2>
+
       <hr style="margin-top:5px;">
-      <ul class="list-group">
+        
+            <div class="flip-holder">
+
+                <div class="front">
+                     <ul class="list-group">
   <li class="list-group-item">
     <small class="pull-right"><small>11m</small></small>
     <a href="#">The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
@@ -301,6 +307,63 @@
     <p class="small">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.</p>
   </li>
 </ul>
+                    
+                </div>
+                <div class="back">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="well">
+                                <h4 class="text-center">Customize Your Interests</h4>
+                                <hr style="margin-top:5px;">
+                                <ul class="list-inline text-center">
+                                    <li class="list-group" style="width:111px;">
+                                        <div class="list-group-item btn btn-default" data-toggle="button">
+                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+                                            <h5>Headlines</h5>
+                                        </div>
+                                    </li> 
+                                    <li class="list-group" style="width:111px;">
+                                        <div class="list-group-item btn btn-default" data-toggle="button">
+                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+                                            <h5>Sports</h5>
+                                        </div>
+                                    </li>
+                                     <li class="list-group" style="width:111px;">
+                                        <div class="list-group-item btn btn-default" data-toggle="button">
+                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+                                            <h5>College</h5>
+                                        </div>
+                                    </li> 
+                                    <li class="list-group" style="width:111px;">
+                                        <div class="list-group-item btn btn-default" data-toggle="button">
+                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+                                            <h6>Entertainment</h6>
+                                        </div>
+                                    </li>
+                                    <li class="list-group" style="width:111px;">
+                                        <div class="list-group-item btn btn-default" data-toggle="button">
+                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+                                            <h5>Art</h5>
+                                        </div>
+                                    </li> 
+                                    <li class="list-group" style="width:111px;">
+                                        <div class="list-group-item btn btn-default" data-toggle="button">
+                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+                                            <h5>Fashion</h5>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  
+
+
+
+      
+     
       <!-- <! <ul class="nav nav-pills h6" id="newsTabs">
         <li class="active"><a href="#" data-section="top">Top</a> </li>
         <li><a href="#" data-section="sports">Sports</a> </li>
@@ -313,7 +376,6 @@
         
       </div> -->
 
-    </div>
     </div>  <!--End News Col  --> 
    </div> <!--End Row -->
 </div><!-- End Container -->
