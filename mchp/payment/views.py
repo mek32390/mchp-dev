@@ -139,14 +139,15 @@ class ChargeView(View, AjaxableResponseMixin):
 
     def _savings_charge(self, request):
         amount = request.POST.get('amount', '')
-        amount = Decimal(amount)/100
+        decimal_amount = Decimal(amount)/100
         if self.student.balance < amount:
             messages.error(
                 self.request,
                 "Better hustle some more, you don't have the savings for that.",
             )
         else:
-            self.student.modify_balance(-amount)
+            self.student.modify_balance(-decimal_amount)
+            self.student.add_purchased_points(amount)
             messages.success(
                 self.request,
                 "Purchase success, your balance is now $" + self.student.display_balance(),
