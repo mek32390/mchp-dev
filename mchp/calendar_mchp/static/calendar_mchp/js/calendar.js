@@ -171,21 +171,21 @@ $(function() {
 		var $target = $(event.target);
 		// this makes baby pandas around the world cry salty tears
 		if(!($target.hasClass('btn') ||
-			$target.hasClass('day') ||
-	        $target.hasClass('date') ||
-            $target.hasClass('fc-day') ||
-            $target.hasClass('popover-title') ||
-            $target.hasClass('popover-content') ||
-            $target.hasClass('datepicker-switch') ||
-            $target.hasClass('datepicker-days') ||
-            $target.hasClass('table-condensed') ||
-            $target.hasClass('prev') ||
-            $target.hasClass('next') ||
-           	$target.hasClass('dow') ||
-            $target.is('span') ||
-            $target.is('a') ||
-            $target.hasClass('form-control')
-			)) {
+				 $target.hasClass('day') ||
+				 $target.hasClass('date') ||
+				 $target.hasClass('fc-day') ||
+				 $target.hasClass('popover-title') ||
+				 $target.hasClass('popover-content') ||
+				 $target.hasClass('datepicker-switch') ||
+				 $target.hasClass('datepicker-days') ||
+				 $target.hasClass('table-condensed') ||
+				 $target.hasClass('prev') ||
+				 $target.hasClass('next') ||
+				 $target.hasClass('dow') ||
+				 $target.is('span') ||
+				 $target.is('a') ||
+				 $target.hasClass('form-control')
+				)) {
 			$('.popover').popover('hide');
 		}
 		// when you click on any of the list items in the drop down
@@ -315,6 +315,11 @@ $(function() {
 			return view.title;
 		});
 	});
+
+	//toggle calendar list section
+    $('#viewCals').on('click', function () {
+        $('.flip-holder').toggleClass("flip");
+    });
 
 });
 
