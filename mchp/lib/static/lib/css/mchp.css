@@ -28,7 +28,7 @@ body {
     z-index: 99;
 }
 
-
+/* navbar user dropdown */
 #user-dropdown {
     margin-top: -2px;
     padding-top: 17px;
@@ -356,6 +356,25 @@ color: #5cb85c;
 .text-default {
   color: #333;
 }
+
+/* no margin-bottom */
+.margin-btm-none {
+  margin-bottom: 0px;
+}
+/* no margin-top */
+.margin-top-none {
+  margin-top: 0px;
+}
+/* 5px margin-bottom */
+.margin-btm-sm {
+  margin-bottom: 5px;
+}
+/* 5px margin-top */
+.margin-top-sm {
+  margin-top: 5px;
+}
+
+
 
 /* nice borders */
 .border-warning {
