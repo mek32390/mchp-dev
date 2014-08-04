@@ -138,9 +138,9 @@ class ChargeView(View, AjaxableResponseMixin):
         return self.render_to_json_response(data)
 
     def _savings_charge(self, request):
-        amount = request.POST.get('amount', '')
+        amount = int(request.POST.get('amount', ''))
         decimal_amount = Decimal(amount)/100
-        if self.student.balance < amount:
+        if self.student.balance < decimal_amount:
             messages.error(
                 self.request,
                 "Better hustle some more, you don't have the savings for that.",
