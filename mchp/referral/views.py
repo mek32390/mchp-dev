@@ -59,7 +59,7 @@ class RedeemView(View, AjaxableResponseMixin):
                         msg
                     )
             else:
-                messages.info(
+                messages.error(
                     self.request,
                     message,
                 )
