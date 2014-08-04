@@ -217,7 +217,7 @@
 					<div class="panel panel-danger">
 						<div class="panel-body">
 							You're not following any calendars yet! 
-							<a href="#" id="viewCals">Follow your first calendar!</a>
+							<a href="#" class="viewCals">Follow your first calendar!</a>
 						</div>
 					</div>
 				</p>
@@ -272,7 +272,9 @@
 			
 				</div>
 				<div class="back">
-					<h3>Calendars</h3>
+					<h3>Calendars <button type="button" id="" class="close viewCals" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></h3>
+					<hr style="margin-top:5px;">
+					<div class="well">
 					<div class="panel panel-default">
 				<div class="panel-body">
 
@@ -286,8 +288,8 @@
 				<div class="tab-content">
 					<p></p>
 					<div class="tab-pane fade in active" id="home">
-						<hr>
-						<h5>Calendars <span class="badge">10</span>
+						<!-- <hr> -->
+						<p>Calendars <span class="badge">10</span>
 							<span class="btn-group pull-right">
 								<button type="button" class="btn btn-default btn-xs">Recent</button>
 								<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
@@ -299,7 +301,7 @@
 									<li><a href="#">Most Purchased</a></li>
 								</ul>
 							</span>
-						</h5>
+						</p>
 						<p></p>
 						<div class="list-group">
 							<div class="list-group-item">
@@ -343,7 +345,8 @@
 					<div class="tab-pane fade" id="settings">...</div>
 				</div><!-- end tab content -->
 				</div>
-			</div><!-- end cal list panel -->
+			</div> <!-- end cal list panel -->
+		</div>
 				</div>
 			</div> <!-- end flip holder -->
 

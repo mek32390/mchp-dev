@@ -317,7 +317,7 @@ $(function() {
 	});
 
 	//toggle calendar list section
-    $('#viewCals').on('click', function () {
+    $('.viewCals').on('click', function () {
         $('.flip-holder').toggleClass("flip");
     });
 
