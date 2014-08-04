@@ -59,83 +59,87 @@
 						<input type="text" class="form-control" name="title" placeholder='try "My Calendar" or "Work"' />
 					</div>
 				</div>
-					<div class="form-group select-class hidden">
-						<div class="input-group input-group-lg">
-							<span class='input-group-addon'>Class</span>
-							<select name="course" class="form-control course-select">
-								<option class="default" value="-1" selected>Choose a Class</option>
-								{% for course in courses %}
-								<option class="course" value="{{course.pk}}">{{course.dept}} {{course.course_number}}</option>
-								{% endfor %}
-							</select>
-						</div>
-					</div>
-					<div class="form-group cal-sell hidden">   
-						<div class="radio">
-							<label>
-								<input type="radio" name="private" id="sell" value="">
-								<strong>Sell</strong>&mdash;Your classmates will be able to follow this calendar, and you'll get paid for every one of them that does!
-							</label>
-						</div>
-						<div class="radio">
-							<label>
-								<input type="radio" name="private" id="notSell" value="true">
-								<strong>Keep Private</strong>&mdash;Your classmates will never see this calendar. It will be used only by you for your <strong>ECON 200</strong> class.
-							</label>
-						</div>
-					</div>
-					<div class="course-meetings hidden">
-						<hr>
-						<h4>Select the days and times this class meets. <small>This is how your classmates will identify which calendar to follow, so make sure you provide the correct information!</small></h4>
-						<div class="row">
-							{% get_week %}
-							{% for day in week %}
-							<div class="col-sm-2">
-								<a href="#" class="btn btn-default btn-lg btn-block day-button" data-toggle="button"
-									data-day="{{day}}" id="{{day}}">{{day}}</a>
-									<h5 class="day-times hidden">
-									<div class="form-group">
-										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-											<input id="{{day}}-clock-start" type="text" class="form-control clockpicker" 
-											data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
-										</div>
-									</div>
-										<p></p>
-									<div class="form-group">
-										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-											<input id="{{day}}-clock-end" name="clockend" class="form-control clockpicker clockend" 
-											data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
-										</div>
-									</div>
-									</h5>
-							</div>
+				{% if courses %}
+				<div class="form-group select-class hidden">
+					<div class="input-group input-group-lg">
+						<span class='input-group-addon'>Class</span>
+						<select name="course" class="form-control course-select">
+							<option class="default" value="-1" selected>Choose a Class</option>
+							{% for course in courses %}
+							<option class="course" value="{{course.pk}}">{{course.dept}} {{course.course_number}}</option>
 							{% endfor %}
-						</div>		
+						</select>
 					</div>
-					<div class="cal-start-end hidden">
-						<hr>
-						<h4>Select the end date of this class <small>A calendar is tied to a specific class.</small></h4>
-						<ul class="list-inline">
-							<li>
+				</div>
+				{% else %}
+				what
+				{% endif %}
+				<div class="form-group cal-sell hidden">   
+					<div class="radio">
+						<label>
+							<input type="radio" name="private" id="sell" value="">
+							<strong>Sell</strong>&mdash;Your classmates will be able to follow this calendar, and you'll get paid for every one of them that does!
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="private" id="notSell" value="true">
+							<strong>Keep Private</strong>&mdash;Your classmates will never see this calendar. It will be used only by you for your <strong>ECON 200</strong> class.
+						</label>
+					</div>
+				</div>
+				<div class="course-meetings hidden">
+					<hr>
+					<h4>Select the days and times this class meets. <small>This is how your classmates will identify which calendar to follow, so make sure you provide the correct information!</small></h4>
+					<div class="row">
+						{% get_week %}
+						{% for day in week %}
+						<div class="col-sm-2">
+							<a href="#" class="btn btn-default btn-lg btn-block day-button" data-toggle="button"
+								data-day="{{day}}" id="{{day}}">{{day}}</a>
+							<h5 class="day-times hidden">
 								<div class="form-group">
-									<div class="input-group date">
-										<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
-										<input required type="text" name="enddate" class="form-control input-lg" placeholder="Select an End Date">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input id="{{day}}-clock-start" type="text" class="form-control clockpicker" 
+										data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="Start">
 									</div>
 								</div>
-							</li>
-						</ul>
-					</div>
-					<div class="form-group cal-description hidden">
-						<hr>
-						<h4>Provide a Description<small> A chance for you to stand out from your competition!</small></h4>
-						<div class="input-group input-group-lg">
-							<span class='input-group-addon'>Description</span>
-							<input required type="text" class="form-control" name="description" placeholder='try "I will make it a priority to keep this calendar as accurate as possible!"' />
+								<p></p>
+								<div class="form-group">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+										<input id="{{day}}-clock-end" name="clockend" class="form-control clockpicker clockend" 
+										data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
+									</div>
+								</div>
+							</h5>
 						</div>
+						{% endfor %}
+					</div>		
+				</div>
+				<div class="cal-start-end hidden">
+					<hr>
+					<h4>Select the end date of this class <small>A calendar is tied to a specific class.</small></h4>
+					<ul class="list-inline">
+						<li>
+							<div class="form-group">
+								<div class="input-group date">
+									<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+									<input required type="text" name="enddate" class="form-control input-lg" placeholder="Select an End Date">
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="form-group cal-description hidden">
+					<hr>
+					<h4>Provide a Description<small> A chance for you to stand out from your competition!</small></h4>
+					<div class="input-group input-group-lg">
+						<span class='input-group-addon'>Description</span>
+						<input required type="text" class="form-control" name="description" placeholder='try "I will make it a priority to keep this calendar as accurate as possible!"' />
 					</div>
+				</div>
 				<div class="form-group cal-submit hidden">
 					<hr>
 					<button href="#" type="submit" class="btn btn-lg btn-primary btn-block">Create Calendar</button>
