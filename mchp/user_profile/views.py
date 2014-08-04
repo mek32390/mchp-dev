@@ -190,6 +190,7 @@ name: toggle_flag
 class ToggleFlag(View, AjaxableResponseMixin):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
+            print(request.POST)
             flag = request.POST.get('flag', '')
             flags = OneTimeFlag.objects.default(request.user.student)
             if hasattr(flags, flag):

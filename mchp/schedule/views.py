@@ -15,6 +15,7 @@ from lib.decorators import school_required
 from documents.models import Document
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
 from schedule.models import Course, School
+from user_profile.models import Enrollment
 
 from haystack.query import SQ
 
@@ -105,7 +106,8 @@ class CourseCreateView(_BaseCourseView):
             return super(CourseCreateView, self).form_invalid(form)
         # add student to course
         student = self.student
-        student.courses.add(course)
+        enroll = Enrollment(student=student, course=course)
+        enroll.save()
 
         messages.success(
             self.request,
@@ -198,7 +200,8 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
         # form.save() would overwrite current classes instead of appending
         student = self.student
         course_to_add = form.cleaned_data['courses'][0]
-        student.courses.add(course_to_add)
+        enroll = Enrollment(student=student, course=course_to_add)
+        enroll.save()
 
         messages.success(
             self.request,

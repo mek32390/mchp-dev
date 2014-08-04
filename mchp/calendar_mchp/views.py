@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from django.db.models import Count
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect#, get_object_or_404
 from django.utils import timezone
@@ -462,12 +463,21 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 calendar__owner=self.student,
                 is_recurring=False,
             ).values('id', 'title', 'start', 'end', 'all_day', 'url'))
+            event_counts = CalendarEvent.objects.filter(
+                calendar__owner=self.student,
+                is_recurring=False
+            ).extra({'date_created' : "date(calendar_mchp_calendarevent.start)"}
+                   ).values('date_created'
+                           ).annotate(created_count=Count('id'))
+            print(event_counts)
+            print(event_counts.query)
             # convert the returned events to a format fullcalendar understands
             for event in events:
                 event['start'] = event['start'].strftime(DATE_FORMAT)
                 event['end'] = event['end'].strftime(DATE_FORMAT)
                 event['allDay'] = event['all_day']
                 del event['all_day']
+            events = events + list( event_counts )
             return self.render_to_json_response(events, status=200)
         else:
             return redirect(reverse('calendar'))

@@ -11,6 +11,7 @@
 	{% load staticfiles %}
 	<!-- // <script src="{% static 'dashboard/js/quicklinks.js' %}"></script> -->
 	<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+	<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 	<!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
   <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 
@@ -35,16 +36,18 @@
 </div><!-- End Score Bar -->
 
 <div class="container">
-  <div class="alert alert-info alert-dismissible fade in" role="alert">
-    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <div class="media" style="margin-top:0px;">
-      <img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="earn referral points">
-      <div class="media-body">
-        <h4 class="media-heading">Refer a friend, and you both get a <strong>free study guide!</strong></h4>
-        We've set you up with your own unique referral code and referall link. For every person that signs up with us by clicking on your link, or by entering your code in the promotions window, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. <strong>- mchp</strong>
-      </div>
-    </div>
-  </div><!-- end alert -->
+	{% if not flags.referral_info %}
+	<div class="alert alert-info alert-dismissible fade in" id="ref-alert" role="alert">
+		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		<div class="media" style="margin-top:0px;">
+			<img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="earn referral points">
+			<div class="media-body">
+				<h4 class="media-heading">Refer a friend, and you both get a <strong>free study guide!</strong></h4>
+				We've set you up with your own unique referral code and referall link. For every person that signs up with us by clicking on your link, or by entering your code in the promotions window, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. <strong>- mchp</strong>
+			</div>
+		</div>
+	</div><!-- end alert -->
+	{% endif %}
   <ol class="breadcrumb" style="margin-bottom:5px;">
     <li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span>  <span id="weather_temp">66&deg; F</span> &nbsp;</li>
     <li><a target="_blank" href="http://google.com">Google</a></li>
@@ -189,18 +192,22 @@
       <!-- <div class="row">
         <div class="col-sm-8"> -->
       <div class="list-group scrolls" id="pulse">
-        <div class="list-group-item">
-          <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
-            <h5><i class="fa fa-user fa-fw"></i></h5>
-            </a>
-            <div class="media-body">
-              <p class="media-heading">
-                <h class="pull-right"><small>7m</small></h>
-                <a href="#" class="text-muted"><strong>Spencer</strong></a> joined your class</p>
-              <span class="description small">ACCT 200</span> </div>
-          </div>
-        </div>
-        <div> </div>
+				{% for event in pulse %}
+				{{ event }}
+				<div class="list-group-item">
+					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
+							<h5><i class="fa fa-user fa-fw"></i></h5>
+						</a>
+						<div class="media-body">
+							<p class="media-heading">
+								<h class="pull-right"><small>7m</small></h>
+								<a href="#" class="text-muted"><strong>{{event.name}}</strong></a> joined a class
+							your in</p>
+							<span class="description small"></span> </div>
+					</div>
+				</div>
+				<div> </div>
+				{% endfor %}
         <div class="list-group-item">
           <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
             <h5><i class="fa fa-calendar fa-fw"></i></h5>

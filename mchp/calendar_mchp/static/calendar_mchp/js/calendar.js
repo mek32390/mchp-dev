@@ -26,7 +26,7 @@ $(function() {
 		$('.cal-intro').fadeOut(250, function () {
 			$('#yourCalList').fadeIn(500);
 		});
-		toggle_flag();
+		toggle_flag('calendar_tutorial');
 	});
 
 	// using jquery.cookie plugin
@@ -104,33 +104,30 @@ $(function() {
 			// color: 'blue',   // a non-ajax option
 			// textColor: 'black' // a non-ajax option
 		},
+		eventRender: function(event, element) {
+			// return false;
+		},
 		eventClick: function(calEvent, jsEvent, view) {
 			eventData = {
 				id: calEvent.id,
 				title: calEvent.title,
-				start: calEvent.start._d.toJSON(),
-				end: calEvent.end._d.toJSON(),
+				start: calEvent.start.toJSON(),
+				end: calEvent.end.toJSON(),
 				all_day: calEvent.allDay,
 			};
-			deleteEvent(eventData);
-			$('#calendar').fullCalendar('removeEvents', calEvent.id);
+			console.log(calEvent);
+			$event = $(jsEvent.target).parents('.fc-event-container');
+			console.log($event);
+			console.log($event[0]);
+			console.log($($event[0]));
+			$event.popover('show');
+			// deleteEvent(eventData);
+			// $('#calendar').fullCalendar('removeEvents', calEvent.id);
 			return false;
 		},
 		eventDrop: updateEvent,
 		eventResize: updateEvent,
 
-		// don't delete this yet
-		// defaultDate: today,
-			// 	eventData = {
-			// 		title: title,
-			// 		start: start,
-			// 		end: end
-			// 	};
-			// 	$('#calendar').fullCalendar('renderEvent', 
-			// 	eventData, true); // stick? = true
-			// 	saveEvent({title: title, start: 
-			// 	start._d.toJSON(), end: end._d.toJSON()}, true); // create = true
-			// }
 		editable: true,
 		timezone: 'local',
 	});
@@ -151,9 +148,21 @@ $(function() {
 			return $('#popover-content').html();
 		},
 		container: 'body',
-
-
 	});
+	$('.fc-event-container').popover({
+		trigger: 'manual',
+		placement: 'auto top',
+		html: true,
+		viewport: '#calendar',
+		title: function() {
+			return 'wat'; 
+		},
+		content: function() {
+			return 'um';
+		},
+		container: 'body',
+	});
+
 	var observer = new MutationObserver(function(mutations) {
 		alert('what');
 		mutations.forEach(function(mutation) {
@@ -369,13 +378,6 @@ var deleteEvent = function(eventData) {
 	});
 };
 
-var toggle_flag = function() {
-	$.ajax({
-		url: '/profile/toggle-flag/',
-		type: 'POST',
-		data: {'flag': 'calendar_tutorial'},
-	});
-};
 
 var deleteCalendar = function(cal_pk) {
 	var messages = [];

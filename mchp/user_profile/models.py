@@ -13,14 +13,14 @@ from functools import reduce
 import urllib
 import json
 
+
 class Student(models.Model):
     user = models.OneToOneField(User, related_name='student_user')
 
     school = models.ForeignKey('schedule.School', related_name='student_school')
-    courses = models.ManyToManyField('schedule.Course', db_table='user_profile_enrollment',
-                                     blank=True)
+    courses = models.ManyToManyField('schedule.Course', through='Enrollment')
 
-    friends = models.ManyToManyField('self', db_table='user_profile_friends', blank=True)
+    friends = models.ManyToManyField('self', db_table='user_profile_friends')
 
     purchased_points = models.IntegerField(default=0)
     earned_points = models.IntegerField(default=0)
@@ -100,6 +100,14 @@ class Student(models.Model):
 User.student = property(lambda u: Student.objects.get(user=u))
 User.student_exists = lambda u: Student.objects.filter(user=u).exists()
 
+class Enrollment(models.Model):
+    student = models.ForeignKey(Student)
+    course = models.ForeignKey('schedule.Course')
+    join_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "joined {} on {}".format(self.course.display, self.join_date)
+
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
     pic = models.ImageField(upload_to="profile_pic/", blank=True, null=True)
@@ -152,6 +160,7 @@ class StudentQuicklink(models.Model):
 class OneTimeFlag(models.Model):
     student = models.ForeignKey(Student, primary_key=True, related_name='one_time_flag')
     calendar_tutorial = models.BooleanField(default=False)
+    referral_info = models.BooleanField(default=False)
 
     objects = managers.OneTimeFlagManager()
 
