@@ -45,17 +45,6 @@ $(function() {
 		scrollIncrement: 50,
 	});
 
-	// for credit card fancy form 
-	$('#cardForm').card({
-    	container: '.card-wrapper', // *required*
-    	numberInput: 'input[name=number]',
-    	nameInput: 'input[name=first-name]',
-    	expiryInput: 'input[name=expiry]',
-    	cvcInput: 'input[name=cvc]',
-
-    	width: 350, // optional — default 350px
-	});
-
 	// hover opacity for score bar
 	$('.score-bar').on( "mouseenter", function () {
 		$(this).css({'transition':'opacity .5s ease 0s', 'opacity':'1'});
@@ -115,7 +104,7 @@ $(function() {
         var _this = this;
         setTimeout(function () {
             if (!$(".popover:hover").length) {
-                $(_this).popover("hide")
+                $(_this).popover("hide");
             }
         }, 100);
     });

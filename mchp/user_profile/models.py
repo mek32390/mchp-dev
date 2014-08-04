@@ -55,6 +55,7 @@ class Student(models.Model):
         amount = Decimal(amount).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
         self.balance = self.balance + amount
         self.save()
+        return self.balance
 
     def display_balance(self):
         return str(Decimal(self.balance).quantize(Decimal('1.00'), rounding=ROUND_HALF_DOWN))

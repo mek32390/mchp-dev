@@ -3,25 +3,22 @@
  *
  * This file handles the functionality of the calendar page.
  */
- //toggle news categories section
-
- $(function() {
-
- 	if($('#calStepOne').length) {
- 		$('#yourCalList').hide();
- 	}
+$(function() {
+	if($('#calStepOne').length) {
+		$('#yourCalList').hide();
+	}
 	// show calendar step three  when clicked
-	$('.stepOneNext').on('click', function () {
-		$('#calStepOne').fadeOut(250, function () {
-			$('#calStepTwo').fadeIn(500);
-			$('#calStepTwo').removeClass("hidden");
-		});
+    $('.stepOneNext').on('click', function () {
+    	$('#calStepOne').fadeOut(250, function () {
+    		$('#calStepTwo').fadeIn(500);
+    		$('#calStepTwo').removeClass("hidden");
+    	});
 	});
 	// show calendar step three when clicked
-	$('.stepTwoNext').on('click', function () {
-		$('#calStepTwo').fadeOut(250, function () {
-			$('#calStepThree').fadeIn(500);
-			$('#calStepThree').removeClass("hidden");
+    $('.stepTwoNext').on('click', function () {
+	$('#calStepTwo').fadeOut(250, function () {
+		$('#calStepThree').fadeIn(500);
+		$('#calStepThree').removeClass("hidden");
 		});
 	});
 	// switch to your cal list when clicked and close intro
@@ -61,43 +58,36 @@
 		});
 	});
 
-	//toggle delete cal section
-	$('#viewCals').on('click', function () {
-
-	    $('.flip-holder').toggleClass("flip");
-	});
-
 
 	/**********************
 	 * FULLCALENDAR STUFF *
 	 **********************/
 
-	 var today = new Date().toJSON().slice(0,10);
-	 var updateEvent = function(event, dateDelta, minuteDelta) {
-	 	console.log(event);
-	 	eventData = {
-	 		id: event.id,
-	 		title: event.title,
-	 		start: event.start.toJSON(),
-	 		end: event.end.toJSON(),
-	 		all_day: event.allDay,
-	 	};
-	 	saveEvent(eventData, false);
-	 };
+	var today = new Date().toJSON().slice(0,10);
+	var updateEvent = function(event, dateDelta, minuteDelta) {
+		console.log(event);
+		eventData = {
+			id: event.id,
+			title: event.title,
+			start: event.start.toJSON(),
+			end: event.end.toJSON(),
+			all_day: event.allDay,
+		};
+		saveEvent(eventData, false);
+	};
 
-	 $('#calendar').fullCalendar({
-	 	header: false,
-	 	weekMode: 'fluid',
-	 	// aspectRatio: .8,
-	 	Height: 500,
-	 	// handleWindowResize: false,
+	$('#calendar').fullCalendar({
+		header: false,
+    	weekMode: 'liquid',
 
 		//trigger add event pop-up on click and stay
 		dayClick: function(date, jsEvent, view) {
 			// remove the other popovers
 			$('.popover').remove();
 			// show the clicked day popover
-			var date_string = date.year() + '-' + (date.month() + 1) + '-' + date.date();
+			date_string = date.format('ddd MMM DD, YYYY');
+			console.log(date);
+			$('#date-input').data('date', date);
 			$('#date-input').attr('value', date_string);
 			$(jsEvent.target).popover('show');
 		},
@@ -140,10 +130,9 @@
 			// 	saveEvent({title: title, start: 
 			// 	start._d.toJSON(), end: end._d.toJSON()}, true); // create = true
 			// }
-			editable: true,
-			timezone: 'local',
-		});
-
+		editable: true,
+		timezone: 'local',
+	});
 
 	/*****************
 	 * popover stuff *
@@ -182,44 +171,48 @@
 		var $target = $(event.target);
 		// this makes baby pandas around the world cry salty tears
 		if(!($target.hasClass('btn') ||
-			$target.hasClass('day') ||
-			$target.hasClass('date') ||
-			$target.hasClass('fc-day') ||
-			$target.hasClass('popover-title') ||
-			$target.hasClass('popover-content') ||
-			$target.hasClass('datepicker-switch') ||
-			$target.hasClass('datepicker-days') ||
-			$target.hasClass('table-condensed') ||
-			$target.hasClass('prev') ||
-			$target.hasClass('next') ||
-			$target.hasClass('dow') ||
-			$target.is('span') ||
-			$target.is('a') ||
-			$target.hasClass('form-control')
-			)) {
+				 $target.hasClass('day') ||
+				 $target.hasClass('date') ||
+				 $target.hasClass('fc-day') ||
+				 $target.hasClass('popover-title') ||
+				 $target.hasClass('popover-content') ||
+				 $target.hasClass('datepicker-switch') ||
+				 $target.hasClass('datepicker-days') ||
+				 $target.hasClass('table-condensed') ||
+				 $target.hasClass('prev') ||
+				 $target.hasClass('next') ||
+				 $target.hasClass('dow') ||
+				 $target.is('span') ||
+				 $target.is('a') ||
+				 $target.hasClass('form-control')
+				)) {
 			$('.popover').popover('hide');
-	}
+		}
 		// when you click on any of the list items in the drop down
-		$("#calSelect > li a").click(function(){
+    	$("#calSelect > li a").click(function(){
 			// replace the cal icon with the title of the calendar
-			$(".cal-name").text($(this).text() + ' ');
-			$(".cal-name").data('calendar', $(this).data('calendar'));
-		});
+	        $(".cal-name").text($(this).text() + ' ');
+	        $(".cal-name").data('calendar', $(this).data('calendar'));
+    	});
 
     	//display selected due date time in create event popover button addon
     	$("#duedateSelect > li a").click(function(){
 	        //display the selected calendar in the button
 	        $(".due-date").text($(this).text() + ' ');
 	        $(".due-date").data('due', $(this).data('due'));
-	    });
+    	});
     	// initialize date picker
-    	$('input.date').datepicker({
+		$('input.date').datepicker({
 			format: "D M d, yyyy", //"yyyy-m-d"
-			startDate: "today",
+		    startDate: "today",
 			autoclose: true,
 			todayHighlight: true
+	    }).on('changeDate', function(event) {
+			var pick = moment(event.date);
+			$('#date-input').data('date', pick);
+			console.log(pick);
 		});
-    });
+	});
 
 
 	// submitting the form in the popover
@@ -238,6 +231,11 @@
 		var due = $('.due-date').data('due');
 		due_json = JSON.stringify(due);
 		data += "&due=" + encodeURIComponent(due_json);
+
+		var date = $('#date-input').data('date');
+		date_json = JSON.stringify(date);
+		console.log(date_json);
+		data += "&date=" + encodeURIComponent(date_json);
 
 		$.ajax({
 			url: url,
@@ -286,37 +284,42 @@
 
 	// today button
 	$('.cal-today-button').click(function() {
-		$('#calendar').fullCalendar('today');
+    	$('#calendar').fullCalendar('today');
 	});
 
 	// prev button
 	$('.cal-prev-button').click(function() {
-		$('#calendar').fullCalendar('prev');
+    	$('#calendar').fullCalendar('prev');
 	});
 	// next button
 	$('.cal-next-button').click(function() {
-		$('#calendar').fullCalendar('next');
+    	$('#calendar').fullCalendar('next');
 	});
 	// month view button
 	$('.cal-month-button').click(function() {
-		$('#calendar').fullCalendar( 'changeView', 'month' );
+    	$('#calendar').fullCalendar( 'changeView', 'month' );
 	});
 	// agenda week view button
 	$('.cal-agendaWeek-button').click(function() {
-		$('#calendar').fullCalendar( 'changeView', 'agendaWeek' );
+    	$('#calendar').fullCalendar( 'changeView', 'agendaWeek' );
 	});
 	// agenda day view button
 	$('.cal-agendaDay-button').click(function() {
-		$('#calendar').fullCalendar( 'changeView', 'agendaDay' );
+    	$('#calendar').fullCalendar( 'changeView', 'agendaDay' );
 	});
 
 	// change the title when the view changes
 	$('.cal-button').click(function() {
-		$('.cal-date').text(function () {
+    	$('.cal-date').text(function () {
 			var view = $('#calendar').fullCalendar('getView');
 			return view.title;
 		});
 	});
+
+	//toggle calendar list section
+    $('#viewCals').on('click', function () {
+        $('.flip-holder').toggleClass("flip");
+    });
 
 });
 
@@ -390,7 +393,4 @@ var deleteCalendar = function(cal_pk) {
 			});
 		},
 	});
-
 };
-
-

@@ -363,7 +363,7 @@
 			<li role="presentation" class="dropdown-header">School Calendars</li>
 			{% for calendar in owned_calendars %}
 			<li role="presentation">
-				<a role="menuitem" tabindex="-1" href="#" data-calendar="{{calendar.pk}}">
+				<a role="menuitem" tabindex="-1" href="#calendar" data-calendar="{{calendar.pk}}">
 					<span class="text-success">{{calendar.title}}</span>
 				</a>
 			</li>
@@ -378,7 +378,7 @@
 			<p><input class="form-control" name="title" placeholder="Event Title" required></p>
 			<p>
 				<div class="input-group">
-					<input type="text" name="date" id="date-input" class="form-control date" placeholder="Wed, Aug 14, 2014" required>
+					<input type="text" name="date" id="date-input" class="form-control date" placeholder="Wed, Aug 14, 2014">
 					<div class="input-group-btn">
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 							<span data-due="1" class="due-date small">In Class</span> <span class="caret"></span></button>

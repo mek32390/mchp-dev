@@ -1,0 +1,25 @@
+<div class="payment">
+	<script type="text/javascript">
+		var $modal = $('#{{modal_id}}');
+	</script>
+	{% load payment %}
+	<ul class="nav nav-pills nav-justified" role="tablist">
+		<li class="active">
+			<a href="#purchase-points-tab" role="tab" data-toggle="tab">Purchase Points</a>
+		</li>
+		<li><a href="#cash-out-tab" role="tab" data-toggle="tab">Cash Out</a></li>
+		<li><a href="#card-info-tab" role="tab" data-toggle="tab">Card Info</a></li>
+	</ul>
+	<hr>
+	<div class="tab-content text-center">
+		<div class="tab-pane fade in active" id="purchase-points-tab">
+			{% purchase student%} 
+		</div>
+		<div class="tab-pane fade" id="cash-out-tab">
+			{% cash_out student%}
+		</div>
+		<div class="tab-pane fade" id="card-info-tab">
+			{% card_info student%}
+		</div>
+	</div>
+</div>
