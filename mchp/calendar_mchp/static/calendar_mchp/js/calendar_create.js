@@ -10,8 +10,9 @@ $(function() {
 
 		// If the class calendar option is selected
 		if ($('#classCal').is(':checked')) {
+			$('.cal-name').fadeOut(250);
+			$('.cal-submit').fadeOut(250);
 			$('.select-class').fadeIn(500).removeClass('hidden');
-			$('.cal-name').fadeOut(500);
 			// if the select changes, show sell or not sell radios
 			$('.course-select').change(function() {
 				$('.cal-sell').fadeIn(500).removeClass('hidden');
@@ -47,20 +48,23 @@ $(function() {
 		else if ($('#personalCal').is(':checked')) {
 			// $(this).closest('form').find("input[type=text], textarea").val("");
 			$('.cal-name').fadeIn(500).removeClass('hidden');
-			$('.select-class').fadeOut(500);
+			$('.cal-submit').fadeIn(500).removeClass('hidden');
+			$('.select-class').fadeOut(250);
 			$('.course-select').val('-1').change();
-			$('.cal-sell').fadeOut(500);
-			$('.course-meetings').fadeOut(500);
-			$('.cal-start-end').fadeOut(500);
-			$('.cal-description').fadeOut(500);
-			$('.cal-submit').fadeIn(600).removeClass('hidden');
+			$('.cal-sell').fadeOut(250);
+			$('.course-meetings').fadeOut(250);
+			$('.cal-start-end').fadeOut(250);
+			$('.cal-description').fadeOut(250);
+			
 		}
 	});
 
 
 	// initializing clockpicker
 	$('.clockpicker').clockpicker( {
-		twelvehour: 'true'
+		twelvehour: 'true',
+		placement: 'top',
+    	align: 'left',
 	});
 
    	// when the meeting days button option changes
@@ -114,13 +118,13 @@ $(function() {
                     }
                 }
             },
-            enddate: {
-                validators: {
-                    notEmpty: {
-                        message: 'Your class end date is required'
-                    }
-                }
-            },
+            // enddate: {
+            //     validators: {
+            //         notEmpty: {
+            //             message: 'Your class end date is required'
+            //         }
+            //     }
+            // },
             description: {
                 validators: {
                     notEmpty: {
