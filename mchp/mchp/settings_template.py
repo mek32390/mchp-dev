@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'dashboard',
     'referral',
     'schedule',
+    'payment',
 
     'haystack',
     'storages',
@@ -159,6 +160,12 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': 'haystack',
     },
 }
+
+# 
+# Stripe
+#
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_trLdDuux3wpqI52nw0U3iNq3")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_ZnZ8MHHA3ECLS9JXJwBCE4pw")
 
 # celery
 # default RabbitMQ broker
