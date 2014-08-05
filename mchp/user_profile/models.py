@@ -111,6 +111,7 @@ class Enrollment(models.Model):
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
     pic = models.ImageField(upload_to="profile_pic/", blank=True, null=True)
+    blurb = models.CharField(max_length=200, blank=True)
  
     def profile_image_url(self):
         fb_uid = SocialAccount.objects.filter(user=self.student.user, provider='facebook')

@@ -22,13 +22,16 @@ $(function(){
 	$('#about').editable({
     	mode: 'inline',
     	inputclass: 'input-lg',
+		url: '/profile/edit-blurb/',
+		emptytext: 'Add a quote!',					
+		send: 'always',
     });
 
 	//button to trigger about field (not used right now)
-    $('#edit-button').click(function(e) {
-    e.stopPropagation();
-    $('#about').editable('toggle');
-	
+	$('#edit-button').click(function(e) {
+		e.stopPropagation();
+		$('#about').editable('toggle');
+
 	});
 
 });

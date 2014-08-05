@@ -7,6 +7,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import View
 from django.http import HttpResponse, HttpResponseGone
 from django.utils.decorators import method_decorator
+# from django.views.decorators.csrf import ensure_csrf_cookie
 
 from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
@@ -14,6 +15,7 @@ from allauth.account.adapter import get_adapter
 
 from schedule.models import School
 from user_profile.models import Student, OneTimeFlag
+from documents.models import Document
 from lib.decorators import school_required
 from referral.models import ReferralCode, Referral
 
@@ -48,10 +50,15 @@ class ProfileView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['profile'] = self.object.profile
+        context['viewer'] = self.viewer
+        context['upload_list'] = Document.objects.filter(
+            upload__owner = self.object
+        ).order_by('create_date')[:10]
         return context
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
+        self.viewer = self.request.user.student
         return super(ProfileView, self).dispatch(*args, **kwargs)
 
 profile = ProfileView.as_view()
@@ -182,6 +189,27 @@ class AjaxableResponseMixin(object):
                 "extra_tags": message.tags,
             })
         return django_messages
+
+'''
+url: /profile/edit-blurb/
+name: edit_blurb
+'''
+class BlurbView(View, AjaxableResponseMixin):
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            profile = request.user.student.profile
+            profile.blurb = request.POST.get('value', '')[:200]
+            profile.save()
+            return self.render_to_json_response({}, status=200)
+            # else:
+            #     return self.render_to_json_response({}, status=403)
+        else:
+            return redirect(reverse('my_profile'))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('my_profile'))
+
+edit_blurb = BlurbView.as_view()
 
 '''
 url: /profile/toggle-flag/

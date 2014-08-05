@@ -9,3 +9,13 @@
     text-decoration: none;
     border-bottom: 0px;
 }
+
+.about-container {
+	text-align: center;
+}
+
+.lead {
+	word-break: break-all;
+	max-width: 700px;
+	margin: auto;
+}
