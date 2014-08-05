@@ -6,33 +6,33 @@
 {% endblock %}
 
 {% block extra_head %}
-  <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
 
-	{% load staticfiles %}
-	<!-- // <script src="{% static 'dashboard/js/quicklinks.js' %}"></script> -->
-	<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
-	<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
-	<!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
-  <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+{% load staticfiles %}
+<!-- // <script src="{% static 'dashboard/js/quicklinks.js' %}"></script> -->
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
+<!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
+<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 
 {% endblock %}
 
 {% block body %}
 <div class="progress score-bar" style="margin-top:-20px; opacity:.5;"><!-- Score Bar -->
-  <span class="score-breakdown">
-    <a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
-      <span class="sr-only">35% Complete (success)</span>
-    </a>
-    <a href="#" class="progress-bar progress-bar-primary animated slideInLeft" id="score_2">
-      <span class="sr-only">20% Complete (warning)</span>
-    </a>
-    <a href="#" class="progress-bar progress-bar-info animated slideInLeft" id="score_3" >
-      <span class="sr-only">45% Complete (danger)</span>
-    </a>
-  </span>
-  <a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
-    <span class="sr-only">35% Complete (success)</span>
-  </a>
+	<span class="score-breakdown">
+		<a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
+			<span class="sr-only">35% Complete (success)</span>
+		</a>
+		<a href="#" class="progress-bar progress-bar-primary animated slideInLeft" id="score_2">
+			<span class="sr-only">20% Complete (warning)</span>
+		</a>
+		<a href="#" class="progress-bar progress-bar-info animated slideInLeft" id="score_3" >
+			<span class="sr-only">45% Complete (danger)</span>
+		</a>
+	</span>
+	<a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
+		<span class="sr-only">35% Complete (success)</span>
+	</a>
 </div><!-- End Score Bar -->
 
 <div class="container">
@@ -48,152 +48,151 @@
 		</div>
 	</div><!-- end alert -->
 	{% endif %}
-  <ol class="breadcrumb" style="margin-bottom:5px;">
-    <li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span>  <span id="weather_temp">66&deg; F</span> &nbsp;</li>
-    <li><a target="_blank" href="http://google.com">Google</a></li>
-    <li><a target="_blank" href="http://blackboard.com">Blackboard</a></li>  
-    <li><a target="_blank" href="http://d2l.com">D2L</a></li>  
-    <a  id="addLink" href="#" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a>
-  </ol>
-<!-- <div class='custom-menu'>
-        <div data-action="edit" id="edit">
-            Edit
-        </div>
-        <div data-action="delete" id="delete">
-            Delete
-        </div>
-    </div>
+	<ol class="breadcrumb" style="margin-bottom:5px;">
+		<li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span>  <span id="weather_temp">66&deg; F</span> &nbsp;</li>
+		<li><a target="_blank" href="http://google.com">Google</a></li>
+		<li><a target="_blank" href="http://blackboard.com">Blackboard</a></li>  
+		<li><a target="_blank" href="http://d2l.com">D2L</a></li>  
+		<a  id="addLink" href="#" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a>
+	</ol>
+	<!-- <div class='custom-menu'>
+				<div data-action="edit" id="edit">
+						Edit
+				</div>
+				<div data-action="delete" id="delete">
+						Delete
+				</div>
+		</div>
 
-    <div id="dialog-form" title="Edit quicklink">
-        <p class="validateTips">All fields are required.</p>
-        <form>
-            <fieldset>
-                <label for="name">Name</label> <input class="text ui-widget-content ui-corner-all" id="name" name="name" type="text" value="Google"> <label for="url">URL</label> <input class="text ui-widget-content ui-corner-all" id="url" name="url" type="text" value="www.google.com"> <input style="position:absolute; top:-1000px" tabindex="-1" type="submit">
-            </fieldset>
-        </form>
-    </div> -->
-   <!-- End Quicklinks -->
-   <div class="row"><!-- Begin Row --> 
-    <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
-      <h2 style>Today&nbsp;<small>in your life</small></h2>
-      <hr class="margin-top-sm">
-      <h5><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-info pull-right">2</span></h5>
-      <div class="list-group">
-        <div class="list-group-item">
-          <p class="list-group-item-heading"><a href="#" class="text-info"><strong>Meet with Counselor</strong></a></p>
-          <h class="pull-right text-default"><small>in 3 hrs</small></h>
-          <h class="text-right h6"><i class="fa fa-map-marker fa-fw"></i> Bear Down Gym</h>
-        </div>
-      </div>
-      <h5><strong><i class="fa fa-calendar fa-fw"></i> Assignments <small>to do</small><span class="label label-danger pull-right">1</span></strong></h5>
-      <div class="list-group">
-        <div class="list-group-item">
-          <p class="list-group-item-heading text-danger"><a href="#" class="text-danger"><strong>Read Chapters 1 &amp; 2</strong></a></p>
-          <h class="pull-right text-default"><small>in 2 hrs</small></h>
-          <h class="text-right h6">ECON 200</h>
-        </div>
-      </div>
-<!--       <h5><i class="fa fa-book fa-fw"></i> Classes <small>to go to</small><span class="label label-warning pull-right">3</span></h5>
-      <div class="list-group">
-        <div class="list-group-item">
-          <h class="pull-right text-default"><small>in 3 hrs</small></h>
-          <p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ECON 200</strong></a></p>
-        </div>
-        <div class="list-group-item">
-          <h class="pull-right text-default"><small>in 4 hrs</small></h>
-          <p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ACCT 200</strong></a></p>
-        </div>
-        <div class="list-group-item">
-          <h class="pull-right text-default"><small>in 5 hrs</small></h>
-          <p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ENGR 102</strong></a></p>
-        </div>
-      </div>  --> 
-      
-    <!-- h2>News <small>for your brain</small></h2>
-      <hr style="margin-top:5px;">
-      <ul class="list-group">
-  <li class="list-group-item">
-    <a>The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
-    <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
-  </li>
-  <li class="list-group-item">
-    <a>The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
-    <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
-  </li>
+		<div id="dialog-form" title="Edit quicklink">
+				<p class="validateTips">All fields are required.</p>
+				<form>
+						<fieldset>
+								<label for="name">Name</label> <input class="text ui-widget-content ui-corner-all" id="name" name="name" type="text" value="Google"> <label for="url">URL</label> <input class="text ui-widget-content ui-corner-all" id="url" name="url" type="text" value="www.google.com"> <input style="position:absolute; top:-1000px" tabindex="-1" type="submit">
+						</fieldset>
+				</form>
+		</div> -->
+	<!-- End Quicklinks -->
+	<div class="row"><!-- Begin Row --> 
+		<div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
+			<h2 style>Today&nbsp;<small>in your life</small></h2>
+			<hr class="margin-top-sm">
+			<h5><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-info pull-right">2</span></h5>
+			<div class="list-group">
+				<div class="list-group-item">
+					<p class="list-group-item-heading"><a href="#" class="text-info"><strong>Meet with Counselor</strong></a></p>
+					<h class="pull-right text-default"><small>in 3 hrs</small></h>
+					<h class="text-right h6"><i class="fa fa-map-marker fa-fw"></i> Bear Down Gym</h>
+				</div>
+			</div>
+			<h5><strong><i class="fa fa-calendar fa-fw"></i> Assignments <small>to do</small><span class="label label-danger pull-right">1</span></strong></h5>
+			<div class="list-group">
+				<div class="list-group-item">
+					<p class="list-group-item-heading text-danger"><a href="#" class="text-danger"><strong>Read Chapters 1 &amp; 2</strong></a></p>
+					<h class="pull-right text-default"><small>in 2 hrs</small></h>
+					<h class="text-right h6">ECON 200</h>
+				</div>
+			</div>
+			<!--       <h5><i class="fa fa-book fa-fw"></i> Classes <small>to go to</small><span class="label label-warning pull-right">3</span></h5>
+			<div class="list-group">
+				<div class="list-group-item">
+					<h class="pull-right text-default"><small>in 3 hrs</small></h>
+					<p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ECON 200</strong></a></p>
+				</div>
+				<div class="list-group-item">
+					<h class="pull-right text-default"><small>in 4 hrs</small></h>
+					<p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ACCT 200</strong></a></p>
+				</div>
+				<div class="list-group-item">
+					<h class="pull-right text-default"><small>in 5 hrs</small></h>
+					<p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ENGR 102</strong></a></p>
+				</div>
+			</div>  --> 
+
+			<!-- h2>News <small>for your brain</small></h2>
+			<hr style="margin-top:5px;">
+			<ul class="list-group">
+	<li class="list-group-item">
+		<a>The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
+		<p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
+	</li>
+	<li class="list-group-item">
+		<a>The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
+		<p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
+	</li>
 </ul> -->
-      <!-- <div class="list-group"> -->
-        <!-- <div class="list-group-item"> -->
-    <!--          <div class="media">
-        <a class="pull-left" href="#">
-        <img src="http://1.bp.blogspot.com/-LxboJJo_drw/T_QfPeEK6JI/AAAAAAAACB8/p6R0zGys8hk/s1600/sketch185-July3rd.jpg" class="media-object img-circle img-thumbnail img-responsive center-block" width="55px"  alt="...">
-        </a>
-        <div class="media-body">
-          <h5 class="media-heading">Mitch Kessler <small>256 points <span class="pull-right">Level 4</span></small></h5>
-          <div class="progress" style="margin-bottom: 5px;">
-            <a href="#" class="progress-bar progress-bar-success" id="score_1">
-              <span class="sr-only">35% Complete (success)</span>
-            </a>
-            <a href="#" class="progress-bar progress-bar-primary" id="score_2">
-              <span class="sr-only">20% Complete (warning)</span>
-            </a>
-            <a href="#" class="progress-bar progress-bar-info" id="score_3" >
-              <span class="sr-only">45% Complete (danger)</span>
-            </a>
-          </div>
-          <p><span class="label label-primary">Novice</span> <span class="label label-default">10 Achievements</span></p>
+			<!-- <div class="list-group"> -->
+			<!-- <div class="list-group-item"> -->
+			<!--          <div class="media">
+				<a class="pull-left" href="#">
+				<img src="http://1.bp.blogspot.com/-LxboJJo_drw/T_QfPeEK6JI/AAAAAAAACB8/p6R0zGys8hk/s1600/sketch185-July3rd.jpg" class="media-object img-circle img-thumbnail img-responsive center-block" width="55px"  alt="...">
+				</a>
+				<div class="media-body">
+					<h5 class="media-heading">Mitch Kessler <small>256 points <span class="pull-right">Level 4</span></small></h5>
+					<div class="progress" style="margin-bottom: 5px;">
+						<a href="#" class="progress-bar progress-bar-success" id="score_1">
+							<span class="sr-only">35% Complete (success)</span>
+						</a>
+						<a href="#" class="progress-bar progress-bar-primary" id="score_2">
+							<span class="sr-only">20% Complete (warning)</span>
+						</a>
+						<a href="#" class="progress-bar progress-bar-info" id="score_3" >
+							<span class="sr-only">45% Complete (danger)</span>
+						</a>
+					</div>
+					<p><span class="label label-primary">Novice</span> <span class="label label-default">10 Achievements</span></p>
 
-        </div>
-      </div> -->
-    <!-- </div> -->
-  <!-- </div> -->
-      <!-- <h5><strong><i class="fa fa-fw fa-users"></i> Friends</strong><span class="badge pull-right">25</span></h5>
-      <div class="list-group">
-        <div class="list-group-item">
-      <div class="media">
-        <a class="pull-left" href="#">
-        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/c0.35.160.160/p160x160/1546197_10152408453121654_377514791880411854_n.jpg" class="media-object img-circle img-thumbnail img-responsive center-block" width="40px"  alt="...">
-        </a>
-        <div class="media-body">
-          <h5 class="media-heading">Mike Attwood</h5>
-          <div class="progress">
-            <a href="#" class="progress-bar progress-bar-success" id="score_1">
-              <span class="sr-only">35% Complete (success)</span>
-            </a>
-            <a href="#" class="progress-bar progress-bar-primary" id="score_2">
-              <span class="sr-only">20% Complete (warning)</span>
-            </a>
-            <a href="#" class="progress-bar progress-bar-info" id="score_3" >
-              <span class="sr-only">45% Complete (danger)</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <div class="row">
-<div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
-    <h2 class="margin-top-none">People <small>to meet</small></h2>
-     <hr class="margin-top-sm">
-     <div class-"list-group">
-      <div class="list-group-item">
-     <a href="#"><img class="img-thumbnail img-circle center-block" width="140px" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /></a>
-     <h5 class="text-center user-popover margin-btm-none"><a href="#">Brost</a></h5>
-     <p class="text-center"><small>3 classes in common</small></p>
-     <p class="text-center"><button class="btn btn-primary btn-xs">Friend Brost</button></p>
-   </div>
- </div>
-</div>
-</div>
-    </div><!-- End Today Col -->
+				</div>
+			</div> -->
+			<!-- </div> -->
+			<!-- </div> -->
+			<!-- <h5><strong><i class="fa fa-fw fa-users"></i> Friends</strong><span class="badge pull-right">25</span></h5>
+			<div class="list-group">
+				<div class="list-group-item">
+			<div class="media">
+				<a class="pull-left" href="#">
+				<img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/c0.35.160.160/p160x160/1546197_10152408453121654_377514791880411854_n.jpg" class="media-object img-circle img-thumbnail img-responsive center-block" width="40px"  alt="...">
+				</a>
+				<div class="media-body">
+					<h5 class="media-heading">Mike Attwood</h5>
+					<div class="progress">
+						<a href="#" class="progress-bar progress-bar-success" id="score_1">
+							<span class="sr-only">35% Complete (success)</span>
+						</a>
+						<a href="#" class="progress-bar progress-bar-primary" id="score_2">
+							<span class="sr-only">20% Complete (warning)</span>
+						</a>
+						<a href="#" class="progress-bar progress-bar-info" id="score_3" >
+							<span class="sr-only">45% Complete (danger)</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+			<div class="row">
+				<div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
+					<h2 class="margin-top-none">People <small>to meet</small></h2>
+					<hr class="margin-top-sm">
+					<div class-"list-group">
+						<div class="list-group-item">
+							<a href="#"><img class="img-thumbnail img-circle center-block" width="140px" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /></a>
+							<h5 class="text-center user-popover margin-btm-none"><a href="#">Brost</a></h5>
+							<p class="text-center"><small>3 classes in common</small></p>
+							<p class="text-center"><button class="btn btn-primary btn-xs">Friend Brost</button></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!-- End Today Col -->
 
-	<div class="col-sm-4 col-md-5 animated animated-sm bounceInUp delayed-sm"><!-- Begin Pulse Col -->
-      <h2 style>Pulse <small> feel the vibe</small></h2>
-      <hr class="margin-top-sm">
-      <!-- <div class="row">
-        <div class="col-sm-8"> -->
-      <div class="list-group scrolls" id="pulse">
+		<div class="col-sm-4 col-md-5 animated animated-sm bounceInUp delayed-sm"><!-- Begin Pulse Col -->
+			<h2 style>Pulse <small> feel the vibe</small></h2>
+			<hr class="margin-top-sm">
+			<!-- <div class="row">
+				<div class="col-sm-8"> -->
+			<div class="list-group scrolls" id="pulse">
 				{% for event in pulse %}
-				{{ event }}
 				<div class="list-group-item">
 					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
 							<h5><i class="fa fa-user fa-fw"></i></h5>
@@ -202,189 +201,183 @@
 							<p class="media-heading">
 								<h class="pull-right"><small>7m</small></h>
 								<a href="#" class="text-muted"><strong>{{event.name}}</strong></a> joined a class
-							you're in</p>
+								you're in</p>
 							<span class="description small"></span> </div>
 					</div>
 				</div>
 				<div> </div>
 				{% endfor %}
-        <div class="list-group-item">
-          <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
-            <h5><i class="fa fa-calendar fa-fw"></i></h5>
-            </a>
-            <div class="media-body">
-              <p class="media-heading">
-                <h class="pull-right"><small>8m</small></h>
-                <a href="#"><strong>Quiz 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
-              <span class="description small">ECON 200</span> </div>
-          </div>
-        </div>
-        <div> </div>
-        <div class="list-group-item">
-          <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
-            <h5><i class="fa fa-calendar fa-fw"></i></h5>
-            </a>
-            <div class="media-body">
-              <p class="media-heading">
-                <h class="pull-right"><small>9m</small></h>
-                <a href="#"><strong>Homework 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
-              <span class="description small">ECON 200</span> </div>
-          </div>
-        </div>
-        <div> </div>
-        <div class="list-group-item">
-          <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-success btn-xs">
-            <h5><i class="fa fa-money fa-fw"></i></h5>
-            </a>
-            <div class="media-body">
-              <p class="media-heading">
-                <h class="pull-right"><small>10m</small></h>
-                <a href="#"><strong>Exam 1 Study Guide</strong></a> was purchased by your classmate</p>
-              <span class="description small">ECON 200</span> </div>
-          </div>
-        </div>
-        <div> </div>
-        <div class="list-group-item">
-          <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
-            <h5><i class="fa fa-user fa-fw"></i></h5>
-            </a>
-            <div class="media-body">
-              <p class="media-heading">
-                <h class="pull-right"><small>11m</small></h>
-                <a href="#" class="text-muted"><strong>Ashton K.</strong></a> joined your class</p>
-              <span class="description small">ECON 200</span> </div>
-          </div>
-        </div>
-        <div> </div>
-        <div class="list-group-item">
-          <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
-            <h5><i class="fa fa-file fa-fw"></i></h5>
-            </a>
-            <div class="media-body">
-              <p class="media-heading">
-                <h class="pull-right"><small>12m</small></h>
-                <a href="#"><strong>Exam 1 Study Guide</strong></a> added by <a href="#" class="text-muted"><strong>Mike M.</strong></a></p>
-              <span class="description small">ECON 200</span> </div>
-          </div>
-        </div>
-        <div> </div>
-        <div class="list-group-item">
-          <div class="media"><a href="#" class="media-object img-thumbnail pull-left btn-default btn-xs">
-            <h5><i class="fa fa-user fa-fw"></i></h5>
-            </a>
-            <div class="media-body">
-              <p class="media-heading">
-                <h class="pull-right"><small>13m</small></h>
-                You joined a class</p>
-              <span class="description small">ECON 200</span> </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- </div> End Pulse Col -->
-    <div class="col-md-4 col-sm-4 animated animated-md bounceInUp delayed-md">
+				<div class="list-group-item">
+					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
+							<h5><i class="fa fa-calendar fa-fw"></i></h5>
+						</a>
+						<div class="media-body">
+							<p class="media-heading">
+								<h class="pull-right"><small>8m</small></h>
+								<a href="#"><strong>Quiz 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
+							<span class="description small">ECON 200</span> </div>
+					</div>
+				</div>
+				<div> </div>
+				<div class="list-group-item">
+					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
+							<h5><i class="fa fa-calendar fa-fw"></i></h5>
+						</a>
+						<div class="media-body">
+							<p class="media-heading">
+								<h class="pull-right"><small>9m</small></h>
+								<a href="#"><strong>Homework 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
+							<span class="description small">ECON 200</span> </div>
+					</div>
+				</div>
+				<div> </div>
+				<div class="list-group-item">
+					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-success btn-xs">
+							<h5><i class="fa fa-money fa-fw"></i></h5>
+						</a>
+						<div class="media-body">
+							<p class="media-heading">
+								<h class="pull-right"><small>10m</small></h>
+								<a href="#"><strong>Exam 1 Study Guide</strong></a> was purchased by your classmate</p>
+							<span class="description small">ECON 200</span> </div>
+					</div>
+				</div>
+				<div> </div>
+				<div class="list-group-item">
+					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
+							<h5><i class="fa fa-user fa-fw"></i></h5>
+						</a>
+						<div class="media-body">
+							<p class="media-heading">
+								<h class="pull-right"><small>11m</small></h>
+								<a href="#" class="text-muted"><strong>Ashton K.</strong></a> joined your class</p>
+							<span class="description small">ECON 200</span> </div>
+					</div>
+				</div>
+				<div> </div>
+				<div class="list-group-item">
+					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
+							<h5><i class="fa fa-file fa-fw"></i></h5>
+						</a>
+						<div class="media-body">
+							<p class="media-heading">
+								<h class="pull-right"><small>12m</small></h>
+								<a href="#"><strong>Exam 1 Study Guide</strong></a> added by <a href="#" class="text-muted"><strong>Mike M.</strong></a></p>
+							<span class="description small">ECON 200</span> </div>
+					</div>
+				</div>
+				<div> </div>
+				<div class="list-group-item">
+					<div class="media"><a href="#" class="media-object img-thumbnail pull-left btn-default btn-xs">
+							<h5><i class="fa fa-user fa-fw"></i></h5>
+						</a>
+						<div class="media-body">
+							<p class="media-heading">
+								<h class="pull-right"><small>13m</small></h>
+								You joined a class</p>
+							<span class="description small">ECON 200</span> </div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <h2>Stories <small> for your brain</small><a href="#" id="edit_sections" class='pull-right'><small><i class="fa fa-bars"></i></small></a></h2>
+		<!-- </div> End Pulse Col -->
+		<div class="col-md-4 col-sm-4 animated animated-md bounceInUp delayed-md">
 
-      <hr class="margin-top-sm">
-        
-            <div class="flip-holder">
+			<h2>Stories <small> for your brain</small><a href="#" id="edit_sections" class='pull-right'><small><i class="fa fa-bars"></i></small></a></h2>
 
-                <div class="front">
-                     <ul class="list-group">
-  <li class="list-group-item">
-    <small class="pull-right"><small>11m</small></small>
-    <a href="#">The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
-    <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
-  </li>
-  <li class="list-group-item">
-    <small class="pull-right"><small>11m</small></small>
-    <a href="#">Hit the Slopes in Comfort With These Top Three Goggles</a> <small><span class="label  alert-info">FOX</span></small>
-    <p class="small">Without the right goggles, a bluebird day on the mountain is nothing more than a recipe for snow blindness.</p>
-  </li>
-  <li class="list-group-item">
-    <small class="pull-right"><small>11m</small></small>
-    <a href="#">This Might be the Best Reason EVER to Not Drop Out of School</a> <small><span class="label  alert-info">FOX</span></small>
-    <p class="small">A Reddit user posted this photo of a ten dollar bill. It contains perhaps the best reason ever to complete the highest level of eduction possible.</p>
-  </li>
-  <li class="list-group-item">
-    <small class="pull-right"><small>11m</small></small>
-    <a href="#">Hobbyists pilot small drones for dogfights</a> <small><span class="label  alert-info">FOX</span></small>
-    <p class="small">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.</p>
-  </li>
-</ul>
-                    
-                </div>
-                <div class="back">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="well">
-                                <h4 class="text-center">Customize Your Interests</h4>
-                                <hr class="margin-top-sm">
-                                <ul class="list-inline text-center">
-                                    <li class="list-group" style="width:111px;">
-                                        <div class="list-group-item btn btn-default" data-toggle="button">
-                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-                                            <h5>Headlines</h5>
-                                        </div>
-                                    </li> 
-                                    <li class="list-group" style="width:111px;">
-                                        <div class="list-group-item btn btn-default" data-toggle="button">
-                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-                                            <h5>Sports</h5>
-                                        </div>
-                                    </li>
-                                     <li class="list-group" style="width:111px;">
-                                        <div class="list-group-item btn btn-default" data-toggle="button">
-                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-                                            <h5>College</h5>
-                                        </div>
-                                    </li> 
-                                    <li class="list-group" style="width:111px;">
-                                        <div class="list-group-item btn btn-default" data-toggle="button">
-                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-                                            <h6>Entertainment</h6>
-                                        </div>
-                                    </li>
-                                    <li class="list-group" style="width:111px;">
-                                        <div class="list-group-item btn btn-default" data-toggle="button">
-                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-                                            <h5>Art</h5>
-                                        </div>
-                                    </li> 
-                                    <li class="list-group" style="width:111px;">
-                                        <div class="list-group-item btn btn-default" data-toggle="button">
-                                            <img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-                                            <h5>Fashion</h5>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-  
+			<hr class="margin-top-sm">
 
+			<div class="flip-holder">
 
+				<div class="front">
+					<ul class="list-group">
+						<li class="list-group-item">
+							<small class="pull-right"><small>11m</small></small>
+							<a href="#">The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
+							<p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
+						</li>
+						<li class="list-group-item">
+							<small class="pull-right"><small>11m</small></small>
+							<a href="#">Hit the Slopes in Comfort With These Top Three Goggles</a> <small><span class="label  alert-info">FOX</span></small>
+							<p class="small">Without the right goggles, a bluebird day on the mountain is nothing more than a recipe for snow blindness.</p>
+						</li>
+						<li class="list-group-item">
+							<small class="pull-right"><small>11m</small></small>
+							<a href="#">This Might be the Best Reason EVER to Not Drop Out of School</a> <small><span class="label  alert-info">FOX</span></small>
+							<p class="small">A Reddit user posted this photo of a ten dollar bill. It contains perhaps the best reason ever to complete the highest level of eduction possible.</p>
+						</li>
+						<li class="list-group-item">
+							<small class="pull-right"><small>11m</small></small>
+							<a href="#">Hobbyists pilot small drones for dogfights</a> <small><span class="label  alert-info">FOX</span></small>
+							<p class="small">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.</p>
+						</li>
+					</ul>
 
-      
-     
-      <!-- <! <ul class="nav nav-pills h6" id="newsTabs">
-        <li class="active"><a href="#" data-section="top">Top</a> </li>
-        <li><a href="#" data-section="sports">Sports</a> </li>
-        <li><a href="#" data-section="tech">Tech</a> </li>
-        <li><a href="#" data-section="entertainment">Ent</a> </li>
-        <li class="pull-right"><a href="#newsfeedModal" data-toggle="modal"><i class="fa fa-list-ul fa-fw"></i></a></li>
-      </ul> -->
-<!--       <p></p> -->
-      <!-- div class="list-group scrolls" id="news">
-        
-      </div> -->
+				</div>
+				<div class="back">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="well">
+								<h4 class="text-center">Customize Your Interests</h4>
+								<hr class="margin-top-sm">
+								<ul class="list-inline text-center">
+									<li class="list-group" style="width:111px;">
+										<div class="list-group-item btn btn-default" data-toggle="button">
+											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+											<h5>Headlines</h5>
+										</div>
+									</li> 
+									<li class="list-group" style="width:111px;">
+										<div class="list-group-item btn btn-default" data-toggle="button">
+											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+											<h5>Sports</h5>
+										</div>
+									</li>
+									<li class="list-group" style="width:111px;">
+										<div class="list-group-item btn btn-default" data-toggle="button">
+											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+											<h5>College</h5>
+										</div>
+									</li> 
+									<li class="list-group" style="width:111px;">
+										<div class="list-group-item btn btn-default" data-toggle="button">
+											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+											<h6>Entertainment</h6>
+										</div>
+									</li>
+									<li class="list-group" style="width:111px;">
+										<div class="list-group-item btn btn-default" data-toggle="button">
+											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+											<h5>Art</h5>
+										</div>
+									</li> 
+									<li class="list-group" style="width:111px;">
+										<div class="list-group-item btn btn-default" data-toggle="button">
+											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
+											<h5>Fashion</h5>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <! <ul class="nav nav-pills h6" id="newsTabs">
+				<li class="active"><a href="#" data-section="top">Top</a> </li>
+				<li><a href="#" data-section="sports">Sports</a> </li>
+				<li><a href="#" data-section="tech">Tech</a> </li>
+				<li><a href="#" data-section="entertainment">Ent</a> </li>
+				<li class="pull-right"><a href="#newsfeedModal" data-toggle="modal"><i class="fa fa-list-ul fa-fw"></i></a></li>
+			</ul> -->
+			<!--       <p></p> -->
+			<!-- div class="list-group scrolls" id="news">
 
-    </div>  <!--End News Col  --> 
-   </div> <!--End Row -->
+			</div> -->
+
+		</div>  <!--End News Col  --> 
+	</div> <!--End Row -->
 </div><!-- End Container -->
 
 {% endblock %}
