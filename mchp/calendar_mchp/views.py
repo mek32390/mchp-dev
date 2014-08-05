@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseNotAllowed
@@ -185,7 +186,7 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
             )
             if cal.exists():
                 cal = cal[0]
-                cal.delete()
+                # cal.delete()
 
                 messages.success(
                     self.request,
@@ -293,6 +294,7 @@ class EventAddView(View, AjaxableResponseMixin):
             )
             data = {
                 'messages': self.ajax_messages(),
+                'event': serializers.serialize("json", (event,))
             }
             return self.render_to_json_response(data, status=200)
         else:
@@ -325,12 +327,13 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                 id = request.POST.get('id', None)
             )
             if event.exists():
+                print(request.POST)
                 event = event[0]
                 start = timezone.make_aware(datetime.strptime(request.POST['start'], DATE_FORMAT),
                                             timezone.get_current_timezone())
                 end = timezone.make_aware(datetime.strptime(request.POST['end'], DATE_FORMAT),
                                           timezone.get_current_timezone())
-                all_day = request.POST.get('all_day', True)
+                all_day = json.loads(request.POST.get('all_day', True))
                 event.start = start
                 event.end = end
                 event.all_day = all_day

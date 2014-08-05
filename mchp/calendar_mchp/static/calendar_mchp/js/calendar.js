@@ -54,10 +54,11 @@ $(function() {
 			$link_parent.remove();
 			var count = parseInt($('#owned-calendar-count').text()) - 1;
 			$('#owned-calendar-count').text(count);
-			$('#make-a-calendar').removeClass('hidden');
+			if (count < 1) {
+				$('#make-a-calendar').removeClass('hidden');
+			}
 		});
 	});
-
 
 	/**********************
 	 * FULLCALENDAR STUFF *
@@ -86,7 +87,7 @@ $(function() {
 			$('.popover').remove();
 			// show the clicked day popover
 			date_string = date.format('ddd MMM DD, YYYY');
-			console.log(date);
+			// console.log(date);
 			$('#date-input').data('date', date);
 			$('#date-input').attr('value', date_string);
 			$(jsEvent.target).popover('show');
@@ -156,7 +157,6 @@ $(function() {
 	var observer = new MutationObserver(function(mutations) {
 		alert('what');
 		mutations.forEach(function(mutation) {
-			console.log(mutation);
 		});
 	});
 	// configuration of the observer:
@@ -210,7 +210,7 @@ $(function() {
 	    }).on('changeDate', function(event) {
 			var pick = moment(event.date);
 			$('#date-input').data('date', pick);
-			console.log(pick);
+			// console.log(pick);
 		});
 	});
 
@@ -234,7 +234,7 @@ $(function() {
 
 		var date = $('#date-input').data('date');
 		date_json = JSON.stringify(date);
-		console.log(date_json);
+		// console.log(date_json);
 		data += "&date=" + encodeURIComponent(date_json);
 
 		$.ajax({
@@ -243,6 +243,10 @@ $(function() {
 			data: data,
 			success: function(data) {
 				messages = data.messages;
+				// add the event to the calendar
+				var event = JSON.parse(data.event);
+				$cal = $('#calendar');
+				$cal.fullCalendar('renderEvent', event[0].fields);
 			},
 			fail: function(data) {
 				addMessage('Failed to save event', 'danger');
