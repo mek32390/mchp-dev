@@ -179,21 +179,24 @@
 						<!-- <button type="submit" class="btn btn-default">Submit</button> -->
 					</form>
 					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{student.total_points}}</span> <i class="fa fa-cubes"></i></a>
+						<li><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span>{{student.total_points}}</span> <i class="fa fa-cubes"></i></a></li>
+
+						<!-- <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{student.total_points}}</span> <i class="fa fa-cubes"></i></a>
 							<ul class="dropdown-menu">
 								<li> <a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><i class="fa fa-fw fa-cubes text-primary"></i></span><strong class="text-primary"> Manage My Points</strong></a></li>
 							<li class="divider"></li>
 							<li>
 								<a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star fa-fw"></i> Redeem Referral</strong></a>
-							</li>
-							<li class="divider"></li>
+							</li> -->
+							<!-- <li class="divider"></li>
 							<li> <a><span class="label label-success">+</span> 1000 Points Purchase</a> </li>
 							<li> <a><span class="label label-success">+</span> 500 Document Sold</a> </li>
 							<li> <a><span class="label label-danger">-</span> 200 Document Bought</a> </li>
 							<li> <a><span class="label label-danger">-</span> 100 Class Unlocked</a> </li>
 							<li> <a><span class="label label-success">+</span> 50 Achievement</a> </li>
-						</ul>
-					</li>
+						</ul> -->
+					<!-- </li> -->
+					
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">5</span> <i class="fa fa-lightbulb-o"></i></a>
 						<ul class="dropdown-menu">
@@ -235,6 +238,7 @@
 							<li><a data-toggle="modal" href="#sethomeModal">Set Homepage</a></li>
 							<li class="divider"></li>
 							<li><a href="{% url 'account_settings'%}">My Account</a></li>
+							<li><a href="{% url 'help'%}">Help</a></li>
 							<li><a href="{% url 'account_logout' %}">Log Out</a></li>
 						</ul>
 					</li>

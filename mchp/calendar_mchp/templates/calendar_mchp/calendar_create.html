@@ -50,14 +50,14 @@
 						<div class="radio">
 							<label>
 								<input type="radio" name="cal-type" id="classCal" value="Class">
-								<strong>Class</strong>&mdash;this calendar is for events for a specific class. You can can sell this calendar to your classmates, or keep it private. 
+								<strong>Class</strong>&mdash;this calendar is for assignment dates and events for a specific class. You can can sell this calendar to your classmates, or keep it private. 
 							</label>
 						</div>
 						{% else %}
 						<div class="radio">
 							<label class="text-muted">
 								<input type="radio" name="cal-type" id="classCal" value="Class" disabled>
-								<strong>Class</strong>&mdash;this calendar is for events for a specific class. You can can sell this calendar to your classmates, or keep it private. 
+								<strong>Class</strong>&mdash;this calendar is for assignment dates and events for a specific class. You can can sell this calendar to your classmates, or keep it private. 
 								<p class="text-danger small">(You've either already made a calendar for each of your classes, or you're not in any classes! Please <a href="{% url 'course_add'%}">join a class</a> before making a class calendar.)</p>
 							</label>
 						</div>
