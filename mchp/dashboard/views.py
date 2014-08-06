@@ -5,7 +5,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import View
 
 from lib.decorators import school_required
-from schedule.models import Course
+from schedule.models import Course, SchoolQuicklink
 
 class DashboardView(View):
     template_name = 'dashboard.html'
@@ -23,10 +23,15 @@ class DashboardView(View):
 
         # make the list unique
         latest_joins = list(set(latest_joins))
-        print(latest_joins)
+
+        s_links = SchoolQuicklink.objects.filter(
+            domain=self.student.school
+        )
+        print(s_links)
         data = {
             'flags': self.student.one_time_flag.default(self.student),
             'pulse': latest_joins,
+            'school_links': s_links,
         }
         return render(request, self.template_name, data)
 

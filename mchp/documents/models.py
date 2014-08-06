@@ -6,6 +6,7 @@ from django.utils import timezone
 from documents.exceptions import DuplicateFileError
 from documents.s3utils import S3Auth
 from schedule.models import School, Course
+from documents import managers
 
 import hashlib
 import uuid
@@ -43,6 +44,8 @@ class Document(models.Model):
 
     preview = models.ImageField(upload_to=PREVIEW_LOCATION, blank=True, null=True)
     slug = models.SlugField(max_length=80)
+
+    objects = managers.DocumentManager()
     
     '''
     Add a bunch of information and check for duplicates before saving
@@ -115,7 +118,7 @@ class Document(models.Model):
         return "{}".format(self.title)
 
 class Upload(models.Model):
-    document = models.ForeignKey(Document)
+    document = models.OneToOneField(Document)
     owner = models.ForeignKey('user_profile.Student')
 
     class Meta:

@@ -49,11 +49,11 @@
 	</div><!-- end alert -->
 	{% endif %}
 	<ol class="breadcrumb" style="margin-bottom:5px;">
-		<li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span>  <span id="weather_temp">66&deg; F</span> &nbsp;</li>
-		<li><a target="_blank" href="http://google.com">Google</a></li>
-		<li><a target="_blank" href="http://blackboard.com">Blackboard</a></li>  
-		<li><a target="_blank" href="http://d2l.com">D2L</a></li>  
-		<a  id="addLink" href="#" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a>
+		<li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span>	<span id="weather_temp">66&deg; F</span> &nbsp;</li>
+		{% for link in school_links %}
+		<li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
+		{% endfor %}
+		<!-- <a  id="addLink" href="#" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a> -->
 	</ol>
 	<!-- <div class='custom-menu'>
 				<div data-action="edit" id="edit">

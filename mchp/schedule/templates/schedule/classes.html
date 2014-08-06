@@ -77,22 +77,30 @@
 				<div class="col-sm-5 animated ">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Activity <span class="badge">16</span></h3>
+							<h3 class="panel-title">Activity <span class="badge">{{course.activity|length}}</span></h3>
 						</div><!-- end panel heading -->
 						<div class="panel-body">
 							<div class="list-group">
+								{% for act in course.activity %}
+								{% ifequal act.type "document" %}
 								<li class="list-group-item">
-									<h5 class="list-group-item-heading"><i class="fa fa-file-text-o fa-lg pull-left"></i><a href="#">Exam 1 Study Guide</a> added to Documents</h5>
-									<p class="list-group-item-text"><small>1 hour ago by <a href="#">themsquared</a></small></p>
+									<h5 class="list-group-item-heading">
+										<i class="fa fa-file-text-o fa-lg pull-left"></i><a href="#">{{act.title}}</a> added to Documents</h5>
+									<p class="list-group-item-text"><small>{{act.time|naturaltime}} by <a href="#">{{act.user.name}}</a></small></p>
 								</li>
+								{% endifequal %}
+								{% ifequal act.type "join" %}
 								<li class="list-group-item">
-									<h5 class="list-group-item-heading"><i class="fa fa-bookmark fa-lg pull-left"></i><a href="#">Read Ch. 8 &amp; 9</a> added to Calendar</h5>
-									<p class="list-group-item-text"><small>5 hours ago by <a href="#">mitch</a></small></p>
+									<h5 class="list-group-item-heading"><i class="fa fa-user fa-lg pull-left">
+									</i><a href="#">{{act.title}}</a> joined the class</h5>
+									<p class="list-group-item-text"><small>{{act.time|naturaltime}}</small></p>
 								</li>
-								<li class="list-group-item">
-									<h5 class="list-group-item-heading"><i class="fa fa-user fa-lg pull-left"></i><a href="#">JohnWildcat</a> joined the class</h5>
-									<p class="list-group-item-text"><small>14 hours ago</small></p>
-								</li>
+								{% endifequal %}
+								{% endfor %}
+								<!-- <li class="list-group-item"> -->
+								<!-- 	<h5 class="list-group-item-heading"><i class="fa fa-bookmark fa-lg pull-left"></i><a href="#">Read Ch. 8 &amp; 9</a> added to Calendar</h5> -->
+								<!-- 	<p class="list-group-item-text"><small>5 hours ago by <a href="#">mitch</a></small></p> -->
+								<!-- </li> -->
 							</div>
 						</div><!-- end panel body -->
 					</div><!-- end panel -->
@@ -130,7 +138,7 @@
 				<div class="col-sm-7 animated ">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Documents <span class="badge">{{course.doc_count}}</span>
+							<h3 class="panel-title">Documents <span class="badge">{{course.documents|length}}</span>
 								<div class="btn-group pull-right">
 									<button type="button" class="btn btn-default btn-xs">Recent</button>
 									<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -146,8 +154,7 @@
 						</div><!-- end panel heading -->
 						<div class="panel-body">
 							<div class="list-group">
-								{% for document in documents %}
-								{% ifequal document.course course %}
+								{% for document in course.documents %}
 								<div class="list-group-item">
 									<div class="media">
 										<span class="pull-left" href="#">
@@ -171,12 +178,10 @@
 												{% endwith %}
 												<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 												Purchase{{document.sold|pluralize}}
-												<p class="small" style="margin-top:5px;">Uploaded by <a href="#">j</a> </p>
 											</span>
 										</div>
 									</div>
 								</div>
-								{% endifequal %}
 								{% endfor %}
 							</div>
 						</div><!-- end panel body -->

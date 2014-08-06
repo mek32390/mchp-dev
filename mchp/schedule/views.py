@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.views.generic import View
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.template import Context
@@ -14,7 +15,7 @@ from django.core import serializers
 from lib.decorators import school_required
 from documents.models import Document
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
-from schedule.models import Course, School
+from schedule.models import Course, School, SchoolQuicklink
 from user_profile.models import Enrollment
 
 from haystack.query import SQ
@@ -240,7 +241,11 @@ class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
         if self.request.is_ajax():
             course = form.cleaned_data['courses']
             for c in course:
-                self.student.courses.remove(c)
+                enroll = Enrollment.objects.filter(
+                    student=self.student,
+                    course=c,
+                )
+                enroll.delete()
             messages.success(
                 self.request,
                 "Course removed successfully"
@@ -369,6 +374,10 @@ class SchoolView(DetailView):
         }).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
+        links = SchoolQuicklink.objects.filter(
+            domain=self.get_object
+        ).order_by('quick_link')
+        context['links'] = links
         return context
 
 school = SchoolView.as_view()
@@ -390,30 +399,61 @@ school_list = SchoolListView.as_view()
 url: /classes/
 name: classes
 '''
-class ClassesView(ListView):
+class ClassesView(View):
     template_name = 'schedule/classes.html'
 
-    def get_queryset(self):
-        return Course.objects.filter(student__user=self.request.user).annotate(
+    def random_mix(self, seq_a, seq_b):
+        import random
+        iters = [iter(seq_a), iter(seq_b)]
+        lens = [len(seq_a), len(seq_b)]
+        while all(lens):
+            r = random.randrange(sum(lens))
+            itindex = r < lens[0]
+            it = iters[itindex]
+            lens[itindex] -= 1
+            yield next(it)
+        for it in iters:
+            for x in it: yield x
+            iters = [iter(seq_a), iter(seq_b)]
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        courses = Course.objects.filter(student__user=self.request.user).annotate(
             doc_count=Count('document')
         )
-
-    def get_context_data(self, **kwargs):
-        context = super(ClassesView, self).get_context_data(**kwargs)
-        query_set = self.get_queryset()
-        docs = []
-        for query in query_set:
-            doc = Document.objects.select_related('course').filter(course=query).annotate(
+        for course in courses:
+            docs = Document.objects.filter(course=course).annotate(
                 sold=Count('purchased_document__document'),
             ).extra(select = {
                 'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
                 'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
-                'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
-            }).order_by('-sold')[:15]
-            docs = docs + list(doc)
+                'AND NOT ("documents_documentpurchase"."review_date" IS NULL))',
+            }).select_related('course').order_by('-sold')[:15]
 
-        context['documents'] = docs
-        return context
+            setattr(course, 'documents', docs)
+
+            act = Document.objects.recent_events(course)
+
+            # get some of the latest people to join your classes
+            latest_joins = list(Enrollment.objects.filter(
+                course=course
+            ).order_by('join_date')[:5])
+            from collections import namedtuple
+            Activity = namedtuple('Activity', ['type', 'title', 'time', 'user'])
+
+            # make the list unique
+            latest_joins = list(set(latest_joins))
+
+            joins = []
+            for join in latest_joins:
+                joins.append(Activity('join', join.student.name, join.join_date, ''))
+
+            both = list(self.random_mix(act, joins))
+            setattr(course, 'activity', both)
+
+        data['course_list'] = courses
+
+        return render(request, self.template_name, data)
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):

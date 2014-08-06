@@ -7,6 +7,56 @@ def clean_domain(value):
     if not re.match(edu, value):
         raise ValidationError('School domain did not end in .edu: {}'.format(value))
 
+def scrape():
+    import requests
+    from bs4 import BeautifulSoup
+    schools = schedule.models.School.objects.all().order_by('name')[1349:]
+    num = 1349
+    for school in schools:
+        num += 1
+        print(str(num) + " " + str(school))
+        url = "http://"+school.domain
+        try:
+            res = requests.get(url)
+        except:
+            continue
+        soup = BeautifulSoup(res.content)
+        links = soup.findAll('a')
+        approve_list = []
+        other = []
+        for link in links:
+            href = link.get('href')
+            if not href:
+                continue
+            ban_list = ['youtube', 'facebook', 'flickr', 'login', 'twitter']
+            if not href.startswith(('http://', 'https://')):
+                continue;
+            if any(word in href for word in ban_list):
+                continue
+            if "email" in href or "my" in href or "blackboard" in href or "d2l" in href or 'calendar' in href:
+                approve_list.append(href)
+            other.append(href)
+
+        approve_list = list(set(approve_list))[:20]
+        for link in approve_list:
+            if len(link) > 200:
+                continue
+            from urllib.parse import urlparse
+            parts = urlparse(link)
+            name = parts.hostname.split('.')[1]
+            path = parts.path.split('/')[-1]
+            if path:
+                name = path.split('.')[0]
+            name = name[:40]
+            ql = schedule.models.SchoolQuicklink(quick_link=link, name=name,
+                                            domain=school
+                                            )
+            from django.db import IntegrityError
+            try:
+                ql.save()
+            except IntegrityError:
+                pass
+
 from faker import Faker
 from faker.providers import BaseProvider
 from random import randrange,choice
