@@ -1,0 +1,9 @@
+.doc-con {
+	overflow: auto;
+	max-height: 470px;
+}
+
+.small-scroll-con {
+	overflow: auto;
+	max-height: 300px;
+}
