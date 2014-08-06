@@ -3,8 +3,180 @@
 {% block head_title %}Help{% endblock %}
 
 {% block head %}
+<style>
+
+/* Custom Styles */
+ul.nav-tabs{
+	width: 150px;
+	margin-top: 0px;
+	border-radius: 4px;
+	border: 1px solid #ddd;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+}
+ul.nav-tabs li{
+	margin: 0;
+	border-top: 1px solid #ddd;
+}
+ul.nav-tabs li:first-child{
+	border-top: none;
+}
+ul.nav-tabs li a{
+	margin: 0;
+	padding: 8px 16px;
+	border-radius: 0;
+}
+ul.nav-tabs li.active a, ul.nav-tabs li.active a:hover{
+	color: #fff;
+	background: #0088cc;
+	border: 1px solid #0088cc;
+}
+ul.nav-tabs li:first-child a{
+	border-radius: 4px 4px 0 0;
+}
+ul.nav-tabs li:last-child a{
+	border-radius: 0 0 4px 4px;
+}
+ul.nav-tabs.affix{
+	top: 70px; /* Set the top position of pinned element */
+}
+
+.group {
+	padding-top: 65px;
+	margin-top: -65px;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function () {
+	$('body').scrollspy({
+		target: '#myScrollspy',
+		// offset: 50
+	});
+
+});
+</script>
 {% endblock %}
 
 {% block body %}
-help
-{% endblock %}
+<div class="container">
+	<div class="jumbotron">
+		<div class="media">
+			<a class="pull-left" href="#">
+				<img class="media-object img-thumbnail img-circle" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt="privacy policy">
+			</a>
+			<div class="media-body">
+				<h1 class="media-heading">Help</h1>
+				<p class="lead">Your questions, answered.</p>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-3 hidden-xs" id="myScrollspy">
+			<ul class="nav nav-tabs nav-stacked affix-top" data-spy="affix" data-offset-top="245">
+				<li class="active"><a href="#section-1">General</a></li>
+				<li class=""><a href="#section-2">Homepage</a></li>
+				<li class=""><a href="#section-3">Classes</a></li>
+				<li class=""><a href="#section-4">Documents</a></li>
+				<li class=""><a href="#section-5">Calendar</a></li>
+				<li class=""><a href="#section-6">Points</a></li>
+			</ul>
+		</div>
+		<div class="col-xs-12 col-sm-9">
+			<h1 id="section-1" class="group">General</h1>
+			<p class="lead">mycollegehomepage.com or mchp, is changing the way students experience college. We're a convienent homepage application that takes your entire life, and puts it all in one place.</p>
+			<p>We are a life-management system for you; the young, wild (some of you) and free college student, and you'll benefit most from us if you <a data-toggle="modal" href="#sethomeModal"><strong>Set us as your Homepage</strong></a> (that's the point). Academics are a big part of your life; so many of the initial features we've provided will help you stay organized by keeping track of your assignments and providing you with quick and easy access to your class-specific study materials.</p>
+			<h3>How do I choose my college?</h3>
+			<p>When you provide your email address during the sign up process, we determine what college you are a student at, and then "enroll" you in that college on mchp. If you transfer schools, all you need to do is go to your account page and select the <a href="{% url 'account_email' %}">Transfer Schools</a> button.</p>
+			<h3>How do I add my classes?</h3>
+			<p>After signing up with mchp, you'll be directed to your <a href="{% url 'course_add' %}">Schedule</a> page to add your classes to your schedule. Start by searching for a course code and number (ECON 200), and add them by clicking on the "Enroll" button. Each time you add a class to your schedule, you'll see it on the left of the page under the section titled, "Currently Enrolled". If you are unable to find a certain class, you can always <a href="{% url 'course_create' %}">Create a Class</a>. Remember to provide the correct information when creating a class so your classmates can also find it via search. To report an incorrect class or a duplicate, please <a href="mailto:contact@mycollegehomepage.com">notify us.</a> </p>
+			<h3>How do I set mchp as my homepage?</h3>
+			<p>We created mchp with the intent that students would find it beneficial to have us set as their browser homepage. You can do this from the driop-down menu in the top right of the toolbar, or you can <a data-toggle="modal" href="#sethomeModal"><strong>Set us as your Homepage</strong></a> right here.</p>
+			<hr>
+			<h1 id="section-2" class="group">Homepage</h1>
+			<p class="lead">Your <a href="{% url 'dashboard' %}">Homepage</a> features your Quicklinks, Today Section, College Pulse, and the News. It caters to you and your needs, in a convienent and simple manner.</p>
+			<p class="h3">Quicklinks</p>
+			<p>Quicklinks are clickable links that provide <em>quick</em> access to your University's most commonly used online academic websites. For example, your University's email system is a quicklink. Quicklinks are meant to be easy to find and always at your finger tips, since you will be using them on a daily basis.</p>
+			<p class="h3">Today</p>
+			<p>The Today Section serves one purpose, and that's to inform you of what you have to do "Today". Every day brings new obstacles, and mchp is here to help you stay on top, no matter how much you have going on.</p>
+			<p class="h3">Pulse</p>
+			<p>The Pulse is a feed that displays all activity relevant to you. You'll see events various activity items, such as when new users join your class, when new assignments are added to a calendar you follow, and when new documents are added to any of your classes.</p>
+			<p class="h3">News</p>
+			<p>The News displays stories from around the web, based on your interests. To change your interests, simply click the <i class="fa fa-bars"></i> at the top right of the News section. Remember, all the interests in blue will be shown in the news section.</p>
+			<hr>
+			<h1 id="section-3" class="group">Classes</h1>
+			<p class="lead">Your <a href="{% url 'classes' %}">Classes</a> page manages all of your classes on a single page, while remaining clutter-free. Each one of your classes has neatly outlined sections for Class Activity, Classmates, and Documents.</p>
+			<p class="h3">Activity</p>
+			<p>Every class has stuff going on in it, right? For example, when someone new joins the class, or a new document is added, or when an assignment is edited on the calendar. All of these things are neatly displayed in the respective Class's Activity section, chronologically, so you can stay up to date with what's going on in your class without stressing about it.</p>
+			<p class="h3">Classmates</p>
+			<p>Don't be a stranger! It's nice to be able to see who else is in your class with you. Every class has a list of the students who are currently enrolled in it along with yourself. These are your classmates, so be nice to them. You never know when you'll need help from them <i class="fa fa-smile-o"></i>.</p>
+			<p class="h3">Documents</p>
+			<p>Every class has a list of documents that have been uploaded by your fellow classmates or other students on mchp. These documents should help you prepare for exams, quizzes, projects and more! If you want to view a document, just click on its thumbnail or title.</p>
+			<hr>
+			<h1 id="section-4" class="group">Documents</h1>
+			<p class="lead">You can <a href="{% url 'document_upload' %}">Upload and Sell</a> your own documents to other students. Not only does this allow you to help master the content yourself, but it creates an oppurtinity for you to make money and help your fellow classmates in need.
+				<p class="lead">All of your documents- both purchased and sold, are organized for your convienence on your <a href="{% url 'document_list' %}">My Documents</a> page.</p>
+			</p> 
+			<p>Here are some example of commonly uploaded and purchased documents:
+				<ul>
+					<li>Study Guides</li>
+					<li>Lecture Notes</li>
+					<li>Reading Summaries</li>
+					<li>Equation Sheets</li>
+				</ul>
+			</p>
+			<h3>Selling Documents</h3>
+			<p>If you are looking to <a href="{% url 'document_upload' %}">Upload and Sell</a> a document, simply choose the class it's associated with, provide a title, description, and a price, and that's it. Then click the big blue button titled "Upload Document" at the bottom of the page. Once the document is uploaded, you'll be directed to your <a href="{% url 'document_list' %}">My Documents</a> page, where you can click to view the document. Your document will also be available for your classmates to preview and purchase within the respective class's Documents Section on their <a href="{% url 'classes' %}">Classes</a> page.</p>
+			<h3>Buying Documents</h3>
+			<p>To buy a document, you'll need to make sure you have the proper amount of points in your account. Other than that, all you need to do is click the green <button class='btn btn-success animated animated-lg tada btn-xs'> <i class='fa fa-fw fa-shopping-cart'></i> Buy Me! </button> button. Once you buy a document, you'll have it forever, and it will be neatly organized for you with your other purchased documents on your <a href="{% url 'document_list' %}">My Documents</a> page. You'll notice that once you've purchased a document, the "Study Me" button will change to a <button class='btn-xs btn btn-info animated animated-lg tada'> <i class='fa fa-fw fa-eye'></i> View </button> button.</p>
+			<h3 id="sharing-docs" class="group">Sharing Documents</h3>
+			<p>First and foremost, any time you share a document on facebook or copy and paste a link to the document (any document, not just your own), you'll have an oppurtinity to make easy money. If a non-registered user clicks on any link you've shared, and they also sign up with mchp, you'll <strong>recieve 500 points</strong> straight to your account. This also applies to sharing calendars, too!</p> 
+			<p>If you're selling documents, then you're probably going to want to share each of your documents so others can purchase them so you can get paid for your work. If you're buying a document, then there's a good chance your other classmates can benefit from studying the same document you're studying as well. Luckily, all documents are sharable, and your referral link is attached to any document you share. 
+				<ul>
+					<li><strong>Share on Facebook:</strong> click the <button class='btn btn-facebook btn-xs'> <i class='fa fa-fw fa-facebook'></i> Share </button> button to share the document directly to facebook. Did you know that you can share the document in a personal message, too? Feel free to customize the message by adding some text to it. Remember, you'll also get 500 points for every signup referall you earn.</li>
+					<li><strong>Copy Link Button:</strong> click the <button class="btn btn-warning btn-xs"> <i class="fa fa-paperclip fa-fw"></i> Copy link</button> button. The link to the document will be automatically copied to your clipboard. You can paste this link anywhere you'd like, such as in an email, message, or facebook group. You can also copy the url from the address bar at the thop of the browser window. Remember, you'll also get 500 points for every signup referall you earn.</li>
+				</ul>  
+				<hr>
+				<h1 id="section-5" class="group">Calendar</h1>
+				<p class="lead">Your <a href="{% url 'calendar' %}">Calendar</a> is what you make it. Add assignment dates and class events, gain classmates as followers, and get paid on a monthly basis. Or, you can keep your calendar private. The choice is yours!</p>
+				<h3>Creating a Calendar</h3>
+				<p>You can always <a href="{% url 'calendar_create' %}">Create a Calendar</a> by clicking on the <a href="#"><i class="fa fa-plus text-default"></i></a> icon located on the <a href="{% url 'calendar' %}">Calendar</a> page. There are two types of calendars you can create:
+					<ul>
+						<li><strong>Personal:</strong> this calendar is for events not related to school, and will not be seen by anyone else but you!</li>
+						<li><strong>Class:</strong> this calendar is for assignment dates and events for a specific class. You can can sell this calendar to your classmates, or keep it private. </li>
+					</ul> 
+				</p>
+				<h3>Selling a Class Calendar</h3>
+				<p>We've found the best way to explain this concept is by comparing "Selling a Class Calendar" to "Selling a Document" on mchp. Just as you would upload and sell a document on mchp, the same rules apply when creating and selling a calendar. What makes a Study Guide good? - the accuracy and relevancy of the text, images, and content within the guide. What makes a Class Calendar good? - <strong>the accuracy and relevancy of the events and assignment dates you put in the calendar!</strong> When you sell a calendar, you'll be responsible for adding the accurate due dates of assignments, updating them if they are changed by the professor, and for including all relevant events that your classmates would find useful in the calendar. 
+					<h4>Pricing a Class Calendar</h4>
+					<p>Just as with a document, you will be given the freedom to price your Class Calendar as you see fit. The only difference is that you will be choosing a <strong>price to be paid per month</strong> by your classmates, not a one-time fee like a document has. Selling a calendar is an on-going job that should end only when the semester ends.</p>
+					<h4>Meetings, End Date, and Description</h4>
+					<p>Whether or not you are selling a calendar, you should triple check that the meeting days and times of the class you are creating a calendar for are correct. If you are selling the calendar, this is how your classmates will identify the calendar to follow, and they aren't going to pay to follow a calendar that doesn't have the correct meeting days and times, and end date. If you are creating a class calendar but keeping it private, it is also essential to make sure this information is correct, as many of the calendar features are dependent on this information.</p>
+					<h3>Adding Events and Assignment Dates</h3>
+					<p>At the beginning of each semester, there WILL be an opportunity for you to add each of your class's assignment dates from your class's syllabus or schedule of assignments (if your professor provides these), into a calendar you've created on mchp. We offer an incredibly simple and <a href="{% url 'event_add' %}">Easy to Use Template</a> so you can add multiple assignemnt dates at once, and then add them all to one of your class calendars with just a single click. This is to take away the hassle of navigating day to day on the calendar and adding only a single event at a time. You can still create single events from the main <a href="{% url 'calendar' %}">Calendar</a> page by clicking on any calendar day.</p>
+					<h3>What type of events should I add to my calendar?</h3>
+					<p>Think about this: if you're making a class calendar, and you're planning on selling it, your classmates will have to pay you to follow this calendar. You should strive to make it better than what your professor would do if he or she were to manage a calendar on their own! This way, your classmates are happy to cough up a couple of bucks per month to follow your calendar, your calendar will get better ratings, and you'll continue making money each month. Assignments typically include what is "due" in a class or what is required of students. The best way to determine what you should include when adding your class's assignments and events is to ask yourself, "Would I personally want to be aware of this?" If the answer is "Yes", then you should definitely add it to the class calendar you manage!</p>
+					<h3>Sharing Calendars</h3>
+					<p>Just like <a href="#sharing-docs">Sharing Documents</a>, any time you share a calendar on facebook or copy and paste a link to the calendar (any calendar, not just your own), you'll have an oppurtinity to make easy money. If a non-registered user clicks on any link you've shared, and they also sign up with mchp, you'll <strong>recieve 500 points</strong> straight to your account.
+						<ul>
+							<li><strong>Share on Facebook:</strong> click the <button class='btn btn-facebook btn-xs'> <i class='fa fa-fw fa-facebook'></i> Share </button> button to share the calendar directly to facebook. Did you know that you can share the calendar in a personal message, too? Feel free to customize the message by adding some text to it. Remember, you'll also get 500 points for every signup referall you earn.</li>
+							<li><strong>Copy Link Button:</strong> click the <button class="btn btn-warning btn-xs"> <i class="fa fa-paperclip fa-fw"></i> Copy link</button> button. The link to the calendar will be automatically copied to your clipboard. You can paste this link anywhere you'd like, such as in an email, message, or facebook group. You can also copy the url from the address bar at the thop of the browser window. Remember, you'll also get 500 points for every signup referall you earn.</li>
+						</ul> 
+					</p> 
+					<hr>
+					<h1 id="section-6" class="group">Points</h1>
+					<p class="lead"> Transactions on mchp are easy and secured, using <a href="#points-modal" data-toggle="modal" id="purchasePointsMenu">Points</a>. Cash out your funds straight to your bank account or debit card. </p>
+					<h3>How do I purchase Points?</h3>
+					<p>The currency used on mchp is Points. Points can be purchased with a valid credit or debit card. You will only need to enter your card info once, and mchp will remember it for you for your future purchases. You can also purchase points by using your Earnings. It is not possible to cash-out points.</p>
+					<p>All transactions within mchp are secured and verified, and are protected with up to 256-bit Secure Sockets Layer encryption.</p>
+					<h3>How do I earn Points?</h3>
+					<p>You can earn points by referring your friends to sign up on mchp, and the points you earn can be spent on purchasing anything you'd like on mchp. When you joined mchp, we created a unique referral code (yours is: {{referral_code}}) and link (yours is: {{request.get_host}}/?ref={{referral_link}}) that will keep track of how many people sign up on mchp via one of the methods below. Your referral code and link can always be accessed from your <a href="{% url 'account_settings' %}">Account Page</a>. Here are the ways you can earn referral points:</p>
+					<ul>
+						<li>When someone clicks on your referral link ({{request.get_host}}/?ref={{referral_link}}) and signs up.</li>
+						<li>When someone signs up and enters your referral code in the <a href="#referral-modal" data-toggle="modal">Redeem Referral</a> box.</li>
+						<li>When someone clicks on a <a href="#sharing-docs">link you've shared</a> and signs up. Such as a facebook link or when you copy a document or calendar link and paste it for others to access.</li>
+					</ul>
+					<h3>What are Earnings?</h3>
+					<p>Your Earnings are represented as actual dollar amounts. Every time you sell a document or calendar on mchp, your earnings will increase. Earnings are not the same as points, however they can be used to purchase points. You can cash out your earnings if you have at least $20 worth of earnings in your piggy bank. To cash out your earnings, all you need to do is provide a bank account and routing number, or a valid debit card.</p>
+				</div>
+			</div>
+		</div>
+		{% endblock %}
