@@ -51,7 +51,7 @@
 										{% if document.preview %}
 										<img class="img-thumbnail" id="preview_image_{{document.pk}}"src="{{document.preview.url}}" style="width:64px"></a></div>
 								{% else %}
-								<img id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
+								<img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
 						{% endif %}
 						<div class="media-body">
 							<h4 class="media-heading">
@@ -128,7 +128,7 @@
 								{% if document.preview %}
 								<img src="{{document.preview.url}}" style="width:64px"></a></div>
 						{% else %}
-						<img src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
+						<img class="img-thumbnail" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
 				{% endif %}
 
 				<div class="media-body">
