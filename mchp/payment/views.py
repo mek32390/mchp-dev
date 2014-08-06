@@ -5,9 +5,11 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import View
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from lib.decorators import school_required
-from payment.models import StripeCustomer
+from payment.models import StripeCustomer, WebhookMessage
 from decimal import Decimal, ROUND_HALF_DOWN
 
 import json
@@ -292,3 +294,19 @@ class PayoutView(View, AjaxableResponseMixin):
         return super(PayoutView, self).dispatch(*args, **kwargs)
 
 payout = PayoutView.as_view()
+
+class WebhookView(View):
+
+    def post(self, request, *args, **kwargs):
+        print(request.body)
+        event_json = json.loads(request.body.decode('utf-8'))
+        hook = WebhookMessage(message = event_json)
+        hook.save()
+        return HttpResponse(status=200)
+
+    @method_decorator(csrf_exempt)
+    @method_decorator(require_POST)
+    def dispatch(self, *args, **kwargs):
+        return super(WebhookView, self).dispatch(*args, **kwargs)
+
+webhook = WebhookView.as_view()
