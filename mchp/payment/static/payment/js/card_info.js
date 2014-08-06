@@ -1,4 +1,19 @@
 $(function() {
+
+	var $cardOptions = $('.card-options');
+	$('.card-options').html("<span class='pull-right small'>Set as <span class='btn btn-xs btn-default'><i class='fa fa-check text-primary'></i></span> <span class='btn btn-xs btn-default'><i class='fa fa-money text-success'></i></span> <span class='btn btn-xs btn-default'><i class='fa fa-times text-danger'></i></span></span>");
+
+	$('input[type=radio][name=user-cards]').change(function() {
+        if (this.value == 'option1') {
+ 				alert("#1");
+        }
+        else if (this.value == 'option2') {
+        	$('#optionsRadios2').next('.label').addClass('.text-danger');
+            alert("#2");
+        }
+    });
+	
+
 	var $form = $('.card-form');
 	// for credit card fancy form 
 	$form.card({

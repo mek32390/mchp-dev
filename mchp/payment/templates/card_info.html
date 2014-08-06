@@ -4,14 +4,41 @@
 
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 	{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'payment/css/card.css' %}" />
 		<script src="{% static 'payment/js/card_info.js' %}"></script>
 	{% load payment %}
 	{% stripe_public_key %}
+	<div class="list-group">
+		<div class="list-group-item">
+	<label><i class="fa-fw fa fa-credit-card"></i> Your Cards</label>
+		<div class="radio">
+  <label>
+    <input type="radio" name="user-cards" id="optionsRadios1" value="option1" checked>
+    Debit Card...<strong>6899</strong>
+  </label>
+   <span class="pull-right"><span class=""><i class="fa fa-check fa-fw text-primary"></i> <i class="fa fa-money fa-fw text-success"></i> <a href="#"><i class="fa fa-times fa-fw text-danger"></i></a></span>
+</div>
+<div class="radio">
+  <label>
+    <input type="radio" name="user-cards" id="optionsRadios2" value="option2">
+    Debit Card...<strong>4481</strong>
+  </label>
+  <!-- <span class="pull-right small">Set as <span class="btn btn-xs btn-default"><i class="fa fa-check text-primary"></i></span> <span class="btn btn-xs btn-default"><i class="fa fa-money text-success"></i></span> <span class="btn btn-xs btn-default"><i class="fa fa-times text-danger"></i></span></span> -->
+</div>
+<div class="radio">
+  <label>
+    <input type="radio" name="user-cards" id="optionsRadios3" value="option3">
+    Credit Card...<strong>5432</strong>
+  </label>
+  <span class="card-options"></span>
+</div>
+</div>
+</div>
 
 	<div class="card-wrapper"></div>
 	<p></p>
 
-	<form autocomplete="off" action="{% url "save_info" %}" method="post" class="text-center card-form">
+	<form autocomplete="off" action="{% url "save_info" %}" method="post" class=" card-form">
 		{% csrf_token %}
 		<div class="form-group">
 			<div class="input-group">
@@ -46,7 +73,7 @@
 		<hr style="margin-top:5px;">
 		<button class="btn btn-primary btn-block cc-submit-button" type="submit">Save Card</button>
 	</form>
-	<span class="payment-errors" style="color: red;"></span>
+	<p class="payment-errors text-danger text-center"></p>
 	<script type="text/javascript">
 		var card_info_url = '{%url "save_info"%}';
 	</script>

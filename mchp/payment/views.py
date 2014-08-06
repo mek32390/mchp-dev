@@ -192,7 +192,7 @@ class ChargeView(View, AjaxableResponseMixin):
         else:
             messages.error(
                 self.request,
-                'You have not added a card',
+                'Please add a card to purchase points',
             )
 
         data = {
@@ -278,7 +278,7 @@ class PayoutView(View, AjaxableResponseMixin):
             else:
                 messages.error(
                     self.request,
-                    "You havn't entered a dept card yet",
+                    "Please enter a debit card to cash out",
                 )
                 status = 402
             data = {
