@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 class StripeCustomer(models.Model):
     user = models.ForeignKey(User, related_name='stripe')
     stripe_id = models.CharField(max_length=100)
+    recipient_id = models.CharField(max_length=100)
 
     create_date = models.DateTimeField(auto_now_add=True)
 

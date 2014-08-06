@@ -22,7 +22,7 @@
 		<div class="form-group">
 			<div class="input-group">
 				<span class="input-group-addon"><i class="fa-fw fa fa-user"></i></span>
-				<input type="text" class="form-control cc-name no-send" placeholder="Full name" name="first-name"/>
+				<input type="text" class="form-control cc-name no-send" placeholder="Full name" name="name"/>
 			</div>
 		</div>
 		<div class="row">
@@ -46,7 +46,7 @@
 		<hr style="margin-top:5px;">
 		<button class="btn btn-primary btn-block cc-submit-button" type="submit">Save Card</button>
 	</form>
-	<span class="payment-errors"></span>
+	<span class="payment-errors" style="color: red;"></span>
 	<script type="text/javascript">
 		var card_info_url = '{%url "save_info"%}';
 	</script>

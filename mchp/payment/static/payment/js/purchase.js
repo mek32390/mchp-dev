@@ -28,8 +28,11 @@ $(function() {
 			data: data,
 			success: function(data) {
 				messages = data.messages;
+				$('.savings-amount').text(data.balance);
+				$('.student-points').text(data.points);
+				$('.modal').modal('hide');
 			},
-			fail: function(data) {
+			error: function(data) {
 				addMessage('Failed to charge card', 'danger');
 			},
 			complete: function(data) {
@@ -38,7 +41,6 @@ $(function() {
 				});
 			},
 		});
-		$('.modal').modal('hide');
 
 		// Prevent the form from submitting with the default action
 		return false;

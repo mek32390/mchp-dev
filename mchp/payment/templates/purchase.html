@@ -23,7 +23,8 @@
 			<button type="submit" class="btn btn-primary btn-block submit-card">Pay with my Card</button>
 		</div>
 		<div class="col-xs-7">
-			<button type="submit" class="btn btn-success btn-block submit-savings">From my Savings ${{student.display_balance}}</button>
+			<button type="submit" class="btn btn-success btn-block submit-savings">
+				From my Savings $<span class="savings-amount">{{student.display_balance}}</span></button>
 		</div>
 	</div>
 </div>
