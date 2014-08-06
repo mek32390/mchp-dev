@@ -245,8 +245,13 @@
 							<div class="media">
 								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
 										{{ document.uuid}}/
-										{{ document.slug}}
-										"><img src="{{document.preview.url}}" style="width:64px"></a></div>
+										{{ document.slug}} ">
+
+										{% if document.preview %}
+										<img src="{{document.preview.url}}" style="width:64px"></a></div>
+								{% else %}
+										<img src="{% static 'documents/img/loading_file.svg' %}" style="width:64px"></a></div>
+								{% endif %}
 
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{% url 'document_list' %}
