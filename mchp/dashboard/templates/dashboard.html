@@ -18,6 +18,7 @@
 {% endblock %}
 
 {% block body %}
+{% load humanize %}
 <div class="progress score-bar" style="margin-top:-20px; opacity:.5;"><!-- Score Bar -->
 	<span class="score-breakdown">
 		<a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
@@ -191,91 +192,98 @@
 			<hr class="margin-top-sm">
 			<!-- <div class="row">
 				<div class="col-sm-8"> -->
-			<div class="list-group scrolls" id="pulse">
-				{% for event in pulse %}
-				<div class="list-group-item">
-					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
-							<h5><i class="fa fa-user fa-fw"></i></h5>
-						</a>
-						<div class="media-body">
-							<p class="media-heading">
-								<h class="pull-right"><small>7m</small></h>
-								<a href="#" class="text-muted"><strong>{{event.name}}</strong></a> joined a class
-								you're in</p>
-							<span class="description small"></span> </div>
+			<div class="pulse-con scrolls">
+				<div class="list-group" id="pulse">
+					{% for event in pulse %}
+					{% ifequal event.type "join" %}
+					<div class="list-group-item">
+						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
+								<h5><i class="fa fa-user fa-fw"></i></h5>
+							</a>
+							<div class="media-body">
+								<p class="media-heading">
+									<h class="pull-right"><small>{{event.time|naturaltime}}</small></h>
+									<a href="#" class="text-muted"><strong>{{event.title}}</strong></a> joined a class
+									you're in</p>
+								<span class="description small"></span> </div>
+						</div>
 					</div>
-				</div>
-				<div> </div>
-				{% endfor %}
-				<div class="list-group-item">
-					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
-							<h5><i class="fa fa-calendar fa-fw"></i></h5>
-						</a>
-						<div class="media-body">
-							<p class="media-heading">
-								<h class="pull-right"><small>8m</small></h>
-								<a href="#"><strong>Quiz 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
-							<span class="description small">ECON 200</span> </div>
+					<div> </div>
+					{% endifequal %}
+					{% ifequal event.type "document" %}
+					<div class="list-group-item">
+						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
+								<h5><i class="fa fa-file fa-fw"></i></h5>
+							</a>
+							<div class="media-body">
+								<p class="media-heading">
+									<h class="pull-right"><small>{{event.time|naturaltime}}</small></h>
+									<a href="#"><strong>{{event.title}}</strong></a> added by <a href="#" class="text-muted"><strong>{{event.user.name}}</strong></a></p>
+								<!-- <span class="description small">ECON 200</span> --> 
+							</div>
+						</div>
 					</div>
-				</div>
-				<div> </div>
-				<div class="list-group-item">
-					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
-							<h5><i class="fa fa-calendar fa-fw"></i></h5>
-						</a>
-						<div class="media-body">
-							<p class="media-heading">
-								<h class="pull-right"><small>9m</small></h>
-								<a href="#"><strong>Homework 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
-							<span class="description small">ECON 200</span> </div>
+					<div> </div>
+					{% endifequal %}
+					{% endfor %}
+					<div class="list-group-item">
+						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
+								<h5><i class="fa fa-calendar fa-fw"></i></h5>
+							</a>
+							<div class="media-body">
+								<p class="media-heading">
+									<h class="pull-right"><small>8m</small></h>
+									<a href="#"><strong>Quiz 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
+								<span class="description small">ECON 200</span> </div>
+						</div>
 					</div>
-				</div>
-				<div> </div>
-				<div class="list-group-item">
-					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-success btn-xs">
-							<h5><i class="fa fa-money fa-fw"></i></h5>
-						</a>
-						<div class="media-body">
-							<p class="media-heading">
-								<h class="pull-right"><small>10m</small></h>
-								<a href="#"><strong>Exam 1 Study Guide</strong></a> was purchased by your classmate</p>
-							<span class="description small">ECON 200</span> </div>
+					<div> </div>
+					<div class="list-group-item">
+						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
+								<h5><i class="fa fa-calendar fa-fw"></i></h5>
+							</a>
+							<div class="media-body">
+								<p class="media-heading">
+									<h class="pull-right"><small>9m</small></h>
+									<a href="#"><strong>Homework 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
+								<span class="description small">ECON 200</span> </div>
+						</div>
 					</div>
-				</div>
-				<div> </div>
-				<div class="list-group-item">
-					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
-							<h5><i class="fa fa-user fa-fw"></i></h5>
-						</a>
-						<div class="media-body">
-							<p class="media-heading">
-								<h class="pull-right"><small>11m</small></h>
-								<a href="#" class="text-muted"><strong>Ashton K.</strong></a> joined your class</p>
-							<span class="description small">ECON 200</span> </div>
+					<div> </div>
+					<div class="list-group-item">
+						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-success btn-xs">
+								<h5><i class="fa fa-money fa-fw"></i></h5>
+							</a>
+							<div class="media-body">
+								<p class="media-heading">
+									<h class="pull-right"><small>10m</small></h>
+									<a href="#"><strong>Exam 1 Study Guide</strong></a> was purchased by your classmate</p>
+								<span class="description small">ECON 200</span> </div>
+						</div>
 					</div>
-				</div>
-				<div> </div>
-				<div class="list-group-item">
-					<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
-							<h5><i class="fa fa-file fa-fw"></i></h5>
-						</a>
-						<div class="media-body">
-							<p class="media-heading">
-								<h class="pull-right"><small>12m</small></h>
-								<a href="#"><strong>Exam 1 Study Guide</strong></a> added by <a href="#" class="text-muted"><strong>Mike M.</strong></a></p>
-							<span class="description small">ECON 200</span> </div>
+					<div> </div>
+					<div class="list-group-item">
+						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
+								<h5><i class="fa fa-user fa-fw"></i></h5>
+							</a>
+							<div class="media-body">
+								<p class="media-heading">
+									<h class="pull-right"><small>11m</small></h>
+									<a href="#" class="text-muted"><strong>Ashton K.</strong></a> joined your class</p>
+								<span class="description small">ECON 200</span> </div>
+						</div>
 					</div>
-				</div>
-				<div> </div>
-				<div class="list-group-item">
-					<div class="media"><a href="#" class="media-object img-thumbnail pull-left btn-default btn-xs">
-							<h5><i class="fa fa-user fa-fw"></i></h5>
-						</a>
-						<div class="media-body">
-							<p class="media-heading">
-								<h class="pull-right"><small>13m</small></h>
-								You joined a class</p>
-							<span class="description small">ECON 200</span> </div>
+					<div> </div>
+					<div class="list-group-item">
+						<div class="media"><a href="#" class="media-object img-thumbnail pull-left btn-default btn-xs">
+								<h5><i class="fa fa-user fa-fw"></i></h5>
+							</a>
+							<div class="media-body">
+								<p class="media-heading">
+									<h class="pull-right"><small>13m</small></h>
+									You joined a class</p>
+								<span class="description small">ECON 200</span> </div>
+						</div>
 					</div>
 				</div>
 			</div>

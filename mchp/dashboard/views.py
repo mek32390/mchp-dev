@@ -5,7 +5,10 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import View
 
 from lib.decorators import school_required
+from lib import utils
 from schedule.models import Course, SchoolQuicklink
+from user_profile.models import Enrollment
+from documents.models import Document
 
 class DashboardView(View):
     template_name = 'dashboard.html'
@@ -15,14 +18,29 @@ class DashboardView(View):
             student=self.student
         )
         latest_joins = []
+
         # get some of the latest people to join your classes
-        for cls in student_classes:
-            latest_joins += list(cls.student_set.exclude(
-                user=request.user
-            ).order_by('enrollment__join_date')[:5])
+        latest_joins = list(Enrollment.objects.filter(
+            course__in=student_classes
+        ).exclude(
+            student=self.student
+        ).order_by('join_date')[:5])
+        from collections import namedtuple
+        Activity = namedtuple('Activity', ['type', 'title', 'time', 'user'])
 
         # make the list unique
         latest_joins = list(set(latest_joins))
+        
+        docs = []
+        for course in student_classes:
+            docs += Document.objects.recent_events(course)
+
+        joins = []
+        for join in latest_joins:
+            joins.append(Activity('join', join.student.name, join.join_date, ''))
+
+        joins = list(set(joins))
+        both = list(utils.random_mix(docs, joins))
 
         s_links = SchoolQuicklink.objects.filter(
             domain=self.student.school
@@ -30,7 +48,7 @@ class DashboardView(View):
         print(s_links)
         data = {
             'flags': self.student.one_time_flag.default(self.student),
-            'pulse': latest_joins,
+            'pulse': both,
             'school_links': s_links,
         }
         return render(request, self.template_name, data)

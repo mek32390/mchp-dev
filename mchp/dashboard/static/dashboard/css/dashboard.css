@@ -35,16 +35,18 @@
     background: none;
     position: relative;
     z-index:0;
-    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 .flip-holder.flip .front {
-    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
     z-index:0;
 }
 .flip-holder.flip .back {
-    -webkit-transform: rotateY(360deg);
     transform: rotateY(360deg);
     z-index:10;
+}
+
+.pulse-con {
+	overflow: auto; 
+	max-height: 424px;
 }

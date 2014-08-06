@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from django.core import serializers
 
 from lib.decorators import school_required
+from lib.utils import random_mix
 from documents.models import Document
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
 from schedule.models import Course, School, SchoolQuicklink
@@ -402,20 +403,6 @@ name: classes
 class ClassesView(View):
     template_name = 'schedule/classes.html'
 
-    def random_mix(self, seq_a, seq_b):
-        import random
-        iters = [iter(seq_a), iter(seq_b)]
-        lens = [len(seq_a), len(seq_b)]
-        while all(lens):
-            r = random.randrange(sum(lens))
-            itindex = r < lens[0]
-            it = iters[itindex]
-            lens[itindex] -= 1
-            yield next(it)
-        for it in iters:
-            for x in it: yield x
-            iters = [iter(seq_a), iter(seq_b)]
-
     def get(self, request, *args, **kwargs):
         data = {}
         courses = Course.objects.filter(student__user=self.request.user).annotate(
@@ -448,7 +435,7 @@ class ClassesView(View):
             for join in latest_joins:
                 joins.append(Activity('join', join.student.name, join.join_date, ''))
 
-            both = list(self.random_mix(act, joins))
+            both = list(random_mix(act, joins))
             setattr(course, 'activity', both)
 
         data['course_list'] = courses
