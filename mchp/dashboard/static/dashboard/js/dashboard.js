@@ -31,4 +31,5 @@ $(function(){
 	$('#ref-alert').on('close.bs.alert', function  () {
 		toggle_flag('referral_info');
 	});
+	$('.pulse-con').css('max-height',$(window).height() - 200);
 });
