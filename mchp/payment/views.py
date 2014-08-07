@@ -75,22 +75,46 @@ class SaveInfoView(View, AjaxableResponseMixin):
                     },
                 )
             except stripe.error.StripeError as e:
-                body = e.json_body
-                err = body['error']
-                data = {
-                    'response': err['message']
-                }
-                return self.render_to_json_response(data, status=e.http_status)
+                if e.json_body['error']['type'] != 'invalid_request_error':
+                    print(e.json_body)
+                    body = e.json_body
+                    err = body['error']
+                    data = {
+                        'response': err['message']
+                    }
+                    return self.render_to_json_response(data, status=e.http_status)
+                else:
+                    # warn, but continue on, they only have a credit card
+                    recipient = None
+                    cards = StripeCustomer.objects.filter(
+                        user=request.user,
+                        recipient_id__isnull=False
+                    )
+                    # but only if they don't have any other debit cards
+                    if not cards.exists():
+                        messages.warning(
+                            self.request,
+                            "You won't be able to cash out with only a credit card."
+                        )
+
+            if recipient:
+                recipient_id = recipient.id
+            else:
+                recipient_id = None
+
+            # make the db tuple
+            print(customer)
             sc = StripeCustomer(
                 user=request.user,
                 stripe_id = customer.id,
-                recipient_id = recipient.id,
+                recipient_id = recipient_id,
+                last_four = customer.cards.data[0].last4,
             )
             sc.save()
-
+            StripeCustomer.objects.set_default_card(request.user, sc)
 
             # everything worked
-            messages.info(
+            messages.success(
                 self.request,
                 'card info saved',
             )
@@ -197,6 +221,7 @@ class ChargeView(View, AjaxableResponseMixin):
 
         data = {
             'messages': self.ajax_messages(),
+            'points': self.student.total_points(),
         }
         return self.render_to_json_response(data)
 
@@ -250,10 +275,14 @@ class PayoutView(View, AjaxableResponseMixin):
                 return self.render_to_json_response(data, status=status)
 
             customer = StripeCustomer.objects.filter(
-                user = request.user
+                user = request.user,
+                default=True,
             )
-            if customer.exists():
+            # they must have entered a card previously, and it must
+            # have been a debit card, or they won't have a recipient id
+            if customer.exists() and customer[0].recipient_id:
                 recipient_id = customer[0].recipient_id
+                print(recipient_id)
                 try:
                     stripe.api_key = settings.STRIPE_SECRET_KEY
                     stripe.Transfer.create( 
@@ -278,7 +307,7 @@ class PayoutView(View, AjaxableResponseMixin):
             else:
                 messages.error(
                     self.request,
-                    "Please enter a debit card to cash out",
+                    "Please enter a debit card to cash out.",
                 )
                 status = 402
             data = {
@@ -310,3 +339,97 @@ class WebhookView(View):
         return super(WebhookView, self).dispatch(*args, **kwargs)
 
 webhook = WebhookView.as_view()
+
+class ChangeCardView(View, AjaxableResponseMixin):
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('my_profile'))
+
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            delete = request.POST.get('delete', False)
+            card = request.POST.get('card', '')
+            # remove all card info
+            if delete:
+                return self.delete_card(card)
+            # try to find the card
+            customer = StripeCustomer.objects.filter(
+                user=request.user,
+                pk=card
+            )
+            if not customer.exists():
+                status = 403
+                data = {
+                    'messages': self.ajax_messages(),
+                    'response': "We couldn't find that card in our files",
+                }
+            else:
+                customer = customer[0]
+                # set card as default card
+                StripeCustomer.objects.set_default_card(request.user, customer)
+                status = 200
+                data = {
+                    'response': ''
+                }
+            return self.render_to_json_response(data, status=status)
+        else:
+            return redirect(reverse('my_profile'))
+
+    def delete_card(self, card_pk):
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        card = StripeCustomer.objects.filter(
+            user = self.request.user,
+            pk = card_pk,
+        )
+        if not card:
+            status = 403
+            messages.error(
+                self.request,
+                "We couldn't find that card in our files",
+            )
+            data = {
+                'messages': self.ajax_messages(),
+            }
+            return self.render_to_json_response(data, status=status)
+        else:
+            card = card[0]
+
+        try:
+            cu = stripe.Customer.retrieve(card.stripe_id) 
+            cu.delete()
+
+            if card.recipient_id:
+                rp = stripe.Recipient.retrieve(card.recipient_id) 
+                rp.delete()
+        except stripe.error.StripeError as e:
+            if e.json_body['error']['type'] == 'invalid_request_error':
+                # there isn't a customer for some reason
+                # but we were going to delete it anyway
+                pass
+        # change the default to most recently entered card
+        if card.default:
+            new = StripeCustomer.objects.filter(
+                user=self.request.user,
+                default=False,
+            ).order_by('-create_date')
+            if new.exists():
+                StripeCustomer.objects.set_default_card(self.request.user, new[0])
+            print(new)
+        # finally, delete the db entry for the card
+        card.delete()
+
+        messages.success(
+            self.request,
+            "Your card has been deleted",
+        )
+        status = 200
+        data = {
+            'messages': self.ajax_messages(),
+        }
+        return self.render_to_json_response(data, status=status)
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(ChangeCardView, self).dispatch(*args, **kwargs)
+
+change_card = ChangeCardView.as_view()

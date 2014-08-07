@@ -1,6 +1,9 @@
 <div class="payment">
+	{% load staticfiles %}
+	<script src="{% static 'payment/js/payment.js' %}"></script>
 	<script type="text/javascript">
 		var $modal = $('#{{modal_id}}');
+		var change_url = '{%url "change_card"%}';
 	</script>
 	{% load payment %}
 	<ul class="nav nav-pills nav-justified" role="tablist">
@@ -11,6 +14,44 @@
 		<li><a href="#card-info-tab" role="tab" data-toggle="tab">Card Info</a></li>
 	</ul>
 	<hr>
+	<div class="list-group">
+		<div class="list-group-item">
+			<p class="card-errors text-danger text-center"></p>
+			<label><i class="fa-fw fa fa-credit-card"></i> Your Cards</label>
+			{% csrf_token %}
+			<div class="radio">
+				{% for card in cards %}
+				<div id="card-{{card.pk}}">
+					<label>
+						<input type="radio" name="card" value="{{card.pk}}">
+						{% if card.recipient_id %}
+						Debit 
+						{% else %}
+						Credit 
+						{% endif %}
+						Card ****<strong>{{card.last_four}}</strong>
+					</label>
+					<span class="pull-right" id="card-span-{{card.pk}}">
+						{% if card.default %}
+						<i rel="tooltip" title="This is your default card" class="default-card fa fa-check fa-fw text-primary"></i> 
+						{% endif %}
+						<a href="#" class="delete-card-button" data-card="{{card.pk}}">
+							<i rel="tooltip" title="Delete this card" class="fa fa-times fa-fw text-danger"></i>
+						</a>
+					</span>
+				</div>
+				<span class="card-options"></span>
+				{% empty %}
+				<p>
+					You havn't added any cards yet!
+				</p>
+				<p>
+					(If you don't see a card you just added, try refreshing the page)
+				</p>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 	<div class="tab-content">
 		<div class="tab-pane fade in active text-center" id="purchase-points-tab">
 			{% purchase student%} 

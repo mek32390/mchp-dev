@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^charge/', views.charge, name='stripe_charge'),
     url(r'^payout/', views.payout, name='payout'),
     url(r'^webhook/', views.webhook, name='stripe_webhook'),
+    url(r'^change/', views.change_card, name='change_card'),
 )

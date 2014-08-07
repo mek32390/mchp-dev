@@ -2,13 +2,19 @@ from django import template
 from django.template import Library
 from django.conf import settings
 
+from payment.models import StripeCustomer
+
 register = Library()
 
 @register.inclusion_tag('payment.html')
 def payment_dialog(modal_id=None, student=None):
+    cards = StripeCustomer.objects.filter(
+        user_id = student.user.pk
+    ).order_by('-create_date')
     return {
         'modal_id': modal_id,
         'student': student,
+        'cards': cards,
     }
 
 @register.inclusion_tag('purchase.html')
