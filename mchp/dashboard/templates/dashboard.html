@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
+<script src="{% static 'lib/js/animatescroll.min.js' %}"></script>
 <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 
 {% endblock %}
@@ -297,97 +298,168 @@
 		<!-- </div> End Pulse Col -->
 		<div class="col-md-4 col-sm-4 animated animated-md bounceInUp delayed-md">
 
-			<h2>Stories <small> for your brain</small><a href="#" id="edit_sections" class='pull-right'><small><i class="fa fa-bars"></i></small></a></h2>
+			<h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class='pull-right'><small><i class="fa fa-bars"></i></small></a></h2>
 
 			<hr class="margin-top-sm">
+      <div class="flip-holder">
+                <div class="front">
+                    <nav id="news-navbar" class="navbar navbar-default" role="navigation">
+                      <span class="navbar-header">
+            <ul class="nav navbar-nav">
+                <li class="active"><a  id="news-link" href="#headlines"><i class="fa fa-header"></i></a></li>
+                <li><a class="news-link" href="#sports"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="news-link" href="#techworld"><i class="fa fa-code"></i></a></li>
+                <li><a class="news-link" href="#corporate"><i class="fa fa-usd"></i></a></li>
+                <li><a class="news-link" href="#campuslife"><i class="fa fa-paper-plane-o"></i></a></li>
+            </ul>
+                        </span><!--end navbar header -->
+                       
+                    </nav> 
+                    <span id="news-scroll" data-spy="scroll" data-offset="0">
+                <ul id="headlines" class="list-group">
+                    <li class="list-group-item list-group-item-info">
+                         <h5 class="margin-top-none margin-btm-none">Headlines</h5>
 
-			<div class="flip-holder">
+                    </li>
+                    <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">The Apple Mac Turns 30</a>  <small><span class="label  alert-info">FOX</span></small>
 
-				<div class="front">
-					<ul class="list-group">
-						<li class="list-group-item">
-							<small class="pull-right"><small>11m</small></small>
-							<a href="#">The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
-							<p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
-						</li>
-						<li class="list-group-item">
-							<small class="pull-right"><small>11m</small></small>
-							<a href="#">Hit the Slopes in Comfort With These Top Three Goggles</a> <small><span class="label  alert-info">FOX</span></small>
-							<p class="small">Without the right goggles, a bluebird day on the mountain is nothing more than a recipe for snow blindness.</p>
-						</li>
-						<li class="list-group-item">
-							<small class="pull-right"><small>11m</small></small>
-							<a href="#">This Might be the Best Reason EVER to Not Drop Out of School</a> <small><span class="label  alert-info">FOX</span></small>
-							<p class="small">A Reddit user posted this photo of a ten dollar bill. It contains perhaps the best reason ever to complete the highest level of eduction possible.</p>
-						</li>
-						<li class="list-group-item">
-							<small class="pull-right"><small>11m</small></small>
-							<a href="#">Hobbyists pilot small drones for dogfights</a> <small><span class="label  alert-info">FOX</span></small>
-							<p class="small">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.</p>
-						</li>
-					</ul>
+                        <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
+                    </li>
+                    <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">Hit the Slopes in Comfort With These Top Three Goggles</a>  <small><span class="label  alert-info">FOX</span></small>
 
-				</div>
-				<div class="back">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<div class="well">
-								<h4 class="text-center">Customize Your Interests</h4>
-								<hr class="margin-top-sm">
-								<ul class="list-inline text-center">
-									<li class="list-group" style="width:111px;">
-										<div class="list-group-item btn btn-default" data-toggle="button">
-											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-											<h5>Headlines</h5>
-										</div>
-									</li> 
-									<li class="list-group" style="width:111px;">
-										<div class="list-group-item btn btn-default" data-toggle="button">
-											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-											<h5>Sports</h5>
-										</div>
-									</li>
-									<li class="list-group" style="width:111px;">
-										<div class="list-group-item btn btn-default" data-toggle="button">
-											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-											<h5>College</h5>
-										</div>
-									</li> 
-									<li class="list-group" style="width:111px;">
-										<div class="list-group-item btn btn-default" data-toggle="button">
-											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-											<h6>Entertainment</h6>
-										</div>
-									</li>
-									<li class="list-group" style="width:111px;">
-										<div class="list-group-item btn btn-default" data-toggle="button">
-											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-											<h5>Art</h5>
-										</div>
-									</li> 
-									<li class="list-group" style="width:111px;">
-										<div class="list-group-item btn btn-default" data-toggle="button">
-											<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" width="50px"/>
-											<h5>Fashion</h5>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- <! <ul class="nav nav-pills h6" id="newsTabs">
-				<li class="active"><a href="#" data-section="top">Top</a> </li>
-				<li><a href="#" data-section="sports">Sports</a> </li>
-				<li><a href="#" data-section="tech">Tech</a> </li>
-				<li><a href="#" data-section="entertainment">Ent</a> </li>
-				<li class="pull-right"><a href="#newsfeedModal" data-toggle="modal"><i class="fa fa-list-ul fa-fw"></i></a></li>
-			</ul> -->
-			<!--       <p></p> -->
-			<!-- div class="list-group scrolls" id="news">
+                        <p class="small">Without the right goggles, a bluebird day on the mountain is nothing more than a recipe for snow blindness.</p>
+                    </li>
+                    <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">This Might be the Best Reason EVER to Not Drop Out of School</a>  <small><span class="label  alert-info">FOX</span></small>
 
-			</div> -->
+                        <p class="small">A Reddit user posted this photo of a ten dollar bill. It contains perhaps the best reason ever to complete the highest level of eduction possible.</p>
+                    </li>
+                    <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">Hobbyists pilot small drones for dogfights</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                        <p class="small">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.</p>
+                    </li>
+                    <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">Why Social Media Sites Shouldn't Ask for User's Gender</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                        <p class="small">Sometimes being a man or woman isn't good enough, especially when you are a Snaken.</p>
+                    </li>
+                </ul>
+
+                    <ul class="list-group" id="sports">
+                      <li class="list-group-item list-group-item-success">
+                         <h5 class="margin-top-none margin-btm-none">Sports</h5>
+                    </li>
+                        
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">The Apple Mac Turns 30</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
+                        </li>
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">Hit the Slopes in Comfort With These Top Three Goggles</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">Without the right goggles, a bluebird day on the mountain is nothing more than a recipe for snow blindness.</p>
+                        </li>
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">This Might be the Best Reason EVER to Not Drop Out of School</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">A Reddit user posted this photo of a ten dollar bill. It contains perhaps the best reason ever to complete the highest level of eduction possible.</p>
+                        </li>
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">Hobbyists pilot small drones for dogfights</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.</p>
+                        </li>
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">Why Social Media Sites Shouldn't Ask for User's Gender</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">Sometimes being a man or woman isn't good enough, especially when you are a Snaken.</p>
+                        </li>
+                      </ul>
+
+                        <ul class="list-group" id="techworld">
+                      <li class="list-group-item list-group-item-warning">
+                         <h5 class="margin-top-none margin-btm-none">Techworld</h5>
+                    </li>
+                        
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">The Apple Mac Turns 30</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
+                        </li>
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">Hit the Slopes in Comfort With These Top Three Goggles</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">Without the right goggles, a bluebird day on the mountain is nothing more than a recipe for snow blindness.</p>
+                        </li>
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">This Might be the Best Reason EVER to Not Drop Out of School</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">A Reddit user posted this photo of a ten dollar bill. It contains perhaps the best reason ever to complete the highest level of eduction possible.</p>
+                        </li>
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">Hobbyists pilot small drones for dogfights</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">Marque Cornblatt's interest in drones began with a bit of playful drone-on-drone violence.</p>
+                        </li>
+                        <li class="list-group-item"> <small class="pull-right"><small>11m</small></small> <a href="#">Why Social Media Sites Shouldn't Ask for User's Gender</a>  <small><span class="label  alert-info">FOX</span></small>
+
+                            <p class="small">Sometimes being a man or woman isn't good enough, especially when you are a Snaken.</p>
+                        </li>
+                    </ul>
+      </span><!-- end news scroll section --> 
+                </div><!--end front -->
+                <div class="back">  
+                    <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="well">
+                    <h4 class="text-center">Customize Your Interests</h4>
+                <hr class="margin-top-sm">
+                <ul class="list-inline text-center">
+                  <li class="list-group" style="width:111px;">
+                    <div class="list-group-item btn btn-default" data-toggle="button">
+                      <i class="fa fa-header fa-3x"></i>
+                      <h5>Headlines</h5>
+                    </div>
+                  </li> 
+                  <li class="list-group" style="width:111px;">
+                    <div class="list-group-item btn btn-default" data-toggle="button">
+                      <i class="fa fa-dribbble fa-3x"></i>
+                      <h5>Sports</h5>
+                    </div>
+                  </li>
+                  <li class="list-group" style="width:111px;">
+                    <div class="list-group-item btn btn-default" data-toggle="button">
+                      <i class="fa fa-code fa-3x"></i>
+                      <h5>Tech World</h5>
+                    </div>
+                  </li> 
+                  <li class="list-group" style="width:111px;">
+                    <div class="list-group-item btn btn-default" data-toggle="button">
+                      <i class="fa fa-usd fa-3x"></i>
+                      <h5>Corporate</h5>
+                    </div>
+                  </li>
+                  <li class="list-group" style="width:111px;">
+                    <div class="list-group-item btn btn-default" data-toggle="button">
+                      <i class="fa fa-paper-plane-o fa-3x"></i>
+                      <h6>Campus Life</h6>
+                    </div>
+                  </li> 
+                  <li class="list-group" style="width:111px;">
+                    <div class="list-group-item btn btn-default" data-toggle="button">
+                      <i class="fa fa-globe fa-3x"></i>
+                      <h5>Planet</h5>
+                    </div>
+                  </li>
+                  <li class="list-group" style="width:111px;">
+                    <div class="list-group-item btn btn-default" data-toggle="button">
+                      <i class="fa fa-leaf fa-3x"></i>
+                      <h5>Fresh Eats</h5>
+                    </div>
+                  </li>
+                  <li class="list-group" style="width:111px;">
+                    <div class="list-group-item btn btn-default" data-toggle="button">
+                      <i class="fa fa-ticket fa-3x"></i>
+                      <h5>Hollywood</h5>
+                    </div>
+                  </li>
+                </ul>
+                            </div>
+                        </div>
+                    </div>
+                            </div>
+                <!-- end back -->
+            </div>
 
 		</div>  <!--End News Col  --> 
 	</div> <!--End Row -->
