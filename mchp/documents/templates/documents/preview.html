@@ -89,14 +89,7 @@
 							{% if document.preview %}
 							<img class="img-thumbnail center-block" style="margin-bottom:10px;" src={{document.preview.url}}></img>
 							{% else %}
-							<div class="panel panel-default center-block">
-								<div class="panel-body">
-									<h5 class="text-center">Hey there!</h5>
-									<p class="text-center">We're working hard to figure out why the preview of this document isn't showing. Have no fear; the document still exists and will be viewable when purchased.</p>
-									<p class="text-center">Best of luck on your studying,</p>
-									<p class="text-center">-mchp</p>
-								</div>
-							</div>
+							<img class="img-thumbnail center-block" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}">
 							{% endif %}
 						</div>
 						<div class="col-sm-7">

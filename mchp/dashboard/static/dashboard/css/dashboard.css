@@ -10,43 +10,86 @@
     border-radius: 3px;
 }
 
-/* card flip */
+.pulse-con {
+	overflow: auto; 
+	/*max-height: 424px;*/
+}
+
+/* news card flip */
  .flip-holder {
     width: 100%;
+    /*height:500px;
+    */
     position: relative;
     perspective:1000px;
 }
 .flip-holder div {
     position: relative;
     width: 100%;
-    height: 100%;
+    /* height: auto; */
+    /* background-color: #fff; */
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transition: 0.6s;
+    /*-webkit-transition: 0.6s;
     -moz-transition: 0.6s;
     -o-transition: 0.6s;
+    */
     z-index:10;
 }
 .flip-holder .front {
-    background: none;
+    background-color: #fff;
+    /* height: 100%; */
     position: absolute;
+    -webkit-transition: 0.6s;
+    -moz-transition: 0.6s;
+    -o-transition: 0.6s;
 }
 .flip-holder .back {
-    background: none;
-    position: relative;
+    background-color: #fff;
+    position: absolute;
     z-index:0;
+    -webkit-transition: 0.6s;
+    -moz-transition: 0.6s;
+    -o-transition: 0.6s;
+    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 .flip-holder.flip .front {
+    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
     z-index:0;
 }
 .flip-holder.flip .back {
+    -webkit-transform: rotateY(360deg);
     transform: rotateY(360deg);
     z-index:10;
 }
 
-.pulse-con {
-	overflow: auto; 
-	max-height: 424px;
+/* set custom height for the news section to scroll in */
+#news-scroll {
+    height: 550px;
+    position: absolute;
+    overflow: auto;
+}
+/* custom styles for anchors in the news navbar */
+#news-navbar .navbar-header > ul > li > a {
+    padding-top: 8px;
+    padding-bottom: 9px;
+}
+
+#news-navbar {
+    min-height: 37px;
+}
+
+/* set custom news nav styles for small screens */
+@media (max-width: 768px) {
+    #news-navbar > ul {
+        margin-top: 0px;
+        margin-left: inherit;
+    }
+    #news-navbar > span > ul > li {
+        display: inline-block;
+        position: relative;
+        right: -22px;
+    }
 }

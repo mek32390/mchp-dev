@@ -12,9 +12,6 @@
 
 .about-container {
 	text-align: center;
-}
-
-.lead {
 	word-break: break-all;
 	max-width: 700px;
 	margin: auto;

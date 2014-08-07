@@ -4,7 +4,7 @@ $(function(){
 		$('#top_friends').removeClass('hidden');
 		$('#top_achievements').removeClass('hidden');
 		$('#user_classes').removeClass('hidden');
-		$('#friend_message').addClass('hidden');
+		$('#friend-message').addClass('hidden');
 		$('#shared_classes').addClass('hidden');
 	});
 
@@ -23,7 +23,23 @@ $(function(){
     	mode: 'inline',
     	inputclass: 'input-lg',
 		url: '/profile/edit-blurb/',
-		emptytext: 'Add a quote!',					
+		unsavedclass: 'text-danger',
+		emptyclass: '',
+		emptytext: 'Add a blurb abut yourself!',
+		highlight: '',
+		onblur: 'submit',				
+		send: 'always',
+    });
+
+  $('#major').editable({
+    	mode: 'inline',
+    	inputclass: '',
+		url: '/profile/edit-major/',
+		unsavedclass: 'text-danger',
+		emptyclass: '',
+		emptytext: 'Add your Major',
+		highlight: '',
+		onblur: 'submit',				
 		send: 'always',
     });
 

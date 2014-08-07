@@ -28,10 +28,14 @@
 	<img src="{{profile.profile_image_url}}" width="165px" class="animated flipInX img-thumbnail img-responsive img-circle">
 	<h2 style="margin-bottom:;">{{user.first_name}} {{user.last_name}}</h2>
 	<p class="small">{{student.name}} &nbsp;
-		<i class="fa fa-graduation-cap fa-fw"></i> Marketing Major &nbsp;
+		{% ifequal viewer student %}
+		<span id="major" data-type="text" data-title="" data-params=""><i class="fa fa-graduation-cap fa-fw"></i> Add your Major</span> &nbsp;
+		{% else %}
+		<span id="major-other"><i class="fa fa-graduation-cap fa-fw"></i> Marketing Major</span> &nbsp;
+		{% endifequal %}
 		<i class="fa fa-university fa-fw"></i>{{student.school.name}}</p>
 	<!-- <h5><small style="color:;">joined {{student.create_date | naturaltime}}</small></h5> -->
-	<div class=about-container">
+	<div class="about-container">
 		{% ifequal viewer student %}
 		<p class="lead" id="about" data-type="text" data-title="" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{profile.blurb}}</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
 		{% else %}
@@ -43,7 +47,7 @@
 <!-- </div> -->
 <div class="container">
 	<div class="row">
-		<div class="col-xs-12 text-center">
+		<div class="col-xs-12">
 			<div class="progress">
 				<a href="#" class="progress-bar progress-bar-success" id="score_1">
 					<span class="sr-only">35% Complete (success)</span>
@@ -67,7 +71,7 @@
 			<div class="tab-content">
 				<div class="tab-pane active fade in" id="home">
 					<p></p>
-					<div id="friend_message" class="lead">
+					<div id="friend-message" class="lead text-center">
 						<hr>
 						To see more of what {{student.name}} shares, become friends with them! <div class="btn
 							btn-primary" id="friend_button" >Friend {{student.name}}</div>
@@ -205,7 +209,7 @@
 						</div>
 						<!-- Show initial Classes in common -->
 						<div id="shared_classes">
-							<div class="panel panel-default scrolls">
+							<div class="panel panel-default scrolls text-center">
 								<div class="panel-body">
 									<div class="page-header">
 										<h3 class="text-center">You and {{student.name}} are taking these classes together:</h3>
