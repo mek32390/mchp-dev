@@ -1,9 +1,36 @@
 $(function(){
+ 
+ 	/*
+	/*
+	/* NEWS FUNCTIONS
+	/*
+	*/
+
+
+	//toggle news categories section on click
+	$('#edit-sections').on('click', function () {
+		$('.flip-holder').toggleClass("flip");
+	});
+
+	//scrollspy news section 
+	$("#news-scroll").scrollspy({
+		target: "#news-navbar"
+	})
+
+    // set var for news section nav link click adjustment
+    var offset = 10000;
+
+    $('#news-navbar .nav li a').click(function (event) {
+    	event.preventDefault();
+    	$($(this).attr('href'))[0].scrollIntoView();
+    	scrollBy(0, -offset);
+
+    });
 
 	/*
 	/*
-	/* QUICKLINKS FUNCTIONS
-	/*
+	/* QUICKLINKS FUNCTIONS SEEM TO BE CAUSING A LOT OF TROUBLE 
+	/* SO I MOVED THEM DOWN HERE
 	*/
 
 	//make breadcrumbs sortable
@@ -35,30 +62,5 @@ $(function(){
 	});
 	$('.pulse-con').css('max-height',$(window).height() - 200);
 
-	/*
-	/*
-	/* NEWS FUNCTIONS
-	/*
-	*/
 
-	//toggle news categories section on click
-	$('#edit-sections').on('click', function () {
-    	$('.flip-holder').toggleClass("flip");
-	});
-	//scrollspy news section 
-    $("#news-scroll").scrollspy({
-        target: "#news-navbar"
-    })
-    
-    // set var for news section nav link click adjustment
-    var offset = 10000;
-
-    $('#news-navbar .nav li a').click(function (event) {
-        event.preventDefault();
-        $($(this).attr('href'))[0].scrollIntoView();
-        scrollBy(0, -offset);
-
-    });
-
-       
-});
+})

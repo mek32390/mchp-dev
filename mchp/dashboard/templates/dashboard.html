@@ -6,15 +6,17 @@
 {% endblock %}
 
 {% block extra_head %}
-<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+<!-- this ruins tooltips -->
+<!-- <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script> -->
 
 {% load staticfiles %}
 <!-- // <script src="{% static 'dashboard/js/quicklinks.js' %}"></script> -->
+<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
-<script src="{% static 'lib/js/animatescroll.min.js' %}"></script>
-<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+<!-- <script src="{% static 'lib/js/animatescroll.min.js' %}"></script> -->
+
 
 {% endblock %}
 
@@ -184,7 +186,7 @@
 					<div class-"list-group">
 						<div class="list-group-item">
 							<a href="#"><img class="img-thumbnail img-circle center-block" width="140px" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /></a>
-							<h5 class="text-center user-popover margin-btm-none"><a href="#">Brost</a></h5>
+							<h5 class="text-center  margin-btm-none"><a href="#">Brost</a></h5>
 							<p class="text-center"><small>3 classes in common</small></p>
 							<p class="text-center"><button class="btn btn-primary btn-xs">Friend Brost</button></p>
 						</div>
@@ -194,7 +196,7 @@
 		</div><!-- End Today Col -->
 
 		<div class="col-sm-4 col-md-5 animated animated-sm bounceInUp delayed-sm"><!-- Begin Pulse Col -->
-			<h2 style>Pulse <small> feel the vibe</small></h2>
+			<h2>Pulse <small> feel the vibe</small></h2>
 			<hr class="margin-top-sm">
 			<!-- <div class="row">
 				<div class="col-sm-8"> -->
@@ -300,17 +302,18 @@
 
 			<h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class='pull-right'><small><i class="fa fa-bars"></i></small></a></h2>
 
+
 			<hr class="margin-top-sm">
       <div class="flip-holder">
                 <div class="front">
                     <nav id="news-navbar" class="navbar navbar-default" role="navigation">
                       <span class="navbar-header">
             <ul class="nav navbar-nav">
-                <li class="active"><a  id="news-link" href="#headlines"><i class="fa fa-header"></i></a></li>
-                <li><a class="news-link" href="#sports"><i class="fa fa-dribbble"></i></a></li>
-                <li><a class="news-link" href="#techworld"><i class="fa fa-code"></i></a></li>
-                <li><a class="news-link" href="#corporate"><i class="fa fa-usd"></i></a></li>
-                <li><a class="news-link" href="#campuslife"><i class="fa fa-paper-plane-o"></i></a></li>
+                <li class="active"><a  class="news-link" data-toggle="tooltip" data-original-title="Headlines" data-placement="bottom" href="#headlines"><i class="fa fa-header"></i></a></li>
+                <li><a class="news-link" data-toggle="tooltip" data-title="Sports" data-placement="bottom" href="#sports"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="news-link" data-toggle="tooltip" data-original-title="Tech World" data-placement="bottom" href="#techworld"><i class="fa fa-code"></i></a></li>
+                <li><a class="news-link" data-toggle="tooltip" data-original-title="Corporate" data-placement="bottom" href="#corporate"><i class="fa fa-usd"></i></a></li>
+                <li><a class="news-link" data-toggle="tooltip" data-original-title="Campus Life" data-placement="bottom" href="#campuslife"><i class="fa fa-paper-plane-o"></i></a></li>
             </ul>
                         </span><!--end navbar header -->
                        
