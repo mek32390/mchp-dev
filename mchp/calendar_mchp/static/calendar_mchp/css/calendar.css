@@ -73,3 +73,12 @@
 .fc-content-skeleton {
 	pointer-events: none;
 }
+
+.canvas-day { 
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    margin-top: 7px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}

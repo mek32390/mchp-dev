@@ -137,9 +137,9 @@ $(function() {
 						var $canvas = $('<canvas id="canvas-'+
 							day.format('YYYY-M-DD') +
 							'" class="'+ 
-							"canvas-day" + 
+							"canvas-day text-center center-block" + 
 							'" height="'+ 
-							($cal_day.height()-5)+
+							($cal_day.height()-13)+
 							'" width="'+
 							$cal_day.width()+
 							'" data-count="'+
@@ -467,7 +467,7 @@ var drawCircle = function(canvas) {
 		ctx.beginPath();
 		var x              = $(canvas).width() / 2;               // x coordinate
 		var y              = $(canvas).height() / 2;               // y coordinate
-		var radius         = $(canvas).width() / 4;                    // Arc radius
+		var radius         = $(canvas).width() / 4.5;                    // Arc radius
 		var startAngle     = 0;                     // Starting point on circle
 		var endAngle       = Math.PI * 2; // End point on circle
 		var anticlockwise  = true; // clockwise or anticlockwise
