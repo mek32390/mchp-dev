@@ -92,12 +92,28 @@ $(function() {
 			// show the clicked day popover
 			date_string = date.format('ddd MMM DD, YYYY');
 			$('.date-input').data('date', date);
+			$('.date-input').attr('fuck', date);
 			$('.date-input').attr('value', date_string);
+			// console.log($('.date-input').data('date'));
 
-			console.log($(this));
+			$(this).popover({
+				trigger: 'manual',
+				placement: 'auto left',
+				html: true,
+				viewport: '#calendar',
+				title: function() {
+					return $('#popover-title').html();
+				},
+				content: function() {
+					return $('#popover-content').html();
+				},
+				container: 'body',
+			});
+			// console.log($(this));
 			$(this).popover('show');
+			// console.log($('.date-input').data('date'));
 		},
-		
+
 		events: {
 			url: '/calendar/feed/',
 			type: 'GET',
@@ -114,7 +130,7 @@ $(function() {
 					// Get current day
 					day = moment($(this).data('date'));
 					// if this day has an event
-					if (event_dates.length && event_dates[0].start.diff(day, 'days') < 1) {
+					if (event_dates.length && event_dates[0].start.diff(day, 'days') === 0) {
 						var count = event_dates[0].count;
 						var $cal_day = $(this);
 						// create a new canvas element the size of the cal day
@@ -123,7 +139,7 @@ $(function() {
 							'" class="'+ 
 							"canvas-day" + 
 							'" height="'+ 
-							$cal_day.height()+
+							($cal_day.height()-5)+
 							'" width="'+
 							$cal_day.width()+
 							'" data-count="'+
@@ -145,6 +161,8 @@ $(function() {
 			// don't show the fullcalendar events
 			return false;
 		},
+		eventAfterAllRender: function(view) {
+		},
 		eventClick: function(calEvent, jsEvent, view) {
 			eventData = {
 				id: calEvent.id,
@@ -163,34 +181,36 @@ $(function() {
 			// $('#calendar').fullCalendar('removeEvents', calEvent.id);
 			return false;
 		},
-		eventDrop: updateEvent,
-		eventResize: updateEvent,
-
-		editable: true,
 		timezone: 'local',
 	});
 
 	/*****************
 	 * popover stuff *
 	 *****************/
-	// initalize the popovers for individual cal days
-	$('.fc-day').popover({
-		trigger: 'manual',
-		placement: 'auto left',
-		html: true,
-		viewport: '#calendar',
-		title: function() {
-			return $('#popover-title').html();
-		},
-		content: function() {
-			return $('#popover-content').html();
-		},
-		container: 'body',
-	});
-	$('#calendar').on('mouseleave', '.canvas-day', function() {
+	$('#calendar').on('mouseover', '.canvas-day', function() {
+		$('.popover').remove();
 		$(this).popover({
-			trigger: 'hover',
-			placement: 'auto',
+			trigger: 'focus',
+			placement: 'auto top',
+			html: true,
+			title: function() {
+				return $('#events-popover-title').html();
+			},
+			content: function() {
+				return $('#events-popover-content').html();
+			},
+			container: 'body',
+		});
+		$('.popover').remove();
+		$(this).popover('show');
+	});
+
+	// bubble click event
+	$('#calendar').on('click', '.canvas-day', function(event) {
+		var $day = $(event.target).parent();
+		$(this).popover({
+			trigger: 'manual',
+			placement: 'auto left',
 			html: true,
 			viewport: '#calendar',
 			title: function() {
@@ -201,38 +221,9 @@ $(function() {
 			},
 			container: 'body',
 		});
-		$('.popover').remove();
 		$(this).popover('show');
+		// $day.trigger('click');
 	});
-
-	$('#calendar').on('click', '.canvas-day', function(event) {
-		var $day = $(event.target).parent();
-		$day.trigger('click');
-	});
-
-	$('canvas').popover({
-		trigger: 'hover',
-		placement: 'auto top',
-		html: true,
-		viewport: '#calendar',
-		title: function() {
-			return 'wat'; 
-		},
-		content: function() {
-			return 'um';
-		},
-		container: 'body',
-	});
-
-	var observer = new MutationObserver(function(mutations) {
-		alert('what');
-		mutations.forEach(function(mutation) {
-		});
-	});
-	// configuration of the observer:
-	var config = { attributes: true, childList: true, characterData: true };
-	// pass in the target node, as well as the observer options
-	observer.observe($('.fc-day-grid').get(0), config);
 
 	// close the popovers when you click outside
 	// this is add to the body so it can be registered
@@ -283,8 +274,7 @@ $(function() {
 		});
 	});
 
-
-	// submitting the form in the popover
+	// submitting the form in the event creation popover
 	$('body').on('submit', '#add-event-form', function(event) {
 		var $form = $(event.target);
 		var url = '/calendar/events/add/';
@@ -301,8 +291,10 @@ $(function() {
 		due_json = JSON.stringify(due);
 		data += "&due=" + encodeURIComponent(due_json);
 
-		var date = $('.date-input').data('date');
-		date_json = JSON.stringify(date);
+		var date_value = $('.date-input').attr('value');
+		var format_string = 'ddd MMM DD, YYYY';
+		var date = moment(date_value, format_string);
+		date_json = JSON.stringify(date); 
 		data += "&date=" + encodeURIComponent(date_json);
 
 		$.ajax({
@@ -338,7 +330,7 @@ $(function() {
 
 	//Create cal event with button
 	$('#createOptions').popover({
-		trigger: 'focus',
+		trigger: 'manual',
 		placement: 'bottom',
 		html: true,
 		// viewport: '#calendar',
