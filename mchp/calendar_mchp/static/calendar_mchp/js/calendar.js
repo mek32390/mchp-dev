@@ -188,7 +188,6 @@ $(function() {
 	 * popover stuff *
 	 *****************/
 	$('#calendar').on('mouseover', '.canvas-day', function() {
-		$('.popover').remove();
 		$(this).popover({
 			trigger: 'focus',
 			placement: 'auto top',
@@ -205,9 +204,11 @@ $(function() {
 		$(this).popover('show');
 	});
 
-	// bubble click event
+	// click on date w/ events on it
 	$('#calendar').on('click', '.canvas-day', function(event) {
-		var $day = $(event.target).parent();
+		// why? why does this one need a stop propagation, and the mouseover will break if you do
+		// that. seriously, wtf
+		event.stopPropagation();
 		$(this).popover({
 			trigger: 'manual',
 			placement: 'auto left',
@@ -222,7 +223,6 @@ $(function() {
 			container: 'body',
 		});
 		$(this).popover('show');
-		// $day.trigger('click');
 	});
 
 	// close the popovers when you click outside
