@@ -48,7 +48,6 @@ $(function() {
 			'card': pk,
 			'delete': true,
 		};
-		console.log(data);
 
 		$.ajax({
 			url: change_url,
@@ -70,4 +69,7 @@ $(function() {
 			},
 		});
 	});
+	// add tooltips and make sure no card is selected by default
+	$(".btooltip").tooltip(); 
+	$('.default-card-container input').prop('checked', false);
 });
