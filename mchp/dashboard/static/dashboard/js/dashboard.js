@@ -1,20 +1,47 @@
 $(function(){
 
+ 	/*
 	/*
-	/*
-	/* QUICKLINKS FUNCTIONS
+	/* NEWS FUNCTIONS
 	/*
 	*/
 
-	//make breadcrumbs sortable
-	$(".breadcrumb").sortable ({ 
-		cancel: '#weather_data',
-		placeholder: 'ql-placeholder',
-		containment: ".breadcrumb",
-		scroll: false
+
+	//toggle news categories section on click
+	$('#edit-sections').on('click', function () {
+		$('.flip-holder').toggleClass("flip");
 	});
+
+	//scrollspy news section 
+	$("#news-scroll").scrollspy({
+		target: "#news-navbar"
+	})
+
+    // set var for news section nav link click adjustment
+    var offset = 1000;
+
+    $('#news-navbar .nav li a').click(function (event) {
+    	event.preventDefault();
+    	$($(this).attr('href'))[0].scrollIntoView();
+    	scrollBy(0, -offset);
+
+    });
+
+	/*
+	/*
+	/* QUICKLINKS FUNCTIONS SEEM TO BE CAUSING A LOT OF TROUBLE 
+	/* SO I MOVED THEM DOWN HERE AND COMMENTED THEM OUT
+	*/
+
+	//make breadcrumbs sortable
+	// $(".breadcrumb").sortable ({ 
+	// 	cancel: '#weather_data',
+	// 	placeholder: 'ql-placeholder',
+	// 	containment: ".breadcrumb",
+	// 	scroll: false
+	// });
 	//make a breadcrumb not clickable when dragging
-	$( ".breadcrumb" ).disableSelection();
+	// $( ".breadcrumb" ).disableSelection();
 
 	// using jquery.cookie plugin
 	var csrftoken = $.cookie('csrftoken');
@@ -35,30 +62,5 @@ $(function(){
 	});
 	$('.pulse-con').css('max-height',$(window).height() - 200);
 
-	/*
-	/*
-	/* NEWS FUNCTIONS
-	/*
-	*/
 
-	//toggle news categories section on click
-	$('#edit-sections').on('click', function () {
-    	$('.flip-holder').toggleClass("flip");
-	});
-	//scrollspy news section 
-    $("#news-scroll").scrollspy({
-        target: "#news-navbar"
-    })
-    
-    // set var for news section nav link click adjustment
-    var offset = 10000;
-
-    $('#news-navbar .nav li a').click(function (event) {
-        event.preventDefault();
-        $($(this).attr('href'))[0].scrollIntoView();
-        scrollBy(0, -offset);
-
-    });
-
-       
-});
+})

@@ -45,6 +45,11 @@ $(function() {
 		scrollIncrement: 50,
 	});
 
+	// initiates tooltips using data toggle selector
+ 	$('[data-toggle="tooltip"]').tooltip({
+ 		container: 'body'
+ 	});
+
 	// hover opacity for score bar
 	$('.score-bar').on( "mouseenter", function () {
 		$(this).css({'transition':'opacity .5s ease 0s', 'opacity':'1'});
