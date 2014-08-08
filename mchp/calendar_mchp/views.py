@@ -180,14 +180,13 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
         if self.request.is_ajax():
-            print(request.POST)
             cal = ClassCalendar.objects.filter(
                 owner=self.student,
                 pk = request.POST.get('id', None)
             )
             if cal.exists():
                 cal = cal[0]
-                # cal.delete()
+                cal.delete()
 
                 messages.success(
                     self.request,
@@ -226,14 +225,11 @@ class EventAddView(View, AjaxableResponseMixin):
     model = CalendarEvent
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         # convert Full Calendar time strings to datetime objects, with timezones
         date = request.POST.get('date', '')
         date = json.loads(date)
-        print(date)
 
         start = datetime.strptime(date, DATE_FORMAT)
-        print(start)
         end = start + timedelta(hours=1)
 
         # the calendar this event belongs to
@@ -275,8 +271,6 @@ class EventAddView(View, AjaxableResponseMixin):
                 end_time = end
 
         # add the event
-
-        print(start_time)
         event_data = {
             'calendar': calendar,
             'title': request.POST['title'],
@@ -287,7 +281,6 @@ class EventAddView(View, AjaxableResponseMixin):
         }
         event = CalendarEvent(**event_data)
         event.save()
-        print(event)
         if self.request.is_ajax():
             messages.success(
                 self.request,
@@ -328,7 +321,6 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                 id = request.POST.get('id', None)
             )
             if event.exists():
-                print(request.POST)
                 event = event[0]
                 start = timezone.make_aware(datetime.strptime(request.POST['start'], DATE_FORMAT),
                                             timezone.get_current_timezone())
@@ -467,17 +459,20 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 calendar__owner=self.student,
                 is_recurring=False
             ).extra({'date_created' : "date(calendar_mchp_calendarevent.start)"}
-                   ).values('date_created'
-                           ).annotate(created_count=Count('id'))
-            print(event_counts)
-            print(event_counts.query)
+                   ).values('date_created', 'start', 'end'
+                           ).annotate(created_count=Count('id')).order_by('start')
+            for event in event_counts:
+                event['date_created'] = event['date_created'].strftime(DATE_FORMAT)
+                event['start'] = event['start'].strftime(DATE_FORMAT)
+                event['end'] = event['end'].strftime(DATE_FORMAT)
+
             # convert the returned events to a format fullcalendar understands
             for event in events:
                 event['start'] = event['start'].strftime(DATE_FORMAT)
                 event['end'] = event['end'].strftime(DATE_FORMAT)
                 event['allDay'] = event['all_day']
                 del event['all_day']
-            events = events + list( event_counts )
+            events = list( event_counts )
             return self.render_to_json_response(events, status=200)
         else:
             return redirect(reverse('calendar'))

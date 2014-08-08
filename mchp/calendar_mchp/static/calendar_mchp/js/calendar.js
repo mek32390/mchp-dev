@@ -66,7 +66,6 @@ $(function() {
 
 	var today = new Date().toJSON().slice(0,10);
 	var updateEvent = function(event, dateDelta, minuteDelta) {
-		console.log(event);
 		eventData = {
 			id: event.id,
 			title: event.title,
@@ -87,9 +86,8 @@ $(function() {
 			$('.popover').remove();
 			// show the clicked day popover
 			date_string = date.format('ddd MMM DD, YYYY');
-			// console.log(date);
-			$('#date-input').data('date', date);
-			$('#date-input').attr('value', date_string);
+			$('.date-input').data('date', date);
+			$('.date-input').attr('value', date_string);
 			$(jsEvent.target).popover('show');
 		},
 		
@@ -97,6 +95,34 @@ $(function() {
 			url: '/calendar/feed/',
 			type: 'GET',
 			success: function(data) {
+				var event_dates = [];
+				$.each(data, function(index, date) {
+					event_dates.push({
+							'start': moment(date.start),
+							'end': moment(date.end),
+							'count': date.created_count,
+					});
+				});
+				var $circleProto = $('#circle-proto');
+				$('.fc-day').each(function() {
+					// Get current day
+					day = moment($(this).data('date'));
+					// if this day has an event
+					if (event_dates.length && event_dates[0].start.diff(day, 'days') < 1) {
+						var count = event_dates[0].count;
+						var $cal_day = $(this);
+						var $canvas = $('<canvas id="canvas-'+
+							day.format('YYYY-M-DD')+'"' +
+							'height="'+ 
+							$cal_day.height()+
+							'" width="'+
+							$cal_day.width()+
+							'"></canvas>');
+						$cal_day.html($canvas);
+						drawCircle($canvas.get(0), count);
+						event_dates.shift();
+					}
+				});
 			},
 			error: function() {
 				addMessage('Error getting events', 'danger');
@@ -105,7 +131,9 @@ $(function() {
 			// textColor: 'black' // a non-ajax option
 		},
 		eventRender: function(event, element) {
-			// return false;
+			return false;
+		},
+		eventAfterAllRender: function(view) {
 		},
 		eventClick: function(calEvent, jsEvent, view) {
 			eventData = {
@@ -218,8 +246,7 @@ $(function() {
 			todayHighlight: true
 	    }).on('changeDate', function(event) {
 			var pick = moment(event.date);
-			$('#date-input').data('date', pick);
-			// console.log(pick);
+			$('.date-input').data('date', pick);
 		});
 	});
 
@@ -241,9 +268,8 @@ $(function() {
 		due_json = JSON.stringify(due);
 		data += "&due=" + encodeURIComponent(due_json);
 
-		var date = $('#date-input').data('date');
+		var date = $('.date-input').data('date');
 		date_json = JSON.stringify(date);
-		// console.log(date_json);
 		data += "&date=" + encodeURIComponent(date_json);
 
 		$.ajax({
@@ -399,4 +425,28 @@ var deleteCalendar = function(cal_pk) {
 			});
 		},
 	});
+};
+var drawCircle = function(canvas, count) {
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+
+	ctx.beginPath();
+	var x              = $(canvas).width() / 2;               // x coordinate
+	var y              = $(canvas).height() / 2;               // y coordinate
+	var radius         = $(canvas).width() / 4;                    // Arc radius
+	var startAngle     = 0;                     // Starting point on circle
+	var endAngle       = Math.PI * 2; // End point on circle
+	var anticlockwise  = true; // clockwise or anticlockwise
+
+	ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+
+	ctx.fillStyle="#4C9ED9";
+	ctx.fill();
+	ctx.fillStyle="#FFFFFF";
+
+	var font_x = parseInt(y*(2/3)).toString();
+	ctx.font = font_x  + "pt Arial";
+	var text_start = ctx.measureText(count);
+	ctx.fillText(count, x-text_start.width/2, y + (y*(1/4)));
+  }
 };

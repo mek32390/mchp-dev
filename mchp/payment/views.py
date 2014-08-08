@@ -76,7 +76,6 @@ class SaveInfoView(View, AjaxableResponseMixin):
                 )
             except stripe.error.StripeError as e:
                 if e.json_body['error']['type'] != 'invalid_request_error':
-                    print(e.json_body)
                     body = e.json_body
                     err = body['error']
                     data = {
@@ -103,7 +102,6 @@ class SaveInfoView(View, AjaxableResponseMixin):
                 recipient_id = None
 
             # make the db tuple
-            print(customer)
             sc = StripeCustomer(
                 user=request.user,
                 stripe_id = customer.id,
@@ -282,7 +280,6 @@ class PayoutView(View, AjaxableResponseMixin):
             # have been a debit card, or they won't have a recipient id
             if customer.exists() and customer[0].recipient_id:
                 recipient_id = customer[0].recipient_id
-                print(recipient_id)
                 try:
                     stripe.api_key = settings.STRIPE_SECRET_KEY
                     stripe.Transfer.create( 
@@ -327,7 +324,6 @@ payout = PayoutView.as_view()
 class WebhookView(View):
 
     def post(self, request, *args, **kwargs):
-        print(request.body)
         event_json = json.loads(request.body.decode('utf-8'))
         hook = WebhookMessage(message = event_json)
         hook.save()
@@ -413,7 +409,6 @@ class ChangeCardView(View, AjaxableResponseMixin):
             ).order_by('-create_date')
             if new.exists():
                 StripeCustomer.objects.set_default_card(self.request.user, new[0])
-            print(new)
         # finally, delete the db entry for the card
         card.delete()
 
