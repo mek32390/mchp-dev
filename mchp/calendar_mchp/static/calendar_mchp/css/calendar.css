@@ -69,3 +69,7 @@
     transform: rotateY(360deg);
     z-index:10;
 }
+
+.fc-content-skeleton {
+	pointer-events: none;
+}
