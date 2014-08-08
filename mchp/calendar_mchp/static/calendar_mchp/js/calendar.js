@@ -44,12 +44,10 @@ $(function() {
 		}
 	});
 
-	/* delete calendar */
-	$('.delete-cal').click(function() {
-		$link = $(this);
-		var pk = $link.data('cal');
+	$('#confirm-delete-button').click(function() {
+		var pk = $(this).data('cal');
 		deleteCalendar(pk);
-		var $link_parent = $link.parents('.owned-calendar-holder');
+		var $link_parent = $('#owned-calendar-holder-'+pk);
 		$link_parent.fadeOut(500, function() {
 			$link_parent.remove();
 			var count = parseInt($('#owned-calendar-count').text()) - 1;
@@ -58,6 +56,13 @@ $(function() {
 				$('#make-a-calendar').removeClass('hidden');
 			}
 		});
+	});
+
+	$('.pre-delete-button').click(function() {
+		var $modal = $('#delete-cal-modal');
+		var pk = $(this).data('cal');
+		$('#confirm-delete-button').data('cal', pk);
+		$modal.modal('show');
 	});
 
 	/**********************
@@ -88,7 +93,9 @@ $(function() {
 			date_string = date.format('ddd MMM DD, YYYY');
 			$('.date-input').data('date', date);
 			$('.date-input').attr('value', date_string);
-			$(jsEvent.target).popover('show');
+
+			console.log($(this));
+			$(this).popover('show');
 		},
 		
 		events: {
@@ -103,7 +110,6 @@ $(function() {
 							'count': date.created_count,
 					});
 				});
-				var $circleProto = $('#circle-proto');
 				$('.fc-day').each(function() {
 					// Get current day
 					day = moment($(this).data('date'));
@@ -111,15 +117,22 @@ $(function() {
 					if (event_dates.length && event_dates[0].start.diff(day, 'days') < 1) {
 						var count = event_dates[0].count;
 						var $cal_day = $(this);
+						// create a new canvas element the size of the cal day
 						var $canvas = $('<canvas id="canvas-'+
-							day.format('YYYY-M-DD')+'"' +
-							'height="'+ 
+							day.format('YYYY-M-DD') +
+							'" class="'+ 
+							"canvas-day" + 
+							'" height="'+ 
 							$cal_day.height()+
 							'" width="'+
 							$cal_day.width()+
+							'" data-count="'+
+							count+
 							'"></canvas>');
 						$cal_day.html($canvas);
-						drawCircle($canvas.get(0), count);
+						drawCircle($canvas.get(0));
+
+						// remove the event count from the array
 						event_dates.shift();
 					}
 				});
@@ -127,13 +140,10 @@ $(function() {
 			error: function() {
 				addMessage('Error getting events', 'danger');
 			},
-			// color: 'blue',   // a non-ajax option
-			// textColor: 'black' // a non-ajax option
 		},
 		eventRender: function(event, element) {
+			// don't show the fullcalendar events
 			return false;
-		},
-		eventAfterAllRender: function(view) {
 		},
 		eventClick: function(calEvent, jsEvent, view) {
 			eventData = {
@@ -177,8 +187,31 @@ $(function() {
 		},
 		container: 'body',
 	});
-	$('.fc-event-container').popover({
-		trigger: 'manual',
+	$('#calendar').on('mouseleave', '.canvas-day', function() {
+		$(this).popover({
+			trigger: 'hover',
+			placement: 'auto',
+			html: true,
+			viewport: '#calendar',
+			title: function() {
+				return $('#popover-title').html();
+			},
+			content: function() {
+				return $('#popover-content').html();
+			},
+			container: 'body',
+		});
+		$('.popover').remove();
+		$(this).popover('show');
+	});
+
+	$('#calendar').on('click', '.canvas-day', function(event) {
+		var $day = $(event.target).parent();
+		$day.trigger('click');
+	});
+
+	$('canvas').popover({
+		trigger: 'hover',
 		placement: 'auto top',
 		html: true,
 		viewport: '#calendar',
@@ -282,6 +315,12 @@ $(function() {
 				var event = JSON.parse(data.event);
 				$cal = $('#calendar');
 				$cal.fullCalendar('renderEvent', event[0].fields);
+
+				var iso = moment(date).format('YYYY-M-DD');
+				var $canvas = $('#canvas-'+iso);
+				var count = parseInt($canvas.data('count')) + 1;
+				$canvas.data('count', count);
+				drawCircle($canvas);
 			},
 			fail: function(data) {
 				addMessage('Failed to save event', 'danger');
@@ -426,27 +465,30 @@ var deleteCalendar = function(cal_pk) {
 		},
 	});
 };
-var drawCircle = function(canvas, count) {
-  if (canvas.getContext){
-    var ctx = canvas.getContext('2d');
+var drawCircle = function(canvas) {
+	var count = $(canvas).data('count');
 
-	ctx.beginPath();
-	var x              = $(canvas).width() / 2;               // x coordinate
-	var y              = $(canvas).height() / 2;               // y coordinate
-	var radius         = $(canvas).width() / 4;                    // Arc radius
-	var startAngle     = 0;                     // Starting point on circle
-	var endAngle       = Math.PI * 2; // End point on circle
-	var anticlockwise  = true; // clockwise or anticlockwise
+	if (canvas.getContext){
+		var ctx = canvas.getContext('2d');
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+		ctx.beginPath();
+		var x              = $(canvas).width() / 2;               // x coordinate
+		var y              = $(canvas).height() / 2;               // y coordinate
+		var radius         = $(canvas).width() / 4;                    // Arc radius
+		var startAngle     = 0;                     // Starting point on circle
+		var endAngle       = Math.PI * 2; // End point on circle
+		var anticlockwise  = true; // clockwise or anticlockwise
 
-	ctx.fillStyle="#4C9ED9";
-	ctx.fill();
-	ctx.fillStyle="#FFFFFF";
+		ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
 
-	var font_x = parseInt(y*(2/3)).toString();
-	ctx.font = font_x  + "pt Arial";
-	var text_start = ctx.measureText(count);
-	ctx.fillText(count, x-text_start.width/2, y + (y*(1/4)));
+		ctx.fillStyle="#4C9ED9";
+		ctx.fill();
+		ctx.fillStyle="#FFFFFF";
+
+		var font_x = parseInt(y*(2/3)).toString();
+		ctx.font = font_x  + "pt Arial";
+		var text_start = ctx.measureText(count);
+		ctx.fillText(count, x-text_start.width/2, y + (y*(1/4)));
   }
 };

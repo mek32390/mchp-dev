@@ -26,7 +26,7 @@
 		<div class="modal-content text-center">
 			<div class="modal-body">
 				<p class="lead">Are you sure you want to delete this calendar for good?</p>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">
+				<button type="button" id="confirm-delete-button" class="btn btn-danger" data-dismiss="modal">
 					<i class="fa fa-fw fa-gavel"></i> Delete</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 			</div>
@@ -183,8 +183,21 @@
 				<h5>School<span class="badge pull-right" id="owned-calendar-count">{{owned_calendars|length}}</span></h5>
 
 				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Own</li>
+
+				<!-- don't delete this again -->
+				<div class="hidden" id="make-a-calendar">
+					<p>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								Make your first <a href="{%url "calendar_create"%}">calendar!</a>
+							</div>
+						</div>
+					</p>
+				</div>
+				<!-- for real it has a purpose-->
+
 				{% for calendar in owned_calendars %}
-				<div class="checkbox text-success owned-calendar-holder">
+				<div class="checkbox text-success" id="owned-calendar-holder-{{calendar.pk}}">
 					<label>
 						<input type="checkbox" value="">
 						{{calendar.title}}
@@ -192,8 +205,7 @@
 					<small class="text-muted pull-right">
 						<a href="#" class="pull-right text-success"><i class="fa fa-fw
 								fa-external-link"></i></a> <i class="fa fa-fw fa-users"></i>&nbsp;
-						<a data-cal="{{calendar.pk}}" href="#"  class="delete-cal"><i class="fa fa-fw fa-gavel"></i> Delete</a> 
-						<a href="#" class="" data-toggle="modal" data-target="#delete-cal-modal"><i class="fa fa-fw fa-gavel text-danger"></i></a>
+						<a href="#" class="pre-delete-button" data-toggle="" data-cal="{{calendar.pk}}"><i class="fa fa-fw fa-gavel text-danger"></i></a>
 					</small>
 				</div>
 				{% empty %}

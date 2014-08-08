@@ -69,7 +69,3 @@
     transform: rotateY(360deg);
     z-index:10;
 }
-
-canvas {
-	pointer-events: none;
-}
