@@ -70,6 +70,7 @@ $(function() {
 		});
 	});
 	// add tooltips and make sure no card is selected by default
-	$(".btooltip").tooltip(); 
+	// tool tips don't work on calendar page
+	// $(".btooltip").tooltip(); 
 	$('.default-card-container input').prop('checked', false);
 });
