@@ -4,6 +4,88 @@
  * This file handles the functionality of the calendar page.
  */
 $(function() {
+
+	/********************************
+	 * FOR EDITING CALENDAR EVENTS *
+	 *******************************/
+
+	// The following editables are still a work in progress
+	// make title editable
+	$('.event-title').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			url: '',
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			emptytext: 'Enter an Event Title',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+	});
+	// initialize date picker
+	// this is duplicated code from below but I needed it to work
+	$('input.date').datepicker({
+		format: "D M d, yyyy", //"yyyy-m-d"
+	    startDate: "today",
+		autoclose: true,
+		todayHighlight: true
+    }).on('changeDate', function(event) {
+		var pick = moment(event.date);
+		$('.date-input').data('date', pick);
+	});
+    // make date editable
+    // this is needed because the datepicker wont fire unless an input is visible
+	$('.date-holder').on('click', function() {
+		$('.date-input').removeClass('hidden');
+		$('.date-holder').addClass('hidden');
+	});
+	// return to standard editable format after datepicker closes
+	$('.date-input').datepicker()
+    .on('hide', function(){
+        $('.date-input').addClass('hidden');
+		$('.date-holder').removeClass('hidden');
+    });
+    // make the event time editable
+	$('.event-time').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			url: '',
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			emptytext: 'Enter an Event Title',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+	});
+	// make the class editable
+	$('.event-class').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			url: '',
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			emptytext: 'Enter an Event Title',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+	});
+	// replacing the description with notes
+	$('.event-notes').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			url: '',
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			emptytext: '',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+	});
+
+	/********************************
+	 * CALENDAR INTRODUCTION STUFF *
+	 *******************************/
+
 	if($('#calStepOne').length) {
 		$('#yourCalList').hide();
 	}
@@ -202,7 +284,12 @@ $(function() {
 		});
 		$('.popover').remove();
 		$(this).popover('show');
+
 	});
+
+	
+
+
 
 	// click on date w/ events on it
 	$('#calendar').on('click', '.canvas-day', function(event) {
