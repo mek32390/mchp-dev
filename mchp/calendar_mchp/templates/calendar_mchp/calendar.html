@@ -3,6 +3,9 @@
 {% block head_title %}My Calendar{% endblock %}
 
 {% block extra_head %}
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
@@ -33,85 +36,92 @@
 		</div>
 	</div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="classCalendars" tabindex="-1" role="dialog" aria-labelledby="classCalendars" aria-hidden="true">
-	<div class="modal-dialog">
+<!-- edit event modal -->
+<div id="event-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title" id="classCalendars">Calendars</h4>
-			</div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title"><i class="fa fa-edit text-default"></i> Edit Event</h4>
+      </div>
 			<div class="modal-body">
-				<ul class="nav nav-pills nav-justified h6" role="tablist">
-					<li class="active"><a href="#home" role="tab" data-toggle="tab">ECON 200</a></li>
-					<li class=" "><a href="#profile" role="tab" data-toggle="tab">ACCT 210</a></li>
-					<li class=" "><a href="#messages" role="tab" data-toggle="tab">MGMT 361</a></li>
-					<li class=" "><a href="#settings" role="tab" data-toggle="tab">FIN 420</a></li>
-					<li class=" "><a href="#last" role="tab" data-toggle="tab">TRAD 420</a></li>
-				</ul>
-				<div class="tab-content">
-					<p></p>
-					<div class="tab-pane fade in active" id="home">
-						<hr>
-						<h5>Calendars <span class="badge">10</span>
-							<span class="btn-group pull-right">
-								<button type="button" class="btn btn-default btn-xs">Recent</button>
-								<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
-									<span class="caret"></span>
-									<span class="sr-only">Toggle Dropdown</span>
-								</button>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">Rating</a></li>
-									<li><a href="#">Most Purchased</a></li>
-								</ul>
-							</span>
-						</h5>
-						<p></p>
-						<div class="list-group">
-							<div class="list-group-item">
-								<div class="media">
-									<span class="pull-left" href="#">
-										<a href="#"><div class="media-object img-circle img-thumbnail"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:64px"></div><div class="assignment-number text-center text-default h4">15</div></a>
-									</span>
-									<div class="media-body">
-										<h4 class="media-heading"><a href="preview/test">ECON 200 Calendar</a> <small>500 points <label class="label label-success">Following</button></small><div class="pull-right small text-muted">10 m</div></h4>
-										<span class="description">
-											<i class="fa fa-fw fa-thumbs-up text-success"></i>85
-											<i class="fa fa-fw fa-thumbs-down text-danger"></i>15&nbsp;
-											<i class="fa fa-comments text-info fa-fw"></i>6 Reviews&nbsp;
-											<i class="fa fa-fw fa-users"></i>10 followers&nbsp;
-											<p class="small">Uploaded by <a href="#">themsquared</a></p>
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="list-group-item">
-								<div class="media">
-									<span class="pull-left" href="#">
-										<a href="#"><div class="media-object img-circle img-thumbnail"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:64px"></div><div class="assignment-number text-center text-default h4">15</div></a>
-									</span>
-									<div class="media-body">
-										<h4 class="media-heading"><a href="#">ECON 200 Calendar</a> <small>500 points</small><div class="pull-right small text-muted">10 m</div></h4>
-										<span class="description">
-											<i class="fa fa-fw fa-thumbs-up text-success"></i>85
-											<i class="fa fa-fw fa-thumbs-down text-danger"></i>15&nbsp;
-											<i class="fa fa-comments text-info fa-fw"></i>6 Reviews&nbsp;
-											<i class="fa fa-fw fa-bell-o"></i>10 events&nbsp;
-											<p class="small">Uploaded by <a href="#">themsquared</a></p>
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="tab-pane fade" id="profile">...</div>
-					<div class="tab-pane fade" id="messages">...</div>
-					<div class="tab-pane fade" id="settings">...</div>
-				</div><!-- end tab content -->
-			</div><!-- end modal body -->
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<div class="panel panel-default">
+					<div class="panel-body">
+				<form method="post" class="form-horizontal" id="edit-event-form">
+			{% csrf_token %}
+			<!-- <div>
+			<label>Title: &nbsp; </label>
+			<span class="event-title">Exam 1</span>
+		</div>
+		<div class="list-inline">
+			<li>
+    <label>Date:</label>
+</li>
+<li>
+      <input type="text" class="form-control input-sm date date-input hidden" placeholder="August 12, 2014"><span class="date-holder">August 12, 2014</span>
+    </li>
+  </div>
+		<div>
+			<label>Time: &nbsp; </label>
+			<span class="event-time">In class</span>
+		</div>
+		<div>
+			<label>Class: &nbsp; </label>
+			<span class="event-time">ECON 200</span>
+		</div> -->
+			<!-- <p>
+				<div class="input-group">
+					<input type="text" class="date-input form-control date" >
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+							<span data-due="1" class="due-date small">In Class</span> <span class="caret"></span></button>
+						<ul class="dropdown-menu pull-right" id="duedateSelect" role="menu">
+							<li role="presentation"><a data-due="1" role="menuitem" tabindex="-1" href="#"><span class="">In Class</span></a></li>
+							<li role="presentation"><a data-due="2" role="menuitem" tabindex="-1" href="#"><span class="">Before Class</span></a></li>
+							<li role="presentation"><a data-due="3" role="menuitem" tabindex="-1" href="#"><span class="">By Midnight</span></a></li>
+						</ul>
+					</div><! /btn-group -->
+				<!-- </div>/input-group
+			</p> --> 
+			<div class="form-group form-group-sm">
+    <label class="col-sm-3 control-label">Title:</label>
+    <div class="col-sm-9">
+      <span class="event-title">Exam 2</span>
+    </div>
+  </div>
+		<div class="form-group form-group-sm">
+    <label class="col-sm-3 control-label">Date:</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control input-sm date date-input hidden" placeholder="August 12, 2014"><span class="date-holder event-date">August 12, 2014</span>
+    </div>
+  </div>
+		<div class="form-group form-group-sm">
+    <label class="col-sm-3 control-label">Time:</label>
+    <div class="col-sm-9">
+      <span class="event-time">In Class</span>
+    </div>
+  </div>
+  		<div class="form-group form-group-sm">
+    <label class="col-sm-3 control-label">Class:</label>
+    <div class="col-sm-9">
+      <span class="event-class">ECON 200</span>
+    </div>
+  </div>
+		<div class="form-group form-group-sm">
+    <label class="col-sm-3 control-label">Notes:</label>
+    <div class="col-sm-9">
+      <span class="event-notes">this is an open book test</span>
+    </div>
+  </div>
+		</form>
+	</div><!-- end panel body -->
+</div><!-- end panel -->
+				
 			</div>
+			<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
 		</div>
 	</div>
 </div>
@@ -223,6 +233,7 @@
 						<div class="panel-body">
 							You're not following any calendars yet! 
 							<a href="#" class="viewCals">Follow your first calendar!</a>
+							<span class="event-title">gggg</span>
 						</div>
 					</div>
 				</p>
@@ -383,7 +394,7 @@
 	</div>
 </div>
 <div id="popover-content" class="hidden">
-	<div class="cal-popover">
+	<!-- <div class="cal-popover"> -->
 		<form method="post" id="add-event-form">
 			{% csrf_token %}
 			<p><input class="form-control" name="title" placeholder="Event Title" required></p>
@@ -404,12 +415,23 @@
 			<p><input name="description" class="form-control" placeholder="Event Description" required></p>	
 			<button type="submit" class="btn btn-primary btn-sm btn-block">Add Event</button>
 		</form>
-	</div>
+	<!-- </div> -->
 </div>
-<div id="events-popover-title" class="hidden">
-	<strong>Events &nbsp; </strong>&nbsp; 
-</div>
+<!-- <div id="events-popover-title" class="hidden">
+	<strong>Events</strong>&nbsp; 
+</div> -->
 <div id="events-popover-content" class="hidden">
-	idk some events
+	<div class="event-popover-container"></div><!-- sets the width of the popover -->
+		<span class="list-group margin-top-none margin-btm-none">
+			<span class="list-group-item">
+				<span class="margin-btm-sm margin-top-none h5"><i class="fa fa-calendar-o text-success"></i>
+				 <span>Exam 1</span><!--  <span class="edit-button btn btn-default btn-xs">edit</span> -->
+				 <span class="event-options pull-right"><a href="#event-edit-modal" data-toggle="modal"><i class="fa fa-edit text-default"></i></a> <a href="#"><i class="fa fa-times text-danger"></i></a href="#"></span></span>
+				<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
+				<span data-type="date" class="small margin-btm-none">Tuesday, July 29, 2014</span>
+				<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
+				<span class="small margin-btm-none"><i class="fa fa-clock-o"></i> 12:00 pm</span>
+			</span>
+		</span><!-- end list-group -->
 </div>
 {% endblock %}

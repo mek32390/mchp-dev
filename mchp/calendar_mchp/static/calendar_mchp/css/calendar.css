@@ -19,9 +19,8 @@
 	margin-right: -50px;
 }
 
-.cal-popover {
-/*	height: 200px;
-	width: 200px*/
+.event-popover-width {
+	width: 200px
 }
 
 /* card flip */
@@ -82,3 +81,22 @@
     margin-left: auto !important;
     margin-right: auto !important;
 }
+
+.event-popover-container {
+    min-width: 300px;
+}
+
+/* editable "about me" section buttons */
+.editable-buttons {
+    display: none !important;  
+}
+/*.editable-click, a.editable-click, a.editable-click:hover {
+    text-decoration: none;
+    border-bottom: 0px;
+}*/
+.date-holder {
+    padding-top: 5px;
+    display: inline-block;
+    border-bottom: 1px dashed #08C;
+}
+
