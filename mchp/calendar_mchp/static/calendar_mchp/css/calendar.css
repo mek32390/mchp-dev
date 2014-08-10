@@ -99,4 +99,15 @@
     display: inline-block;
     border-bottom: 1px dashed #08C;
 }
+.calendar-description {
+    /*padding-top: 5px;
+    display: inline-block;*/
+    border-bottom: 0px;
+}
+.description-holder {
+    padding-top: 5px;
+    /*display: inline-block;*/
+    text-decoration: none;
+    border-bottom: 1px dashed #08C;
+}
 
