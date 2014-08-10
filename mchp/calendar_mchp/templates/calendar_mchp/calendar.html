@@ -123,8 +123,8 @@
 					<a href="#" class="dropdown-toggle" type="select" id="createOptions" data-toggle="dropdown"><i class="fa fa-plus text-default small"></i></a>
 					<ul class="dropdown-menu" id="" role="menu" aria-labelledby="createOptions">
 						<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li> -->
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class=""><i class="fa fa-bell-o fa-fw"></i> New Event</span></a></li>
 						<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'calendar_create' %}"><span class=""><i class="fa fa-calendar fa-fw"></i> New Calendar</span></a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url "event_add" %}"><span class=""><i class="fa fa-bell-o fa-fw"></i> Import Events</span></a></li>
 						<!-- <li role="presentation" class="divider"></li>
 					<li role="presentation" class="dropdown-header">School Calendars</li>
 					<li ><a href="#"><span class="text-success">ECON 200</span></a></li>

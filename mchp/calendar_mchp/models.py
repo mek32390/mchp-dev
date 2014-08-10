@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError
@@ -62,27 +61,3 @@ class CalendarEvent(models.Model):
 
     def __str__(self):
         return self.title
-
-from schedule.utils import WEEK_DAYS
-class CourseDay(models.Model):
-    calendar = models.ForeignKey(ClassCalendar, related_name='calendar_course_days')
-    event = models.ForeignKey(CalendarEvent, related_name='course_events')
-
-    week_day_list = list(zip(range(10), WEEK_DAYS))
-    day = models.PositiveSmallIntegerField(max_length=10, choices=week_day_list)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-
-    class Meta:
-        unique_together = ("calendar", "day", "start_time", "end_time")
-
-    def save(self, *args, **kwargs):
-        if not self.pk: 
-            self.event.title = self.calendar.course.dept + " " + str(self.calendar.course.course_number)
-            self.event.url = reverse('course', kwargs={'number': self.calendar.course.pk})
-            self.event.save()
-        super(CourseDay, self).save(*args, **kwargs)
-
-    
-    def __str__(self):
-        return "{} from {} to {}".format(WEEK_DAYS[self.day], self.start_time, self.end_time)

@@ -2,14 +2,83 @@ import re
 from django.core.exceptions import ValidationError
 import schedule.models
 
+import requests
+from bs4 import BeautifulSoup
+
 def clean_domain(value):
     edu = re.compile('.*(\.edu/?)$')
     if not re.match(edu, value):
         raise ValidationError('School domain did not end in .edu: {}'.format(value))
 
+def add_timezones():
+    import os
+    import json
+    from time import sleep
+    google_base_url = 'https://maps.googleapis.com/maps/api/'
+    url = google_base_url + 'geocode/json'
+    key = os.getenv('GOOGLE_API_KEY', '')
+    index = 1306
+    stop = 2000
+    schools = schedule.models.School.objects.all().order_by('name')[index:stop]
+    for school in schools:
+        continue
+        if school.zip_code:
+            continue
+        sleep(.3)
+        index = index+1
+        print(str(index) + '. ' + school.name)
+        address = school.address + " " + school.city + " " + school.state
+        params = {
+            'key': key,
+            'address': address,
+        }
+        response = requests.get(url, params=params)
+        info = json.loads(response.content.decode('utf-8'))
+        if info['status'] != "OK":
+            print(info['status'])
+            continue
+        else:
+            results = info['results']
+        for result in results:
+            loc = result['geometry']['location']
+            lat = loc['lat']
+            lng = loc['lng']
+            school.lat = lat
+            school.lng = lng
+            print(lat)
+            print(lng)
+            for component in result['address_components']:
+                if component['types'] and component['types'][0] == 'postal_code':
+                    zip_code = component['long_name']
+                    school.zip_code = zip_code
+                    print(zip_code)
+            print('\n')
+        school.save()
+    url = google_base_url + 'timezone/json'
+    import time
+    for school in schools:
+        if not school.lat:
+            continue
+        sleep(.3)
+        index = index+1
+        print(str(index) + '. ' + school.name)
+        params = {
+            'key': key,
+            'location': str(school.lat) + "," + str(school.lng),
+            'timestamp': int(time.time())
+        }
+        response = requests.get(url, params=params)
+        info = json.loads(response.content.decode('utf-8'))
+        if info['status'] != "OK":
+            print(info['status'])
+            continue
+        else:
+            school.timezone = info['timeZoneId']
+            school.save()
+            results = info['timeZoneId']
+            print(results)
+
 def scrape():
-    import requests
-    from bs4 import BeautifulSoup
     schools = schedule.models.School.objects.all().order_by('name')[1349:]
     num = 1349
     for school in schools:

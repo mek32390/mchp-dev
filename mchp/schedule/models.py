@@ -5,15 +5,22 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from schedule.utils import clean_domain, US_STATES
 
 from functools import reduce
+from decimal import Decimal
 
 class School(models.Model):
     domain = models.URLField(validators=[clean_domain])
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20, blank=True)
+
     address = models.CharField(max_length=60, blank=True)
     city = models.CharField(max_length=60, blank=True)
     state = models.CharField(max_length=20, blank=True, choices=US_STATES)
     country = models.CharField(max_length=45, blank=True)
+    zip_code = models.CharField(max_length=11, blank=True)
+
+    timezone = models.CharField(max_length=50, blank=True)
+    lat = models.DecimalField(max_digits=19, decimal_places=15, default=Decimal('00.000'))
+    lng = models.DecimalField(max_digits=19, decimal_places=15, default=Decimal('00.000'))
 
     # a list of all school names stored in the database
     def school_list(self):
@@ -96,4 +103,20 @@ class Course(models.Model):
                                                 self.professor)
 
     def __str__(self):
-        return "{}{} with prof. {} ".format(self.dept, self.course_number, self.professor)
+        return "{} {}".format(self.dept, self.course_number)
+
+from schedule.utils import WEEK_DAYS
+class Section(models.Model):
+    course = models.ForeignKey(Course, related_name="sections")
+    student = models.ForeignKey('user_profile.Student', related_name='student_sections')
+
+    week_day_list = list(zip(range(10), WEEK_DAYS))
+    day = models.PositiveSmallIntegerField(max_length=10, choices=week_day_list)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    class Meta:
+        unique_together = ("student", "course")
+
+    def __str__(self):
+        return "{} from {} to {}".format(WEEK_DAYS[self.day], self.start_time, self.end_time)

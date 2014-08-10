@@ -101,6 +101,7 @@ $(function(){
 	 * taken from: https://stackoverflow.com/questions/5052543/how-to-fire-ajax-request-periodically
 	 */
 	newly_uploaded = (typeof newly_uploaded != 'undefined' && newly_uploaded instanceof Array) ? newly_uploaded : [];
+	var count = 0;
 	function worker(pk) {
 		var done = false;
 		$.ajax({
@@ -125,7 +126,8 @@ $(function(){
 			},
 			complete: function() {
 				// Schedule the next request when the current one's complete
-				if (!done){
+				if (!done && count < 21){
+					count++;
 					setTimeout(worker, 1000, pk);
 				}
 			}

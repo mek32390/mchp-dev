@@ -61,6 +61,7 @@
 }
 .flip-holder.flip .front {
     -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
     transform: rotateY(180deg);
     z-index:0;
 }
