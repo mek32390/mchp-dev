@@ -420,7 +420,8 @@ $(function() {
 				)) {
 			$('.popover').popover('hide');
 		}
-		// when you click on any of the list items in the drop down
+
+		// when you click on any of the list items in the calendar name drop down
     	$("#calSelect > li a").click(function(){
 			// replace the cal icon with the title of the calendar
 	        $(".cal-name").text($(this).text() + ' ');

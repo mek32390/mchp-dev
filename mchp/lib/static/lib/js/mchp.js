@@ -49,6 +49,11 @@ $(function() {
  	$('[data-toggle="tooltip"]').tooltip({
  		container: 'body'
  	});
+ 	// initiates popovers using data toggle selector
+ 	$('[data-toggle="popover"]').popover({
+ 		container: 'body',
+ 		trigger: 'hover'
+ 	});
 
 	// hover opacity for score bar
 	$('.score-bar').on( "mouseenter", function () {

@@ -7,7 +7,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> -->
 
 
 {% load staticfiles %}
@@ -42,12 +42,12 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title"><i class="fa fa-edit text-default"></i> Manage Calendars</h4>
+					<h4 class="modal-title"><i class="fa fa-bars"></i> Manage Calendars</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-3">
-							
+
 							<ul class="nav nav-pills nav-stacked" role="tablist"><!-- Nav tabs -->
 								<li class="active"><a href="#class1" role="tab" data-toggle="tab">ECON 200</a></li>
 								<li><a href="#class2" role="tab" data-toggle="tab">ACCT 200</a></li>
@@ -65,21 +65,21 @@
 												<div class="form-group form-group-sm">
 													<label class="col-sm-3 control-label">Selling:</label>
 													<div class="col-sm-9">
-														<span class="calendar-selling" data-type="select"></span><span class="pull-right btn btn-danger btn-xs">Delete</span>
+														<span class="calendar-selling" data-type="select"></span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="If you sell this calendar, your classmates will be able to follow it for a monthly price"></i></span><span class="pull-right btn btn-danger btn-xs">Delete</span>
 													</div>
 												</div>
 
 												<div class="form-group form-group-sm">
 													<label class="col-sm-3 control-label">Price:</label>
-													<div class="col-sm-1">
-														<span class="calendar-price">200</span>
+													<div class="col-sm-9">
+														<span class="calendar-price">200</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per month that your classmates pay to follow this calendar"></i></span>
 													</div>
 												</div>
 
 												<div class="form-group form-group-sm">
 													<label class="col-sm-3 control-label">End Date:</label>
 													<div class="col-sm-9">
-														<input type="text" class="form-control input-sm date date-input hidden" style="width:150px;" placeholder="August 12, 2014"><span class="date-holder calendar-end-date">August 12, 2014</span>
+														<input type="text" class="form-control input-sm date date-input hidden" style="width:150px;" placeholder="August 12, 2014"><span class="date-holder calendar-end-date">August 12, 2014</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="Set this date to the last day of this class"></i></span>
 													</div>
 												</div>
 
@@ -88,7 +88,7 @@
 												<div class="form-group form-group-sm">
 													<label class="col-sm-3 control-label">Description:</label>
 													<div class="col-sm-9">
-														<span class="calendar-description" data-type="text"><span class="description-holder">I tried really hard to make this calendar so please buy it!</span></span>
+														<span class="calendar-description" data-type="text"><span class="calendar-description-holder">I tried really hard to make this calendar so please buy it!</span></span>
 													</div>
 												</div>
 
@@ -163,7 +163,7 @@
 							</form>
 						</div><!-- end panel body -->
 					</div><!-- end panel -->
-					
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -175,13 +175,13 @@
 	<div class="container">
 		<div class="row">
 			<div id="col_1" class="col-sm-3 animated bounceInUp">
-				<h3>My Calendars 
-					<div class="dropdown pull-right"><a href="#manage-calendars" data-toggle="modal">m</a>
-						<a href="#" class="dropdown-toggle" type="select" id="createOptions" data-toggle="dropdown"><i class="fa fa-plus text-default small"></i></a>
-						<ul class="dropdown-menu" id="" role="menu" aria-labelledby="createOptions">
+				<h3 >My Calendars
+					<div class="dropdown pull-right">
+						<a href="#" class="dropdown-toggle" type="select" id="" data-toggle="dropdown"><i class="fa fa-caret-square-o-down text-default small"></i></a>
+						<ul class="dropdown-menu" id="" role="menu" aria-labelledby="">
 							<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li> -->
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class=""><i class="fa fa-bell-o fa-fw"></i> New Event</span></a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'calendar_create' %}"><span class=""><i class="fa fa-calendar fa-fw"></i> New Calendar</span></a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#manage-calendars" data-toggle="modal"><span class=""><i class="fa fa-bars fa-fw"></i> Manage Calendars</span></a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'calendar_create' %}"><span class=""><i class="fa fa-plus fa-fw"></i> New Calendar</span></a></li>
 						<!-- <li role="presentation" class="divider"></li>
 					<li role="presentation" class="dropdown-header">School Calendars</li>
 					<li ><a href="#"><span class="text-success">ECON 200</span></a></li>
@@ -421,7 +421,7 @@
 	<strong>New Event &nbsp; </strong>&nbsp; 
 	<div class="dropdown pull-right">
 		<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown">
-			<span class="cal-name" data-calendar="-1"><i class="fa fa-calendar text-info"></i></span> <span class="caret"></span>
+			<span class="cal-name" data-calendar="-1"></span> <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu" id="calSelect" role="menu" aria-labelledby="calDropDown">
 			<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li>
@@ -431,7 +431,7 @@
 				<li role="presentation" class="dropdown-header">School Calendars</li>
 				{% for calendar in owned_calendars %}
 				<li role="presentation">
-					<a role="menuitem" tabindex="-1" data-calendar="{{calendar.pk}}">
+					<a role="menuitem" tabindex="-1" value="1" data-calendar="{{calendar.pk}}">
 						<span class="text-success">{{calendar.title}}</span>
 					</a>
 				</li>
