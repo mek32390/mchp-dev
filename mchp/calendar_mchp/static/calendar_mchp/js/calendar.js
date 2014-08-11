@@ -115,6 +115,12 @@ $(function() {
 			]
 	});
 
+	$(".calendar-selling").change(function() {
+          if ($("#select-box option[value='1']").attr('selected')) {
+            alert('Ciao monde');
+          }
+        }); 
+
 	 // make calendar price editable
 	$('.calendar-price').editable({
 	    	mode: 'inline',
