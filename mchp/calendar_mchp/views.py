@@ -95,8 +95,6 @@ class CalendarCreateView(View, AjaxableResponseMixin):
                     return self.send_ajax_error_message(str(err), status=403)
             # now add the times as recurring events
             return self._make_sections(request.POST.get('times', {}), calendar)
-            # succes in submitting form
-            return self.render_to_json_response({}, status=200)
         elif cal_type.lower() == 'personal':
             # this is a personal calendar, which we don't have yet
             return self.send_ajax_error_message("We don't do those yet.", status=501)
@@ -152,8 +150,10 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             section = Section(**section_data)
             # TODO error handling
             section.save()
-
-        return self.render_to_json_response({}, status=200)
+        data = {
+            'calendar': calendar.pk,
+        }
+        return self.render_to_json_response(data, status=200)
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
@@ -321,8 +321,10 @@ class EventAddView(View, AjaxableResponseMixin):
                 section.end = end_time
 
             setattr(calendar, 'sections', sections)
+        selected_calendar = request.GET.get('calendar', '')
         data = {
             'calendars': calendars,
+            'selected_calendar': selected_calendar,
         }
         return render(request, self.template_name, data)
 
@@ -467,6 +469,24 @@ class CalendarView(View):
 calendar = CalendarView.as_view()
 
 '''
+url: /calendar/update/
+name: calendar_update
+'''
+class CalendarUpdateView(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['POST'])
+
+    def post(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['POST'])
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(CalendarView, self).dispatch(*args, **kwargs)
+
+calendar = CalendarView.as_view()
+
+'''
 url: /calendar/feed/
 name: calendar_feed
 '''
@@ -488,14 +508,14 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 end, "%Y-%m-%d"),
                 timezone.utc
             )
-            print(start)
-            print(end)
+            # event data
             events = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
                 is_recurring=False,
             ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url'
             ).order_by('start')
 
+            # only the counts to show in the circles
             event_counts = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
                 is_recurring=False,
@@ -508,7 +528,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 del event['end']
                 event['start'] = event['start'].strftime(DATE_FORMAT)
 
-            # convert the returned events to a format fullcalendar understands
+            # convert the returned events to a format we can use on the page
             for event in events:
                 event['start'] = event['start'].strftime(DATE_FORMAT)
                 event['end'] = event['end'].strftime(DATE_FORMAT)
@@ -519,7 +539,6 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 'counts': list(event_counts),
                 'events': list(events),
             }
-            print(events)
             return self.render_to_json_response(data, status=200)
         else:
             return redirect(reverse('calendar'))

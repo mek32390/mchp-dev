@@ -64,6 +64,14 @@
 
 		activeCalendar = pk;
 	 });
+	 // on first page load, if a cal was just made, show it
+	 if (selected_calendar){
+		 var $selectedCalendar = $('#select-calendar-'+selected_calendar);
+		 if($selectedCalendar.length > 0) {
+			 $selectedCalendar.click();
+			 activeCalendar = selected_calendar;
+		 }
+	 }
 
 	 //turn to inline mode
 	 $.fn.editable.defaults.mode = 'inline';
