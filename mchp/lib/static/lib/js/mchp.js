@@ -3,6 +3,13 @@
  */
 
 $(function() {
+
+	 //test data for typeahead in the search bar
+	 //Commented out because it broke things on the calendar page
+ 	//$('#mchp-search').typeahead({        
+ 		//source: ['CSC 420','ECON 200','ECON 300','ACCT 210','ACCT 300','MGMT 210','CSC 386','MGMT 300','MKTG 361']
+	//}); 
+
 	// style django error messages to mimic BS3
     var html = [],
         $list = $('.errorlist');
@@ -48,6 +55,11 @@ $(function() {
 	// initiates tooltips using data toggle selector
  	$('[data-toggle="tooltip"]').tooltip({
  		container: 'body'
+ 	});
+ 	// initiates popovers using data toggle selector
+ 	$('[data-toggle="popover"]').popover({
+ 		container: 'body',
+ 		trigger: 'hover'
  	});
 
 	// hover opacity for score bar

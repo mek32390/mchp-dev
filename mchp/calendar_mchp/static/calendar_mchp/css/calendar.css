@@ -100,4 +100,14 @@
     display: inline-block;
     border-bottom: 1px dashed #08C;
 }
+/* set the default xeditable to zero border because it doesnt look good on this field */
+.calendar-description {
+    border-bottom: 0px;
+}
+/* custom  holder for the cal description because it looks better */
+.calendar-description-holder {
+    padding-top: 5px;
+    text-decoration: none;
+    border-bottom: 1px dashed #08C;
+}
 

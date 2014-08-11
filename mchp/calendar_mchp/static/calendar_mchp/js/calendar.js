@@ -5,7 +5,7 @@
  */
 $(function() {
 
-	/********************************
+	/*******************************
 	 * FOR EDITING CALENDAR EVENTS *
 	 *******************************/
 
@@ -56,6 +56,12 @@ $(function() {
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
+			value: 1,
+			source: [
+				{value: 1, text: 'in Class'},
+				{value: 2, text: 'by Midnight'},
+				{value: 3, text: 'Other...'}
+			]
 	});
 	// make the class editable
 	$('.event-class').editable({
@@ -64,10 +70,15 @@ $(function() {
 			url: '',
 			unsavedclass: 'text-danger',
 			emptyclass: '',
-			emptytext: 'Enter an Event Title',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
+			value: 1,
+			source: [
+				{value: 1, text: 'ECON 200'},
+				{value: 2, text: 'ACCT 200'},
+				{value: 3, text: 'MKTG 361'}
+			]
 	});
 	// replacing the description with notes
 	$('.event-notes').editable({
@@ -80,9 +91,59 @@ $(function() {
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
+			rows: 3
 	});
 
-	/********************************
+	/**************************
+	 * FOR MANAGING CALENDARS *
+	 **************************/
+
+	// make the class editable
+	$('.calendar-selling').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			url: '',
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+			value: 1,
+			source: [
+				{value: 1, text: 'Yes'},
+				{value: 2, text: 'No'},
+			]
+	});
+
+	 // make calendar price editable
+	$('.calendar-price').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			url: '',
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			emptytext: 'Enter a price for this calendar',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+	});
+
+	// for the calendar description
+	$('.calendar-description').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			url: '',
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			emptytext: '',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+	});
+
+
+
+	/*******************************
 	 * CALENDAR INTRODUCTION STUFF *
 	 *******************************/
 
@@ -269,26 +330,51 @@ $(function() {
 	/*****************
 	 * popover stuff *
 	 *****************/
-	$('#calendar').on('mouseover', '.canvas-day', function() {
+	$('#calendar').on('mouseenter', '.canvas-day', function() {
 		$(this).popover({
-			trigger: 'focus',
+			trigger: "focus",
 			placement: 'auto top',
-			html: true,
-			title: function() {
-				return $('#events-popover-title').html();
-			},
-			content: function() {
-				return $('#events-popover-content').html();
-			},
-			container: 'body',
-		});
+		html: true,
+		content: function() {
+			return $('#events-popover-content').html();
+		},
+		container: 'body',
+	})
 		$('.popover').remove();
 		$(this).popover('show');
 
 	});
 
-	
+	// this is the script used on the user popover which seems to work well
+	// it allows you to hover over the popover and it remains triggered
+	// then when the mouse leaves, the popover disappears
+	// I tried to combine this with the function above but couldn't get it to work cleanly
 
+	// $('#calendar').on('mouseenter', '.canvas-day', function() {
+	// $(this).popover({
+	// 	trigger: "manual",
+	// 	placement: 'auto top',
+	// 	html: true,
+	// 	content: function() {
+	// 		return $('#events-popover-content').html();
+	// 	},
+	// 	container: 'body',
+	// })
+ //    .on("mouseenter", function () {
+ //        var _this = this;
+ //        $(this).popover("show");
+ //        $(".popover").on("mouseleave", function () {
+ //            $(_this).popover('hide');
+ //        });
+ //    })
+ //    .on("mouseleave", function () {
+ //        var _this = this;
+ //        setTimeout(function () {
+ //            if (!$(".popover:hover").length) {
+ //                $(_this).popover("hide");
+ //            }
+ //        }, 100);
+ //    });
 
 
 	// click on date w/ events on it
