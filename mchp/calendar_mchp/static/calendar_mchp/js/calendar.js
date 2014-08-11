@@ -274,6 +274,8 @@ $(function() {
 					day = moment($(this).data('date'));
 					// if this day has an event
 					if (event_dates.length && event_dates[0].start.diff(day, 'days') === 0) {
+						$(this).data('events', event_dates[0]);
+						console.log(event_dates[0]);
 						var count = event_dates[0].count;
 						var $cal_day = $(this);
 						// create a new canvas element the size of the cal day
@@ -292,6 +294,8 @@ $(function() {
 						drawCircle($canvas.get(0));
 
 						// remove the event count from the array
+						// this work because the events are sorted, and we only ever take the first
+						// one from the array
 						event_dates.shift();
 					}
 				});
@@ -306,24 +310,24 @@ $(function() {
 		},
 		eventAfterAllRender: function(view) {
 		},
-		eventClick: function(calEvent, jsEvent, view) {
-			eventData = {
-				id: calEvent.id,
-				title: calEvent.title,
-				start: calEvent.start.toJSON(),
-				end: calEvent.end.toJSON(),
-				all_day: calEvent.allDay,
-			};
-			console.log(calEvent);
-			$event = $(jsEvent.target).parents('.fc-event-container');
-			console.log($event);
-			console.log($event[0]);
-			console.log($($event[0]));
-			$event.popover('show');
-			// deleteEvent(eventData);
-			// $('#calendar').fullCalendar('removeEvents', calEvent.id);
-			return false;
-		},
+		// eventClick: function(calEvent, jsEvent, view) {
+		// 	eventData = {
+		// 		id: calEvent.id,
+		// 		title: calEvent.title,
+		// 		start: calEvent.start.toJSON(),
+		// 		end: calEvent.end.toJSON(),
+		// 		all_day: calEvent.allDay,
+		// 	};
+		// 	console.log(calEvent);
+		// 	$event = $(jsEvent.target).parents('.fc-event-container');
+		// 	console.log($event);
+		// 	console.log($event[0]);
+		// 	console.log($($event[0]));
+		// 	$event.popover('show');
+		// 	// deleteEvent(eventData);
+		// 	// $('#calendar').fullCalendar('removeEvents', calEvent.id);
+		// 	return false;
+		// },
 		timezone: 'local',
 	});
 
@@ -334,15 +338,16 @@ $(function() {
 		$(this).popover({
 			trigger: "focus",
 			placement: 'auto top',
-		html: true,
-		content: function() {
-			return $('#events-popover-content').html();
-		},
-		container: 'body',
-	})
+			html: true,
+			content: function() {
+				var $fcDay = $(this).parents('.fc-day');
+				console.log($fcDay.data('events'));
+				return $('#events-popover-content').html();
+			},
+			container: 'body',
+		});
 		$('.popover').remove();
 		$(this).popover('show');
-
 	});
 
 	// this is the script used on the user popover which seems to work well
@@ -429,12 +434,6 @@ $(function() {
 	        $(".cal-name").data('calendar', $(this).data('calendar'));
     	});
 
-    	//display selected due date time in create event popover button addon
-    	$("#duedateSelect > li a").click(function(){
-	        //display the selected calendar in the button
-	        $(".due-date").text($(this).text() + ' ');
-	        $(".due-date").data('due', $(this).data('due'));
-    	});
     	// initialize date picker
 		$('input.date').datepicker({
 			format: "D M d, yyyy", //"yyyy-m-d"
@@ -452,23 +451,30 @@ $(function() {
 		var $form = $(event.target);
 		var url = '/calendar/events/add/';
 		var messages = [];
-		var data = $form.serialize();
+		data = '';
 
 		// which calendar this event is for 
 		var cal = $('.cal-name').data('calendar');
-		cal = JSON.stringify(cal);
-		data += "&calendar=" + encodeURIComponent(cal);
-
-		// approx. time it is due
-		var due = $('.due-date').data('due');
-		due_json = JSON.stringify(due);
-		data += "&due=" + encodeURIComponent(due_json);
+		data += "calendar=" + encodeURIComponent(cal);
 
 		var date_value = $('.date-input').attr('value');
 		var format_string = 'ddd MMM DD, YYYY';
-		var date = moment(date_value, format_string);
-		date_json = JSON.stringify(date); 
-		data += "&date=" + encodeURIComponent(date_json);
+		var date = moment.utc(date_value, format_string);
+		events = {};
+		var title = $form.find('input[name=title]').val();
+		var description = $form.find('input[name=description]').val();
+		// don't bother sending empty entries
+		// make a new event
+		var newEvent = {
+			'title': title,
+			'description': description,
+			'date': date.toJSON(),
+			'hasTime': false,
+		};
+		events[0] = newEvent;
+		events = JSON.stringify(events);
+		data += "&events=" + encodeURIComponent(events);
+		console.log(data);
 
 		$.ajax({
 			url: url,

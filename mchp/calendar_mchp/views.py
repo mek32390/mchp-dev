@@ -1,5 +1,5 @@
 from django.contrib import messages
-# from django.core import serializers
+from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.db.models import Count
@@ -9,7 +9,6 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView,View, UpdateView
-# from django.views.generic.list import ListView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent 
 from calendar_mchp.exceptions import TimeOrderError
@@ -225,7 +224,6 @@ class EventAddView(View, AjaxableResponseMixin):
     model = CalendarEvent
 
     def post(self, request, *args, **kwargs):
-        # convert Full Calendar time strings to datetime objects, with timezones
         calendar = ClassCalendar.objects.filter(
             pk=request.POST.get('calendar', ''),
             owner=self.student
@@ -237,6 +235,7 @@ class EventAddView(View, AjaxableResponseMixin):
 
         events = request.POST.get('events', '[]')
         events = json.loads(events)
+        send_event = None
         for index in events:
             event = events[index]
             all_day = False
@@ -244,6 +243,7 @@ class EventAddView(View, AjaxableResponseMixin):
 
             if event['hasTime']:
                 start = datetime.strptime(date, DATE_FORMAT)
+                start = timezone.make_aware(start, timezone.utc)
                 end = start + timedelta(hours=1)
             else:
                 date = datetime.strptime(date, DATE_FORMAT)
@@ -258,8 +258,9 @@ class EventAddView(View, AjaxableResponseMixin):
                 'end': end,
                 'all_day': all_day
             }
-            event = CalendarEvent(**event_data)
-            event.save()
+            cal_event = CalendarEvent(**event_data)
+            cal_event.save()
+            send_event = cal_event
 
         if self.request.is_ajax():
             messages.success(
@@ -268,7 +269,7 @@ class EventAddView(View, AjaxableResponseMixin):
             )
             data = {
                 'messages': self.ajax_messages(),
-                # 'event': serializers.serialize("json", (event,))
+                'event': serializers.serialize("json", (send_event,))
             }
             return self.render_to_json_response(data, status=200)
         else:
@@ -292,7 +293,7 @@ class EventAddView(View, AjaxableResponseMixin):
                 timezone.utc
             )
         else:
-            start = date
+            start = timezone.make_aware(date, timezone.utc)
             end = start + timedelta(hours=1)
         return (start, end)
 
@@ -476,20 +477,35 @@ class CalendarFeed(View, AjaxableResponseMixin):
 
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
+            # get the ranges that full calendar sends in the request
+            start = request.GET.get('start', '')
+            start = timezone.make_aware(datetime.strptime(
+                start, "%Y-%m-%d"),
+                timezone.utc
+            )
+            end = request.GET.get('end', '')
+            end = timezone.make_aware(datetime.strptime(
+                end, "%Y-%m-%d"),
+                timezone.utc
+            )
+            print(start)
+            print(end)
             events = list(CalendarEvent.objects.filter(
                 calendar__owner=self.student,
                 is_recurring=False,
             ).values('id', 'title', 'start', 'end', 'all_day', 'url'))
             event_counts = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
-                is_recurring=False
+                is_recurring=False,
+                create_date__range=(start, end),
             ).extra({'date_created' : "date(calendar_mchp_calendarevent.start)"}
                    ).values('date_created', 'start', 'end'
                            ).annotate(created_count=Count('id')).order_by('start')
+            print(event_counts.query)
             for event in event_counts:
-                event['date_created'] = event['date_created'].strftime(DATE_FORMAT)
+                del event['date_created']
+                del event['end']
                 event['start'] = event['start'].strftime(DATE_FORMAT)
-                event['end'] = event['end'].strftime(DATE_FORMAT)
 
             # convert the returned events to a format fullcalendar understands
             for event in events:
@@ -497,7 +513,13 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 event['end'] = event['end'].strftime(DATE_FORMAT)
                 event['allDay'] = event['all_day']
                 del event['all_day']
+            # print(events)
+            # query = events.query
+            # query.group_by = ['start']
+            # results = QuerySet(query=query, model=Members)
+
             events = list( event_counts )
+            print(events)
             return self.render_to_json_response(events, status=200)
         else:
             return redirect(reverse('calendar'))
