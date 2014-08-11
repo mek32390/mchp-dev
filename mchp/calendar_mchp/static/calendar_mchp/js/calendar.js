@@ -364,6 +364,7 @@ $(function() {
 					$item.find('.event-description').text(event.description);
 					$item.find('.event-date').text(event.start.format(format_string));
 					$item.find('.event-time').text(event.start.format('hh:mm a'));
+					$item.find('.event-class').text(event.course);
 					$list_group.append($item);
 				});
 				return $event_list.html();
@@ -484,9 +485,6 @@ $(function() {
 		data += "calendar=" + encodeURIComponent(cal);
 
 		var date = $('.date-input').data('date');
-		console.log(date);
-		// var format_string = 'ddd MMM DD, YYYY';
-		// var date = moment.utc(date_value, format_string);
 		events = {};
 		var title = $form.find('input[name=title]').val();
 		var description = $form.find('input[name=description]').val();
@@ -501,7 +499,6 @@ $(function() {
 		events[0] = newEvent;
 		events = JSON.stringify(events);
 		data += "&events=" + encodeURIComponent(events);
-		console.log(data);
 
 		$.ajax({
 			url: url,
