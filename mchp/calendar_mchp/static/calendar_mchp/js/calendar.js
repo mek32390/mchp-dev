@@ -94,6 +94,7 @@ $(function() {
 			rows: 3
 	});
 
+
 	/**************************
 	 * FOR MANAGING CALENDARS *
 	 **************************/
@@ -141,7 +142,26 @@ $(function() {
 			send: 'always',
 	});
 
-
+	// when the modal pops up, fill in the right info
+	// this modal gets it events when a event hover popover is created
+	$('#event-edit-modal').on('shown.bs.modal', function() {
+		var $modal = $('#event-edit-modal');
+		var events = $modal.data('events');
+		var pk = $modal.data('event-id');
+		console.log(pk);
+		var event = null;
+		$.each(events, function(index, e) {
+			if(e.id == pk) {
+				event = e;
+			}
+		});
+		date_string = 'ddd MMM DD, YYYY';
+		$modal.find('.edit-event-title').text(event.title);
+		$modal.find('.edit-event-date').text(event.start.format(date_string));
+		$modal.find('.edit-event-time').text(event.start.format('hh:mm a'));
+		$modal.find('.edit-event-class').text(event.course);
+		$modal.find('.edit-event-description').text(event.description);
+	});
 
 	/*******************************
 	 * CALENDAR INTRODUCTION STUFF *
@@ -366,14 +386,28 @@ $(function() {
 					$item.find('.event-date').text(event.start.format(format_string));
 					$item.find('.event-time').text(event.start.format('hh:mm a'));
 					$item.find('.event-class').text(event.course);
+					$item.find('.event-id').text(event.id);
 					$list_group.append($item);
 				});
+				// add event for new edit cal button
+				// this is how the modal gets events in it
+				var $modal = $('#event-edit-modal');
+				$modal.data('events', $fcDay.data('events'));
+
 				return $event_list.html();
 			},
 			container: 'body',
 		});
 		$('.popover').remove();
 		$(this).popover('show');
+
+		$('.event-edit-link').click(function() {
+			var pk = $(this).parents('.list-group-item').children('.event-id').text();
+			console.log(pk);
+			var $modal = $('#event-edit-modal');
+			$modal.data('event-id', pk);
+			$modal.modal('show');
+		});
 	});
 
 	// this is the script used on the user popover which seems to work well
