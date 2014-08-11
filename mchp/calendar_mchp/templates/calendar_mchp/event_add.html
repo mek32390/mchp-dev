@@ -51,23 +51,27 @@
 				</ul>
 			</div>
 		</div>
-		<p></p>
-		<div class="col-sm-9">
 			{% for calendar in calendars %}
+			<div class="col-sm-9">
 			<div class="course-info hidden" id="course-info-{{calendar.pk}}">
 				<div style="" class="course-times">
 					<div style="inline">
-						<span class="lead" style="margin-bottom:0px;">
+						<span class="lead margin-btm-none">
 							<i class="fa fa-clock-o"></i> Meetings: 
 						</span>
-						<span class="lead pull-right" style="margin-bottom:0px;">
-							<i class="fa fa-user"></i> Instructor: {{calendar.course.professor}}
+						<span class="lead pull-right margin-btm-none">
+							{% if not calendar.private and forloop.last%}
+									<span class="selling pull-right text-success">&nbsp;  <strong><i class="fa
+												fa-check-circle-o"></i> Selling</strong></span>
+									{% endif %}
+									<i class="fa fa-user"></i> Instructor: {{calendar.course.professor}}
 						</span>
 					</div>
 					<script type="text/javascript">
 						var meeting_days_{{calendar.pk}} = [];
 						var end_date_{{calendar.pk}} = '{{calendar.end_date|date:"c"}}';
 					</script>
+					<p></p>
 					<table class="table table-striped">
 						<tbody>
 							{% for section in calendar.sections %}
@@ -80,10 +84,6 @@
 								</td>
 								<td>
 									{{ section.start|time:"P"}} to {{section.end|time:"P"}}	
-									{% if not calendar.private and forloop.last%}
-									<span class="selling pull-right text-success"><strong><i class="fa
-												fa-check-circle-o"></i> Selling</strong></span>
-									{% endif %}
 								</td>
 							</tr>
 							{% endfor %}
@@ -91,17 +91,17 @@
 					</table>
 				</div>
 			</div>
-			{% endfor %}
 		</div>
+		{% endfor %}
 	</div>
 	<div class="row">
 		<div class="col-sm-12">  
 			<!-- <div class="panel panel-success event-template hidden"> -->
-			<div class="panel panel-success templates hidden">
+			<div class="panel panel-default templates hidden">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						<p class="lead" style="margin-bottom: 0px;"> Events Template&nbsp;&nbsp; 
-							<span class="pull-right">Suggested Price: <strong>0</strong> </span>
+						<p class="lead margin-btm-none"> Events Template&nbsp;&nbsp; 
+							<!-- <span class="pull-right">Suggested Price: <strong>0</strong> </span> -->
 							<span class="pull-right">Total Events: <strong>0</strong> &nbsp;&nbsp;</span>
 						</p>
 					</h3>
@@ -113,7 +113,7 @@
 							<th>Due Date <small><i class="fa fa-info-circle text-muted"></i></small></th>
 							<th></th>  
 							<th>Assignment Title <small><i class="fa fa-info-circle text-muted"></i></small></th>
-							<th>Assignment Description <small><i class="fa fa-info-circle text-muted"></i></small></th>
+							<th>Assignment Notes <small><i class="fa fa-info-circle text-muted"></i></small></th>
 						</tr>
 					</thead>
 					<tbody>
