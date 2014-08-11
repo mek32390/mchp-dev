@@ -266,6 +266,7 @@ $(function() {
 						'id': event.id,
 						'title': event.title,
 						'description': event.description,
+						'course': event.course,
 					});
 				});
 				$.each(data.counts, function(index, date) {

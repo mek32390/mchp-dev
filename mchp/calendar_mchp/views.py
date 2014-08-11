@@ -557,7 +557,6 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 event['course'] = event['calendar__course__name']
                 del event['calendar__course__name']
                 del event['all_day']
-            print(events)
 
             data = {
                 'counts': list(event_counts),
