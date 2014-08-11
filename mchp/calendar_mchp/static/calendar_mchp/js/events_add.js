@@ -3,41 +3,41 @@
  *
  * This file handles the functionality of the calendar events add page and bootstrap xeditable
  */
- $(function() {
-	 var activeCalendar = null;
-	 //display dropdown selection 
-	 $(".dropdown-menu li a").click(function(){
-		 var pk = $(this).data('cal');
-		 //display the selected calendar in the button
-		 $(".btn:first-child").text($(this).text());
-		 $(".btn:first-child").val($(this).text()).append(" <span class='caret'></span>");
-		 //bring the course info and template into view once calendar is selected
-		 $('.course-info').hide();
-		 $('#course-info-'+pk).fadeIn(500).removeClass('hidden');
-		 $('.templates').fadeIn(700).removeClass('hidden');
-		 $('button.hidden').fadeIn(700).removeClass('hidden');
+$(function() {
+	var activeCalendar = null;
+	//display dropdown selection 
+	$(".dropdown-menu li a").click(function(event){
+		var pk = $(this).data('cal');
+		//display the selected calendar in the button
+		$(".btn:first-child").text($(this).text());
+		$(".btn:first-child").val($(this).text()).append(" <span class='caret'></span>");
+		//bring the course info and template into view once calendar is selected
+		$('.course-info').hide();
+		$('#course-info-'+pk).fadeIn(500).removeClass('hidden');
+		$('.templates').fadeIn(700).removeClass('hidden');
+		$('button.hidden').fadeIn(700).removeClass('hidden');
 
-		 // get rid of the table rows that already exist (but not the proto one which is hidden)
-		 $('.templates').children('table').children('tbody').children('.event-template:visible').remove();
+		// get rid of the table rows that already exist (but not the proto one which is hidden)
+		$('.templates').children('table').children('tbody').children('.event-template:visible').remove();
 
-		 // each calendar has its own days and end date, this is an awful way to get them
-		 var end_date = window['end_date_'+pk];
-		 var meeting_days = window['meeting_days_'+pk];
+		// each calendar has its own days and end date, this is an awful way to get them
+		var end_date = window['end_date_'+pk];
+		var meeting_days = window['meeting_days_'+pk];
 
-		 var days = moment.twix(moment.utc(), end_date).iterate("days");
-		 var $event_table = $('.templates').children('table').children('tbody');
-		 // add a row for every day between today and the end of the calendar
-		 while(days.hasNext()) {
-			 var day = days.next();
-			 // don't include days that aren't part of the schedule
-			 if($.inArray(day.isoWeekday(), meeting_days) > -1) {
-				 add_event_template(day, $event_table);
-			 }
-		 }
-		 // add one last row for last day of class
-		 var $last = $('<tr class="last-event event-template">' + 
-			 '<td colspan="4" class="event-title"><span><strong>Last day of Class: ' + moment.utc(end_date).format('MMMM Do') +'<strong></span></td>' + 
-			 '</tr>');
+		// add a row for every day between today and the end of the calendar
+		var days = moment.twix(moment.utc(), end_date).iterate("days");
+		var $event_table = $('.templates').children('table').children('tbody');
+		while(days.hasNext()) {
+			var day = days.next();
+			// don't include days that aren't part of the schedule
+			if($.inArray(day.isoWeekday(), meeting_days) > -1) {
+				add_event_template(day, $event_table);
+			}
+		}
+		// add one last row for last day of class
+		var $last = $('<tr class="last-event event-template">' + 
+				'<td colspan="4" class="event-title"><span><strong>Last day of Class: ' + moment.utc(end_date).format('MMMM Do') +'<strong></span></td>' + 
+				'</tr>');
 		$event_table.append($last);
 		// make the newly added fields editable
 		$(".editField").editable({
@@ -63,21 +63,30 @@
 		});
 
 		activeCalendar = pk;
-	 });
+	});
 
-	 //turn to inline mode
-	 $.fn.editable.defaults.mode = 'inline';
-	 //make editable field empty but still have a visible length
-	 var empty_text = '';
-	 for(var i = 0 ; i < 40; i++) {
-		 empty_text += '&nbsp;';
-	 }
-	 $.fn.editable.defaults.emptytext = empty_text;
+	//turn to inline mode
+	$.fn.editable.defaults.mode = 'inline';
+	//make editable field empty but still have a visible length
+	var empty_text = '';
+	for(var i = 0 ; i < 40; i++) {
+		empty_text += '&nbsp;';
+	}
+	$.fn.editable.defaults.emptytext = empty_text;
 
-	 /*********************
-	  * Submit all events *
-	  *********************/
-	 $('.event-button').click(function() {
+	// on first page load, if a cal was just made, show it
+	if (typeof selected_calendar !== 'undefined' ){
+		var $selectedCalendar = $('#select-calendar-'+selected_calendar);
+		if($selectedCalendar.length > 0) {
+			$selectedCalendar.click();
+			activeCalendar = selected_calendar;
+		}
+	}
+
+	/*********************
+	 * Submit all events *
+	 *********************/
+	$('.event-button').click(function() {
 		var url = '/calendar/events/add/';
 		var messages = [];
 		// which calendar this event is for 
@@ -103,9 +112,9 @@
 			// make a new event
 			var event = {
 				'title': title,
-				'description': description,
-				'date': date.toJSON(),
-				'hasTime': false,
+			'description': description,
+			'date': date.toJSON(),
+			'hasTime': false,
 			};
 			events[index] = event;
 		});
@@ -131,8 +140,8 @@
 			},
 
 		});
-	 });
- });
+	});
+});
 
 var add_event_template = function(date, table) {
 	var $event_template = $('#proto-event-template').clone();

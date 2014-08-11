@@ -37,9 +37,14 @@
 					<!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Work</a></li> -->
 					<!-- <li role="presentation" class="divider"></li> -->
 					<li role="presentation" class="dropdown-header">School Calendars</li>
+					{% if selected_calendar %}
+					<script type="text/javascript">
+						var selected_calendar = {{selected_calendar}};
+					</script>
+					{% endif %}
 					{% for calendar in calendars %}
 					<li role="presentation">
-						<a href="#" role="menuitem" tabindex="-1" data-cal="{{calendar.pk}}">
+						<a href="#" id="select-calendar-{{calendar.pk}}" role="menuitem" tabindex="-1" data-cal="{{calendar.pk}}">
 							<span class="text-success">{{calendar.course}}
 								{% if not calendar.private %}
 								<i class="fa fa-dollar"></i>

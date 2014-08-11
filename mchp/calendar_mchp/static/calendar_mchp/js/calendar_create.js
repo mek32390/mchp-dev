@@ -183,7 +183,9 @@ $(function() {
 				url: '/calendar/create/',
 				data: data,
 				success: function(data) {
-					window.location.href = "/calendar/events/add/";
+					var cal = data.calendar;
+					var url = "/calendar/events/add/" + "?calendar=" + cal;
+					window.location.href = url;
 				},
 				complete: function(data) {
 					if (data.hasOwnProperty('responseJSON') && data.responseJSON.hasOwnProperty('messages')) {
