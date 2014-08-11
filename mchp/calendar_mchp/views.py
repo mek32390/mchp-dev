@@ -529,7 +529,8 @@ class CalendarFeed(View, AjaxableResponseMixin):
             events = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
                 is_recurring=False,
-            ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url'
+            ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
+                     'calendar__course__name'
             ).order_by('start')
 
             # only the counts to show in the circles
@@ -546,7 +547,6 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 event['start'] = event['start'].strftime(DATE_FORMAT)
 
             # convert the returned events to a format we can use on the page
-            print(events)
             for event in events:
                 start_time = timezone.localtime(event['start'], timezone=timezone.get_current_timezone())
                 end_time = timezone.localtime(event['end'], timezone=timezone.get_current_timezone())
@@ -554,8 +554,9 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 event['start'] = start_time.strftime(DATE_FORMAT)
                 event['end'] = end_time.strftime(DATE_FORMAT)
                 event['allDay'] = event['all_day']
+                event['course'] = event['calendar__course__name']
+                del event['calendar__course__name']
                 del event['all_day']
-            print(events)
 
             data = {
                 'counts': list(event_counts),
