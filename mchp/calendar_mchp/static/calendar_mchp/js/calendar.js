@@ -235,7 +235,6 @@ $(function() {
 			// show the clicked day popover
 			date_string = date.format('ddd MMM DD, YYYY');
 			$('.date-input').data('date', date);
-			$('.date-input').attr('fuck', date);
 			$('.date-input').attr('value', date_string);
 			// console.log($('.date-input').data('date'));
 
@@ -262,20 +261,27 @@ $(function() {
 			type: 'GET',
 			success: function(data) {
 				var event_dates = [];
-				$.each(data, function(index, date) {
+				var events = [];
+				$.each(data.events, function(index, event) {
+					events.push({
+						'start': moment.utc(event.start),
+						'end': moment.utc(event.end),
+						'id': event.id,
+						'title': event.title,
+						'description': event.description,
+					});
+				});
+				$.each(data.counts, function(index, date) {
 					event_dates.push({
-							'start': moment(date.start),
-							'end': moment(date.end),
-							'count': date.created_count,
+						'start': moment.utc(date.start),
+						'count': date.created_count,
 					});
 				});
 				$('.fc-day').each(function() {
 					// Get current day
-					day = moment($(this).data('date'));
+					var day = moment($(this).data('date'));
 					// if this day has an event
 					if (event_dates.length && event_dates[0].start.diff(day, 'days') === 0) {
-						$(this).data('events', event_dates[0]);
-						console.log(event_dates[0]);
 						var count = event_dates[0].count;
 						var $cal_day = $(this);
 						// create a new canvas element the size of the cal day
@@ -297,6 +303,15 @@ $(function() {
 						// this work because the events are sorted, and we only ever take the first
 						// one from the array
 						event_dates.shift();
+					}
+					while(events.length && events[0].start.diff(day, 'days')===0) {
+						var event = events.shift();
+						var $day = $(this);
+						if ($day.data('events')) {
+							$day.data('events').push(event);
+						} else {
+							$day.data('events', [event]);
+						}
 					}
 				});
 			},
@@ -341,8 +356,20 @@ $(function() {
 			html: true,
 			content: function() {
 				var $fcDay = $(this).parents('.fc-day');
-				console.log($fcDay.data('events'));
-				return $('#events-popover-content').html();
+				var $event_list = $('#events-popover-content').clone();
+				var $item_proto = $event_list.find('.list-group-item').clone();
+				$event_list.find('.list-group-item').remove();
+				var $list_group = $event_list.find('.list-group');
+				var format_string = 'dddd MMM DD, YYYY';
+				$.each($fcDay.data('events'), function(index, event) {
+					var $item = $item_proto.clone();
+					$item.find('.event-title').text(event.title);
+					$item.find('.event-description').text(event.description);
+					$item.find('.event-date').text(event.start.format(format_string));
+					$item.find('.event-time').text(event.start.format('hh:mm a'));
+					$list_group.append($item);
+				});
+				return $event_list.html();
 			},
 			container: 'body',
 		});

@@ -111,7 +111,6 @@
 		});
 		events = JSON.stringify(events);
 		data += "&events=" + encodeURIComponent(events);
-		console.log(data);
 
 		$.ajax({
 			url: url,

@@ -490,10 +490,12 @@ class CalendarFeed(View, AjaxableResponseMixin):
             )
             print(start)
             print(end)
-            events = list(CalendarEvent.objects.filter(
+            events = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
                 is_recurring=False,
-            ).values('id', 'title', 'start', 'end', 'all_day', 'url'))
+            ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url'
+            ).order_by('start')
+
             event_counts = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
                 is_recurring=False,
@@ -501,7 +503,6 @@ class CalendarFeed(View, AjaxableResponseMixin):
             ).extra({'date_created' : "date(calendar_mchp_calendarevent.start)"}
                    ).values('date_created', 'start', 'end'
                            ).annotate(created_count=Count('id')).order_by('start')
-            print(event_counts.query)
             for event in event_counts:
                 del event['date_created']
                 del event['end']
@@ -513,14 +514,13 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 event['end'] = event['end'].strftime(DATE_FORMAT)
                 event['allDay'] = event['all_day']
                 del event['all_day']
-            # print(events)
-            # query = events.query
-            # query.group_by = ['start']
-            # results = QuerySet(query=query, model=Members)
 
-            events = list( event_counts )
+            data = {
+                'counts': list(event_counts),
+                'events': list(events),
+            }
             print(events)
-            return self.render_to_json_response(events, status=200)
+            return self.render_to_json_response(data, status=200)
         else:
             return redirect(reverse('calendar'))
 
