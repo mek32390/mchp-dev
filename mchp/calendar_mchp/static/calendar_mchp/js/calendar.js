@@ -236,7 +236,6 @@ $(function() {
 			date_string = date.format('ddd MMM DD, YYYY');
 			$('.date-input').data('date', date);
 			$('.date-input').attr('value', date_string);
-			// console.log($('.date-input').data('date'));
 
 			$(this).popover({
 				trigger: 'manual',
@@ -251,9 +250,7 @@ $(function() {
 				},
 				container: 'body',
 			});
-			// console.log($(this));
 			$(this).popover('show');
-			// console.log($('.date-input').data('date'));
 		},
 
 		events: {
@@ -468,7 +465,9 @@ $(function() {
 			autoclose: true,
 			todayHighlight: true
 	    }).on('changeDate', function(event) {
-			var pick = moment(event.date);
+			var date = event.date;
+			date.setUTCHours(0,0,0,0);
+			var pick = moment.utc(date);
 			$('.date-input').data('date', pick);
 		});
 	});
@@ -484,9 +483,10 @@ $(function() {
 		var cal = $('.cal-name').data('calendar');
 		data += "calendar=" + encodeURIComponent(cal);
 
-		var date_value = $('.date-input').attr('value');
-		var format_string = 'ddd MMM DD, YYYY';
-		var date = moment.utc(date_value, format_string);
+		var date = $('.date-input').data('date');
+		console.log(date);
+		// var format_string = 'ddd MMM DD, YYYY';
+		// var date = moment.utc(date_value, format_string);
 		events = {};
 		var title = $form.find('input[name=title]').val();
 		var description = $form.find('input[name=description]').val();
