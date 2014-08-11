@@ -449,7 +449,7 @@
 		{% csrf_token %}
 		<p><input class="form-control" name="title" placeholder="Event Title" required></p>
 		<p><input type="text" class="date-input form-control date" ></p>
-		<p><input name="description" class="form-control" placeholder="Event Description" required></p>	
+		<p><input name="description" class="form-control" placeholder="Event Description"></p>	
 		<button type="submit" class="btn btn-primary btn-sm btn-block">Add Event</button>
 	</form>
 	<!-- </div> -->
@@ -461,7 +461,7 @@
 	<div class="event-popover-container"></div><!-- sets the width of the popover -->
 	<span class="list-group margin-top-none margin-btm-none">
 		<span class="list-group-item">
-			<span class="margin-btm-sm margin-top-none h5"><i class="fa fa-calendar-o text-success"></i>
+			<span class="margin-btm-sm margin-top-none h5">
 				<span class="event-title"></span>
 				<span class="event-options pull-right">
 					<a class="event-edit-link"><i class="fa fa-edit text-default"></i></a> 
@@ -471,9 +471,9 @@
 				<span class="small event-description"></span>
 			</span>
 			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
-			<span data-type="date" class="small margin-btm-none event-date">Tuesday, July 29, 2014</span>
+			<span data-type="date" class="small margin-btm-none event-date"></span>
 			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
-			<span class="small margin-btm-none event-time"><i class="fa fa-clock-o"></i> 12:00 pm</span>
+			<span class="small margin-btm-none event-time"><i class="fa fa-clock-o small"></i> 12:00 pm</span>
 			<span class="small margin-btm-none event-class pull-right"> CSC 245</span>
 			<span class="event-id hidden">8</span>
 		</span>

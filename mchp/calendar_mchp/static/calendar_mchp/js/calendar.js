@@ -11,7 +11,7 @@ $(function() {
 
 	// The following editables are still a work in progress
 	// make title editable
-	$('.event-title').editable({
+	$('.edit-event-title').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
 			url: '',
@@ -46,7 +46,7 @@ $(function() {
 		$('.date-holder').removeClass('hidden');
     });
     // make the event time editable
-	$('.event-time').editable({
+	$('.edit-event-time').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
 			url: '',
@@ -64,7 +64,7 @@ $(function() {
 			]
 	});
 	// make the class editable
-	$('.event-class').editable({
+	$('.edit-event-class').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
 			url: '',
