@@ -115,12 +115,6 @@ $(function() {
 			]
 	});
 
-	$(".calendar-selling").change(function() {
-          if ($("#select-box option[value='1']").attr('selected')) {
-            alert('Ciao monde');
-          }
-        }); 
-
 	 // make calendar price editable
 	$('.calendar-price').editable({
 	    	mode: 'inline',
@@ -146,6 +140,8 @@ $(function() {
 			onblur: 'submit',				
 			send: 'always',
 	});
+
+
 
 	/*******************************
 	 * CALENDAR INTRODUCTION STUFF *
@@ -426,8 +422,7 @@ $(function() {
 				)) {
 			$('.popover').popover('hide');
 		}
-
-		// when you click on any of the list items in the calendar name drop down
+		// when you click on any of the list items in the drop down
     	$("#calSelect > li a").click(function(){
 			// replace the cal icon with the title of the calendar
 	        $(".cal-name").text($(this).text() + ' ');
