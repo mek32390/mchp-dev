@@ -279,7 +279,7 @@ $(function() {
 				});
 				$('.fc-day').each(function() {
 					// Get current day
-					var day = moment($(this).data('date'));
+					var day = moment.utc($(this).data('date'));
 					// if this day has an event
 					if (event_dates.length && event_dates[0].start.diff(day, 'days') === 0) {
 						var count = event_dates[0].count;
@@ -640,7 +640,6 @@ var deleteEvent = function(eventData) {
 		},
 	});
 };
-
 
 var deleteCalendar = function(cal_pk) {
 	var messages = [];

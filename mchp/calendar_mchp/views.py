@@ -241,6 +241,7 @@ class EventAddView(View, AjaxableResponseMixin):
             all_day = False
             date = event['date']
 
+            # most things don't let you submit a time yet
             if event['hasTime']:
                 start = datetime.strptime(date, DATE_FORMAT)
                 start = timezone.make_aware(start, timezone.utc)
@@ -293,7 +294,9 @@ class EventAddView(View, AjaxableResponseMixin):
                 timezone.utc
             )
         else:
-            start = timezone.make_aware(date, timezone.utc)
+            start_time = timezone.make_aware(date, timezone.get_current_timezone())
+            start = timezone.localtime(start_time, timezone=timezone.utc)
+            print(start)
             end = start + timedelta(hours=1)
         return (start, end)
 
@@ -477,7 +480,21 @@ class CalendarUpdateView(View):
         return HttpResponseNotAllowed(['POST'])
 
     def post(self, request, *args, **kwargs):
-        return HttpResponseNotAllowed(['POST'])
+        if request.is_ajax():
+            calendar = ClassCalendar.objects.filter(
+                owner=self.student,
+                pk=request.POST.get('calendar', -1)
+            )
+            data = {}
+            status = 200
+            if calendar.exists():
+                pass
+            else:
+                message = "Is that really your calendar?"
+                return self.send_ajax_error_message(message, status=403)
+            return self.render_to_json_response(data, status=status)
+        else:
+            return redirect(reverse('calendar'))
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
@@ -529,11 +546,16 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 event['start'] = event['start'].strftime(DATE_FORMAT)
 
             # convert the returned events to a format we can use on the page
+            print(events)
             for event in events:
-                event['start'] = event['start'].strftime(DATE_FORMAT)
-                event['end'] = event['end'].strftime(DATE_FORMAT)
+                start_time = timezone.localtime(event['start'], timezone=timezone.get_current_timezone())
+                end_time = timezone.localtime(event['end'], timezone=timezone.get_current_timezone())
+
+                event['start'] = start_time.strftime(DATE_FORMAT)
+                event['end'] = end_time.strftime(DATE_FORMAT)
                 event['allDay'] = event['all_day']
                 del event['all_day']
+            print(events)
 
             data = {
                 'counts': list(event_counts),
