@@ -157,8 +157,9 @@ $(function() {
 				error = true;
 			}
 			// parse them
-			var start_moment = moment($start.val(), "hh:mmA");
-			var end_moment = moment($end.val(), "hh:mmA");
+			var start_moment = moment.utc($start.val(), "hh:mmA");
+			var end_moment = moment.utc($end.val(), "hh:mmA");
+
 			// validate them
 			if(start_moment > end_moment) {
 				error = true;
@@ -182,7 +183,7 @@ $(function() {
 				url: '/calendar/create/',
 				data: data,
 				success: function(data) {
-					window.location.href = "/calendar/";
+					window.location.href = "/calendar/events/add/";
 				},
 				complete: function(data) {
 					if (data.hasOwnProperty('responseJSON') && data.responseJSON.hasOwnProperty('messages')) {

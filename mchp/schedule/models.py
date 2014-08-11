@@ -116,7 +116,7 @@ class Section(models.Model):
     end_time = models.TimeField()
 
     class Meta:
-        unique_together = ("student", "course")
+        unique_together = ("student", "course", "day")
 
     def __str__(self):
         return "{} from {} to {}".format(WEEK_DAYS[self.day], self.start_time, self.end_time)

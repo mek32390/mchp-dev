@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.core import serializers
+# from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.db.models import Count
@@ -134,18 +134,14 @@ class CalendarCreateView(View, AjaxableResponseMixin):
     def _make_sections(self, times, calendar):
         times = json.loads(times)
         for day in times:
-            print(times[day]['start'])
             start_time = timezone.make_aware(datetime.strptime(
                 times[day]['start'], DATE_FORMAT),
                 timezone.get_current_timezone())
-            print(start_time)
-            start_time = timezone.make_aware(datetime.strptime(
-                times[day]['start'], DATE_FORMAT),
-                timezone.utc)
-            print(start_time)
+            start_time = timezone.localtime(start_time, timezone=timezone.utc)
             end_time = timezone.make_aware(datetime.strptime(
                 times[day]['end'], DATE_FORMAT),
-                timezone.utc)
+                timezone.get_current_timezone())
+            end_time = timezone.localtime(end_time, timezone=timezone.utc)
             section_data = {
                 'course': calendar.course,
                 'student': self.student,
@@ -155,7 +151,6 @@ class CalendarCreateView(View, AjaxableResponseMixin):
                 'end_time': end_time,
             }
             section = Section(**section_data)
-            print(section)
             # TODO error handling
             section.save()
 
@@ -181,9 +176,17 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
                 owner=self.student,
                 pk = request.POST.get('id', None)
             )
-            if cal.exists():
+            if cal.exists(): 
                 cal = cal[0]
+                section = Section.objects.filter(
+                    student=self.student,
+                    course=cal.course,
+                )
                 cal.delete()
+                # also delete the section that got made w/ this calendar
+                if section.exists():
+                    section = section[0]
+                    section.delete()
 
                 messages.success(
                     self.request,
@@ -223,61 +226,41 @@ class EventAddView(View, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
         # convert Full Calendar time strings to datetime objects, with timezones
-        date = request.POST.get('date', '')
-        date = json.loads(date)
-
-        start = datetime.strptime(date, DATE_FORMAT)
-        end = start + timedelta(hours=1)
-
-        # the calendar this event belongs to
-        # TODO errors...
         calendar = ClassCalendar.objects.filter(
-            pk=request.POST['calendar'],
+            pk=request.POST.get('calendar', ''),
             owner=self.student
-        )[0]
-
-        due = request.POST.get('due', 1)
-        # 3 == at midnight
-        if due == 3:
-            all_day = True 
-            start_time = start 
-            end_time = end
-        else:
-            # otherwise, try to match the time to class start
-            all_day = False
-
-        # the course
-        section = Section.objects.filter(
-            calendar=calendar,
-            day = start.weekday()
         )
-        if section.exists():
-            section = section[0]
-            start_time = datetime.combine(start, section.start_time)
-            start_time = timezone.make_aware(
-                start_time,
-                timezone.utc
-            )
-            end_time = datetime.combine(start, section.end_time)
-            end_time = timezone.make_aware(
-                end_time,
-                timezone.utc
-            )
+        if not calendar.exists():
+            return
         else:
-            start_time = start 
-            end_time = end
+            calendar = calendar[0]
 
-        # add the event
-        event_data = {
-            'calendar': calendar,
-            'title': request.POST['title'],
-            'description': request.POST['description'],
-            'start': start_time,
-            'end': end_time,
-            'all_day': all_day
-        }
-        event = CalendarEvent(**event_data)
-        event.save()
+        events = request.POST.get('events', '[]')
+        events = json.loads(events)
+        for index in events:
+            event = events[index]
+            all_day = False
+            date = event['date']
+
+            if event['hasTime']:
+                start = datetime.strptime(date, DATE_FORMAT)
+                end = start + timedelta(hours=1)
+            else:
+                date = datetime.strptime(date, DATE_FORMAT)
+                start, end = self._get_class_time(calendar, date)
+
+            # add the event
+            event_data = {
+                'calendar': calendar,
+                'title': event['title'],
+                'description': event['description'],
+                'start': start,
+                'end': end,
+                'all_day': all_day
+            }
+            event = CalendarEvent(**event_data)
+            event.save()
+
         if self.request.is_ajax():
             messages.success(
                 self.request,
@@ -285,11 +268,33 @@ class EventAddView(View, AjaxableResponseMixin):
             )
             data = {
                 'messages': self.ajax_messages(),
-                'event': serializers.serialize("json", (event,))
+                # 'event': serializers.serialize("json", (event,))
             }
             return self.render_to_json_response(data, status=200)
         else:
             return redirect(reverse('calendar'))
+
+    def _get_class_time(self, calendar, date):
+        section = Section.objects.filter(
+            course=calendar.course,
+            day = date.weekday()
+        )
+        if section.exists():
+            section = section[0]
+            start = datetime.combine(date, section.start_time)
+            start = timezone.make_aware(
+                start,
+                timezone.utc
+            )
+            end = datetime.combine(start, section.end_time)
+            end = timezone.make_aware(
+                end,
+                timezone.utc
+            )
+        else:
+            start = date
+            end = start + timedelta(hours=1)
+        return (start, end)
 
     def get(self, request, *args, **kwargs):
         calendars = ClassCalendar.objects.filter(
@@ -300,15 +305,17 @@ class EventAddView(View, AjaxableResponseMixin):
                 course=calendar.course,
                 student=self.student,
             )
+            calendar.end_date = timezone.make_naive(calendar.end_date, timezone.utc)
             for section in sections:
-                day = WEEK_DAYS[section.day]
+                day_name = WEEK_DAYS[section.day]
                 start_date = datetime.combine(datetime.today(), section.start_time)
                 end_date = datetime.combine(datetime.today(), section.end_time)
 
                 start_time = timezone.make_aware(start_date, timezone.utc)
                 end_time = timezone.make_aware(end_date, timezone.utc)
-                print(start_time)
-                section.day = day
+                start_time = timezone.localtime(start_time, timezone=timezone.get_current_timezone())
+                end_time = timezone.localtime(end_time, timezone=timezone.get_current_timezone())
+                section.day_name = day_name
                 section.start = start_time
                 section.end = end_time
 
