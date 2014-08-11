@@ -86,58 +86,58 @@ $(function() {
 	});	
 
 	// bootstrap validator
-	$('#calendar-create').bootstrapValidator({
-        fields: {
-        	course: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please choose a class'
-                    }
-                }
-            },
-            private: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please select one of the options above'
-                    }
-                }
-            },
-            clockstart: {
-            	trigger: 'blur',
-                validators: {
-                    notEmpty: {
-                        message: 'Your class start time is required'
-                    }
-                }
-            },
-            clockend: {
-            	trigger: 'blur',
-                validators: {
-                    notEmpty: {
-                        message: 'Your class end time is required'
-                    }
-                }
-            },
-            // enddate: {
-            //     validators: {
-            //         notEmpty: {
-            //             message: 'Your class end date is required'
-            //         }
-            //     }
-            // },
-            description: {
-                validators: {
-                    notEmpty: {
-                        message: 'Don\'t you want your classmates to buy this?'
-                    }
-                }
-            },
-        }
-	})
-	.on('success.form.bv', function(e) {
-		// Prevent form submission
-		e.preventDefault();
-	});
+	// $('').bootstrapValidator({
+ //        fields: {
+ //        	course: {
+ //                validators: {
+ //                    notEmpty: {
+ //                        message: 'Please choose a class'
+ //                    }
+ //                }
+ //            },
+ //            private: {
+ //                validators: {
+ //                    notEmpty: {
+ //                        message: 'Please select one of the options above'
+ //                    }
+ //                }
+ //            },
+ //            clockstart: {
+ //            	trigger: 'blur',
+ //                validators: {
+ //                    notEmpty: {
+ //                        message: 'Your class start time is required'
+ //                    }
+ //                }
+ //            },
+ //            clockend: {
+ //            	trigger: 'blur',
+ //                validators: {
+ //                    notEmpty: {
+ //                        message: 'Your class end time is required'
+ //                    }
+ //                }
+ //            },
+ //            // enddate: {
+ //            //     validators: {
+ //            //         notEmpty: {
+ //            //             message: 'Your class end date is required'
+ //            //         }
+ //            //     }
+ //            // },
+ //            description: {
+ //                validators: {
+ //                    notEmpty: {
+ //                        message: 'Don\'t you want your classmates to buy this?'
+ //                    }
+ //                }
+ //            },
+ //        }
+	// });
+	// .on('success.form.bv', function(e) {
+	// 	// Prevent form submission
+	// 	e.preventDefault();
+	// });
 
 	/***********************
 	 * Submitting the form *
