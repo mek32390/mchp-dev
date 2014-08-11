@@ -119,7 +119,7 @@
 			dataType: 'json',
 			success: function(data) {
 				messages = data.messages;
-				// window.location.href = "/calendar/";
+				window.location.href = "/calendar/";
 			},
 			fail: function(data) {
 				messages = data.responseJSON.messages;
