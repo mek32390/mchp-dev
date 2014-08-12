@@ -175,6 +175,7 @@ $(function() {
 		var data = $(this).serialize();
 		times = JSON.stringify(times);
 		data += "&times=" + encodeURIComponent(times);
+		var color = Please.make_color();
 
 		// submit the form if it was valid
 		if (!error) {
