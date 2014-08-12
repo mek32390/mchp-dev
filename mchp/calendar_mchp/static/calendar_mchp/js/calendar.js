@@ -8,6 +8,12 @@ $(function() {
 	/*******************************
 	 * FOR EDITING CALENDAR EVENTS *
 	 *******************************/
+	$.fn.editable.defaults.error = function(data) {
+		$('.editable-errors').text(data.responseJSON.response);
+		console.log(data);
+		console.log(data.responseJSON.response);
+	};
+	$.fn.editable.defaults.success = function(data) {};
 
 	// The following editables are still a work in progress
 	// make title editable
@@ -81,17 +87,17 @@ $(function() {
 			]
 	});
 	// replacing the description with notes
-	$('.event-notes').editable({
+	$('.edit-event-description').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: '/calendar/events/update/',
 			unsavedclass: 'text-danger',
 			emptyclass: '',
 			emptytext: '',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
-			rows: 3
+			rows: 3,
 	});
 
 
@@ -144,23 +150,24 @@ $(function() {
 
 	// when the modal pops up, fill in the right info
 	// this modal gets it events when a event hover popover is created
+	// and it gets the pk from the link that was clicked to open it
 	$('#event-edit-modal').on('shown.bs.modal', function() {
 		var $modal = $('#event-edit-modal');
 		var events = $modal.data('events');
 		var pk = $modal.data('event-id');
-		console.log(pk);
 		var event = null;
 		$.each(events, function(index, e) {
 			if(e.id == pk) {
 				event = e;
 			}
 		});
+		// give the modal the event specific information
 		date_string = 'ddd MMM DD, YYYY';
-		$modal.find('.edit-event-title').text(event.title);
-		$modal.find('.edit-event-date').text(event.start.format(date_string));
-		$modal.find('.edit-event-time').text(event.start.format('hh:mm a'));
-		$modal.find('.edit-event-class').text(event.course);
-		$modal.find('.edit-event-description').text(event.description);
+		$modal.find('.edit-event-title').editable('option', 'value', event.title);
+		$modal.find('.edit-event-date').editable('option', 'value', event.start.format(date_string));
+		$modal.find('.edit-event-time').editable('option', 'value', event.start.format('hh:mm a'));
+		$modal.find('.edit-event-class').editable('option', 'value', event.course);
+		$modal.find('.edit-event-description').editable('option', 'value', event.description);
 	});
 
 	/*******************************
@@ -403,7 +410,6 @@ $(function() {
 
 		$('.event-edit-link').click(function() {
 			var pk = $(this).parents('.list-group-item').children('.event-id').text();
-			console.log(pk);
 			var $modal = $('#event-edit-modal');
 			$modal.data('event-id', pk);
 			$modal.modal('show');

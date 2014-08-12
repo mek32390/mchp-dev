@@ -363,19 +363,15 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                 event.all_day = all_day
                 event.save()
 
-                messages.success(
-                    self.request,
-                    "Event updated"
-                )
+                response = "Event updated"
+                status=200
             else:
-                messages.error(
-                    self.request,
-                    "Event not found"
-                )
+                response = "Event not found"
+                status=403
             data = {
-                'messages': self.ajax_messages(),
+                'response': response,
             }
-            return self.render_to_json_response(data, status=200)
+            return self.render_to_json_response(data, status=status)
         else:
             return redirect(reverse('calendar'))
 
