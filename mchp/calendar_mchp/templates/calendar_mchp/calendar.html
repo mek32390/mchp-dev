@@ -276,7 +276,7 @@
 				<!-- for real it has a purpose-->
 
 				{% for calendar in owned_calendars %}
-				<div class="checkbox text-success" id="owned-calendar-holder-{{calendar.pk}}">
+				<div class="checkbox" id="owned-calendar-holder-{{calendar.pk}}">
 					<label>
 						<input type="checkbox" value="">
 						{{calendar.title}}
@@ -456,7 +456,7 @@
 			{% endif %}
 			<li role="presentation">
 				<a role="menuitem" tabindex="-1" value="1" data-calendar="{{calendar.pk}}">
-					<span class="text-success">{{calendar.title}}</span>
+					<span>{{calendar.title}}</span>
 				</a>
 			</li>
 			{% endfor %}
@@ -469,7 +469,7 @@
 		{% csrf_token %}
 		<p><input class="form-control" name="title" placeholder="Event Title" required></p>
 		<p><input type="text" class="date-input form-control date" ></p>
-		<p><input name="description" class="form-control" placeholder="Event Description"></p>	
+		<p><input name="description" class="form-control" placeholder="Notes"></p>	
 		<button type="submit" class="btn btn-primary btn-sm btn-block">Add Event</button>
 	</form>
 	<!-- </div> -->
@@ -493,8 +493,7 @@
 			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
 			<span data-type="date" class="small margin-btm-none event-date"></span>
 			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
-			<span class="small margin-btm-none event-time"><i class="fa fa-clock-o small"></i> 12:00 pm</span>
-			<span class="small margin-btm-none event-class pull-right"> CSC 245</span>
+			<i class="fa fa-clock-o small"></i> <span class="small margin-btm-none event-time"> 12:00 pm</span>&nbsp;<span class="small">in</span> <span class="small margin-btm-none event-class"> CSC 245</span>
 			<span class="event-id hidden">8</span>
 		</span>
 	</span><!-- end list-group -->
