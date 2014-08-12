@@ -31,7 +31,7 @@
 		<div class="modal-content text-center">
 			<div class="modal-body">
 				<p class="lead">Are you sure you want to delete this calendar for good?</p>
-				<button type="button" id="confirm-delete-button" class="btn btn-danger" data-dismiss="modal">
+				<button type="button" class="confirm-delete-button btn btn-danger" data-dismiss="modal">
 					<i class="fa fa-fw fa-gavel"></i> Delete</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 			</div>
@@ -52,9 +52,9 @@
 						<ul class="nav nav-pills nav-stacked" role="tablist"><!-- Nav tabs -->
 							{% for calendar in owned_calendars %}
 							{% if forloop.first %}
-							<li class="active"><a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a></li>
+							<li id="edit-calendar-tab-{{calendar.pk}}" class="active"><a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a></li>
 							{% else %}
-							<li>
+							<li id="edit-calendar-tab-{{calendar.pk}}">
 								<a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a>
 							</li>
 							{% endif %}
@@ -84,7 +84,8 @@
 													</span> &nbsp;
 													<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="If you sell this calendar, your classmates will be able to follow it for a monthly price"></i>
 													</span>
-													<span class="pull-right btn btn-danger btn-xs">Delete</span>
+													<span class="pull-right btn btn-danger btn-xs confirm-delete-button"
+														data-cal="{{calendar.pk}}">Delete</span>
 												</div>
 											</div>
 
@@ -124,6 +125,8 @@
 									</div>
 								</div>
 							</div><!-- end class1 tab -->
+							{% empty %}
+							You don't have any calendars to manage.
 							{% endfor %}
 						</div><!-- end tab content -->
 					</div><!-- end col-9 -->
