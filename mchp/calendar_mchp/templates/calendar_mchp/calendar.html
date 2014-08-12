@@ -13,12 +13,14 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/fullcalendar.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/datepicker.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/bootstrap-clockpicker.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/calendar.css' %}">
 
 
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/calendar.js' %}?v=001"></script>
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-datepicker.js' %}"></script>
+<script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-clockpicker.min.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/fullcalendar.min.js' %}"></script>
 {% endblock %}
 
@@ -145,9 +147,11 @@
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-sm-3 control-label">Time:</label>
+								<label class="col-sm-3 control-label">Tme:</label>
 								<div class="col-sm-9">
-									<span class="edit-event-time" data-type="select"></span>
+									<input type="text" class="form-control input-sm time-input hidden clockpicker"
+												data-placement="bottom" data-align="left" data-autoclose="true" style="width:100%;" placeholder="Event Time">
+												<span class="time-holder edit-event-time">Time</span>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
