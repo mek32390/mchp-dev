@@ -10,17 +10,18 @@ $(function() {
 	 *******************************/
 	$.fn.editable.defaults.error = function(data) {
 		$('.editable-errors').text(data.responseJSON.response);
-		console.log(data);
-		console.log(data.responseJSON.response);
 	};
-	$.fn.editable.defaults.success = function(data) {};
+	$.fn.editable.defaults.success = function(data) {
+		$('.editable-success').text(data.response);
+	};
 
 	// The following editables are still a work in progress
 	// make title editable
+	var eventEditUrl = '/calendar/events/update/';
 	$('.edit-event-title').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: eventEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
 			emptytext: 'Enter an Event Title',
@@ -90,10 +91,10 @@ $(function() {
 	$('.edit-event-description').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '/calendar/events/update/',
+			url: eventEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
-			emptytext: '',
+			emptytext: 'description',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
@@ -164,10 +165,24 @@ $(function() {
 		// give the modal the event specific information
 		date_string = 'ddd MMM DD, YYYY';
 		$modal.find('.edit-event-title').editable('option', 'value', event.title);
+		$modal.find('.edit-event-title').editable('option', 'pk', event.id);
+		$modal.find('.edit-event-title').editable('option', 'name', 'title');
+
 		$modal.find('.edit-event-date').editable('option', 'value', event.start.format(date_string));
+		$modal.find('.edit-event-date').editable('option', 'pk', event.id);
+		$modal.find('.edit-event-date').editable('option', 'name', 'date');
+
 		$modal.find('.edit-event-time').editable('option', 'value', event.start.format('hh:mm a'));
+		$modal.find('.edit-event-time').editable('option', 'pk', event.id);
+		$modal.find('.edit-event-time').editable('option', 'name', 'time');
+
 		$modal.find('.edit-event-class').editable('option', 'value', event.course);
+		$modal.find('.edit-event-class').editable('option', 'pk', event.id);
+		$modal.find('.edit-event-class').editable('option', 'name', 'class');
+
 		$modal.find('.edit-event-description').editable('option', 'value', event.description);
+		$modal.find('.edit-event-description').editable('option', 'pk', event.id);
+		$modal.find('.edit-event-description').editable('option', 'name', 'description');
 	});
 
 	/*******************************

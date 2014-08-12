@@ -347,22 +347,33 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
         if self.request.is_ajax():
+            print(request.POST)
             event = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
-                id = request.POST.get('id', None)
+                id = request.POST.get('pk', None)
             )
             if event.exists():
                 event = event[0]
-                start = timezone.make_aware(datetime.strptime(request.POST['start'], DATE_FORMAT),
-                                            timezone.get_current_timezone())
-                end = timezone.make_aware(datetime.strptime(request.POST['end'], DATE_FORMAT),
-                                          timezone.get_current_timezone())
-                all_day = json.loads(request.POST.get('all_day', True))
-                event.start = start
-                event.end = end
-                event.all_day = all_day
-                event.save()
 
+                update = request.POST.get('name', '')
+                if update == 'date':
+                    start = request.POST.get('value', '')
+                    start = timezone.make_aware(start, timezone.get_current_timezone())
+                    start = timezone.localtime(start, timezone=timezone.utc)
+                    end = start + timedelta(hours=1)
+                    setattr(event, 'start', start)
+                    setattr(event, 'end', end)
+
+                if update == 'title':
+                    description = request.POST.get('value', '')
+                    setattr(event, 'title', description)
+
+                if update == 'description':
+                    description = request.POST.get('value', '')
+                    setattr(event, 'description', description)
+
+                event.save()
+                print(event.description)
                 response = "Event updated"
                 status=200
             else:
