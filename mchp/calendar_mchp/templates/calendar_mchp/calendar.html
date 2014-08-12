@@ -49,32 +49,49 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-xs-3">
-
 						<ul class="nav nav-pills nav-stacked" role="tablist"><!-- Nav tabs -->
-							<li class="active"><a href="#class1" role="tab" data-toggle="tab">ECON 200</a></li>
-							<li><a href="#class2" role="tab" data-toggle="tab">ACCT 200</a></li>
-							<li><a href="#class3" role="tab" data-toggle="tab">MKTG 361</a></li>
-							<li><a href="#class4" role="tab" data-toggle="tab">TRAD 104</a></li>
+							{% for calendar in owned_calendars %}
+							{% if forloop.first %}
+							<li class="active"><a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a></li>
+							{% else %}
+							<li>
+								<a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a>
+							</li>
+							{% endif %}
+							{% endfor %}
 						</ul>
 					</div><!-- end col-3 -->
 					<div class="col-xs-9">
 						<div class="tab-content">
-							<div class="tab-pane fade in active" id="class1">
+							{% for calendar in owned_calendars %}
+							{% if forloop.first %}
+							<div class="tab-pane fade in active" id="edit-calendar-link-{{calendar.pk}}">
+								{% else %}
+								<div class="tab-pane fade in" id="edit-calendar-link-{{calendar.pk}}">
+								{% endif %}
 								<div class="panel panel-default">
 									<div class="panel-body">
 										<form method="post" class="form-horizontal" id="edit-calendar-form">
-
 											<div class="form-group form-group-sm">
 												<label class="col-sm-3 control-label">Selling:</label>
 												<div class="col-sm-9">
-													<span class="calendar-selling" data-type="select"></span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="If you sell this calendar, your classmates will be able to follow it for a monthly price"></i></span><span class="pull-right btn btn-danger btn-xs">Delete</span>
+													<span class="calendar-selling" data-type="select">
+														{% if calendar.private %}
+														No
+														{% else %}
+														Yes
+														{% endif %}
+													</span> &nbsp;
+													<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="If you sell this calendar, your classmates will be able to follow it for a monthly price"></i>
+													</span>
+													<span class="pull-right btn btn-danger btn-xs">Delete</span>
 												</div>
 											</div>
 
 											<div class="form-group form-group-sm">
 												<label class="col-sm-3 control-label">Price:</label>
 												<div class="col-sm-9">
-													<span class="calendar-price">200</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per month that your classmates pay to follow this calendar"></i></span>
+													<span class="calendar-price">{{calendar.price}}</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per month that your classmates pay to follow this calendar"></i></span>
 												</div>
 											</div>
 
@@ -82,33 +99,32 @@
 												<label class="col-sm-3 control-label">End Date:</label>
 												<div class="col-sm-9">
 													<input type="text" class="form-control input-sm date date-input hidden" style="width:150px;" placeholder="August 12, 2014">
-													<div class="date-holder calendar-end-date">August 12, 2014</div> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="Set this date to the last day of this class"></i></span>
+													<div class="date-holder calendar-end-date">
+														{{calendar.end_date|date:"l F d, Y"}} 
+													</div>&nbsp;
+													<span>
+														<i class="fa fa-info-circle small" 
+															data-toggle="tooltip" 
+															data-placement="right" 
+															data-original-title="Set this date to the last day of this class"></i>
+													</span>
 												</div>
 											</div>
-
-
-
+											{% if calendar.description %}
 											<div class="form-group form-group-sm">
 												<label class="col-sm-3 control-label">Description:</label>
 												<div class="col-sm-9">
-													<span class="calendar-description" data-type="text"><span class="calendar-description-holder">I tried really hard to make this calendar so please buy it!</span></span>
+													<span class="calendar-description" data-type="text">
+														<span class="calendar-description-holder">{{calendar.description}}</span>
+													</span>
 												</div>
 											</div>
-
-
-											<!-- <p>End Date</p> -->
-											<!-- <p>Price</p> -->
-											<!-- <p>Sell or No Sell</p> -->
-											<!-- <p>Metting days and times</p> -->
-											<!-- <p>Description</p> -->
-											<!-- <p>Delete</p> -->
+											{% endif %}
 										</form>
 									</div>
 								</div>
 							</div><!-- end class1 tab -->
-							<div class="tab-pane fade" id="class2">...</div><!-- end class2 tab -->
-							<div class="tab-pane fade" id="class3">...</div><!-- end class3 tab -->
-							<div class="tab-pane fade" id="class4">...</div><!-- end class4 tab -->
+							{% endfor %}
 						</div><!-- end tab content -->
 					</div><!-- end col-9 -->
 				</div><!-- end row -->
@@ -150,8 +166,8 @@
 								<label class="col-sm-3 control-label">Tme:</label>
 								<div class="col-sm-9">
 									<input type="text" class="form-control input-sm time-input hidden clockpicker"
-												data-placement="bottom" data-align="left" data-autoclose="true" style="width:100%;" placeholder="Event Time">
-												<span class="time-holder edit-event-time">Time</span>
+									data-placement="bottom" data-align="left" data-autoclose="true" style="width:100%;" placeholder="Event Time">
+									<span class="time-holder edit-event-time">Time</span>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">

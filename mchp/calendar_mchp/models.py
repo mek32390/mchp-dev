@@ -21,6 +21,7 @@ class ClassCalendar(models.Model):
     course = models.ForeignKey('schedule.course', related_name="calendar_courses")
 
     private = models.BooleanField(default=True)
+    price = models.PositiveIntegerField(default=0)
 
     create_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
