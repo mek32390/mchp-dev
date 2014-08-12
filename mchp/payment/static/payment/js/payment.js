@@ -1,4 +1,15 @@
 $(function() {
+
+	// show saved cards on click
+	$('.show-cards').on('click', function () {
+		$('.saved-cards').toggleClass('hidden')
+	});
+
+	// $('.show-cards').on('mouseover', function () {
+	// 	$('.saved-cards').toggleClass('hidden')
+	// });
+
+
 	var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
 	function csrfSafeMethod(method) {
 		// these HTTP methods do not require CSRF protection

@@ -13,8 +13,15 @@
 		<li><a href="#cash-out-tab" role="tab" data-toggle="tab">Cash Out</a></li>
 		<li><a href="#card-info-tab" role="tab" data-toggle="tab">Card Info</a></li>
 	</ul>
-	<hr>
-	<div class="list-group">
+	<hr class="margin-btm-sm">
+	<div class="row">
+		<div class="col-xs-12">
+	<a href="#" class="show-cards small margin-top-none pull-right text-default"><i class="fa-fw fa fa-credit-card"></i> View</a>
+</div>
+</div>
+	<p></p>
+	<div class="saved-cards hidden">
+		<div class="list-group">
 		<div class="list-group-item">
 			<p class="card-errors text-danger text-center"></p>
 			<label><i class="fa-fw fa fa-credit-card"></i> Your Cards</label>
@@ -45,13 +52,14 @@
 				<p>
 					You havn't added any cards yet!
 				</p>
-				<p>
+				<p class="small">
 					(If you don't see a card you just added, try refreshing the page)
 				</p>
 				{% endfor %}
 			</div>
 		</div>
 	</div>
+</div>
 	<div class="tab-content">
 		<div class="tab-pane fade in active text-center" id="purchase-points-tab">
 			{% purchase student%} 
