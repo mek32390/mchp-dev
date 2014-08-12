@@ -254,9 +254,10 @@ $(function() {
 		}
 	});
 
-	$('#confirm-delete-button').click(function() {
+	$('.confirm-delete-button').click(function() {
 		var pk = $(this).data('cal');
 		deleteCalendar(pk);
+		// remove from cal list
 		var $link_parent = $('#owned-calendar-holder-'+pk);
 		$link_parent.fadeOut(500, function() {
 			$link_parent.remove();
@@ -266,12 +267,16 @@ $(function() {
 				$('#make-a-calendar').removeClass('hidden');
 			}
 		});
+		// remove from manage modal
+		var modal = $('#manage-calendars');
+		modal.find('#edit-calendar-link-'+pk).remove();
+		modal.find('#edit-calendar-tab-'+pk).remove();
 	});
 
 	$('.pre-delete-button').click(function() {
 		var $modal = $('#delete-cal-modal');
 		var pk = $(this).data('cal');
-		$('#confirm-delete-button').data('cal', pk);
+		$('.confirm-delete-button').data('cal', pk);
 		$modal.modal('show');
 	});
 
