@@ -422,7 +422,7 @@ $(function() {
 				var $item_proto = $event_list.find('.list-group-item').clone();
 				$event_list.find('.list-group-item').remove();
 				var $list_group = $event_list.find('.list-group');
-				var format_string = 'dddd MMM DD, YYYY';
+				var format_string = 'ddd MMM DD, YYYY';
 				$.each($fcDay.data('events'), function(index, event) {
 					var $item = $item_proto.clone();
 					$item.find('.event-title').text(event.title);
