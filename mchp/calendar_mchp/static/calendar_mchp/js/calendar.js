@@ -329,7 +329,6 @@ $(function() {
 			url: '/calendar/feed/',
 			type: 'GET',
 			success: function(data) {
-				var event_dates = [];
 				var events = [];
 				$.each(data.events, function(index, event) {
 					events.push({
@@ -341,18 +340,25 @@ $(function() {
 						'course': event.course,
 					});
 				});
-				$.each(data.counts, function(index, date) {
-					event_dates.push({
-						'start': moment.utc(date.start),
-						'count': date.created_count,
-					});
-				});
 				$('.fc-day').each(function() {
 					// Get current day
 					var day = moment.utc($(this).data('date'));
 					// if this day has an event
-					if (event_dates.length && event_dates[0].start.diff(day, 'days') === 0) {
-						var count = event_dates[0].count;
+					var event_count = 0;
+					while(events.length && events[0].start.diff(day, 'days')===0) {
+						event_count++;
+						// this work because the events are sorted, and we only ever take the first
+						// one from the array
+						var event = events.shift();
+						var $day = $(this);
+						if ($day.data('events')) {
+							$day.data('events').push(event);
+						} else {
+							$day.data('events', [event]);
+						}
+					}
+					// draw a number w/ num of events for that day
+					if (event_count > 0) {
 						var $cal_day = $(this);
 						// create a new canvas element the size of the cal day
 						var $canvas = $('<canvas id="canvas-'+
@@ -364,24 +370,10 @@ $(function() {
 							'" width="'+
 							$cal_day.width()+
 							'" data-count="'+
-							count+
+							event_count+
 							'"></canvas>');
 						$cal_day.html($canvas);
 						drawCircle($canvas.get(0));
-
-						// remove the event count from the array
-						// this work because the events are sorted, and we only ever take the first
-						// one from the array
-						event_dates.shift();
-					}
-					while(events.length && events[0].start.diff(day, 'days')===0) {
-						var event = events.shift();
-						var $day = $(this);
-						if ($day.data('events')) {
-							$day.data('events').push(event);
-						} else {
-							$day.data('events', [event]);
-						}
 					}
 				});
 			},

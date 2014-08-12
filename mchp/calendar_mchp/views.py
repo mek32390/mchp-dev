@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
-from django.db.models import Count
+# from django.db.models import Count
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect#, get_object_or_404
 from django.utils import timezone
@@ -540,19 +540,6 @@ class CalendarFeed(View, AjaxableResponseMixin):
                      'calendar__course__name'
             ).order_by('start')
 
-            # only the counts to show in the circles
-            event_counts = CalendarEvent.objects.filter(
-                calendar__owner=self.student,
-                is_recurring=False,
-                create_date__range=(start, end),
-            ).extra({'date_created' : "date(calendar_mchp_calendarevent.start)"}
-                   ).values('date_created', 'start', 'end'
-                           ).annotate(created_count=Count('id')).order_by('start')
-            for event in event_counts:
-                del event['date_created']
-                del event['end']
-                event['start'] = event['start'].strftime(DATE_FORMAT)
-
             # convert the returned events to a format we can use on the page
             for event in events:
                 start_time = timezone.localtime(event['start'], timezone=timezone.get_current_timezone())
@@ -566,7 +553,6 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 del event['all_day']
 
             data = {
-                'counts': list(event_counts),
                 'events': list(events),
             }
             return self.render_to_json_response(data, status=200)
