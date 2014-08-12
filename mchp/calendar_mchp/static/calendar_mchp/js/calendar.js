@@ -646,18 +646,6 @@ $(function() {
 	$('.cal-next-button').click(function() {
     	$('#calendar').fullCalendar('next');
 	});
-	// month view button
-	$('.cal-month-button').click(function() {
-    	$('#calendar').fullCalendar( 'changeView', 'month' );
-	});
-	// agenda week view button
-	$('.cal-agendaWeek-button').click(function() {
-    	$('#calendar').fullCalendar( 'changeView', 'agendaWeek' );
-	});
-	// agenda day view button
-	$('.cal-agendaDay-button').click(function() {
-    	$('#calendar').fullCalendar( 'changeView', 'agendaDay' );
-	});
 
 	// change the title when the view changes
 	$('.cal-button').click(function() {
