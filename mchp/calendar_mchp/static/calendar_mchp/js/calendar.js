@@ -51,24 +51,48 @@ $(function() {
         $('.date-input').addClass('hidden');
 		$('.date-holder').removeClass('hidden');
     });
-    // make the event time editable
-	$('.edit-event-time').editable({
-	    	mode: 'inline',
-	    	inputclass: '',
-			url: '',
-			unsavedclass: 'text-danger',
-			emptyclass: '',
-			emptytext: 'Enter an Event Title',
-			highlight: '',
-			onblur: 'submit',				
-			send: 'always',
-			value: 1,
-			source: [
-				{value: 1, text: 'in Class'},
-				{value: 2, text: 'by Midnight'},
-				{value: 3, text: 'Other...'}
-			]
+
+    // initializing clockpicker
+	$('.clockpicker').clockpicker( {
+		twelvehour: 'true',
+		// afterHide: function() {
+  //                           alert(yes);
+  //                       }
+		// placement: 'top',
+    	// align: 'left',
 	});
+    // make time editable
+    // this is needed because the clockpicker wont fire unless an input is visible
+	$('.time-holder').on('click', function() {
+		$('.time-input').removeClass('hidden');
+		$('.time-holder').addClass('hidden');
+	});
+	// return to standard editable format after datepicker closes
+	// $('.time-input').clockpicker()
+ //    .on('hide', function(){
+ //        $('.time-input').addClass('hidden');
+	// 	$('.time-holder').removeClass('hidden');
+ //    });
+
+
+    // make the event time editable
+	// $('.edit-event-time').editable({
+	//     	mode: 'inline',
+	//     	inputclass: '',
+	// 		url: '',
+	// 		unsavedclass: 'text-danger',
+	// 		emptyclass: '',
+	// 		emptytext: 'Enter an Event Title',
+	// 		highlight: '',
+	// 		onblur: 'submit',				
+	// 		send: 'always',
+	// 		value: 1,
+	// 		source: [
+	// 			{value: 1, text: 'in Class'},
+	// 			{value: 2, text: 'by Midnight'},
+	// 			{value: 3, text: 'Other...'}
+	// 		]
+	// });
 	// make the class editable
 	$('.edit-event-class').editable({
 	    	mode: 'inline',
