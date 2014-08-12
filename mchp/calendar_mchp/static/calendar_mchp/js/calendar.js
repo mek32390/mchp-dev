@@ -106,6 +106,7 @@ $(function() {
 	 * FOR MANAGING CALENDARS *
 	 **************************/
 
+	var calendarEditUrl = '/calendar/update/';
 	// make the class editable
 	$('.calendar-selling').editable({
 	    	mode: 'inline',
