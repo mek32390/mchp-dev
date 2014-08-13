@@ -429,7 +429,7 @@ $(function() {
 	/*****************
 	 * popover stuff *
 	 *****************/
-	$('#calendar').on('mouseenter', '.canvas-day', function() {
+	$('#calendar').on('mouseenter', '.canvas-day', function(jsEvent) {
 		$(this).popover({
 			trigger: "focus",
 			placement: 'auto top',
@@ -471,38 +471,6 @@ $(function() {
 			$modal.modal('show');
 		});
 	});
-
-	// this is the script used on the user popover which seems to work well
-	// it allows you to hover over the popover and it remains triggered
-	// then when the mouse leaves, the popover disappears
-	// I tried to combine this with the function above but couldn't get it to work cleanly
-
-	// $('#calendar').on('mouseenter', '.canvas-day', function() {
-	// $(this).popover({
-	// 	trigger: "manual",
-	// 	placement: 'auto top',
-	// 	html: true,
-	// 	content: function() {
-	// 		return $('#events-popover-content').html();
-	// 	},
-	// 	container: 'body',
-	// })
- //    .on("mouseenter", function () {
- //        var _this = this;
- //        $(this).popover("show");
- //        $(".popover").on("mouseleave", function () {
- //            $(_this).popover('hide');
- //        });
- //    })
- //    .on("mouseleave", function () {
- //        var _this = this;
- //        setTimeout(function () {
- //            if (!$(".popover:hover").length) {
- //                $(_this).popover("hide");
- //            }
- //        }, 100);
- //    });
-
 
 	// click on date w/ events on it
 	$('#calendar').on('click', '.canvas-day', function(event) {
