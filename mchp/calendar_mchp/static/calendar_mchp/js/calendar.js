@@ -359,6 +359,8 @@ $(function() {
 					});
 				});
 				$('.fc-day').each(function() {
+					// remove any old events
+					$(this).data('events', []);
 					// Get current day
 					var day = moment.utc($(this).data('date'));
 					// if this day has an event
@@ -560,15 +562,8 @@ $(function() {
 			success: function(data) {
 				messages = data.messages;
 				// add the event to the calendar
-				var event = JSON.parse(data.event);
 				$cal = $('#calendar');
-				$cal.fullCalendar('renderEvent', event[0].fields);
-
-				var iso = moment(date).format('YYYY-M-DD');
-				var $canvas = $('#canvas-'+iso);
-				var count = parseInt($canvas.data('count')) + 1;
-				$canvas.data('count', count);
-				drawCircle($canvas);
+				$cal.fullCalendar('refetchEvents');
 			},
 			fail: function(data) {
 				addMessage('Failed to save event', 'danger');
@@ -582,6 +577,8 @@ $(function() {
 		});
 		$('.popover').popover('hide');
 		return false;
+	});
+	$('.fuck').click(function() {
 	});
 
 	//Create cal event with button
