@@ -428,7 +428,7 @@ class EventDeleteView(DeleteView, AjaxableResponseMixin):
         if self.request.is_ajax():
             event = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
-                id = request.POST.get('id', None)
+                id = request.POST.get('pk', None)
             )
             if event.exists():
                 event = event[0]

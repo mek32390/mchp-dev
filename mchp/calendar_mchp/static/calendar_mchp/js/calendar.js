@@ -460,6 +460,29 @@ $(function() {
 			$modal.data('event-id', pk);
 			$modal.modal('show');
 		});
+		$('.event-delete-link').click(function() {
+			var pk = $(this).parents('.list-group-item').children('.event-id').text();
+			$.ajax({
+				url: '/calendar/events/delete/',
+				type: 'POST',
+				data: {'pk': pk},
+				success: function(data) {
+					messages = data.messages;
+					// refresh calendar
+					$cal = $('#calendar');
+					$cal.fullCalendar('refetchEvents');
+				},
+				fail: function(data) {
+					addMessage('Failed to delete event', 'danger');
+				},
+				complete: function(data) {
+					$.each(messages, function(index, message){
+						addMessage(message.message, message.extra_tags);
+					});
+				},
+			});
+			$(this).parents('.list-group-item').remove();
+		});
 	});
 
 	// click on date w/ events on it
