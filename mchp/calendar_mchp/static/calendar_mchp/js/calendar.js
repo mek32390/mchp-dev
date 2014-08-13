@@ -578,9 +578,6 @@ $(function() {
 		$('.popover').popover('hide');
 		return false;
 	});
-	$('.fuck').click(function() {
-	});
-
 	//Create cal event with button
 	$('#createOptions').popover({
 		trigger: 'manual',
