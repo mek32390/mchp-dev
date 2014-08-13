@@ -223,7 +223,7 @@ $(function() {
 		$modal.find('.edit-event-description').editable('option', 'pk', event.id);
 		$modal.find('.edit-event-description').editable('option', 'name', 'description');
 
-		$modal.find('.panel').css('box-shadow', '1px 1px 0px 1px ' + event.color);
+		$modal.find('.calendar-indicator').css('color', event.color);
 	});
 
 	/*******************************
@@ -439,7 +439,7 @@ $(function() {
 					$item.find('.event-time').text(event.start.format('hh:mm a'));
 					$item.find('.event-class').text(event.course);
 					$item.find('.event-id').text(event.id);
-					$item.css('box-shadow', '1px 1px 0px 1px' + event.color);
+					$item.find('.calendar-indicator').css('color', event.color);
 					$list_group.append($item);
 				});
 				// add event for new edit cal button
