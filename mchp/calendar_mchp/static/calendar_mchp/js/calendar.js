@@ -223,7 +223,7 @@ $(function() {
 		$modal.find('.edit-event-description').editable('option', 'pk', event.id);
 		$modal.find('.edit-event-description').editable('option', 'name', 'description');
 
-		$modal.find('.calendar-indicator').css('color', event.color);
+		$modal.find('.control-label').css('color', event.color);
 	});
 
 	/*******************************
