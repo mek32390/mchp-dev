@@ -405,11 +405,17 @@ class ClassesView(View):
 
     def get(self, request, *args, **kwargs):
         data = {}
-        courses = Course.objects.filter(student__user=self.request.user).annotate(
+        courses = Course.objects.filter(
+            student__user=self.request.user
+        ).values(
+            'dept', 'course_number', 'professor', 'pk', 'domain', 'name', 'student__user__username'
+        ).annotate(
             doc_count=Count('document')
         )
+        print(courses)
         for course in courses:
-            docs = Document.objects.filter(course=course).annotate(
+            print(course)
+            docs = Document.objects.filter(course=course['pk']).annotate(
                 sold=Count('purchased_document__document'),
             ).extra(select = {
                 'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
@@ -417,13 +423,13 @@ class ClassesView(View):
                 'AND NOT ("documents_documentpurchase"."review_date" IS NULL))',
             }).select_related('course').order_by('-sold')[:15]
 
-            setattr(course, 'documents', docs)
+            course['documents'] = docs
 
             act = Document.objects.recent_events(course)
 
             # get some of the latest people to join your classes
             latest_joins = list(Enrollment.objects.filter(
-                course=course
+                course=course['pk']
             ).order_by('join_date')[:5])
             from collections import namedtuple
             Activity = namedtuple('Activity', ['type', 'title', 'time', 'user'])
