@@ -56,8 +56,8 @@
 				</ul>
 			</div>
 		</div>
-			{% for calendar in calendars %}
-			<div class="col-sm-9">
+		{% for calendar in calendars %}
+		<div class="col-sm-9">
 			<div class="course-info hidden" id="course-info-{{calendar.pk}}">
 				<div style="" class="course-times">
 					<div style="inline">
@@ -65,11 +65,11 @@
 							<i class="fa fa-clock-o"></i> Meetings: 
 						</span>
 						<span class="lead pull-right margin-btm-none">
-							{% if not calendar.private and forloop.last%}
-									<span class="selling pull-right text-success">&nbsp;  <strong><i class="fa
-												fa-check-circle-o"></i> Selling</strong></span>
-									{% endif %}
-									<i class="fa fa-user"></i> Instructor: {{calendar.course.professor}}
+							{% if not calendar.private %}
+							<span class="selling pull-right text-success">&nbsp;  <strong><i class="fa
+										fa-check-circle-o"></i> Selling</strong></span>
+							{% endif %}
+							<i class="fa fa-user"></i> Instructor: {{calendar.course.professor}}
 						</span>
 					</div>
 					<script type="text/javascript">
