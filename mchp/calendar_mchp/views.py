@@ -398,10 +398,16 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                             'response': response,
                         }
                         return self.render_to_json_response(data, status=status)
-                event.save()
-                print(event.description)
-                response = "Event updated"
-                status=200
+                try:
+                    event.save()
+                    response = "Event updated"
+                    status=200
+                except (CalendarExpiredError, BringingUpThePastError) as e:
+                    status=403
+                    data = {
+                        'response': str(e),
+                    }
+                    return self.render_to_json_response(data, status=status)
             else:
                 response = "Event not found"
                 status=403
