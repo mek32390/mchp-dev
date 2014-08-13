@@ -84,8 +84,14 @@
 													</span> &nbsp;
 													<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="If you sell this calendar, your classmates will be able to follow it for a monthly price"></i>
 													</span>
-													<span class="pull-right btn btn-danger btn-xs confirm-delete-button"
-														data-cal="{{calendar.pk}}">Delete</span>
+													<span class="pull-right">
+														<span class="prompt-delete-message small hidden">Are you sure?</span> &nbsp;
+													<span class="btn btn-danger btn-xs confirm-delete-button hidden"
+														data-cal="{{calendar.pk}}">Yes</span>
+													<span class=" btn btn-default btn-xs not-delete-button hidden">Cancel</span>
+													<span class="pull-right btn btn-danger btn-xs prompt-delete-button">Delete</span>
+													
+													</span>
 												</div>
 											</div>
 
