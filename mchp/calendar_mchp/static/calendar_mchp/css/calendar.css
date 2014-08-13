@@ -117,6 +117,7 @@
 
 #tooltip {
     top: -30px !important;
+    margin-left: -11px !important;
 }
 
 /* editable */

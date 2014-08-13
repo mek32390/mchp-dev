@@ -7,7 +7,7 @@ $(function() {
 	//initialize calendar rating slider
 	$('#ex1').slider({
 		tooltip: 'drag',
-		selection: 'none',
+		// selection: 'none',
 		natural_arrow_keys: true,
 		// formater: function(value) {
 		// 	return 'Current value: ' + value;
