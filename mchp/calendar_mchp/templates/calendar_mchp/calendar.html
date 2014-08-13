@@ -321,25 +321,27 @@
 			<div class="flip-holder">
 
 				<div class="front">
-					<h3 style="margin-top:0px;">	
+					<!-- <h3 class="margin-top-none">	 -->
 						<div class="row">
 
-							<div class="col-xs-2">
+							<div class="col-xs-3">
 								<div class="btn-group">
 									<button type="button" class="cal-button cal-prev-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-left"></i></button>
+									<button type="button" class="cal-button cal-today-button btn-xs btn btn-default hidden-xs">Today</button>
+									<button type="button" class="pull-right cal-button cal-next-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-right"></i></button>	
 								</div>
 							</div>
-							<div class="col-sm-1">
+							<!-- <div class="col-sm-1">
 								<button type="button" class="cal-button cal-today-button btn-xs btn btn-default hidden-xs">Today</button>
+							</div> -->
+							<div class="col-xs-6">
+								<span class="cal-date text-center center-block h3 margin-top-none"></span>
 							</div>
-							<div class="col-xs-8 col-sm-6">
-								<span class="cal-date text-center center-block"></span>
-							</div>
-							<div class="col-xs-2 col-sm-3">
-									<button type="button" class="pull-right cal-button cal-next-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-right"></i></button>	
+							<div class="col-xs-3">
+									<a href="#" class="pull-right viewCals margin-btm-none text-default btn btn-default btn-xs"><i class="fa fa-fw fa-list"></i> Browse Calendars</a>	
 							</div>
 						</div>
-					</h3>
+					<!-- </h3> -->
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div id='calendar'></div>
