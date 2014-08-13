@@ -192,7 +192,7 @@ $(function() {
 	// when the modal pops up, fill in the right info
 	// this modal gets it events when a event hover popover is created
 	// and it gets the pk from the link that was clicked to open it
-	$('#event-edit-modal').on('shown.bs.modal', function() {
+	$('#event-edit-modal').on('show.bs.modal', function() {
 		var $modal = $('#event-edit-modal');
 		var events = $modal.data('events');
 		var pk = $modal.data('event-id');
@@ -223,6 +223,8 @@ $(function() {
 		$modal.find('.edit-event-description').editable('option', 'value', event.description);
 		$modal.find('.edit-event-description').editable('option', 'pk', event.id);
 		$modal.find('.edit-event-description').editable('option', 'name', 'description');
+
+		$modal.find('.panel').css('box-shadow', '1px 1px 0px 1px ' + event.color);
 	});
 
 	/*******************************
