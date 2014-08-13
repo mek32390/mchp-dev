@@ -130,6 +130,21 @@ $(function() {
 	 * FOR MANAGING CALENDARS *
 	 **************************/
 
+	$('.prompt-delete-button').on('click', function () {
+		$(this).addClass('hidden');
+		$('.prompt-delete-message').removeClass('hidden');
+		$('.not-delete-button').removeClass('hidden');
+		$('.confirm-delete-button').removeClass('hidden');
+	});
+
+	$('.not-delete-button').on('click', function () {
+		$('.prompt-delete-button').removeClass('hidden');
+		$('.prompt-delete-message').addClass('hidden');
+		$('.not-delete-button').addClass('hidden');
+		$('.confirm-delete-button').addClass('hidden');
+	});
+
+
 	var calendarEditUrl = '/calendar/update/';
 	// make the class editable
 	$('.calendar-selling').editable({
