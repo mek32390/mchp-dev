@@ -291,14 +291,14 @@
 						{{calendar.title}}
 					</label>
 					<small class="text-muted pull-right">
-						<a href="#" class="pull-right text-success"><i class="fa fa-fw
+						<a href="#" class="pull-right"><i class="fa fa-fw
 								fa-external-link"></i></a> 
 						{% if calendar.private %}
-						<i class="fa fa-fw fa-lock"></i>&nbsp;
+						<i class="fa fa-fw fa-lock" data-toggle="tooltip" data-original-title="Private"></i>&nbsp;
 						{% else %}
-						<i class="fa fa-fw fa-users"></i>&nbsp;
+						<i class="fa fa-fw fa-users" data-toggle="tooltip" data-original-title="Selling"></i>&nbsp;
 						{% endif %}
-						<a href="#" class="pre-delete-button" data-toggle="" data-cal="{{calendar.pk}}"><i class="fa fa-fw fa-gavel text-danger"></i></a>
+						<!-- <a href="#" class="pre-delete-button" data-toggle="" data-cal="{{calendar.pk}}"><i class="fa fa-fw fa-gavel text-danger"></i></a> -->
 					</small>
 				</div>
 				{% empty %}
@@ -445,7 +445,7 @@
 		{% for calendar in owned_calendars %}
 		{% if forloop.first %}
 		<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown">
-			<span class="cal-name" data-calendar="{{calendar.pk}}">{{calendar.title}} </span><span class="caret"></span>
+			<span class="cal-name" data-calendar="{{calendar.pk}}"><i class="fa fa-circle calendar-indicator"></i> {{calendar.title}} </span><span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu" id="calSelect" role="menu" aria-labelledby="calDropDown">
 			<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li>
@@ -456,7 +456,7 @@
 			{% endif %}
 			<li role="presentation">
 				<a role="menuitem" tabindex="-1" value="1" data-calendar="{{calendar.pk}}">
-					<span>{{calendar.title}}</span>
+					<span><i class="fa fa-circle calendar-indicator"></i> {{calendar.title}}</span>
 				</a>
 			</li>
 			{% endfor %}
