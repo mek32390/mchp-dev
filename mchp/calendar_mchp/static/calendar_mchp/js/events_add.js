@@ -9,7 +9,7 @@ $(function() {
 	$(".dropdown-menu li a").click(function(event){
 		var pk = $(this).data('cal');
 		//display the selected calendar in the button
-		$(".btn:first-child").text($(this).text());
+		$(".btn:first-child").html($(this).html());
 		$(".btn:first-child").val($(this).text()).append(" <span class='caret'></span>");
 		//bring the course info and template into view once calendar is selected
 		$('.course-info').hide();

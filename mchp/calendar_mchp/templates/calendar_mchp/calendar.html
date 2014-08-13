@@ -71,7 +71,7 @@
 									{% endif %}
 									<div class="panel panel-default">
 										<div class="panel-body">
-											<form method="post" class="form-horizontal" id="edit-calendar-form">
+											<form class="form-horizontal" id="edit-calendar-form">
 												<div class="form-group form-group-sm">
 													<label class="col-sm-3 control-label">Selling:</label>
 													<div class="col-sm-9">
@@ -85,7 +85,7 @@
 														<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="If you sell this calendar, your classmates will be able to follow it for a monthly price"></i>
 														</span>
 														<span class="pull-right">
-															<button class="btn btn-xs btn-primary" href="{% url 'event_add' %}">Events Template</button>
+															<a class="btn btn-xs btn-primary" href="{% url 'event_add' %}?calendar={{calendar.pk}}">Events Template</a>
 															<span class="prompt-delete-message small hidden">Are you sure?</span> &nbsp;
 															<span class="btn btn-danger btn-xs confirm-delete-button hidden"
 																data-cal="{{calendar.pk}}">Yes</span>
