@@ -119,12 +119,14 @@
 													</div>
 												</div>
 
+												{% if not calendar.private %}
 												<div class="form-group form-group-sm">
 													<label class="col-sm-3 control-label">Price:</label>
 													<div class="col-sm-9">
 														<span class="calendar-price" data-pk="{{calendar.pk}}" data-name="price">{{calendar.price}}</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per month that your classmates pay to follow this calendar"></i></span>
 													</div>
 												</div>
+												{% endif %}
 
 												<div class="form-group form-group-sm">
 													<label class="col-sm-3 control-label">End Date:</label>
