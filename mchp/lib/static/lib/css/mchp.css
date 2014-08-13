@@ -397,3 +397,7 @@ color: #5cb85c;
     border: 2px solid #ddd;
     background: #f5f5f5;
 }
+.border-primary {
+    border: 2px solid #CCA9D3;
+    background: #DEBDE5;
+}
