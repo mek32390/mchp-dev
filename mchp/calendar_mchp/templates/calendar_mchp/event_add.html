@@ -45,9 +45,9 @@
 					{% for calendar in calendars %}
 					<li role="presentation">
 						<a href="#" id="select-calendar-{{calendar.pk}}" role="menuitem" tabindex="-1" data-cal="{{calendar.pk}}">
-							<span class="text-success">{{calendar.course}}
+							<span style="color: {{calendar.color}};">{{calendar.course}}
 								{% if not calendar.private %}
-								<i class="fa fa-dollar"></i>
+								<i class="fa fa-dollar text-success"></i>
 								{% endif %}
 							</span>
 						</a>

@@ -338,7 +338,9 @@ $(function() {
 						'title': event.title,
 						'description': event.description,
 						'course': event.course,
+						'color': event.calendar__color,
 					});
+					console.log(event);
 				});
 				$('.fc-day').each(function() {
 					// Get current day
@@ -431,6 +433,7 @@ $(function() {
 					$item.find('.event-time').text(event.start.format('hh:mm a'));
 					$item.find('.event-class').text(event.course);
 					$item.find('.event-id').text(event.id);
+					$item.css('box-shadow', '1px 1px 0px 1px' + event.color);
 					$list_group.append($item);
 				});
 				// add event for new edit cal button

@@ -280,8 +280,8 @@
 
 				{% for calendar in owned_calendars %}
 				<div class="checkbox" id="owned-calendar-holder-{{calendar.pk}}">
-					<label>
-						<input type="checkbox" value="">
+					<label style="color: {{calendar.color}};">
+						<input checked type="checkbox" value="">
 						{{calendar.title}}
 					</label>
 					<small class="text-muted pull-right">

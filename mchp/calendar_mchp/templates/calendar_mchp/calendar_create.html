@@ -183,4 +183,13 @@
 		</div>
 	</div>
 </div>
+<div class="calendar-colors">
+	<script type="text/javascript">
+		var calendarColors = [];
+		{% for calendar in calendars %}
+		calendarColors.push('{{ calendar.color }}');
+		{% endfor %}
+		console.log(calendarColors);
+	</script>
+</div>
 {% endblock %}
