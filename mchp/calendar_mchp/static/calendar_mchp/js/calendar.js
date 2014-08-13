@@ -323,7 +323,7 @@ $(function() {
 				trigger: 'manual',
 				placement: 'auto',
 				html: true,
-				viewport: '',
+				viewport: 'body',
 				title: function() {
 					return $('#popover-title').html();
 				},
