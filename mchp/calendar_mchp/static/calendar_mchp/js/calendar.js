@@ -352,6 +352,7 @@ $(function() {
 						'course_pk': event.calendar__course__pk,
 						'calendar': event.calendar__pk,
 						'visible': true,
+						'private': event.calendar__private,
 					});
 				});
 				$('.fc-day').each(function() {
@@ -436,6 +437,9 @@ $(function() {
 					$item.find('.event-class').text(event.course);
 					$item.find('.event-id').text(event.id);
 					$item.find('.calendar-indicator').css('color', event.color);
+					if(event.private) {
+						$item.find('.fa-dollar').remove();
+					}
 					$list_group.append($item);
 				});
 				// add event for new edit cal button
