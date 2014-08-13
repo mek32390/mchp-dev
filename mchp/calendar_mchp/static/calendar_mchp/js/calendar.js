@@ -4,6 +4,15 @@
  * This file handles the functionality of the calendar page.
  */
 $(function() {
+	//initialize calendar rating slider
+	$('#ex1').slider({
+		tooltip: 'drag',
+		selection: 'none',
+		natural_arrow_keys: true,
+		// formater: function(value) {
+		// 	return 'Current value: ' + value;
+		// }
+	});
 
 	/*******************************
 	 * FOR EDITING CALENDAR EVENTS *

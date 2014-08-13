@@ -15,16 +15,36 @@
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/datepicker.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/bootstrap-clockpicker.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/calendar.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/bootstrap-slider.min.css' %}">
+
 
 
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/calendar.js' %}?v=001"></script>
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-datepicker.js' %}"></script>
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-clockpicker.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-slider.min.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/fullcalendar.min.js' %}"></script>
 {% endblock %}
 
 {% block body %}
+<!-- rate cal modal -->
+<div id="rate-cal-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content text-center">
+			<div class="modal-body">
+				<img class="animated flipInX" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/goal.svg" width="64px" alt="rate calendar accuracy">
+				<p></p>
+				<p class="lead">How <em>accurate</em> is this calendar?</p>
+				</br>
+				<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="8"/>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- delete cal modal -->
 <div id="delete-cal-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -35,6 +55,9 @@
 					<i class="fa fa-fw fa-gavel"></i> Delete</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 			</div>
+			<!-- <div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Submit</button>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -318,14 +341,23 @@
 					</p>
 					{% endfor %}
 					<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
-					<p>
+					<p></p>
+						<!--mock followed calendar -->
+						<div class="checkbox">
+						    <label>
+						      <input type="checkbox" selected> CSC 400
+						    </label>
+						    <span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> <a href="#"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
+						    </span>
+						</div>
+						<!-- end mock cal -->
 						<div class="panel panel-danger">
 							<div class="panel-body">
 								You're not following any calendars yet! 
 								<a href="#" class="viewCals">Follow your first calendar!</a>
 							</div>
 						</div>
-					</p>
+					
 				</div>
 			</div>
 			<div id="col_2" class="col-sm-9 animated bounceInUp">
