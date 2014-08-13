@@ -285,9 +285,9 @@
 				<!-- for real it has a purpose-->
 
 				{% for calendar in owned_calendars %}
-				<div class="checkbox" id="owned-calendar-holder-{{calendar.pk}}">
-					<label style="color: {{calendar.color}};">
-						<input checked type="checkbox" value="">
+				<div class="checkbox owned-calendar-holder" id="owned-calendar-holder-{{calendar.pk}}">
+					<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
+						<input autocomplete="off" checked type="checkbox" value="">
 						{{calendar.title}}
 					</label>
 					<small class="text-muted pull-right">

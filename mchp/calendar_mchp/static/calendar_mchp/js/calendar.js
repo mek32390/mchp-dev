@@ -296,22 +296,20 @@ $(function() {
 		$modal.modal('show');
 	});
 
+	$('.owned-calendar-label').click(function(jsEvent) {
+		jsEvent.stopPropagation();
+		if(jsEvent.eventPhase == Event.BUBBLING_PHASE) {
+			return;
+		}
+		var pk = $(this).data('cal');
+		updateEvents(pk);
+	});
+
 	/**********************
 	 * FULLCALENDAR STUFF *
 	 **********************/
 
 	var today = new Date().toJSON().slice(0,10);
-	var updateEvent = function(event, dateDelta, minuteDelta) {
-		eventData = {
-			id: event.id,
-			title: event.title,
-			start: event.start.toJSON(),
-			end: event.end.toJSON(),
-			all_day: event.allDay,
-		};
-		saveEvent(eventData, false);
-	};
-
 	$('#calendar').fullCalendar({
 		header: false,
     	weekMode: 'liquid',
@@ -356,6 +354,8 @@ $(function() {
 						'course': event.course,
 						'color': event.calendar__color,
 						'course_pk': event.calendar__course__pk,
+						'calendar': event.calendar__pk,
+						'visible': true,
 					});
 				});
 				$('.fc-day').each(function() {
@@ -376,23 +376,7 @@ $(function() {
 						}
 					}
 					// draw a number w/ num of events for that day
-					if (event_count > 0) {
-						var $cal_day = $(this);
-						// create a new canvas element the size of the cal day
-						var $canvas = $('<canvas id="canvas-'+
-							day.format('YYYY-M-DD') +
-							'" class="'+ 
-							"canvas-day text-center center-block" + 
-							'" height="'+ 
-							($cal_day.height()-13)+
-							'" width="'+
-							$cal_day.width()+
-							'" data-count="'+
-							event_count+
-							'"></canvas>');
-						$cal_day.html($canvas);
-						drawCircle($canvas.get(0));
-					}
+					drawEvents($(this), event_count);
 				});
 			},
 			error: function() {
@@ -442,6 +426,10 @@ $(function() {
 				var $list_group = $event_list.find('.list-group');
 				var format_string = 'ddd MMM DD, YYYY';
 				$.each($fcDay.data('events'), function(index, event) {
+					// skip events that have been hidden
+					if(!event.visible) {
+						return true;
+					}
 					var $item = $item_proto.clone();
 					$item.find('.event-title').text(event.title);
 					$item.find('.event-description').text(event.description);
@@ -649,48 +637,6 @@ $(function() {
 
 });
 
-var saveEvent = function (eventData, create) {
-	var url = '';
-	if (create) {
-		url = '/calendar/events/add/';
-	} else {
-		url = '/calendar/events/update/';
-	}
-	$.ajax({
-		url: url,
-		type: 'POST',
-		data: eventData,
-		success: function(data) {
-			$.each(data.messages, function(index, message){
-				addMessage(message.message, message.extra_tags);
-			});
-		},
-		fail: function(data) {
-			addMessage('Failed to save event', 'danger');
-		},
-		complete: function(data) {
-		},
-	});
-};
-
-var deleteEvent = function(eventData) {
-	$.ajax({
-		url: '/calendar/events/delete/',
-		type: 'POST',
-		data: eventData,
-		success: function(data) {
-			$.each(data.messages, function(index, message){
-				addMessage(message.message, message.extra_tags);
-			});
-		},
-		fail: function(data) {
-			addMessage('Failed to delete event', 'danger');
-		},
-		complete: function(data) {
-		},
-	});
-};
-
 var deleteCalendar = function(cal_pk) {
 	var messages = [];
 	$.ajax({
@@ -738,4 +684,56 @@ var drawCircle = function(canvas) {
 		var text_start = ctx.measureText(count);
 		ctx.fillText(count, x-text_start.width/2, y + (y*(1/4)));
   }
+};
+
+var drawEvents = function(day, count){
+	// first remove old count
+	day.find('.canvas-day').remove();
+
+	// don't show any 0 event days
+	if (count < 1) {
+		return;
+	}
+	// date for this calendar day
+	var date = moment.utc(day.data('date'));
+	// create a new canvas element the size of the cal day
+	var $canvas = $('<canvas id="canvas-'+
+			date.format('YYYY-M-DD') +
+			'" class="'+ 
+			"canvas-day text-center center-block" + 
+			'" height="'+ 
+			(day.height()-13)+
+			'" width="'+
+			day.width()+
+			'" data-count="'+
+			count+
+			'"></canvas>');
+	day.html($canvas);
+	drawCircle($canvas.get(0));
+};
+
+var updateEvents = function(calendar) {
+	$('.popover').remove();
+	$('.fc-day').each(function() {
+		var day = moment.utc($(this).data('date'));
+		// get events for this day
+		var events = $(this).data('events');
+		// there are no events for this day
+		if (typeof events === 'undefined' ){
+			return true;
+		}
+		eventCount = 0;
+		// toggle events 
+		$.each(events, function(index, event) {
+			if(calendar === event.calendar) {
+				event.visible = !event.visible;
+			}
+			if(event.visible) {
+				eventCount++;
+			}
+		});
+
+		// draw a number w/ num of events for that day
+		drawEvents($(this), eventCount);
+	});
 };

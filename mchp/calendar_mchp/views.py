@@ -592,7 +592,8 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 calendar__owner=self.student,
                 is_recurring=False,
             ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
-                     'calendar__course__name', 'calendar__color', 'calendar__course__pk'
+                     'calendar__course__name', 'calendar__color', 'calendar__course__pk',
+                     'calendar__pk'
             ).order_by('start')
 
             # convert the returned events to a format we can use on the page
