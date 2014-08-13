@@ -17,14 +17,16 @@ $(function() {
 	/*******************************
 	 * FOR EDITING CALENDAR EVENTS *
 	 *******************************/
-	$.fn.editable.defaults.error = function(data) {
+	var editableError = function(data) {
 		$('.editable-success').text('');
 		$('.editable-errors').text(data.responseJSON.response);
 	};
-	$.fn.editable.defaults.success = function(data) {
+	$.fn.editable.defaults.error = editableError;
+	var editableSuccess = function(data) {
 		$('.editable-errors').text('');
 		$('.editable-success').text(data.response);
 	};
+	$.fn.editable.defaults.success = editableSuccess;
 
 	// The following editables are still a work in progress
 	// make title editable
@@ -63,48 +65,66 @@ $(function() {
         $('.date-input').addClass('hidden');
 		$('.date-holder').removeClass('hidden');
     });
-
+	// changing the date
+	$('.edit-event-date').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			emptytext: 'Enter a date',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+	});
+	// picking the time
+	$('.edit-event-time').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			url: eventEditUrl,
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			emptytext: 'Enter a time',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+	});
     // initializing clockpicker
 	$('.clockpicker').clockpicker( {
 		twelvehour: 'true',
-		// afterHide: function() {
-  //                           alert(yes);
-  //                       }
-		// placement: 'top',
-    	// align: 'left',
-	});
-    // make time editable
-    // this is needed because the clockpicker wont fire unless an input is visible
-	$('.time-holder').on('click', function() {
-		$('.time-input').removeClass('hidden');
-		$('.time-holder').addClass('hidden');
-	});
-	// return to standard editable format after datepicker closes
-	// $('.time-input').clockpicker()
- //    .on('hide', function(){
- //        $('.time-input').addClass('hidden');
-	// 	$('.time-holder').removeClass('hidden');
- //    });
+		afterDone: function() {
+			var $modal = $('#event-edit-modal');
+			var events = $modal.data('events');
+			var pk = $modal.data('event-id');
+			var event = null;
+			$.each(events, function(index, e) {
+				if(e.id == pk) {
+					event = e;
+				}
+			});
 
+			var $editable = $('.time-holder');
+			$editable.editable('option', 'value', $('.time-input').val());
 
-    // make the event time editable
-	// $('.edit-event-time').editable({
-	//     	mode: 'inline',
-	//     	inputclass: '',
-	// 		url: '',
-	// 		unsavedclass: 'text-danger',
-	// 		emptyclass: '',
-	// 		emptytext: 'Enter an Event Title',
-	// 		highlight: '',
-	// 		onblur: 'submit',				
-	// 		send: 'always',
-	// 		value: 1,
-	// 		source: [
-	// 			{value: 1, text: 'in Class'},
-	// 			{value: 2, text: 'by Midnight'},
-	// 			{value: 3, text: 'Other...'}
-	// 		]
-	// });
+			var time = moment.utc($('.time-input').val(), 'hh:mmA');
+			var date = moment.utc(event.start);
+			console.log(time);
+			date.hour(time.hour());
+			date.minute(time.minute());
+			console.log(date);
+
+			$editable.editable('option', 'pk', pk);
+			$editable.editable('submit', {
+				url: eventEditUrl,
+				data: {
+					pk: pk, 
+					date: JSON.stringify(date),
+				},
+				success: editableSuccess,
+				error: editableError,
+				pk: pk,
+			});
+		}
+	});
 	// make the class editable
 	$('.edit-event-class').editable({
 	    	mode: 'inline',

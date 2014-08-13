@@ -366,15 +366,18 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
             if event.exists():
                 event = event[0]
 
-                update = request.POST.get('name', '')
-                if update == 'date':
-                    start = request.POST.get('value', '')
-                    start = timezone.make_aware(start, timezone.get_current_timezone())
+                date = request.POST.get('date', None)
+                if date:
+                    start = timezone.make_aware(datetime.strptime(
+                        json.loads(date), DATE_FORMAT),
+                        timezone.get_current_timezone())
                     start = timezone.localtime(start, timezone=timezone.utc)
+                    print(start)
                     end = start + timedelta(hours=1)
                     setattr(event, 'start', start)
                     setattr(event, 'end', end)
 
+                update = request.POST.get('name', '')
                 if update == 'title':
                     description = request.POST.get('value', '')
                     setattr(event, 'title', description)
