@@ -555,12 +555,21 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
+            print(request.POST)
             calendar = ClassCalendar.objects.filter(
                 owner=self.student,
                 id = request.POST.get('pk', None)
             )
             if calendar.exists():
                 calendar = calendar[0]
+
+                date = request.POST.get('date', None)
+                if date:
+                    end_date = timezone.make_aware(datetime.strptime(
+                        json.loads(date), DATE_FORMAT),
+                        timezone.get_current_timezone())
+                    end_date = timezone.localtime(end_date, timezone=timezone.utc)
+                    setattr(calendar, 'end_date', end_date)
 
                 update = request.POST.get('name', '')
                 if update == 'description':
@@ -632,6 +641,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
             # event data
             events = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
+                calendar__end_date__gte=timezone.now(),
                 is_recurring=False,
                 start__range=(start,end)
             ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
