@@ -321,9 +321,9 @@ $(function() {
 
 			$(this).popover({
 				trigger: 'manual',
-				placement: 'auto left',
+				placement: 'auto',
 				html: true,
-				viewport: '#calendar',
+				viewport: '',
 				title: function() {
 					return $('#popover-title').html();
 				},
@@ -414,7 +414,7 @@ $(function() {
 	$('#calendar').on('mouseenter', '.canvas-day', function(jsEvent) {
 		$(this).popover({
 			trigger: "focus",
-			placement: 'auto top',
+			placement: 'auto',
 			html: true,
 			content: function() {
 				var $fcDay = $(this).parents('.fc-day');
@@ -488,9 +488,9 @@ $(function() {
 		event.stopPropagation();
 		$(this).popover({
 			trigger: 'manual',
-			placement: 'auto left',
+			placement: 'auto',
 			html: true,
-			viewport: '#calendar',
+			viewport: '',
 			title: function() {
 				return $('#popover-title').html();
 			},
@@ -597,20 +597,6 @@ $(function() {
 		$('.popover').popover('hide');
 		return false;
 	});
-	//Create cal event with button
-	$('#createOptions').popover({
-		trigger: 'manual',
-		placement: 'bottom',
-		html: true,
-		// viewport: '#calendar',
-		title: function() {
-			return $('#newEventTitle').html();
-		},
-		content: function() {
-			return $('#newEventContent').html();
-		},
-		container: 'body',
-	});
 
 	/*********************************
 	 * CUSTOM HEADER BUTTONS FOR CAL *
@@ -691,6 +677,9 @@ var drawCircle = function(canvas) {
 		ctx.fillStyle="#4C9ED9";
 		ctx.fill();
 		ctx.fillStyle="#FFFFFF";
+      	ctx.lineWidth = 1;
+		ctx.strokeStyle = '#357EBD';
+      	ctx.stroke();
 
 		var font_x = parseInt(y*(2/3)).toString();
 		ctx.font = font_x  + "pt Arial";
