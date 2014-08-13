@@ -529,7 +529,8 @@ $(function() {
 		// when you click on any of the list items in the drop down
     	$("#calSelect > li a").click(function(){
 			// replace the cal icon with the title of the calendar
-	        $(".cal-name").text($(this).text() + ' ');
+			console.log($(this));
+	        $(".cal-name").html($(this).find('.calendar-indicator-container').html());
 	        $(".cal-name").data('calendar', $(this).data('calendar'));
     	});
 
