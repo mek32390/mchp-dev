@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 # from django.db.models import Count
 from django.http import HttpResponse, HttpResponseNotAllowed
-from django.shortcuts import render, redirect#, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
@@ -466,7 +466,7 @@ class EventDeleteView(DeleteView, AjaxableResponseMixin):
 event_delete = EventDeleteView.as_view()
 
 '''
-url: /calendar/preview/<uuid>
+url: /calendar/preview/<pk>
 name: calendar_preview
 '''
 class CalendarPreview(DetailView):
@@ -474,8 +474,34 @@ class CalendarPreview(DetailView):
     model = ClassCalendar
 
     def get(self, request, *args, **kwargs):
-        data = {
+        calendar = get_object_or_404(self.model, pk=self.kwargs['pk'], private=False)
+        events = CalendarEvent.objects.filter(
+            calendar=calendar,
+            start__lt=timezone.now(),
+        ).order_by('start')[:3]
+        count = CalendarEvent.objects.filter(
+            calendar=calendar,
+            start__lte=timezone.now()
+        ).count()
+        next_event = CalendarEvent.objects.filter(
+            calendar=calendar,
+            start__gte=timezone.now()
+        ).order_by('start')[:1]
+        if next_event.exists():
+            next_event = next_event[0]
+        else:
+            next_event = None
+        total_count = CalendarEvent.objects.filter(
+            calendar=calendar
+        ).count()
 
+        data = {
+            'calendar': calendar,
+            'owner': calendar.owner,
+            'events': events,
+            'past_count': count,
+            'next_event': next_event,
+            'total_count': total_count,
         }
         return render(request, self.template_name, data)
 calendar_preview = CalendarPreview.as_view()

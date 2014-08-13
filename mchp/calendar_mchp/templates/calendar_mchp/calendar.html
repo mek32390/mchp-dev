@@ -291,11 +291,10 @@
 							{{calendar.title}}
 						</label>
 						<small class="text-muted pull-right">
-							<a href="#" class="pull-right"><i class="fa fa-fw
-									fa-external-link"></i></a> 
 							{% if calendar.private %}
 							<i class="fa fa-fw fa-lock" data-toggle="tooltip" data-original-title="Private"></i>&nbsp;
 							{% else %}
+							<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
 							<i class="fa fa-fw fa-users" data-toggle="tooltip" data-original-title="Selling"></i>&nbsp;
 							{% endif %}
 							<!-- <a href="#" class="pre-delete-button" data-toggle="" data-cal="{{calendar.pk}}"><i class="fa fa-fw fa-gavel text-danger"></i></a> -->

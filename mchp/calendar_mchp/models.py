@@ -15,8 +15,7 @@ class ClassCalendarManager(models.Manager):
 
 class ClassCalendar(models.Model):
     owner = models.ForeignKey('user_profile.student', related_name="calendars")
-    subscribers = models.ManyToManyField('user_profile.student',
-                                         db_table='calendar_mchp_calendarsubscription')
+    subscribers = models.ManyToManyField('user_profile.student', through='Subscription')
 
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=2000, blank=True)
@@ -57,6 +56,24 @@ class ClassCalendar(models.Model):
 
     def __str__(self):
         return self.title
+
+class Subscription(models.Model):
+    student = models.ForeignKey('user_profile.Student', related_name='subscribers')
+    calendar = models.ForeignKey(ClassCalendar)
+
+    price = models.PositiveIntegerField()
+    payment_date = models.DateTimeField()
+    subscribe_date = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # object is new
+        if not self.pk:
+            # set first payment date
+            self.payment_date = self.subscribe_date + timedelta(days=30)
+        super(Subscription, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return "subscribed to {} on {}".format(self.calendar.title, self.subscribe_date)
 
 class CalendarEvent(models.Model):
     calendar = models.ForeignKey(ClassCalendar)

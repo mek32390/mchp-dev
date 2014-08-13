@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^events/update/', views.event_update, name='event_update'),
     url(r'^events/delete/', views.event_delete, name='event_delete'),
 
-    url(r'^preview/(?P<uuid>[^/]+)', views.calendar_preview, name='calendar_preview'),
+    url(r'^preview/(?P<pk>[^/]+)', views.calendar_preview, name='calendar_preview'),
 
     url(r'^feed/$', views.calendar_feed, name='calendar_feed'),
     url(r'^$', views.calendar, name='calendar'),
