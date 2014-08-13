@@ -486,11 +486,13 @@ class CalendarView(View):
         owned_calendars = ClassCalendar.objects.filter(
             owner=self.student
         )
-        courses = ClassCalendar.objects.filter(
+        cal_courses = ClassCalendar.objects.filter(
             owner = self.student,
         ).values('course__pk', 'course__dept', 'course__course_number')
+        courses = self.student.courses.all()
         data = {
             'flags': self.student.one_time_flag.default(self.student),
+            'calendar_courses': cal_courses,
             'courses': courses,
             'owned_calendars': owned_calendars,
         }

@@ -296,11 +296,7 @@ $(function() {
 		$modal.modal('show');
 	});
 
-	$('.owned-calendar-label').click(function(jsEvent) {
-		jsEvent.stopPropagation();
-		if(jsEvent.eventPhase == Event.BUBBLING_PHASE) {
-			return;
-		}
+	$('.owned-calendar-input').click(function(jsEvent) {
 		var pk = $(this).data('cal');
 		updateEvents(pk);
 	});

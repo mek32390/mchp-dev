@@ -287,7 +287,7 @@
 				{% for calendar in owned_calendars %}
 				<div class="checkbox owned-calendar-holder" id="owned-calendar-holder-{{calendar.pk}}">
 					<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
-						<input autocomplete="off" checked type="checkbox" value="">
+						<input class="owned-calendar-input" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
 						{{calendar.title}}
 					</label>
 					<small class="text-muted pull-right">
@@ -360,7 +360,9 @@
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<ul class="nav nav-pills nav-justified" role="tablist">
+									{% for course in courses %}
 									<li class="active"><a href="#home" role="tab" data-toggle="tab"><span class="text-info">ECON 200</span></a></li>
+									{% endfor %}
 									<li><a href="#profile" role="tab" data-toggle="tab"><span class="text-success">ACCT 210</span></a></li>
 									<li><a href="#messages" role="tab" data-toggle="tab"><span class="text-danger">MGMT 361</span></a></li>
 									<li><a href="#settings" role="tab" data-toggle="tab"><span class="text-warning">FIN 420</span></a></li>
@@ -499,7 +501,7 @@
 <div class="calendar-courses">
 	<script type="text/javascript">
 		var calendarCourses = [];
-		{% for course in courses %}
+		{% for course in calendar_courses %}
 		calendarCourses.push({ value: '{{ course.course__pk }}', text: '{{course.course__dept}} {{course.course__course_number}}' });
 		{% endfor %}
 	</script>
