@@ -80,8 +80,8 @@
 						var meeting_days_{{calendar.pk}} = [];
 						var end_date_{{calendar.pk}} = '{{calendar.end_date|date:"c"}}';
 					</script>
-					<p></p>
-					<hr class="margin-btm-none margin-top-none">
+					<!-- <p></p> -->
+					<!-- <hr class="margin-btm-none margin-top-none"> -->
 					<!-- <table class="table table-striped margin-btm-none">
 						<tbody> -->
 							<div class="row">
@@ -90,7 +90,7 @@
 							<!-- </div> -->
 							
 							{% for section in calendar.sections %}
-							<div class="col-xs-4">
+							<div class="col-xs-3">
 							<script type="text/javascript">
 								meeting_days_{{calendar.pk}}.push({{section.day}} + 1);
 							</script>
