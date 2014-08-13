@@ -161,7 +161,7 @@
 								<div class="form-group form-group-sm">
 									<label class="col-sm-3 control-label">Title:</label>
 									<div class="col-sm-9">
-										<span class="edit-event-title">Exam 2</span><span class="pull-right" data-toggle="tooltip" data-original-title="Calendar Name"><i class="fa fa-circle calendar-indicator"></i></span>
+										<span class="edit-event-title">Exam 2</span>
 									</div>
 								</div>
 								<div class="form-group form-group-sm">
@@ -197,8 +197,8 @@
 
 				</div>
 				<div class="modal-footer">
-					<div class="editable-success"></div>
-					<div class="editable-errors"></div>
+					<div class="editable-success text-center text-success"></div>
+					<div class="editable-errors text-center text-danger"></div>
 				</div>
 			</div>
 		</div>
@@ -362,9 +362,9 @@
 									<ul class="nav nav-pills nav-justified" role="tablist">
 										{% for course in courses %}
 										{% if forloop.first %}
-										<li class="active"><a href="#browse-tab-{{course.pk}}" role="tab" data-toggle="tab"><span class="text-info">{{course}}</span></a></li>
+										<li class="active"><a href="#browse-tab-{{course.pk}}" role="tab" data-toggle="tab">{{course}}</a></li>
 										{% else %}
-										<li><a href="#browse-tab-{{course.pk}}" role="tab" data-toggle="tab"><span class="text-success">{{course}}</span></a></li>
+										<li><a href="#browse-tab-{{course.pk}}" role="tab" data-toggle="tab">{{course}}</a></li>
 										{% endif %}
 										{% endfor %}
 									</ul>
@@ -376,13 +376,13 @@
 											{% else %}
 											<div class="tab-pane fade in" id="browse-tab-{{course.pk}}">
 												{% endif %}
-												<p></p>
+												<hr>
 												<div class="list-group">
-													<div class="list-group-item list-group-item-info">
-														<span class="lead margin-btm-none">{{course}} Calendars <span class="badge">10</span>
-															<span class="btn-group pull-right lead">
-																<button type="button" class="btn btn-default btn-sm">Recent</button>
-																<button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown">
+													<div class="list-group-item">
+														<span class=" margin-btm-none h5">{{course}} Calendars <span class="badge">10</span>
+															<span class="btn-group pull-right">
+																<button type="button" class="btn btn-default btn-xs">Recent</button>
+																<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
 																	<span class="caret"></span>
 																	<span class="sr-only">Toggle Dropdown</span>
 																</button>
@@ -429,8 +429,8 @@
 				{% for calendar in owned_calendars %}
 				{% if forloop.first %}
 				<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown">
-					<span class="cal-name" data-calendar="{{calendar.pk}}">
-						<i class="fa fa-circle calendar-indicator" style="color: {{calendar.color}};"></i> 
+					<span class="cal-name" data-calendar="{{calendar.pk}}" style="color: {{calendar.color}};">
+						
 						{{calendar.title}} 
 					</span>
 					<span class="caret"></span>
@@ -443,8 +443,8 @@
 					<li role="presentation" class="dropdown-header">School Calendars</li>
 					{% endif %}
 					<li role="presentation">
-						<a role="menuitem" tabindex="-1" value="1" data-calendar="{{calendar.pk}}">
-							<span class="calendar-indicator-container"><i class="fa fa-circle calendar-indicator" style="color: {{calendar.color}};"></i> {{calendar.title}}</span>
+						<a role="menuitem" tabindex="-1" value="1" data-calendar="{{calendar.pk}}" style="color: {{calendar.color}};">
+							 {{calendar.title}}
 						</a>
 					</li>
 					{% endfor %}
@@ -470,7 +470,7 @@
 			<span class="list-group margin-top-none margin-btm-none">
 				<span class="list-group-item">
 					<span class="margin-btm-sm margin-top-none h5">
-						<span data-toggle="tooltip" data-original-title="Calendar Name"><i class="fa fa-circle calendar-indicator"></i></span>&nbsp; <span class="event-title"></span>
+						<span data-toggle="tooltip" data-original-title="Calendar Name" class="event-title calendar-indicator"></span>
 						<span class="event-options pull-right">
 							<a class="event-edit-link"><i class="fa fa-edit text-default"></i></a> 
 							<a class="event-delete-link" href="#"><i class="fa fa-times text-danger"></i></a>

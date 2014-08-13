@@ -43,7 +43,8 @@ $(function() {
 		$(".editField").editable({
 			type: "text",
 			showbuttons: false,
-			anim: "fast"    
+			anim: "fast",
+			onblur: 'submit'  
 		});
 		// when you press enter, select the next editable
 		$('.editable').on('hidden', function(e, reason){
