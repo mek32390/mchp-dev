@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 # from django.db.models import Count
@@ -11,7 +10,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView,View, UpdateView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent 
-from calendar_mchp.exceptions import TimeOrderError
+from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError
 from lib.decorators import school_required
 from schedule.models import Course, Section
 from schedule.utils import WEEK_DAYS
@@ -241,7 +240,7 @@ class EventAddView(View, AjaxableResponseMixin):
 
         events = request.POST.get('events', '[]')
         events = json.loads(events)
-        send_event = None
+        error = False
         for index in events:
             event = events[index]
             all_day = False
@@ -266,17 +265,23 @@ class EventAddView(View, AjaxableResponseMixin):
                 'all_day': all_day
             }
             cal_event = CalendarEvent(**event_data)
-            cal_event.save()
-            send_event = cal_event
-
-        if self.request.is_ajax():
+            try:
+                cal_event.save()
+            except CalendarExpiredError as e:
+                messages.error(
+                    self.request,
+                    str(e)
+                )
+                error = True
+        if not error:
             messages.success(
                 self.request,
-                "Event added"
+                "Your events have been updated"
             )
+
+        if self.request.is_ajax():
             data = {
                 'messages': self.ajax_messages(),
-                'event': serializers.serialize("json", (send_event,))
             }
             return self.render_to_json_response(data, status=200)
         else:
@@ -593,6 +598,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
             events = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
                 is_recurring=False,
+                start__range=(start,end)
             ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
                      'calendar__course__name', 'calendar__color', 'calendar__course__pk',
                      'calendar__pk'
