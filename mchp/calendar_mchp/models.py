@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from datetime import timedelta
+
 from calendar_mchp.exceptions import TimeOrderError
 
 class ClassCalendarManager(models.Manager):
@@ -25,6 +27,7 @@ class ClassCalendar(models.Model):
 
     create_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
+    expire_date = models.DateTimeField()
 
     color = models.CharField(max_length=7, blank=True, default="#FFFFFF")
 
@@ -34,9 +37,17 @@ class ClassCalendar(models.Model):
         unique_together = (('owner', 'course'))
 
     def save(self, *args, **kwargs):
-        # object is new and doesn't have a title
-        if not self.pk and not self.title: 
-            self.title = str(self.course.dept) + " " + str(self.course.course_number)
+        # object is new
+        if not self.pk:
+            # object is new and doesn't have a title
+            if not self.title: 
+                self.title = str(self.course.dept) + " " + str(self.course.course_number)
+            # give this calendar a max lifetime
+            self.expire_date = timezone.now() + timedelta(days=183)
+
+        # don't let end date go past six months from calendar creation
+        if self.end_date > self.expire_date:
+            self.end_date = self.expire_date
 
         if(self.end_date > timezone.now()):
             super().save()

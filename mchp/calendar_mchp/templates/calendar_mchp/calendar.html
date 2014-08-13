@@ -75,7 +75,7 @@
 											<div class="form-group form-group-sm">
 												<label class="col-sm-3 control-label">Selling:</label>
 												<div class="col-sm-9">
-													<span class="calendar-selling" data-type="select">
+													<span class="calendar-selling" data-name="private" data-pk="{{calendar.pk}}" data-type="select">
 														{% if calendar.private %}
 														No
 														{% else %}
@@ -98,7 +98,7 @@
 											<div class="form-group form-group-sm">
 												<label class="col-sm-3 control-label">Price:</label>
 												<div class="col-sm-9">
-													<span class="calendar-price">{{calendar.price}}</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per month that your classmates pay to follow this calendar"></i></span>
+													<span class="calendar-price" data-pk="{{calendar.pk}}" data-name="price">{{calendar.price}}</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per month that your classmates pay to follow this calendar"></i></span>
 												</div>
 											</div>
 
@@ -121,7 +121,7 @@
 											<div class="form-group form-group-sm">
 												<label class="col-sm-3 control-label">Description:</label>
 												<div class="col-sm-9">
-													<span class="calendar-description" data-type="text">
+													<span class="calendar-description" data-pk="{{calendar.pk}}" data-type="text">
 														<span class="calendar-description-holder">{{calendar.description}}</span>
 													</span>
 												</div>
@@ -292,7 +292,12 @@
 					</label>
 					<small class="text-muted pull-right">
 						<a href="#" class="pull-right text-success"><i class="fa fa-fw
-								fa-external-link"></i></a> <i class="fa fa-fw fa-users"></i>&nbsp;
+								fa-external-link"></i></a> 
+						{% if calendar.private %}
+						<i class="fa fa-fw fa-lock"></i>&nbsp;
+						{% else %}
+						<i class="fa fa-fw fa-users"></i>&nbsp;
+						{% endif %}
 						<a href="#" class="pre-delete-button" data-toggle="" data-cal="{{calendar.pk}}"><i class="fa fa-fw fa-gavel text-danger"></i></a>
 					</small>
 				</div>
@@ -488,5 +493,13 @@
 			<span class="event-id hidden">8</span>
 		</span>
 	</span><!-- end list-group -->
+</div>
+<div class="calendar-courses">
+	<script type="text/javascript">
+		var calendarCourses = [];
+		{% for course in courses %}
+		calendarCourses.push({ value: '{{ course.course__pk }}', text: '{{course.course__dept}} {{course.course__course_number}}' });
+		{% endfor %}
+	</script>
 </div>
 {% endblock %}

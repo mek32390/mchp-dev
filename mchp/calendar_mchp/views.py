@@ -377,7 +377,22 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                 if update == 'description':
                     description = request.POST.get('value', '')
                     setattr(event, 'description', description)
-
+                if update == 'class':
+                    print(request.POST.get('value', 'fuck'))
+                    calendar = ClassCalendar.objects.filter(
+                        owner = self.student,
+                        course__pk = request.POST.get('value', -1)
+                    )
+                    if calendar.exists():
+                        calendar = calendar[0]
+                        event.calendar = calendar
+                    else:
+                        response = "We couldn't find a calendar for that class"
+                        status=403
+                        data = {
+                            'response': response,
+                        }
+                        return self.render_to_json_response(data, status=status)
                 event.save()
                 print(event.description)
                 response = "Event updated"
@@ -471,8 +486,12 @@ class CalendarView(View):
         owned_calendars = ClassCalendar.objects.filter(
             owner=self.student
         )
+        courses = ClassCalendar.objects.filter(
+            owner = self.student,
+        ).values('course__pk', 'course__dept', 'course__course_number')
         data = {
             'flags': self.student.one_time_flag.default(self.student),
+            'courses': courses,
             'owned_calendars': owned_calendars,
         }
         return render(request, self.template_name, data)
@@ -488,7 +507,7 @@ calendar = CalendarView.as_view()
 url: /calendar/update/
 name: calendar_update
 '''
-class CalendarUpdateView(View):
+class CalendarUpdateView(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(['POST'])
 
@@ -496,15 +515,45 @@ class CalendarUpdateView(View):
         if request.is_ajax():
             calendar = ClassCalendar.objects.filter(
                 owner=self.student,
-                pk=request.POST.get('calendar', -1)
+                id = request.POST.get('pk', None)
             )
-            data = {}
-            status = 200
             if calendar.exists():
-                pass
+                calendar = calendar[0]
+
+                update = request.POST.get('name', '')
+                if update == 'description':
+                    description = request.POST.get('value', '')
+                    setattr(calendar, 'description', description)
+
+                if update == 'private':
+                    private = int(request.POST.get('value', 1))
+                    if private  == 1:
+                        setattr(calendar, 'private', False)
+                    elif private == 2:
+                        setattr(calendar, 'private', True)
+
+                if update == 'price':
+                    price = request.POST.get('value', 0)
+                    try:
+                        price = int(price)
+                        setattr(calendar, 'price', price)
+                    except:
+                        response = "That's not a price that you can sell something for"
+                        status=400
+                        data = {
+                            'response': response,
+                        }
+                        return self.render_to_json_response(data, status=status)
+
+                calendar.save()
+                response = "Calendar updated"
+                status=200
             else:
-                message = "Is that really your calendar?"
-                return self.send_ajax_error_message(message, status=403)
+                response = "We couldn't find that calendar"
+                status=403
+            data = {
+                'response': response,
+            }
             return self.render_to_json_response(data, status=status)
         else:
             return redirect(reverse('calendar'))
@@ -512,9 +561,9 @@ class CalendarUpdateView(View):
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
-        return super(CalendarView, self).dispatch(*args, **kwargs)
+        return super(CalendarUpdateView, self).dispatch(*args, **kwargs)
 
-calendar = CalendarView.as_view()
+calendar_update = CalendarUpdateView.as_view()
 
 '''
 url: /calendar/feed/
@@ -543,7 +592,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 calendar__owner=self.student,
                 is_recurring=False,
             ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
-                     'calendar__course__name', 'calendar__color'
+                     'calendar__course__name', 'calendar__color', 'calendar__course__pk'
             ).order_by('start')
 
             # convert the returned events to a format we can use on the page

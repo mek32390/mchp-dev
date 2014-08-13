@@ -9,9 +9,11 @@ $(function() {
 	 * FOR EDITING CALENDAR EVENTS *
 	 *******************************/
 	$.fn.editable.defaults.error = function(data) {
+		$('.editable-success').text('');
 		$('.editable-errors').text(data.responseJSON.response);
 	};
 	$.fn.editable.defaults.success = function(data) {
+		$('.editable-errors').text('');
 		$('.editable-success').text(data.response);
 	};
 
@@ -98,18 +100,14 @@ $(function() {
 	$('.edit-event-class').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: eventEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
-			value: 1,
-			source: [
-				{value: 1, text: 'ECON 200'},
-				{value: 2, text: 'ACCT 200'},
-				{value: 3, text: 'MKTG 361'}
-			]
+			value: -1,
+			autotext: 'auto',
 	});
 	// replacing the description with notes
 	$('.edit-event-description').editable({
@@ -150,13 +148,12 @@ $(function() {
 	$('.calendar-selling').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: calendarEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
-			value: 1,
 			source: [
 				{value: 1, text: 'Yes'},
 				{value: 2, text: 'No'},
@@ -167,7 +164,7 @@ $(function() {
 	$('.calendar-price').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: calendarEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
 			emptytext: 'Enter a price for this calendar',
@@ -180,10 +177,10 @@ $(function() {
 	$('.calendar-description').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: calendarEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
-			emptytext: '',
+			emptytext: 'Provide a description for your calendar',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
@@ -216,9 +213,11 @@ $(function() {
 		$modal.find('.edit-event-time').editable('option', 'pk', event.id);
 		$modal.find('.edit-event-time').editable('option', 'name', 'time');
 
-		$modal.find('.edit-event-class').editable('option', 'value', event.course);
+		$modal.find('.edit-event-class').editable('option', 'emptytext', event.course);
 		$modal.find('.edit-event-class').editable('option', 'pk', event.id);
+		$modal.find('.edit-event-class').editable('option', 'value', event.course_pk);
 		$modal.find('.edit-event-class').editable('option', 'name', 'class');
+		$modal.find('.edit-event-class').editable('option', 'source', calendarCourses);
 
 		$modal.find('.edit-event-description').editable('option', 'value', event.description);
 		$modal.find('.edit-event-description').editable('option', 'pk', event.id);
@@ -356,8 +355,8 @@ $(function() {
 						'description': event.description,
 						'course': event.course,
 						'color': event.calendar__color,
+						'course_pk': event.calendar__course__pk,
 					});
-					console.log(event);
 				});
 				$('.fc-day').each(function() {
 					// Get current day
