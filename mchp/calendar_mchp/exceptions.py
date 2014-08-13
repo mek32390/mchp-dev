@@ -5,3 +5,6 @@ class TimeOrderError(IntegrityError):
 
 class CalendarExpiredError(IntegrityError):
     pass
+
+class BringingUpThePastError(IntegrityError):
+    pass

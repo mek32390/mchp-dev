@@ -10,7 +10,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView,View, UpdateView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent 
-from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError
+from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from lib.decorators import school_required
 from schedule.models import Course, Section
 from schedule.utils import WEEK_DAYS
@@ -267,7 +267,7 @@ class EventAddView(View, AjaxableResponseMixin):
             cal_event = CalendarEvent(**event_data)
             try:
                 cal_event.save()
-            except CalendarExpiredError as e:
+            except ( CalendarExpiredError, BringingUpThePastError ) as e:
                 messages.error(
                     self.request,
                     str(e)
