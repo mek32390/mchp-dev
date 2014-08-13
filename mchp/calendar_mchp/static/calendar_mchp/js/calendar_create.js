@@ -223,7 +223,6 @@ $(function() {
 				complete: function(data) {
 					if (data.hasOwnProperty('responseJSON') && data.responseJSON.hasOwnProperty('messages')) {
 						$.each(data.responseJSON.messages, function(index, message) {
-							console.log(message);
 							addMessage(message.message, message.extra_tags);
 						});
 					}

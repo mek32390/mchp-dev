@@ -9,9 +9,11 @@ $(function() {
 	 * FOR EDITING CALENDAR EVENTS *
 	 *******************************/
 	$.fn.editable.defaults.error = function(data) {
+		$('.editable-success').text('');
 		$('.editable-errors').text(data.responseJSON.response);
 	};
 	$.fn.editable.defaults.success = function(data) {
+		$('.editable-errors').text('');
 		$('.editable-success').text(data.response);
 	};
 
@@ -98,18 +100,14 @@ $(function() {
 	$('.edit-event-class').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: eventEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
-			value: 1,
-			source: [
-				{value: 1, text: 'ECON 200'},
-				{value: 2, text: 'ACCT 200'},
-				{value: 3, text: 'MKTG 361'}
-			]
+			value: -1,
+			autotext: 'auto',
 	});
 	// replacing the description with notes
 	$('.edit-event-description').editable({
@@ -150,13 +148,12 @@ $(function() {
 	$('.calendar-selling').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: calendarEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
-			value: 1,
 			source: [
 				{value: 1, text: 'Yes'},
 				{value: 2, text: 'No'},
@@ -167,7 +164,7 @@ $(function() {
 	$('.calendar-price').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: calendarEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
 			emptytext: 'Enter a price for this calendar',
@@ -180,10 +177,10 @@ $(function() {
 	$('.calendar-description').editable({
 	    	mode: 'inline',
 	    	inputclass: '',
-			url: '',
+			url: calendarEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
-			emptytext: '',
+			emptytext: 'Provide a description for your calendar',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
@@ -216,9 +213,11 @@ $(function() {
 		$modal.find('.edit-event-time').editable('option', 'pk', event.id);
 		$modal.find('.edit-event-time').editable('option', 'name', 'time');
 
-		$modal.find('.edit-event-class').editable('option', 'value', event.course);
+		$modal.find('.edit-event-class').editable('option', 'emptytext', event.course);
 		$modal.find('.edit-event-class').editable('option', 'pk', event.id);
+		$modal.find('.edit-event-class').editable('option', 'value', event.course_pk);
 		$modal.find('.edit-event-class').editable('option', 'name', 'class');
+		$modal.find('.edit-event-class').editable('option', 'source', calendarCourses);
 
 		$modal.find('.edit-event-description').editable('option', 'value', event.description);
 		$modal.find('.edit-event-description').editable('option', 'pk', event.id);
@@ -297,22 +296,20 @@ $(function() {
 		$modal.modal('show');
 	});
 
+	$('.owned-calendar-label').click(function(jsEvent) {
+		jsEvent.stopPropagation();
+		if(jsEvent.eventPhase == Event.BUBBLING_PHASE) {
+			return;
+		}
+		var pk = $(this).data('cal');
+		updateEvents(pk);
+	});
+
 	/**********************
 	 * FULLCALENDAR STUFF *
 	 **********************/
 
 	var today = new Date().toJSON().slice(0,10);
-	var updateEvent = function(event, dateDelta, minuteDelta) {
-		eventData = {
-			id: event.id,
-			title: event.title,
-			start: event.start.toJSON(),
-			end: event.end.toJSON(),
-			all_day: event.allDay,
-		};
-		saveEvent(eventData, false);
-	};
-
 	$('#calendar').fullCalendar({
 		header: false,
     	weekMode: 'liquid',
@@ -356,10 +353,14 @@ $(function() {
 						'description': event.description,
 						'course': event.course,
 						'color': event.calendar__color,
+						'course_pk': event.calendar__course__pk,
+						'calendar': event.calendar__pk,
+						'visible': true,
 					});
-					console.log(event);
 				});
 				$('.fc-day').each(function() {
+					// remove any old events
+					$(this).data('events', []);
 					// Get current day
 					var day = moment.utc($(this).data('date'));
 					// if this day has an event
@@ -377,23 +378,7 @@ $(function() {
 						}
 					}
 					// draw a number w/ num of events for that day
-					if (event_count > 0) {
-						var $cal_day = $(this);
-						// create a new canvas element the size of the cal day
-						var $canvas = $('<canvas id="canvas-'+
-							day.format('YYYY-M-DD') +
-							'" class="'+ 
-							"canvas-day text-center center-block" + 
-							'" height="'+ 
-							($cal_day.height()-13)+
-							'" width="'+
-							$cal_day.width()+
-							'" data-count="'+
-							event_count+
-							'"></canvas>');
-						$cal_day.html($canvas);
-						drawCircle($canvas.get(0));
-					}
+					drawEvents($(this), event_count);
 				});
 			},
 			error: function() {
@@ -430,7 +415,7 @@ $(function() {
 	/*****************
 	 * popover stuff *
 	 *****************/
-	$('#calendar').on('mouseenter', '.canvas-day', function() {
+	$('#calendar').on('mouseenter', '.canvas-day', function(jsEvent) {
 		$(this).popover({
 			trigger: "focus",
 			placement: 'auto top',
@@ -443,6 +428,10 @@ $(function() {
 				var $list_group = $event_list.find('.list-group');
 				var format_string = 'ddd MMM DD, YYYY';
 				$.each($fcDay.data('events'), function(index, event) {
+					// skip events that have been hidden
+					if(!event.visible) {
+						return true;
+					}
 					var $item = $item_proto.clone();
 					$item.find('.event-title').text(event.title);
 					$item.find('.event-description').text(event.description);
@@ -472,38 +461,6 @@ $(function() {
 			$modal.modal('show');
 		});
 	});
-
-	// this is the script used on the user popover which seems to work well
-	// it allows you to hover over the popover and it remains triggered
-	// then when the mouse leaves, the popover disappears
-	// I tried to combine this with the function above but couldn't get it to work cleanly
-
-	// $('#calendar').on('mouseenter', '.canvas-day', function() {
-	// $(this).popover({
-	// 	trigger: "manual",
-	// 	placement: 'auto top',
-	// 	html: true,
-	// 	content: function() {
-	// 		return $('#events-popover-content').html();
-	// 	},
-	// 	container: 'body',
-	// })
- //    .on("mouseenter", function () {
- //        var _this = this;
- //        $(this).popover("show");
- //        $(".popover").on("mouseleave", function () {
- //            $(_this).popover('hide');
- //        });
- //    })
- //    .on("mouseleave", function () {
- //        var _this = this;
- //        setTimeout(function () {
- //            if (!$(".popover:hover").length) {
- //                $(_this).popover("hide");
- //            }
- //        }, 100);
- //    });
-
 
 	// click on date w/ events on it
 	$('#calendar').on('click', '.canvas-day', function(event) {
@@ -605,15 +562,8 @@ $(function() {
 			success: function(data) {
 				messages = data.messages;
 				// add the event to the calendar
-				var event = JSON.parse(data.event);
 				$cal = $('#calendar');
-				$cal.fullCalendar('renderEvent', event[0].fields);
-
-				var iso = moment(date).format('YYYY-M-DD');
-				var $canvas = $('#canvas-'+iso);
-				var count = parseInt($canvas.data('count')) + 1;
-				$canvas.data('count', count);
-				drawCircle($canvas);
+				$cal.fullCalendar('refetchEvents');
 			},
 			fail: function(data) {
 				addMessage('Failed to save event', 'danger');
@@ -628,7 +578,6 @@ $(function() {
 		$('.popover').popover('hide');
 		return false;
 	});
-
 	//Create cal event with button
 	$('#createOptions').popover({
 		trigger: 'manual',
@@ -682,48 +631,6 @@ $(function() {
 
 });
 
-var saveEvent = function (eventData, create) {
-	var url = '';
-	if (create) {
-		url = '/calendar/events/add/';
-	} else {
-		url = '/calendar/events/update/';
-	}
-	$.ajax({
-		url: url,
-		type: 'POST',
-		data: eventData,
-		success: function(data) {
-			$.each(data.messages, function(index, message){
-				addMessage(message.message, message.extra_tags);
-			});
-		},
-		fail: function(data) {
-			addMessage('Failed to save event', 'danger');
-		},
-		complete: function(data) {
-		},
-	});
-};
-
-var deleteEvent = function(eventData) {
-	$.ajax({
-		url: '/calendar/events/delete/',
-		type: 'POST',
-		data: eventData,
-		success: function(data) {
-			$.each(data.messages, function(index, message){
-				addMessage(message.message, message.extra_tags);
-			});
-		},
-		fail: function(data) {
-			addMessage('Failed to delete event', 'danger');
-		},
-		complete: function(data) {
-		},
-	});
-};
-
 var deleteCalendar = function(cal_pk) {
 	var messages = [];
 	$.ajax({
@@ -771,4 +678,56 @@ var drawCircle = function(canvas) {
 		var text_start = ctx.measureText(count);
 		ctx.fillText(count, x-text_start.width/2, y + (y*(1/4)));
   }
+};
+
+var drawEvents = function(day, count){
+	// first remove old count
+	day.find('.canvas-day').remove();
+
+	// don't show any 0 event days
+	if (count < 1) {
+		return;
+	}
+	// date for this calendar day
+	var date = moment.utc(day.data('date'));
+	// create a new canvas element the size of the cal day
+	var $canvas = $('<canvas id="canvas-'+
+			date.format('YYYY-M-DD') +
+			'" class="'+ 
+			"canvas-day text-center center-block" + 
+			'" height="'+ 
+			(day.height()-13)+
+			'" width="'+
+			day.width()+
+			'" data-count="'+
+			count+
+			'"></canvas>');
+	day.html($canvas);
+	drawCircle($canvas.get(0));
+};
+
+var updateEvents = function(calendar) {
+	$('.popover').remove();
+	$('.fc-day').each(function() {
+		var day = moment.utc($(this).data('date'));
+		// get events for this day
+		var events = $(this).data('events');
+		// there are no events for this day
+		if (typeof events === 'undefined' ){
+			return true;
+		}
+		eventCount = 0;
+		// toggle events 
+		$.each(events, function(index, event) {
+			if(calendar === event.calendar) {
+				event.visible = !event.visible;
+			}
+			if(event.visible) {
+				eventCount++;
+			}
+		});
+
+		// draw a number w/ num of events for that day
+		drawEvents($(this), eventCount);
+	});
 };
