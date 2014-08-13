@@ -19,12 +19,14 @@ $(function() {
 	 *******************************/
 	var editableError = function(data) {
 		$('.editable-success').text('');
-		$('.editable-errors').text(data.responseJSON.response);
+		$('.editable-errors').text(data.responseJSON.response).fadeIn(10).delay(2000).fadeOut(400);
 	};
 	$.fn.editable.defaults.error = editableError;
 	var editableSuccess = function(data) {
+		console.log(data);
 		$('.editable-errors').text('');
-		$('.editable-success').text(data.response);
+		$('.editable-success').text(data.response).fadeIn(10).delay(2000).fadeOut(400);
+		$('#calendar').fullCalendar('refetchEvents');
 	};
 	$.fn.editable.defaults.success = editableSuccess;
 
@@ -39,7 +41,7 @@ $(function() {
 			emptyclass: '',
 			emptytext: 'Enter an Event Title',
 			highlight: '',
-			onblur: 'submit',				
+			onblur: 'submit',
 			send: 'always',
 	});
 	// initialize date picker
@@ -49,22 +51,43 @@ $(function() {
 	    startDate: "today",
 		autoclose: true,
 		todayHighlight: true
-    }).on('changeDate', function(event) {
-		var pick = moment(event.date);
-		$('.date-input').data('date', pick);
+    }).on('changeDate', function(jsEvent) {
+		var pick = moment.utc(jsEvent.date);
+
+		var $modal = $('#event-edit-modal');
+		var events = $modal.data('events');
+		var pk = $modal.data('event-id');
+		var event = null;
+		$.each(events, function(index, e) {
+			if(e.id == pk) {
+				event = e;
+			}
+		});
+
+		var $editable = $('.date-holder');
+		date_string = 'ddd MMM DD, YYYY';
+		$editable.editable('option', 'value', pick.format(date_string));
+
+		var time = moment.utc(event.start);
+		console.log(time);
+		console.log(time.hour());
+		pick.hour(time.hour());
+		console.log(pick.hour());
+		pick.minute(time.minute());
+		console.log(pick);
+
+		$editable.editable('option', 'pk', pk);
+		$editable.editable('submit', {
+			url: eventEditUrl,
+			data: {
+				pk: pk, 
+				date: JSON.stringify(pick),
+			},
+			success: editableSuccess,
+			error: editableError,
+		});
 	});
-    // make date editable
-    // this is needed because the datepicker wont fire unless an input is visible
-	$('.date-holder').on('click', function() {
-		$('.date-input').removeClass('hidden');
-		$('.date-holder').addClass('hidden');
-	});
-	// return to standard editable format after datepicker closes
-	$('.date-input').datepicker()
-    .on('hide', function(){
-        $('.date-input').addClass('hidden');
-		$('.date-holder').removeClass('hidden');
-    });
+
 	// changing the date
 	$('.edit-event-date').editable({
 	    	mode: 'inline',
@@ -132,6 +155,7 @@ $(function() {
 			url: eventEditUrl,
 			unsavedclass: 'text-danger',
 			emptyclass: '',
+			emptytext: 'Pick class',
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
@@ -213,6 +237,49 @@ $(function() {
 			highlight: '',
 			onblur: 'submit',				
 			send: 'always',
+	});
+
+	// for the calendar date
+	$('.edit-calendar-date').editable({
+	    	mode: 'inline',
+	    	inputclass: '',
+			url: calendarEditUrl,
+			unsavedclass: 'text-danger',
+			emptyclass: '',
+			emptytext: 'Enter an end date',
+			highlight: '',
+			onblur: 'submit',				
+			send: 'always',
+	});
+
+	$('.calendar-date').datepicker({
+		format: "D M d, yyyy", //"yyyy-m-d"
+	    startDate: "today",
+		autoclose: true,
+		todayHighlight: true
+    }).on('changeDate', function(jsEvent) {
+		var pick = moment.utc(jsEvent.date);
+		pick.hour(23);
+		pick.minute(59);
+
+		var pk = $(this).data('pk');
+		console.log($(this));
+		console.log(pk);
+
+		var $editable = $('.calendar-date-holder');
+		date_string = 'ddd MMM DD, YYYY';
+		$editable.editable('option', 'value', pick.format(date_string));
+
+		$editable.editable('option', 'pk', pk);
+		$editable.editable('submit', {
+			url: calendarEditUrl,
+			data: {
+				pk: pk, 
+				date: JSON.stringify(pick),
+			},
+			success: editableSuccess,
+			error: editableError,
+		});
 	});
 
 	// when the modal pops up, fill in the right info
