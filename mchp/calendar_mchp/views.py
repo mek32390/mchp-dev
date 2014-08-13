@@ -70,7 +70,12 @@ class CalendarCreateView(View, AjaxableResponseMixin):
         courses = self.student.courses.exclude(
             id__in = self.student.calendars.all().values('course__pk')
         )
+        calendars = ClassCalendar.objects.filter(
+            owner = self.student,
+        )
+        print(calendars)
         data = {
+            'calendars': calendars,
             'courses': courses,
         }
         return render(request, self.template_name, data)
@@ -125,6 +130,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             'description': request.POST.get('description', ''),
             'end_date': end_date,
             'private': request.POST.get('private', True),
+            'color': request.POST.get('color', '#FFFFFF')
         }
         return ClassCalendar(**calendar_data)
     
@@ -537,7 +543,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 calendar__owner=self.student,
                 is_recurring=False,
             ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
-                     'calendar__course__name'
+                     'calendar__course__name', 'calendar__color'
             ).order_by('start')
 
             # convert the returned events to a format we can use on the page

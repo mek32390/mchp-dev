@@ -5,6 +5,28 @@
  */
 $(function() {
 
+	$('.what').children('.color-box').each(function() {
+		var $prev = $(this).prevAll();
+		prevColors = [];
+		$prev.each(function() {
+			var otherColor = $(this).data('color');
+			prevColors.push(otherColor);
+		});
+
+		var color = pickColor(prevColors, 50);
+		$(this).data('color', color);
+		var colorString = Please.RGB_to_HEX(color);
+		$(this).text(colorString);
+		$(this).css('background-color', colorString);
+		$prev = $(this).prevAll();
+		var colorSpan = '<span style="color: '+colorString+';">'+colorString+'</span>';
+		$prev.each(function() {
+			var otherColor = $(this).data('color');
+			$(this).append('<hr/><p>Distance from ' + colorSpan + ': ' + calculateColorDistance(color, otherColor) + '</p>');
+			
+		});
+	});
+
 	// When the calendar types's value changes
 	$("input[name='cal-type']:radio").change(function() {
 
@@ -175,7 +197,17 @@ $(function() {
 		var data = $(this).serialize();
 		times = JSON.stringify(times);
 		data += "&times=" + encodeURIComponent(times);
-		var color = Please.make_color();
+
+		// give this calendar a color
+		// calendarColors gets added in the template for this page
+		prevColors = $.map(calendarColors, function(hexColor, index) {
+			// map the hex string to an rgb color
+			return Please.HEX_to_RGB(hexColor);
+		});
+
+		var color = pickColor(prevColors, 50);
+		var colorString = Please.RGB_to_HEX(color);
+		data += "&color=" + encodeURIComponent(colorString);
 
 		// submit the form if it was valid
 		if (!error) {
@@ -201,3 +233,33 @@ $(function() {
 		return false;
 	});
 });
+
+var calculateColorDistance = function(color1, color2) {
+	var red = Math.pow((color1.r - color2.r), 2);
+	var green = Math.pow((color1.g - color2.g), 2);
+	var blue = Math.pow((color1.b - color2.b), 2);
+
+	var all = red + green + blue;
+	return Math.sqrt(all);
+};
+var pickColor = function(otherColors, threshold) {
+	var candidateColor = Please.make_color({format: 'rgb'});
+	if (otherColors.length === 0) {
+		return candidateColor;
+	}
+	// function to test array colors to new generated color
+	var testDifference = function(color, index) {
+		var distance = calculateColorDistance(candidateColor, color);
+		return distance > threshold;
+	};
+	while (true) {
+		// try a new color
+		candidateColor = Please.make_color({format: 'rgb'});
+		// compare it to every other color in the array
+		var diffs = $.map(otherColors, testDifference);
+		if (diffs.indexOf(false) === -1) {
+			break;
+		}
+	}
+	return candidateColor;
+};
