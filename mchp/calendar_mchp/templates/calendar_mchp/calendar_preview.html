@@ -71,22 +71,17 @@
 						</div>
 					</div>
 					<div class="col-sm-7">
-						<h2 class="margin-top-none">{{calendar}} Calendar&nbsp;<small class="pull-right">{{calendar.price}} <i class="fa fa-fw fa-cubes"></i> /month</small></h2>
+						<h2 class="margin-top-none margin-btm-sm">{{calendar}} Calendar&nbsp;<small class="pull-right">{{calendar.price}} <i class="fa fa-fw fa-cubes"></i> /month</small></h2>
+						<h4 class="lead text-default margin-top-none margin-btm-none"><i class="fa fa-clock-o"></i> Mon 2-3pm, Wed 2-3pm  w/ Professor Reff</h4>
+						<h5>
 
-						<h5><i class="fa fa-fw fa-thumbs-up text-success"></i>90
-							<i class="fa fa-fw fa-thumbs-down text-danger"></i>10&nbsp;
-							90% Accuracy&nbsp;
+							<i class="fa fa-fw fa-bullseye text-primary"></i>90% Accuracy&nbsp;
 							{% with calendar.subscribers.count as subscribers %}
 							<i class="fa fa-fw fa-money text-success"></i>{{subscribers}} Purchase{{subscribers|pluralize}}&nbsp;
 							{% endwith %}
 							<i class="fa fa-comments text-info fa-fw"></i>10 Reviews
 						</h5>
-						<div class="progress progress-striped" style="width:68%">
-							<div class="progress-bar progress-bar-success" style="width:90%">
-							</div>
-							<div class="progress-bar progress-bar-danger" style="width:10%">
-							</div>
-						</div><!-- end ratings bar -->
+						
 						<!-- <p class="h6">Students who bought this</p>
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
@@ -95,6 +90,14 @@
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp; -->
 						
+						<p></p>
+						<div class="progress progress-striped margin-btm-" style="width:68%">
+							<div class="progress-bar progress-bar-primary" style="width:90%">
+							</div>
+							<div class="progress-bar progress-bar-danger" style="width:10%">
+							</div>
+						</div><!-- end ratings bar -->
+
 						<button form="buy-form" class="btn btn-success">
 							<i class="fa fa-fw fa-shopping-cart"></i>Subscribe
 						</button>
