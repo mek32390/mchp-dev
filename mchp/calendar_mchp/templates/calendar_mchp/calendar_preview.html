@@ -95,7 +95,10 @@
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp; -->
 						
-						<button form="buy-form" class="btn btn-success">
+						<form id="subscribe-form" method="post" action="{{current_path}}">
+							{% csrf_token %}
+						</form>
+						<button form="subscribe-form" class="btn btn-success">
 							<i class="fa fa-fw fa-shopping-cart"></i>Subscribe
 						</button>
 						

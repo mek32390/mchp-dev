@@ -23,38 +23,38 @@
 	</ol>
 	<div class="well" style="padding-bottom:0px;">
 		<div class="panel panel-default">
-		<div class="panel-body">
-	<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="course"></a>
-		<div class="media-body">
-			<h2 class="media-heading">{{course.dept}} {{course.course_number}}
-				<small> at <a href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></small>
-				<small class="pull-right">
-					{% if student and not enrolled %}
-					<a id="join-button" href="javascript:void(0)" class="btn btn-success" data-course="{{course.pk}}">Join this class</a>
-					{% else %}
-					<button class="btn btn-success disabled"><i class="fa fa-check"></i> Enrolled</button>
-					{% endif %}
-				</small>
-			</h2>
-			<p class="animated">
-				{% with course.student_count as student_count %}
-				<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
-				{% endwith %}
-				{% with course.document_count as doc_count %}
-				<i class="fa fa-file"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
-				{% endwith %}
-				<i class="fa fa-calendar"></i> 60 Calendars &nbsp;
-			</p>
-		</div>
-		<div class="progress" style="margin-bottom:0px; width:68%;">
-			<div class="progress-bar progress-bar-info" style="width: 67%"> <span class="sr-only">67% Complete (info)</span> </div>
-			<div class="progress-bar progress-bar-primary" style="width: 11%"> <span class="sr-only">11% Complete (primary)</span> </div>
-			<div class="progress-bar progress-bar-warning" style="width: 22%"> <span class="sr-only">22% Complete (warning)</span> </div>
+			<div class="panel-body">
+				<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="course"></a>
+					<div class="media-body">
+						<h2 class="media-heading">{{course.dept}} {{course.course_number}}
+							<small> at <a href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></small>
+							<small class="pull-right">
+								{% if student and not enrolled %}
+								<a id="join-button" href="javascript:void(0)" class="btn btn-success" data-course="{{course.pk}}">Join this class</a>
+								{% else %}
+								<button class="btn btn-success disabled"><i class="fa fa-check"></i> Enrolled</button>
+								{% endif %}
+							</small>
+						</h2>
+						<p class="animated">
+							{% with course.student_count as student_count %}
+							<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
+							{% endwith %}
+							{% with course.document_count as doc_count %}
+							<i class="fa fa-file"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
+							{% endwith %}
+							<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
+						</p>
+					</div>
+					<div class="progress" style="margin-bottom:0px; width:68%;">
+						<div class="progress-bar progress-bar-info" style="width: 67%"> <span class="sr-only">67% Complete (info)</span> </div>
+						<div class="progress-bar progress-bar-primary" style="width: 11%"> <span class="sr-only">11% Complete (primary)</span> </div>
+						<div class="progress-bar progress-bar-warning" style="width: 22%"> <span class="sr-only">22% Complete (warning)</span> </div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
-	  </div>
-</div>
 	<div class="row">
 		<div class='col-sm-7'>
 			<div class="panel panel-default" id="popular-documents">
@@ -107,12 +107,45 @@
 			</div>
 		</div>
 		<div class='col-sm-5'>
-			<div class="panel panel-default" id="recent-documents">
+			<div class="panel panel-default" id="recent-calendar">
 				<div class="panel-heading clearfix">
-					<h3 class="panel-title tour-step-four"> Popular Calendars <span class="badge">10</span></h3>
+					<h3 class="panel-title tour-step-four"> Popular Calendars <span class="badge">{{popular_calendars|length}}</span></h3>
 				</div>
 				<div class="panel-body">
-					<div class="list-group item-list"></div>
+					<div class="list-group item-list">
+						{% for calendar in popular_calendars %}
+						<div class="list-group-item">
+							<div class="media">
+								<span class="pull-left" href="#">
+									<div class="media-object img-thumbnail">
+										<a href="#"><img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a>
+									</div>
+								</span>
+								<div class="media-body">
+									<h4 class="media-heading"><a href="{%url "calendar_preview" calendar.pk %}">{{calendar.title}}</a>
+										<small>{{calendar.price}} points</small>
+										<div class="pull-right small text-muted hidden-sm">{{calendar.create_date|naturaltime}}</div>
+									</h4>
+									<p>
+										<span class="description">
+											{{calendar.description}}
+										</span>
+									</p>
+									<span class="description">
+										{% with calendar.review_count as review_count %}
+										<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
+										{% endwith %}
+										<i class="fa fa-fw fa-money text-success"></i> {{calendar.sold}} Purchase{{calendar.sold|pluralize}}
+										<p>
+											<i class="fa fa-fw fa-inr"></i> Ends {{calendar.end_date|naturaltime}}
+										</p>
+										<p class="small" style="margin-top:5px;">Uploaded by {{calendar.owner__user__username}}<p>
+									</span>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>

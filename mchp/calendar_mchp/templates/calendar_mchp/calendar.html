@@ -346,21 +346,24 @@
 					{% endfor %}
 					<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
 					<p></p>
-						<!--mock followed calendar -->
-						<div class="checkbox">
-						    <label>
-						      <input type="checkbox" selected> CSC 400
-						    </label>
-						    <span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> <a href="#"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
-						    </span>
-						</div>
-						<!-- end mock cal -->
+					{% for calendar in subscriptions %}
+					<!--mock followed calendar -->
+					<div class="checkbox">
+						<label style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
+							<input type="checkbox" checked autocomplete="off" data-cal="{{calendar.pk}}"> {{calendar.title}}
+						</label>
+						<span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> <a href="#"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
+						</span>
+					</div>
+					<!-- end mock cal -->
+					{% empty %}
 						<div class="panel panel-danger">
 							<div class="panel-body">
 								You're not following any calendars yet! 
 								<a href="#" class="viewCals">Follow your first calendar!</a>
 							</div>
 						</div>
+					{% endfor %}
 					
 				</div>
 			</div>

@@ -26,3 +26,7 @@ urlpatterns = patterns('',
     url(r'^$', include('landing.urls')),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/lib/img/favicon.ico')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += patterns('django.contrib.flatpages.views',
+    url(r'^about-us/$', 'flatpage', {'url': '/about-us/'}, name='about'),
+)
