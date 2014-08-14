@@ -61,15 +61,21 @@ class Subscription(models.Model):
     student = models.ForeignKey('user_profile.Student', related_name='subscribers')
     calendar = models.ForeignKey(ClassCalendar)
 
-    price = models.PositiveIntegerField()
+    price = models.PositiveIntegerField(default=1)
     payment_date = models.DateTimeField()
     subscribe_date = models.DateTimeField(auto_now_add=True)
+    enabled = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         # object is new
         if not self.pk:
+            # not allowed to follow private calendars
+            # this should raise an exception
+            if self.calendar.private:
+                return
             # set first payment date
-            self.payment_date = self.subscribe_date + timedelta(days=30)
+            self.subscribe_date = timezone.now()
+            self.payment_date = self.subscribe_date + timedelta(days=14)
         super(Subscription, self).save(*args, **kwargs)
 
     def __str__(self):

@@ -348,29 +348,35 @@
 				</small>
 			</div>
 			{% empty %}
-			<p>
-				<div class="panel panel-info">
-					<div class="panel-body">
-						Make your first <a href="{%url "calendar_create"%}">calendar!</a>
+					<p>
+						<div class="panel panel-info">
+							<div class="panel-body">
+								Make your first <a href="{%url "calendar_create"%}">calendar!</a>
+							</div>
+						</div>
+					</p>
+					{% endfor %}
+					<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
+					<p></p>
+					{% for calendar in subscriptions %}
+					<!--mock followed calendar -->
+					<div class="checkbox">
+						<label style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
+							<input type="checkbox" checked autocomplete="off" data-cal="{{calendar.pk}}"> {{calendar.title}}
+						</label>
+						<span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> <a href="#"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
+						</span>
 					</div>
-				</div>
-			</p>
-			{% endfor %}
-			<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
-			<p></p>
-			<!--mock followed calendar -->
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" selected> CSC 400
-				</label>
-				<span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> <a href="#"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
-				</span>
-			</div>
-			<!-- end mock cal -->
-			<div class="panel panel-danger">
-				<div class="panel-body">
-					You're not following any calendars yet! 
-					<a href="#" class="viewCals">Follow your first calendar!</a>
+					<!-- end mock cal -->
+					{% empty %}
+						<div class="panel panel-danger">
+							<div class="panel-body">
+								You're not following any calendars yet! 
+								<a href="#" class="viewCals">Follow your first calendar!</a>
+							</div>
+						</div>
+					{% endfor %}
+					
 				</div>
 			</div>
 
@@ -447,24 +453,7 @@
 																<li><a href="#">Most Purchased</a></li>
 															</ul>
 														</span></h4>
-														<!-- <hr> -->
-  <!-- </div>
-</div> -->
-												<!-- <div class="panel panel-default"> -->
-													<!-- <div class="panel-heading">
-														<h3 class="panel-title">{{course}} Calendars <span class="badge">10</span> <span class="btn-group pull-right">
-															<button type="button" class="btn btn-default btn-xs">Recent</button>
-															<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
-																<span class="caret"></span>
-																<span class="sr-only">Toggle Dropdown</span>
-															</button>
-															<ul class="dropdown-menu" role="menu">
-																<li><a href="#">Rating</a></li>
-																<li><a href="#">Most Purchased</a></li>
-															</ul>
-														</span></h3>
-													</div> -->
-													<!-- <div class="panel-body"> -->
+													
 														<div class="list-group">
 															<div class="list-group-item">
 																<div class="media">
@@ -507,9 +496,7 @@
 											</div>
 											{% endfor %}
 										</div> <!-- end tab content -->
-									<!-- </div>
-								</div> --> <!-- end cal list panel -->
-							<!-- </div> -->
+									
 						</div>
 					</div> <!-- end flip holder -->
 

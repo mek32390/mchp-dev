@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
@@ -9,13 +10,14 @@ from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView,View, UpdateView
 
-from calendar_mchp.models import ClassCalendar, CalendarEvent 
+from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from lib.decorators import school_required
 from schedule.models import Course, Section
 from schedule.utils import WEEK_DAYS
 
 from datetime import datetime,timedelta
+from decimal import Decimal, ROUND_HALF_DOWN
 import json
 import logging
 logger = logging.getLogger(__name__)
@@ -482,6 +484,49 @@ class CalendarPreview(DetailView):
     template_name = 'calendar_mchp/calendar_preview.html'
     model = ClassCalendar
 
+    def post(self,request, *args, **kwargs):
+        if not self.student:
+            return redirect(reverse('landing_page'))
+        calendar = get_object_or_404(self.model, pk=self.kwargs['pk'], private=False)
+
+        if not self.student.reduce_points(calendar.price):
+            messages.error(
+                request,
+                "Pump your break kid, you don't have enough points to buy that."
+            )
+            return self.get(request, *args, **kwargs)
+
+        if calendar.owner == self.student:
+            messages.error(
+                request,
+                "Woah there Narcissus, you can't subscribe to your own calendar"
+            )
+            return self.get(request, *args, **kwargs)
+
+        subscription, created = Subscription.objects.get_or_create(
+            student=self.student,
+            calendar=calendar,
+        )
+        if not created:
+            messages.warning(
+                request,
+                "Slow down there Eager McBeaver, you're already subscribed to that calendar"
+            )
+            return redirect(reverse('calendar'))
+        else:
+            subscription.price = calendar.price
+            subscription.save()
+            points = calendar.price * (settings.MCHP_PRICING['commission_rate'] / 100)
+            points = points / 100
+            points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
+            calendar.owner.modify_balance(points)
+            calendar.owner.save()
+            messages.success(
+                request,
+                "Your subscription has been noted"
+            )
+        return redirect(reverse('calendar'))
+
     def get(self, request, *args, **kwargs):
         calendar = get_object_or_404(self.model, pk=self.kwargs['pk'], private=False)
         events = CalendarEvent.objects.filter(
@@ -513,6 +558,14 @@ class CalendarPreview(DetailView):
             'total_count': total_count,
         }
         return render(request, self.template_name, data)
+    
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_anonymous() and self.request.user.student_exists():
+            self.student = self.request.user.student
+        else:
+            self.student = None
+        return super(CalendarPreview, self).dispatch(*args, **kwargs)
+
 calendar_preview = CalendarPreview.as_view()
 
 '''
@@ -530,11 +583,16 @@ class CalendarView(View):
             owner = self.student,
         ).values('course__pk', 'course__dept', 'course__course_number')
         courses = self.student.courses.all()
+        subscriptions = ClassCalendar.objects.filter(
+            subscription__student=self.student,
+            subscription__enabled=True,
+        )
         data = {
             'flags': self.student.one_time_flag.default(self.student),
             'calendar_courses': cal_courses,
             'courses': courses,
             'owned_calendars': owned_calendars,
+            'subscriptions': subscriptions,
         }
         return render(request, self.template_name, data)
 
@@ -648,6 +706,43 @@ class CalendarFeed(View, AjaxableResponseMixin):
                      'calendar__course__name', 'calendar__color', 'calendar__course__pk',
                      'calendar__pk', 'calendar__private'
             ).order_by('start')
+            subscribed_events = Subscription.objects.filter(
+                student=self.student,
+                enabled=True,
+            ).values(
+                'calendar__calendarevent__title',
+                'calendar__calendarevent__description',
+                'calendar__calendarevent__start',
+                'calendar__calendarevent__end',
+                'calendar__calendarevent__id',
+                'calendar__calendarevent__all_day',
+                'calendar__calendarevent__url',
+                'calendar__color',
+                'calendar__pk',
+                'calendar__private',
+                'calendar__course__pk',
+                'calendar__course__name',
+            )
+            print(events)
+            print(subscribed_events)
+            for event in subscribed_events:
+                start_time = timezone.localtime(event['calendar__calendarevent__start'], timezone=timezone.get_current_timezone())
+                end_time = timezone.localtime(event['calendar__calendarevent__end'], timezone=timezone.get_current_timezone())
+
+                event['start'] = start_time.strftime(DATE_FORMAT)
+                event['end'] = end_time.strftime(DATE_FORMAT)
+                event['allDay'] = event['calendar__calendarevent__all_day']
+                event['course'] = event['calendar__course__name']
+                event['id'] = event['calendar__calendarevent__id']
+                event['title'] = event['calendar__calendarevent__title']
+                event['description'] = event['calendar__calendarevent__description']
+
+                del event['calendar__calendarevent__start']
+                del event['calendar__calendarevent__end']
+                del event['calendar__calendarevent__all_day']
+                del event['calendar__calendarevent__title']
+                del event['calendar__calendarevent__description']
+                del event['calendar__calendarevent__id']
 
             # convert the returned events to a format we can use on the page
             for event in events:
@@ -662,7 +757,8 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 del event['all_day']
 
             data = {
-                'events': list(events),
+                # 'events': list(events) + list(subscribed_events),
+                'events': list(subscribed_events),
             }
             return self.render_to_json_response(data, status=200)
         else:

@@ -300,11 +300,22 @@ class CourseView(DetailView):
         }).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
+
+        cals = self.object.calendar_courses.filter(
+            private=False,
+        ).exclude(
+            owner = self.student,
+        ).values('pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
+                 'owner__user__username').order_by('create_date')[:5]
+        context['popular_calendars'] = cals
+        context['cal_count'] = self.object.calendar_courses.all().count()
+
         if self.student:
             context['student'] = self.student
             context['enrolled'] = Course.objects.filter(pk=self.object.pk,
                                                         student=self.student
                                                        ).exists()
+
         return context
 
     def dispatch(self, *args, **kwargs):
