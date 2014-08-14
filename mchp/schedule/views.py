@@ -319,7 +319,7 @@ class CourseView(DetailView):
         return context
 
     def dispatch(self, *args, **kwargs):
-        if self.request.user.student_exists():
+        if not self.request.user.is_anonymous() and self.request.user.student_exists():
             self.student = self.request.user.student
         else:
             self.student = None
@@ -355,7 +355,7 @@ class CourseListView(ListView):
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
-        if self.request.user.student_exists():
+        if not self.request.user.is_anonymous() and self.request.user.student_exists():
             self.student = self.request.user.student
         return super(CourseListView, self).dispatch(*args, **kwargs)
 

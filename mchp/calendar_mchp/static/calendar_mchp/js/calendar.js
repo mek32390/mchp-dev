@@ -23,7 +23,9 @@ $(function() {
 	};
 	$.fn.editable.defaults.error = editableError;
 	var editableSuccess = function(data) {
-		$('.calendar-privacy-field').toggleClass('hidden');
+		if(data.hasOwnProperty('privacy') && data.privacy === true) {
+			$('.calendar-privacy-field').toggleClass('hidden');
+		}
 		$('.editable-errors').text('');
 		$('.editable-success').text(data.response).fadeIn(10).delay(2000).fadeOut(400);
 		$('#calendar').fullCalendar('refetchEvents');
