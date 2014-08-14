@@ -1,10 +1,11 @@
 <div id="purchase-points">
 	{% load staticfiles %}
-		<script src="{% static 'payment/js/purchase.js' %}"></script>
+	<script src="{% static 'payment/js/purchase.js' %}"></script>
 	<script type="text/javascript">
 		var purchase_url = '{%url "stripe_charge"%}';
 	</script>
-	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/lemon.svg" width="65"class="animated rotateIn rollIn duration-sm" />
+	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/lemon.svg" width="65" class="animated
+	rotateIn rollIn duration-sm"></img>
 	<p></p>
 	<p class="lead">How many lemons would you like today?</p>
 	<form autocomplete="off" class="purchase-points" method="post" action={% url "stripe_charge" %}>
