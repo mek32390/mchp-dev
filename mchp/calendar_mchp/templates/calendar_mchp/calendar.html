@@ -34,17 +34,17 @@
 				<p class="lead">How <em>accurate</em> is this calendar?</p>
 				<img class="animated delayed-xs bounceIn" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/goal.svg" width="64px" alt="rate calendar accuracy">
 				<p></p>
-				</br>
-				<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="8"/>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Submit</button>
-			</div>
+			</br>
+			<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="8"/>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Submit</button>
 		</div>
 	</div>
 </div>
+</div>
 <!-- delete cal modal -->
-<div id="delete-cal-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<!-- <div id="delete-cal-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content text-center">
 			<div class="modal-body">
@@ -53,12 +53,12 @@
 					<i class="fa fa-fw fa-gavel"></i> Delete</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 			</div>
-			<!-- <div class="modal-footer">
+			<div class="modal-footer">
 				<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Submit</button>
-			</div> -->
+			</div> 
 		</div>
 	</div>
-</div>
+</div> -->
 <!-- manage cals modal -->
 <div id="manage-calendars" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -70,17 +70,24 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-xs-3">
-						<ul class="nav nav-pills nav-stacked" role="tablist"><!-- Nav tabs -->
-							{% for calendar in owned_calendars %}
-							{% if forloop.first %}
-							<li id="edit-calendar-tab-{{calendar.pk}}" class="active"><a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a></li>
-							{% else %}
-							<li id="edit-calendar-tab-{{calendar.pk}}">
-								<a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a>
-							</li>
-							{% endif %}
-							{% endfor %}
-						</ul>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Calendars</h3>
+							</div>
+							<div class="panel-body">
+								<ul class="nav nav-pills nav-stacked" role="tablist"><!-- Nav tabs -->
+									{% for calendar in owned_calendars %}
+									{% if forloop.first %}
+									<li id="edit-calendar-tab-{{calendar.pk}}" class="active"><a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a></li>
+									{% else %}
+									<li id="edit-calendar-tab-{{calendar.pk}}">
+										<a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a>
+									</li>
+									{% endif %}
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
 					</div><!-- end col-3 -->
 					<div class="col-xs-9">
 						<div class="tab-content">
@@ -91,195 +98,200 @@
 								<div class="tab-pane fade in" id="edit-calendar-link-{{calendar.pk}}">
 									{% endif %}
 									<div class="panel panel-default">
-										<div class="panel-body">
-											<form class="form-horizontal" id="edit-calendar-form">
-												<div class="form-group form-group-sm">
-													<label class="col-sm-3 control-label">Selling:</label>
-													<div class="col-sm-9">
-														<span class="calendar-selling" data-name="private" data-pk="{{calendar.pk}}" data-type="select">
-															{% if calendar.private %}
-															No
-															{% else %}
-															Yes
+										<div class="panel-heading">
+											<h3 class="panel-title">Calendar Options
+												<span class="pull-right">
+
+													<span class="prompt-delete-message small hidden">Are you sure?</span> &nbsp;
+													<span class="btn btn-danger btn-xs confirm-delete-button hidden"
+													data-cal="{{calendar.pk}}">Yes</span>
+													<span class=" btn btn-default btn-xs not-delete-button hidden">Cancel</span>
+													<span class="pull-right btn btn-danger btn-xs prompt-delete-button">Delete</span>
+
+												</span></h3>
+											</div>
+											<div class="panel-body">
+												<a class="btn btn-xs btn-default pull-right" href="{% url 'event_add' %}?calendar={{calendar.pk}}">Add Multiple Events</a>
+												<form class="form-horizontal" id="edit-calendar-form">
+													<div class="form-group form-group-sm">
+														<label class="col-sm-3 control-label">Selling:</label>
+														<div class="col-sm-5">
+															<span class="calendar-selling" data-name="private" data-pk="{{calendar.pk}}" data-type="select">
+																{% if calendar.private %}
+																No
+																{% else %}
+																Yes
+																{% endif %}
+															</span> &nbsp;
+															<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="If you sell this calendar, your classmates will be able to follow it for a monthly price"></i>
+															</span>
+														</div>
+													</div>
+
+													{% if not calendar.private %}
+													<div class="form-group form-group-sm calendar-privacy-field">
+														{% else %}
+														<div class="form-group form-group-sm calendar-privacy-field hidden">
 															{% endif %}
-														</span> &nbsp;
-														<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="If you sell this calendar, your classmates will be able to follow it for a monthly price"></i>
-														</span>
-														<span class="pull-right">
-															<a class="btn btn-xs btn-primary" href="{% url 'event_add' %}?calendar={{calendar.pk}}">Events Template</a>
-															<span class="prompt-delete-message small hidden">Are you sure?</span> &nbsp;
-															<span class="btn btn-danger btn-xs confirm-delete-button hidden"
-																data-cal="{{calendar.pk}}">Yes</span>
-															<span class=" btn btn-default btn-xs not-delete-button hidden">Cancel</span>
-															<span class="pull-right btn btn-danger btn-xs prompt-delete-button">Delete</span>
+															<label class="col-sm-3 control-label">Price:</label>
+															<div class="col-sm-9">
+																<span class="calendar-price" data-pk="{{calendar.pk}}" data-name="price">{{calendar.price}}</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per month that your classmates pay to follow this calendar"></i></span>
+															</div>
+														</div>
 
-														</span>
+														<div class="form-group form-group-sm">
+															<label class="col-sm-3 control-label">End Date:</label>
+															<div class="col-sm-9">
+																<input type="text" data-pk="{{calendar.pk}}" class="form-control input-sm calendar-date date-input date-time-input" style="width:150px;" placeholder="August 12, 2014">
+																<span class="calendar-date-holder edit-calendar-date
+																calendar-date-time-holder" data-pk="{{calendar.pk}}">{{calendar.end_date|date:"l F d, Y"}}
+																<span>
+																	<i class="fa fa-info-circle small" 
+																	data-toggle="tooltip" 
+																	data-placement="right" 
+																	data-original-title="Set this date to the last day of this class"></i>
+																</span>
+															</span>
+														</div>
 													</div>
+													{% if not calendar.private %}
+													<div class="form-group form-group-sm calendar-privacy-field">
+														{% else %}
+														<div class="form-group form-group-sm calendar-privacy-field hidden">
+															{% endif %}
+															<label class="col-sm-3 control-label">Description:</label>
+															<div class="col-sm-9">
+																<span class="calendar-description" data-pk="{{calendar.pk}}" data-type="text" data-value=" " data-name="description">
+																	<span class="calendar-description-holder">{{calendar.description}}</span>
+																</span>
+															</div>
+														</div>
+													</form>
 												</div>
+											</div>
+										</div><!-- end class1 tab -->
+										{% empty %}
+										<hr>
+										<p class="lead text-center">You don't have any calendars to manage.</p>
+									</hr>
+									{% endfor %}
+								</div><!-- end tab content -->
+								<div class="editable-success text-success small text-center"></div>
+								<div class="editable-errors text-danger small text-center"></div>
+							</div><!-- end col-9 -->
+						</div><!-- end row -->
+					</div><!-- end modal body -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary pull-right" data-dismiss="modal">Done</button>
 
-												{% if not calendar.private %}
-												<div class="form-group form-group-sm calendar-privacy-field">
-													{% else %}
-												<div class="form-group form-group-sm calendar-privacy-field hidden">
-													{% endif %}
-													<label class="col-sm-3 control-label">Price:</label>
-													<div class="col-sm-9">
-														<span class="calendar-price" data-pk="{{calendar.pk}}" data-name="price">{{calendar.price}}</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per month that your classmates pay to follow this calendar"></i></span>
-													</div>
-												</div>
-
-												<div class="form-group form-group-sm">
-													<label class="col-sm-3 control-label">End Date:</label>
-													<div class="col-sm-9">
-														<input type="text" data-pk="{{calendar.pk}}" class="form-control input-sm calendar-date date-input date-time-input" style="width:150px;" placeholder="August 12, 2014">
-														<span class="calendar-date-holder edit-calendar-date
-															calendar-date-time-holder" data-pk="{{calendar.pk}}">{{calendar.end_date|date:"l F d, Y"}}
-														<span>
-															<i class="fa fa-info-circle small" 
-																data-toggle="tooltip" 
-																data-placement="right" 
-																data-original-title="Set this date to the last day of this class"></i>
-														</span>
-														</span>
-													</div>
-												</div>
-												{% if not calendar.private %}
-												<div class="form-group form-group-sm calendar-privacy-field">
-													{% else %}
-													<div class="form-group form-group-sm calendar-privacy-field hidden">
-														{% endif %}
-													<label class="col-sm-3 control-label">Description:</label>
-													<div class="col-sm-9">
-														<span class="calendar-description" data-pk="{{calendar.pk}}" data-type="text" data-value=" " data-name="description">
-															<span class="calendar-description-holder">{{calendar.description}}</span>
-														</span>
-													</div>
-												</div>
-											</form>
+					</div>
+				</div><!-- end modal content -->
+			</div>
+		</div><!-- end manage cal modal -->
+		<!-- edit event modal -->
+		<div id="event-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title"><i class="fa fa-edit text-default"></i> Edit Event</h4>
+					</div>
+					<div class="modal-body">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<form method="post" class="form-horizontal" id="edit-event-form">
+									{% csrf_token %}
+									<div class="form-group form-group-sm">
+										<label class="col-sm-3 control-label">Title:</label>
+										<div class="col-sm-9">
+											<span class="edit-event-title">Exam 2</span>
 										</div>
 									</div>
-								</div><!-- end class1 tab -->
-								{% empty %}
-								You don't have any calendars to manage.
-								{% endfor %}
-							</div><!-- end tab content -->
-						</div><!-- end col-9 -->
-					</div><!-- end row -->
-				</div><!-- end modal body -->
-				<div class="modal-footer">
-					<div class="editable-success"></div>
-					<div class="editable-errors"></div>
-				</div>
-			</div><!-- end modal content -->
-		</div>
-	</div><!-- end manage cal modal -->
-	<!-- edit event modal -->
-	<div id="event-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title"><i class="fa fa-edit text-default"></i> Edit Event</h4>
-				</div>
-				<div class="modal-body">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<form method="post" class="form-horizontal" id="edit-event-form">
-								{% csrf_token %}
-								<div class="form-group form-group-sm">
-									<label class="col-sm-3 control-label">Title:</label>
-									<div class="col-sm-9">
-										<span class="edit-event-title">Exam 2</span>
+									<div class="form-group form-group-sm">
+										<label class="col-sm-3 control-label">Date:</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control input-sm date date-input click edit-date date-time-input" placeholder="August 12, 2014">
+											<span class="date-holder edit-event-date date-time-holder">August 12, 2014</span>
+										</div>
 									</div>
-								</div>
-								<div class="form-group form-group-sm">
-									<label class="col-sm-3 control-label">Date:</label>
-									<div class="col-sm-9">
-										<input type="text" class="form-control input-sm date date-input click edit-date date-time-input" placeholder="August 12, 2014">
-										<span class="date-holder edit-event-date date-time-holder">August 12, 2014</span>
+									<div class="form-group form-group-sm">
+										<label class="col-sm-3 control-label">Time:</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control input-sm time-input clockpicker click edit-time date-time-input"
+											data-placement="bottom" data-align="left" data-autoclose="true" style="width:100%;" placeholder="Event Time">
+											<span class="time-holder edit-event-time date-time-holder">Time</span>
+										</div>
 									</div>
-								</div>
-								<div class="form-group form-group-sm">
-									<label class="col-sm-3 control-label">Time:</label>
-									<div class="col-sm-9">
-										<input type="text" class="form-control input-sm time-input clockpicker click edit-time date-time-input"
-										data-placement="bottom" data-align="left" data-autoclose="true" style="width:100%;" placeholder="Event Time">
-										<span class="time-holder edit-event-time date-time-holder">Time</span>
+									<div class="form-group form-group-sm">
+										<label class="col-sm-3 control-label">Class:</label>
+										<div class="col-sm-9">
+											<span class="edit-event-class click" data-type="select"></span>
+										</div>
 									</div>
-								</div>
-								<div class="form-group form-group-sm">
-									<label class="col-sm-3 control-label">Class:</label>
-									<div class="col-sm-9">
-										<span class="edit-event-class click" data-type="select"></span>
+									<div class="form-group form-group-sm">
+										<label class="col-sm-3 control-label">Notes:</label>
+										<div class="col-sm-9">
+											<span class="edit-event-description click" data-type="text">this is an open book test</span>
+										</div>
 									</div>
-								</div>
-								<div class="form-group form-group-sm">
-									<label class="col-sm-3 control-label">Notes:</label>
-									<div class="col-sm-9">
-										<span class="edit-event-description click" data-type="text">this is an open book test</span>
-									</div>
-								</div>
-							</form>
-						</div><!-- end panel body -->
-					</div><!-- end panel -->
-
-				</div>
-				<div class="modal-footer">
-					<div class="editable-success text-center text-success"></div>
-					<div class="editable-errors text-center text-danger"></div>
+								</form>
+							</div><!-- end panel body -->
+						</div><!-- end panel -->
+						<div class="editable-success text-center text-success small"></div>
+						<div class="editable-errors text-center text-danger small"></div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container">
-		<div class="row">
-			<div id="col_1" class="col-sm-3 animated bounceInUp">
-				<h3 >My Calendars
-					<div class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" type="select" id="" data-toggle="dropdown"><i class="fa fa-caret-square-o-down text-default small"></i></a>
-						<ul class="dropdown-menu" id="" role="menu" aria-labelledby="">
-							<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li> -->
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'calendar_create' %}"><span class=""><i class="fa fa-plus fa-fw"></i> New Calendar</span></a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#manage-calendars" data-toggle="modal"><span class=""><i class="fa fa-sitemap fa-fw"></i> Manage Calendars</span></a></li>
+		<div class="container">
+			<div class="row">
+				<div id="col_1" class="col-sm-3 animated bounceInUp">
+					<h3 >My Calendars
+						<div class="dropdown pull-right">
+							<a href="#" class="dropdown-toggle" type="select" id="" data-toggle="dropdown"><i class="fa fa-caret-square-o-down text-default small"></i></a>
+							<ul class="dropdown-menu" id="" role="menu" aria-labelledby="">
+								<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li> -->
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'calendar_create' %}"><span class=""><i class="fa fa-plus fa-fw"></i> New Calendar</span></a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#manage-calendars" data-toggle="modal"><span class=""><i class="fa fa-sitemap fa-fw"></i> Manage Calendars</span></a></li>
 							<!-- <li role="presentation" class="divider"></li>
 					<li role="presentation" class="dropdown-header">School Calendars</li>
 					<li ><a href="#"><span class="text-success">ECON 200</span></a></li>
 					<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="text-warning">ACCT 200</span></a></li> -->
-						</ul>
-					</div>
-				</h3>
-				<hr style="margin-top:12px;">
-				<p></p>
-				{% if not flags.calendar_tutorial %}
-				<div class="panel panel-default cal-intro">
-					<div class="panel-body">
-						<div id="calStepOne">
-							<p><strong>Yoohoo!</strong><small class="pull-right"><small>1/3</small></small></p>
-							<p>The calendars you create and the calendars you follow will show up here.</p>
-							<hr/>
-							<button href="#" class="btn btn-primary btn-xs btn-block stepOneNext">Next</button>
-						</div>
-						<div id="calStepTwo" class="hidden">
-							<p><strong>Did you know...</strong><small class="pull-right"><small>2/3</small></small></p>
-							<p>Once you create a class calendar, your classmates can <em>follow</em> your calendar, and for every one of them that does, you'll make money!</p>
-							<hr>
-							<button type="button" class="btn btn-primary btn-xs btn-block stepTwoNext">Next</button>
-						</div>
-						<div id="calStepThree" class="hidden">
-							<p><strong>This is because...</strong><small class="pull-right"><small>3/3</small></small></p>
-							<p>You can also <em>follow</em> one of your classmate's class calendars, and for every calendar you follow, you'll fork over some points!</p>
-							<p>What would you like to do?</p>
-							<hr>
-							<p>
-								<button class="btn btn-success btn-xs btn-block stepThreeNext" data-toggle="modal" data-target="#classCalendars">View Others</button>
-								<a type="button" href="#" class="btn btn-primary btn-xs btn-block stepThreeNext">Create my Own</a>
-							</p>
-						</div>
-					</div>
-				</div><!-- end panel -->
+				</ul>
+			</div>
+		</h3>
+		<hr style="margin-top:12px;">
+		<p></p>
+		{% if not flags.calendar_tutorial %}
+		<div class="panel panel-default cal-intro">
+			<div class="panel-body">
+				<div id="calStepOne">
+					<p><strong>Yoohoo!</strong><small class="pull-right"><small>1/3</small></small></p>
+					<p>The calendars you create and the calendars you follow will show up here.</p>
+					<hr/>
+					<button href="#" class="btn btn-primary btn-xs btn-block stepOneNext">Next</button>
+				</div>
+				<div id="calStepTwo" class="hidden">
+					<p><strong>Did you know...</strong><small class="pull-right"><small>2/3</small></small></p>
+					<p>Once you create a class calendar, your classmates can <em>follow</em> your calendar, and for every one of them that does, you'll make money!</p>
+					<hr>
+					<button type="button" class="btn btn-primary btn-xs btn-block stepTwoNext">Next</button>
+				</div>
+				<div id="calStepThree" class="hidden">
+					<p><strong>This is because...</strong><small class="pull-right"><small>3/3</small></small></p>
+					<p>You can also <em>follow</em> one of your classmate's class calendars, and for every calendar you follow, you'll fork over some points!</p>
+					<p>What would you like to do?</p>
+					<hr>
+					<p>
+						<button class="btn btn-success btn-xs btn-block stepThreeNext" data-toggle="modal" data-target="#classCalendars">View Others</button>
+						<a type="button" href="#" class="btn btn-primary btn-xs btn-block stepThreeNext">Create my Own</a>
+					</p>
+				</div>
+			</div>
+		</div><!-- end panel -->
 
-				{% endif %}
-				<div id="yourCalList" class="">
+		{% endif %}
+		<div id="yourCalList" class="">
 					<!-- <h5>Personal<span class="badge pull-right">2</span></h5>
 			<div class="checkbox text-info">
 				<label>
@@ -296,97 +308,96 @@
 				<a href="#" class="pull-right text-default"><i class="fa fa-fw fa-external-link"></i></a>
 			</div>
 			<hr> -->
-					<h5>School<span class="badge pull-right" id="owned-calendar-count">{{owned_calendars|length}}</span></h5>
+			<h5>School<span class="badge pull-right" id="owned-calendar-count">{{owned_calendars|length}}</span></h5>
 
-					<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Own</li>
+			<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Own</li>
 
-					<!-- don't delete this again -->
-					<div class="hidden" id="make-a-calendar">
-						<p>
-							<div class="panel panel-info">
-								<div class="panel-body">
-									Make your first <a href="{%url "calendar_create"%}">calendar!</a>
-								</div>
-							</div>
-						</p>
+			<!-- don't delete this again -->
+			<div class="hidden" id="make-a-calendar">
+				<p>
+					<div class="panel panel-info">
+						<div class="panel-body">
+							Make your first <a href="{%url "calendar_create"%}">calendar!</a>
+						</div>
 					</div>
-					<!-- for real it has a purpose-->
+				</p>
+			</div>
+			<!-- for real it has a purpose-->
 
-					{% for calendar in owned_calendars %}
-					<div class="checkbox owned-calendar-holder" id="owned-calendar-holder-{{calendar.pk}}">
-						{% if calendar.private %}
-						<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
-							<input class="owned-calendar-input" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
-							{{calendar.title}}
-						</label>
-						{% else %}
-						<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}" data-toggle="popover" data-content="20 followers" data-placement="right">
-							<input class="owned-calendar-input" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
-							{{calendar.title}}
-						</label>
-						{% endif %}
-						<small class="text-muted pull-right">
-							{% if calendar.private %}
-							<i class="fa fa-fw fa-lock" data-toggle="tooltip" data-original-title="Private"></i>
-							{% else %}
-							<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
-							<i class="fa fa-fw fa-dollar text-success" data-toggle="tooltip" data-original-title="Selling"></i>
-							{% endif %}
-							<!-- <a href="#" class="pre-delete-button" data-toggle="" data-cal="{{calendar.pk}}"><i class="fa fa-fw fa-gavel text-danger"></i></a> -->
-						</small>
+			{% for calendar in owned_calendars %}
+			<div class="checkbox owned-calendar-holder" id="owned-calendar-holder-{{calendar.pk}}">
+				{% if calendar.private %}
+				<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
+					<input class="owned-calendar-input" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
+					{{calendar.title}}
+				</label>
+				{% else %}
+				<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}" data-toggle="popover" data-content="20 followers" data-placement="right">
+					<input class="owned-calendar-input" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
+					{{calendar.title}}
+				</label>
+				{% endif %}
+				<small class="text-muted pull-right">
+					{% if calendar.private %}
+					<i class="fa fa-fw fa-lock" data-toggle="tooltip" data-original-title="Private"></i>
+					{% else %}
+					<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
+					<i class="fa fa-fw fa-dollar text-success" data-toggle="tooltip" data-original-title="Selling"></i>
+					{% endif %}
+					<!-- <a href="#" class="pre-delete-button" data-toggle="" data-cal="{{calendar.pk}}"><i class="fa fa-fw fa-gavel text-danger"></i></a> -->
+				</small>
+			</div>
+			{% empty %}
+			<p>
+				<div class="panel panel-info">
+					<div class="panel-body">
+						Make your first <a href="{%url "calendar_create"%}">calendar!</a>
 					</div>
-					{% empty %}
-					<p>
-						<div class="panel panel-info">
-							<div class="panel-body">
-								Make your first <a href="{%url "calendar_create"%}">calendar!</a>
-							</div>
-						</div>
-					</p>
-					{% endfor %}
-					<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
-					<p></p>
-						<!--mock followed calendar -->
-						<div class="checkbox">
-						    <label>
-						      <input type="checkbox" selected> CSC 400
-						    </label>
-						    <span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> <a href="#"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
-						    </span>
-						</div>
-						<!-- end mock cal -->
-						<div class="panel panel-danger">
-							<div class="panel-body">
-								You're not following any calendars yet! 
-								<a href="#" class="viewCals">Follow your first calendar!</a>
-							</div>
-						</div>
-					
+				</div>
+			</p>
+			{% endfor %}
+			<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
+			<p></p>
+			<!--mock followed calendar -->
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" selected> CSC 400
+				</label>
+				<span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> <a href="#"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
+				</span>
+			</div>
+			<!-- end mock cal -->
+			<div class="panel panel-danger">
+				<div class="panel-body">
+					You're not following any calendars yet! 
+					<a href="#" class="viewCals">Follow your first calendar!</a>
 				</div>
 			</div>
-			<div id="col_2" class="col-sm-9 animated bounceInUp delayed-sm">
-				<!-- <button id="viewCals" class="btn btn-defualt" href="#">View Cals</button> -->
-				<div class="flip-holder">
 
-					<div class="front">
-						<!-- <h3 class="margin-top-none">	 -->
-						<div class="row">
+		</div>
+	</div>
+	<div id="col_2" class="col-sm-9 animated bounceInUp delayed-sm">
+		<!-- <button id="viewCals" class="btn btn-defualt" href="#">View Cals</button> -->
+		<div class="flip-holder">
 
-							<div class="col-xs-3">
-								<div class="btn-group">
-									<button type="button" class="cal-button cal-prev-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-left"></i></button>
-									<button type="button" class="cal-button cal-today-button btn-xs btn btn-default hidden-xs">Today</button>
-									<button type="button" class="pull-right cal-button cal-next-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-right"></i></button>	
-								</div>
-							</div>
-							<!-- <div class="col-sm-1">
-								<button type="button" class="cal-button cal-today-button btn-xs btn btn-default hidden-xs">Today</button>
-							</div> -->
-							<div class="col-xs-6">
+			<div class="front">
+				<div class="row">
+
+					<div class="col-xs-4">
+						<div class="btn-group">
+							<button type="button" class="cal-button cal-prev-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-left"></i></button>
+							<button type="button" class="cal-button cal-today-button btn-xs btn btn-default hidden-xs">Today</button>
+							<button type="button" class="pull-right cal-button cal-next-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-right"></i></button>	
+						</div>
+					</div>
+							<div class="col-xs-4">
 								<span class="cal-date text-center center-block h3 margin-top-none"></span>
 							</div>
-							<div class="col-xs-3">
-								<a href="#" class="pull-right viewCals margin-btm-none text-default btn btn-default btn-xs"><i class="fa fa-fw fa-list"></i> Browse Calendars</a>	
+							<div class="col-xs-4">
+								<span class="pull-right">
+								<a class="label label-danger viewCals">2 New</a> 
+								<a href="#" class=" viewCals margin-btm-none text-default btn btn-default btn-xs"> Browse Calendars</a>	
+							</span>
 							</div>
 						</div>
 						<!-- </h3> -->
@@ -399,7 +410,7 @@
 					<div class="back">
 						<h3>Calendars <button type="button" id="" class="close viewCals" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></h3>
 						<hr class="margin-top-sm">
-						<div class="well">
+						<!-- <div class="well"> -->
 							<div class="panel panel-default">
 								<div class="panel-body">
 									<ul class="nav nav-pills nav-justified" role="tablist">
@@ -411,6 +422,8 @@
 										{% endif %}
 										{% endfor %}
 									</ul>
+								</div>
+							</div>
 									<div class="tab-content">
 										<p></p>
 										{% for course in courses %}
@@ -419,47 +432,84 @@
 											{% else %}
 											<div class="tab-pane fade in" id="browse-tab-{{course.pk}}">
 												{% endif %}
-												<hr>
-												<div class="list-group">
-													<div class="list-group-item">
-														<span class=" margin-btm-none h5">{{course}} Calendars <span class="badge">10</span>
-															<span class="btn-group pull-right">
-																<button type="button" class="btn btn-default btn-xs">Recent</button>
-																<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
-																	<span class="caret"></span>
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<ul class="dropdown-menu" role="menu">
-																	<li><a href="#">Rating</a></li>
-																	<li><a href="#">Most Purchased</a></li>
-																</ul>
-															</span>
-														</span>
-													</div>
-													<div class="list-group-item">
-														<div class="media">
-															<span class="pull-left" href="#">
-																<a href="#"><div class="media-object img-circle img-thumbnail"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:64px"></div><div class="assignment-number text-center text-default h4">15</div></a>
-															</span>
-															<div class="media-body">
-																<h4 class="media-heading"><a href="preview/test">ECON 200 Calendar</a> <small>500 points <label class="label label-success">Following</button></small><div class="pull-right small text-muted">10 m</div></h4>
-																<span class="description">
-																	<i class="fa fa-fw fa-thumbs-up text-success"></i>85
-																	<i class="fa fa-fw fa-thumbs-down text-danger"></i>15&nbsp;
-																	<i class="fa fa-comments text-info fa-fw"></i>6 Reviews&nbsp;
-																	<i class="fa fa-fw fa-users"></i>10 followers&nbsp;
-																	<p class="small">Uploaded by <a href="#">themsquared</a></p>
-																</span>
+												<!-- <hr> -->
+												<div class="panel panel-default">
+  <div class="panel-body">
+
+   <h4 class="margin-top-none">{{course}} Calendars <span class="badge">10</span> <span class="btn-group pull-right">
+															<button type="button" class="btn btn-default btn-xs">Recent</button>
+															<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
+																<span class="caret"></span>
+																<span class="sr-only">Toggle Dropdown</span>
+															</button>
+															<ul class="dropdown-menu" role="menu">
+																<li><a href="#">Rating</a></li>
+																<li><a href="#">Most Purchased</a></li>
+															</ul>
+														</span></h4>
+														<!-- <hr> -->
+  <!-- </div>
+</div> -->
+												<!-- <div class="panel panel-default"> -->
+													<!-- <div class="panel-heading">
+														<h3 class="panel-title">{{course}} Calendars <span class="badge">10</span> <span class="btn-group pull-right">
+															<button type="button" class="btn btn-default btn-xs">Recent</button>
+															<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
+																<span class="caret"></span>
+																<span class="sr-only">Toggle Dropdown</span>
+															</button>
+															<ul class="dropdown-menu" role="menu">
+																<li><a href="#">Rating</a></li>
+																<li><a href="#">Most Purchased</a></li>
+															</ul>
+														</span></h3>
+													</div> -->
+													<!-- <div class="panel-body"> -->
+														<div class="list-group">
+															<div class="list-group-item">
+																<div class="media">
+																	<span class="pull-left" href="#">
+																		<a href="#"><div class="media-object img-circle img-thumbnail"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:64px"></div><div class="assignment-number text-center text-default h4">15</div></a>
+																	</span>
+																	<div class="media-body">
+																		<h4 class="media-heading"><a href="preview/test">ECON 200 Calendar</a> <small>500 points <label class="label label-success">Following</button></small><div class="pull-right small text-muted">10 m</div></h4>
+																		<span class="description">
+																			<i class="fa fa-fw fa-thumbs-up text-success"></i>85
+																			<i class="fa fa-fw fa-thumbs-down text-danger"></i>15&nbsp;
+																			<i class="fa fa-comments text-info fa-fw"></i>6 Reviews&nbsp;
+																			<i class="fa fa-fw fa-users"></i>10 followers&nbsp;
+																			<p class="small">Uploaded by <a href="#">themsquared</a></p>
+																		</span>
+																	</div>
+																</div>
+															</div>
+															<div class="list-group-item">
+																<div class="media">
+																	<span class="pull-left" href="#">
+																		<a href="#"><div class="media-object img-circle img-thumbnail"><img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:64px"></div><div class="assignment-number text-center text-default h4">15</div></a>
+																	</span>
+																	<div class="media-body">
+																		<h4 class="media-heading"><a href="preview/test">ECON 200 Calendar</a> <small>500 points <label class="label label-success">Following</button></small><div class="pull-right small text-muted">10 m</div></h4>
+																		<span class="description">
+																			<i class="fa fa-fw fa-thumbs-up text-success"></i>85
+																			<i class="fa fa-fw fa-thumbs-down text-danger"></i>15&nbsp;
+																			<i class="fa fa-comments text-info fa-fw"></i>6 Reviews&nbsp;
+																			<i class="fa fa-fw fa-users"></i>10 followers&nbsp;
+																			<p class="small">Uploaded by <a href="#">themsquared</a></p>
+																		</span>
+																	</div>
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
+												
 											</div>
 											{% endfor %}
 										</div> <!-- end tab content -->
-									</div>
-								</div> <!-- end cal list panel -->
-							</div>
+									<!-- </div>
+								</div> --> <!-- end cal list panel -->
+							<!-- </div> -->
 						</div>
 					</div> <!-- end flip holder -->
 
@@ -487,7 +537,7 @@
 					{% endif %}
 					<li role="presentation">
 						<a role="menuitem" tabindex="-1" value="1" data-calendar="{{calendar.pk}}" style="color: {{calendar.color}};">
-							 {{calendar.title}}
+							{{calendar.title}}
 						</a>
 					</li>
 					{% endfor %}
@@ -508,35 +558,35 @@
 		<!-- <div id="events-popover-title" class="hidden">
 	<strong>Events</strong>&nbsp; 
 </div> -->
-		<div id="events-popover-content" class="hidden">
-			<div class="event-popover-container"></div><!-- sets the width of the popover -->
-			<span class="list-group margin-top-none margin-btm-none">
-				<span class="list-group-item">
-					<span class="margin-btm-sm margin-top-none h5">
-						<span data-toggle="tooltip" data-original-title="Calendar Name" class="event-title calendar-indicator"></span>
-						<span class="event-options pull-right small" data-toggle="tooltip" data-original-title="tool">
-							<i class="fa fa-dollar text-success fa-fw"></i>
-							<a href="#" class="event-edit-link"><i class="fa fa-pencil text-default fa-fw"></i></a> 
-							<a href="#" class="event-delete-link" href="#"><i class="fa fa-times text-danger fa-fw"></i></a>
-						</span>
-						<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
-						<span class="small event-description"></span>
-					</span>
-					<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
-					<span data-type="date" class="small margin-btm-none event-date"></span>
-					<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
-					<i class="fa fa-clock-o small"></i> 
-					<span class="small margin-btm-none event-time"> 12:00 pm</span>&nbsp;<span class="small">in</span> <span class="small margin-btm-none event-class"> CSC 245</span>
-					<span class="event-id hidden">8</span>
+<div id="events-popover-content" class="hidden">
+	<div class="event-popover-container"></div><!-- sets the width of the popover -->
+	<span class="list-group margin-top-none margin-btm-none">
+		<span class="list-group-item">
+			<span class="margin-btm-sm margin-top-none h5">
+				<span class="event-options pull-right small" data-toggle="tooltip" data-original-title="tool">
+					<i class="fa fa-dollar text-success fa-fw"></i>
+					<a href="#" class="event-edit-link"><i class="fa fa-pencil text-default fa-fw"></i></a> 
+					<a href="#" class="event-delete-link" href="#"><i class="fa fa-times text-danger fa-fw"></i></a>
 				</span>
-			</span><!-- end list-group -->
-		</div>
-		<div class="calendar-courses">
-			<script type="text/javascript">
-				var calendarCourses = [];
-{% for course in calendar_courses %}
-calendarCourses.push({ value: '{{ course.course__pk }}', text: '{{course.course__dept}} {{course.course__course_number}}' });
-{% endfor %}
-			</script>
-		</div>
-		{% endblock %}
+				<span data-toggle="tooltip" data-original-title="Calendar Name" class="event-title calendar-indicator"></span>
+				<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
+				<span class="small event-description"></span>
+			</span>
+			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
+			<span data-type="date" class="small margin-btm-none event-date"></span>
+			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
+			<i class="fa fa-clock-o small"></i> 
+			<span class="small margin-btm-none event-time"> 12:00 pm</span>&nbsp;<span class="small">in</span> <span class="small margin-btm-none event-class"> CSC 245</span>
+			<span class="event-id hidden">8</span>
+		</span>
+	</span><!-- end list-group -->
+</div>
+<div class="calendar-courses">
+	<script type="text/javascript">
+	var calendarCourses = [];
+	{% for course in calendar_courses %}
+	calendarCourses.push({ value: '{{ course.course__pk }}', text: '{{course.course__dept}} {{course.course__course_number}}' });
+	{% endfor %}
+	</script>
+</div>
+{% endblock %}

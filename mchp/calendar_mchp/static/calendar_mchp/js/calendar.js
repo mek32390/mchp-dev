@@ -19,13 +19,13 @@ $(function() {
 	 *******************************/
 	var editableError = function(data) {
 		$('.editable-success').text('');
-		$('.editable-errors').text(data.responseJSON.response).fadeIn(10).delay(2000).fadeOut(400);
+		$('.editable-errors').text(data.responseJSON.response).fadeIn(500).delay(1000).fadeOut(500);
 	};
 	$.fn.editable.defaults.error = editableError;
 	var editableSuccess = function(data) {
 		$('.calendar-privacy-field').toggleClass('hidden');
 		$('.editable-errors').text('');
-		$('.editable-success').text(data.response).fadeIn(10).delay(2000).fadeOut(400);
+		$('.editable-success').text(data.response).fadeIn(500).delay(1000).fadeOut(500);
 		$('#calendar').fullCalendar('refetchEvents');
 	};
 	$.fn.editable.defaults.success = editableSuccess;
