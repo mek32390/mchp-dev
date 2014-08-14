@@ -25,7 +25,14 @@
 <!-- <div class="jumbotron text-center" style="background-color:;">
  -->
 <span class="text-center center-block">
-	<img src="{{profile.profile_image_url}}" width="165px" class="animated flipInX img-thumbnail img-responsive img-circle">
+	<img src="{{profile.profile_image_url}}" width="160px" id="profile-image" class=" animated flipInX img-thumbnail img-responsive img-circle">
+		<div id="update-photo" class="">
+			</div>
+			<div class="btn-file">
+		    <span class=""><i class="fa fa-camera"></i> Update <input type="file">
+		
+	</div>
+
 	<h2 style="margin-bottom:;">{{user.first_name}} {{user.last_name}}</h2>
 	<p class="small">{{student.name}} &nbsp;
 		{% ifequal viewer student %}

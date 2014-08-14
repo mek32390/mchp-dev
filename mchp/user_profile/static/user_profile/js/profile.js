@@ -1,4 +1,5 @@
 $(function(){
+
 	// show profile info when friend button clicked (example)
 	$('#friend_button').click(function () {
 		$('#top_friends').removeClass('hidden');
