@@ -16,3 +16,50 @@
 	max-width: 700px;
 	margin: auto;
 }
+
+/* update photo button */
+#update-photo {
+    background-image: url('https://s3-us-west-2.amazonaws.com/mchpstatic/circle-overlay.png');
+	background-repeat: no-repeat;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0px;
+	right: 0px;
+	position: relative;
+	width: 153px;
+	margin-top: -47px;
+	height: 58px;
+	opacity:.3;
+	/*cursor: pointer;*/
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    color: #FFF;
+	margin-top: -48px;
+	margin-bottom: 35px;
+	cursor: pointer;
+	opacity: .6;
+	transition: .4s ease-in;
+}
+.btn-file:hover {
+	opacity: 1;
+	transition: .4s ease-in;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+

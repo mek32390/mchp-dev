@@ -27,12 +27,12 @@
 			<hr>
 		</div>
 	</div>
-		<div class="panel panel-default margin-btm-none">
+		<div class="panel panel-danger margin-btm-none">
 				<div class="panel-body">
 					<div class="row">
-		<div class="col-xs-2">
+		<div class="col-xs-3">
 			<div class="dropdown">
-				<button class="dropdown-toggle btn btn-default btn-md" type="select" id="courseDropDown" data-toggle="dropdown">Choose a Class <span class="caret"></span></button>
+				<button class="dropdown-toggle btn btn-default btn-md btn-block" type="select" id="courseDropDown" data-toggle="dropdown">Choose a Class <span class="caret"></span></button>
 				<ul class="dropdown-menu btn-block text-center" role="menu" aria-labelledby="courseDropDown">
 					<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li> -->
 					<!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">My Calendar</a></li> -->
@@ -59,14 +59,14 @@
 	</div>
 		</div>
 		{% for calendar in calendars %}
-		<div class="col-xs-10">
+		<div class="col-xs-9">
 			<div class="course-info hidden" id="course-info-{{calendar.pk}}">
 				<div style="" class="course-times">
 					<div style="inline">
 						<!-- <span class="lead margin-btm-none">
 							<i class="fa fa-clock-o"></i> Meetings 
 						</span> -->
-						<span class=" margin-btm-none ">
+						<span class=" h4 margin-btm-none ">
 							<i class="fa fa-user"></i> Professor {{calendar.course.professor}} &nbsp;
 							{% if not calendar.private %}
 									
@@ -81,7 +81,7 @@
 						var end_date_{{calendar.pk}} = '{{calendar.end_date|date:"c"}}';
 					</script>
 					<!-- <p></p> -->
-					<!-- <hr class="margin-btm-none margin-top-none"> -->
+					<hr class="margin-btm-none margin-top-sm">
 					<!-- <table class="table table-striped margin-btm-none">
 						<tbody> -->
 							<div class="row">
@@ -90,7 +90,7 @@
 							<!-- </div> -->
 							
 							{% for section in calendar.sections %}
-							<div class="col-xs-3">
+							<div class="col-xs-4">
 							<script type="text/javascript">
 								meeting_days_{{calendar.pk}}.push({{section.day}} + 1);
 							</script>
@@ -126,13 +126,11 @@
 		<div class="col-xs-12">
 		<hr>  
 			<!-- <div class="panel panel-success event-template hidden"> -->
-			<div class="panel panel-default templates hidden">
+			<div class="panel panel-danger templates hidden">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						<p class="lead margin-btm-none"> Events Template&nbsp;&nbsp; 
-							<!-- <span class="pull-right">Suggested Price: <strong>0</strong> </span> -->
-							<span class="pull-right">Total Events: <strong>0</strong> &nbsp;&nbsp;</span>
-						</p>
+						 Events Template
+							<span class="pull-right">Total Events: <strong>0</strong></span>
 					</h3>
 				</div>
 				<!-- Table -->
@@ -175,6 +173,7 @@
 			</div>
 			<p></p>
 			<button type="submit" class="event-button btn btn-success btn-lg btn-block hidden">Finish</button>
+			<br></br>
 		</div>
 	</div>
 </div>

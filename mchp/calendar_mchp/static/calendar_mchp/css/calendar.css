@@ -109,7 +109,6 @@
 #ex1Slider .slider-selection {
     background: #BABABA;
 }
-
 #tooltip {
     top: -30px !important;
     margin-left: -11px !important;
@@ -136,5 +135,9 @@
 	position: absolute;
 	z-index: 1;
 	pointer-events: all;
+}
+/* adjust padding on editable form-controls */
+.form-inline.editableform {
+    padding-right: 10px;
 }
 
