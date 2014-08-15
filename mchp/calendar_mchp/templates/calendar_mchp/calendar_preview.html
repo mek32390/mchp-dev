@@ -77,31 +77,20 @@
 						<h2 class="margin-top-none margin-btm-sm">{{calendar}} Calendar&nbsp;
 							<small class="pull-right">{{calendar.price}} <i class="fa fa-fw fa-lemon-o"></i> /Fortnight</small>
 						</h2>
-						<h4 class="lead text-default margin-top-none margin-btm-none"><i class="fa fa-clock-o"></i> 
-							{% for section in calendar.sections %}
-							{{section.day_name|slice:":3"}}
-							{{section.start|time:"fA"}}-{{section.end|time:"fA"}}
-							<br>
-							{% endfor %}
-							Instructor {{calendar.course.professor}}
-						</h4>
-						<h5>
-
-							<i class="fa fa-fw fa-bullseye text-primary"></i>90% Accuracy&nbsp;
+						<h5 class="margin-btm-sm">
+							<i class="fa fa-fw fa-bullseye text-primary"></i> 90% Accuracy&nbsp;
 							{% with calendar.subscribers.count as subscribers %}
-							<i class="fa fa-fw fa-money text-success"></i>{{subscribers}} Purchase{{subscribers|pluralize}}&nbsp;
+							<i class="fa fa-fw fa-money text-success"></i> {{subscribers}} Purchase{{subscribers|pluralize}}&nbsp;
 							{% endwith %}
-							<i class="fa fa-comments text-info fa-fw"></i>10 Reviews
-						</h5>
-						
-						<!-- <p class="h6">Students who bought this</p>
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp; -->
-						
+							<i class="fa fa-comments text-info fa-fw"></i> 10 Reviews</h5>
+							<ul class="list-inline margin-top small">
+							<li><strong>Prof {{calendar.course.professor}}</strong></li> <i class="fa fa-fw fa-clock-o"></i>
+							{% for section in calendar.sections %}
+							<li class="">
+							<span>{{section.day_name|slice:":3"}} {{section.start|time:"fA"}}-{{section.end|time:"fA"}}</span>
+						</li>
+							{% endfor %}
+						</ul>
 						<form id="subscribe-form" method="post" action="{{current_path}}">
 							{% csrf_token %}
 						</form>
