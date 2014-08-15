@@ -5,7 +5,6 @@ $(function() {
 
 		var client = new ZeroClipboard($("#copy-button") );
 		client.on("aftercopy", function(){
-			alert('what');
 			$copy = $('#copy-button');
 			$copy.attr('class', 'btn-success btn');
 			$copy.html('<i class="fa fa-check-circle-o"></i> Now Paste it Somewhere!');
