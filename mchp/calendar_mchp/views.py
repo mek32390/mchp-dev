@@ -727,41 +727,38 @@ class CalendarFeed(View, AjaxableResponseMixin):
             ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
                      'calendar__course__name', 'calendar__color', 'calendar__course__pk',
                      'calendar__pk', 'calendar__private'
-            ).order_by('start')
+            )
+
             subscribed_events = Subscription.objects.filter(
                 student=self.student,
                 enabled=True,
+                calendar__private=False,
             ).values(
                 'calendar__calendarevent__title',
                 'calendar__calendarevent__description',
                 'calendar__calendarevent__start',
                 'calendar__calendarevent__end',
                 'calendar__calendarevent__id',
-                'calendar__calendarevent__all_day',
-                'calendar__calendarevent__url',
                 'calendar__color',
                 'calendar__pk',
                 'calendar__private',
                 'calendar__course__pk',
                 'calendar__course__name',
             )
-            print(events)
-            print(subscribed_events)
             for event in subscribed_events:
                 start_time = timezone.localtime(event['calendar__calendarevent__start'], timezone=timezone.get_current_timezone())
                 end_time = timezone.localtime(event['calendar__calendarevent__end'], timezone=timezone.get_current_timezone())
 
                 event['start'] = start_time.strftime(DATE_FORMAT)
                 event['end'] = end_time.strftime(DATE_FORMAT)
-                event['allDay'] = event['calendar__calendarevent__all_day']
                 event['course'] = event['calendar__course__name']
                 event['id'] = event['calendar__calendarevent__id']
                 event['title'] = event['calendar__calendarevent__title']
                 event['description'] = event['calendar__calendarevent__description']
+                event['owned'] = False
 
                 del event['calendar__calendarevent__start']
                 del event['calendar__calendarevent__end']
-                del event['calendar__calendarevent__all_day']
                 del event['calendar__calendarevent__title']
                 del event['calendar__calendarevent__description']
                 del event['calendar__calendarevent__id']
@@ -775,12 +772,14 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 event['end'] = end_time.strftime(DATE_FORMAT)
                 event['allDay'] = event['all_day']
                 event['course'] = event['calendar__course__name']
+                event['owned'] = True
+
                 del event['calendar__course__name']
                 del event['all_day']
 
+            both = sorted(list(events) + list(subscribed_events), key=lambda x: x['start'])
             data = {
-                'events': list(events) + list(subscribed_events),
-                # 'events': list(subscribed_events),
+                'events': both,
             }
             return self.render_to_json_response(data, status=200)
         else:

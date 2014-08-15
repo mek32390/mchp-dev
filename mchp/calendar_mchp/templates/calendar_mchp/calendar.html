@@ -294,12 +294,12 @@
 				<div class="checkbox owned-calendar-holder" id="owned-calendar-holder-{{calendar.pk}}">
 					{% if calendar.private %}
 					<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
-						<input class="owned-calendar-input" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
+						<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
 						{{calendar.title}}
 					</label>
 					{% else %}
 					<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}" data-toggle="popover" data-content="20 followers" data-placement="right">
-						<input class="owned-calendar-input" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
+						<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
 						{{calendar.title}}
 					</label>
 					{% endif %}
@@ -310,7 +310,6 @@
 						<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
 						<i class="fa fa-fw fa-dollar text-success" data-toggle="tooltip" data-original-title="Selling"></i>
 						{% endif %}
-						<!-- <a href="#" class="pre-delete-button" data-toggle="" data-cal="{{calendar.pk}}"><i class="fa fa-fw fa-gavel text-danger"></i></a> -->
 					</small>
 				</div>
 				{% empty %}
@@ -325,15 +324,15 @@
 				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
 				<p></p>
 				{% for calendar in subscriptions %}
-				<!--mock followed calendar -->
+				<!-- followed calendar -->
 				<div class="checkbox">
 					<label style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
-						<input type="checkbox" checked autocomplete="off" data-cal="{{calendar.pk}}"> {{calendar.title}}
+						<input class="toggle-events" type="checkbox" checked autocomplete="off" data-cal="{{calendar.pk}}"> {{calendar.title}}
 					</label>
 					<span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> <a href="#"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
 					</span>
 				</div>
-				<!-- end mock cal -->
+				<!-- end cal -->
 				{% empty %}
 				<div class="panel panel-danger">
 					<div class="panel-body">

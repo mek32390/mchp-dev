@@ -394,7 +394,7 @@ $(function() {
 		$modal.modal('show');
 	});
 
-	$('.owned-calendar-input').click(function(jsEvent) {
+	$('.toggle-events').click(function(jsEvent) {
 		var pk = $(this).data('cal');
 		updateEvents(pk);
 	});
@@ -451,6 +451,7 @@ $(function() {
 						'calendar': event.calendar__pk,
 						'visible': true,
 						'private': event.calendar__private,
+						'owned': event.owned,
 					});
 				});
 				$('.fc-day').each(function() {
@@ -536,6 +537,11 @@ $(function() {
 					$item.find('.event-id').text(event.id);
 					$item.find('.calendar-indicator').css('color', event.color);
 					if(event.private) {
+						$item.find('.fa-dollar').remove();
+					}
+					if(!event.owned) {
+						$item.find('.event-edit-link').remove();
+						$item.find('.event-delete-link').remove();
 						$item.find('.fa-dollar').remove();
 					}
 					$list_group.append($item);
