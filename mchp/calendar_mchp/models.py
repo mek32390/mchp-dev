@@ -66,6 +66,8 @@ class Subscription(models.Model):
     subscribe_date = models.DateTimeField(auto_now_add=True)
     enabled = models.BooleanField(default=True)
 
+    accuracy = models.SmallIntegerField(default=-1)
+
     def save(self, *args, **kwargs):
         # object is new
         if not self.pk:
@@ -76,6 +78,12 @@ class Subscription(models.Model):
             # set first payment date
             self.subscribe_date = timezone.now()
             self.payment_date = self.subscribe_date + timedelta(days=14)
+        # fix up accuracy ratings 
+        # this should be a validator instead, but this is more simple 
+        if self.accuracy < -1:
+            self.accuracy = 0
+        if self.accuracy > 10:
+            self.accuracy = 10
         super(Subscription, self).save(*args, **kwargs)
 
     def __str__(self):

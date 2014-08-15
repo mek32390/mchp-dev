@@ -631,7 +631,7 @@ $(function() {
 		// when you click on any of the list items in the drop down
     	$("#calSelect > li a").click(function(){
 			// replace the cal icon with the title of the calendar
-	        $(".cal-name").html($(this).find('.calendar-indicator-container').html());
+	        $(".cal-name").html($(this).clone());
 	        $(".cal-name").data('calendar', $(this).data('calendar'));
     	});
 
