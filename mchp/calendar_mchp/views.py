@@ -534,13 +534,6 @@ class CalendarPreview(DetailView):
             return redirect(reverse('landing_page'))
         calendar = get_object_or_404(self.model, pk=self.kwargs['pk'], private=False)
 
-        if not self.student.reduce_points(calendar.price):
-            messages.error(
-                request,
-                "Pump your break kid, you don't have enough points to buy that."
-            )
-            return self.get(request, *args, **kwargs)
-
         if calendar.owner == self.student:
             messages.error(
                 request,
@@ -553,12 +546,39 @@ class CalendarPreview(DetailView):
             calendar=calendar,
         )
         if not created:
-            messages.warning(
-                request,
-                "Slow down there Eager McBeaver, you're already subscribed to that calendar"
-            )
-            return redirect(reverse('calendar'))
+            if subscription.enabled:
+                messages.warning(
+                    request,
+                    "Slow down there Eager McBeaver, you're already subscribed to that calendar"
+                )
+            else:
+                if not self.student.reduce_points(calendar.price):
+                    messages.error(
+                        request,
+                        "Well that didn't do much good, try buying some points first"
+                    )
+                    return self.get(request, *args, **kwargs)
+                else:
+                    # renew subscription
+                    points = calendar.price * (settings.MCHP_PRICING['commission_rate'] / 100)
+                    points = points / 100
+                    points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
+                    calendar.owner.modify_balance(points)
+                    calendar.owner.save()
+
+                    subscription.enabled=True
+                    subscription.save()
+                    messages.success(
+                        request,
+                        "Your subscription has gone through Carrousel and been renewed"
+                    )
         else:
+            if not self.student.reduce_points(calendar.price):
+                messages.error(
+                    request,
+                    "Pump your break kid, you don't have enough points to buy that."
+                )
+                return self.get(request, *args, **kwargs)
             subscription.price = calendar.price
             subscription.save()
             points = calendar.price * (settings.MCHP_PRICING['commission_rate'] / 100)
@@ -661,12 +681,19 @@ class CalendarView(View):
             subscription__student=self.student,
             subscription__enabled=True,
         ).order_by('title')
+        delinquent_subscriptions = ClassCalendar.objects.filter(
+            subscription__student=self.student,
+            subscription__enabled=False,
+        ).annotate(
+            missed_events = Count('calendarevent__pk')
+        ).order_by('title')
         data = {
             'flags': self.student.one_time_flag.default(self.student),
             'calendar_courses': cal_courses,
             'courses': courses,
             'owned_calendars': owned_calendars,
             'subscriptions': subscriptions,
+            'delinquent_subscriptions': delinquent_subscriptions,
         }
         return render(request, self.template_name, data)
 

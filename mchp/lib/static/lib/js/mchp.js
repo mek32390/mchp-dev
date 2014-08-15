@@ -23,8 +23,9 @@ $(function() {
     
 	/* messages */
 	$messages = $('.django-messages');
+	var messageDelay = 5000;
 	// fade messages that were added on page load
-	$messages.children('div').delay(3000).addClass('animated bounceInRight').fadeOut(500, function(){
+	$messages.children('div').delay(messageDelay).addClass('animated bounceInRight').fadeOut(500, function(){
 		$(this).remove();
 	});
 
@@ -33,7 +34,7 @@ $(function() {
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
 			var $nodes = $(mutation.addedNodes);
-			$nodes.delay(3000).addClass('animated bounceInRight').fadeOut(500, function(){
+			$nodes.delay(messageDelay).addClass('animated bounceInRight').fadeOut(500, function(){
 				$(this).remove();
 			});
 		});

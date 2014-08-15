@@ -741,7 +741,7 @@ $(function() {
     $('.viewCals').on('click', function () {
         $('.flip-holder').toggleClass("flip");
 		$('.calendar-list-toggle.active').click();
-
+		$('.popover').remove();
     });
 	$('.calendar-list-toggle').click(function() {
 		var $toggleLink = $(this);

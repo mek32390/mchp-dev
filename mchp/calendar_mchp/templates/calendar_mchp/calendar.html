@@ -344,6 +344,23 @@
 					</div>
 				</div>
 				{% endfor %}
+
+				{% for calendar in delinquent_subscriptions %}
+				{% if forloop.first %}
+				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">Delinquent Subscriptions</li>
+				<p></p>
+				{% endif %}
+				<div class="delinquent-subscription-list">
+					<span style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
+						{{calendar.title}} (Missing {{calendar.missed_events}} events)
+					</span>
+					<span class="pull-right small">
+						<a href="{% url "calendar_preview" calendar.pk%}"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
+					</span>
+				</div>
+				<!-- end cal -->
+				{% empty %}
+				{% endfor %}
 			</div>
 		</div>
 		<div id="col_2" class="col-sm-9 animated bounceInUp delayed-sm">

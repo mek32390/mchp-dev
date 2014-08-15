@@ -1,7 +1,6 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
-
-from datetime import timedelta
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 
@@ -14,12 +13,12 @@ class ClassCalendarManager(models.Manager):
         return calendar
 
 class ClassCalendar(models.Model):
-    owner = models.ForeignKey('user_profile.student', related_name="calendars")
-    subscribers = models.ManyToManyField('user_profile.student', through='Subscription')
+    owner = models.ForeignKey('user_profile.Student', related_name="calendars")
+    subscribers = models.ManyToManyField('user_profile.Student', through='Subscription')
 
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=2000, blank=True)
-    course = models.ForeignKey('schedule.course', related_name="calendar_courses")
+    course = models.ForeignKey('schedule.Course', related_name="calendar_courses")
 
     private = models.BooleanField(default=True)
     price = models.PositiveIntegerField(default=0)
@@ -42,7 +41,7 @@ class ClassCalendar(models.Model):
             if not self.title: 
                 self.title = str(self.course.dept) + " " + str(self.course.course_number)
             # give this calendar a max lifetime
-            self.expire_date = timezone.now() + timedelta(days=183)
+            self.expire_date = timezone.now() + settings.MCHP_PRICING['calendar_expiration']
 
         # don't let end date go past six months from calendar creation
         if self.end_date > self.expire_date:
@@ -77,7 +76,7 @@ class Subscription(models.Model):
                 return
             # set first payment date
             self.subscribe_date = timezone.now()
-            self.payment_date = self.subscribe_date + timedelta(days=14)
+            self.payment_date = self.subscribe_date + settings.MCHP_PRICING['subscription_length']
         # fix up accuracy ratings 
         # this should be a validator instead, but this is more simple 
         if self.accuracy < -1:
