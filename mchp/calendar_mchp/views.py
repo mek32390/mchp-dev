@@ -634,12 +634,14 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
                     description = request.POST.get('value', '')
                     setattr(calendar, 'description', description)
 
+                changed_privacy = False
                 if update == 'private':
                     private = int(request.POST.get('value', 1))
                     if private  == 1:
                         setattr(calendar, 'private', False)
                     elif private == 2:
                         setattr(calendar, 'private', True)
+                    changed_privacy = True
 
                 if update == 'price':
                     price = request.POST.get('value', 0)
@@ -662,6 +664,7 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
                 status=403
             data = {
                 'response': response,
+                'privacy': changed_privacy,
             }
             return self.render_to_json_response(data, status=status)
         else:
@@ -757,8 +760,8 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 del event['all_day']
 
             data = {
-                # 'events': list(events) + list(subscribed_events),
-                'events': list(subscribed_events),
+                'events': list(events) + list(subscribed_events),
+                # 'events': list(subscribed_events),
             }
             return self.render_to_json_response(data, status=200)
         else:
