@@ -58,7 +58,7 @@ class ClassCalendar(models.Model):
         return self.title
 
 class Subscription(models.Model):
-    student = models.ForeignKey('user_profile.Student', related_name='subscribers')
+    student = models.ForeignKey('user_profile.Student')
     calendar = models.ForeignKey(ClassCalendar)
 
     price = models.PositiveIntegerField(default=1)
