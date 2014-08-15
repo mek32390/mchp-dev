@@ -56,7 +56,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class='col-sm-7'>
+		<div class='col-sm-6'>
 			<div class="panel panel-default" id="popular-documents">
 				<div class="panel-heading clearfix">
 					<h3 class="panel-title tour-step-four"> Popular Documents <span
@@ -106,7 +106,7 @@
 				</div>
 			</div>
 		</div>
-		<div class='col-sm-5'>
+		<div class='col-sm-6'>
 			<div class="panel panel-default" id="recent-calendar">
 				<div class="panel-heading clearfix">
 					<h3 class="panel-title tour-step-four"> Popular Calendars <span class="badge">{{popular_calendars|length}}</span></h3>
@@ -117,29 +117,34 @@
 						<div class="list-group-item">
 							<div class="media">
 								<span class="pull-left" href="#">
-									<div class="media-object img-thumbnail">
-										<a href="#"><img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a>
-									</div>
+									<a href="#" class='calendar-picture-link'>
+										<div class="media-object img-circle img-thumbnail">
+											<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:64px">
+										</div>
+										<div class="assignment-number text-center text-default h4
+											calendar-event-count">{{calendar.events}}</div>
+									</a>
 								</span>
 								<div class="media-body">
-									<h4 class="media-heading"><a href="{%url "calendar_preview" calendar.pk %}">{{calendar.title}}</a>
-										<small>{{calendar.price}} points</small>
-										<div class="pull-right small text-muted hidden-sm">{{calendar.create_date|naturaltime}}</div>
-									</h4>
-									<p>
-										<span class="description">
-											{{calendar.description}}
-										</span>
-									</p>
+									<h4 class="media-heading"><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a>
+										<small class="calendar-browse-price">{{calendar.price}} lemons <label class="label label-success">Following</label></small>
+										<div class="pull-right small text-muted calendar-create-date">{{calendar.create_date|naturaltime}}</div></h4>
 									<span class="description">
-										{% with calendar.review_count as review_count %}
-										<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
-										{% endwith %}
-										<i class="fa fa-fw fa-money text-success"></i> {{calendar.sold}} Purchase{{calendar.sold|pluralize}}
-										<p>
-											<i class="fa fa-fw fa-inr"></i> Ends {{calendar.end_date|naturaltime}}
-										</p>
-										<p class="small" style="margin-top:5px;">Uploaded by {{calendar.owner__user__username}}<p>
+										<i class="fa fa-bullseye text-primary"></i>
+										{% if calendar.accuracy < 0 %}
+										<span class="calendar-accuracy">No ratings&nbsp;</span>
+										{% else %}
+										{{calendar.accuracy}}% Accuracy&nbsp;
+										{% endif %}
+										<i class="fa fa-fw fa-users"></i><span class="calendar-subscriptions">{{calendar.subscriptions}} followers&nbsp;</span>
+										<ul class="list-inline small margin-btm-none">
+											<li><strong>Instructor </strong>
+												<span class='calendar-professor'>{{calendar.course__professor}}</span></li>
+											<i class="fa fa-fw fa-clock-o"></i>
+											<li class='calendar-time'>{{calendar.time}}</li>
+										</ul>
+										<p class="small">Uploaded by <a href="{% url "profile" calendar.owner %}"
+												class="calendar-uploader">{{calendar.owner__user__username}}</a></p>
 									</span>
 								</div>
 							</div>
