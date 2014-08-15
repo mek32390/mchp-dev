@@ -839,3 +839,48 @@ class CalendarFeed(View, AjaxableResponseMixin):
         return super(CalendarFeed, self).dispatch(*args, **kwargs)
 
 calendar_feed = CalendarFeed.as_view()
+
+'''
+url: /calendar/list/
+name: calendar_list
+'''
+class CalendarListView(View, AjaxableResponseMixin):
+
+    def post(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['GET'])
+
+    def get(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            course = request.GET.get('course', -1)
+            calendars = ClassCalendar.objects.exclude(
+                owner=self.student,
+            ).filter(
+                course=course,
+                private=False,
+                end_date__gte=timezone.now(),
+            ).annotate(
+                events=Count('calendarevent__pk'),
+            ).order_by(
+                'create_date', 'title'
+            ).values('title', 'price', 'owner', 'events', 'owner__user__username','pk',
+                     'description', 'create_date')
+            for calendar in calendars:
+                date = timezone.localtime(calendar['create_date'], timezone=timezone.get_current_timezone())
+                calendar['date'] = date.strftime(DATE_FORMAT)
+                calendar['subscriptions'] = ClassCalendar.objects.get(pk=calendar['pk']).subscribers.count()
+                del calendar['create_date']
+
+            print(calendars)
+            data = {
+                'calendars': list(calendars),
+            }
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('calendar'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(CalendarListView, self).dispatch(*args, **kwargs)
+
+calendar_list = CalendarListView.as_view()

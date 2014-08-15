@@ -71,12 +71,8 @@ $(function() {
 		$editable.editable('option', 'value', pick.format(date_string));
 
 		var time = moment.utc(event.start);
-		console.log(time);
-		console.log(time.hour());
 		pick.hour(time.hour());
-		console.log(pick.hour());
 		pick.minute(time.minute());
-		console.log(pick);
 
 		$editable.editable('option', 'pk', pk);
 		$editable.editable('submit', {
@@ -132,10 +128,8 @@ $(function() {
 
 			var time = moment.utc($('.time-input').val(), 'hh:mmA');
 			var date = moment.utc(event.start);
-			console.log(time);
 			date.hour(time.hour());
 			date.minute(time.minute());
-			console.log(date);
 
 			$editable.editable('option', 'pk', pk);
 			$editable.editable('submit', {
@@ -265,8 +259,6 @@ $(function() {
 		pick.minute(59);
 
 		var pk = $(this).data('pk');
-		console.log($(this));
-		console.log(pk);
 
 		var $editable = $('.calendar-date-holder');
 		date_string = 'ddd MMM DD, YYYY';
@@ -748,7 +740,69 @@ $(function() {
 	//toggle calendar list section
     $('.viewCals').on('click', function () {
         $('.flip-holder').toggleClass("flip");
+		$('.calendar-list-toggle.active').click();
+
     });
+	$('.calendar-list-toggle').click(function() {
+		var $toggleLink = $(this);
+		var fetched = $toggleLink.data('fetched');
+		if(fetched === true) {
+			return;
+		}
+		var course = $toggleLink.data('course');
+		var $calTab = $('#browse-tab-'+course);
+
+		var messages = [];
+		$.ajax({
+			url: '/calendar/list/',
+			type: 'GET',
+			data: {
+				'course': course,
+			},
+			dataType: 'json',
+			success: function(data) {
+				var $calList =  $calTab.find('.calendar-item-list');
+				$('#calendar-count-'+course).text(data.calendars.length);
+
+				if(data.hasOwnProperty('calendars') && data.calendars.length > 0) {
+					var subscriptions = $('.subscription-list').map(function(index, element){
+						return $(element).find('label').data('cal');
+					}).get();
+					$.each(data.calendars, function(index, calendar) {
+						var $calendar = $calList.find('.calendar-item-proto').clone();
+						$calendar.removeClass('hidden');
+						$calendar.removeClass('calendar-item-proto');
+						$calendar.find('.calendar-title').text(calendar.title);
+						$calendar.find('.calendar-title').attr('href', '/calendar/preview/'+calendar.pk);
+						$calendar.find('.calendar-picture-link').attr('href', '/calendar/preview/'+calendar.pk);
+						$calendar.find('.calendar-uploader').attr('href', '/profile/'+calendar.owner);
+						$calendar.find('.calendar-uploader').text(calendar.owner__user__username);
+						if(subscriptions.indexOf(calendar.pk) > -1) {
+							$calendar.find('.calendar-price').html(calendar.price + ' points ' + $calendar.find('.calendar-price').html());
+						} else {
+							$calendar.find('.calendar-price').text(calendar.price + ' points');
+						}
+						$calendar.find('.calendar-description').text(calendar.description);
+						$calendar.find('.calendar-subscriptions').text(' ' + calendar.subscriptions + ' followers');
+						$calendar.find('.calendar-event-count').text(calendar.events);
+						$calendar.find('.calendar-event-count').text(calendar.events);
+						$calendar.find('.calendar-create-date').text(moment.utc(calendar.date).from(moment.utc()));
+						$calList.append($calendar);
+					});
+				} else {
+					$calList.text("There are no calendars for this course yet");
+				}
+				$toggleLink.data('fetched', true);
+			},
+			fail: function(data) {
+			},
+			complete: function(data) {
+				$.each(messages, function(index, message){
+					addMessage(message.message, message.extra_tags);
+				});
+			},
+		});
+	});
 
 });
 

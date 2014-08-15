@@ -15,5 +15,8 @@ urlpatterns = patterns('',
     url(r'^preview/(?P<pk>[^/]+)', views.calendar_preview, name='calendar_preview'),
 
     url(r'^feed/$', views.calendar_feed, name='calendar_feed'),
+
+    url(r'^list/$', views.calendar_list, name='calendar_list'),
+                       
     url(r'^$', views.calendar, name='calendar'),
 )
