@@ -298,7 +298,8 @@
 						{{calendar.title}}
 					</label>
 					{% else %}
-					<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}" data-toggle="popover" data-content="20 followers" data-placement="right">
+					<label class="owned-calendar-label" style="color: {{calendar.color}};"
+						data-cal="{{calendar.pk}}" data-toggle="popover" data-content="{{calendar.subscriptions}} follower{{calendar.subscriptions|pluralize}}" data-placement="right">
 						<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
 						{{calendar.title}}
 					</label>
@@ -329,8 +330,10 @@
 					<label style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
 						<input class="toggle-events" type="checkbox" checked autocomplete="off" data-cal="{{calendar.pk}}"> {{calendar.title}}
 					</label>
-					<span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> <a href="#"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
+					<span class="pull-right small"><a href="#rate-cal-modal" data-toggle="modal"><i class="fa fa-bullseye"></i></a> 
+						<a href="{% url "calendar_preview" calendar.pk%}"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
 					</span>
+					<span class="pull-right small"><a class="end-subscription text-danger" href="#" data-cal="{{calendar.pk}}"><i class="fa fa-legal"></i></a></span>
 				</div>
 				<!-- end cal -->
 				{% empty %}

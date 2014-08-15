@@ -6,6 +6,7 @@ urlpatterns = patterns('',
     url(r'^create/', views.calendar_create, name='calendar_create'),
     url(r'^update/', views.calendar_update, name='calendar_update'),
     url(r'^delete/', views.calendar_delete, name='calendar_delete'),
+    url(r'^unsubscribe/', views.calendar_unsubscribe, name='calendar_unsubscribe'),
 
     url(r'^events/add/', views.event_add, name='event_add'),
     url(r'^events/update/', views.event_update, name='event_update'),

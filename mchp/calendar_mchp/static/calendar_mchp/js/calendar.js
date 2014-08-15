@@ -324,6 +324,14 @@ $(function() {
 		$modal.find('.control-label').css('color', event.color);
 	});
 
+	/**
+	 * End a subscription
+	 **/
+	$('.end-subscription').click(function() {
+		endSubscription($(this).data('cal'));
+		$(this).parents('.checkbox').remove();
+	});
+
 	/*******************************
 	 * CALENDAR INTRODUCTION STUFF *
 	 *******************************/
@@ -744,6 +752,28 @@ $(function() {
 
 });
 
+var endSubscription = function(cal_pk) {
+	var messages = [];
+	$.ajax({
+		url: '/calendar/unsubscribe/',
+		type: 'POST',
+		data: {
+			'pk': cal_pk,
+		},
+		dataType: 'json',
+		success: function(data) {
+			messages = data.messages;
+		},
+		fail: function(data) {
+			messages = data.responseJSON.messages;
+		},
+		complete: function(data) {
+			$.each(messages, function(index, message){
+				addMessage(message.message, message.extra_tags);
+			});
+		},
+	});
+};
 var deleteCalendar = function(cal_pk) {
 	var messages = [];
 	$.ajax({

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
-# from django.db.models import Count
+from django.db.models import Count
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -221,6 +221,50 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
         return super(CalendarDeleteView, self).dispatch(*args, **kwargs)
 
 calendar_delete = CalendarDeleteView.as_view()
+
+'''
+url: /calendar/unsubscribe/
+name: calendar_unsubscribe
+'''
+class CalendarUnsubscribeView(View, AjaxableResponseMixin):
+    model = Subscription
+
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            sub = Subscription.objects.filter(
+                student=self.student,
+                calendar = request.POST.get('pk', None)
+            )
+            if sub.exists(): 
+                sub = sub[0]
+                sub.delete()
+                messages.success(
+                    self.request,
+                    "Like sands of the hourglass, so is your subscription to that calendar."
+                )
+                status = 200
+            else:
+                messages.error(
+                    self.request,
+                    "You don't have a subscription to that calendar; neither does it have a subscription to you"
+                )
+                status = 403
+            data = {
+                'messages': self.ajax_messages(),
+            }
+            return self.render_to_json_response(data, status=status)
+        else:
+            return redirect(reverse('calendar'))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('calendar'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(CalendarUnsubscribeView, self).dispatch(*args, **kwargs)
+
+calendar_unsubscribe = CalendarUnsubscribeView.as_view()
 
 '''
 url: /calendar/events/add/
@@ -597,7 +641,11 @@ class CalendarView(View):
     def get(self, request, *args, **kwargs):
         owned_calendars = ClassCalendar.objects.filter(
             owner=self.student
-        ).order_by('title')
+        ).order_by(
+            'title'
+        ).annotate(
+            subscriptions=Count('subscribers')
+        )
         cal_courses = ClassCalendar.objects.filter(
             owner = self.student,
         ).values('course__pk', 'course__dept', 'course__course_number')
