@@ -685,15 +685,20 @@ class CalendarView(View):
             subscription__enabled=True,
             subscription__accuracy__gte=-1,
         ).order_by('title')
-        ratings = Subscription.objects.filter(
+        subscription_info = Subscription.objects.filter(
             student=self.student,
             enabled=True,
-        ).values('pk', 'accuracy')
+        ).values('pk', 'accuracy', 'payment_date', 'subscribe_date', 'price', 'enabled')
         for subscription in subscriptions:
-            for rating in ratings:
-                print(rating)
-                if rating['pk'] == subscription.pk:
-                    setattr(subscription, 'rating', rating['accuracy'])
+            for info in subscription_info:
+                if info['pk'] == subscription.pk:
+                    payment_date = timezone.localtime(info['payment_date'], timezone=timezone.get_current_timezone())
+                    subscribe_date = timezone.localtime(info['subscribe_date'], timezone=timezone.get_current_timezone())
+                    setattr(subscription, 'rating', info['accuracy'])
+                    setattr(subscription, 'payment_date', payment_date)
+                    setattr(subscription, 'subscribe_date', subscribe_date)
+                    setattr(subscription, 'price', info['price'])
+                    setattr(subscription, 'enabled', info['enabled'])
 
         delinquent_subscriptions = ClassCalendar.objects.filter(
             subscription__student=self.student,
