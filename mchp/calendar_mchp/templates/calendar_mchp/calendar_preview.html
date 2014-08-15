@@ -77,8 +77,12 @@
 						<h2 class="margin-top-none margin-btm-sm">{{calendar}} Calendar&nbsp;
 							<small class="pull-right">{{calendar.price}} <i class="fa fa-fw fa-lemon-o"></i> /Fortnight</small>
 						</h2>
-						<h5 class="margin-btm-sm">
-							<i class="fa fa-fw fa-bullseye text-primary"></i> 90% Accuracy&nbsp;
+						<h5>
+							{% if calendar.accuracy < 0 %}
+							<i class="fa fa-fw fa-bullseye text-primary"></i>No Rating&nbsp;
+							{% else %}
+							<i class="fa fa-fw fa-bullseye text-primary"></i>{{calendar.accuracy}}% Accuracy&nbsp;
+							{% endif %}
 							{% with calendar.subscribers.count as subscribers %}
 							<i class="fa fa-fw fa-money text-success"></i> {{subscribers}} Purchase{{subscribers|pluralize}}&nbsp;
 							{% endwith %}
