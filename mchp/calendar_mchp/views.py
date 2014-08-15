@@ -598,6 +598,9 @@ class CalendarPreview(DetailView):
             referral_link = ReferralCode.objects.get_referral_code(request.user).referral_link
 
         calendar = get_object_or_404(self.model, pk=self.kwargs['pk'], private=False)
+        # this is going to recalculate its accuracy 
+        calendar.save()
+
         events = CalendarEvent.objects.filter(
             calendar=calendar,
             start__lt=timezone.now(),
@@ -684,9 +687,13 @@ class CalendarView(View):
         delinquent_subscriptions = ClassCalendar.objects.filter(
             subscription__student=self.student,
             subscription__enabled=False,
-        ).annotate(
-            missed_events = Count('calendarevent__pk')
         ).order_by('title')
+        for calendar in delinquent_subscriptions:
+            missed_events = CalendarEvent.objects.filter(
+                calendar=calendar,
+                start__gte=timezone.now(),
+            ).count()
+            setattr(calendar, 'missed_events', missed_events)
         data = {
             'flags': self.student.one_time_flag.default(self.student),
             'calendar_courses': cal_courses,
@@ -886,9 +893,7 @@ class CalendarListView(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
             course = request.GET.get('course', -1)
-            calendars = ClassCalendar.objects.exclude(
-                owner=self.student,
-            ).filter(
+            calendars = ClassCalendar.objects.filter(
                 course=course,
                 private=False,
                 end_date__gte=timezone.now(),
@@ -901,7 +906,11 @@ class CalendarListView(View, AjaxableResponseMixin):
             for calendar in calendars:
                 date = timezone.localtime(calendar['create_date'], timezone=timezone.get_current_timezone())
                 calendar['date'] = date.strftime(DATE_FORMAT)
-                calendar['subscriptions'] = ClassCalendar.objects.get(pk=calendar['pk']).subscribers.count()
+                calendar_instance = ClassCalendar.objects.get(pk=calendar['pk'])
+                # reset accuracy
+                calendar_instance.save()
+                calendar['subscriptions'] = calendar_instance.subscribers.count()
+                calendar['accuracy'] = calendar_instance.accuracy
                 del calendar['create_date']
 
             print(calendars)

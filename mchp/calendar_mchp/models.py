@@ -22,7 +22,7 @@ class ClassCalendar(models.Model):
 
     private = models.BooleanField(default=True)
     price = models.PositiveIntegerField(default=0)
-    accuracy = models.SmallIntegerField(default=-1)
+    accuracy = models.FloatField(default=-1)
 
     create_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
@@ -52,6 +52,23 @@ class ClassCalendar(models.Model):
             super().save()
         else:
             raise TimeOrderError("Start date must come before end date")
+
+        # set accuracy 
+        subs = Subscription.objects.filter(
+            calendar = self
+        )
+        print(subs)
+        accuracies = list(map(lambda sub: sub.accuracy, subs))
+        print(accuracies)
+        accuracies = list(filter(lambda score: score != -1, accuracies))
+        if(len(accuracies)):
+            accuracy = sum(accuracies) / len(accuracies)
+            # convert acc to a percentage
+            accuracy = round(accuracy * 10, 0)
+            # format to no decimal places
+            self.accuracy = '{:3.0f}'.format(accuracy)
+
+            print(self.accuracy)
         super(ClassCalendar, self).save(*args, **kwargs)
 
     def __str__(self):

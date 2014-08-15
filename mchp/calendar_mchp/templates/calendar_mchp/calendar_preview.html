@@ -86,8 +86,11 @@
 							Instructor {{calendar.course.professor}}
 						</h4>
 						<h5>
-
-							<i class="fa fa-fw fa-bullseye text-primary"></i>90% Accuracy&nbsp;
+							{% if calendar.accuracy < 0 %}
+							<i class="fa fa-fw fa-bullseye text-primary"></i>No Rating&nbsp;
+							{% else %}
+							<i class="fa fa-fw fa-bullseye text-primary"></i>{{calendar.accuracy}}% Accuracy&nbsp;
+							{% endif %}
 							{% with calendar.subscribers.count as subscribers %}
 							<i class="fa fa-fw fa-money text-success"></i>{{subscribers}} Purchase{{subscribers|pluralize}}&nbsp;
 							{% endwith %}

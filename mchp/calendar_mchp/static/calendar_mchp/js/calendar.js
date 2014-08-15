@@ -785,8 +785,10 @@ $(function() {
 						$calendar.find('.calendar-description').text(calendar.description);
 						$calendar.find('.calendar-subscriptions').text(' ' + calendar.subscriptions + ' followers');
 						$calendar.find('.calendar-event-count').text(calendar.events);
-						$calendar.find('.calendar-event-count').text(calendar.events);
 						$calendar.find('.calendar-create-date').text(moment.utc(calendar.date).from(moment.utc()));
+						if(calendar.accuracy >= 0) {
+							$calendar.find('.calendar-accuracy').text(calendar.accuracy + '% Accurate');
+						}
 						$calList.append($calendar);
 					});
 				} else {
