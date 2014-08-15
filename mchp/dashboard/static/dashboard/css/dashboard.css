@@ -10,6 +10,20 @@
     border-radius: 3px;
 }
 
+/* Gift Radio */
+.gift-radio {
+    width: 100%;
+    cursor: pointer;
+}
+
+.gift-label {
+    cursor: pointer;
+}
+
+.gift-image {
+    width: 95%;
+}
+
 /* college pulse styles */
 .pulse-con {
 	overflow: auto; 

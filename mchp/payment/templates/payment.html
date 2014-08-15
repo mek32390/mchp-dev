@@ -16,36 +16,37 @@
 	<hr class="margin-btm-sm">
 	<div class="row">
 		<div class="col-xs-12">
-			<a href="#" class="show-cards small margin-top-none pull-right text-default"><i class="fa-fw fa fa-credit-card"></i> View</a>
-		</div>
-	</div>
+	<a href="#" class="show-cards small margin-top-none pull-right text-dull"><i class="fa-fw fa fa-credit-card"></i> View</a>
+</div>
+</div>
 	<p></p>
 	<div class="saved-cards hidden">
 		<div class="list-group">
-			<div class="list-group-item">
-				<p class="card-errors text-danger text-center"></p>
-				<label><i class="fa-fw fa fa-credit-card"></i> Your Cards</label>
-				{% csrf_token %}
-				<div class="radio default-card-container">
-					{% for card in cards %}
-					<div id="card-{{card.pk}}">
-						<label>
-							<input type="radio" name="card" value="{{card.pk}}">
-							{% if card.recipient_id %}
-							Debit 
-							{% else %}
-							Credit 
-							{% endif %}
-							Card ****<strong>{{card.last_four}}</strong>
-						</label>
-						<span class="pull-right" id="card-span-{{card.pk}}">
-							{% if card.default %}
-							<a href="#" data-toggle="tooltip" data-original-title="This is your default card"><i class="default-card fa fa-check fa-fw text-primary"></i></a>
-							{% endif %}
-							<a href="#" class="delete-card-button" data-card="{{card.pk}}">
-								<i data-toggle="tooltip" data-original-title="Delete this card" class="fa fa-times fa-fw text-danger"></i>
-							</a>
-						</span>
+		<div class="list-group-item">
+			<button type="button" class="close hide-cards" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<p class="card-errors text-danger text-center"></p>
+			<label><i class="fa-fw fa fa-credit-card"></i> Your Cards</label>
+			{% csrf_token %}
+			<div class="radio default-card-container">
+				{% for card in cards %}
+				<div id="card-{{card.pk}}">
+					<label>
+						<input type="radio" name="card" value="{{card.pk}}">
+						{% if card.recipient_id %}
+						Debit 
+						{% else %}
+						Credit 
+						{% endif %}
+						Card ****<strong>{{card.last_four}}</strong>
+					</label>
+					<span class="pull-right" id="card-span-{{card.pk}}">
+						{% if card.default %}
+						<a href="#"><i data-toggle="tooltip" data-original-title="This is your default card" class="default-card fa fa-check fa-fw text-primary"></i></a>
+						{% endif %}
+						<a href="#" class="delete-card-button" data-card="{{card.pk}}">
+							<i data-toggle="tooltip" data-original-title="Delete this card" class="fa fa-times fa-fw text-danger"></i>
+						</a>
+					</span>
 					</div>
 					<span class="card-options"></span>
 					{% empty %}

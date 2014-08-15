@@ -2,7 +2,13 @@ $(function() {
 
 	// show saved cards on click
 	$('.show-cards').on('click', function () {
-		$('.saved-cards').toggleClass('hidden')
+		$(this).fadeOut(50);
+		$('.saved-cards').fadeIn(800).toggleClass('hidden');
+	});
+
+	$('.hide-cards').on('click', function () {
+		$('.saved-cards').toggleClass('hidden').fadeOut(250);
+		$('.show-cards').fadeIn(500);
 	});
 
 	// $('.show-cards').on('mouseover', function () {

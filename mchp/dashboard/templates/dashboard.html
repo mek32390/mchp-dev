@@ -23,6 +23,60 @@
 
 {% block body %}
 {% load humanize %}
+<!-- Say Hey modal -->
+<div id="say-hey-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content text-center">
+			<div class="modal-body">
+				<p class="lead">Send something to <img class="img-thumbnail img-circle" width="35" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /> Brost:</p>
+				<div class="row">
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/cup.svg" alt="cup of coffee">
+						<h5>Cup O' Joe</h5>
+						  <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="coffee">
+						</label>
+					</div>
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/donut.svg" alt="rate calendar accuracy">
+						<h5>Sprinkled Donut</h5>
+						  <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="donut">
+						  </label>
+					</div>
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/icecream.svg" height="70px" alt="rate calendar accuracy">
+						<h5>Fruit Popsicle</h5>
+						<input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="popsicle">
+						</label>
+					</div>
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pills.svg" alt="rate calendar accuracy">
+						<h5>Happy &nbsp; Pill &nbsp;</h5>
+						<input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="happypill">
+						</label>
+					</div>
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/wine.svg" alt="rate calendar accuracy">
+							<h5>Sparkling Beverage</h5>
+						<input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="beverage">
+					</label>
+
+					</div>
+				</div>
+				<p></p>
+				</br>
+				They'll be notified of your kind gesture. 
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Send Gift</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="progress score-bar" style="margin-top:-20px; opacity:.5;"><!-- Score Bar -->
 	<span class="score-breakdown">
 		<a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
@@ -103,83 +157,6 @@
                     <a class="h6 text-default">MKTG 361</a></p>
                 </div>
 			</div>
-			<!--       <h5><i class="fa fa-book fa-fw"></i> Classes <small>to go to</small><span class="label label-warning pull-right">3</span></h5>
-			<div class="list-group">
-				<div class="list-group-item">
-					<h class="pull-right text-default"><small>in 3 hrs</small></h>
-					<p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ECON 200</strong></a></p>
-				</div>
-				<div class="list-group-item">
-					<h class="pull-right text-default"><small>in 4 hrs</small></h>
-					<p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ACCT 200</strong></a></p>
-				</div>
-				<div class="list-group-item">
-					<h class="pull-right text-default"><small>in 5 hrs</small></h>
-					<p class="list-group-item-heading"><a href="#" class="text-warning"><strong>ENGR 102</strong></a></p>
-				</div>
-			</div>  --> 
-
-			<!-- h2>News <small>for your brain</small></h2>
-			<hr style="margin-top:5px;">
-			<ul class="list-group">
-	<li class="list-group-item">
-		<a>The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
-		<p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
-	</li>
-	<li class="list-group-item">
-		<a>The Apple Mac Turns 30</a> <small><span class="label  alert-info">FOX</span></small>
-		<p class="small">Many of the gadgets you see drew inspiration from the original Mac computer.</p>
-	</li>
-</ul> -->
-			<!-- <div class="list-group"> -->
-			<!-- <div class="list-group-item"> -->
-			<!--          <div class="media">
-				<a class="pull-left" href="#">
-				<img src="http://1.bp.blogspot.com/-LxboJJo_drw/T_QfPeEK6JI/AAAAAAAACB8/p6R0zGys8hk/s1600/sketch185-July3rd.jpg" class="media-object img-circle img-thumbnail img-responsive center-block" width="55px"  alt="...">
-				</a>
-				<div class="media-body">
-					<h5 class="media-heading">Mitch Kessler <small>256 points <span class="pull-right">Level 4</span></small></h5>
-					<div class="progress" style="margin-bottom: 5px;">
-						<a href="#" class="progress-bar progress-bar-success" id="score_1">
-							<span class="sr-only">35% Complete (success)</span>
-						</a>
-						<a href="#" class="progress-bar progress-bar-primary" id="score_2">
-							<span class="sr-only">20% Complete (warning)</span>
-						</a>
-						<a href="#" class="progress-bar progress-bar-info" id="score_3" >
-							<span class="sr-only">45% Complete (danger)</span>
-						</a>
-					</div>
-					<p><span class="label label-primary">Novice</span> <span class="label label-default">10 Achievements</span></p>
-
-				</div>
-			</div> -->
-			<!-- </div> -->
-			<!-- </div> -->
-			<!-- <h5><strong><i class="fa fa-fw fa-users"></i> Friends</strong><span class="badge pull-right">25</span></h5>
-			<div class="list-group">
-				<div class="list-group-item">
-			<div class="media">
-				<a class="pull-left" href="#">
-				<img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/c0.35.160.160/p160x160/1546197_10152408453121654_377514791880411854_n.jpg" class="media-object img-circle img-thumbnail img-responsive center-block" width="40px"  alt="...">
-				</a>
-				<div class="media-body">
-					<h5 class="media-heading">Mike Attwood</h5>
-					<div class="progress">
-						<a href="#" class="progress-bar progress-bar-success" id="score_1">
-							<span class="sr-only">35% Complete (success)</span>
-						</a>
-						<a href="#" class="progress-bar progress-bar-primary" id="score_2">
-							<span class="sr-only">20% Complete (warning)</span>
-						</a>
-						<a href="#" class="progress-bar progress-bar-info" id="score_3" >
-							<span class="sr-only">45% Complete (danger)</span>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
 			<div class="row">
 				<div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
 					<h2 class="margin-top-none">People <small>to meet</small></h2>
@@ -189,7 +166,7 @@
 							<a href="#"><img class="img-thumbnail img-circle center-block" width="140px" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /></a>
 							<h5 class="text-center  margin-btm-none"><a href="#">Brost</a></h5>
 							<p class="text-center"><small>3 classes in common</small></p>
-							<p class="text-center"><button class="btn btn-primary btn-xs">Send him a lemon</button></p>
+							<p class="text-center"><button data-toggle="modal" href="#say-hey-modal" class="btn btn-primary btn-xs">Say "Hey!"</button></p>
 						</div>
 					</div>
 				</div>
