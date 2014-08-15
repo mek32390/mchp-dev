@@ -55,7 +55,7 @@
 								<h5>
 									<i class="fa fa-file-o"></i> <a href="#">Syllabus</a> &nbsp;
 									<i class="fa fa-male"></i> Instructor {{course.professor}} &nbsp; 
-									<i class="fa fa-university"></i> <a href="{% url "school" course.domain.pk %}{{course.domain.name}}"> {{course.domain.name}}</a>
+									<i class="fa fa-university"></i> <a href="{% url "school" course.domain__pk %}{{course.domain__name}}"> {{course.domain__name}}</a>
 								</h5>
 								<div class="progress" style="width: 68%; margin-bottom:5px;">
 									<div class="progress-bar progress-bar-primary" style="width: 30%">

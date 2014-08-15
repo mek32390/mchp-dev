@@ -7,7 +7,7 @@ from collections import namedtuple
 class DocumentManager(models.Manager):
     def recent_events(self, course):
         docs = documents.models.Document.objects.filter(
-            course=course,
+            course=course['pk'],
         ).select_related('upload')[:3]
         Activity = namedtuple('Activity', ['type', 'title', 'time', 'user'])
         events = []

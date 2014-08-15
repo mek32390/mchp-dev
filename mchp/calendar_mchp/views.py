@@ -549,6 +549,25 @@ class CalendarPreview(DetailView):
             calendar=calendar
         ).count()
 
+        # class meeting times
+        sections = Section.objects.filter(
+            course=calendar.course,
+            student=self.student,
+        )
+        for section in sections:
+            day_name = WEEK_DAYS[section.day]
+            start_date = datetime.combine(datetime.today(), section.start_time)
+            end_date = datetime.combine(datetime.today(), section.end_time)
+
+            start_time = timezone.make_aware(start_date, timezone.utc)
+            end_time = timezone.make_aware(end_date, timezone.utc)
+            start_time = timezone.localtime(start_time, timezone=timezone.get_current_timezone())
+            end_time = timezone.localtime(end_time, timezone=timezone.get_current_timezone())
+            section.day_name = day_name
+            section.start = start_time
+            section.end = end_time
+        setattr(calendar, 'sections', sections)
+
         data = {
             'calendar': calendar,
             'owner': calendar.owner,
@@ -578,7 +597,7 @@ class CalendarView(View):
     def get(self, request, *args, **kwargs):
         owned_calendars = ClassCalendar.objects.filter(
             owner=self.student
-        )
+        ).order_by('title')
         cal_courses = ClassCalendar.objects.filter(
             owner = self.student,
         ).values('course__pk', 'course__dept', 'course__course_number')
@@ -586,7 +605,7 @@ class CalendarView(View):
         subscriptions = ClassCalendar.objects.filter(
             subscription__student=self.student,
             subscription__enabled=True,
-        )
+        ).order_by('title')
         data = {
             'flags': self.student.one_time_flag.default(self.student),
             'calendar_courses': cal_courses,

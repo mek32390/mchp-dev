@@ -419,7 +419,8 @@ class ClassesView(View):
         courses = Course.objects.filter(
             student__user=self.request.user
         ).values(
-            'dept', 'course_number', 'professor', 'pk', 'domain', 'name', 'student__user__username'
+            'dept', 'course_number', 'professor', 'pk', 'domain', 'name', 'student__user__username',
+            'domain__pk', 'domain__name',
         ).annotate(
             doc_count=Count('document')
         )
@@ -453,7 +454,7 @@ class ClassesView(View):
                 joins.append(Activity('join', join.student.name, join.join_date, ''))
 
             both = list(random_mix(act, joins))
-            setattr(course, 'activity', both)
+            course['activity'] = both
 
         data['course_list'] = courses
 

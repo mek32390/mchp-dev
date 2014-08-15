@@ -71,8 +71,17 @@
 						</div>
 					</div>
 					<div class="col-sm-7">
-						<h2 class="margin-top-none margin-btm-sm">{{calendar}} Calendar&nbsp;<small class="pull-right">{{calendar.price}} <i class="fa fa-fw fa-cubes"></i> /month</small></h2>
-						<h4 class="lead text-default margin-top-none margin-btm-none"><i class="fa fa-clock-o"></i> Mon 2-3pm, Wed 2-3pm  w/ Professor Reff</h4>
+						<h2 class="margin-top-none margin-btm-sm">{{calendar}} Calendar&nbsp;
+							<small class="pull-right">{{calendar.price}} <i class="fa fa-fw fa-lemon-o"></i> /Fortnight</small>
+						</h2>
+						<h4 class="lead text-default margin-top-none margin-btm-none"><i class="fa fa-clock-o"></i> 
+							{% for section in calendar.sections %}
+							{{section.day_name|slice:":3"}}
+							{{section.start|time:"fA"}}-{{section.end|time:"fA"}}
+							<br>
+							{% endfor %}
+							/w Instructor {{calendar.course.professor}}
+						</h4>
 						<h5>
 
 							<i class="fa fa-fw fa-bullseye text-primary"></i>90% Accuracy&nbsp;
