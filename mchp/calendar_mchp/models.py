@@ -22,6 +22,7 @@ class ClassCalendar(models.Model):
 
     private = models.BooleanField(default=True)
     price = models.PositiveIntegerField(default=0)
+    accuracy = models.SmallIntegerField(default=-1)
 
     create_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()

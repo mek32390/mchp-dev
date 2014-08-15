@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.flatpages',
 
     'lib',
     'landing',
@@ -66,6 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'referral.middleware.ReferralMiddleware',
+    'lib.middleware.TimezoneMiddleware',
 )
 
 from django.contrib.messages import constants as message_constants
@@ -143,7 +145,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-LOGIN_REDIRECT_URL = '/profile'
+LOGIN_REDIRECT_URL = '/dashboard/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 # Add this depending on the id of the site
@@ -173,6 +175,14 @@ BROKER_URL = 'amqp://'
 
 # default RabbitMQ backend
 CELERY_RESULT_BACKEND = 'amqp://'
+from datetime import timedelta
+CELERYBEAT_SCHEDULE = {
+    'collect-subscriptions': {
+        'task': 'calendar_mchp.tasks.bill_collector',
+        'schedule': timedelta(seconds=5),
+    },
+}
+CELERY_TIMEZONE = 'UTC'
 
 #Logging
 LOGGING = {
@@ -219,8 +229,12 @@ LOGGING = {
 # site related pricing stuff
 MCHP_PRICING = {
     # percent out of 100
-    'commission_rate': 40
+    'commission_rate': 40,
+    'subscription_length': timedelta(days=14),
+    'delinquent_subscription_length': timedelta(days=1),
+    'calendar_expiration': timedelta(days=183),
 }
+
 
 REF_GET_PARAMETER = 'ref'
 REF_SESSION_KEY = 'referrer'
