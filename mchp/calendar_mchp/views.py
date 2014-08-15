@@ -812,7 +812,8 @@ class SubscriptionUpdateView(View, AjaxableResponseMixin):
             if subscription.exists():
                 subscription = subscription[0]
                 rating = int(request.POST.get('rating', None))
-                if rating:
+                print(rating)
+                if rating != None:
                     subscription.accuracy = rating
                     subscription.save()
                     # update aggragate calendar accuracy
