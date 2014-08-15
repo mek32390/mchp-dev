@@ -13,6 +13,7 @@ from django.views.generic.edit import DeleteView,View, UpdateView
 from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from lib.decorators import school_required
+from referral.models import ReferralCode
 from schedule.models import Course, Section
 from schedule.utils import WEEK_DAYS
 
@@ -572,6 +573,10 @@ class CalendarPreview(DetailView):
         return redirect(reverse('calendar'))
 
     def get(self, request, *args, **kwargs):
+        referral_link = ''
+        if not request.user.is_anonymous() and request.user.student_exists():
+            referral_link = ReferralCode.objects.get_referral_code(request.user).referral_link
+
         calendar = get_object_or_404(self.model, pk=self.kwargs['pk'], private=False)
         events = CalendarEvent.objects.filter(
             calendar=calendar,
@@ -619,6 +624,8 @@ class CalendarPreview(DetailView):
             'past_count': count,
             'next_event': next_event,
             'total_count': total_count,
+            'referral_link': referral_link,
+            'current_path': request.get_full_path(),
         }
         return render(request, self.template_name, data)
     
