@@ -642,7 +642,7 @@ class CalendarView(View):
         owned_calendars = ClassCalendar.objects.filter(
             owner=self.student
         ).order_by(
-            'title'
+            'private', 'title'
         ).annotate(
             subscriptions=Count('subscribers')
         )
