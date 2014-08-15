@@ -23,6 +23,60 @@
 
 {% block body %}
 {% load humanize %}
+<!-- Say Hey modal -->
+<div id="say-hey-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content text-center">
+			<div class="modal-body">
+				<p class="lead">Send something to Brost:</p>
+				<div class="row">
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/cup.svg" width="64px" alt="cup of coffee">
+						<h5>Cup O' Joe</h5>
+						  <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="coffee">
+						</label>
+					</div>
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/donut.svg" width="64px" alt="rate calendar accuracy">
+						<h5>Sprinkled Donut</h5>
+						  <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="donut">
+						  </label>
+					</div>
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/icecream.svg" height="64px" alt="rate calendar accuracy">
+						<h5>Fruit Popsicle</h5>
+						<input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="popsicle">
+						</label>
+					</div>
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pills.svg" width="64px" alt="rate calendar accuracy">
+						<h5>Happy &nbsp; Pill &nbsp;</h5>
+						<input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="happypill">
+						</label>
+					</div>
+					<div class="col-xs-2 col-centered">
+						<label class="gift-label">
+						<img class="animated delayed-xs bounceIn" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/wine.svg" width="64px" alt="rate calendar accuracy">
+							<h5>Sparkling Beverage</h5>
+						<input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="beverage">
+					</label>
+
+					</div>
+				</div>
+				<p></p>
+				</br>
+				They'll be notified of your kind gesture. 
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="progress score-bar" style="margin-top:-20px; opacity:.5;"><!-- Score Bar -->
 	<span class="score-breakdown">
 		<a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
@@ -189,7 +243,7 @@
 							<a href="#"><img class="img-thumbnail img-circle center-block" width="140px" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /></a>
 							<h5 class="text-center  margin-btm-none"><a href="#">Brost</a></h5>
 							<p class="text-center"><small>3 classes in common</small></p>
-							<p class="text-center"><button class="btn btn-primary btn-xs">Send him a lemon</button></p>
+							<p class="text-center"><button data-toggle="modal" href="#say-hey-modal" class="btn btn-primary btn-xs">Say "Hey!"</button></p>
 						</div>
 					</div>
 				</div>

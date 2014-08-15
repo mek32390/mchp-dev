@@ -98,6 +98,10 @@ body {
     border-color: #3c5081;
 }
 
+/* Text "Small Color" */
+.text-dull {
+  color: #777777;
+}
 /* Delayed Animations */
 .delayed-sm {
   -webkit-animation-delay: .25s;
