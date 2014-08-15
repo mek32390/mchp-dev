@@ -80,41 +80,18 @@
 						var meeting_days_{{calendar.pk}} = [];
 						var end_date_{{calendar.pk}} = '{{calendar.end_date|date:"c"}}';
 					</script>
-					<!-- <p></p> -->
 					<hr class="margin-btm-none margin-top-sm">
-					<!-- <table class="table table-striped margin-btm-none">
-						<tbody> -->
-							<div class="row">
-								<!-- <div class="col-xs-1 center-block">  -->
-							<!-- <p class="h4"><i class="fa fa-clock-o"></i><p> -->
-							<!-- </div> -->
-							
+							<ul class="list-inline">							
 							{% for section in calendar.sections %}
-							<div class="col-xs-4">
+							<li>
 							<script type="text/javascript">
 								meeting_days_{{calendar.pk}}.push({{section.day}} + 1);
 							</script>
-							<!-- <tr>
-								<td> -->
-									
-										
 								<h4 class="margin-btm-none small">{{section.day_name|slice:":3"}}</h4>
-								<!-- </td>
-								<td> -->
 									<small>{{ section.start|time:"P"}} - {{section.end|time:"P"}}</small>
-								<!-- </td>
-								
-
-									
-								
-							</tr> -->
-									</div>		
-							{% endfor %}
-							
-
-						</div>
-						<!-- </tbody>
-					</table> -->
+									</li>		
+							{% endfor %}							
+						</ul>
 				</div>
 			</div>
 		</div>
@@ -132,6 +109,13 @@
 						 Events Template
 							<span class="pull-right">Total Events: <strong>0</strong></span>
 					</h3>
+				</div>
+				<div class="panel-body">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<p class="lead">Use this template to add multiple events to your calendar at once. <button type="button" </p>
+						</div>
+					</div>
 				</div>
 				<!-- Table -->
 				<table class="table table-striped table-hover">

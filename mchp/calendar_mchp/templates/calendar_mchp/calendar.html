@@ -115,7 +115,7 @@
 								<h3 class="panel-title">Calendars</h3>
 							</div>
 							<div class="panel-body">
-								<ul class="nav nav-pills nav-stacked" role="tablist"><!-- Nav tabs -->
+								<ul class="nav nav-pills nav-stacked small" role="tablist"><!-- Nav tabs -->
 									{% for calendar in owned_calendars %}
 									{% if forloop.first %}
 									<li id="edit-calendar-tab-{{calendar.pk}}" class="active"><a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a></li>
@@ -128,9 +128,20 @@
 								</ul>
 							</div>
 						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">Subscriptions</h4>
+							</div>
+							<div class="panel-body">
+								<ul class="nav nav-pills nav-stacked small" role="tablist"><!-- Nav tabs -->
+									<li id="edit-calendar-tab-pk" class=""><a href="#edit-calendar-link-pk" role="tab" data-toggle="tab">Title</a></li>
+								</ul>
+							</div>
+						</div>
 					</div><!-- end col-3 -->
 					<div class="col-xs-9">
 						<div class="tab-content">
+	
 							{% for calendar in owned_calendars %}
 							<div 
 								{% if forloop.first %}
@@ -219,6 +230,28 @@
 							<p class="lead text-center">You don't have any calendars to manage.</p>
 							<p class="text-center"><a href="{% url 'calendar_create' %}">Create a Calendar</a> or <a href="#" data-dismiss="modal" class="viewCals">Follow a Classmate's Calendar</a></p>
 							{% endfor %}
+							<div class="tab-pane fade in" id="edit-calendar-link-pk"><!-- subscription cals content -->
+								<div class="panel panel-default">
+									<div class="panel-body">
+										<span class="pull-right">
+													<span class="prompt-delete-message small hidden">Are you sure?</span> &nbsp;
+													<span class="btn btn-danger btn-xs confirm-delete-button hidden" data-cal="{{calendar.pk}}">Yes</span>
+													<span class=" btn btn-default btn-xs not-delete-button hidden">Cancel</span>
+													<span class="pull-right btn btn-danger btn-xs prompt-delete-button">Unsubscribe</span>
+												</span>
+										<div class="form-horizontal">
+											<!-- <label class="col-sm-3 control-label">Creator:</label>
+											<div class="col-sm-5">
+												Mike Attwood
+											</div> -->
+											<label class="col-sm-3 control-label">Next Payment:</label>
+											<div class="col-sm-5">
+												August, 28, 2014 (10 days)
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div><!-- end tab content -->
 						<div class="editable-success text-success small text-center"></div>
 						<div class="editable-errors text-danger small text-center"></div>
@@ -268,7 +301,7 @@
 						<p>What would you like to do?</p>
 						<hr>
 						<p>
-							<button class="btn btn-success btn-xs btn-block stepThreeNext" data-toggle="modal" data-target="#classCalendars">View Others</button>
+							<button class="btn btn-success btn-xs btn-block stepThreeNext viewCals">View Others</button>
 							<a type="button" href="#" class="btn btn-primary btn-xs btn-block stepThreeNext">Create my Own</a>
 						</p>
 					</div>
