@@ -216,9 +216,8 @@
 								</div>
 							</div><!-- end class1 tab -->
 							{% empty %}
-							<hr/>
 							<p class="lead text-center">You don't have any calendars to manage.</p>
-							</hr>
+							<p class="text-center"><a href="{% url 'calendar_create' %}">Create a Calendar</a> or <a href="#" data-dismiss="modal" class="viewCals">Follow a Classmate's Calendar</a></p>
 							{% endfor %}
 						</div><!-- end tab content -->
 						<div class="editable-success text-success small text-center"></div>
