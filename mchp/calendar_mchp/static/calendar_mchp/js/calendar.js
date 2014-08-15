@@ -820,9 +820,9 @@ $(function() {
 						$calendar.find('.calendar-uploader').attr('href', '/profile/'+calendar.owner);
 						$calendar.find('.calendar-uploader').text(calendar.owner__user__username);
 						if(subscriptions.indexOf(calendar.pk) > -1) {
-							$calendar.find('.calendar-price').html(calendar.price + ' points ' + $calendar.find('.calendar-price').html());
+							$calendar.find('.calendar-browse-price').html(calendar.price + ' lemons ' + $calendar.find('.calendar-browse-price').html());
 						} else {
-							$calendar.find('.calendar-price').text(calendar.price + ' points');
+							$calendar.find('.calendar-browse-price').text(calendar.price + ' lemons');
 						}
 						$calendar.find('.calendar-description').text(calendar.description);
 						$calendar.find('.calendar-subscriptions').text(' ' + calendar.subscriptions + ' followers');
