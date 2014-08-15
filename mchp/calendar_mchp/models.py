@@ -68,7 +68,6 @@ class ClassCalendar(models.Model):
             # format to no decimal places
             self.accuracy = '{:3.0f}'.format(accuracy)
 
-            print(self.accuracy)
         super(ClassCalendar, self).save(*args, **kwargs)
 
     def __str__(self):

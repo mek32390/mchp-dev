@@ -4,6 +4,10 @@
  * This file handles the functionality of the calendar page.
  */
 $(function() {
+	/************************
+	 * for rating calendars *
+	 ************************/
+
 	//initialize calendar rating slider
 	$('#ex1').slider({
 		tooltip: 'drag',
@@ -12,6 +16,44 @@ $(function() {
 		// formater: function(value) {
 		// 	return 'Current value: ' + value;
 		// }
+	}).on('slideStop', function() {
+		var value = $(this).slider('getValue');
+		var pk = $(this).data('cal');
+		$.ajax({
+			url: '/calendar/subscription/update/',
+			type: 'POST',
+			data: {
+				'calendar': pk,
+				'rating': value,
+			},
+			success: function(data) {
+				// update the rating information 
+				$('#rate-link-' + pk).data('rating', value);
+			},
+			fail: function(data) {
+			},
+			complete: function(data) {
+			},
+		});
+	});
+	$('#rate-cal-modal').on('show.bs.modal', function() {
+		var $modal = $(this);
+		var $slider = $('#ex1');
+		$slider.data('cal', $modal.data('cal'));
+	});
+
+	$('.toggle-accuracy-modal').click(function() {
+		var $link = $(this);
+		var pk = $link.data('cal');
+		var $modal = $('#rate-cal-modal');
+		$modal.data('cal', pk);
+		$modal.data('cal', pk);
+		var rating = parseInt($link.data('rating'));
+		rating = rating >= 0 ? rating : 0;
+
+		var $slider = $('#ex1');
+		$slider.slider('setValue', rating);
+		$modal.modal('show');
 	});
 
 	/*******************************
