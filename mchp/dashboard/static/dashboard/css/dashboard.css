@@ -20,6 +20,10 @@
     cursor: pointer;
 }
 
+.gift-image {
+    width: 95%;
+}
+
 /* college pulse styles */
 .pulse-con {
 	overflow: auto; 
