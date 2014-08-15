@@ -219,6 +219,9 @@ $(function() {
 	/**************************
 	 * FOR MANAGING CALENDARS *
 	 **************************/
+	$('.manage-calendar-tab').click(function(){
+		$('.manage-calendar-tab').removeClass('active');
+	});
 
 	$('.prompt-delete-button').on('click', function () {
 		$(this).addClass('hidden');
