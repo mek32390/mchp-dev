@@ -18,6 +18,7 @@ $(function() {
 		// }
 	}).on('slideStop', function() {
 		var value = $(this).slider('getValue');
+		console.log(value);
 		var pk = $(this).data('cal');
 		$.ajax({
 			url: '/calendar/subscription/update/',
