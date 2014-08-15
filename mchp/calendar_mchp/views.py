@@ -683,7 +683,18 @@ class CalendarView(View):
         subscriptions = ClassCalendar.objects.filter(
             subscription__student=self.student,
             subscription__enabled=True,
+            subscription__accuracy__gte=-1,
         ).order_by('title')
+        ratings = Subscription.objects.filter(
+            student=self.student,
+            enabled=True,
+        ).values('pk', 'accuracy')
+        for subscription in subscriptions:
+            for rating in ratings:
+                print(rating)
+                if rating['pk'] == subscription.pk:
+                    setattr(subscription, 'rating', rating['accuracy'])
+
         delinquent_subscriptions = ClassCalendar.objects.filter(
             subscription__student=self.student,
             subscription__enabled=False,
@@ -721,7 +732,6 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            print(request.POST)
             calendar = ClassCalendar.objects.filter(
                 owner=self.student,
                 id = request.POST.get('pk', None)
@@ -784,6 +794,47 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
         return super(CalendarUpdateView, self).dispatch(*args, **kwargs)
 
 calendar_update = CalendarUpdateView.as_view()
+
+'''
+url: /calendar/subscription/update
+name: subscription_update
+'''
+class SubscriptionUpdateView(View, AjaxableResponseMixin):
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['POST'])
+
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            subscription = Subscription.objects.filter(
+                student=self.student,
+                calendar = request.POST.get('calendar', None)
+            )
+            if subscription.exists():
+                subscription = subscription[0]
+                rating = int(request.POST.get('rating', None))
+                if rating:
+                    subscription.accuracy = rating
+                    subscription.save()
+                    # update aggragate calendar accuracy
+                    subscription.calendar.save()
+                response = "Accuracy updated"
+                status=200
+            else:
+                response = "You are not subscribed to that calendar"
+                status=403
+            data = {
+                'response': response,
+            }
+            return self.render_to_json_response(data, status=status)
+        else:
+            return redirect(reverse('calendar'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(SubscriptionUpdateView, self).dispatch(*args, **kwargs)
+
+subscription_update = SubscriptionUpdateView.as_view()
 
 '''
 url: /calendar/feed/
