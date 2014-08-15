@@ -832,6 +832,8 @@ $(function() {
 						if(calendar.accuracy >= 0) {
 							$calendar.find('.calendar-accuracy').text(calendar.accuracy + '% Accurate');
 						}
+						$calendar.find('.calendar-professor').text(calendar.course__professor);
+						$calendar.find('.calendar-time').html(calendar.time);
 						$calList.append($calendar);
 					});
 				} else {

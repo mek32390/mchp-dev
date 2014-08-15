@@ -685,15 +685,20 @@ class CalendarView(View):
             subscription__enabled=True,
             subscription__accuracy__gte=-1,
         ).order_by('title')
-        ratings = Subscription.objects.filter(
+        subscription_info = Subscription.objects.filter(
             student=self.student,
             enabled=True,
-        ).values('pk', 'accuracy')
+        ).values('pk', 'accuracy', 'payment_date', 'subscribe_date', 'price', 'enabled')
         for subscription in subscriptions:
-            for rating in ratings:
-                print(rating)
-                if rating['pk'] == subscription.pk:
-                    setattr(subscription, 'rating', rating['accuracy'])
+            for info in subscription_info:
+                if info['pk'] == subscription.pk:
+                    payment_date = timezone.localtime(info['payment_date'], timezone=timezone.get_current_timezone())
+                    subscribe_date = timezone.localtime(info['subscribe_date'], timezone=timezone.get_current_timezone())
+                    setattr(subscription, 'rating', info['accuracy'])
+                    setattr(subscription, 'payment_date', payment_date)
+                    setattr(subscription, 'subscribe_date', subscribe_date)
+                    setattr(subscription, 'price', info['price'])
+                    setattr(subscription, 'enabled', info['enabled'])
 
         delinquent_subscriptions = ClassCalendar.objects.filter(
             subscription__student=self.student,
@@ -954,7 +959,7 @@ class CalendarListView(View, AjaxableResponseMixin):
             ).order_by(
                 'create_date', 'title'
             ).values('title', 'price', 'owner', 'events', 'owner__user__username','pk',
-                     'description', 'create_date')
+                     'description', 'create_date', 'course__professor')
             for calendar in calendars:
                 date = timezone.localtime(calendar['create_date'], timezone=timezone.get_current_timezone())
                 calendar['date'] = date.strftime(DATE_FORMAT)
@@ -963,6 +968,24 @@ class CalendarListView(View, AjaxableResponseMixin):
                 calendar_instance.save()
                 calendar['subscriptions'] = calendar_instance.subscribers.count()
                 calendar['accuracy'] = calendar_instance.accuracy
+                sections = Section.objects.filter(
+                    course=calendar_instance.course,
+                    student__pk=calendar['owner'],
+                )
+                time_string = ''
+                for section in sections:
+                    day_name = WEEK_DAYS[section.day]
+                    start_date = datetime.combine(datetime.today(), section.start_time)
+                    end_date = datetime.combine(datetime.today(), section.end_time)
+
+                    start_time = timezone.make_aware(start_date, timezone.utc)
+                    end_time = timezone.make_aware(end_date, timezone.utc)
+                    start_time = timezone.localtime(start_time, timezone=timezone.get_current_timezone())
+                    end_time = timezone.localtime(end_time, timezone=timezone.get_current_timezone())
+                    time_string += day_name[:3] + ' '
+                    time_string += start_time.strftime('%I%p').lstrip('0') + '-'
+                    time_string += end_time.strftime('%I%p').lstrip('0') + '&nbsp;&nbsp;&nbsp;&nbsp;'
+                calendar['time'] = time_string
                 del calendar['create_date']
 
             print(calendars)
