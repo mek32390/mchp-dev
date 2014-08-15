@@ -39,7 +39,7 @@
 			<a href="{% url "course" calendar.course.pk%}{{calendar.course.name}}"><i class="fa fa-book">&nbsp;</i>{{calendar.course}}</a> 
 		</li>
 		<li class="active">
-			<a href="{%url "calendar"%}"><i class="fa fa-file-o"></i>&nbsp;{{calendar}}</a>
+			<a href="{%url "calendar"%}"><i class="fa fa-calendar"></i>&nbsp;{{calendar}} Calendar</a>
 		</li>
 	</ol>
 	<div class="well">
@@ -75,7 +75,7 @@
 					</div>
 					<div class="col-sm-7">
 						<h2 class="margin-top-none margin-btm-sm">{{calendar}} Calendar&nbsp;
-							<small class="pull-right">{{calendar.price}} <i class="fa fa-fw fa-lemon-o"></i> /Fortnight</small>
+							<small class="pull-right" data-toggle="tooltip" data-original-title="A fortnight is a unit of time equal to 14 days (2 weeks).">{{calendar.price}} <i class="fa fa-fw fa-lemon-o"></i> <span data-toggle="tooltip" data-originial-title="A fortnight is a unit of time equal to 14 days (2 weeks).">/Fortnight</span></small>
 						</h2>
 						<h5>
 							{% if calendar.accuracy < 0 %}
