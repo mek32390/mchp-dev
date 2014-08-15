@@ -8,7 +8,7 @@ $(function() {
 			alert('what');
 			$copy = $('#copy-button');
 			$copy.attr('class', 'btn-success btn');
-			$copy.text('Link copied');
+			$copy.html('<i class="fa fa-check-circle-o"></i> Now Paste it Somewhere!');
 		});
 	}
 	/* fb stuff */

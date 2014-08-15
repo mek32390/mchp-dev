@@ -790,7 +790,7 @@ $(function() {
 						$calList.append($calendar);
 					});
 				} else {
-					$calList.text("There are no calendars for this course yet");
+					$calList.html('<hr><p class="lead">There are no calendars for this course yet. That means no competition for you. <a href="/calendar/create">Create the first Calendar</a> right now and make some money! </p><hr>');
 				}
 				$toggleLink.data('fetched', true);
 			},

@@ -41,7 +41,7 @@
 					</label>
 					<span class="pull-right" id="card-span-{{card.pk}}">
 						{% if card.default %}
-						<a href="#"><i data-toggle="tooltip" data-original-title="This is your default card" class="default-card fa fa-check fa-fw text-primary"></i></a>
+						<a href="#" class="default-card"><i data-toggle="tooltip" data-original-title="This is your default card" class="fa fa-check fa-fw text-primary"></i></a>
 						{% endif %}
 						<a href="#" class="delete-card-button" data-card="{{card.pk}}">
 							<i data-toggle="tooltip" data-original-title="Delete this card" class="fa fa-times fa-fw text-danger"></i>
