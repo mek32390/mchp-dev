@@ -86,29 +86,18 @@ class CalendarCreateView(View, AjaxableResponseMixin):
         if not request.is_ajax():
             return redirect(reverse('calendar'))
         # were just going to forgo any fancy django form saving for this one
-        cal_type = request.POST.get('cal-type', '')
-
-        if cal_type.lower() == 'class':
-            # this is a sellable calendar
-            calendar = self._make_calendar(request)
-            try:
-                calendar.save()
-            except (IntegrityError, TimeOrderError) as err:
-                # they made a calendar for this class
-                if err.__class__ == IntegrityError:
-                    return self.send_ajax_error_message('You have already made a calendar for that course', status=403)
-                else:
-                    # the start date was too early
-                    return self.send_ajax_error_message(str(err), status=403)
+        calendar = self._make_calendar(request)
+        try:
+            calendar.save()
+        except (IntegrityError, TimeOrderError) as err:
+            # they made a calendar for this class
+            if err.__class__ == IntegrityError:
+                return self.send_ajax_error_message('You have already made a calendar for that course', status=403)
+            else:
+                # the start date was too early
+                return self.send_ajax_error_message(str(err), status=403)
             # now add the times as recurring events
             return self._make_sections(request.POST.get('times', {}), calendar)
-        elif cal_type.lower() == 'personal':
-            # this is a personal calendar, which we don't have yet
-            return self.send_ajax_error_message("We don't do those yet.", status=501)
-        else: 
-            # this wasn't anything
-            return self.send_ajax_error_message("Im not sure what calendar you wanted", status=403)
-
         return redirect(reverse('calendar_create'))
 
     def _make_calendar(self, request):
