@@ -343,6 +343,15 @@ class CourseView(DetailView):
         context['popular_calendars'] = cals
         context['cal_count'] = len(cals)
 
+        # make the bars work
+        s_count = self.object.student_set.all().count()
+        context['student_count'] = s_count
+        all_counts = len(cals) + len(docs) + s_count
+        if all_counts:
+            context['student_percent'] = (s_count * 100) / all_counts
+            context['cal_percent'] = (len(cals) * 100) / all_counts
+            context['doc_percent'] = (len(docs) * 100) / all_counts
+
         if self.student:
             context['student'] = self.student
             context['enrolled'] = Course.objects.filter(
