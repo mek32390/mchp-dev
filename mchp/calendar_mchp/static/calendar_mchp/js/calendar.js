@@ -18,7 +18,6 @@ $(function() {
 		// }
 	}).on('slideStop', function() {
 		var value = $(this).slider('getValue');
-		console.log(value);
 		var pk = $(this).data('cal');
 		$.ajax({
 			url: '/calendar/subscription/update/',
@@ -369,7 +368,7 @@ $(function() {
 	 **/
 	$('.end-subscription').click(function() {
 		endSubscription($(this).data('cal'));
-		$(this).parents('.checkbox').remove();
+		$('#subscription-label-holder-'+$(this).data('cal')).remove();
 	});
 
 	/*******************************
@@ -560,6 +559,7 @@ $(function() {
 	 * popover stuff *
 	 *****************/
 	$('#calendar').on('mouseenter', '.canvas-day', function(jsEvent) {
+		$(this).popover('destroy');
 		$(this).popover({
 			trigger: "focus",
 			placement: 'auto',
@@ -636,12 +636,22 @@ $(function() {
 			$(this).parents('.list-group-item').remove();
 		});
 	});
+	$('#calendar').on('mouseleave', '.canvas-day', function(jsEvent) {
+		var $canvas = $(this);
+		setTimeout(function () {
+			if(!$('.popover:hover').length) {
+				$canvas.popover('hide');
+			}
+		}, 100);
+	});
 
 	// click on date w/ events on it
 	$('#calendar').on('click', '.canvas-day', function(event) {
 		// why? why does this one need a stop propagation, and the mouseover will break if you do
 		// that. seriously, wtf
 		event.stopPropagation();
+		$(this).popover('destroy');
+		$('.popover').remove();
 		$(this).popover({
 			trigger: 'manual',
 			placement: 'auto',

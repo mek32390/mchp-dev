@@ -688,12 +688,14 @@ class CalendarView(View):
         subscription_info = Subscription.objects.filter(
             student=self.student,
             enabled=True,
-        ).values('pk', 'accuracy', 'payment_date', 'subscribe_date', 'price', 'enabled')
+        ).values('pk', 'accuracy', 'payment_date', 'subscribe_date', 'price', 'enabled', 'calendar')
         for subscription in subscriptions:
             for info in subscription_info:
-                if info['pk'] == subscription.pk:
+                print(info)
+                if info['calendar'] == subscription.pk:
                     payment_date = timezone.localtime(info['payment_date'], timezone=timezone.get_current_timezone())
                     subscribe_date = timezone.localtime(info['subscribe_date'], timezone=timezone.get_current_timezone())
+                    print(payment_date)
                     setattr(subscription, 'rating', info['accuracy'])
                     setattr(subscription, 'payment_date', payment_date)
                     setattr(subscription, 'subscribe_date', subscribe_date)

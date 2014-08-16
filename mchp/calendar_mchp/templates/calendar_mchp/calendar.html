@@ -254,29 +254,32 @@
 											<div class="form-group">
 										    <label class="col-sm-4 control-label">Price:</label>
 										    <div class="col-sm-8">
-										      <p class="form-control-static">200 lemons /fortnight</p>
+													<p class="form-control-static">{{calendar.price}} lemons / fortnight</p>
 										    </div>
 										  </div>
 										  <div class="form-group">
 										    <label class="col-sm-4 control-label">Next Payment:</label>
 										    <div class="col-sm-8">
-										      <p class="form-control-static">{{calendar.payment_date|date:"D F d, Y"}} ({{calendar.payment_date|naturaltime}})</p>
+										      <p class="form-control-static">{{calendar.payment_date|date:"D F d, Y"}}
+														<br/>
+														({{calendar.payment_date|naturaltime}})</p>
 										    </div>
 										  </div>
 										  <div class="form-group">
 										    <label class="col-sm-4 control-label">Start Date:</label>
 										    <div class="col-sm-8">
-										      <p class="form-control-static">August 13, 2014</p>
+													<p class="form-control-static">{{calendar.subscribe_date|date:"D F d, Y"}} 
+														<br/>
+														({{calendar.subscribe_date|naturaltime}})</p>
 										    </div>
 										  </div>
 										  <div class="form-group">
 										    <label class="col-sm-4 control-label">Calendar Creator:</label>
 										    <div class="col-sm-8">
-										      <p class="form-control-static"><a href="#">John Johnson</a></p>
+													<p class="form-control-static"><a href="{% url "profile" calendar.owner.pk %}">{{calendar.owner.user.username}}</a></p>
 										    </div>
 										  </div>
 										</form>
-
 									</div>
 								</div>
 							</div>
@@ -387,8 +390,8 @@
 				<p></p>
 				{% for calendar in subscriptions %}
 				<!-- followed calendar -->
-				<div class="checkbox subscription-list">
-					<label style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
+				<div class="checkbox subscription-list" id="subscription-label-holder-{{calendar.pk}}">
+					<label style="color: {{calendar.color}};" data-cal="{{calendar.pk}}" id="subscription-label-{{calendar.pk}}">
 						<input class="toggle-events" type="checkbox" checked autocomplete="off" data-cal="{{calendar.pk}}"> {{calendar.title}}
 					</label>
 					<span class="pull-right small"><a href="#" id="rate-link-{{calendar.pk}}" class="toggle-accuracy-modal"
