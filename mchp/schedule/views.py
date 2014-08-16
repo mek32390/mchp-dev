@@ -11,16 +11,20 @@ from django.db.models import Count
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.core import serializers
+from django.utils import timezone
 
 from lib.decorators import school_required
 from lib.utils import random_mix
+from calendar_mchp.models import ClassCalendar, CalendarEvent
 from documents.models import Document
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
-from schedule.models import Course, School, SchoolQuicklink
+from schedule.models import Course, School, SchoolQuicklink, Section
+from schedule.utils import WEEK_DAYS
 from user_profile.models import Enrollment
 
 from haystack.query import SQ
 
+from datetime import datetime
 import logging
 import json
 logger = logging.getLogger(__name__)
@@ -303,18 +307,48 @@ class CourseView(DetailView):
 
         cals = self.object.calendar_courses.filter(
             private=False,
-        ).exclude(
-            owner = self.student,
-        ).values('pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
-                 'owner__user__username').order_by('create_date')[:5]
+        ).annotate(
+            subscriptions=Count('subscribers')
+        ).values(
+            'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
+            'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
+            'owner__user__username'
+        ).order_by('create_date')[:5]
+
+        for calendar in cals:
+            calendar_instance = ClassCalendar.objects.get(pk=calendar['pk'])
+            sections = Section.objects.filter(
+                course=calendar_instance.course,
+                student__pk=calendar['owner'],
+            )
+            time_string = ''
+            for section in sections:
+                day_name = WEEK_DAYS[section.day]
+                start_date = datetime.combine(datetime.today(), section.start_time)
+                end_date = datetime.combine(datetime.today(), section.end_time)
+
+                start_time = timezone.make_aware(start_date, timezone.utc)
+                end_time = timezone.make_aware(end_date, timezone.utc)
+                start_time = timezone.localtime(start_time, timezone=timezone.get_current_timezone())
+                end_time = timezone.localtime(end_time, timezone=timezone.get_current_timezone())
+                time_string += day_name[:3] + ' '
+                time_string += start_time.strftime('%I%p').lstrip('0') + '-'
+                time_string += end_time.strftime('%I%p').lstrip('0') + ' '
+            calendar['time'] = time_string
+            total_count = CalendarEvent.objects.filter(
+                calendar=calendar_instance
+            ).count()
+            calendar['events'] = total_count
+
         context['popular_calendars'] = cals
         context['cal_count'] = self.object.calendar_courses.all().count()
 
         if self.student:
             context['student'] = self.student
-            context['enrolled'] = Course.objects.filter(pk=self.object.pk,
-                                                        student=self.student
-                                                       ).exists()
+            context['enrolled'] = Course.objects.filter(
+                pk=self.object.pk,
+                student=self.student
+            ).exists()
 
         return context
 

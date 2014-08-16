@@ -88,7 +88,7 @@
 							{% endwith %}
 							<i class="fa fa-comments text-info fa-fw"></i> 10 Reviews</h5>
 							<ul class="list-inline margin-top small">
-							<li><strong>Inst {{calendar.course.professor}}</strong></li> <i class="fa fa-fw fa-clock-o"></i>
+								<li><strong>Inst</strong> {{calendar.course.professor}}</li> <i class="fa fa-fw fa-clock-o"></i>
 							{% for section in calendar.sections %}
 							<li class="">
 							<span>{{section.day_name|slice:":3"}} {{section.start|time:"fA"}}-{{section.end|time:"fA"}}</span>
