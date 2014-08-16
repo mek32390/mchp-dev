@@ -228,6 +228,7 @@ $(function() {
 		$('.prompt-delete-message').removeClass('hidden');
 		$('.not-delete-button').removeClass('hidden');
 		$('.confirm-delete-button').removeClass('hidden');
+		$('.end-subscription').removeClass('hidden');
 	});
 
 	$('.not-delete-button').on('click', function () {
@@ -235,6 +236,7 @@ $(function() {
 		$('.prompt-delete-message').addClass('hidden');
 		$('.not-delete-button').addClass('hidden');
 		$('.confirm-delete-button').addClass('hidden');
+		$('.end-subscription').addClass('hidden');
 	});
 
 
