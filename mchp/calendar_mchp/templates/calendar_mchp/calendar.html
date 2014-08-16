@@ -39,7 +39,7 @@
 				<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="8"/>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Submit</button>
+				<button type="button" class="btn btn-primary btn-block submit-accuracy" data-dismiss="modal">Submit</button>
 			</div>
 		</div>
 	</div>
@@ -125,6 +125,8 @@
 										<a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a>
 									</li>
 									{% endif %}
+									{% empty %}
+									<a href="{% url "calendar_create" %}">Make a calendar</a>
 									{% endfor %}
 								</ul>
 							</div>
@@ -237,6 +239,10 @@
 									</div>
 								</div>
 							</div><!-- end class1 tab -->
+							{% empty %}
+							<div class="tab-pane fade in active"><!-- subscription cals content -->
+								You don't have any calendars
+							</div>
 							{% endfor %}
 							{% for calendar in subscriptions %}
 							<div class="tab-pane fade in" id="edit-calendar-link-{{calendar.pk}}"><!-- subscription cals content -->

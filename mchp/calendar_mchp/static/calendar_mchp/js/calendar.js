@@ -370,6 +370,9 @@ $(function() {
 		endSubscription($(this).data('cal'));
 		$('#subscription-label-holder-'+$(this).data('cal')).remove();
 	});
+	$('.submit-accuracy').click(function() {
+		addMessage('Thanks for the rate asshole, go fuck yourself', 'success');
+	});
 
 	/*******************************
 	 * CALENDAR INTRODUCTION STUFF *
@@ -457,6 +460,9 @@ $(function() {
 
 		//trigger add event pop-up on click and stay
 		dayClick: function(date, jsEvent, view) {
+			if(!$('.owned-calendar-holder').length){
+				return;
+			}
 			// remove the other popovers
 			$('.popover').remove();
 			// show the clicked day popover
@@ -649,6 +655,9 @@ $(function() {
 
 	// click on date w/ events on it
 	$('#calendar').on('click', '.canvas-day', function(event) {
+		if(!$('.owned-calendar-holder').length){
+			return;
+		}
 		// why? why does this one need a stop propagation, and the mouseover will break if you do
 		// that. seriously, wtf
 		event.stopPropagation();
