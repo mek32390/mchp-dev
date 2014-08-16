@@ -31,16 +31,9 @@ $(function() {
 		$('.template-tutorial').fadeOut(250, function () {
     		$('.table').fadeIn(500);
     		$('.table').removeClass('hidden');
-    		// $('.btn-finish').removeClass('hidden');
+			$('.event-button').removeClass('hidden');
     	});
 	});
-
-	// $('.tr').on('mouseover', function () {
-	// 		$('.btn-finish').removeClass('hidden');
-	// });
-
-
-// 
 
 	var activeCalendar = null;
 	//display dropdown selection 
@@ -82,8 +75,9 @@ $(function() {
 			type: "text",
 			showbuttons: false,
 			anim: "fast",
-			onblur: 'submit'  
+			onblur: 'cancel'  
 		});
+
 		// when you press enter, select the next editable
 		$('.editable').on('hidden', function(e, reason){
 			if(reason === 'save' || reason === 'nochange') {
@@ -98,7 +92,6 @@ $(function() {
 					$next = $next_row.find('.event-title').find('a');
 				}
 				$next.editable('show');
-				$('.btn-success').removeClass('hidden');
 			}
 		});
 
