@@ -4,6 +4,44 @@
  * This file handles the functionality of the calendar events add page and bootstrap xeditable
  */
 $(function() {
+
+	// template tutorial
+	$('.step-one-next').on('click', function () {
+		$('.step-one').fadeOut(250, function () {
+    		$('.step-two').fadeIn(500);
+    		$('.step-two').removeClass('hidden');
+    	});
+	});
+
+	$('.step-two-next').on('click', function () {
+		$('.step-two').fadeOut(250, function () {
+    		$('.step-three').fadeIn(500);
+    		$('.step-three').removeClass('hidden');
+    	});
+	});
+
+	$('.step-three-next').on('click', function () {
+		$('.step-three').fadeOut(250, function () {
+    		$('.step-four').fadeIn(500);
+    		$('.step-four').removeClass('hidden');
+    	});
+	});
+
+	$('.step-four-next').on('click', function () {
+		$('.template-tutorial').fadeOut(250, function () {
+    		$('.table').fadeIn(500);
+    		$('.table').removeClass('hidden');
+    		// $('.btn-finish').removeClass('hidden');
+    	});
+	});
+
+	// $('.tr').on('mouseover', function () {
+	// 		$('.btn-finish').removeClass('hidden');
+	// });
+
+
+// 
+
 	var activeCalendar = null;
 	//display dropdown selection 
 	$(".dropdown-menu li a").click(function(event){
@@ -15,7 +53,7 @@ $(function() {
 		$('.course-info').hide();
 		$('#course-info-'+pk).fadeIn(500).removeClass('hidden');
 		$('.templates').fadeIn(700).removeClass('hidden');
-		$('button.hidden').fadeIn(700).removeClass('hidden');
+		// $('button.hidden').fadeIn(700).removeClass('hidden');
 
 		// get rid of the table rows that already exist (but not the proto one which is hidden)
 		$('.templates').children('table').children('tbody').children('.event-template:visible').remove();
@@ -60,6 +98,7 @@ $(function() {
 					$next = $next_row.find('.event-title').find('a');
 				}
 				$next.editable('show');
+				$('.btn-success').removeClass('hidden');
 			}
 		});
 
