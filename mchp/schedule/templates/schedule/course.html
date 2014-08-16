@@ -47,7 +47,7 @@
 						</p>
 					</div>
 					<div class="progress" style="margin-bottom:0px; width:68%;">
-						<div class="progress-bar progress-bar-info" style="width: 67%"> <span class="sr-only">67% Complete (info)</span> </div>
+						<div class="progress-bar progress-bar-info" style="width: {{doc_count}}%"> <span class="sr-only">67% Complete (info)</span> </div>
 						<div class="progress-bar progress-bar-primary" style="width: 11%"> <span class="sr-only">11% Complete (primary)</span> </div>
 						<div class="progress-bar progress-bar-warning" style="width: 22%"> <span class="sr-only">22% Complete (warning)</span> </div>
 					</div>
@@ -117,7 +117,7 @@
 						<div class="list-group-item">
 							<div class="media">
 								<span class="pull-left" href="#">
-									<a href="#" class='calendar-picture-link'>
+									<a href="{% url "calendar_preview" calendar.pk%}" class='calendar-picture-link'>
 										<div class="media-object img-circle img-thumbnail">
 											<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:64px">
 										</div>
