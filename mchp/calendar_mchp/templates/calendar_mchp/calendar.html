@@ -241,23 +241,42 @@
 							{% for calendar in subscriptions %}
 							<div class="tab-pane fade in" id="edit-calendar-link-{{calendar.pk}}"><!-- subscription cals content -->
 								<div class="panel panel-default">
-									<div class="panel-body">
-										<span class="pull-right">
+									<div class="panel-heading">
+										<h3 class="panel-title">Subscription Options <span class="pull-right">
 											<span class="prompt-delete-message small hidden">Are you sure?</span> &nbsp;
 											<span class="btn btn-danger btn-xs end-subscription hidden" data-cal="{{calendar.pk}}">Yes</span>
 											<span class=" btn btn-default btn-xs not-delete-button hidden">Cancel</span>
 											<span class="pull-right btn btn-danger btn-xs prompt-delete-button">Unsubscribe</span>
-										</span>
-										<div class="form-horizontal">
-											<!-- <label class="col-sm-3 control-label">Creator:</label>
-												<div class="col-sm-5">
-													Mike Attwood
-												</div> -->
-											<label class="col-sm-3 control-label">Next Payment:</label>
-											<div class="col-sm-5">
-												{{calendar.payment_date|date:"D F d, Y"}} ({{calendar.payment_date|naturaltime}})
-											</div>
-										</div>
+										</span></h3>
+									</div>
+									<div class="panel-body">
+										<form class="form-horizontal" role="form">
+											<div class="form-group">
+										    <label class="col-sm-4 control-label">Price:</label>
+										    <div class="col-sm-8">
+										      <p class="form-control-static">200 lemons /fortnight</p>
+										    </div>
+										  </div>
+										  <div class="form-group">
+										    <label class="col-sm-4 control-label">Next Payment:</label>
+										    <div class="col-sm-8">
+										      <p class="form-control-static">{{calendar.payment_date|date:"D F d, Y"}} ({{calendar.payment_date|naturaltime}})</p>
+										    </div>
+										  </div>
+										  <div class="form-group">
+										    <label class="col-sm-4 control-label">Start Date:</label>
+										    <div class="col-sm-8">
+										      <p class="form-control-static">August 13, 2014</p>
+										    </div>
+										  </div>
+										  <div class="form-group">
+										    <label class="col-sm-4 control-label">Calendar Creator:</label>
+										    <div class="col-sm-8">
+										      <p class="form-control-static"><a href="#">John Johnson</a></p>
+										    </div>
+										  </div>
+										</form>
+
 									</div>
 								</div>
 							</div>
