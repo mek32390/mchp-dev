@@ -558,20 +558,14 @@ $(function() {
 	/*****************
 	 * popover stuff *
 	 *****************/
-	$('body').get(0).addEventListener('mouseenter', function(event) {
-		event.stopPropagation();
-		var $target = $(event.target);
-		if (!$target.hasClass('canvas-day')){
-			return;
-		}
-		console.log("hover " + event.eventPhase);
-		$target.popover('destroy');
-		$target.popover({
+	$('#calendar').on('mouseenter', '.canvas-day', function(jsEvent) {
+		$(this).popover('destroy');
+		$(this).popover({
 			trigger: "focus",
 			placement: 'auto',
 			html: true,
 			content: function() {
-				var $fcDay = $target.parents('.fc-day');
+				var $fcDay = $(this).parents('.fc-day');
 				var $event_list = $('#events-popover-content').clone();
 				var $item_proto = $event_list.find('.list-group-item').clone();
 				$event_list.find('.list-group-item').remove();
@@ -601,7 +595,7 @@ $(function() {
 					$list_group.append($item);
 				});
 				// add event for new edit cal button
-				//target is how the modal gets events in it
+				// this is how the modal gets events in it
 				var $modal = $('#event-edit-modal');
 				$modal.data('events', $fcDay.data('events'));
 
@@ -610,16 +604,16 @@ $(function() {
 			container: 'body',
 		});
 		$('.popover').remove();
-		$target.popover('show');
+		$(this).popover('show');
 
 		$('.event-edit-link').click(function() {
-			var pk = $target.parents('.list-group-item').children('.event-id').text();
+			var pk = $(this).parents('.list-group-item').children('.event-id').text();
 			var $modal = $('#event-edit-modal');
 			$modal.data('event-id', pk);
 			$modal.modal('show');
 		});
 		$('.event-delete-link').click(function() {
-			var pk = $target.parents('.list-group-item').children('.event-id').text();
+			var pk = $(this).parents('.list-group-item').children('.event-id').text();
 			$.ajax({
 				url: '/calendar/events/delete/',
 				type: 'POST',
@@ -639,31 +633,26 @@ $(function() {
 					});
 				},
 			});
-			$target.parents('.list-group-item').remove();
+			$(this).parents('.list-group-item').remove();
 		});
-	}, true);
-	// $('#calendar').on('mouseenter', '.canvas-day', function(jsEvent) {
-
+	});
 	$('#calendar').on('mouseleave', '.canvas-day', function(jsEvent) {
+		var $canvas = $(this);
 		setTimeout(function () {
 			if(!$('.popover:hover').length) {
+				$canvas.popover('hide');
 			}
 		}, 100);
 	});
 
 	// click on date w/ events on it
-	$('body').get(0).addEventListener('click', function(event) {
-		$target = $(event.target);
-		if(!$target.hasClass('fc-day') && !$target.hasClass('canvas-day')) {
-			return;
-		}
-		$('.popover').remove();
-		console.log(event.eventPhase);
+	$('#calendar').on('click', '.canvas-day', function(event) {
 		// why? why does this one need a stop propagation, and the mouseover will break if you do
 		// that. seriously, wtf
 		event.stopPropagation();
-		$target.popover('destroy');
-		$target.popover({
+		$(this).popover('destroy');
+		$('.popover').remove();
+		$(this).popover({
 			trigger: 'manual',
 			placement: 'auto',
 			html: true,
@@ -676,8 +665,8 @@ $(function() {
 			},
 			container: 'body',
 		});
-		$target.popover('show');
-	}, true);
+		$(this).popover('show');
+	});
 
 	// close the popovers when you click outside
 	// this is add to the body so it can be registered
