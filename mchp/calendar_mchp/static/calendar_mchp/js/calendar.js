@@ -499,6 +499,7 @@ $(function() {
 						'visible': true,
 						'private': event.calendar__private,
 						'owned': event.owned,
+						'last_edit': moment.utc(event.last_edit),
 					});
 				});
 				$('.fc-day').each(function() {
@@ -583,6 +584,7 @@ $(function() {
 					$item.find('.event-time').text(event.start.format('hh:mm a'));
 					$item.find('.event-class').text(event.course);
 					$item.find('.event-id').text(event.id);
+					$item.find('.event-last-edit').text('Edited: ' + event.last_edit.fromNow());
 					$item.find('.calendar-indicator').css('color', event.color);
 					if(event.private) {
 						$item.find('.fa-dollar').remove();

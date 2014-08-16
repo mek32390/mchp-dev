@@ -874,7 +874,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 start__range=(start,end)
             ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
                      'calendar__course__name', 'calendar__color', 'calendar__course__pk',
-                     'calendar__pk', 'calendar__private'
+                     'calendar__pk', 'calendar__private', 'last_edit'
             )
 
             subscribed_events = Subscription.objects.filter(
@@ -887,6 +887,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 'calendar__calendarevent__start',
                 'calendar__calendarevent__end',
                 'calendar__calendarevent__id',
+                'calendar__calendarevent__last_edit',
                 'calendar__color',
                 'calendar__pk',
                 'calendar__private',
@@ -896,9 +897,12 @@ class CalendarFeed(View, AjaxableResponseMixin):
             for event in subscribed_events:
                 start_time = timezone.localtime(event['calendar__calendarevent__start'], timezone=timezone.get_current_timezone())
                 end_time = timezone.localtime(event['calendar__calendarevent__end'], timezone=timezone.get_current_timezone())
+                last_edit = timezone.localtime(event['calendar__calendarevent__last_edit'], timezone=timezone.utc)
 
                 event['start'] = start_time.strftime(DATE_FORMAT)
                 event['end'] = end_time.strftime(DATE_FORMAT)
+                event['last_edit'] = last_edit.strftime(DATE_FORMAT)
+
                 event['course'] = event['calendar__course__name']
                 event['id'] = event['calendar__calendarevent__id']
                 event['title'] = event['calendar__calendarevent__title']
@@ -910,12 +914,15 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 del event['calendar__calendarevent__title']
                 del event['calendar__calendarevent__description']
                 del event['calendar__calendarevent__id']
+                del event['calendar__calendarevent__last_edit']
 
             # convert the returned events to a format we can use on the page
             for event in events:
                 start_time = timezone.localtime(event['start'], timezone=timezone.get_current_timezone())
                 end_time = timezone.localtime(event['end'], timezone=timezone.get_current_timezone())
+                last_edit = timezone.localtime(event['last_edit'], timezone=timezone.utc)
 
+                event['last_edit'] = last_edit.strftime(DATE_FORMAT)
                 event['start'] = start_time.strftime(DATE_FORMAT)
                 event['end'] = end_time.strftime(DATE_FORMAT)
                 event['allDay'] = event['all_day']
@@ -963,7 +970,7 @@ class CalendarListView(View, AjaxableResponseMixin):
             ).values('title', 'price', 'owner', 'events', 'owner__user__username','pk',
                      'description', 'create_date', 'course__professor')
             for calendar in calendars:
-                date = timezone.localtime(calendar['create_date'], timezone=timezone.get_current_timezone())
+                date = timezone.localtime(calendar['create_date'], timezone=timezone.utc)
                 calendar['date'] = date.strftime(DATE_FORMAT)
                 calendar_instance = ClassCalendar.objects.get(pk=calendar['pk'])
                 # reset accuracy

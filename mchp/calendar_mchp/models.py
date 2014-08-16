@@ -119,6 +119,7 @@ class CalendarEvent(models.Model):
     is_recurring = models.BooleanField(default=False)
     
     create_date = models.DateTimeField(auto_now_add=True)
+    last_edit = models.DateTimeField()
 
     def save(self, *args, **kwargs):
         # don't let end date go past six months from calendar creation
@@ -132,6 +133,7 @@ class CalendarEvent(models.Model):
             super().save()
         else:
             raise TimeOrderError("Start date must come before end date")
+        self.last_edit = timezone.now()
         super(CalendarEvent, self).save(*args, **kwargs)
 
     def __str__(self):
