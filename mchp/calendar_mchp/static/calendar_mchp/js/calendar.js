@@ -369,7 +369,7 @@ $(function() {
 	 **/
 	$('.end-subscription').click(function() {
 		endSubscription($(this).data('cal'));
-		$(this).parents('.checkbox').remove();
+		$('#subscription-label-holder-'+$(this).data('cal')).remove();
 	});
 
 	/*******************************
