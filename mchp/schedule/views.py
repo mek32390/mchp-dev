@@ -341,7 +341,7 @@ class CourseView(DetailView):
             calendar['events'] = total_count
 
         context['popular_calendars'] = cals
-        context['cal_count'] = self.object.calendar_courses.all().count()
+        context['cal_count'] = len(cals)
 
         if self.student:
             context['student'] = self.student
@@ -408,7 +408,6 @@ class SchoolView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(SchoolView, self).get_context_data(**kwargs)
-        docs = ['what', 'um']
         docs = Document.objects.filter(
             course__in = self.object.course_set.all()
         ).annotate(
@@ -420,6 +419,53 @@ class SchoolView(DetailView):
         }).order_by('-sold')[:15]
 
         context['popular_documents'] = docs
+
+        cals = ClassCalendar.objects.filter(
+            private=False,
+            course__in = self.object.course_set.all()
+        ).annotate(
+            subscriptions=Count('subscribers')
+        ).values(
+            'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
+            'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
+            'owner__user__username'
+        ).order_by('create_date')[:5]
+
+        for calendar in cals:
+            calendar_instance = ClassCalendar.objects.get(pk=calendar['pk'])
+            sections = Section.objects.filter(
+                course=calendar_instance.course,
+                student__pk=calendar['owner'],
+            )
+            time_string = ''
+            for section in sections:
+                day_name = WEEK_DAYS[section.day]
+                start_date = datetime.combine(datetime.today(), section.start_time)
+                end_date = datetime.combine(datetime.today(), section.end_time)
+
+                start_time = timezone.make_aware(start_date, timezone.utc)
+                end_time = timezone.make_aware(end_date, timezone.utc)
+                start_time = timezone.localtime(start_time, timezone=timezone.get_current_timezone())
+                end_time = timezone.localtime(end_time, timezone=timezone.get_current_timezone())
+                time_string += day_name[:3] + ' '
+                time_string += start_time.strftime('%I%p').lstrip('0') + '-'
+                time_string += end_time.strftime('%I%p').lstrip('0') + ' '
+            calendar['time'] = time_string
+            total_count = CalendarEvent.objects.filter(
+                calendar=calendar_instance
+            ).count()
+            calendar['events'] = total_count
+
+        context['popular_calendars'] = cals
+        context['cal_count'] = len(cals)
+
+        s_count = self.object.student_school.all().count()
+        context['student_count'] = s_count
+        all_counts = len(cals) + len(docs) + s_count
+        context['student_percent'] = (s_count * 100) / all_counts
+        context['cal_percent'] = (len(cals) * 100) / all_counts
+        context['doc_percent'] = (len(docs) * 100) / all_counts
+
         links = SchoolQuicklink.objects.filter(
             domain=self.get_object
         ).order_by('quick_link')
@@ -458,9 +504,7 @@ class ClassesView(View):
         ).annotate(
             doc_count=Count('document')
         )
-        print(courses)
         for course in courses:
-            print(course)
             docs = Document.objects.filter(course=course['pk']).annotate(
                 sold=Count('purchased_document__document'),
             ).extra(select = {
