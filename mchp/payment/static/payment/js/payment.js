@@ -2,13 +2,15 @@ $(function() {
 
 	// show saved cards on click
 	$('.show-cards').on('click', function () {
-		$(this).fadeOut(50);
-		$('.saved-cards').fadeIn(800).toggleClass('hidden');
+		$(this).fadeOut(250, function () {
+			$('.saved-cards').fadeIn(500).removeClass('hidden');
+		});
 	});
 
 	$('.hide-cards').on('click', function () {
-		$('.saved-cards').toggleClass('hidden').fadeOut(250);
-		$('.show-cards').fadeIn(500);
+		$('.saved-cards').fadeOut(250, function () {
+			$('.show-cards').fadeIn(500);
+		});
 	});
 
 	// $('.show-cards').on('mouseover', function () {

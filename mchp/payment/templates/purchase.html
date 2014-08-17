@@ -4,17 +4,17 @@
 	<script type="text/javascript">
 		var purchase_url = '{%url "stripe_charge"%}';
 	</script>
-	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/lemon.svg" width="65" class="animated rollIn duration-sm" data-toggle="tooltip" data-original-title="When mchp gives you lemons, you spend em'!">
+	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/games.svg" class="animated rollIn duration-sm">
 	<!-- <i class="fa fa-lemon-o fa-5x animated rollIn duration-sm"></i> -->
 	<p></p>
-	<p class="lead">How many lemons would you like?</p>
+	<p class="lead">How many points would you like today?</p>
 	<form autocomplete="off" class="purchase-points" method="post" action={% url "stripe_charge" %}>
 		{% csrf_token %}
 		<select name="amount" class="form-control">
-			<option value=500>500 Lemons</option>
-			<option value=1000>1,000 Lemons</option>
-			<option value=2000>2,000 Lemons</option>
-			<option value=5000>5,000 Lemons</option>
+			<option value=500>500 Points</option>
+			<option value=1000>1,000 Points</option>
+			<option value=2000>2,000 Points</option>
+			<option value=5000>5,000 Points</option>
 		</select>
 	</form>
 	<hr>
