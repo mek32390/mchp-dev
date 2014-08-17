@@ -96,9 +96,8 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             else:
                 # the start date was too early
                 return self.send_ajax_error_message(str(err), status=403)
-            # now add the times as recurring events
-            return self._make_sections(request.POST.get('times', {}), calendar)
-        return redirect(reverse('calendar_create'))
+        # now add the times as recurring events
+        return self._make_sections(request.POST.get('times', {}), calendar)
 
     def _make_calendar(self, request):
         course = Course.objects.filter(
@@ -298,7 +297,8 @@ class EventAddView(View, AjaxableResponseMixin):
                 'description': event['description'],
                 'start': start,
                 'end': end,
-                'all_day': all_day
+                'all_day': all_day,
+                'last_edit': timezone.now(),
             }
             cal_event = CalendarEvent(**event_data)
             try:
@@ -870,6 +870,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 student=self.student,
                 enabled=True,
                 calendar__private=False,
+                calendar__calendarevent__start__range=(start,end)
             ).values(
                 'calendar__calendarevent__title',
                 'calendar__calendarevent__description',

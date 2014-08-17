@@ -57,9 +57,7 @@ class ClassCalendar(models.Model):
         subs = Subscription.objects.filter(
             calendar = self
         )
-        print(subs)
         accuracies = list(map(lambda sub: sub.accuracy, subs))
-        print(accuracies)
         accuracies = list(filter(lambda score: score != -1, accuracies))
         if(len(accuracies)):
             accuracy = sum(accuracies) / len(accuracies)
