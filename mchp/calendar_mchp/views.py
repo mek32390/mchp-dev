@@ -175,15 +175,23 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
             )
             if cal.exists(): 
                 cal = cal[0]
-                section = Section.objects.filter(
-                    student=self.student,
-                    course=cal.course,
-                )
                 cal.delete()
                 # also delete the section that got made w/ this calendar
-                if section.exists():
-                    section = section[0]
-                    section.delete()
+                Section.objects.filter(
+                    student=self.student,
+                    course=cal.course,
+                ).delete()
+                # clear out any subscriptions and let people know
+                subs = Subscription.objects.filter(
+                    calendar=cal
+                )
+                subscribers = list(map(lambda sub: sub.student.user, subs))
+                stored_messages.api.add_message_for(
+                    subscribers,
+                    stored_messages.STORED_INFO,
+                    '{} has deleted a calendar for {}'.format(request.user.username, cal.course)
+                )
+                subs.delete()
 
                 messages.success(
                     self.request,
