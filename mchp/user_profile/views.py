@@ -86,6 +86,25 @@ class AccountSettingsView(View):
 account_settings = AccountSettingsView.as_view()
 
 '''
+url: /profile/notifications/
+name: notifications
+'''
+class NotificationsView(View):
+    template_name = 'user_profile/notifications.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {
+        }
+        return render(request, self.template_name, data)
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(NotificationsView, self).dispatch(*args, **kwargs)
+
+notifications = NotificationsView.as_view()
+
+'''
 url: /profile/confirm-school/
 name: confirm_school
 '''

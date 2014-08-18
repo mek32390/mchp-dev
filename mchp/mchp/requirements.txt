@@ -12,3 +12,4 @@ celery
 wand
 stripe
 jsonfield
+django-stored-messages

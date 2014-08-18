@@ -1,0 +1,7 @@
+{% if messages %}
+{% for message in messages %}
+<li class="read-notifications">
+	<a><span class="label label-default">Read</span> {{message.message}}</a> 
+</li>
+{% endfor %}
+{% endif %}

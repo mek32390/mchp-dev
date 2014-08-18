@@ -1,0 +1,7 @@
+{% if messages %}
+{% for message in messages %}
+<li class="">
+	<a><span class="label label-success">New</span> {{message.message}}</a> 
+</li>
+{% endfor %}
+{% endif %}

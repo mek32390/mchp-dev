@@ -29,6 +29,10 @@ import logging
 import json
 logger = logging.getLogger(__name__)
 
+from django.contrib.messages import add_message
+
+import stored_messages
+
 # most views should inherit from this if they submit form data
 class _BaseCourseView(FormView):
 
@@ -119,6 +123,18 @@ class CourseCreateView(_BaseCourseView):
             self.request,
             "Course created successfully!"
         )
+
+        add_message(
+            self.request, 
+            stored_messages.STORED_INFO, 
+            'You created a class! ' + str(course.dept) + ' ' + str(course.course_number)
+        )
+        add_message(
+            self.request, 
+            stored_messages.STORED_INFO, 
+            'You are now enrolled in ' + str(course.dept) + ' ' + str(course.course_number)
+        )
+        
         return super(CourseCreateView, self).form_valid(form)
 
 course_create = CourseCreateView.as_view()
