@@ -60,7 +60,7 @@ class DashboardView(View):
             Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student))
             | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
             start__range=(timezone.now(), timezone.now() + timedelta(days=1))
-        )
+        ).order_by('start')
         rss_types = list(zip(range(100), RSS_ICONS))
         show_rss = list(map(lambda setting: setting.rss_type, RSSSetting.objects.filter(
             student=self.student
