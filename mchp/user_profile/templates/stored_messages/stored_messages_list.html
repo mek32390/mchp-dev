@@ -1,6 +1,6 @@
+<ul class="list-group">
 {% if messages %}
 {% load humanize %}
-<ul class="list-group">
 {% for message in messages reversed%}
 <li class="list-group-item">
 	{{ message.message }}
@@ -8,8 +8,8 @@
 		{{message.message.date|naturaltime}}
 	</span>
 </li>
-{% empty %}
-<li class="list-group-item">And then there were none. Notifications that is.</li>
 {% endfor %}
-</ul>
+{% else %}
+<li class="list-group-item">And then there were none. Notifications that is.</li>
 {% endif %}
+</ul>
