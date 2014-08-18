@@ -958,9 +958,9 @@ var drawCircle = function(canvas) {
       	ctx.stroke();
 
 		var font_x = parseInt(y*(2/3)).toString();
-		ctx.font = font_x  + "pt Arial";
+		ctx.font = font_x  + "pt Helvetica";
 		var text_start = ctx.measureText(count);
-		ctx.fillText(count, x-text_start.width/2, y + (y*(1/4)));
+		ctx.fillText(count, x-text_start.width/2, y + (y*(2/7)));
   }
 };
 
