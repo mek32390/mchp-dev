@@ -25,197 +25,55 @@
 <span class="text-center center-block">
 	<img src="{{profile.profile_image_url}}" width="160px" id="profile-image" class=" animated flipInX img-thumbnail img-responsive img-circle delayed-sm">
 	{% ifequal viewer student %}
-		<div id="update-photo">
-		</div>
-			<div class="btn-file">
-		    <span class=""><i class="fa fa-camera"></i> Update <input type="file">
-		</div>
-	{% endifequal %}
-
-	<h2 style="margin-bottom:;">{{user.first_name}} {{user.last_name}}</h2>
-	<p class="small">{{user.username}} &nbsp;
-		{% ifequal viewer student %}
-		<span id="major" data-type="text" data-title="" data-params=""><i class="fa fa-graduation-cap fa-fw"></i> Add your Major</span> &nbsp;
-		{% else %}
-		<span id="major-other"><i class="fa fa-graduation-cap fa-fw"></i> Marketing Major</span> &nbsp;
-		{% endifequal %}
-		<i class="fa fa-university fa-fw"></i>{{student.school.name}}</p>
-	<!-- <h5><small style="color:;">joined {{student.create_date | naturaltime}}</small></h5> -->
-	<div class="about-container">
-		{% ifequal viewer student %}
-		<p class="lead" id="about" data-type="text" data-title="" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{profile.blurb}}</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
-		{% else %}
-		<p class="lead" id="about-other">{{profile.blurb}}</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
-		{% endifequal %}
+	<div id="update-photo">
 	</div>
-</span>
-<p></p>
-<!-- </div> -->
-<div class="container">
-	<div class="row">
-		<div class="col-xs-12 col-md-10 col-md-offset-1 ">
-			<div class="progress">
-				<a href="#" class="progress-bar progress-bar-success" id="score_1">
-					<span class="sr-only">35% Complete (success)</span>
-				</a>
-				<a href="#" class="progress-bar progress-bar-primary" id="score_2">
-					<span class="sr-only">20% Complete (warning)</span>
-				</a>
-				<a href="#" class="progress-bar progress-bar-info" id="score_3" >
-					<span class="sr-only">45% Complete (danger)</span>
-				</a>
+	<div class="btn-file">
+		<span class=""><i class="fa fa-camera"></i> Update <input type="file">
+		</div>
+		{% endifequal %}
+
+		<h2 style="margin-bottom:;">{{user.first_name}} {{user.last_name}}</h2>
+		<p class="small">{{user.username}} &nbsp;
+			{% ifequal viewer student %}
+			<span id="major" data-type="text" data-title="" data-params=""><i class="fa fa-graduation-cap fa-fw"></i> Add your Major</span> &nbsp;
+			{% else %}
+			<span id="major-other"><i class="fa fa-graduation-cap fa-fw"></i> Marketing Major</span> &nbsp;
+			{% endifequal %}
+			<i class="fa fa-university fa-fw"></i>{{student.school.name}}</p>
+			<!-- <h5><small style="color:;">joined {{student.create_date | naturaltime}}</small></h5> -->
+			<div class="about-container">
+				{% ifequal viewer student %}
+				<p class="lead" id="about" data-type="text" data-title="" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{profile.blurb}}</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
+				{% else %}
+				<p class="lead" id="about-other">{{profile.blurb}}</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
+				{% endifequal %}
 			</div>
+		</span>
+		<p></p>
+		<!-- </div> -->
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-md-10 col-md-offset-1 ">
+					<div class="progress">
+						<a href="#" class="progress-bar progress-bar-success" id="score_1">
+							<span class="sr-only">35% Complete (success)</span>
+						</a>
+						<a href="#" class="progress-bar progress-bar-primary" id="score_2">
+							<span class="sr-only">20% Complete (warning)</span>
+						</a>
+						<a href="#" class="progress-bar progress-bar-info" id="score_3" >
+							<span class="sr-only">45% Complete (danger)</span>
+						</a>
+					</div>
 
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs" role="tablist">
-				<li class="active"><a href="#me" role="tab" data-toggle="tab">Me</a></li>
-				<li><a href="#selling_docs" role="tab" data-toggle="tab">Documents <span class="badge">{{upload_list|length}}</span></a></li>
-				<li><a href="#selling_calendars" role="tab" data-toggle="tab">Calendars <span class="badge">2</span></a></li>
-			</ul>
+					<!-- Nav tabs -->
+					<!-- <ul class="nav nav-tabs" role="tablist">
+						<li class="active"><a href="#me" role="tab" data-toggle="tab">Me</a></li>
+						<li><a href="#selling_docs" role="tab" data-toggle="tab">Documents <span class="badge">{{upload_list|length}}</span></a></li>
+						<li><a href="#selling_calendars" role="tab" data-toggle="tab">Calendars <span class="badge">2</span></a></li>
+					</ul> -->
 
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div class="tab-pane active fade in" id="me">
-					<p></p>
-					<!-- <div id="friend-message" class="lead text-center">
-						<hr>
-						To see more of what {{student.name}} shares, become friends with them! <div class="btn
-							btn-primary" id="friend_button" >Friend {{student.name}}</div>
-						<hr>
-					</div> -->
 					<div class="well">
-						<div id="top_friends" class="hidden">
-							<div class="panel panel-default">
-								<div class="panel-body">
-									<div class="page-header">
-										<h3 class="text-center">Friends</h3>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-xs-6">
-											<p></p>
-											<a href="#"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/c0.35.160.160/p160x160/1546197_10152408453121654_377514791880411854_n.jpg" class="img-circle img-thumbnail img-responsive center-block" width="130px"  alt="...">
-												<div class="caption">
-													<h4>MrWood</h4></a>
-												<p>I need a calculator.</p>
-											</div>
-										</div>
-										<div class="col-sm-3 col-xs-6">
-											<p></p>
-											<a href="#"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/c58.58.722.722/s160x160/564732_3622659047309_1898757813_n.jpg" class="img-circle img-thumbnail img-responsive center-block" width="130px" alt="..."></a>
-											<div class="caption">
-												<a href="#"><h4>JHewitt</h4></a>
-												<p>I love math.</p>
-											</div>
-										</div>
-										<div class="col-sm-3 col-xs-6">
-											<p></p>
-											<a href="#"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/p160x160/1948074_10151938632961930_1503647379_n.jpg" class="img-circle img-thumbnail img-responsive center-block" width="130px" alt="..."></a>
-											<div class="caption">
-												<a href="#"><h4>MKess</h4></a>
-												<p>I love bar.</p>
-											</div>
-										</div>
-										<div class="col-sm-3 col-xs-6">
-											<p></p>
-											<a href="#"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/c27.27.336.336/s160x160/541507_10151639998509579_1032724019_n.jpg" class="img-circle img-thumbnail img-responsive center-block" width="130px" alt="..."></a>
-											<div class="caption">
-												<a href="#"><h4>AK</h4></a>
-												<p>Don't know me.</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div> 
-							<hr>
-						</div>
-						<!-- <div id="top_achievements" class="hidden"> -->
-						<!-- 	<div class="panel panel-default"> -->
-						<!-- 		<div class="panel-body"> -->
-						<!-- 			<div class="page-header"> -->
-						<!-- 				<h3 class="text-center">Top Achievements</h3> -->
-						<!-- 			</div> -->
-
-						<!-- 			<div class="row"> -->
-						<!-- 				<div class="col-sm-3 col-xs-6"> -->
-						<!-- 					<p></p> -->
-						<!-- 					<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/profile.png" class="img-circle img-thumbnail" alt="..."> -->
-						<!-- 					<div class="caption"> -->
-						<!-- 						<h4>Joined mchp</h4> -->
-						<!-- 						<p>You've joined, now what?</p> -->
-						<!-- 					</div> -->
-						<!-- 				</div> -->
-						<!-- 				<div class="col-sm-3 col-xs-6"> -->
-						<!-- 					<p></p> -->
-						<!-- 					<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/document.png" class="img-circle img-thumbnail"  alt="..."> -->
-						<!-- 					<div class="caption"> -->
-						<!-- 						<h4>Document Uploader</h4> -->
-						<!-- 						<p>Uploading machine</p> -->
-						<!-- 					</div> -->
-						<!-- 				</div> -->
-						<!-- 				<div class="col-sm-3 col-xs-6"> -->
-						<!-- 					<p></p> -->
-						<!-- 					<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/calendar.png" class="img-circle img-thumbnail" alt="..."> -->
-						<!-- 					<div class="caption"> -->
-						<!-- 						<h4>Calendar Creator</h4> -->
-						<!-- 						<p>I've made a ton of calendars.</p> -->
-						<!-- 					</div> -->
-						<!-- 				</div> -->
-						<!-- 				<div class="col-sm-3 col-xs-6"> -->
-						<!-- 					<p></p> -->
-						<!-- 					<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/document-sales.png" class="img-circle img-thumbnail" alt="..."> -->
-						<!-- 					<div class="caption"> -->
-						<!-- 						<h4>Document Master</h4> -->
-						<!-- 						<p>Sell 100 documents</p> -->
-						<!-- 						<div class="progress"> -->
-						<!-- 							<a href="#" class="progress-bar progress-bar-primary" id="documentMasterScore"> -->
-						<!-- 								<span class="sr-only">35% Complete (success)</span> -->
-						<!-- 							</a> -->
-						<!-- 						</div> -->
-						<!-- 					</div> -->
-						<!-- 				</div> -->
-						<!-- 				<div class="col-sm-3 col-xs-6"> -->
-						<!-- 					<p></p> -->
-						<!-- 					<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-sales.png" class="img-circle img-thumbnail" alt="..."> -->
-						<!-- 					<div class="caption"> -->
-						<!-- 						<h4>Calendar Master</h4> -->
-						<!-- 						<p>I've sold a ton of calendars!</p> -->
-						<!-- 						<div class="label label-info">Level 10</div> -->
-						<!-- 					</div> -->
-						<!-- 				</div> -->
-						<!-- 			</div> -->
-						<!-- 		</div> -->
-						<!-- 	</div> -->
-						<!-- 	<hr> -->  
-						<!-- </div> -->
-						<!-- Show initial Classes in common -->
-						<!-- <div id="shared_classes">
-							<div class="panel panel-default scrolls text-center">
-								<div class="panel-body">
-									<div class="page-header">
-										<h3 class="text-center">You and {{user.first_name}} are taking these classes together:</h3>
-									</div>
-									<div class="row">
-										<div class="col-sm-2 col-centered">
-											<p></p>
-											<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg"  width="75px" alt="...">
-											<div class="caption">
-												<h5>ECON 200</h5>
-												<p class="small"><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p>
-											</div>
-										</div>
-										<div class="col-sm-2 col-centered">
-											<p></p>
-											<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg"  width="75px"alt="...">
-											<div class="caption">
-												<h5>ECON 200</h5>
-												<p class="small"><i class="fa fa-users fa-fw"></i> 36 <i class="fa fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i> 6</p>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						</div> -->
 						<div id="user_classes" class="">
 							<div class="panel panel-default text-center">
 								<div class="panel-body">
@@ -235,74 +93,82 @@
 											<div class="caption">
 												<h5>{{course.display}}</h5>
 												<p class="small"><i class="fa fa-users fa-fw"></i> {{course.student_count}} <i class="fa
-														fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i>
+													fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i>
 													{{course.document_count}}</p>
+												</div>
 											</div>
+											{% endfor %}
 										</div>
-										{% endfor %}
 									</div>
 								</div>
 							</div>
-						</div>
-					</div> 
-				</div>
-				<div class="tab-pane fade active" id="selling_docs">
-					<p></p>
-					{% if upload_list %}
-					<div class="list-group scrolls" id="document-list">
-						{% for document in upload_list %}
-						<li class="list-group-item" id="document_{{document.pk}}">
+							<div class="panel panel-default text-center">
+								<div class="panel-body">
+									<div class="page-header">
+										<h3 class="text-center">Documents</h3>
+										<p class="text-center"><span class="badge">{{upload_list|length}}</span></p>
+									</div>
+			
+									{% if upload_list %}
+									<div class="list-group scrolls" id="document-list">
+										{% for document in upload_list %}
+										<li class="list-group-item" id="document_{{document.pk}}">
 
-							<div class="media">
-								<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
-										{{ document.uuid}}/
-										{{ document.slug}} ">
+											<div class="media">
+												<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
+													{{ document.uuid}}/
+													{{ document.slug}} ">
 
-										{% if document.preview %}
-										<img src="{{document.preview.url}}" style="width:64px"></a></div>
-								{% else %}
-										<img src="{% static 'documents/img/loading_file.svg' %}" style="width:64px"></a></div>
-								{% endif %}
+													{% if document.preview %}
+													<img src="{{document.preview.url}}" style="width:64px"></a></div>
+													{% else %}
+													<img src="{% static 'documents/img/loading_file.svg' %}" style="width:64px"></a></div>
+													{% endif %}
 
-								<div class="media-body">
-									<h4 class="media-heading"><a href="{% url 'document_list' %}
-											{{ document.uuid}}/
-											{{ document.slug}}
-											">{{ document.title }}</a> <small>{{document.price}} <i class="fa fa-fw fa-cube"></i></small>
-										<div class="pull-right small text-muted"></div>
-									</h4>
-									<span class="description">
-										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
-										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
-										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}} Reviews&nbsp;&nbsp;
-										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.purchase_count}} Purchases
-									</span>
+													<div class="media-body">
+														<h4 class="media-heading"><a href="{% url 'document_list' %}
+															{{ document.uuid}}/
+															{{ document.slug}}
+															">{{ document.title }}</a> <small>{{document.price}} <i class="fa fa-fw fa-cube"></i></small>
+															<div class="pull-right small text-muted"></div>
+														</h4>
+														<span class="description">
+															<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
+															<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
+															<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}} Reviews&nbsp;&nbsp;
+															<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.purchase_count}} Purchases
+														</span>
+													</div>
+												</div>
+											</li>
+											{% endfor %}
+											<div id="no-documents" style="display: none;">
+												<p class="lead text-center">{{user.first_name}} isn't selling any documents!</p>
+												<hr>
+											</div>
+											{% else %}
+											<div id="no-documents">
+												<p class="lead text-center">{{user.first_name}} isn't selling any documents!</p>
+												<hr>
+											</div>
+											{% endif %}
+										</div>
+									</div>
+									<div class="panel panel-default text-center">
+										<div class="panel-body">
+											<div class="page-header">
+										<h3 class="text-center">Calendars</h3>
+										<p class="text-center"><span class="badge">{{upload_list|length}}</span></p>
+									</div>
+											<div id="no-calendars">
+												<p class="lead text-center">{{user.first_name}} isn't selling any calendars!</p>
+												<hr>
+											</div>
+										</div>
+									</div>
+
 								</div>
 							</div>
-						</li>
-						{% endfor %}
+						</div>
 					</div>
-					<div id="no-documents" style="display: none;">
-						<p class="lead text-center">{{user.first_name}} isn't selling any documents!</p>
-					</div>
-					{% else %}
-					<div id="no-documents">
-						<hr>
-						<p class="lead text-center">{{user.first_name}} isn't selling any documents!</p>
-						<hr>
-					</div>
-					{% endif %}
-				</div>
-
-				<div class="tab-pane fade" id="selling_calendars">
-					<div id="no-calendars">
-						<hr>
-						<p class="lead text-center">{{user.first_name}} isn't selling any calendars!</p>
-						<hr>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-{% endblock %}
+					{% endblock %}
