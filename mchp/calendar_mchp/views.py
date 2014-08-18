@@ -17,6 +17,8 @@ from referral.models import ReferralCode
 from schedule.models import Course, Section
 from schedule.utils import WEEK_DAYS
 
+import stored_messages
+
 from datetime import datetime,timedelta
 from decimal import Decimal, ROUND_HALF_DOWN
 import json
@@ -96,9 +98,8 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             else:
                 # the start date was too early
                 return self.send_ajax_error_message(str(err), status=403)
-            # now add the times as recurring events
-            return self._make_sections(request.POST.get('times', {}), calendar)
-        return redirect(reverse('calendar_create'))
+        # now add the times as recurring events
+        return self._make_sections(request.POST.get('times', {}), calendar)
 
     def _make_calendar(self, request):
         course = Course.objects.filter(
@@ -174,15 +175,23 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
             )
             if cal.exists(): 
                 cal = cal[0]
-                section = Section.objects.filter(
-                    student=self.student,
-                    course=cal.course,
-                )
                 cal.delete()
                 # also delete the section that got made w/ this calendar
-                if section.exists():
-                    section = section[0]
-                    section.delete()
+                Section.objects.filter(
+                    student=self.student,
+                    course=cal.course,
+                ).delete()
+                # clear out any subscriptions and let people know
+                subs = Subscription.objects.filter(
+                    calendar=cal
+                )
+                subscribers = list(map(lambda sub: sub.student.user, subs))
+                stored_messages.api.add_message_for(
+                    subscribers,
+                    stored_messages.STORED_INFO,
+                    '{} has deleted a calendar for {}'.format(request.user.username, cal.course)
+                )
+                subs.delete()
 
                 messages.success(
                     self.request,
@@ -298,7 +307,8 @@ class EventAddView(View, AjaxableResponseMixin):
                 'description': event['description'],
                 'start': start,
                 'end': end,
-                'all_day': all_day
+                'all_day': all_day,
+                'last_edit': timezone.now(),
             }
             cal_event = CalendarEvent(**event_data)
             try:
@@ -313,6 +323,15 @@ class EventAddView(View, AjaxableResponseMixin):
             messages.success(
                 self.request,
                 "Your events have been updated"
+            )
+            # send a notification to everyone that an event has been added
+            subscribers = list(map(lambda sub: sub.student.user, Subscription.objects.filter(
+                calendar=calendar
+            )))
+            stored_messages.api.add_message_for(
+                subscribers,
+                stored_messages.STORED_INFO,
+                '{} has add an event to {}'.format(request.user.username, calendar.course)
             )
 
         if self.request.is_ajax():
@@ -441,6 +460,15 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                     event.save()
                     response = "Event updated"
                     status=200
+                    # send a notification to everyone that this calendar event has been updated
+                    subscribers = list(map(lambda sub: sub.student.user, Subscription.objects.filter(
+                        calendar=event.calendar
+                    )))
+                    stored_messages.api.add_message_for(
+                        subscribers,
+                        stored_messages.STORED_INFO,
+                        '{} has updated event: {} in {}'.format(request.user.username, event.title, event.calendar.course)
+                    )
                 except (CalendarExpiredError, BringingUpThePastError) as e:
                     status=403
                     data = {
@@ -567,6 +595,7 @@ class CalendarPreview(DetailView):
                     request,
                     "Pump your break kid, you don't have enough points to buy that."
                 )
+                subscription.delete()
                 return self.get(request, *args, **kwargs)
             subscription.price = calendar.price
             subscription.save()
@@ -578,6 +607,11 @@ class CalendarPreview(DetailView):
             messages.success(
                 request,
                 "Your subscription has been noted"
+            )
+            stored_messages.api.add_message_for(
+                [calendar.owner.user], 
+                stored_messages.STORED_INFO,
+                '{} has subscribed to your {} calendar'.format(request.user.username, calendar.course)
             )
         return redirect(reverse('calendar'))
 
@@ -870,6 +904,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 student=self.student,
                 enabled=True,
                 calendar__private=False,
+                calendar__calendarevent__start__range=(start,end)
             ).values(
                 'calendar__calendarevent__title',
                 'calendar__calendarevent__description',

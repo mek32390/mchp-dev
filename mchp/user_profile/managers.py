@@ -1,6 +1,7 @@
 from django.db import models
 
 import user_profile.models
+import dashboard.models
 
 class StudentManager(models.Manager):
     # get or create the referral codes for a user
@@ -13,7 +14,9 @@ class StudentManager(models.Manager):
         profile.save()
         roles = user_profile.models.UserRole(user=user)
         roles.save()
-        # also make user roles here
+
+        # set default rss settings
+        dashboard.models.RSSSetting.objects.restore_default_settings(student)
         return student
 
     def referral_reward(self, user, referrer):

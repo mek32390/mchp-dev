@@ -27,58 +27,35 @@ $(function() {
 		});
 	});
 
-	// When the calendar types's value changes
-	$("input[name='cal-type']:radio").change(function() {
+	// if the select changes, show sell or not sell radios
+	$('.course-select').change(function() {
+		$('.cal-sell').fadeIn(500).removeClass('hidden');
+	});
 
-		// If the class calendar option is selected
-		if ($('#classCal').is(':checked')) {
-			$('.cal-name').fadeOut(250);
-			$('.cal-submit').fadeOut(250);
-			$('.select-class').fadeIn(500).removeClass('hidden');
-			// if the select changes, show sell or not sell radios
-			$('.course-select').change(function() {
-				$('.cal-sell').fadeIn(500).removeClass('hidden');
-			});
-
-			var isprivate = true;
-    		// when the sell/not sell option changes
-			$("input[name='private']:radio").change(function() {
-				if ($('#sell').is(':checked')) {
-					isprivate = false;
-					$('.course-meetings').fadeIn(500).removeClass('hidden');
-				}
-				if ($('#notSell').is(':checked')) {
-					isprivate = true;
-					$('.course-meetings').fadeIn(500).removeClass('hidden');
-					$('.cal-description').fadeOut(500);
-				}
-
-    		});
-    		// when the clockend input changes, show cal end date field
-			$('.clockend').change(function(){
-			    $('.cal-start-end').fadeIn(500).removeClass('hidden');
-			});
-			// when the cal end date field changes, show cal description field
-			$('.cal-start-end').change(function(){
-				if (!isprivate) {
-			    $('.cal-description').fadeIn(500).removeClass('hidden');
-			}
-			    $('.cal-submit').fadeIn(500).removeClass('hidden');
-			});
-    	}
-		// Else if the personal calendar option is selected
-		else if ($('#personalCal').is(':checked')) {
-			// $(this).closest('form').find("input[type=text], textarea").val("");
-			$('.cal-name').fadeIn(500).removeClass('hidden');
-			$('.cal-submit').fadeIn(500).removeClass('hidden');
-			$('.select-class').fadeOut(250);
-			$('.course-select').val('-1').change();
-			$('.cal-sell').fadeOut(250);
-			$('.course-meetings').fadeOut(250);
-			$('.cal-start-end').fadeOut(250);
-			$('.cal-description').fadeOut(250);
-			
+	var isprivate = true;
+	// when the sell/not sell option changes
+	$("input[name='private']:radio").change(function() {
+		if ($('#sell').is(':checked')) {
+			isprivate = false;
+			$('.course-meetings').fadeIn(500).removeClass('hidden');
 		}
+		if ($('#notSell').is(':checked')) {
+			isprivate = true;
+			$('.course-meetings').fadeIn(500).removeClass('hidden');
+			$('.cal-description').fadeOut(500);
+		}
+
+	});
+	// when the clockend input changes, show cal end date field
+	$('.clockend').change(function(){
+		$('.cal-start-end').fadeIn(500).removeClass('hidden');
+	});
+	// when the cal end date field changes, show cal description field
+	$('.cal-start-end').change(function(){
+		if (!isprivate) {
+			$('.cal-description').fadeIn(500).removeClass('hidden');
+		}
+		$('.cal-submit').fadeIn(500).removeClass('hidden');
 	});
 
 

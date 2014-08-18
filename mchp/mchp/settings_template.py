@@ -50,6 +50,7 @@ INSTALLED_APPS = (
 
     'haystack',
     'storages',
+    'stored_messages',
 
     'allauth',
     'allauth.account',
@@ -72,6 +73,7 @@ MIDDLEWARE_CLASSES = (
 
 from django.contrib.messages import constants as message_constants
 MESSAGE_TAGS = {message_constants.ERROR: 'danger'}
+MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
 
 ROOT_URLCONF = 'mchp.urls'
 

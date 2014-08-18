@@ -43,6 +43,19 @@
 		{% else %}
 		<div class="tab-pane fade animated delayed-md bounceInUp" id="course{{forloop.counter}}">
 		{% endifequal %}
+		<p></p>
+		<div class="alert alert-info alert-dismissible fade in" id="ref-alert" role="alert">
+		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		<div class="media margin-top-none">
+			<img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/games.svg" width="70" alt="earn referral points">
+			<div class="media-body">
+				<h4 class="media-heading">Get <strong>100 Points</strong> for uploading this class's <strong>Syllabus</strong></h4>
+				There's only one syllabus... If you're the uploader, you're the winner! Whose it going to be? <strong>- mchp</strong>
+				<p></p>
+				<span class="btn btn-default btn-sm btn-file"><i class="fa fa-file-o"></i> Upload Syllabus <input type="file"></span>
+			</div>
+		</div>
+	</div><!-- end alert -->
 			<div class="well well-md animated " style="padding-bottom:0px; margin-top:20px;">
 				<div class="panel panel-default">
 					<div class="panel-body">
@@ -53,7 +66,7 @@
 							<div class="media-body">
 								<h2 class="media-heading"><a href="{% url "course" course.pk %}{{course.name}}">{{course.dept}} {{course.course_number}}</a></h2>
 								<h5>
-									<i class="fa fa-file-o"></i> <a href="#">Syllabus</a> &nbsp;
+								<span class="btn btn-default btn-sm btn-file"><i class="fa fa-file-o"></i> Upload Syllabus <input type="file"></span>&nbsp;
 									<i class="fa fa-male"></i> Instructor {{course.professor}} &nbsp; 
 									<i class="fa fa-university"></i> <a href="{% url "school" course.domain__pk %}{{course.domain__name}}"> {{course.domain__name}}</a>
 								</h5>
@@ -133,6 +146,12 @@
 											</div>
 										</div>
 									</li>
+									{% empty %}
+									<div class="panel panel-default">
+										<div class="panel-body text-center">
+									<p class="lead">You're the first person to join this class! Invite your classmates to join by sharing your link (LINK) or your code (CODE) and you both will earn 500 points!</p>
+									</div>
+								</div>
 									{% endfor %}
 								</div>
 							</div><!-- end panel body -->
@@ -187,6 +206,12 @@
 											</div>
 										</div>
 									</div>
+									{% empty %}
+									<div class="panel panel-default">
+										<div class="panel-body text-center">
+									<p class="lead">Be the first to <a href="{% url "document_upload" %}">upload a document</a> in this class and start making money!</p>
+									</div>
+								</div>
 									{% endfor %}
 								</div>
 							</div><!-- end panel body -->

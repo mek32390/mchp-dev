@@ -37,47 +37,8 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="well">
-				<!-- <h4>What type of calendar would you like to create?</h4>
 				<form id="calendar-create" action="{% url "calendar_create" %}" method="post">
 					{% csrf_token %}
-					<div class="form-group">   
-						<div class="radio cal-type">
-							<label>
-								<input type="radio" name="cal-type" id="personalCal" value="Personal">
-								<strong>Personal</strong>&mdash;this calendar is for events not related to school, and will not be seen by anyone else but you!
-							</label>
-						</div>
-						{% if courses %}
-						<div class="radio">
-							<label>
-								<input type="radio" name="cal-type" id="classCal" value="Class">
-								<strong>Class</strong>&mdash;this calendar is for assignment dates and events for a specific class. You can can sell this calendar to your classmates, or keep it private. 
-							</label>
-						</div>
-						{% else %}
-						<div class="radio">
-							<label class="text-muted">
-								<input type="radio" name="cal-type" id="classCal" value="Class" disabled>
-								<strong>Class</strong>&mdash;this calendar is for assignment dates and events for a specific class. You can can sell this calendar to your classmates, or keep it private. 
-								<p class="text-danger small">(You've either already made a calendar for each of your classes, or you're not in any classes! Please <a href="{% url 'course_add'%}">join a class</a> before making a class calendar.)</p>
-							</label>
-						</div>
-					</div>
-					{% endif %}
-				</div> -->
-				<!-- <div class="cal-name hidden">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<h4>What will you call this calendar?</h4>
-							<div class="form-group">
-								<div class="input-group input-group-lg">
-									<span class='input-group-addon'>Calendar Name</span>
-									<input type="text" class="form-control" name="title" placeholder='try "My Calendar" or "Work"' />
-								</div>
-							</div>
-						</div>
-					</div>
-				</div> -->
 				<div class="select-class">
 					<div class="panel panel-default">
 						<div class="panel-body">

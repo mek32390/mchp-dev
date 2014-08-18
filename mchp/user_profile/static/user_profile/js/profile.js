@@ -26,7 +26,7 @@ $(function(){
 		url: '/profile/edit-blurb/',
 		unsavedclass: 'text-danger',
 		emptyclass: '',
-		emptytext: 'Add a blurb abut yourself!',
+		emptytext: 'Add a blurb about yourself here!',
 		highlight: '',
 		onblur: 'submit',				
 		send: 'always',
