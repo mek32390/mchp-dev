@@ -206,12 +206,9 @@
 						<ul class="dropdown-menu">
 							{% unread_notifications unread %}
 							{% read_notifications unread %}
-							<hr>
-							<li class="text-center">
-								<a href="{% url "notifications" %}">
-									View All
-								</a>
-							</li>
+							<li role="presentation" class="divider"></li>
+							<li>View All (hidden)</li>
+							<li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">

@@ -598,14 +598,17 @@ $(function() {
 					$item.find('.event-class').text(event.course);
 					$item.find('.event-id').text(event.id);
 					$item.find('.event-last-edit').text(event.last_edit.fromNow());
+					$item.find('.sub-event-last-edit').text(event.last_edit.fromNow());
 					$item.find('.calendar-indicator').css('color', event.color);
 					if(event.private) {
 						$item.find('.fa-dollar').remove();
+						$item.find('.sub-event-last-edit').remove();
 					}
 					if(!event.owned) {
 						$item.find('.event-edit-link').remove();
 						$item.find('.event-delete-link').remove();
 						$item.find('.fa-dollar').remove();
+						$item.find('.event-last-edit').remove();
 					}
 					$list_group.append($item);
 				});
