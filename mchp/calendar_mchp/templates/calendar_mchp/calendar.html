@@ -126,7 +126,9 @@
 									</li>
 									{% endif %}
 									{% empty %}
-									<a href="{% url "calendar_create" %}">Make a calendar</a>
+									<div class="text-center">
+										<a href="{% url 'calendar_create' %}">Make a Calendar</a>
+									</div>
 									{% endfor %}
 								</ul>
 							</div>
@@ -141,6 +143,10 @@
 									<li id="edit-calendar-tab-{{calendar.pk}}" class="manage-calendar-tab">
 										<a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a>
 									</li>
+									{% empty %}
+									<div class="text-center">
+										<a href="#" class="view-cals">Follow a Calendar</a>
+									</div>
 									{% endfor %}
 								</ul>
 							</div>
@@ -151,7 +157,7 @@
 							{% if not owned_calendars|length and not subscriptions|length %}
 							<p class="lead text-center">You don't have any calendars to manage.</p>
 							<p class="text-center">
-								<a href="{% url 'calendar_create' %}">Create a Calendar</a> or <a href="#" data-dismiss="modal" class="viewCals">Follow a Classmate's Calendar</a>
+								<a href="{% url 'calendar_create' %}">Create a Calendar</a> or <a href="#" data-dismiss="modal" class="view-cals">Follow a Classmate's Calendar</a>
 							</p>
 							{% endif %}
 	
@@ -240,9 +246,6 @@
 								</div>
 							</div><!-- end class1 tab -->
 							{% empty %}
-							<div class="tab-pane fade in active"><!-- subscription cals content -->
-								You don't have any calendars
-							</div>
 							{% endfor %}
 							{% for calendar in subscriptions %}
 							<div class="tab-pane fade in" id="edit-calendar-link-{{calendar.pk}}"><!-- subscription cals content -->
@@ -260,7 +263,7 @@
 											<div class="form-group">
 										    <label class="col-sm-4 control-label">Price:</label>
 										    <div class="col-sm-8">
-													<p class="form-control-static">{{calendar.price}} lemons / fortnight</p>
+													<p class="form-control-static">{{calendar.price}} points / fortnight</p>
 										    </div>
 										  </div>
 										  <div class="form-group">
@@ -339,7 +342,7 @@
 						<p>What would you like to do?</p>
 						<hr>
 						<p>
-							<button class="btn btn-success btn-xs btn-block stepThreeNext viewCals">View Others</button>
+							<button class="btn btn-success btn-xs btn-block stepThreeNext view-cals">View Others</button>
 							<a type="button" href="#" class="btn btn-primary btn-xs btn-block stepThreeNext">Create my Own</a>
 						</p>
 					</div>
@@ -378,7 +381,7 @@
 						{% if calendar.private %}
 						<i class="fa fa-fw fa-lock" data-toggle="tooltip" data-original-title="Private"></i>
 						{% else %}
-						<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Listing" style="color: {{calendar.color}};"></i></a> 
+						<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" style="color: {{calendar.color}};"></i></a> 
 						<i class="fa fa-fw fa-dollar text-success" data-toggle="tooltip" data-original-title="Selling"></i>
 						{% endif %}
 					</small>
@@ -402,7 +405,7 @@
 					</label>
 					<span class="pull-right small"><a href="#" id="rate-link-{{calendar.pk}}" class="toggle-accuracy-modal"
 							data-cal="{{calendar.pk}}" data-rating="{{calendar.rating}}"><i class="fa fa-bullseye fa-fw" data-toggle="tooltip" data-original-title="Rate"></i></a> 
-						<a href="{% url "calendar_preview" calendar.pk%}"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Listing" style="color: {{calendar.color}};"></i></a> 
+						<a href="{% url "calendar_preview" calendar.pk%}"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" style="color: {{calendar.color}};"></i></a> 
 					</span>
 					<!-- <span class="pull-right small"><a class="end-subscription text-danger" href="#" data-cal="{{calendar.pk}}"><i class="fa fa-legal fa-fw"></i></a></span> -->
 				</div>
@@ -411,7 +414,7 @@
 				<div class="panel panel-danger">
 					<div class="panel-body">
 						You're not following any calendars yet! 
-						<a href="#" class="viewCals">Follow your first calendar!</a>
+						<a href="#" class="view-cals">Follow your first calendar!</a>
 					</div>
 				</div>
 				{% endfor %}
@@ -450,7 +453,7 @@
 						</div>
 						<div class="col-xs-4">
 							<span class="pull-right">
-								<a href="#" class=" viewCals margin-btm-none text-default btn btn-default btn-xs"> Browse Calendars</a>	
+								<a href="#" class=" view-cals margin-btm-none text-default btn btn-default btn-xs"> Browse Calendars</a>	
 							</span>
 						</div>
 					</div>
@@ -461,7 +464,7 @@
 					</div><!-- end cal panel -->
 				</div>
 				<div class="back">
-					<h3>Calendars to Follow<button type="button" id="" class="close viewCals" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></h3>
+					<h3>Calendars to Follow<button type="button" id="" class="close view-cals" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></h3>
 					<hr class="margin-top-sm">
 					<!-- <div class="well"> -->
 					<div class="panel panel-default">
@@ -600,8 +603,8 @@
 			<span data-type="date" class="small margin-btm-none event-date"></span>
 			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
 			<i class="fa fa-clock-o small"></i> 
+			<span class="event-last-edit pull-right margin-btm-none">Edited 12m ago</span>
 			<span class="small margin-btm-none event-time"> 12:00 pm</span>&nbsp;<span class="small">in</span> <span class="small margin-btm-none event-class"> CSC 245</span>
-			<span class="event-last-edit pull-right margin-btm-none">Edited: 12m ago</span>
 			<span class="event-id hidden">8</span>
 		</span>
 	</span><!-- end list-group -->

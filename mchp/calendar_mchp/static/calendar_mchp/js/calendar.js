@@ -238,6 +238,12 @@ $(function() {
 		$('.end-subscription').addClass('hidden');
 	});
 
+	$('.confirm-delete-button').on('click', function () {
+		$('.prompt-delete-message').addClass('hidden');
+		$('.not-delete-button').addClass('hidden');
+		$('.confirm-delete-button').addClass('hidden');
+		$('.end-subscription').addClass('hidden');
+	});
 
 	var calendarEditUrl = '/calendar/update/';
 	// make the class editable
@@ -419,6 +425,7 @@ $(function() {
 	});
 
 	$('.confirm-delete-button').click(function() {
+
 		var pk = $(this).data('cal');
 		deleteCalendar(pk);
 		// remove from cal list
@@ -437,12 +444,12 @@ $(function() {
 		modal.find('#edit-calendar-tab-'+pk).remove();
 	});
 
-	$('.pre-delete-button').click(function() {
-		var $modal = $('#delete-cal-modal');
-		var pk = $(this).data('cal');
-		$('.confirm-delete-button').data('cal', pk);
-		$modal.modal('show');
-	});
+	// $('.pre-delete-button').click(function() {
+	// 	var $modal = $('#delete-cal-modal');
+	// 	var pk = $(this).data('cal');
+	// 	$('.confirm-delete-button').data('cal', pk);
+	// 	$modal.modal('show');
+	// });
 
 	$('.toggle-events').click(function(jsEvent) {
 		var pk = $(this).data('cal');
@@ -590,7 +597,7 @@ $(function() {
 					$item.find('.event-time').text(event.start.format('hh:mm a'));
 					$item.find('.event-class').text(event.course);
 					$item.find('.event-id').text(event.id);
-					$item.find('.event-last-edit').text('Edited: ' + event.last_edit.fromNow());
+					$item.find('.event-last-edit').text(event.last_edit.fromNow());
 					$item.find('.calendar-indicator').css('color', event.color);
 					if(event.private) {
 						$item.find('.fa-dollar').remove();
@@ -807,10 +814,11 @@ $(function() {
 	});
 
 	//toggle calendar list section
-    $('.viewCals').on('click', function () {
+    $('.view-cals').on('click', function () {
         $('.flip-holder').toggleClass("flip");
 		$('.calendar-list-toggle.active').click();
 		$('.popover').remove();
+		$('.modal').remove();
     });
 	$('.calendar-list-toggle').click(function() {
 		var $toggleLink = $(this);
@@ -847,9 +855,9 @@ $(function() {
 						$calendar.find('.calendar-uploader').attr('href', '/profile/'+calendar.owner);
 						$calendar.find('.calendar-uploader').text(calendar.owner__user__username);
 						if(subscriptions.indexOf(calendar.pk) > -1) {
-							$calendar.find('.calendar-browse-price').html(calendar.price + ' lemons ' + $calendar.find('.calendar-browse-price').html());
+							$calendar.find('.calendar-browse-price').html(calendar.price + ' points ' + $calendar.find('.calendar-browse-price').html());
 						} else {
-							$calendar.find('.calendar-browse-price').text(calendar.price + ' lemons');
+							$calendar.find('.calendar-browse-price').text(calendar.price + ' points');
 						}
 						$calendar.find('.calendar-description').text(calendar.description);
 						$calendar.find('.calendar-subscriptions').text(' ' + calendar.subscriptions + ' followers');
@@ -863,7 +871,7 @@ $(function() {
 						$calList.append($calendar);
 					});
 				} else {
-					$calList.html('<hr><p class="lead">There are no calendars for this course yet. That means no competition for you. <a href="/calendar/create">Create the first Calendar</a> right now and make some money! </p><hr>');
+					$calList.html('<hr><p class="lead text-center">There are no calendars for this course yet. That means no competition for you. <a href="/calendar/create">Create the first Calendar</a> for your classmates to follow and make some money! </p><hr>');
 				}
 				$toggleLink.data('fetched', true);
 			},

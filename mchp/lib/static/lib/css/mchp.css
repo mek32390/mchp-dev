@@ -405,3 +405,11 @@ color: #5cb85c;
     border: 2px solid #CCA9D3;
     background: #DEBDE5;
 }
+
+/* make nav drop down menu expand on hover */
+/*@media only screen and (min-width : 768px) {
+     Make Navigation Toggle on Desktop Hover 
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+}*/

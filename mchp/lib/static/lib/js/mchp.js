@@ -4,6 +4,13 @@
 
 $(function() {
 
+	// make dropdown link direct to profile page when clicked
+	// $('.dropdown-toggle').click(function() {
+	//     var location = $(this).attr('href');
+	//     window.location.href = location;
+	//     return false;
+	// });
+
 	 //test data for typeahead in the search bar
 	 //Commented out because it broke things on the calendar page
  	//$('#mchp-search').typeahead({        
