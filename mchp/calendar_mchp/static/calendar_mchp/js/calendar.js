@@ -598,7 +598,7 @@ $(function() {
 					$item.find('.event-class').text(event.course);
 					$item.find('.event-id').text(event.id);
 					$item.find('.event-last-edit').text(event.last_edit.fromNow());
-					$item.find('.sub-event-last-edit').text(event.last_edit.fromNow());
+					// $item.find('.sub-event-last-edit').text(event.last_edit.fromNow());
 					$item.find('.calendar-indicator').css('color', event.color);
 					if(event.private) {
 						$item.find('.fa-dollar').remove();
@@ -608,7 +608,7 @@ $(function() {
 						$item.find('.event-edit-link').remove();
 						$item.find('.event-delete-link').remove();
 						$item.find('.fa-dollar').remove();
-						$item.find('.event-last-edit').remove();
+						// $item.find('.event-last-edit').remove();
 					}
 					$list_group.append($item);
 				});
@@ -874,7 +874,7 @@ $(function() {
 						$calList.append($calendar);
 					});
 				} else {
-					$calList.html('<hr><p class="lead text-center">There are no calendars for this course yet. That means no competition for you. <a href="/calendar/create">Create the first Calendar</a> for your classmates to follow and make some money! </p><hr>');
+					$calList.html('<hr><p class="lead">There are no calendars for this course yet. That means no competition for you. <a href="/calendar/create">Create the first Calendar</a> for your classmates to follow and make some money! </p><hr>');
 				}
 				$toggleLink.data('fetched', true);
 			},
