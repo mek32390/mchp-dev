@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^documents/', RedirectView.as_view(url=reverse_lazy('document_list'))),
     url(r'^(?P<number>\d+)/', views.profile, name='profile'),
     url(r'^toggle-flag/', views.toggle_flag, name='toggle_flag'),
+    url(r'^notifications/', views.notifications, name='notifications'),
     url(r'^edit-blurb/', views.edit_blurb, name='edit_blurb'),
     url(r'^$', views.profile, name='my_profile'),
 )

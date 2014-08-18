@@ -1,0 +1,15 @@
+{% if messages %}
+{% load humanize %}
+<ul class="list-group">
+{% for message in messages reversed%}
+<li class="list-group-item">
+	{{ message.message }}
+	<span class="pull-right">
+		{{message.message.date|naturaltime}}
+	</span>
+</li>
+{% empty %}
+<li class="list-group-item">And then there were none. Notifications that is.</li>
+{% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,17 @@
+{% extends 'user_profile/base.html' %}
+
+{% block body %}
+{% load stored_messages_tags %}
+<div class='container'>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="well">
+				<p>
+					Notifications
+					{% stored_messages_archive 100 %}
+				</p>
+			</div>   
+		</div>
+	</div>
+</div>
+{% endblock %}
