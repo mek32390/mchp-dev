@@ -89,7 +89,16 @@ class Student(models.Model):
     def sales(self):
         all_uploads = Document.objects.filter(upload__owner=self).annotate(sales=Count('purchased_document'))
         counts = list(map(lambda document: document.sales, all_uploads))
+        # this could probably just be sum()
         return reduce(lambda doc1, doc2: doc1 + doc2, counts)
+
+    def subscribers(self):
+        from calendar_mchp.models import ClassCalendar
+        all_calendars = ClassCalendar.objects.filter(
+            owner=self
+        )
+        return sum(map(lambda cal: cal.subscribers.count(), all_calendars))
+
 
     def __str__(self):
         if self.user.first_name:

@@ -666,6 +666,7 @@ class CalendarPreview(DetailView):
         data = {
             'calendar': calendar,
             'owner': calendar.owner,
+            'owner_level': round((timezone.now() - calendar.owner.user.date_joined) / timedelta(days=7)),
             'events': events,
             'past_count': count,
             'next_event': next_event,
