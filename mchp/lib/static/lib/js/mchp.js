@@ -128,10 +128,10 @@ function addMessage(text, extra_tags) {
     $(".django-messages").append(message);
 }
 
-var toggle_flag = function(flag_name) {
+var toggle_flag = function(id) {
 	$.ajax({
 		url: '/profile/toggle-flag/',
 		type: 'POST',
-		data: {'flag': flag_name},
+		data: {'event': id},
 	});
 };

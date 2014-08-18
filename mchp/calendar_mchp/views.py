@@ -394,6 +394,7 @@ class EventAddView(View, AjaxableResponseMixin):
         data = {
             'calendars': calendars,
             'selected_calendar': selected_calendar,
+            'events_turtorial': self.student.one_time_flag.get_flag(self.student, 'events turtorial')
         }
         return render(request, self.template_name, data)
 
@@ -673,6 +674,7 @@ class CalendarPreview(DetailView):
             'total_count': total_count,
             'referral_link': referral_link,
             'current_path': request.get_full_path(),
+            'preview_flag': self.student.one_time_flag.get_flag(self.student, 'preview'),
         }
         return render(request, self.template_name, data)
     
@@ -737,7 +739,7 @@ class CalendarView(View):
             ).count()
             setattr(calendar, 'missed_events', missed_events)
         data = {
-            'flags': self.student.one_time_flag.default(self.student),
+            'turtorial_flag': self.student.one_time_flag.get_flag(self.student, 'calendar turtorial'),
             'calendar_courses': cal_courses,
             'courses': courses,
             'owned_calendars': owned_calendars,

@@ -406,7 +406,8 @@ $(function() {
 		$('.cal-intro').fadeOut(250, function () {
 			$('#yourCalList').fadeIn(500);
 		});
-		toggle_flag('calendar_tutorial');
+		var event = $(this).data('event');
+		toggle_flag(event);
 	});
 
 	// using jquery.cookie plugin

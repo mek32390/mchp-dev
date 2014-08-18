@@ -321,7 +321,7 @@
 			</h3>
 			<hr style="margin-top:12px;">
 			<p></p>
-			{% if not flags.calendar_tutorial %}
+			{% if not turtorial_flag.0 %}
 			<div class="panel panel-default cal-intro">
 				<div class="panel-body">
 					<div id="calStepOne">
@@ -342,8 +342,8 @@
 						<p>What would you like to do?</p>
 						<hr>
 						<p>
-							<button class="btn btn-success btn-xs btn-block stepThreeNext view-cals">View Others</button>
-							<a type="button" href="#" class="btn btn-primary btn-xs btn-block stepThreeNext">Create my Own</a>
+							<button data-event="{{turtorial_flag.1}}" class="btn btn-success btn-xs btn-block stepThreeNext view-cals">View Others</button>
+							<a data-event="{{turtorial_flag.1}}" type="button" href="#" class="btn btn-primary btn-xs btn-block stepThreeNext">Create my Own</a>
 						</p>
 					</div>
 				</div>

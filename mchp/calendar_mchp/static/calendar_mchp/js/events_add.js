@@ -33,6 +33,8 @@ $(function() {
     		$('.table').removeClass('hidden');
 			$('.event-button').removeClass('hidden');
     	});
+		var event = $(this).data('event');
+		toggle_flag(event);
 	});
 
 	var activeCalendar = null;
