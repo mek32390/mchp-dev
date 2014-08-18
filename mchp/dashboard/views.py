@@ -1,6 +1,8 @@
 from django.http import HttpResponseNotAllowed
+from django.db.models import Q
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
+from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import View
 
@@ -9,6 +11,9 @@ from lib import utils
 from schedule.models import Course, SchoolQuicklink
 from user_profile.models import Enrollment
 from documents.models import Document
+from calendar_mchp.models import CalendarEvent, Subscription, ClassCalendar
+
+from datetime import timedelta
 
 class DashboardView(View):
     template_name = 'dashboard.html'
@@ -45,11 +50,18 @@ class DashboardView(View):
         s_links = SchoolQuicklink.objects.filter(
             domain=self.student.school
         )
-        print(s_links)
+
+        events = CalendarEvent.objects.filter(
+            Q(calendar__in=Subscription.objects.filter(student=self.student))
+            | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
+            start__range=(timezone.now(), timezone.now() + timedelta(days=1))
+        )
+        print(events)
         data = {
             'flags': self.student.one_time_flag.default(self.student),
             'pulse': both,
             'school_links': s_links,
+            'events': events,
         }
         return render(request, self.template_name, data)
 
