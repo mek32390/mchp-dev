@@ -43,7 +43,6 @@ $(function() {
 			isprivate = true;
 			$('.course-meetings').fadeIn(500).removeClass('hidden');
 			$('.cal-description').fadeOut(500);
-			$('.cal-price').fadeOut(500);
 		}
 
 	});
@@ -55,14 +54,6 @@ $(function() {
 	$('.cal-start-end').change(function(){
 		if (!isprivate) {
 			$('.cal-description').fadeIn(500).removeClass('hidden');
-		}
-		$('.cal-submit').fadeIn(500).removeClass('hidden');
-	});
-
-	// when the cal description changes, show cal price field
-	$('.cal-description').change(function(){
-		if (!isprivate) {
-			$('.cal-price').fadeIn(500).removeClass('hidden');
 		}
 		$('.cal-submit').fadeIn(500).removeClass('hidden');
 	});
