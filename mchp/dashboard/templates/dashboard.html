@@ -144,7 +144,7 @@
 					<h class="text-right h6"><i class="fa fa-map-marker fa-fw"></i> Bear Down Gym</h>
 				</div>
 			</div> -->
-			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{events|length}}</span></strong></h5>
+			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
 			<div class="list-group">
 				{% for event in events %}
 				<div class="list-group-item {% if forloop.first %}list-group-item-danger{% endif %}">

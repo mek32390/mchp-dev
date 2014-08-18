@@ -11,7 +11,7 @@ from lib import utils
 from schedule.models import Course, SchoolQuicklink
 from user_profile.models import Enrollment
 from documents.models import Document
-from calendar_mchp.models import CalendarEvent, Subscription, ClassCalendar
+from calendar_mchp.models import CalendarEvent, ClassCalendar
 
 from datetime import timedelta
 
@@ -52,16 +52,16 @@ class DashboardView(View):
         )
 
         events = CalendarEvent.objects.filter(
-            Q(calendar__in=Subscription.objects.filter(student=self.student))
+            Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student))
             | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
             start__range=(timezone.now(), timezone.now() + timedelta(days=1))
         )
-        print(events)
         data = {
             'flags': self.student.one_time_flag.default(self.student),
             'pulse': both,
             'school_links': s_links,
-            'events': events,
+            'events': events[:5],
+            'event_count': events.count(),
         }
         return render(request, self.template_name, data)
 
