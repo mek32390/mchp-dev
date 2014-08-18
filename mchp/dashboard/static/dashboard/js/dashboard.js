@@ -64,7 +64,7 @@ $(function(){
 		}
 	});
 	$('#ref-alert').on('close.bs.alert', function  () {
-		toggle_flag('referral_info');
+		toggle_flag($(this).data('event'));
 	});
 	$('.pulse-con').css('max-height',$(window).height() - 200);
 
