@@ -41,9 +41,9 @@
 						<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
 					</p>
 					<div class="progress" style="width:68%;">
-						<div class="progress-bar progress-bar-info" style="width: {{student_percent}}%"> <span class="sr-only">67% Complete (info)</span> </div>
-						<div class="progress-bar progress-bar-primary" style="width: {{doc_percent}}%"> <span class="sr-only">11% Complete (primary)</span> </div>
-						<div class="progress-bar progress-bar-warning" style="width: {{cal_percent}}%"> <span class="sr-only">22% Complete (warning)</span> </div>
+						<div class="progress-bar progress-bar-info" data-toggle="tooltip" data-original-title="Students" data-placement="bottom" style="width: {{student_percent}}%"> <span class="sr-only">{{student_percent}}% Students</span> </div>
+						<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%"> <span class="sr-only">{{doc_percent}}% Documents</span> </div>
+						<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%"> <span class="sr-only">{{cal_percent}}% Calendars</span> </div>
 					</div>
 				</div><!-- end media -->
 			</div><!-- end panel body -->

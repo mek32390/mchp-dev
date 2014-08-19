@@ -29,9 +29,9 @@
 		</div>
 	</div><!-- end alert -->
 	<ol class="breadcrumb">
-		<h class="pull-right">
+		<!-- <h class="pull-right">
 			<a href="#flag_doc" data-toggle="modal" class="text-danger small"><i class="fa fa-flag text-danger"></i> Report this Calendar</a> 
-		</h>
+		</h> -->
 		<li>
 			<a href="{%url "school" calendar.course.domain.pk%}{{calendar.course.domain.name}}"><i class="fa fa-university"></i>&nbsp;{{calendar.course.domain.name}}</a> 
 		</li>
@@ -68,6 +68,9 @@
 										<strong><i class="fa fa-fw fa-check text-success"></i> {{event.title}}</strong>
 										<small class="pull-right">{{event.start|naturaltime}}</small>
 									</div>
+									{% empty %}
+									</br>
+									<p class="lead text-center">This calendar is fresh off the press!</p>
 									{% endfor %}
 								</div>
 							</div>
@@ -75,11 +78,11 @@
 					</div>
 					<div class="col-sm-7">
 						<h2 class="margin-top-none margin-btm-sm">{{calendar}} Calendar&nbsp;
-							<small class="pull-right" data-toggle="tooltip" data-original-title="A fortnight is a unit of time equal to 14 days (2 weeks).">{{calendar.price}} <i class="fa fa-fw fa-lemon-o"></i> <span data-toggle="tooltip" data-originial-title="A fortnight is a unit of time equal to 14 days (2 weeks).">/Fortnight</span></small>
+							<small class="pull-right" data-toggle="tooltip" data-original-title="A fortnight is a unit of time equal to 14 days (2 weeks)">{{calendar.price}} points <span data-toggle="tooltip" data-originial-title="A fortnight is a unit of time equal to 14 days (2 weeks).">/Fortnight</span></small>
 						</h2>
 						<h5>
 							{% if calendar.accuracy < 0 %}
-							<i class="fa fa-fw fa-bullseye text-primary"></i>No Rating&nbsp;
+							<i class="fa fa-fw fa-bullseye text-primary"></i>No Ratings&nbsp;
 							{% else %}
 							<i class="fa fa-fw fa-bullseye text-primary"></i>{{calendar.accuracy}}% Accuracy&nbsp;
 							{% endif %}
@@ -87,6 +90,19 @@
 							<i class="fa fa-fw fa-money text-success"></i> {{subscribers}} Purchase{{subscribers|pluralize}}&nbsp;
 							{% endwith %}
 							<i class="fa fa-comments text-info fa-fw"></i> 10 Reviews</h5>
+							{% if calendar.accuracy < 0 %}
+							{% else %}
+							<!-- accuracy bar -->
+							<div class="progress margin-btm-sm" style="width:61%;">
+							  <div class="progress-bar progress-bar-primary" style="width: {{calendar.accuracy}}%">
+							    <span class="sr-only">{{calendar.accuracy}}% Accuracy</span>
+							  </div>
+							  <div class="progress-bar progress-bar-danger" style="width: 100%">
+							    <span class="sr-only">Accuracy</span>
+							  </div>
+							</div>
+							<!-- end accuracy bar -->
+							{% endif %}
 							<ul class="list-inline margin-top small">
 								<li><strong>Inst</strong> {{calendar.course.professor}}</li> <i class="fa fa-fw fa-clock-o"></i>
 							{% for section in calendar.sections %}
