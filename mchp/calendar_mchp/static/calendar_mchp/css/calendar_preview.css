@@ -5,12 +5,11 @@
 
 /* adds assignment number over calendar icon */
 .assignment-number {
-	position: absolute;
-	margin-top: -41px;
+	position: relative;
+	padding: 0px;
+	margin-top: -38px;
 	margin-left: auto;
 	margin-right: auto;
-	left: 0;
-	right: 0;
 }
 .cal-followers {
 	position: relative;
