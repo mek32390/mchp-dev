@@ -95,15 +95,17 @@
 	</a>
 </div><!-- End Score Bar -->
 
-<div class="container-fluid">
-	{% if not flags.referral_info %}
-	<div class="alert alert-info alert-dismissible fade in" id="ref-alert" role="alert">
-		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+<div class="container">
+	{% if not dashboard_ref_flag.0 %}
+	<div class="alert alert-info alert-dismissible fade in" data-event="{{dashboard_ref_flag.1}}" id="ref-alert" role="alert">
+		<button type="button" class="close" data-event="{{dashboard_ref_flag.1}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 		<div class="media margin-top-none">
 			<img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="earn referral points" width="70px">
 			<div class="media-body">
 				<h4 class="media-heading">Refer a friend, and you both get a <strong>free study guide!</strong></h4>
-				For every person that signs up with us by clicking on your link (SHOW LINK), or by entering your code (SHOW CODE) in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. <strong>- mchp</strong>
+				For every person that signs up with us by clicking on your
+				<strong><a href="{{request.get_host}}/?ref={{referral_info.referral_link}}"/>link</a></strong>, or by
+				entering your code <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. <strong>- mchp</strong>
 			</div>
 		</div>
 	</div><!-- end alert -->
@@ -156,7 +158,7 @@
 				</div>
 				{% empty %}
 				<div class="list-group-item">
-					Relax, you have no events today.
+					You've got nothing. Woop!
 				</div>
 				{% endfor %}
 			</div>

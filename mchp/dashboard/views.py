@@ -16,6 +16,7 @@ from documents.models import Document
 from calendar_mchp.models import CalendarEvent, ClassCalendar
 from dashboard.models import RSSSetting
 from dashboard.utils import RSS_ICONS
+from referral.models import ReferralCode
 
 from datetime import timedelta
 import json
@@ -67,8 +68,10 @@ class DashboardView(View):
         )))
         # filter all rss types w/ just the ones the user wants shown
         rss_types = [(rss,icon,True) if rss in show_rss else (rss,icon,False) for rss,icon in rss_types]
+        ref = ReferralCode.objects.get_referral_code(request.user)
         data = {
-            'flags': self.student.one_time_flag.default(self.student),
+            'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
+            'referral_info': ref,
             'pulse': both,
             'school_links': s_links,
             'events': events[:5],

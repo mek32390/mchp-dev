@@ -4,12 +4,29 @@
 
 $(function() {
 
-	// make dropdown link direct to profile page when clicked
-	// $('.dropdown-toggle').click(function() {
-	//     var location = $(this).attr('href');
-	//     window.location.href = location;
-	//     return false;
-	// });
+	//detect window size for nav dropdown
+	$(window).on('resize', function() {
+	  	if ($(window).width() > 768) {
+	    	
+	    	// make dropdown link direct to profile page when clicked
+		  	$('.dropdown-toggle').click(function() {
+			    var location = $(this).attr('href');
+			    window.location.href = location;
+			    return false;
+			});
+	 	}
+	});
+
+	if ($(window).width() > 768) {
+
+	    // make dropdown link direct to profile page when clicked
+		  	$('.dropdown-toggle').click(function() {
+			    var location = $(this).attr('href');
+			    window.location.href = location;
+			    return false;
+			});
+	}
+
 
 	 //test data for typeahead in the search bar
 	 //Commented out because it broke things on the calendar page
@@ -128,10 +145,10 @@ function addMessage(text, extra_tags) {
     $(".django-messages").append(message);
 }
 
-var toggle_flag = function(flag_name) {
+var toggle_flag = function(id) {
 	$.ajax({
 		url: '/profile/toggle-flag/',
 		type: 'POST',
-		data: {'flag': flag_name},
+		data: {'event': id},
 	});
 };

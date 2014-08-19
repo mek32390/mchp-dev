@@ -77,7 +77,6 @@ class CalendarCreateView(View, AjaxableResponseMixin):
         calendars = ClassCalendar.objects.filter(
             owner = self.student,
         )
-        print(calendars)
         data = {
             'calendars': calendars,
             'courses': courses,
@@ -98,7 +97,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             else:
                 # the start date was too early
                 return self.send_ajax_error_message(str(err), status=403)
-        # now add the times as recurring events
+        # now add the times as sections
         return self._make_sections(request.POST.get('times', {}), calendar)
 
     def _make_calendar(self, request):
@@ -122,7 +121,8 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             'description': request.POST.get('description', ''),
             'end_date': end_date,
             'private': request.POST.get('private', True),
-            'color': request.POST.get('color', '#FFFFFF')
+            'color': request.POST.get('color', '#FFFFFF'),
+            'price': request.POST.get('price', 100),
         }
         return ClassCalendar(**calendar_data)
     
@@ -394,6 +394,7 @@ class EventAddView(View, AjaxableResponseMixin):
         data = {
             'calendars': calendars,
             'selected_calendar': selected_calendar,
+            'events_turtorial': self.student.one_time_flag.get_flag(self.student, 'events turtorial')
         }
         return render(request, self.template_name, data)
 
@@ -666,12 +667,14 @@ class CalendarPreview(DetailView):
         data = {
             'calendar': calendar,
             'owner': calendar.owner,
+            'owner_level': round((timezone.now() - calendar.owner.user.date_joined) / timedelta(days=7)),
             'events': events,
             'past_count': count,
             'next_event': next_event,
             'total_count': total_count,
             'referral_link': referral_link,
             'current_path': request.get_full_path(),
+            'preview_flag': self.student.one_time_flag.get_flag(self.student, 'preview'),
         }
         return render(request, self.template_name, data)
     
@@ -736,7 +739,7 @@ class CalendarView(View):
             ).count()
             setattr(calendar, 'missed_events', missed_events)
         data = {
-            'flags': self.student.one_time_flag.default(self.student),
+            'turtorial_flag': self.student.one_time_flag.get_flag(self.student, 'calendar turtorial'),
             'calendar_courses': cal_courses,
             'courses': courses,
             'owned_calendars': owned_calendars,

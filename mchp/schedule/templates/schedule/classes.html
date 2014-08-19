@@ -14,7 +14,7 @@
 
 {% block body %}
 {% load humanize %}
-<div class="container animated bounceInUp">
+<div class="container-fluid animated bounceInUp">
 	<h2>Your Classes
 		<!-- <div class="pull-right">
 		<a href="/schedule" class="btn btn-primary btn-sm"><i class="fa fa-calendar-o"></i> Your Schedule &raquo;</a>
@@ -50,7 +50,7 @@
 			<img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/games.svg" width="70" alt="earn referral points">
 			<div class="media-body">
 				<h4 class="media-heading">Get <strong>100 Points</strong> for uploading this class's <strong>Syllabus</strong></h4>
-				There's only one syllabus... If you're the uploader, you're the winner! Whose it going to be? <strong>- mchp</strong>
+				There's only one syllabus... If you're the uploader, you're the winner! Who's it going to be? <strong>- mchp</strong>
 				<p></p>
 				<span class="btn btn-default btn-sm btn-file"><i class="fa fa-file-o"></i> Upload Syllabus <input type="file"></span>
 			</div>
@@ -162,17 +162,6 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">Documents <span class="badge">{{course.documents|length}}</span>
-								<div class="btn-group pull-right">
-									<button type="button" class="btn btn-default btn-xs">Recent</button>
-									<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-										<span class="caret"></span>
-										<span class="sr-only">Toggle Dropdown</span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="#">Rating</a></li>
-										<li><a href="#">Most Purchased</a></li>
-									</ul>
-								</div>
 							</h3>
 						</div><!-- end panel heading -->
 						<div class="doc-con scrolls">

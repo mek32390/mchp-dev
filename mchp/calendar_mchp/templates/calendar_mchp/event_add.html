@@ -110,18 +110,21 @@
 							<span class="pull-right">Total Events: <strong>0</strong></span>
 					</h3>
 				</div>
+				{% if not events_turtorial.0 %}
 				<div class="panel-body template-tutorial">
 					<div class="panel panel-default">
 						<div class="panel-body text-center">
 							<p class="lead step-one">Use this template to add multiple events to your calendar at once <a href="#" class="step-one-next"><i class="fa fa-hand-o-right"></i></a></p>
 							<p class="lead step-two hidden">Each row in the table is a day that your class meets <a href="#" class="step-two-next"><i class="fa fa-hand-o-right"></i></a></p>
 							<p class="lead step-three hidden">Try adding all of your class's assignments for the entire semester, and use optional notes to provide additional information about an event or assignment. <a href="#" class="step-three-next"><i class="fa fa-hand-o-right"></i></a></p>
-							<p class="lead step-four hidden">Click the big green button at the bottom when you're finished, and your events will automatically appear on your calendar! <a href="#" class="step-four-next"><i class="fa fa-hand-o-right"></i></a></p>
+							<p class="lead step-four hidden">Click the big green button at the bottom when you're finished, and your events will automatically appear on your calendar! 
+								<a data-event="{{events_turtorial.1}}" href="#" class="step-four-next"><i class="fa fa-hand-o-right"></i></a></p>
 						</div>
 					</div>
 				</div>
+				{% endif %}
 				<!-- Table -->
-				<table class="table table-striped table-hover hidden">
+				<table class="table table-striped table-hover {% if not events_turtorial.0 %}hidden{% endif %} ">
 					<thead>
 						<tr>
 							<th>Due Date <small><i class="fa fa-info-circle text-muted" data-toggle="tooltip" data-original-title="each day you have class has it's own row"></i></small></th>
@@ -159,7 +162,7 @@
 				</table>
 			</div>
 			<p></p>
-			<button type="submit" class="event-button btn btn-success btn-lg btn-block hidden">Finish</button>
+			<button type="submit" class="event-button btn btn-success btn-lg btn-block {% if not events_turtorial.0 %}hidden{% endif %}">Finish</button>
 			<br></br>
 		</div>
 	</div>

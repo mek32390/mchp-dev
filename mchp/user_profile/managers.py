@@ -1,6 +1,7 @@
 from django.db import models
 
 import user_profile.models
+from user_profile.utils import ONE_TIME_EVENTS_DICT
 import dashboard.models
 
 class StudentManager(models.Manager):
@@ -35,9 +36,43 @@ class UserRoleManager(models.Manager):
             roles.save()
             return roles
 
+class OneTimeEventManager(models.Manager):
+    def get_event(id):
+        return user_profile.models.OneTimeEvent.objects.get_or_create(
+            pk=id
+        )[0]
+
 class OneTimeFlagManager(models.Manager):
-    def default(self, student):
-        flags, created = user_profile.models.OneTimeFlag.objects.get_or_create(
+    @staticmethod
+    def clear_flags(student):
+        user_profile.models.OneTimeFlag.objects.filter(
+            student=student
+        ).delete()
+
+    @staticmethod
+    def set_flag(student, event):
+        flag, created = user_profile.models.OneTimeFlag.objects.get_or_create(
+            student=student,
+            event=event,
+        )
+        return created
+
+    @staticmethod
+    def get_flags(student):
+        return user_profile.models.OneTimeFlag.objects.filter(
             student=student
         )
-        return flags
+
+    @staticmethod
+    def get_flag(student, event):
+        if event in ONE_TIME_EVENTS_DICT.keys():
+            pk = ONE_TIME_EVENTS_DICT[event]
+        else:
+            return None
+        event, created = user_profile.models.OneTimeEvent.objects.get_or_create(pk=pk, name=event)
+
+        flag = user_profile.models.OneTimeFlag.objects.filter(
+            student=student,
+            event=event,
+        )
+        return (flag.exists(), event.pk)

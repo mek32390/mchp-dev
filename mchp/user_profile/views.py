@@ -14,7 +14,7 @@ from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
 from schedule.models import School
-from user_profile.models import Student, OneTimeFlag
+from user_profile.models import Student, OneTimeFlag, OneTimeEvent
 from documents.models import Document
 from lib.decorators import school_required
 from referral.models import ReferralCode, Referral
@@ -237,15 +237,15 @@ name: toggle_flag
 class ToggleFlag(View, AjaxableResponseMixin):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            print(request.POST)
-            flag = request.POST.get('flag', '')
-            flags = OneTimeFlag.objects.default(request.user.student)
-            if hasattr(flags, flag):
-                setattr(flags, flag, True)
-                flags.save()
-                return self.render_to_json_response({}, status=200)
-            else:
+            event = request.POST.get('event', -1)
+            event = OneTimeEvent.objects.filter(pk=event)
+            if not event.exists():
                 return self.render_to_json_response({}, status=403)
+            else:
+                event=event[0]
+
+            OneTimeFlag.objects.set_flag(request.user.student, event)    
+            return self.render_to_json_response({}, status=200)
         else:
             return redirect(reverse('my_profile'))
 

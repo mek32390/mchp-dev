@@ -211,8 +211,8 @@
 							<li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
 						</ul>
 					</li>
-					<li class="dropdown">
-						<a href="{% url 'my_profile' %}" class="dropdown-toggle" id="user-dropdown" data-toggle="dropdown"><img
+					<li class="dropdown" id="user-dropdown">
+						<a href="{% url 'my_profile' %}" class="dropdown-toggle" data-toggle="dropdown"><img
 							src="{{student.profile.profile_image_url}}" style="height:18px;"
 							class="img-circle"> {{user.first_name}}
 							<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>

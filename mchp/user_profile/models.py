@@ -89,7 +89,16 @@ class Student(models.Model):
     def sales(self):
         all_uploads = Document.objects.filter(upload__owner=self).annotate(sales=Count('purchased_document'))
         counts = list(map(lambda document: document.sales, all_uploads))
+        # this could probably just be sum()
         return reduce(lambda doc1, doc2: doc1 + doc2, counts)
+
+    def subscribers(self):
+        from calendar_mchp.models import ClassCalendar
+        all_calendars = ClassCalendar.objects.filter(
+            owner=self
+        )
+        return sum(map(lambda cal: cal.subscribers.count(), all_calendars))
+
 
     def __str__(self):
         if self.user.first_name:
@@ -158,15 +167,20 @@ class StudentQuicklink(models.Model):
     def __str__(self):
         return "{} has link to {}".format(self.student.user.username, self.quick_link)
 
+class OneTimeEvent(models.Model):
+    name = models.CharField(max_length=50, blank=True)
+
+    def __str__(self):
+        return "Event #{}".format(self.pk)
+
 class OneTimeFlag(models.Model):
-    student = models.ForeignKey(Student, primary_key=True, related_name='one_time_flag')
-    calendar_tutorial = models.BooleanField(default=False)
-    referral_info = models.BooleanField(default=False)
+    student = models.ForeignKey(Student, related_name='one_time_flag')
+    event = models.ForeignKey(OneTimeEvent)
 
     objects = managers.OneTimeFlagManager()
 
     def __str__(self):
-        return "cal: {}".format(self.calendar_tutorial)
+        return "Seen Event #{}: {}".format(self.event.pk, self.event.name)
 
 class UserRole(models.Model):
     user = models.OneToOneField(User, related_name='user_roles')
