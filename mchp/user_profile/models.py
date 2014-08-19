@@ -133,7 +133,7 @@ class UserProfile(models.Model):
         elif self.pic:
             return self.pic.url
         else:
-            return "https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/png/128px/profile.png"
+            return "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/girl-boy.svg"
 
     def __str__(self):
         return 'Profile for {}'.format(self.student.user.username)

@@ -2,7 +2,7 @@
 
 {% block head_title %}
 {% if request.user.is_authenticated %}
-{% if user.first_name %}{{user.first_name}}{%else%}{{user.username}}{% endif %}
+{{student.name}}
 {% else %}Not Logged In
 {% endif %}
 {% endblock %}
@@ -24,7 +24,7 @@
 {% load humanize %}
 <div class="container">
 <span class="text-center center-block">
-	<img src="{{profile.profile_image_url}}" width="160px" id="profile-image" class=" animated flipInX img-thumbnail img-responsive img-circle delayed-sm">
+	<img src="{{profile.profile_image_url}}" width="160" id="profile-image" class=" animated flipInX img-thumbnail img-circle delayed-sm">
 	{% ifequal viewer student %}
 	<div id="update-photo">
 	</div>
@@ -65,8 +65,17 @@
 							<div class="panel panel-default text-center">
 								<div class="panel-body">
 									<div class="page-header">
-										<h3 class="text-center">{{user.first_name}}'s Classes</h3>
+										<h3 class="text-center">
+											{% ifequal viewer student %}
+												Classes
+											{% else %}
+												{{student.first_name}}'s Classes
+											{% endifequal %}
+										</h3>
+										{% ifequal viewer student %}
+										{% else %}
 										<p class="text-center">You have 2 classes in common</p>
+										{% endifequal %}
 									</div>
 									<div class="row">
 										{% for course in student.courses.all %}
@@ -116,14 +125,15 @@
 													<h4 class="media-heading"><a href="{% url 'document_list' %}
 														{{ document.uuid}}/
 														{{ document.slug}}
-														">{{ document.title }}</a> <small>{{document.price}} <i class="fa fa-fw fa-cube"></i></small>
-														<div class="pull-right small text-muted"></div>
+														">{{ document.title }}</a> <small>{{document.price}} points</small>
+														<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
 													</h4>
 													<span class="description">
 														<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
 														<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
 														<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}} Reviews&nbsp;&nbsp;
 														<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.purchase_count}} Purchases
+														<p class="small margin-top-sm">in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
 													</span>
 												</div>
 											</div>
