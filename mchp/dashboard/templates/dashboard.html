@@ -131,9 +131,9 @@
 			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
 			<div class="list-group">
 				{% for event in events %}
-				<div class="list-group-item {% if forloop.first %}list-group-item-danger{% endif %}">
-					<a href="{%url "calendar" %}" class="text-danger"><strong>{{event.title}}</strong></a>
-					<p class="margin-btm-none"><h class="pull-right text-default"><small>{{event.start|naturaltime}}</small></h>
+				<div class="list-group-item">
+					<a href="{%url "calendar" %}" class="h5 {% if forloop.first %} text-danger {% else %} text-default {% endif %}">{{event.title}}</a>
+					<p class="margin-btm-none"><span class="pull-right text-default small"><small>{{event.start|naturaltime}}</small></span>
 						<a href="{% url "course" event.calendar.course.pk %}" class="h6 text-default">{{event.calendar.course}}</a>
 					</p>
 				</div>
