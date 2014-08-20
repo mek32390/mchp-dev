@@ -22,5 +22,10 @@ DASH_EVENT_LIST = [
 DASH_EVENT_LIST = list(zip(range(100), DASH_EVENT_LIST))
 
 WEATHER_ICONS = {
-    32: 'wi wi-day-sunny'
+    # text: rain
+    12: 'wi wi-rain',
+    # text: clear
+    31: 'wi wi-night-clear',
+    # text: clear
+    32: 'wi wi-day-sunny',
 }
