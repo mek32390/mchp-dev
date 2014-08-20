@@ -115,7 +115,9 @@
 	{% endif %}
 	<ol class="breadcrumb" style="margin-bottom:5px;">
 		<li data-weather="{{weather}}"> 
-			<span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">{% weather_icon weather.icon %} {{school.city}}</span>	
+			<span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
+				{% weather_icon weather.icon weather.text %} {{school.city}}
+			</span>	
 			<span id="weather_temp">{{weather.temperature}} &deg;F</span> &nbsp;
 		</li>
 		<li><a target="_blank" href="http://{{school.domain}}">{{school.name}}</a></li>

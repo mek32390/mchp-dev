@@ -2,6 +2,8 @@ from django.dispatch.dispatcher import receiver
 
 from calendar_mchp.signals import calendar_event_created
 from user_profile.signals import enrolled
+from documents.signals import document_uploaded, document_purchased
+
 from dashboard.models import DashEvent
 from dashboard.utils import DASH_EVENTS
 
@@ -49,3 +51,11 @@ def add_class_join(sender, **kwargs):
     dash_item.save()
     # only the student who just enrolled is intrested in knowing they just enrolled themselves
     dash_item.followers.add(enroll.student)
+
+@receiver(document_purchased)
+def add_document_purchase(sender, **kwargs):
+    pass
+
+@receiver(document_uploaded)
+def add_document_upload(sender, **kwargs):
+    pass

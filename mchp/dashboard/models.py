@@ -15,7 +15,6 @@ class Weather(models.Model):
         self.fetch = timezone.now()
         super(Weather, self).save(*args, **kwargs)
 
-
 class DashEvent(models.Model):
     type = models.PositiveSmallIntegerField(choices=DASH_EVENT_LIST)
     course = models.ForeignKey('schedule.Course')
