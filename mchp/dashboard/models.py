@@ -20,7 +20,8 @@ class DashEvent(models.Model):
     type = models.PositiveSmallIntegerField(choices=DASH_EVENT_LIST)
     course = models.ForeignKey('schedule.Course')
 
-    students = models.ManyToManyField('user_profile.Student')
+    student = models.ForeignKey('user_profile.Student', related_name='target')
+    followers = models.ManyToManyField('user_profile.Student', related_name='followers')
 
     document = models.ForeignKey('documents.Document', blank=True, null=True)
     calendar = models.ForeignKey('calendar_mchp.ClassCalendar', blank=True, null=True)
