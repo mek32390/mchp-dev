@@ -81,6 +81,10 @@ $(function(){
 				'setting': setting,
 			},
 		});
+		fetchRss();
+		if ($('.news-list-item:visible').length === 0) {
+			$('.news-list-empty').toggleClass('hidden');
+		}
 	});
 
 	window.pulse = new Pulse({
@@ -93,33 +97,56 @@ $(function(){
 });
 
 var fetchRss = function() {
+	if ($('.news-list-item:visible').length !== 0) {
+		$('.news-list-empty').toggleClass('hidden');
+	}
+	
 	var $sections = $('.news-group');
 	$sections.each(function(index, section) {
 		var $section = $(section);
 		if($section.hasClass('hidden')) {
 			return true;
 		}
-		var $links = $section.find('.news-item');
+		// clear old items if any
+		$('.news-item:not(.news-item-proto)').remove();
+		var $links = $section.find('.news-item-proto');
 		$links.each(function(index, link) {
 			var $link = $(link);
+			var $section = $link.parents('.news-group');
 			var url = $link.data('link') ;
-			$.ajax({
-				url: url,
-				crossDomain: true,
-				dataType: 'jsonp xml',
-				type: 'GET',
-				success: function(data) {
+			var name = $link.data('name');
+			var count = $link.data('count');
+			var fuckyou = 'shitfucking';
+			var successFn = function(feed) {
+				for(var i = 0 ; i < count ; i++) {
+					addRss($section, feed.items[i], name);
+				}
+			};
+			$.getFeed({
+				url: '/dashboard/rss-proxy/',
+				data: {
+					'url': url,
 				},
-				fail: function(data) {
-				},
-				complete: function(data) {
-					console.log(data.responseText);
-				},
+				success: successFn,
 			});
 		});
-		console.log($links);
 	});
+};
 
+var addRss = function(section, rss, name) {
+	var $item = $('.news-item-proto').first().clone();
+	$item.removeClass('news-item-proto');
+	$item.removeClass('hidden');
+	var time = moment(rss.updated, 'ddd, DD MMM YYYY HH:mm:ss ZZ');
+
+	$item.find('.news-headline').html(rss.title);
+	$item.find('.news-headline').attr('href', rss.link);
+	$item.find('.news-content').html(rss.description);
+	$item.find('.news-time').text(time.fromNow());
+	$item.find('.news-name').text(name);
+	section.append($item);
+	// remove some extra stuff some feeds seem to add
+	$item.find('.news-content').find('p').siblings().remove();
 };
 
 var processFeed = function(feed) {

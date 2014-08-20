@@ -41,6 +41,7 @@ class RSSLink(models.Model):
 
     name = models.CharField(max_length=30)
     url = models.URLField(blank=True)
+    story_count = models.PositiveSmallIntegerField(default=1)
 
     def __str__(self):
         return self.name
