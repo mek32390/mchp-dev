@@ -93,6 +93,8 @@ class DashboardView(View):
 
     def _get_classmate(self):
         courses = self.student.courses.all()
+        if not len(courses):
+            return None
         course = courses[randrange(len(courses))]
         people = list(course.student_set.exclude(pk=self.student.pk))
         if people:

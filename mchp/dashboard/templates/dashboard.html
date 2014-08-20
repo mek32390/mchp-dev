@@ -169,11 +169,17 @@
                 </div>
               </div>
             </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div><!-- End Today Col -->
+						{% empty %}
+						<div class="list-group-item">
+							<div class="media-body">
+								<p class="margin-btm-none">Looks like you're all alone.</p>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div><!-- End Today Col -->
 
     <div class="col-sm-4 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
       <h2>Pulse <small> feel the vibe</small></h2>
