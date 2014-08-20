@@ -14,11 +14,12 @@ from schedule.models import Course, SchoolQuicklink
 from user_profile.models import Enrollment
 from documents.models import Document
 from calendar_mchp.models import CalendarEvent, ClassCalendar
-from dashboard.models import RSSSetting
+from dashboard.models import RSSSetting, Weather, DashEvent
 from dashboard.utils import RSS_ICONS
 from referral.models import ReferralCode
 
 from datetime import timedelta
+import pywapi
 import json
 
 class DashboardView(View):
@@ -69,6 +70,27 @@ class DashboardView(View):
         # filter all rss types w/ just the ones the user wants shown
         rss_types = [(rss,icon,True) if rss in show_rss else (rss,icon,False) for rss,icon in rss_types]
         ref = ReferralCode.objects.get_referral_code(request.user)
+
+        # school 
+        school = self.student.school
+        # weather
+        # the weather must be stored for 30 minutes before making another request i think this is a
+        # license thing
+        saved_weather = Weather.objects.filter(
+            zipcode=school.zip_code,
+            fetch__gte=timezone.now() + timedelta(minutes=-30),
+        )
+        if saved_weather.exists():
+            weather = saved_weather[0].info
+        else:
+            saved_weather, created = Weather.objects.get_or_create(zipcode=school.zip_code)
+            weather_info = pywapi.get_weather_from_weather_com(school.zip_code, units='imperial')
+            weather_info = weather_info['current_conditions']
+            weather = weather_info
+
+            saved_weather.info = json.dumps(weather_info)
+            saved_weather.save()
+
         data = {
             'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
             'referral_info': ref,
@@ -77,6 +99,8 @@ class DashboardView(View):
             'events': events[:5],
             'event_count': events.count(),
             'rss_types': rss_types,
+            'school': school,
+            'weather': weather,
         }
         return render(request, self.template_name, data)
 
@@ -123,6 +147,35 @@ class AjaxableResponseMixin(object):
         }
         status = kwargs.get('status', 500)
         return self.render_to_json_response(data, status=status)
+
+'''
+url: /dashboard/feed/
+name: dashboard_feed
+'''
+class DashboardFeed(View, AjaxableResponseMixin):
+
+    def post(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['GET'])
+
+    def get(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            feed = DashEvent.objects.filter(
+                students__student=self.student
+            )
+            data = {
+                'feed': feed,
+            }
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('dashboard'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(DashboardFeed, self).dispatch(*args, **kwargs)
+
+feed = DashboardFeed.as_view()
+
 
 '''
 url: /dashboard/toggle-rss/

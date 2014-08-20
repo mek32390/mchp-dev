@@ -1,7 +1,32 @@
 from django.db import models
+from django.utils import timezone
 
-from dashboard.utils import RSS_LIST
+from dashboard.utils import RSS_LIST, DASH_EVENT_LIST
 from dashboard import managers
+
+from jsonfield import JSONField
+
+class Weather(models.Model):
+    zipcode = models.CharField(max_length=11, unique=True)
+    info = JSONField()
+    fetch = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        self.fetch = timezone.now()
+        super(Weather, self).save(*args, **kwargs)
+
+
+class DashEvent(models.Model):
+    type = models.PositiveSmallIntegerField(choices=DASH_EVENT_LIST)
+    course = models.ForeignKey('schedule.Course')
+
+    students = models.ManyToManyField('user_profile.Student')
+
+    document = models.ForeignKey('documents.Document', blank=True, null=True)
+    calendar = models.ForeignKey('calendar_mchp.ClassCalendar', blank=True, null=True)
+    event = models.ForeignKey('calendar_mchp.CalendarEvent', blank=True, null=True)
+
+    date_created = models.DateTimeField(auto_now_add=True)
 
 class RSSLink(models.Model):
     rss_type = models.PositiveSmallIntegerField(choices=RSS_LIST)

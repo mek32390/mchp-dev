@@ -14,6 +14,7 @@
 <!-- // <script src="{% static 'dashboard/js/quicklinks.js' %}"></script> -->
 
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
@@ -24,6 +25,7 @@
 
 {% block body %}
 {% load humanize %}
+{% load dashboard %}
 <!-- Say Hey modal -->
 <div id="say-hey-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -111,25 +113,18 @@
 	</div><!-- end alert -->
 	{% endif %}
 	<ol class="breadcrumb" style="margin-bottom:5px;">
-		<li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span>	<span id="weather_temp">66&deg; F</span> &nbsp;</li>
+		<li> <span id="weather_data">{% weather_icon weather.icon %} {{school.city}}</span>	
+		<span id="weather_temp">{{weather.temperature}} &deg;F</span> &nbsp;</li>
+		<li><a target="_blank" href="{{school.domain}}">{{school.name}}</a></li>
 		{% for link in school_links %}
 		<li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
 		{% endfor %}
-		<!-- <a  id="addLink" href="#" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a> -->
 	</ol>
       <!-- End Quicklinks -->
       <div class="row"><!-- Begin Row --> 
         <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
          <h2 style>Today&nbsp;<small>in your life</small></h2>
          <hr class="margin-top-sm">
-			<!-- <h5><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-info pull-right">2</span></h5>
-			<div class="list-group">
-				<div class="list-group-item">
-					<p class="list-group-item-heading"><a href="#" class="text-info"><strong>Meet with Counselor</strong></a></p>
-					<h class="pull-right text-default"><small>in 3 hrs</small></h>
-					<h class="text-right h6"><i class="fa fa-map-marker fa-fw"></i> Bear Down Gym</h>
-				</div>
-			</div> -->
 			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
 			<div class="list-group">
 				{% for event in events %}
@@ -175,28 +170,6 @@
                 </div>
               </div>
               </div>
-
-    <!-- <div class="row">
-      <div class="col-xs-2">
-            <a href="#" class="" style="position:absolute; margin-top:60px"><i class="fa fa-angle-left"></i></a>
-      </div>
-      <div class="col-xs-8" style="padding:0px 10px;">
-             <a href="#"><img class="media-object img-thumbnail img-circle center-block" width="140" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /></a>
-      </div>
-      <div class="col-xs-2">
-            <a href="#" class="pull-right" style="position:absolute; margin-top:60px"><i class="fa fa-angle-right"></i></a>
-      </div>
-    </div>
-
-
-                            
-                         
-             <h5 class="text-center  margin-btm-none"><a href="#">Brost</a></h5>
-             <p class="text-center"><small>3 classes in common</small></p> -->
-             <!-- <p class="text-center"><button data-toggle="modal" href="#say-hey-modal" class="btn btn-primary btn-xs">Do you know Brost?</button></p> -->
-             <!-- <p class="text-center">and 35 more classmates</p> -->
-             <!-- <a href="#" class="">Yep</a> <a href="#" class="">Nope</a> <a href="#" class="">Kinda</a> -->
-           
          </div>
        </div>
      </div>
