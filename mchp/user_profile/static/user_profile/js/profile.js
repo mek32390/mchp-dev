@@ -32,17 +32,39 @@ $(function(){
 		send: 'always',
     });
 
-  $('#major').editable({
-    	mode: 'inline',
-    	inputclass: '',
-		url: '/profile/edit-major/',
+   $('#major').editable({
+		mode: 'inline',
 		unsavedclass: 'text-danger',
 		emptyclass: '',
-		emptytext: 'Add your Major',
+		emptytext: 'Select your major',
 		highlight: '',
 		onblur: 'submit',				
 		send: 'always',
-    });
+	    showbuttons: false,
+	    url: '/post',
+	    title: 'Choose your Major',
+	    typeahead: {
+	        local: ['Major 1', 'Major 2', 'Major 3', 'Major 4'],
+	    }
+	});
+
+   $('.tt-suggestion > p').selected( function () {
+   		$(this).addClass('h2');
+   });
+
+//    value: 'ru',
+// typeahead: {
+// name: 'country',
+// local: [
+// {value: 'ru', tokens: ['Russia']},
+// {value: 'gb', tokens: ['Great Britain']},
+// {value: 'us', tokens: ['United States']}
+// ],
+// template: function(item) {
+// return item.tokens[0] + ' (' + item.value + ')';
+// }
+// }
+// });
 
 	//button to trigger about field (not used right now)
 	$('#edit-button').click(function(e) {
