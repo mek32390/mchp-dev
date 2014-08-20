@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
+from calendar_mchp.signals import calendar_event_created, calendar_event_edited
 
 class ClassCalendarManager(models.Manager):
     def default(self, student):
@@ -120,6 +121,12 @@ class CalendarEvent(models.Model):
     last_edit = models.DateTimeField()
 
     def save(self, *args, **kwargs):
+        if not self.pk:
+            # first time
+            edit = False
+        else:
+            edit = True
+
         # don't let end date go past six months from calendar creation
         if self.end > self.calendar.end_date:
             raise CalendarExpiredError("You can not add events after a calendar's end date: {}".format(self.calendar.end_date.strftime('%B %d, %Y')))
@@ -133,6 +140,11 @@ class CalendarEvent(models.Model):
             raise TimeOrderError("Start date must come before end date")
         self.last_edit = timezone.now()
         super(CalendarEvent, self).save(*args, **kwargs)
+
+        if edit:
+            calendar_event_edited.send(sender=self.__class__, event=self)
+        else:
+            calendar_event_created.send(sender=self.__class__, event=self)
 
     def __str__(self):
         return self.title

@@ -1,6 +1,6 @@
 {% extends 'calendar_mchp/base.html' %}
 
-{% block head_title %}Preview Calendar{% endblock %}
+{% block head_title %}{{calendar}} Calendar{% endblock %}
 
 {% block extra_head %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
@@ -52,11 +52,10 @@
 						<div class="panel panel-default">
 							<div class="panel-body">
 								
-								<p class="text-center"><strong>Total Events</strong></p>
-								<img class="img-circle img-thumbnail center-block text-center" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:70px" />
+								<p class="text-center h4">Total Events</p>
+								<img class="img-thumbnail center-block text-center" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" style="width:70px" />
 								<p class="assignment-number text-center text-default h4">{{total_count}}</p>
-								
-								<p class="text-center small">Next event is {{next_event.start|naturaltime}}</p>
+								<p class="text-center h4">Next event is {{next_event.start|naturaltime}}</p>
 								<!-- <ul class="list-inline text-center">
 								  <li>Accuracy</li>
 								  <li>Last Updated</li>
@@ -80,18 +79,23 @@
 					</div>
 					<div class="col-sm-7">
 						<h2 class="margin-top-none margin-btm-sm">{{calendar}} Calendar&nbsp;
-							<small class="pull-right" data-toggle="tooltip" data-original-title="A fortnight is a unit of time equal to 14 days (2 weeks)">{{calendar.price}} points <span data-toggle="tooltip" data-originial-title="A fortnight is a unit of time equal to 14 days (2 weeks).">/Fortnight</span></small>
+							<small class="pull-right" data-toggle="tooltip" data-original-title="A fortnight is a unit of time equal to 14 days (2 weeks)">{{calendar.price}} points <span data-toggle="tooltip" data-originial-title="A fortnight is a unit of time equal to 14 days (2 weeks).">/Fortnight</span>
+								<p class="margin-top-none margin-btm-none"></p>
+							<span class="pull-right margin-top-none"><small>{{calendar.create_date|naturaltime}}</small></span>
+						</small>
 						</h2>
+
 						<h5>
+							<strong>Prof</strong> {{calendar.course.professor}}
 							{% if calendar.accuracy < 0 %}
 							<i class="fa fa-fw fa-bullseye text-primary"></i>No Ratings&nbsp;
 							{% else %}
 							<i class="fa fa-fw fa-bullseye text-primary"></i>{{calendar.accuracy}}% Accuracy&nbsp;
 							{% endif %}
 							{% with calendar.subscribers.count as subscribers %}
-							<i class="fa fa-fw fa-money text-success"></i> {{subscribers}} Purchase{{subscribers|pluralize}}&nbsp;
+							<i class="fa fa-fw fa-users"></i> {{subscribers}} Follower{{subscribers|pluralize}}&nbsp;
 							{% endwith %}
-							<i class="fa fa-comments text-info fa-fw"></i> 10 Reviews</h5>
+						</h5>
 							{% if calendar.accuracy < 0 %}
 							{% else %}
 							<!-- accuracy bar -->
@@ -99,21 +103,18 @@
 							  <div class="progress-bar progress-bar-primary" style="width: {{calendar.accuracy}}%">
 							    <span class="sr-only">{{calendar.accuracy}}% Accuracy</span>
 							  </div>
-							  <div class="progress-bar progress-bar-danger" style="width: 100%">
-							    <span class="sr-only">Accuracy</span>
-							  </div>
 							</div>
 							<!-- end accuracy bar -->
 							{% endif %}
 						</h5>
-							<ul class="list-inline margin-top small">
-								<li><strong>Inst</strong> {{calendar.course.professor}}</li> <i class="fa fa-fw fa-clock-o"></i>
+							<!-- <ul class="list-inline margin-top small"> -->
+							<i class="fa fa-fw fa-clock-o"></i>
 							{% for section in calendar.sections %}
-							<li class="">
-							<span>{{section.day_name|slice:":3"}} {{section.start|time:"fA"}}-{{section.end|time:"fA"}}</span>
-						</li>
+							<!-- <li> -->
+							<span>{{section.day_name|slice:":3"}} {{section.start|time:"fA"}}-{{section.end|time:"fA"}}&nbsp; </span>
 							{% endfor %}
-						</ul>
+						<!-- </ul> -->
+						<p></p>
 						<form id="subscribe-form" method="post" action="{{current_path}}">
 							{% csrf_token %}
 						</form>
@@ -139,8 +140,7 @@
 								</a>
 								<div class="media-body">
 									<h4 class="media-heading">
-										{{owner.name}} <small>Level {{owner_level}}</small>
-										<span class="pull-right small">{{calendar.create_date|naturaltime}}</span>
+										<a href="#">{{owner.name}}</a> <small>Level {{owner_level}}</small>
 									</h4>
 									{% with owner.subscribers as subscribers %}
 									<p><span class="label label-info">{{subscribers}} Calendar{{subscribers|pluralize}} sold</span> 

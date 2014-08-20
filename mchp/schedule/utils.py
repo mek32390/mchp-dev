@@ -167,6 +167,13 @@ def add_course_to_db(school, num, **kwargs):
         )
         course.save()
 
+def fill_departments():
+    with open('./schedule/majors.txt') as file:
+        for major in file:
+            dept = schedule.models.Department(name=major.rstrip('\n'))
+            dept.save()
+            print(major.rstrip('\n'))
+
 def fill_schools():
     import csv
     with open('./schedule/Schools.csv', newline='') as csvfile:

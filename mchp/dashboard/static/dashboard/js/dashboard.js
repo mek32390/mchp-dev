@@ -72,7 +72,6 @@ $(function(){
 		var setting = $(this).data('setting');
 
 		$('#news-list-item-'+setting).toggleClass('hidden');
-		// console.log($('#news-list-item-'+setting));
 		$('#news-'+setting).toggleClass('hidden');
 
 		$.ajax({
@@ -83,10 +82,148 @@ $(function(){
 			},
 		});
 	});
-	$('.news-header').each(function(index, header){
-		$(header).css('background-color', Please.make_color());
-		$(header).css('color', '#fff');
+
+	window.pulse = new Pulse({
 	});
-	var candidateColor = Please.make_color();
-	console.log(candidateColor);
+	window.pulse.setup();
+	fetchFeed();
+	fetchRss();
+	var now = moment($('.current-time').data('time'));
+	startTime(now._tzm);
 });
+
+var fetchRss = function() {
+	var $sections = $('.news-group');
+	$sections.each(function(index, section) {
+		var $section = $(section);
+		if($section.hasClass('hidden')) {
+			return true;
+		}
+		var $links = $section.find('.news-item');
+		$links.each(function(index, link) {
+			var $link = $(link);
+			var url = $link.data('link') ;
+			$.ajax({
+				url: url,
+				crossDomain: true,
+				dataType: 'jsonp xml',
+				type: 'GET',
+				success: function(data) {
+				},
+				fail: function(data) {
+				},
+				complete: function(data) {
+					console.log(data.responseText);
+				},
+			});
+		});
+		console.log($links);
+	});
+
+};
+
+var processFeed = function(feed) {
+	var items = [];
+	$.each(feed, function(index, itemData) {
+		var title = '';
+		var link = '/school/course/'+itemData.course__pk;
+		if (itemData.event__title !== null) {
+			title = itemData.event__title;
+			link = '/calendar/';
+		} else if (itemData.document__title !== null) {
+			title = itemData.document__title;
+			link = '/documents/'+itemData.document__uuid + '/' + title;
+		}
+		var item = new PulseItem({
+			type: itemData.type,
+			course: {
+				'name': itemData.course__dept + ' ' + itemData.course__course_number,
+				'pk': itemData.course__pk,
+			},
+			target: {
+				'name': itemData.student__user__username,
+				'pk': itemData.student__pk,
+			},
+			time: moment.utc(itemData.time),
+			title: title,
+			link: link,
+		});
+		items.push(item);
+	});
+	return items;
+};
+
+var PulseItem = function(options) {
+	this.type = options.type;
+	this.time = options.time;
+	this.target = options.target;
+	this.course = options.course;
+	this.title = options.title;
+	this.link = options.link;
+};
+
+var Pulse = function(options) {
+};
+
+Pulse.prototype.setup = function() {
+	var self = this;
+};
+
+Pulse.prototype.addItem = function(item) {
+	var $pulse = $('#pulse');
+	var $node = $('.' + item.type+'-proto').clone();
+
+	$node.removeClass(item.type+'-proto');
+	$node.removeClass('hidden');
+
+	$node.find('.dash-title').text(item.title);
+	$node.find('.dash-title-link').attr('href', item.link);
+
+	$node.find('.dash-time').text(item.time.fromNow());
+
+	$node.find('.dash-target').text(item.target.name);
+	$node.find('.dash-target').parents('a').attr('href', '/profile/' + item.target.pk);
+
+	$node.find('.dash-course').text(item.course.name);
+	$node.find('.dash-course').parents('a').attr('href', '/school/course/'+item.course.pk+'/'+item.course.name);
+
+	$pulse.append($node);
+};
+
+Pulse.prototype.render = function(items) {
+	var self = this;
+
+	$('.dash-load').remove();
+	$.each(items, function(index, item) {
+		self.addItem(item);
+	});
+	if (items.length < 1) {
+		$('.dash-empty').removeClass('hidden');
+	}
+};
+
+var fetchFeed = function() {
+	var feed = [];
+	$.ajax({
+		url: '/dashboard/feed/',
+		type: 'GET',
+		success: function(data) {
+			items = processFeed(data.feed);
+			pulse.render(items);
+		},
+		fail: function(data) {
+			addMessage("Pulse not found. He's dead jim.");
+		},
+		complete: function(data) {
+			return feed;
+		},
+	});
+};
+
+function startTime(zone) {
+    var now = moment().zone(zone);
+    $('.current-time').html(now.format('h:mm:ss a'));
+    var t = setTimeout(function(){
+		startTime(zone);
+	}, 500);
+}

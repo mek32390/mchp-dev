@@ -7,6 +7,7 @@
 
 {% block extra_head %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 <!-- this ruins tooltips -->
 <!-- <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script> -->
 
@@ -14,6 +15,7 @@
 <!-- // <script src="{% static 'dashboard/js/quicklinks.js' %}"></script> -->
 
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
@@ -24,15 +26,16 @@
 
 {% block body %}
 {% load humanize %}
+{% load dashboard %}
 <!-- Say Hey modal -->
 <div id="say-hey-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content text-center">
-			<div class="modal-body">
-				<p class="lead">Send something to <img class="img-thumbnail img-circle" width="35" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /> Brost:</p>
-				<div class="row">
-					<div class="col-xs-2 col-centered">
-						<label class="gift-label">
+  <div class="modal-dialog">
+    <div class="modal-content text-center">
+      <div class="modal-body">
+        <p class="lead">Send something to <img class="img-thumbnail img-circle" width="35" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /> Brost:</p>
+        <div class="row">
+          <div class="col-xs-2 col-centered">
+            <label class="gift-label">
               <img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/cup.svg" alt="cup of coffee">
               <h5>Cup O' Joe</h5>
               <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="coffee">
@@ -78,309 +81,273 @@
   </div>
 </div>
 </div>
-<!-- <div class="progress score-bar" style="margin-top:-20px; opacity:.5;">
-	<span class="score-breakdown">
-		<a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
-			<span class="sr-only">35% Complete (success)</span>
-		</a>
-		<a href="#" class="progress-bar progress-bar-primary animated slideInLeft" id="score_2">
-			<span class="sr-only">20% Complete (warning)</span>
-		</a>
-		<a href="#" class="progress-bar progress-bar-info animated slideInLeft" id="score_3" >
-			<span class="sr-only">45% Complete (danger)</span>
-		</a>
-	</span>
-	<a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
-		<span class="sr-only">35% Complete (success)</span>
-	</a>
-</div><!-- End Score Bar  --> 
+<div class="progress score-bar" style="margin-top:-20px; opacity:.5;"><!-- Score Bar -->
+  <span class="score-breakdown">
+    <a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
+      <span class="sr-only">35% Complete (success)</span>
+    </a>
+    <a href="#" class="progress-bar progress-bar-primary animated slideInLeft" id="score_2">
+      <span class="sr-only">20% Complete (warning)</span>
+    </a>
+    <a href="#" class="progress-bar progress-bar-info animated slideInLeft" id="score_3" >
+      <span class="sr-only">45% Complete (danger)</span>
+    </a>
+  </span>
+  <a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
+    <span class="sr-only">35% Complete (success)</span>
+  </a>
+</div><!-- End Score Bar -->
 
 <div class="container">
-	{% if not dashboard_ref_flag.0 %}
-	<div class="alert alert-info alert-dismissible fade in" data-event="{{dashboard_ref_flag.1}}" id="ref-alert" role="alert">
-		<button type="button" class="close" data-event="{{dashboard_ref_flag.1}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		<div class="media margin-top-none">
-			<img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="earn referral points" width="70px">
-			<div class="media-body">
-				<h4 class="media-heading">Refer a friend, and you both get a <strong>free study guide!</strong></h4>
-				For every person that signs up with us by clicking on your
-				<strong><a class="alert-link" href="{{request.get_host}}/?ref={{referral_info.referral_link}}"/>link</a></strong>, or by
-				entering your code <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. <strong>- mchp</strong>
-			</div>
-		</div>
-	</div><!-- end alert -->
-	{% endif %}
-	<ol class="breadcrumb" style="margin-bottom:5px;">
-		<li> <span id="weather_data"><i class="fa fa-cloud fa-fw"></i> Tucson</span>	<span id="weather_temp">66&deg; F</span> &nbsp;</li>
-		{% for link in school_links %}
-		<li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
-		{% endfor %}
-		<!-- <a  id="addLink" href="#" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a> -->
-	</ol>
-	<!-- <div class='custom-menu'>
-				<div data-action="edit" id="edit">
-						Edit
-				</div>
-				<div data-action="delete" id="delete">
-						Delete
-				</div>
-		</div>
-
-		<div id="dialog-form" title="Edit quicklink">
-				<p class="validateTips">All fields are required.</p>
-				<form>
-						<fieldset>
-								<label for="name">Name</label> <input class="text ui-widget-content ui-corner-all" id="name" name="name" type="text" value="Google"> <label for="url">URL</label> <input class="text ui-widget-content ui-corner-all" id="url" name="url" type="text" value="www.google.com"> <input style="position:absolute; top:-1000px" tabindex="-1" type="submit">
-						</fieldset>
-				</form>
-      </div> -->
-      <!-- End Quicklinks -->
-      <div class="row"><!-- Begin Row --> 
-        <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
-         <h2 style>Today&nbsp;<small>in your life</small></h2>
-         <hr class="margin-top-sm">
-			<!-- <h5><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-info pull-right">2</span></h5>
-			<div class="list-group">
-				<div class="list-group-item">
-					<p class="list-group-item-heading"><a href="#" class="text-info"><strong>Meet with Counselor</strong></a></p>
-					<h class="pull-right text-default"><small>in 3 hrs</small></h>
-					<h class="text-right h6"><i class="fa fa-map-marker fa-fw"></i> Bear Down Gym</h>
-				</div>
-			</div> -->
-			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-default pull-right">{{event_count}}</span></strong></h5>
-			<div class="list-group">
-				{% for event in events %}
-				<div class="list-group-item {% if forloop.first %}list-group-item-danger{% endif %}">
-					<a href="{%url "calendar" %}" class="text-danger"><strong>{{event.title}}</strong></a>
-					<p class="margin-btm-none"><h class="pull-right text-default"><small>{{event.start|naturaltime}}</small></h>
-						<a href="{% url "course" event.calendar.course.pk %}" class="h6 text-default">{{event.calendar.course}}</a>
-					</p>
-				</div>
-				{% empty %}
-				<div class="list-group-item">
-					You've got nothing. Woop!
-				</div>
-				{% endfor %}
-			</div>
-        <div class="row">
-          <div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
-           <h2 class="margin-top-none">People <small>to meet</small></h2>
-           <hr class="margin-top-sm">
-           <div class-"list-group">
+  {% if not dashboard_ref_flag.0 %}
+  <div class="alert alert-info alert-dismissible fade in" data-event="{{dashboard_ref_flag.1}}" id="ref-alert" role="alert">
+    <button type="button" class="close" data-event="{{dashboard_ref_flag.1}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <div class="media margin-top-none">
+      <img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="earn referral points" width="70px">
+      <div class="media-body">
+        <h4 class="media-heading">Refer a friend, and you both get a <strong>free study guide!</strong></h4>
+        For every person that signs up with us by clicking on your
+        <strong><a href="{{request.get_host}}/?ref={{referral_info.referral_link}}"/>link</a></strong>, or by
+        entering your code <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. <strong>- mchp</strong>
+      </div>
+    </div>
+  </div><!-- end alert -->
+  {% endif %}
+  <ol class="breadcrumb" style="margin-bottom:5px;">
+    <li data-weather="{{weather}}"> 
+      <span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
+        {% weather_icon weather.icon weather.text %} {{school.city}}
+      </span> 
+      <span id="weather_temp">{{weather.temperature}} &deg;F</span> &nbsp;
+    </li>
+    <li><a target="_blank" href="http://{{school.domain}}">{{school.name}}</a></li>
+    {% for link in school_links %}
+    <li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
+    {% endfor %}
+    <span class="pull-right">
+      <span class="fa fa-fw fa-clock-o"></span>
+      <span class="current-time" data-time="{{current_time}}">
+        {{current_time|time:"g:i:s a"}}
+      </span>
+    </span>
+  </ol>
+  <!-- End Quicklinks -->
+  <div class="row"><!-- Begin Row --> 
+    <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
+      <h2 style>Today&nbsp;<small>in your life</small></h2>
+      <hr class="margin-top-sm">
+      <h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
+      <div class="list-group">
+        {% for event in events %}
+        <div class="list-group-item">
+          <a href="{%url "calendar" %}" class="h5 {% if forloop.first %} text-danger {% else %} text-default {% endif %}">{{event.title}}</a>
+          <p class="margin-btm-none"><span class="pull-right text-default small"><small>{{event.start|naturaltime}}</small></span>
+            <a href="{% url "course" event.calendar.course.pk %}" class="h6 text-default">{{event.calendar.course}}</a>
+          </p>
+        </div>
+        {% empty %}
+        <div class="list-group-item">
+          You've got nothing. Woop!
+        </div>
+        {% endfor %}
+      </div>
+      <div class="row">
+        <div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
+          <h2 class="margin-top-none">People <small>to meet</small></h2>
+          <hr class="margin-top-sm">
+          <div class="list-group">
+            {% for classmate in classmates %}
             <div class="list-group-item">
               <div class="media">
                 <a class="pull-left" href="#">
-                  <img class="media-object img-thumbnail img-circle center-block" width="50" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" />
+                  <img class="media-object img-thumbnail img-circle center-block" width="64"
+                  src="{{classmate.profile.profile_image_url}}" />
                 </a>
                 <div class="media-body">
-                  <h4 class="media-heading">Brost</h4>
-                  <h6 class="margin-btm-none margin-top-none small">Accounting Major</h6>
-                  <small><small>3 classes in common</small></small>
+                  <h4 class="media-heading">{{classmate.user.username}}</h4>
+                  <p class="small margin-btm-none">{{classmate.profile.blurb}}</p>
                 </div>
               </div>
-              </div>
-              <div class="list-group-item">
-              <div class="media">
-                <a class="pull-left" href="#">
-                  <img class="media-object img-thumbnail img-circle center-block" width="50" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/t1.0-1/p160x160/1391647_10203238415341826_2075770195_n.jpg" />
-                </a>
-                <div class="media-body">
-                  <h4 class="media-heading margin-btm">Kayla</h4>
-                        <h6 class="margin-btm-none margin-top-none small">Marketing Major</h6>
-                  <!-- <p class="small margin-btm-none text-dull">Bad to the bone</p> -->
-                  <small><small class="margin-top-none">4 classes in common</small></small>
-                </div>
-              </div>
-              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div><!-- End Today Col -->
 
-    <!-- <div class="row">
-      <div class="col-xs-2">
-            <a href="#" class="" style="position:absolute; margin-top:60px"><i class="fa fa-angle-left"></i></a>
-      </div>
-      <div class="col-xs-8" style="padding:0px 10px;">
-             <a href="#"><img class="media-object img-thumbnail img-circle center-block" width="140" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /></a>
-      </div>
-      <div class="col-xs-2">
-            <a href="#" class="pull-right" style="position:absolute; margin-top:60px"><i class="fa fa-angle-right"></i></a>
+    <div class="col-sm-4 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
+      <h2>Pulse <small> feel the vibe</small></h2>
+      <hr class="margin-top-sm">
+      <!-- <div class="row">
+      <div class="col-sm-8"> -->
+      <div class="pulse-con">
+        <div class="list-group scrolls" id="pulse">
+          <div class="text-center dash-load">
+            Checking Pulse
+          </div>
+          <div class="list-group-item dash-empty hidden">
+            <div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
+                <h5><i class="fa fa-tree fa-fw"></i></h5>
+              </a>
+              <div class="media-body">
+                <p class="media-heading">
+                  You have no pulse! Quick, somebody get a doctor!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-group-item document-add document-add-proto hidden">
+            <div class="media"> <a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-primary btn-xs">
+                <h5><i class="fa fa-file fa-fw"></i></h5>
+              </a>
+              <div class="media-body">
+                <p class="media-heading">
+                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
+                  <a target="_blank" href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong></a> added by <a
+                    target="_blank" href="#" class="text-muted">
+                    <strong>
+                      <span class="dash-target"></span>
+                    </strong>
+                  </a>
+                </p>
+                <a target="_blank" href="#">
+                  <span class="description small dash-course"></span>
+                </a> 
+              </div>
+            </div>
+          </div>
+          <div class="list-group-item calendar-add calendar-add-proto hidden">
+            <div class="media"> <a target="_blank" href="#" class="dash-title-link media-object img-thumbnail pull-left btn-danger btn-xs">
+                <h5><i class="fa fa-calendar fa-fw"></i></h5>
+              </a>
+              <div class="media-body">
+                <p class="media-heading">
+                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
+                  <a target="_blank" href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong>
+                  </a> added to calendar by <a target="_blank" href="#" class="text-muted">
+                    <strong>
+                      <span class="dash-target"></span>
+                    </strong>
+                  </a>
+                </p>
+                <a target="_blank" href="#">
+                  <span class="description small dash-course"><span> </div>
+                </a>
+            </div>
+          </div>
+          <div class="list-group-item document-purchase document-purchase-proto hidden">
+            <div class="media"> <a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
+                <h5><i class="fa fa-money fa-fw"></i></h5>
+              </a>
+              <div class="media-body">
+                <p class="media-heading">
+                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
+                  <a target="_blank" href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong></a> purchased by <a
+                    target="_blank" href="#" class="text-muted">
+                    <strong>
+                      <span class="dash-target"></span>
+                    </strong>
+                  </a>
+                </p>
+                <a target="_blank" href="#">
+                  <span class="description small dash-course"></span> </div>
+                </a>
+            </div>
+          </div>
+          <div class="list-group-item other-class other-class-join-proto hidden">
+            <div class="media"> <a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
+                <h5><i class="fa fa-user fa-fw"></i></h5>
+              </a>
+              <div class="media-body">
+                <p class="media-heading">
+                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
+                  <a target="_blank" href="#" class="text-muted"><strong><span class="dash-target"></span></strong></a> joined your class</p>
+                <a target="_blank" href="#">
+                  <span class="description small dash-course"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="list-group-item class-join class-join-proto hidden">
+            <div class="media"><a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
+                <h5><i class="fa fa-user fa-fw"></i></h5>
+              </a>
+              <div class="media-body">
+                <p class="media-heading">
+                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
+                  You joined a class</p>
+                <a target="_blank" href="#">
+                  <span class="description small dash-course"></span>
+                </a> 
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-
-                            
-                         
-             <h5 class="text-center  margin-btm-none"><a href="#">Brost</a></h5>
-             <p class="text-center"><small>3 classes in common</small></p> -->
-             <!-- <p class="text-center"><button data-toggle="modal" href="#say-hey-modal" class="btn btn-primary btn-xs">Do you know Brost?</button></p> -->
-             <!-- <p class="text-center">and 35 more classmates</p> -->
-             <!-- <a href="#" class="">Yep</a> <a href="#" class="">Nope</a> <a href="#" class="">Kinda</a> -->
-           
-         </div>
-       </div>
-     </div>
-   </div><!-- End Today Col -->
-
-   <div class="col-sm-4 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
-     <h2>Pulse <small> feel the vibe</small></h2>
-     <hr class="margin-top-sm">
-			<!-- <div class="row">
-      <div class="col-sm-8"> -->
-       <div class="pulse-con">
-        <div class="list-group scrolls" id="pulse">
-         {% for event in pulse %}
-         {% ifequal event.type "join" %}
-         <div class="list-group-item">
-          <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
-            <h5><i class="fa fa-user fa-fw"></i></h5>
-          </a>
-          <div class="media-body">
-            <p class="media-heading">
-             <h class="pull-right"><small>{{event.time|naturaltime}}</small></h>
-             <a href="#" class="text-muted"><strong>{{event.title}}</strong></a> joined a class
-             you're in</p>
-             <span class="description small"></span> </div>
-           </div>
-         </div>
-         <div> </div>
-         {% endifequal %}
-         {% ifequal event.type "document" %}
-         <div class="list-group-item">
-          <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
-            <h5><i class="fa fa-file fa-fw"></i></h5>
-          </a>
-          <div class="media-body">
-            <p class="media-heading">
-             <h class="pull-right"><small>{{event.time|naturaltime}}</small></h>
-             <a href="#"><strong>{{event.title}}</strong></a> added by <a href="#" class="text-muted"><strong>{{event.user.name}}</strong></a></p>
-             <!-- <span class="description small">ECON 200</span> --> 
-           </div>
-         </div>
-       </div>
-       <div> </div>
-       {% endifequal %}
-       {% endfor %}
-       <div class="list-group-item">
-        <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
-          <h5><i class="fa fa-calendar fa-fw"></i></h5>
-        </a>
-        <div class="media-body">
-          <p class="media-heading">
-           <h class="pull-right"><small>8m</small></h>
-           <a href="#"><strong>Quiz 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
-           <span class="description small">ECON 200</span> </div>
-         </div>
-       </div>
-       <div> </div>
-       <div class="list-group-item">
-        <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
-          <h5><i class="fa fa-calendar fa-fw"></i></h5>
-        </a>
-        <div class="media-body">
-          <p class="media-heading">
-           <h class="pull-right"><small>9m</small></h>
-           <a href="#"><strong>Homework 1</strong></a> added to calendar by <a href="#" class="text-muted"><strong>Ashton K.</strong></a></p>
-           <span class="description small">ECON 200</span> </div>
-         </div>
-       </div>
-       <div> </div>
-       <div class="list-group-item">
-        <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-success btn-xs">
-          <h5><i class="fa fa-money fa-fw"></i></h5>
-        </a>
-        <div class="media-body">
-          <p class="media-heading">
-           <h class="pull-right"><small>10m</small></h>
-           <a href="#"><strong>Exam 1 Study Guide</strong></a> was purchased by your classmate</p>
-           <span class="description small">ECON 200</span> </div>
-         </div>
-       </div>
-       <div> </div>
-       <div class="list-group-item">
-        <div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
-          <h5><i class="fa fa-user fa-fw"></i></h5>
-        </a>
-        <div class="media-body">
-          <p class="media-heading">
-           <h class="pull-right"><small>11m</small></h>
-           <a href="#" class="text-muted"><strong>Ashton K.</strong></a> joined your class</p>
-           <span class="description small">ECON 200</span> </div>
-         </div>
-       </div>
-       <div> </div>
-       <div class="list-group-item">
-        <div class="media"><a href="#" class="media-object img-thumbnail pull-left btn-default btn-xs">
-          <h5><i class="fa fa-user fa-fw"></i></h5>
-        </a>
-        <div class="media-body">
-          <p class="media-heading">
-           <h class="pull-right"><small>13m</small></h>
-           You joined a class</p>
-           <span class="description small">ECON 200</span> </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
-
- <!-- </div> End Pulse Col -->
- <div class="col-md-4 col-sm-4 animated bounceInUp delayed-md">
-	 <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class='pull-right'><small><i class="fa fa-bars"></i></small></a></h2>
-	 <hr class="margin-top-sm">
-	 <div class="flip-holder">
-		 <div class="front">
-			 <nav id="news-navbar" class="navbar navbar-default" role="navigation">
-				 <span class="navbar-header">
-					 <ul class="nav navbar-nav">
-						 {% for id, type, visible in rss_types %}
-						 <li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{id}}">
-							 <a class="news-link" data-toggle="tooltip" data-title="{{type.0}}"
-								 data-placement="bottom" data-setting="{{id}}" href="" ><i class="fa {{type.1}}"></i>
-							 </a>
-						 </li>
-						 {% endfor %}
-					 </ul>
-				 </span><!--end navbar header -->
-			 </nav> 
-			 <span id="news-scroll" data-spy="scroll" data-offset="0">
-				 {% for id,type,visible in rss_types %}
-				 <ul id="news-{{id}}" class="list-group {% if not visible %}hidden{% endif %} ">
-					 <li class="list-group-item news-header">
-						 <h5 class="margin-top-none margin-btm-none">{{type.0}}</h5>
-					 </li>
-					 <li class="list-group-item"> 
-						 <small class="pull-right news-time">11m</small> 
-						 <a href="#" class="news-headline">The Apple Mac Turns 30</a>	
-						 <small><span class="label news-name">FOX</span></small>
-						 <p class="small news-content">Many of the dildoes you see drew inspiration from the original Mac computer.</p>
-					 </li>
-				 </ul>
-				 {% endfor %}
-			 </ul>
-		 </span><!-- end news scroll section --> 
-	 </div><!--end front -->
-	 <div class="back">  
-		 <div class="panel panel-default">
-			 <div class="panel-body">
-				 <div class="well">
-					 <h4 class="text-center">Customize Your Stories</h4>
-					 <hr class="margin-top-sm">
-					 <ul class="list-inline text-center">
-						 {% for id, type,visible in rss_types %}
-						 <li class="list-group" style="width:111px;">
-							 <div class="list-group-item btn btn-default {% if visible %}active{% endif %} toggle-rss" data-toggle="button" data-setting="{{id}}">
-								 <i class="fa {{type.1}} fa-3x"></i>
-								 <h5>{{type.0}}</h5>
-							 </div>
-						 </li> 
-						 {% endfor %}
-					 </ul>
-				 </div>
-			 </div>
-		 </div>
-	 </div>
-	 <!-- end back -->
- </div>
-
-</div>  <!--End News Col  --> 
+    <!-- </div> End Pulse Col -->
+    <div class="col-md-4 col-sm-4 animated bounceInUp delayed-md">
+      <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class="pull-right" data-toggle="tooltip" data-original-title="Customize Stories"><small><i class="fa fa-bars"></i></small></a></h2>
+      <hr class="margin-top-sm">
+      <div class="flip-holder">
+        <div class="front">
+          <nav id="news-navbar" class="navbar navbar-default" role="navigation">
+            <span class="navbar-header">
+              <ul class="nav navbar-nav">
+                {% for rss,visible in rss_types %}
+                <li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{rss.pk}}">
+                  <a class="news-link" data-toggle="tooltip" data-title="{{rss.name}}"
+                    data-placement="bottom" data-setting="{{rss.pk}}" href="#news-{{rss.pk}}" ><i class="fa {{rss.icon}}"></i>
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </span><!--end navbar header -->
+          </nav> 
+          <span id="news-scroll" data-spy="scroll" data-offset="0">
+            {% for rss,visible in rss_types %}
+            <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
+              <li class="list-group-item news-header" style="background-color: {{rss.color}};">
+                <h5 class="margin-top-none margin-btm-none">{{rss.name}}</h5>
+              </li>
+              {% for link in rss.links %}
+              <li class="list-group-item news-item news-item-proto" data-link="{{link.url}}"> 
+                <small class="pull-right news-time"><small>11m</small></small> 
+                <a href="#" class="news-headline">The Apple Mac Turns 30</a>  
+                <small><span class="label news-name">{{link.name}}</span></small>
+                <p class="small news-content">Many of the dildoes you see drew inspiration from the original Mac computer.</p>
+              </li>
+              {% endfor %}
+            </ul>
+            {% endfor %}
+          </ul>
+        </span><!-- end news scroll section --> 
+      </div><!--end front -->
+      <div class="back">  
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="well">
+              <h4 class="text-center">Customize Your Interests</h4>
+              <hr class="margin-top-sm">
+              <ul class="list-inline text-center">
+                {% for rss, visible in rss_types %}
+                <li class="list-group" style="width:111px;">
+                  <div class="list-group-item btn btn-default {% if visible %}active{% endif %} toggle-rss" data-toggle="button" data-setting="{{rss.pk}}">
+                    <i class="fa {{rss.icon}} fa-3x"></i>
+                    <h5>{{rss.name}}</h5>
+                  </div>
+                </li> 
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end back -->
+    </div>
+  </div>  <!--End News Col  --> 
 </div> <!--End Row -->
 </div><!-- End Container -->
 

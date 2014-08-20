@@ -124,6 +124,16 @@ class Upload(models.Model):
     class Meta:
         unique_together = ('document', 'owner')
 
+    def save(self, *args, **kwargs):
+        from documents.signals import document_uploaded
+        signal = False
+        if not self.pk:
+            signal = True
+        super(Upload, self).save(*args, **kwargs)
+        if signal:
+            document_uploaded.send(sender=self.__class__, upload=self)
+
+
     def __str__(self):
         return "{} uploaded {}".format(
             self.owner.user.username, 
@@ -139,6 +149,15 @@ class DocumentPurchase(models.Model):
 
     class Meta:
         unique_together = ('document', 'student')
+
+    def save(self, *args, **kwargs):
+        from documents.signals import document_uploaded
+        signal = False
+        if not self.pk:
+            signal=True
+        super(DocumentPurchase, self).save(*args, **kwargs)
+        if signal:
+            document_uploaded.send(sender=self.__class__, upload=self)
 
     def __str__(self):
         return "{} bought {}".format(

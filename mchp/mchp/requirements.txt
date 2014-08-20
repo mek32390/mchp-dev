@@ -13,3 +13,4 @@ wand
 stripe
 jsonfield
 django-stored-messages
+svn+http://python-weather-api.googlecode.com/svn/trunk/

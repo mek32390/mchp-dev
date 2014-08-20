@@ -19,7 +19,7 @@
 			<a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a>
 		</div>
 		<li><a href="{%url "school" course.domain.pk%}{{course.domain.name}}"><i class="fa fa-university fa-fw"></i> {{course.domain.name}}</a> </li>
-		<li class="active"><i class="fa fa-book fa-fw"></i> {{course.display}}</li>
+		<li class="active"><i class="fa fa-book fa-fw"></i> {{course.dept}} {{course.course_number}}</li>
 	</ol>
 	<div class="well" style="padding-bottom:0px;">
 		<div class="panel panel-default">
@@ -41,15 +41,15 @@
 							<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
 							{% endwith %}
 							{% with course.document_count as doc_count %}
-							<i class="fa fa-file"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
+							<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
 							{% endwith %}
 							<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
 						</p>
 					</div>
 					<div class="progress" style="margin-bottom:0px; width:68%;">
-						<div class="progress-bar progress-bar-info" style="width: {{student_percent}}%"> <span class="sr-only">67% Complete (info)</span> </div>
-						<div class="progress-bar progress-bar-primary" style="width: {{doc_percent}}%"> <span class="sr-only">11% Complete (primary)</span> </div>
-						<div class="progress-bar progress-bar-warning" style="width: {{cal_percent}}%"> <span class="sr-only">22% Complete (warning)</span> </div>
+						<div class="progress-bar progress-bar-info" data-toggle="tooltip" data-original-title="Students" data-placement="bottom" style="width: {{student_percent}}%"> <span class="sr-only">67% Complete (info)</span> </div>
+						<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%"> <span class="sr-only">11% Complete (primary)</span> </div>
+						<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%"> <span class="sr-only">22% Complete (warning)</span> </div>
 					</div>
 				</div>
 			</div>
@@ -62,8 +62,8 @@
 					<h3 class="panel-title tour-step-four"> Popular Documents <span
 							class="badge">{{popular_documents|length}}</span></h3>
 				</div>
-				<div class="doc-con scrolls">
-					<div class="panel-body">
+				<!-- <div class="doc-con scrolls">
+					<div class="panel-body"> -->
 						<div class="list-group item-list">
 							{% for document in popular_documents %}
 							<div class="list-group-item">
@@ -79,7 +79,7 @@
 									<div class="media-body">
 										<h4 class="media-heading"><a href="{%url "document_detail" document.uuid %}">{{document.title}}</a>
 											<small>{{document.price}} points</small><div class="pull-right small
-												text-muted hidden-sm">{{document.create_date|naturaltime}}</div></h4>
+												text-muted hidden-sm"><small>{{document.create_date|naturaltime}}</small></div></h4>
 										<span class="description">
 											<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
 											<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{document.down}}&nbsp;
@@ -102,8 +102,8 @@
 							</div>
 							{% endfor %}
 						</div>
-					</div>
-				</div>
+					<!-- </div> -->
+				<!-- </div> -->
 			</div>
 		</div>
 		<div class='col-sm-6'>
@@ -111,39 +111,37 @@
 				<div class="panel-heading clearfix">
 					<h3 class="panel-title tour-step-four"> Popular Calendars <span class="badge">{{popular_calendars|length}}</span></h3>
 				</div>
-				<div class="panel-body">
+				<!-- <div class="panel-body"> -->
 					<div class="list-group item-list">
 						{% for calendar in popular_calendars %}
 						<div class="list-group-item">
 							<div class="media">
 								<span class="pull-left" href="#">
 									<a href="{% url "calendar_preview" calendar.pk%}" class='calendar-picture-link'>
-										<div class="media-object img-circle img-thumbnail">
-											<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg" style="width:64px">
+										<div class="media-object img-thumbnail">
+											<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" style="width:64px">
 										</div>
 										<div class="assignment-number text-center text-default h4
-											calendar-event-count">{{calendar.events}}</div>
+											calendar-event-count" data-toggle="tooltip" data-original-title="Events">{{calendar.events}}</div>
 									</a>
 								</span>
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a>
-										<small class="calendar-browse-price">{{calendar.price}} lemons <label class="label label-success">Following</label></small>
-										<div class="pull-right small text-muted calendar-create-date">{{calendar.create_date|naturaltime}}</div></h4>
+										<small class="calendar-browse-price">{{calendar.price}} points <span class="label label-success"><i class="fa fa-check-circle-o"></i></span></small>
+										<div class="pull-right small text-muted calendar-create-date"><small>{{calendar.create_date|naturaltime}}</small></div></h4>
 									<span class="description">
-										<i class="fa fa-bullseye text-primary"></i>
+										<span class='calendar-professor'><strong>Prof {{calendar.course__professor}}</strong></span>
+										<i class="fa fa-bullseye text-primary"></i> 
 										{% if calendar.accuracy < 0 %}
 										<span class="calendar-accuracy">No ratings&nbsp;</span>
 										{% else %}
 										{{calendar.accuracy}}% Accuracy&nbsp;
 										{% endif %}
-										<i class="fa fa-fw fa-users"></i><span class="calendar-subscriptions">{{calendar.subscriptions}} followers&nbsp;</span>
+										<i class="fa fa-fw fa-users"></i> <span class="calendar-subscriptions">{{calendar.subscriptions}} followers&nbsp;</span>
 										<ul class="list-inline small margin-btm-none">
-											<li><strong>Instructor </strong>
-												<span class='calendar-professor'>{{calendar.course__professor}}</span></li>
-											<i class="fa fa-fw fa-clock-o"></i>
-											<li class='calendar-time'>{{calendar.time}}</li>
+											<li class='calendar-time small'><i class="fa fa-fw fa-clock-o"></i> {{calendar.time}}</li>
 										</ul>
-										<p class="small">Uploaded by <a href="{% url "profile" calendar.owner %}"
+										<p class="small">Created by <a href="{% url "profile" calendar.owner %}"
 												class="calendar-uploader">{{calendar.owner__user__username}}</a></p>
 									</span>
 								</div>
@@ -151,7 +149,7 @@
 						</div>
 						{% endfor %}
 					</div>
-				</div>
+				<!-- </div> -->
 			</div>
 		</div>
 	</div>

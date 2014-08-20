@@ -1,7 +1,6 @@
 from django.db import models
 
 import dashboard.models
-from dashboard.utils import RSS_LIST
 
 class RSSSettingManager(models.Manager):
     def toggle_setting(self, student, rss):
@@ -17,8 +16,8 @@ class RSSSettingManager(models.Manager):
         dashboard.models.RSSSetting.objects.filter(
             student=student
         ).delete()
-        for rss in RSS_LIST:
-            dashboard.models.RSSSetting(student=student, rss_type=rss[0]).save()
+        for rss in dashboard.models.RSSType.objects.all():
+            dashboard.models.RSSSetting(student=student, rss_type=rss).save()
 
         return dashboard.models.RSSSetting.objects.filter(
             student=student
