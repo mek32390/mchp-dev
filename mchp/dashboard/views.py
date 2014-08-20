@@ -14,7 +14,7 @@ from schedule.models import Course, SchoolQuicklink
 from user_profile.models import Enrollment
 from documents.models import Document
 from calendar_mchp.models import CalendarEvent, ClassCalendar
-from dashboard.models import RSSSetting, Weather
+from dashboard.models import RSSSetting, Weather, DashEvent
 from dashboard.utils import RSS_ICONS
 from referral.models import ReferralCode
 
@@ -147,6 +147,35 @@ class AjaxableResponseMixin(object):
         }
         status = kwargs.get('status', 500)
         return self.render_to_json_response(data, status=status)
+
+'''
+url: /dashboard/feed/
+name: dashboard_feed
+'''
+class DashboardFeed(View, AjaxableResponseMixin):
+
+    def post(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['GET'])
+
+    def get(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            feed = DashEvent.objects.filter(
+                students__student=self.student
+            )
+            data = {
+                'feed': feed,
+            }
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('dashboard'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(DashboardFeed, self).dispatch(*args, **kwargs)
+
+feed = DashboardFeed.as_view()
+
 
 '''
 url: /dashboard/toggle-rss/

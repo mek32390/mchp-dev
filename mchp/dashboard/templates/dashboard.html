@@ -119,38 +119,12 @@
 		{% for link in school_links %}
 		<li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
 		{% endfor %}
-		<!-- <a  id="addLink" href="#" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a> -->
 	</ol>
-	<!-- <div class='custom-menu'>
-				<div data-action="edit" id="edit">
-						Edit
-				</div>
-				<div data-action="delete" id="delete">
-						Delete
-				</div>
-		</div>
-
-		<div id="dialog-form" title="Edit quicklink">
-				<p class="validateTips">All fields are required.</p>
-				<form>
-						<fieldset>
-								<label for="name">Name</label> <input class="text ui-widget-content ui-corner-all" id="name" name="name" type="text" value="Google"> <label for="url">URL</label> <input class="text ui-widget-content ui-corner-all" id="url" name="url" type="text" value="www.google.com"> <input style="position:absolute; top:-1000px" tabindex="-1" type="submit">
-						</fieldset>
-				</form>
-      </div> -->
       <!-- End Quicklinks -->
       <div class="row"><!-- Begin Row --> 
         <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
          <h2 style>Today&nbsp;<small>in your life</small></h2>
          <hr class="margin-top-sm">
-			<!-- <h5><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-info pull-right">2</span></h5>
-			<div class="list-group">
-				<div class="list-group-item">
-					<p class="list-group-item-heading"><a href="#" class="text-info"><strong>Meet with Counselor</strong></a></p>
-					<h class="pull-right text-default"><small>in 3 hrs</small></h>
-					<h class="text-right h6"><i class="fa fa-map-marker fa-fw"></i> Bear Down Gym</h>
-				</div>
-			</div> -->
 			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
 			<div class="list-group">
 				{% for event in events %}
@@ -196,28 +170,6 @@
                 </div>
               </div>
               </div>
-
-    <!-- <div class="row">
-      <div class="col-xs-2">
-            <a href="#" class="" style="position:absolute; margin-top:60px"><i class="fa fa-angle-left"></i></a>
-      </div>
-      <div class="col-xs-8" style="padding:0px 10px;">
-             <a href="#"><img class="media-object img-thumbnail img-circle center-block" width="140" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /></a>
-      </div>
-      <div class="col-xs-2">
-            <a href="#" class="pull-right" style="position:absolute; margin-top:60px"><i class="fa fa-angle-right"></i></a>
-      </div>
-    </div>
-
-
-                            
-                         
-             <h5 class="text-center  margin-btm-none"><a href="#">Brost</a></h5>
-             <p class="text-center"><small>3 classes in common</small></p> -->
-             <!-- <p class="text-center"><button data-toggle="modal" href="#say-hey-modal" class="btn btn-primary btn-xs">Do you know Brost?</button></p> -->
-             <!-- <p class="text-center">and 35 more classmates</p> -->
-             <!-- <a href="#" class="">Yep</a> <a href="#" class="">Nope</a> <a href="#" class="">Kinda</a> -->
-           
          </div>
        </div>
      </div>
