@@ -59,6 +59,12 @@ class SchoolAlias(models.Model):
     def __str__(self):
         return "Alias for {}: {}".format(self.domain, self.alias)
 
+class Department(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
 class DisplayCourseManager(models.Manager):
     def get_queryset(self):
         deleted_school, created = School.objects.get_or_create(

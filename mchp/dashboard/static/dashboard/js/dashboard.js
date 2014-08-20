@@ -91,9 +91,14 @@ $(function(){
 	});
 	window.pulse.setup();
 	fetchFeed();
+	fetchRss();
 	var now = moment($('.current-time').data('time'));
 	startTime(now._tzm);
 });
+
+var fetchRss = function() {
+
+};
 
 var processFeed = function(feed) {
 	var items = [];
