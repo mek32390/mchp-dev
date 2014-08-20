@@ -222,8 +222,8 @@ var fetchFeed = function() {
 
 function startTime(zone) {
     var now = moment().zone(zone);
-    $('.current-time').html(now.format('h:mm:ss a'));
+    $('.current-time').html(now.format('h:mm a'));
     var t = setTimeout(function(){
 		startTime(zone);
-	}, 500);
+	}, 1000);
 }

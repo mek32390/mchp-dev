@@ -21,9 +21,6 @@ WEATHER_ICONS = {
     # n/d: drifting snow / windy
     15: 'wi wi-snow-wind',
 
-    # m: waning crescent
-    #24: 'wi wi-moon-waning-crescent',
-
     # d: partly cloudy / windy
     24: 'wi wi-cloudy-windy',
 
