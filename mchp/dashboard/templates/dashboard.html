@@ -299,7 +299,7 @@
 								{% for rss,visible in rss_types %}
 								<li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{rss.pk}}">
 									<a class="news-link" data-toggle="tooltip" data-title="{{rss.name}}"
-										data-placement="bottom" data-setting="{{rss.pk}}" href="" ><i class="fa {{rss.icon}}"></i>
+										data-placement="bottom" data-setting="{{rss.pk}}" href="#news-{{rss.pk}}" ><i class="fa {{rss.icon}}"></i>
 									</a>
 								</li>
 								{% endfor %}
@@ -314,7 +314,7 @@
 							</li>
 							{% for link in rss.links %}
 							<li class="list-group-item news-item news-item-proto" data-link="{{link.url}}"> 
-								<small class="pull-right news-time">11m</small> 
+								<small class="pull-right news-time"><small>11m</small></small> 
 								<a href="#" class="news-headline">The Apple Mac Turns 30</a>	
 								<small><span class="label news-name">{{link.name}}</span></small>
 								<p class="small news-content">Many of the dildoes you see drew inspiration from the original Mac computer.</p>

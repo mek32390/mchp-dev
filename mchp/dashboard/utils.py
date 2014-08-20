@@ -9,43 +9,71 @@ DASH_EVENTS = [
 DASH_EVENT_LIST = list(zip(range(100), DASH_EVENTS))
 
 WEATHER_ICONS = {
-    # t-storms
-    4: 'wi',
+    # t-storms late
+    4: 'wi wi-storm-showers',
 
-    # showers 
-    11: 'wi',
+    # n/d showers 
+    11: 'wi wi-showers',
 
-    # text: rain
+    # n/d: rain
     12: 'wi wi-rain',
 
-    # partly cloudy
+    # n/d: drifting snow / windy
+    15: 'wi wi-snow-wind',
+
+    # m: waning crescent
+    #24: 'wi wi-moon-waning-crescent',
+
+    # d: partly cloudy / windy
+    24: 'wi wi-cloudy-windy',
+
+    # moon: waning crescent
+    25: 'wi wi-moon-waning-crescent',
+
+    # n: mostly cloudy
+    27: 'wi wi-cloudy',
+
+    # d: mostly cloudy
+    28: 'wi wi-cloudy',
+
+    # n: partly cloudy
     29: 'wi wi-night-cloudy',
 
-    # partly couldy
-    30: 'wi',
+    # d: partly couldy
+    30: 'wi wi-cloudy',
 
-    # text: clear
+    # n: clear
     31: 'wi wi-night-clear',
 
-    # text: sunny
+    # d: sunny
     32: 'wi wi-day-sunny',
 
-    # fair 
-    33: 'wi wi-night-clear',
+    # n: mostly clear / fair
+    33: 'wi wi-cloud',
 
-    # mostly sunny
-    34: 'wi',
+    # d: mostly sunny / fair
+    34: 'wi wi-day-sunny',
 
-    # scattered T-storms
-    38: 'wi',
+    # d: scattered T-storms
+    38: 'wi wi-storm-showers',
 
-    # AM showers
-    39: 'wi',
+    # d: AM showers
+    39: 'wi wi-day-showers',
 
-    # showers late
-    45: 'wi',
+    # # n: showers late
+    # 45: 'wi wi-night-alt-showers',
 
-    # t-storms early
-    47: 'wi',
+    # # d: showers early
+    # 45: 'wi wi-day-showers',
+
+    # n: snow-showers 
+    46: 'wi wi-rain-mix',
+
+    # # d: t-storms early
+    # 47: 'wi wi-day-thunderstorm',
+
+    # n: scattered t-storms 
+    47: 'wi wi-thunderstorm',
+
 
 }
