@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.dispatch import Signal
 from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
@@ -119,7 +120,11 @@ class CalendarEvent(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     last_edit = models.DateTimeField()
 
+    calendar_event_created = Signal(providing_args=['event'])
+
     def save(self, *args, **kwargs):
+        if not self.pk:
+            self.calendar_event_created(sender=self.__class__, event=self)
         # don't let end date go past six months from calendar creation
         if self.end > self.calendar.end_date:
             raise CalendarExpiredError("You can not add events after a calendar's end date: {}".format(self.calendar.end_date.strftime('%B %d, %Y')))
