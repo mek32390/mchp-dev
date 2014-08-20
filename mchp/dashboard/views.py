@@ -15,12 +15,14 @@ from schedule.models import SchoolQuicklink
 # from documents.models import Document
 from calendar_mchp.models import CalendarEvent, ClassCalendar
 from dashboard.models import RSSSetting, Weather, DashEvent
-from dashboard.utils import RSS_ICONS
+from dashboard.utils import RSS_ICONS, DASH_EVENTS
 from referral.models import ReferralCode
 
 from datetime import timedelta
 import pywapi
 import json
+
+DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
 
 class DashboardView(View):
     template_name = 'dashboard.html'
@@ -132,10 +134,22 @@ class DashboardFeed(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
             feed = DashEvent.objects.filter(
-                students__student=self.student
-            )
+                followers__id__exact=self.student.id
+            ).select_related().values('type', 'date_created', 
+                                      'course__dept', 'course__course_number', 'course__pk',
+                                      'document__title', 'document__uuid',
+                                      'event__title', 
+                                      'student__user__username', 'student__pk',
+                                     ).order_by('-date_created')
+            for item in feed:
+                item['time'] = item['date_created'].strftime(DATE_FORMAT)
+                del item['date_created']
+                event_type = DASH_EVENTS[item['type']].replace(' ', '-')
+                item['type'] = event_type
+            print(feed)
+
             data = {
-                'feed': feed,
+                'feed': list(feed),
             }
             return self.render_to_json_response(data, status=200)
         else:

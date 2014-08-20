@@ -11,7 +11,7 @@ RSS_ICONS = [
 RSS = [rss[0] for rss in RSS_ICONS]
 RSS_LIST = list(zip(range(100), RSS))
 
-DASH_EVENT_LIST = [
+DASH_EVENTS = [
     'calendar purchase',
     'calendar add',
     'document purchase',
@@ -19,11 +19,13 @@ DASH_EVENT_LIST = [
     'other class join',
     'class join',
 ]
-DASH_EVENT_LIST = list(zip(range(100), DASH_EVENT_LIST))
+DASH_EVENT_LIST = list(zip(range(100), DASH_EVENTS))
 
 WEATHER_ICONS = {
     # text: rain
     12: 'wi wi-rain',
+    # partly cloudy
+    29: 'wi wi-night-cloudy',
     # text: clear
     31: 'wi wi-night-clear',
     # text: clear

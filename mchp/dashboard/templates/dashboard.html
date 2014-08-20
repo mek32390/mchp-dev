@@ -7,6 +7,7 @@
 
 {% block extra_head %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 <!-- this ruins tooltips -->
 <!-- <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script> -->
 
@@ -113,9 +114,11 @@
 	</div><!-- end alert -->
 	{% endif %}
 	<ol class="breadcrumb" style="margin-bottom:5px;">
-		<li> <span id="weather_data">{% weather_icon weather.icon %} {{school.city}}</span>	
-			<span id="weather_temp">{{weather.temperature}} &deg;F</span> &nbsp;</li>
-		<li><a target="_blank" href="{{school.domain}}">{{school.name}}</a></li>
+		<li data-weather="{{weather}}"> 
+			<span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">{% weather_icon weather.icon %} {{school.city}}</span>	
+			<span id="weather_temp">{{weather.temperature}} &deg;F</span> &nbsp;
+		</li>
+		<li><a target="_blank" href="http://{{school.domain}}">{{school.name}}</a></li>
 		{% for link in school_links %}
 		<li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
 		{% endfor %}
@@ -182,78 +185,105 @@
 			<div class="col-sm-8"> -->
 			<div class="pulse-con">
 				<div class="list-group scrolls" id="pulse">
+					<div class="text-center dash-load">
+						Loading Pulse
+					</div>
+					<div class="list-group-item dash-empty hidden">
+						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
+								<h5><i class="fa fa-tree fa-fw"></i></h5>
+							</a>
+							<div class="media-body">
+								<p class="media-heading">
+									You have no pulse events.
+								</p>
+							</div>
+						</div>
+					</div>
 
-					<div class="list-group-item document-add-proto hidden">
-						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
+					<div class="list-group-item document-add document-add-proto hidden">
+						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
 								<h5><i class="fa fa-file fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
 								<p class="media-heading">
 									<h class="pull-right"><small><span class="dash-time"></span></small></h>
-									<a href="#"><strong><span class="dash-title"></span></strong></a> added by <a href="#" class="text-muted">
+									<a target="_blank" href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong></a> added by <a
+										target="_blank" href="#" class="text-muted">
 										<strong>
-											<span class="dash-target">
+											<span class="dash-target"></span>
 										</strong>
 									</a>
 								</p>
-								<span class="description small dash-course"></span> 
+								<a target="_blank" href="#">
+									<span class="description small dash-course"></span>
+								</a> 
 							</div>
 						</div>
 					</div>
-					<div class="list-group-item calendar-add-proto hidden">
-						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-danger btn-xs">
+					<div class="list-group-item calendar-add calendar-add-proto hidden">
+						<div class="media"> <a target="_blank" href="#" class="dash-title-link media-object img-thumbnail pull-left btn-danger btn-xs">
 								<h5><i class="fa fa-calendar fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
 								<p class="media-heading">
 									<h class="pull-right"><small><span class="dash-time"></span></small></h>
-									<a href="#"><strong><span class="dash-title"></span></strong>
-									</a> added to calendar by <a href="#" class="text-muted">
+									<a target="_blank" href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong>
+									</a> added to calendar by <a target="_blank" href="#" class="text-muted">
 										<strong>
-											<span class="dash-target">
+											<span class="dash-target"></span>
 										</strong>
 									</a>
 								</p>
-								<span class="description small dash-course"><span> </div>
+								<a target="_blank" href="#">
+									<span class="description small dash-course"><span> </div>
+								</a>
 						</div>
 					</div>
-					<div class="list-group-item document-purchase-proto hidden">
-						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-success btn-xs">
+					<div class="list-group-item document-purchase document-purchase-proto hidden">
+						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-success btn-xs">
 								<h5><i class="fa fa-money fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
 								<p class="media-heading">
 									<h class="pull-right"><small><span class="dash-time"></span></small></h>
-									<a href="#"><strong><span class="dash-title"></span></strong></a> purchased by <a href="#" class="text-muted">
+									<a target="_blank" href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong></a> purchased by <a
+										target="_blank" href="#" class="text-muted">
 										<strong>
-											<span class="dash-target">
+											<span class="dash-target"></span>
 										</strong>
 									</a>
 								</p>
-								<span class="description small dash-course"></span> </div>
+								<a target="_blank" href="#">
+									<span class="description small dash-course"></span> </div>
+								</a>
 						</div>
 					</div>
-					<div> </div>
-					<div class="list-group-item other-class-join-proto hidden">
-						<div class="media"> <a href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
+					<div class="list-group-item other-class other-class-join-proto hidden">
+						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
 								<h5><i class="fa fa-user fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
 								<p class="media-heading">
 									<h class="pull-right"><small><span class="dash-time"></span></small></h>
-									<a href="#" class="text-muted"><strong><span class="dash-target"></span></strong></a> joined your class</p>
-								<span class="description small dash-course"></span> </div>
+									<a target="_blank" href="#" class="text-muted"><strong><span class="dash-target"></span></strong></a> joined your class</p>
+								<a target="_blank" href="#">
+									<span class="description small dash-course"></span>
+								</a>
+							</div>
 						</div>
 					</div>
-					<div class="list-group-item class-join-proto hidden">
-						<div class="media"><a href="#" class="media-object img-thumbnail pull-left btn-default btn-xs">
+					<div class="list-group-item class-join class-join-proto hidden">
+						<div class="media"><a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-default btn-xs">
 								<h5><i class="fa fa-user fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
 								<p class="media-heading">
 									<h class="pull-right"><small><span class="dash-time"></span></small></h>
 									You joined a class</p>
-								<span class="description small dash-course"></span> </div>
+								<a target="_blank" href="#">
+									<span class="description small dash-course"></span>
+								</a> 
+							</div>
 						</div>
 					</div>
 				</div>
