@@ -157,7 +157,7 @@
 
 		<!-- Start Navigation -->
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="container-fluid">
+			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 						<span class="sr-only">Toggle navigation</span>
@@ -200,7 +200,7 @@
 						</ul> -->
 					<!-- </li> -->
 					
-					<li class="dropdown">
+					<li class="dropdown" id="notifs-dropdown">
 						{% unread_count as unread %}
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">{{unread}}</span> <i class="fa fa-lightbulb-o"></i></a>
 						<ul class="dropdown-menu">
@@ -212,7 +212,7 @@
 						</ul>
 					</li>
 					<li class="dropdown" id="user-dropdown">
-						<a href="{% url 'my_profile' %}" class="dropdown-toggle" data-toggle="dropdown"><img
+						<a href="{% url 'my_profile' %}" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
 							src="{{student.profile.profile_image_url}}" style="height:18px;"
 							class="img-circle"> {{user.first_name}}
 							<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>

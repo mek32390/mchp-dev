@@ -78,7 +78,7 @@
   </div>
 </div>
 </div>
-<div class="progress score-bar" style="margin-top:-20px; opacity:.5;"><!-- Score Bar -->
+<!-- <div class="progress score-bar" style="margin-top:-20px; opacity:.5;">
 	<span class="score-breakdown">
 		<a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
 			<span class="sr-only">35% Complete (success)</span>
@@ -93,7 +93,7 @@
 	<a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
 		<span class="sr-only">35% Complete (success)</span>
 	</a>
-</div><!-- End Score Bar -->
+</div><!-- End Score Bar  --> 
 
 <div class="container">
 	{% if not dashboard_ref_flag.0 %}
@@ -104,7 +104,7 @@
 			<div class="media-body">
 				<h4 class="media-heading">Refer a friend, and you both get a <strong>free study guide!</strong></h4>
 				For every person that signs up with us by clicking on your
-				<strong><a href="{{request.get_host}}/?ref={{referral_info.referral_link}}"/>link</a></strong>, or by
+				<strong><a class="alert-link" href="{{request.get_host}}/?ref={{referral_info.referral_link}}"/>link</a></strong>, or by
 				entering your code <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. <strong>- mchp</strong>
 			</div>
 		</div>
@@ -147,7 +147,7 @@
 					<h class="text-right h6"><i class="fa fa-map-marker fa-fw"></i> Bear Down Gym</h>
 				</div>
 			</div> -->
-			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
+			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-default pull-right">{{event_count}}</span></strong></h5>
 			<div class="list-group">
 				{% for event in events %}
 				<div class="list-group-item {% if forloop.first %}list-group-item-danger{% endif %}">
@@ -170,11 +170,11 @@
             <div class="list-group-item">
               <div class="media">
                 <a class="pull-left" href="#">
-                  <img class="media-object img-thumbnail img-circle center-block" width="64" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" />
+                  <img class="media-object img-thumbnail img-circle center-block" width="50" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" />
                 </a>
                 <div class="media-body">
                   <h4 class="media-heading">Brost</h4>
-                  <p class="small margin-btm-none">I like to party. Party all the time party all the time.</p>
+                  <h6 class="margin-btm-none margin-top-none small">Accounting Major</h6>
                   <small><small>3 classes in common</small></small>
                 </div>
               </div>
@@ -182,7 +182,7 @@
               <div class="list-group-item">
               <div class="media">
                 <a class="pull-left" href="#">
-                  <img class="media-object img-thumbnail img-circle center-block" width="64" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/t1.0-1/p160x160/1391647_10203238415341826_2075770195_n.jpg" />
+                  <img class="media-object img-thumbnail img-circle center-block" width="50" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/t1.0-1/p160x160/1391647_10203238415341826_2075770195_n.jpg" />
                 </a>
                 <div class="media-body">
                   <h4 class="media-heading margin-btm">Kayla</h4>
@@ -361,7 +361,7 @@
 		 <div class="panel panel-default">
 			 <div class="panel-body">
 				 <div class="well">
-					 <h4 class="text-center">Customize Your Interests</h4>
+					 <h4 class="text-center">Customize Your Stories</h4>
 					 <hr class="margin-top-sm">
 					 <ul class="list-inline text-center">
 						 {% for id, type,visible in rss_types %}
