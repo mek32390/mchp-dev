@@ -125,10 +125,14 @@ class Upload(models.Model):
         unique_together = ('document', 'owner')
 
     def save(self, *args, **kwargs):
+        from documents.signals import document_uploaded
+        signal = False
         if not self.pk:
-            from documents.signals import document_uploaded
-            document_uploaded.send(sender=self.__class__, upload=self)
+            signal = True
         super(Upload, self).save(*args, **kwargs)
+        if signal:
+            document_uploaded.send(sender=self.__class__, upload=self)
+
 
     def __str__(self):
         return "{} uploaded {}".format(
@@ -147,10 +151,13 @@ class DocumentPurchase(models.Model):
         unique_together = ('document', 'student')
 
     def save(self, *args, **kwargs):
+        from documents.signals import document_uploaded
+        signal = False
         if not self.pk:
-            from documents.signals import document_purchased
-            document_purchased.send(sender=self.__class__, purchase=self)
+            signal=True
         super(DocumentPurchase, self).save(*args, **kwargs)
+        if signal:
+            document_uploaded.send(sender=self.__class__, upload=self)
 
     def __str__(self):
         return "{} bought {}".format(

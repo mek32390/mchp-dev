@@ -91,13 +91,15 @@ $(function(){
 	});
 	window.pulse.setup();
 	fetchFeed();
+	var now = moment($('.current-time').data('time'));
+	startTime(now._tzm);
 });
 
 var processFeed = function(feed) {
 	var items = [];
 	$.each(feed, function(index, itemData) {
 		var title = '';
-		var link = '';
+		var link = '/school/course/'+itemData.course__pk;
 		if (itemData.event__title !== null) {
 			title = itemData.event__title;
 			link = '/calendar/';
@@ -190,3 +192,11 @@ var fetchFeed = function() {
 		},
 	});
 };
+
+function startTime(zone) {
+    var now = moment().zone(zone);
+    $('.current-time').html(now.format('h:mm:ss a'));
+    var t = setTimeout(function(){
+		startTime(zone);
+	}, 500);
+}

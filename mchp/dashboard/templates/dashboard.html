@@ -124,6 +124,7 @@
 		{% for link in school_links %}
 		<li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
 		{% endfor %}
+		<span class="pull-right current-time" data-time="{{current_time}}">{{current_time|time:"g:i:s a"}}</span>
 	</ol>
 	<!-- End Quicklinks -->
 	<div class="row"><!-- Begin Row --> 
@@ -202,8 +203,8 @@
 						</div>
 					</div>
 
-					<div class="list-group-item document-add document-add-proto">
-						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
+					<div class="list-group-item document-add document-add-proto hidden">
+						<div class="media"> <a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-primary btn-xs">
 								<h5><i class="fa fa-file fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
@@ -241,8 +242,8 @@
 								</a>
 						</div>
 					</div>
-					<div class="list-group-item document-purchase document-purchase-proto">
-						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-success btn-xs">
+					<div class="list-group-item document-purchase document-purchase-proto hidden">
+						<div class="media"> <a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
 								<h5><i class="fa fa-money fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
@@ -261,7 +262,7 @@
 						</div>
 					</div>
 					<div class="list-group-item other-class other-class-join-proto hidden">
-						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
+						<div class="media"> <a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
 								<h5><i class="fa fa-user fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
@@ -275,7 +276,7 @@
 						</div>
 					</div>
 					<div class="list-group-item class-join class-join-proto hidden">
-						<div class="media"><a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-default btn-xs">
+						<div class="media"><a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
 								<h5><i class="fa fa-user fa-fw"></i></h5>
 							</a>
 							<div class="media-body">

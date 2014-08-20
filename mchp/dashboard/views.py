@@ -66,6 +66,9 @@ class DashboardView(View):
             saved_weather.info = json.dumps(weather_info)
             saved_weather.save()
 
+        date_format = "%Y-%m-%dT%H:%M:%S%z" 
+        time = timezone.localtime(timezone.now(),
+                                  timezone.get_current_timezone()).strftime(date_format)
         data = {
             'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
             'referral_info': ref,
@@ -75,6 +78,7 @@ class DashboardView(View):
             'rss_types': rss_types,
             'school': school,
             'weather': weather,
+            'current_time': time,
         }
         return render(request, self.template_name, data)
 
