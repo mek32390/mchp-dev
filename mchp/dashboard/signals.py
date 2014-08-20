@@ -10,6 +10,7 @@ from dashboard.utils import DASH_EVENTS
 @receiver(calendar_event_created)
 def add_event(sender, **kwargs):
     event = kwargs['event']
+    print(event.pk)
 
     calendar = event.calendar
     followers = calendar.subscribers.all()
@@ -18,12 +19,13 @@ def add_event(sender, **kwargs):
         'calendar': calendar,
         'course': calendar.course,
         'student': calendar.owner,
+        'event': event, 
     }
-    dash = DashEvent(**data)
-    dash.event = event
-    dash.save()
+    dash_item = DashEvent(**data)
+    dash_item.event = event
+    dash_item.save()
     for student in followers:
-        dash.followers.add(student)
+        dash_item.followers.add(student)
 
 @receiver(enrolled)
 def add_class_join(sender, **kwargs):
@@ -31,7 +33,6 @@ def add_class_join(sender, **kwargs):
 
     # first, send the fact that they joined to everyone already enrolled
     followers = enroll.course.student_set.all()
-    print(followers)
     data = {
         'type': DASH_EVENTS.index('other class join'),
         'course': enroll.course,
@@ -54,8 +55,30 @@ def add_class_join(sender, **kwargs):
 
 @receiver(document_purchased)
 def add_document_purchase(sender, **kwargs):
-    pass
+    purchase = kwargs['purchase']
+
+    data = {
+        'type': DASH_EVENTS.index('document purchase'),
+        'document': purchase.document,
+        'course': purchase.document.course,
+        'student': purchase.student,
+    }
+    dash_item = DashEvent(**data)
+    dash_item.save()
+    dash_item.followers.add(purchase.document.upload.owner)
 
 @receiver(document_uploaded)
 def add_document_upload(sender, **kwargs):
-    pass
+    upload = kwargs['upload']
+
+    followers = upload.document.course.student_set.all()
+    data = {
+        'type': DASH_EVENTS.index('document add'),
+        'document': upload.document,
+        'course': upload.document.course,
+        'student': upload.student,
+    }
+    dash_item = DashEvent(**data)
+    dash_item.save()
+    for student in followers:
+        dash_item.followers.add(student)

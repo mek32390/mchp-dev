@@ -14,13 +14,14 @@ from schedule.models import SchoolQuicklink
 # from user_profile.models import Enrollment
 # from documents.models import Document
 from calendar_mchp.models import CalendarEvent, ClassCalendar
-from dashboard.models import RSSSetting, Weather, DashEvent
-from dashboard.utils import RSS_ICONS, DASH_EVENTS
+from dashboard.models import RSSSetting, Weather, DashEvent, RSSType, RSSLink
+from dashboard.utils import DASH_EVENTS
 from referral.models import ReferralCode
 
 from datetime import timedelta
 import pywapi
 import json
+from random import randrange
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
 
@@ -37,12 +38,18 @@ class DashboardView(View):
             | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
             start__range=(timezone.now(), timezone.now() + timedelta(days=1))
         ).order_by('start')
-        rss_types = list(zip(range(100), RSS_ICONS))
+        rss_types = RSSType.objects.all()
+        for rss in rss_types:
+            links = RSSLink.objects.filter(
+                rss_type=rss
+            )
+            setattr(rss, 'links', links)
         show_rss = list(map(lambda setting: setting.rss_type, RSSSetting.objects.filter(
             student=self.student
         )))
+
         # filter all rss types w/ just the ones the user wants shown
-        rss_types = [(rss,icon,True) if rss in show_rss else (rss,icon,False) for rss,icon in rss_types]
+        rss_types = [(rss,True) if rss in show_rss else (rss,False) for rss in rss_types]
         ref = ReferralCode.objects.get_referral_code(request.user)
 
         # school 
@@ -66,6 +73,10 @@ class DashboardView(View):
             saved_weather.info = json.dumps(weather_info)
             saved_weather.save()
 
+        date_format = "%Y-%m-%dT%H:%M:%S%z" 
+        time = timezone.localtime(timezone.now(),
+                                  timezone.get_current_timezone()).strftime(date_format)
+
         data = {
             'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
             'referral_info': ref,
@@ -75,8 +86,21 @@ class DashboardView(View):
             'rss_types': rss_types,
             'school': school,
             'weather': weather,
+            'current_time': time,
+            'classmates': [self._get_classmate()],
         }
         return render(request, self.template_name, data)
+
+    def _get_classmate(self):
+        courses = self.student.courses.all()
+        course = courses[randrange(len(courses))]
+        people = list(course.student_set.exclude(pk=self.student.pk))
+        if people:
+            person = people[randrange(len(people))]
+        else: 
+            return self._get_classmate()
+        print(person)
+        return person
 
     def post(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(['GET'])
@@ -146,7 +170,6 @@ class DashboardFeed(View, AjaxableResponseMixin):
                 del item['date_created']
                 event_type = DASH_EVENTS[item['type']].replace(' ', '-')
                 item['type'] = event_type
-            print(feed)
 
             data = {
                 'feed': list(feed),
@@ -170,9 +193,11 @@ name: toggle_rss
 class ToggleRSSSetting(View, AjaxableResponseMixin):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            setting = request.POST.get('setting', None)
-            if setting != None:
-                RSSSetting.objects.toggle_setting(request.user.student, setting)
+            setting = RSSType.objects.filter(
+                pk=request.POST.get('setting', None)
+            )
+            if setting.exists():
+                RSSSetting.objects.toggle_setting(request.user.student, setting[0])
                 return self.render_to_json_response({}, status=200)
             else:
                 return self.render_to_json_response({}, status=403)

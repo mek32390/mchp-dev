@@ -124,6 +124,12 @@
 		{% for link in school_links %}
 		<li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
 		{% endfor %}
+		<span class="pull-right">
+			<span class="fa fa-fw fa-clock-o"></span>
+			<span class="current-time" data-time="{{current_time}}">
+				{{current_time|time:"g:i:s a"}}
+			</span>
+		</span>
 	</ol>
 	<!-- End Quicklinks -->
 	<div class="row"><!-- Begin Row --> 
@@ -149,32 +155,21 @@
 				<div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
 					<h2 class="margin-top-none">People <small>to meet</small></h2>
 					<hr class="margin-top-sm">
-					<div class-"list-group">
+					<div class="list-group">
+						{% for classmate in classmates %}
 						<div class="list-group-item">
 							<div class="media">
 								<a class="pull-left" href="#">
-									<img class="media-object img-thumbnail img-circle center-block" width="64" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" />
+									<img class="media-object img-thumbnail img-circle center-block" width="64"
+									src="{{classmate.profile.profile_image_url}}" />
 								</a>
 								<div class="media-body">
-									<h4 class="media-heading">Brost</h4>
-									<p class="small margin-btm-none">I like to party. Party all the time party all the time.</p>
-									<small><small>3 classes in common</small></small>
+									<h4 class="media-heading">{{classmate.user.username}}</h4>
+									<p class="small margin-btm-none">{{classmate.profile.blurb}}</p>
 								</div>
 							</div>
 						</div>
-						<div class="list-group-item">
-							<div class="media">
-								<a class="pull-left" href="#">
-									<img class="media-object img-thumbnail img-circle center-block" width="64" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/t1.0-1/p160x160/1391647_10203238415341826_2075770195_n.jpg" />
-								</a>
-								<div class="media-body">
-									<h4 class="media-heading margin-btm">Kayla</h4>
-									<h6 class="margin-btm-none margin-top-none small">Marketing Major</h6>
-									<!-- <p class="small margin-btm-none text-dull">Bad to the bone</p> -->
-									<small><small class="margin-top-none">4 classes in common</small></small>
-								</div>
-							</div>
-						</div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
@@ -202,8 +197,8 @@
 						</div>
 					</div>
 
-					<div class="list-group-item document-add document-add-proto">
-						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
+					<div class="list-group-item document-add document-add-proto hidden">
+						<div class="media"> <a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-primary btn-xs">
 								<h5><i class="fa fa-file fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
@@ -241,8 +236,8 @@
 								</a>
 						</div>
 					</div>
-					<div class="list-group-item document-purchase document-purchase-proto">
-						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-success btn-xs">
+					<div class="list-group-item document-purchase document-purchase-proto hidden">
+						<div class="media"> <a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
 								<h5><i class="fa fa-money fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
@@ -261,7 +256,7 @@
 						</div>
 					</div>
 					<div class="list-group-item other-class other-class-join-proto hidden">
-						<div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-info btn-xs">
+						<div class="media"> <a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
 								<h5><i class="fa fa-user fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
@@ -275,7 +270,7 @@
 						</div>
 					</div>
 					<div class="list-group-item class-join class-join-proto hidden">
-						<div class="media"><a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-default btn-xs">
+						<div class="media"><a target="_blank" href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
 								<h5><i class="fa fa-user fa-fw"></i></h5>
 							</a>
 							<div class="media-body">
@@ -301,10 +296,10 @@
 					<nav id="news-navbar" class="navbar navbar-default" role="navigation">
 						<span class="navbar-header">
 							<ul class="nav navbar-nav">
-								{% for id, type, visible in rss_types %}
-								<li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{id}}">
-									<a class="news-link" data-toggle="tooltip" data-title="{{type.0}}"
-										data-placement="bottom" data-setting="{{id}}" href="" ><i class="fa {{type.1}}"></i>
+								{% for rss,visible in rss_types %}
+								<li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{rss.pk}}">
+									<a class="news-link" data-toggle="tooltip" data-title="{{rss.name}}"
+										data-placement="bottom" data-setting="{{rss.pk}}" href="" ><i class="fa {{rss.icon}}"></i>
 									</a>
 								</li>
 								{% endfor %}
@@ -312,17 +307,19 @@
 						</span><!--end navbar header -->
 					</nav> 
 					<span id="news-scroll" data-spy="scroll" data-offset="0">
-						{% for id,type,visible in rss_types %}
-						<ul id="news-{{id}}" class="list-group {% if not visible %}hidden{% endif %} ">
-							<li class="list-group-item news-header">
-								<h5 class="margin-top-none margin-btm-none">{{type.0}}</h5>
+						{% for rss,visible in rss_types %}
+						<ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
+							<li class="list-group-item news-header" style="background-color: {{rss.color}};">
+								<h5 class="margin-top-none margin-btm-none">{{rss.name}}</h5>
 							</li>
-							<li class="list-group-item"> 
+							{% for link in rss.links %}
+							<li class="list-group-item news-item news-item-proto" data-link="{{link.url}}"> 
 								<small class="pull-right news-time">11m</small> 
 								<a href="#" class="news-headline">The Apple Mac Turns 30</a>	
-								<small><span class="label news-name">FOX</span></small>
+								<small><span class="label news-name">{{link.name}}</span></small>
 								<p class="small news-content">Many of the dildoes you see drew inspiration from the original Mac computer.</p>
 							</li>
+							{% endfor %}
 						</ul>
 						{% endfor %}
 					</ul>
@@ -335,11 +332,11 @@
 							<h4 class="text-center">Customize Your Interests</h4>
 							<hr class="margin-top-sm">
 							<ul class="list-inline text-center">
-								{% for id, type,visible in rss_types %}
+								{% for rss, visible in rss_types %}
 								<li class="list-group" style="width:111px;">
-									<div class="list-group-item btn btn-default {% if visible %}active{% endif %} toggle-rss" data-toggle="button" data-setting="{{id}}">
-										<i class="fa {{type.1}} fa-3x"></i>
-										<h5>{{type.0}}</h5>
+									<div class="list-group-item btn btn-default {% if visible %}active{% endif %} toggle-rss" data-toggle="button" data-setting="{{rss.pk}}">
+										<i class="fa {{rss.icon}} fa-3x"></i>
+										<h5>{{rss.name}}</h5>
 									</div>
 								</li> 
 								{% endfor %}

@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-from dashboard.utils import RSS_LIST, DASH_EVENT_LIST
+from dashboard.utils import DASH_EVENT_LIST
 from dashboard import managers
 
 from jsonfield import JSONField
@@ -28,18 +28,27 @@ class DashEvent(models.Model):
 
     date_created = models.DateTimeField(auto_now_add=True)
 
+class RSSType(models.Model):
+    name = models.CharField(max_length=20)
+    icon = models.CharField(max_length=30)
+    color = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
+
 class RSSLink(models.Model):
-    rss_type = models.PositiveSmallIntegerField(choices=RSS_LIST)
+    rss_type = models.ForeignKey(RSSType)
 
     name = models.CharField(max_length=30)
     url = models.URLField(blank=True)
 
     def __str__(self):
-        return "{}: {}::{}".format(RSS_LIST[self.rss_type][1], self.name, self.url)
+        return self.name
+        return "{}: {}::{}".format(self.rss_type.name, self.name, self.url)
 
 class RSSSetting(models.Model):
     student = models.ForeignKey('user_profile.Student')
-    rss_type = models.PositiveSmallIntegerField(choices=RSS_LIST)
+    rss_type = models.ForeignKey(RSSType)
 
     objects = managers.RSSSettingManager()
 
@@ -47,4 +56,4 @@ class RSSSetting(models.Model):
         unique_together = (('student', 'rss_type'))
 
     def __str__(self):
-        return "setting {}. {}".format(self.rss_type, RSS_LIST[self.rss_type][1])
+        return "setting {} for {}".format(self.rss_type, self.student.user.username)

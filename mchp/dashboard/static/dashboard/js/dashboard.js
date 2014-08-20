@@ -82,22 +82,51 @@ $(function(){
 			},
 		});
 	});
-	$('.news-header').each(function(index, header){
-		$(header).css('background-color', Please.make_color());
-		$(header).css('color', '#fff');
-	});
 
 	window.pulse = new Pulse({
 	});
 	window.pulse.setup();
 	fetchFeed();
+	fetchRss();
+	var now = moment($('.current-time').data('time'));
+	startTime(now._tzm);
 });
+
+var fetchRss = function() {
+	var $sections = $('.news-group');
+	$sections.each(function(index, section) {
+		var $section = $(section);
+		if($section.hasClass('hidden')) {
+			return true;
+		}
+		var $links = $section.find('.news-item');
+		$links.each(function(index, link) {
+			var $link = $(link);
+			var url = $link.data('link') ;
+			$.ajax({
+				url: url,
+				crossDomain: true,
+				dataType: 'jsonp xml',
+				type: 'GET',
+				success: function(data) {
+				},
+				fail: function(data) {
+				},
+				complete: function(data) {
+					console.log(data.responseText);
+				},
+			});
+		});
+		console.log($links);
+	});
+
+};
 
 var processFeed = function(feed) {
 	var items = [];
 	$.each(feed, function(index, itemData) {
 		var title = '';
-		var link = '';
+		var link = '/school/course/'+itemData.course__pk;
 		if (itemData.event__title !== null) {
 			title = itemData.event__title;
 			link = '/calendar/';
@@ -190,3 +219,11 @@ var fetchFeed = function() {
 		},
 	});
 };
+
+function startTime(zone) {
+    var now = moment().zone(zone);
+    $('.current-time').html(now.format('h:mm:ss a'));
+    var t = setTimeout(function(){
+		startTime(zone);
+	}, 500);
+}
