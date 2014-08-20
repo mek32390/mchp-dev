@@ -21,6 +21,7 @@ from referral.models import ReferralCode
 from datetime import timedelta
 import pywapi
 import json
+import requests
 from random import randrange
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
@@ -186,6 +187,36 @@ class DashboardFeed(View, AjaxableResponseMixin):
         return super(DashboardFeed, self).dispatch(*args, **kwargs)
 
 feed = DashboardFeed.as_view()
+
+'''
+url: /dashboard/rss-proxy/
+name: dashboard_rss_proxy
+'''
+class DashboardRssProxy(View, AjaxableResponseMixin):
+
+    def post(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['GET'])
+
+    def get(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            url = request.GET.get('url', None)
+            link = RSSLink.objects.filter(
+                url=url
+            )
+            if not link.exists():
+                return HttpResponse({}, status=400)
+
+            response = requests.get(url)
+            return HttpResponse(response.content, status=200)
+        else:
+            return redirect(reverse('dashboard'))
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
+        return super(DashboardRssProxy, self).dispatch(*args, **kwargs)
+
+rss_proxy = DashboardRssProxy.as_view()
 
 
 '''

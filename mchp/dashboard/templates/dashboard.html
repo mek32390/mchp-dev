@@ -13,6 +13,7 @@
 
 {% load staticfiles %}
 <!-- // <script src="{% static 'dashboard/js/quicklinks.js' %}"></script> -->
+<script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
 
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
@@ -309,21 +310,26 @@
                   </a>
                 </li>
                 {% endfor %}
+								<li class="news-list-empty">
+									You have no feeds enabled.
+								</li>
               </ul>
             </span><!--end navbar header -->
           </nav> 
           <span id="news-scroll" data-spy="scroll" data-offset="0">
             {% for rss,visible in rss_types %}
             <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
-              <li class="list-group-item news-header" style="background-color: {{rss.color}};">
+              <li class="list-group-item news-header" style="background-color: #{{rss.color}};
+								color: #fff">
                 <h5 class="margin-top-none margin-btm-none">{{rss.name}}</h5>
               </li>
               {% for link in rss.links %}
-              <li class="list-group-item news-item news-item-proto" data-link="{{link.url}}"> 
-                <small class="pull-right news-time"><small>11m</small></small> 
-                <a href="#" class="news-headline">The Apple Mac Turns 30</a>  
-                <small><span class="label news-name">{{link.name}}</span></small>
-                <p class="small news-content">Many of the dildoes you see drew inspiration from the original Mac computer.</p>
+              <li class="list-group-item news-item news-item-proto hidden" data-link="{{link.url}}"
+								data-name="{{link.name}}" data-count="{{link.story_count}}"> 
+                <small class="pull-right news-time"></small> 
+                <a href="#" class="news-headline" target="_blank"></a>  
+                <small class="pull-right"><span class="label label-success news-name"></span></small>
+                <p class="small news-content"></p>
               </li>
               {% endfor %}
             </ul>
