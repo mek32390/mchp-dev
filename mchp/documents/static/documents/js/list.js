@@ -113,7 +113,7 @@ $(function(){
 					done = true;
 					$('#generating_message_' + pk).fadeOut(700, function() {
 						$link = '<a href="http://' + data.document_url + '">' + data.document_title + '</a> ';
-						$price = $('<small>' + data.price + ' <i class="fa fa-fw fa-cube"></i></small>');
+						$price = $('<small>' + data.price + '</small>');
 						$link_div = $('#document_link_'+pk);
 						$link_div.append($link);
 						$link_div.append($price);

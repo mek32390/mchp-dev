@@ -82,7 +82,7 @@
 											{% endwith %}
 											<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 											Purchase{{document.sold|pluralize}}
-											<p class="small" style="margin-top:5px;">Uploaded by <a href="#">{{document.upload_set.get.owner.user.student.name}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+											<p class="small margin-top-sm">Uploaded by <a href="#">{{document.upload_set.get.owner.user.student.name}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
 										</span>
 									</div>
 								</div>
