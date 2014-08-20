@@ -117,23 +117,6 @@
 		{% endfor %}
 		<!-- <a  id="addLink" href="#" data-toggle="modal" class="pull-right"><i class="fa fa-plus fa-fw"></i></a> -->
 	</ol>
-	<!-- <div class='custom-menu'>
-				<div data-action="edit" id="edit">
-						Edit
-				</div>
-				<div data-action="delete" id="delete">
-						Delete
-				</div>
-		</div>
-
-		<div id="dialog-form" title="Edit quicklink">
-				<p class="validateTips">All fields are required.</p>
-				<form>
-						<fieldset>
-								<label for="name">Name</label> <input class="text ui-widget-content ui-corner-all" id="name" name="name" type="text" value="Google"> <label for="url">URL</label> <input class="text ui-widget-content ui-corner-all" id="url" name="url" type="text" value="www.google.com"> <input style="position:absolute; top:-1000px" tabindex="-1" type="submit">
-						</fieldset>
-				</form>
-      </div> -->
       <!-- End Quicklinks -->
       <div class="row"><!-- Begin Row --> 
         <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
@@ -150,9 +133,9 @@
 			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
 			<div class="list-group">
 				{% for event in events %}
-				<div class="list-group-item {% if forloop.first %}list-group-item-danger{% endif %}">
-					<a href="{%url "calendar" %}" class="text-danger"><strong>{{event.title}}</strong></a>
-					<p class="margin-btm-none"><h class="pull-right text-default"><small>{{event.start|naturaltime}}</small></h>
+				<div class="list-group-item">
+					<a href="{%url "calendar" %}" class="h5 {% if forloop.first %} text-danger {% else %} text-default {% endif %}">{{event.title}}</a>
+					<p class="margin-btm-none"><span class="pull-right text-default small"><small>{{event.start|naturaltime}}</small></span>
 						<a href="{% url "course" event.calendar.course.pk %}" class="h6 text-default">{{event.calendar.course}}</a>
 					</p>
 				</div>
@@ -233,11 +216,11 @@
             <h5><i class="fa fa-user fa-fw"></i></h5>
           </a>
           <div class="media-body">
-            <p class="media-heading">
-             <h class="pull-right"><small>{{event.time|naturaltime}}</small></h>
-             <a href="#" class="text-muted"><strong>{{event.title}}</strong></a> joined a class
+            <p class="media-heading margin-btm-none">
+             <span class="pull-right small"><small>{{event.time|naturaltime}}</small></span>
+             <a href="#"><strong>{{event.title}}</strong></a> joined a class
              you're in</p>
-             <span class="description small"></span> </div>
+             <span class="description small margin-top-none">ECON 200</span> </div>
            </div>
          </div>
          <div> </div>
@@ -248,10 +231,10 @@
             <h5><i class="fa fa-file fa-fw"></i></h5>
           </a>
           <div class="media-body">
-            <p class="media-heading">
-             <h class="pull-right"><small>{{event.time|naturaltime}}</small></h>
+            <p class="media-heading margin-btm-none">
+             <span class="pull-right small"><small>{{event.time|naturaltime}}</small></span>
              <a href="#"><strong>{{event.title}}</strong></a> added by <a href="#" class="text-muted"><strong>{{event.user.name}}</strong></a></p>
-             <!-- <span class="description small">ECON 200</span> --> 
+             <span class="description small margin-top-none">ECON 200</span> 
            </div>
          </div>
        </div>
