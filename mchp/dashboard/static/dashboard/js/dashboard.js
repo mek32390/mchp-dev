@@ -82,10 +82,6 @@ $(function(){
 			},
 		});
 	});
-	$('.news-header').each(function(index, header){
-		$(header).css('background-color', Please.make_color());
-		$(header).css('color', '#fff');
-	});
 
 	window.pulse = new Pulse({
 	});
@@ -97,6 +93,32 @@ $(function(){
 });
 
 var fetchRss = function() {
+	var $sections = $('.news-group');
+	$sections.each(function(index, section) {
+		var $section = $(section);
+		if($section.hasClass('hidden')) {
+			return true;
+		}
+		var $links = $section.find('.news-item');
+		$links.each(function(index, link) {
+			var $link = $(link);
+			var url = $link.data('link') ;
+			$.ajax({
+				url: url,
+				crossDomain: true,
+				dataType: 'jsonp xml',
+				type: 'GET',
+				success: function(data) {
+				},
+				fail: function(data) {
+				},
+				complete: function(data) {
+					console.log(data.responseText);
+				},
+			});
+		});
+		console.log($links);
+	});
 
 };
 

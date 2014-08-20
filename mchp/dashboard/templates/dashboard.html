@@ -296,10 +296,10 @@
 					<nav id="news-navbar" class="navbar navbar-default" role="navigation">
 						<span class="navbar-header">
 							<ul class="nav navbar-nav">
-								{% for id, type, visible in rss_types %}
-								<li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{id}}">
-									<a class="news-link" data-toggle="tooltip" data-title="{{type.0}}"
-										data-placement="bottom" data-setting="{{id}}" href="" ><i class="fa {{type.1}}"></i>
+								{% for rss,visible in rss_types %}
+								<li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{rss.pk}}">
+									<a class="news-link" data-toggle="tooltip" data-title="{{rss.name}}"
+										data-placement="bottom" data-setting="{{rss.pk}}" href="" ><i class="fa {{rss.icon}}"></i>
 									</a>
 								</li>
 								{% endfor %}
@@ -307,17 +307,19 @@
 						</span><!--end navbar header -->
 					</nav> 
 					<span id="news-scroll" data-spy="scroll" data-offset="0">
-						{% for id,type,visible in rss_types %}
-						<ul id="news-{{id}}" class="list-group {% if not visible %}hidden{% endif %} ">
-							<li class="list-group-item news-header">
-								<h5 class="margin-top-none margin-btm-none">{{type.0}}</h5>
+						{% for rss,visible in rss_types %}
+						<ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
+							<li class="list-group-item news-header" style="background-color: {{rss.color}};">
+								<h5 class="margin-top-none margin-btm-none">{{rss.name}}</h5>
 							</li>
-							<li class="list-group-item"> 
+							{% for link in rss.links %}
+							<li class="list-group-item news-item news-item-proto" data-link="{{link.url}}"> 
 								<small class="pull-right news-time">11m</small> 
 								<a href="#" class="news-headline">The Apple Mac Turns 30</a>	
-								<small><span class="label news-name">FOX</span></small>
+								<small><span class="label news-name">{{link.name}}</span></small>
 								<p class="small news-content">Many of the dildoes you see drew inspiration from the original Mac computer.</p>
 							</li>
+							{% endfor %}
 						</ul>
 						{% endfor %}
 					</ul>
@@ -330,11 +332,11 @@
 							<h4 class="text-center">Customize Your Interests</h4>
 							<hr class="margin-top-sm">
 							<ul class="list-inline text-center">
-								{% for id, type,visible in rss_types %}
+								{% for rss, visible in rss_types %}
 								<li class="list-group" style="width:111px;">
-									<div class="list-group-item btn btn-default {% if visible %}active{% endif %} toggle-rss" data-toggle="button" data-setting="{{id}}">
-										<i class="fa {{type.1}} fa-3x"></i>
-										<h5>{{type.0}}</h5>
+									<div class="list-group-item btn btn-default {% if visible %}active{% endif %} toggle-rss" data-toggle="button" data-setting="{{rss.pk}}">
+										<i class="fa {{rss.icon}} fa-3x"></i>
+										<h5>{{rss.name}}</h5>
 									</div>
 								</li> 
 								{% endfor %}
