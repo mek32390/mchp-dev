@@ -139,14 +139,16 @@ var addRss = function(section, rss, name) {
 	$item.removeClass('hidden');
 	var time = moment(rss.updated, 'ddd, DD MMM YYYY HH:mm:ss ZZ');
 
+	var $content = $item.find('.news-content');
 	$item.find('.news-headline').html(rss.title);
 	$item.find('.news-headline').attr('href', rss.link);
-	$item.find('.news-content').html(rss.description);
+	$content.html(rss.description);
 	$item.find('.news-time').text(time.fromNow());
 	$item.find('.news-name').text(name);
 	section.append($item);
 	// remove some extra stuff some feeds seem to add
-	$item.find('.news-content').find('p').siblings().remove();
+	$content.find('p').siblings().remove();
+	$content.find('img').remove();
 };
 
 var processFeed = function(feed) {
