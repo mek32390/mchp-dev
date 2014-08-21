@@ -5,27 +5,27 @@
 $(function() {
 
 	//detect window size for nav dropdown
-	// $(window).on('resize', function() {
-	//   	if ($(window).width() > 768) {
+	$(window).on('resize', function() {
+	  	if ($(window).width() > 768) {
 	    	
-	//     	// make dropdown link direct to profile page when clicked
-	// 	  	$('.dropdown-toggle').click(function() {
-	// 		    var location = $(this).attr('href');
-	// 		    window.location.href = location;
-	// 		    return false;
-	// 		});
-	//  	}
-	// });
+	    	// make dropdown link direct to profile page when clicked
+		  	$('.user-dropdown-toggle').click(function() {
+			    var location = $(this).attr('href');
+			    window.location.href = location;
+			    return false;
+			});
+	 	}
+	});
 
-	// if ($(window).width() > 768) {
+	if ($(window).width() > 768) {
 
-	//     // make dropdown link direct to profile page when clicked
-	// 	  	$('.dropdown-toggle').click(function() {
-	// 		    var location = $(this).attr('href');
-	// 		    window.location.href = location;
-	// 		    return false;
-	// 		});
-	// }
+	    // make dropdown link direct to profile page when clicked
+		  	$('.user-dropdown-toggle').click(function() {
+			    var location = $(this).attr('href');
+			    window.location.href = location;
+			    return false;
+			});
+	}
 
 
 	 //test data for typeahead in the search bar
