@@ -28,22 +28,28 @@
 						{{user.student.total_points}}  points <a href="#points-modal" data-toggle="modal" class='btn btn-xs btn-default pull-right'>Manage Points</a>
 					</li>
 					<li class="list-group-item">
-						<i class="fa fa-gear"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-default pull-right'>Reset Password</a>
+						<i class="fa fa-lock"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-default pull-right'>Reset Password</a>
 					</li>
 					<li class="list-group-item">
 						<i class="fa fa-university"></i> {{user.student.school.name}} <a href="{%url 'account_email'%}" class='btn btn-xs btn-default pull-right'>Transfer Schools</a>
 					</li>
 				</ul>
 				<ul class="list-group">
-					<li class="list-group-item">
-						<i class="fa fa-paw"></i> Referral Code: {{referral_code}}
+					<li class="list-group-item" data-toggle="tooltip" data-original-title="For each person that enters your code after signing up, you'll both get 500 points!">
+						<i class="fa fa-paw"></i> Your Code: {{referral_code}}
 						<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_code }}" 
 							class='btn btn-xs btn-default pull-right copy-button' id="code-button">Copy</a>
 					</li>
-					<li class="list-group-item">
-						<i class="fa fa-paw"></i> Referral Link: http://{{request.get_host}}/?ref={{referral_link}} 
+					<li class="list-group-item" data-toggle="tooltip" data-original-title="For each person that signs up through your link, you'll both get 500 points!">
+            <div class="row">
+              <div class="col-xs-10">
+						<i class="fa fa-paw"></i> Your Link: http://{{request.get_host}}/?ref={{referral_link}} 
+          </div>
+          <div class="col-xs-2">
 						<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_link }}"
 							class='btn btn-xs btn-default pull-right copy-button' id="link-button">Copy</a>
+            </div>
+          </div>
 					</li>
 				</ul>
 			</p>

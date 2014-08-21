@@ -14,23 +14,21 @@
 {% load humanize %}
 
 <div class="container">
-	<ol class="breadcrumb">
-		<div class="pull-right">
+	<!-- <ol class="breadcrumb">
+		<span class="pull-right">
 			<a button type="button" class="btn btn-success btn-xs" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Document</a>
 			<a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a>
-		</div>
-		<li class="active"><i class="fa fa-university fa-fw"></i> 
-			<a href="http://{{school.domain}}">{{school.name}}</a>
-		</li>
-		{% for link in links %}
-		<li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
-		{% endfor %}
-	</ol>
+		</span>
+	</ol> -->
 	<div class="well" style="padding-bottom:0px;">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building-with-flag.svg" alt="school"></a>
 					<div class="media-heading">
+						<span class="pull-right">
+			<a button type="button" class="btn btn-success btn-xs" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Document</a>
+			<a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a>
+		</span>
 						<h2 class="media-heading">{{school.name}} <small>{{school.city}}, {{school.state}}</small></h2>
 					</div>
 					<p>
@@ -91,7 +89,7 @@
 							<div class="list-group">
 								<div class="list-group-item">
 									<p class="h5">Be the first to sell a document at this school!</p>
-									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
+									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'>Sell a Document</a>
 								</div>						
 							</div>
 							{% endfor %}
@@ -141,6 +139,13 @@
 								</div>
 							</div>
 						</div>
+						{% empty %}
+						<div class="list-group">
+								<div class="list-group-item">
+									<p class="h5">Be the first to create a calendar at this school!</p>
+									<a button type="button" class="btn btn-success" href='{% url "calendar_create" %}'> Create a Calendar</a>
+								</div>						
+							</div>
 						{% endfor %}
 					</div>
 				<!-- </div> -->
