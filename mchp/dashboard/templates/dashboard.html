@@ -192,16 +192,15 @@
           <div class="text-center dash-load">
             Checking Pulse
           </div>
-          <div class="list-group-item dash-empty hidden">
-            <div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
+          <div class="dash-empty hidden text-center">
+            <!-- <div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
                 <h5><i class="fa fa-tree fa-fw"></i></h5>
               </a>
               <div class="media-body">
-                <p class="media-heading">
-                  You have no pulse! Quick, somebody get a doctor!
-                </p>
-              </div>
-            </div>
+                <p class="media-heading"> -->
+                  <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/safe.svg" class="img-circle img-thumbnail" width="75px" alt="no pulse">
+                  <h5>You have no pulse!</h5>
+                  <h6>Quick, somebody get a doctor!</h6>
           </div>
 
           <div class="list-group-item document-add document-add-proto hidden">
@@ -325,9 +324,8 @@
               {% for link in rss.links %}
               <li class="list-group-item news-item news-item-proto hidden" data-link="{{link.url}}"
 								data-name="{{link.name}}" data-count="{{link.story_count}}"> 
-                <small class="pull-right news-time"></small> 
                 <a href="#" class="news-headline" target="_blank"></a>  
-                <small class="pull-right"><span class="label alert-info news-name"></span></small>
+                <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
                 <p class="small news-content"></p>
               </li>
               {% endfor %}

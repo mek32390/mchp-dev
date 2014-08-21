@@ -58,7 +58,7 @@ $(function(){
 		url: '/profile/edit-major/',
 		title: 'Choose your Major',
 		typeahead: {
-			source: 
+			source:''
 		}
 	});
 
