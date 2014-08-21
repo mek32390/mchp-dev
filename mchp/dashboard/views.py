@@ -114,7 +114,7 @@ class DashboardView(View):
         else: 
             # remove this course and try again
             del courses[index]
-            return self._get_classmate()
+            return self._get_classmate(courses)
         print(person)
         return person
 
