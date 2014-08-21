@@ -22,6 +22,7 @@ from referral.models import ReferralCode, Referral
 import json
 import logging
 import magic
+# from PIL import Image
 logger = logging.getLogger(__name__)
 
 '''
@@ -224,6 +225,14 @@ class PicView(View, AjaxableResponseMixin):
                 # Pass false so FileField doesn't save the model.
                 if profile.pic:
                     profile.pic.delete(False)
+
+                # image = pic
+                # img = Image.open(image)
+                # img = img.rotate(90)
+                # image.seek(0)
+                # img.save(image, "jpeg")
+                # image.seek(0)
+                # image.read()
 
                 # save the new pic
                 profile.pic = pic

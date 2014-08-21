@@ -94,8 +94,7 @@ $(function(){
 			type: 'POST',
 			success: function(data) {
 				$('.profile-image').attr('src', data.url);
-				console.log(data.url);
-
+				addMessage('Your latest internet persona has been given wings', 'success');
 			},
 		});
 	});
