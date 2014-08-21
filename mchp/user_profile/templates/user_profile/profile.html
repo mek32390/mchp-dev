@@ -181,13 +181,52 @@
 						<h3 class="text-center">Calendars</h3>
 						<p class="text-center"><span class="badge">{{calendars|length}}</span></p>
 					</div>
+					<div class="list-group calendar-item-list">
+					{% for calendar in calendars %}
+						<div class="list-group-item calendar-item">
+							<div class="media">
+								<span class="pull-left" href="#">
+									<a href="#" class='calendar-picture-link'>
+										<div class="media-object img-thumbnail">
+											<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" style="width:64px">
+										</div>
+										<div class="assignment-number text-center text-default h4
+											calendar-event-count">{{calendar.events}}</div>
+									</a>
+								</span>
+								<div class="media-body">
+									<h4 class="media-heading"><a href="" class="calendar-title">{{calendar.title}}</a>
+										<small>
+											<div class="pull-right small text-muted calendar-create-date">{{calendar.create_date|naturaltime}}</div>
+										</small>
+									</h4>
+									<span class="description">
+										<p class="margin-btm-none"><strong>Instructor <span
+													class='calendar-professor'>{{calendar.course.professor}}</span></strong>
+											<i class="fa fa-bullseye text-primary"></i>
+											{% if calendar.accuracy >= 0 %}
+											<span class="calendar-accuracy">{{calendar.accuracy}}</span>
+											{% else %}
+											<span class="calendar-accuracy">No ratings&nbsp;</span>
+											{% endif %}
+											{% with calendar.subscribers.count as subscribers %}
+											<i class="fa fa-fw fa-users"></i><span class="calendar-subscriptions">{{subscribers}} followers&nbsp;</span></p>
+										{% endwith %}
+										<div class="calendar-description margin-top-none">{{calendar.description}}</div>
+									</span>
+								</div>
+							</div>
+						</div>
+					{% empty %}
 					<div id="no-calendars">
 						<p class="lead text-center">{{user.first_name}} isn't selling any calendars!</p>
 						<hr>
 					</div>
+					{% endfor %}
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 {% endblock %}

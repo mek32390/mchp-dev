@@ -13,7 +13,7 @@ from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
-from calendar_mchp.models import ClassCalendar
+from calendar_mchp.models import ClassCalendar, CalendarEvent
 from schedule.models import School, Department
 from user_profile.models import Student, OneTimeFlag, OneTimeEvent
 from documents.models import Document
@@ -61,6 +61,12 @@ class ProfileView(DetailView):
             owner = self.object
         ).select_related()
         context['calendars'] = cals
+        
+        for cal in cals:
+            total_count = CalendarEvent.objects.filter(
+                calendar=cal
+            ).count()
+            setattr(cal, 'events', total_count)
 
         all_counts = len(cals) + len(docs)
         if all_counts == 0:
