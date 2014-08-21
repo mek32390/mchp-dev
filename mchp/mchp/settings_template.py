@@ -69,6 +69,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'referral.middleware.ReferralMiddleware',
     'lib.middleware.TimezoneMiddleware',
+    'lib.middleware.CustomMessageMiddleware',
 )
 
 from django.contrib.messages import constants as message_constants
@@ -125,6 +126,7 @@ STATICFILES_STORAGE = 'documents.s3utils.StaticS3Storage'
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '//{}.s3.amazonaws.com/static/'.format(AWS_STORAGE_BUCKET_NAME)
+# STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
 MEDIA_URL =  '//{}.s3.amazonaws.com/media/'.format(AWS_STORAGE_BUCKET_NAME)
@@ -181,7 +183,7 @@ from datetime import timedelta
 CELERYBEAT_SCHEDULE = {
     'collect-subscriptions': {
         'task': 'calendar_mchp.tasks.bill_collector',
-        'schedule': timedelta(seconds=5),
+        'schedule': timedelta(hours=12),
     },
 }
 CELERY_TIMEZONE = 'UTC'
