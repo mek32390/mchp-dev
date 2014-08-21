@@ -13,6 +13,7 @@ from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
+from calendar_mchp.models import ClassCalendar
 from schedule.models import School, Department
 from user_profile.models import Student, OneTimeFlag, OneTimeEvent
 from documents.models import Document
@@ -52,9 +53,18 @@ class ProfileView(DetailView):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['profile'] = self.object.profile
         context['viewer'] = self.viewer
-        context['upload_list'] = Document.objects.filter(
+        docs = Document.objects.filter(
             upload__owner = self.object
         ).order_by('create_date')[:10]
+        context['upload_list'] = docs
+        cals = ClassCalendar.objects.filter(
+            owner = self.object
+        )
+
+        all_counts = len(cals) + len(docs)
+        context['cal_percent'] = (len(cals) * 100) / all_counts
+        context['doc_percent'] = (len(docs) * 100) / all_counts
+
         return context
 
     @method_decorator(school_required)
