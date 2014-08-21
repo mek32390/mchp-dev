@@ -51,7 +51,7 @@
 			<i class="fa fa-university fa-fw"></i>{{student.school.name}}</p>
 		<div class="about-container">
 			{% ifequal viewer student %}
-			<p class="lead" id="about" data-type="text" data-title=""
+			<p class="lead" id="about" data-type="text" data-title="blurb"
 				data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{profile.blurb}}</p> 
 			{% else %}
 			<p class="lead" id="about-other">{{profile.blurb}}</p> 

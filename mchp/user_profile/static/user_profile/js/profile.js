@@ -32,24 +32,6 @@ $(function(){
 		send: 'always',
     });
 
-<<<<<<< HEAD
-
-
-	$('#major').editable({
-		mode: 'inline',
-		unsavedclass: 'text-danger',
-		emptyclass: '',
-		emptytext: 'Select your major',
-		highlight: '',
-		onblur: 'submit',				
-		send: 'always',
-		showbuttons: false,
-		url: '/profile/edit-major/',
-		title: 'Choose your Major',
-		typeahead: {
-			source:''
-		}
-=======
 	// this should really only be done when you first click on the editable
 	$.ajax({
 		url: '/school/department/',
@@ -74,9 +56,7 @@ $(function(){
 				}
 			});
 		},
->>>>>>> 7401743f7de7c31da3944db6e59315f6dfb4c1c7
 	});
-
 
 	$('#pic-input').change(function() {
 		var form = $('#pic-form').get(0);
