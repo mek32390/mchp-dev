@@ -228,7 +228,12 @@
 						</div>
 					{% empty %}
 					<div id="no-calendars">
+						{% ifequal viewer student %}
+						<p class="lead">You haven't created any calendars yet, but you don't know what you're missing!</p>
+							<p><a href="{% url 'calendar_create'%}" class="btn btn-primary">Create a Calendar</a></p>
+						{% else %}
 						<p class="lead text-center">{{student.name}} isn't selling any calendars!</p>
+						{% endifequal %}
 						<hr>
 					</div>
 					{% endfor %}
