@@ -239,6 +239,8 @@ class DocumentDetailPreview(DetailView):
             owner=uploader
         ).count()
         all_counts = cals + docs
+        if all_counts == 0:
+            all_counts = 1
         context['cal_percent'] = (cals * 100) / all_counts
         context['doc_percent'] = (docs * 100) / all_counts
 

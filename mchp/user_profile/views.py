@@ -59,9 +59,12 @@ class ProfileView(DetailView):
         context['upload_list'] = docs
         cals = ClassCalendar.objects.filter(
             owner = self.object
-        )
+        ).select_related()
+        context['calendars'] = cals
 
         all_counts = len(cals) + len(docs)
+        if all_counts == 0:
+            all_counts = 1
         context['cal_percent'] = (len(cals) * 100) / all_counts
         context['doc_percent'] = (len(docs) * 100) / all_counts
 

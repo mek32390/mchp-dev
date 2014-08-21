@@ -103,6 +103,9 @@ class Course(models.Model):
     def document_count(self):
         return self.document_set.count()
 
+    def calendar_count(self):
+        return self.calendar_courses.count()
+
     def display(self):
         return "{} {} with Instructor {}".format(self.dept,
                                                 self.course_number, 

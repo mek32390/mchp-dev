@@ -672,6 +672,8 @@ class CalendarPreview(DetailView):
             owner=calendar.owner
         ).count()
         all_counts = cals + docs
+        if all_counts == 0:
+            all_counts = 1
         cal_percent = (cals * 100) / all_counts
         doc_percent = (docs * 100) / all_counts
 
