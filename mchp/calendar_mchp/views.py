@@ -12,6 +12,7 @@ from django.views.generic.edit import DeleteView,View, UpdateView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
+from documents.models import Upload
 from lib.decorators import school_required
 from referral.models import ReferralCode
 from schedule.models import Course, Section
@@ -664,6 +665,16 @@ class CalendarPreview(DetailView):
             section.end = end_time
         setattr(calendar, 'sections', sections)
 
+        cals = ClassCalendar.objects.filter(
+            owner=calendar.owner
+        ).count()
+        docs = Upload.objects.filter(
+            owner=calendar.owner
+        ).count()
+        all_counts = cals + docs
+        cal_percent = (cals * 100) / all_counts
+        doc_percent = (docs * 100) / all_counts
+
         data = {
             'calendar': calendar,
             'owner': calendar.owner,
@@ -675,6 +686,8 @@ class CalendarPreview(DetailView):
             'referral_link': referral_link,
             'current_path': request.get_full_path(),
             'preview_flag': self.student.one_time_flag.get_flag(self.student, 'preview'),
+            'cal_percent': cal_percent,
+            'doc_percent': doc_percent,
         }
         return render(request, self.template_name, data)
     
