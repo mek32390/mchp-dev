@@ -16,6 +16,7 @@ from django.views.generic.list import ListView
 from documents.forms import DocumentUploadForm
 from documents.models import Document, Upload, DocumentPurchase
 from documents.exceptions import DuplicateFileError
+from calendar_mchp.models import ClassCalendar 
 from lib.decorators import school_required
 from referral.models import ReferralCode
 from schedule.models import Course
@@ -231,7 +232,16 @@ class DocumentDetailPreview(DetailView):
                uploader.pk == self.student.pk:
                 owns = True
 
-        # for the form to submit to the right page
+        cals = ClassCalendar.objects.filter(
+            owner=uploader
+        ).count()
+        docs = Upload.objects.filter(
+            owner=uploader
+        ).count()
+        all_counts = cals + docs
+        context['cal_percent'] = (cals * 100) / all_counts
+        context['doc_percent'] = (docs * 100) / all_counts
+
         data = {
             'current_path': request.get_full_path(),
             'docs_sold': uploader.sales(),
