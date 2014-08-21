@@ -78,11 +78,17 @@ class DashboardView(View):
         time = timezone.localtime(timezone.now(),
                                   timezone.get_current_timezone()).strftime(date_format)
 
+        # this is so terrible
         classmate = self._get_classmate(list(self.student.courses.all()))
         if classmate:
             classmates = [classmate]
+
+            second = self._get_classmate(list(self.student.courses.all()))
+            if second and second.pk != classmate.pk:
+                classmates.append(second)
         else:
             classmates = []
+
         data = {
             'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
             'referral_info': ref,
@@ -107,7 +113,7 @@ class DashboardView(View):
             person = people[randrange(len(people))]
         else: 
             # remove this course and try again
-            del course[index]
+            del courses[index]
             return self._get_classmate()
         print(person)
         return person
