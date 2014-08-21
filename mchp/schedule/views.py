@@ -18,7 +18,7 @@ from lib.utils import random_mix
 from calendar_mchp.models import ClassCalendar, CalendarEvent
 from documents.models import Document
 from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
-from schedule.models import Course, School, SchoolQuicklink, Section
+from schedule.models import Course, School, SchoolQuicklink, Section, Department
 from schedule.utils import WEEK_DAYS
 from user_profile.models import Enrollment
 
@@ -385,6 +385,31 @@ class CourseView(DetailView):
         return super(CourseView, self).dispatch(*args, **kwargs)
 
 course = CourseView.as_view()
+
+'''
+url: /department/
+name: department_list
+'''
+class DepartmentList(ListView):
+    template_name = 'schedule/course_list.html'
+
+    def POST(self, request, *args, **kwargs):
+        return redirect(reverse('profile'))
+
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            majors = Department.objects.all().values('name')
+            data = {
+                'majors': majors
+            }
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('my_profile'))
+
+    def dispatch(self, *args, **kwargs):
+        return super(DepartmentList, self).dispatch(*args, **kwargs)
+
+department_list = DepartmentList.as_view()
 
 '''
 url: /school/course/

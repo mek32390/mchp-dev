@@ -13,7 +13,7 @@ from allauth.account.decorators import verified_email_required
 from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
-from schedule.models import School
+from schedule.models import School, Department
 from user_profile.models import Student, OneTimeFlag, OneTimeEvent
 from documents.models import Document
 from lib.decorators import school_required
@@ -229,6 +229,34 @@ class BlurbView(View, AjaxableResponseMixin):
         return redirect(reverse('my_profile'))
 
 edit_blurb = BlurbView.as_view()
+
+'''
+url: /profile/edit-major/
+name: edit_major
+'''
+class MajorView(View, AjaxableResponseMixin):
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            major = request.POST.get('value', '')
+            print(major)
+            major = Department.objects.filter(
+                name__icontains=major
+            )
+            self.student = request.user.student
+            if major.exists():
+                self.student.major = major[0]
+                self.student.save()
+                print(self.student.major.name)
+                return self.render_to_json_response({}, status=200)
+            else:
+                return self.render_to_json_response('We could not find that major! Pick something less esoteric', status=403)
+        else:
+            return redirect(reverse('my_profile'))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('my_profile'))
+
+edit_major = MajorView.as_view()
 
 '''
 url: /profile/toggle-flag/

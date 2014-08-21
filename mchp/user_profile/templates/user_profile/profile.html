@@ -11,7 +11,7 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/inputs-ext/typeaheadjs/typeaheadjs.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.9.3/typeahead.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.4/dist/typeahead.bundle.min.js"></script>
 
 
 {% load staticfiles %}
@@ -38,138 +38,137 @@
 		{% endifequal %}
 
 		<h2 style="margin-bottom:;">{{student.name}}</h2>
-		<p class="small">Student's Username &nbsp;
+		<p class="small">{{student.name}} &nbsp;
 			{% ifequal viewer student %}
-			<a href="#" data-type="typeaheadjs" id="major">Major</a>
-			<!-- <span id="major" data-type="text" data-title="" data-params=""><i class="fa fa-graduation-cap fa-fw"></i> Add your Major</span> &nbsp; -->
+			<a href="#" data-type="typeaheadjs" id="major" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"> {% if student.major %}{{student.major}}{% endif %} Major</a>
 			{% else %}
-			<span id="major-other"><i class="fa fa-graduation-cap fa-fw"></i> Marketing Major</span> &nbsp;
+			<span id="major-other"><i class="fa fa-graduation-cap fa-fw"></i> {% if student.major %}{{student.major}}{% endif %} Major</span> &nbsp;
 			{% endifequal %}
 			<i class="fa fa-university fa-fw"></i>{{student.school.name}}</p>
-			<!-- <h5><small style="color:;">joined {{student.create_date | naturaltime}}</small></h5> -->
-			<div class="about-container">
-				{% ifequal viewer student %}
-				<p class="lead" id="about" data-type="text" data-title="" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{profile.blurb}}</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
-				{% else %}
-				<p class="lead" id="about-other">{{profile.blurb}}</p> <!--<button id="edit-button" class="btn btn-xs">Edit</button>-->
-				{% endifequal %}
-			</div>
-		</span>
-		<p></p>
-					<div class="progress">
-						<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: 30%;">
-							<span class="sr-only">Documents</span>
-						</div>
-						<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: 70%;">
-							<span class="sr-only">Calendars</span>
-						</div>
+		<div class="about-container">
+			{% ifequal viewer student %}
+			<p class="lead" id="about" data-type="text" data-title=""
+				data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{profile.blurb}}</p> 
+			{% else %}
+			<p class="lead" id="about-other">{{profile.blurb}}</p> 
+			{% endifequal %}
+		</div>
+	</span>
+	<p></p>
+	<div class="progress">
+		<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: 30%;">
+			<span class="sr-only">Documents</span>
+		</div>
+		<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: 70%;">
+			<span class="sr-only">Calendars</span>
+		</div>
+	</div>
+
+	<div class="well">
+		<div id="user_classes">
+			<div class="panel panel-default text-center">
+				<div class="panel-body">
+					<div class="page-header">
+						<h3 class="text-center">
+							{% ifequal viewer student %}
+							Classes
+							{% else %}
+							{{student.first_name}}'s Classes
+							{% endifequal %}
+						</h3>
+						{% ifequal viewer student %}
+						{% else %}
+						<p class="text-center">You have 2 classes in common</p>
+						{% endifequal %}
 					</div>
-
-					<div class="well">
-						<div id="user_classes">
-							<div class="panel panel-default text-center">
-								<div class="panel-body">
-									<div class="page-header">
-										<h3 class="text-center">
-											{% ifequal viewer student %}
-												Classes
-											{% else %}
-												{{student.first_name}}'s Classes
-											{% endifequal %}
-										</h3>
-										{% ifequal viewer student %}
-										{% else %}
-										<p class="text-center">You have 2 classes in common</p>
-										{% endifequal %}
-									</div>
-									<div class="row">
-										{% for course in student.courses.all %}
-										<div class="col-sm-2 col-centered">
-											<p></p>
-											<!-- don't include the slug here -->
-											<a href="{%url "course" course.pk%}">
-												<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" width="75px" alt="classes">
-											</a>
-											<i class="fa fa-check-circle-o fa-2x class-in-common"></i>
-											<div class="caption">
-												<h5>{{course.display}}</h5>
-												<p class="small"><i class="fa fa-users fa-fw"></i> {{course.student_count}} <i class="fa
-													fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i>
-													{{course.document_count}}</p>
-												</div>
-											</div>
-											{% endfor %}
-										</div>
-									</div>
-								</div>
+					<div class="row">
+						{% for course in student.courses.all %}
+						<div class="col-sm-2 col-centered">
+							<p></p>
+							<!-- don't include the slug here -->
+							<a href="{%url "course" course.pk%}">
+								<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" width="75px" alt="classes">
+							</a>
+							<i class="fa fa-check-circle-o fa-2x class-in-common"></i>
+							<div class="caption">
+								<h5>{{course.display}}</h5>
+								<p class="small"><i class="fa fa-users fa-fw"></i> {{course.student_count}} <i class="fa
+										fa-calendar fa-fw"></i> 42 <i class="fa fa-file fa-fw"></i>
+									{{course.document_count}}</p>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-body">
-									<div class="page-header">
-										<h3 class="text-center">Documents</h3>
-										<p class="text-center"><span class="badge">{{upload_list|length}}</span></p>
-									</div>
-			
-									{% if upload_list %}
-									<div class="list-group" id="document-list">
-										{% for document in upload_list %}
-										<li class="list-group-item" id="document_{{document.pk}}">
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="page-header">
+					<h3 class="text-center">Documents</h3>
+					<p class="text-center"><span class="badge">{{upload_list|length}}</span></p>
+				</div>
 
-											<div class="media">
-												<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
-													{{ document.uuid}}/
-													{{ document.slug}} ">
+				{% if upload_list %}
+				<div class="list-group" id="document-list">
+					{% for document in upload_list %}
+					<li class="list-group-item" id="document_{{document.pk}}">
 
-												{% if document.preview %}
-												<img src="{{document.preview.url}}" style="width:64px"></a></div>
-												{% else %}
-												<img src="{% static 'documents/img/loading_file.svg' %}" style="width:64px"></a></div>
-												{% endif %}
+						<div class="media">
+							<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
+									{{ document.uuid}}/
+									{{ document.slug}} ">
 
-												<div class="media-body">
-													<h4 class="media-heading"><a href="{% url 'document_list' %}
-														{{ document.uuid}}/
-														{{ document.slug}}
-														">{{ document.title }}</a> <small>{{document.price}} points</small>
-														<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
-													</h4>
-													<span class="description">
-														<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
-														<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
-														<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}} Reviews&nbsp;&nbsp;
-														<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.purchase_count}} Purchases
-														<p class="small margin-top-sm">in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
-													</span>
-												</div>
-											</div>
-										</li>
-										{% endfor %}
-									</div>
-									<div id="no-documents" style="display: none;">
-										<p class="lead text-center">{{user.first_name}} isn't selling any documents!</p>
-										<hr>
-									</div>
-									{% else %}
-									<div id="no-documents">
-										<p class="lead text-center">{{user.first_name}} isn't selling any documents!</p>
-										<hr>
-									</div>
-									{% endif %}
-								</div>
-							</div>
+									{% if document.preview %}
+									<img src="{{document.preview.url}}" style="width:64px"></a></div>
+							{% else %}
+							<img src="{% static 'documents/img/loading_file.svg' %}" style="width:64px"></a></div>
+					{% endif %}
 
-									<div class="panel panel-default">
-										<div class="panel-body">
-											<div class="page-header">
-												<h3 class="text-center">Calendars</h3>
-												<p class="text-center"><span class="badge">{{upload_list|length}}</span></p>
-											</div>
-											<div id="no-calendars">
-												<p class="lead text-center">{{user.first_name}} isn't selling any calendars!</p>
-												<hr>
-											</div>
-										</div>
-									</div>
+					<div class="media-body">
+						<h4 class="media-heading"><a href="{% url 'document_list' %}
+								{{ document.uuid}}/
+								{{ document.slug}}
+								">{{ document.title }}</a> <small>{{document.price}} points</small>
+							<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
+						</h4>
+						<span class="description">
+							<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
+							<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
+							<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}} Reviews&nbsp;&nbsp;
+							<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.purchase_count}} Purchases
+							<p class="small margin-top-sm">in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+						</span>
+					</div>
+				</div>
+			</li>
+			{% endfor %}
+		</div>
+		<div id="no-documents" style="display: none;">
+			<p class="lead text-center">{{user.first_name}} isn't selling any documents!</p>
+			<hr>
+		</div>
+		{% else %}
+		<div id="no-documents">
+			<p class="lead text-center">{{user.first_name}} isn't selling any documents!</p>
+			<hr>
+		</div>
+		{% endif %}
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="page-header">
+			<h3 class="text-center">Calendars</h3>
+			<p class="text-center"><span class="badge">{{upload_list|length}}</span></p>
+		</div>
+		<div id="no-calendars">
+			<p class="lead text-center">{{user.first_name}} isn't selling any calendars!</p>
+			<hr>
+		</div>
+	</div>
+</div>
 
 								</div>
 							</div>

@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^course/(?P<number>\d+)/(?P<slug>[^/]+)/$', views.course, name='course_slug'),
     url(r'^course/(?P<number>\d+)/$', views.course, name='course'),
 
+    url(r'^department/$', views.department_list, name='department_list'),
     url(r'^course/$', views.course_list, name='course_list'),
     url(r'^$', views.school_list, name='school_list'),
 

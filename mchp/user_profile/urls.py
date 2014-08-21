@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     url(r'^toggle-flag/', views.toggle_flag, name='toggle_flag'),
     url(r'^notifications/', views.notifications, name='notifications'),
     url(r'^edit-blurb/', views.edit_blurb, name='edit_blurb'),
+    url(r'^edit-major/', views.edit_major, name='edit_major'),
     url(r'^$', views.profile, name='my_profile'),
 )
