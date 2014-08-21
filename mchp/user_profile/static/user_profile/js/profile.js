@@ -31,18 +31,20 @@ $(function(){
 		onblur: 'submit',				
 		send: 'always',
     });
-	var majors = new Bloodhound({
-		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-		queryTokenizer: Bloodhound.tokenizers.whitespace,
-		limit: 10,
-		prefetch: {
-			url: '/school/department/',
-			filter: function(list) {
-				console.log(list);
-				return list;
-			}
-		}
-	});
+	// var majors = new Bloodhound({
+	// 	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+	// 	queryTokenizer: Bloodhound.tokenizers.whitespace,
+	// 	limit: 10,
+	// 	prefetch: {
+	// 		url: '/school/department/',
+	// 		filter: function(list) {
+	// 			console.log(list);
+	// 			return list;
+	// 		}
+	// 	}
+	// });
+
+
 
 	$('#major').editable({
 		mode: 'inline',
@@ -56,32 +58,8 @@ $(function(){
 		url: '/profile/edit-major/',
 		title: 'Choose your Major',
 		typeahead: {
-			source: majors.ttAdapter()
+			source: 
 		}
-	});
-
-	// $('.tt-suggestion > p').selected( function () {
-	// 		$(this).addClass('h2');
-	// });
-
-	//    value: 'ru',
-	// typeahead: {
-	// name: 'country',
-	// local: [
-	// {value: 'ru', tokens: ['Russia']},
-	// {value: 'gb', tokens: ['Great Britain']},
-	// {value: 'us', tokens: ['United States']}
-	// ],
-	// template: function(item) {
-	// return item.tokens[0] + ' (' + item.value + ')';
-	// }
-	// }
-	// });
-
-	//button to trigger about field (not used right now)
-	$('#edit-button').click(function(e) {
-		e.stopPropagation();
-		$('#about').editable('toggle');
 	});
 
 	$('#pic-input').change(function() {

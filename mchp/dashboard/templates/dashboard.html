@@ -311,7 +311,7 @@
                 </li>
                 {% endfor %}
 								<li class="news-list-empty">
-									You have no feeds enabled.
+									<a href="#">You have no feeds enabled.</a>
 								</li>
               </ul>
             </span><!--end navbar header -->
@@ -319,8 +319,7 @@
           <span id="news-scroll" data-spy="scroll" data-offset="0">
             {% for rss,visible in rss_types %}
             <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
-              <li class="list-group-item news-header" style="background-color: #{{rss.color}};
-								color: #fff">
+              <li class="list-group-item news-header" style="background-color: #{{rss.color}};">
                 <h5 class="margin-top-none margin-btm-none">{{rss.name}}</h5>
               </li>
               {% for link in rss.links %}
@@ -328,7 +327,7 @@
 								data-name="{{link.name}}" data-count="{{link.story_count}}"> 
                 <small class="pull-right news-time"></small> 
                 <a href="#" class="news-headline" target="_blank"></a>  
-                <small class="pull-right"><span class="label label-success news-name"></span></small>
+                <small class="pull-right"><span class="label alert-info news-name"></span></small>
                 <p class="small news-content"></p>
               </li>
               {% endfor %}
