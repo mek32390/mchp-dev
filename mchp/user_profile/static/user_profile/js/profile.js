@@ -31,19 +31,8 @@ $(function(){
 		onblur: 'submit',				
 		send: 'always',
     });
-	// var majors = new Bloodhound({
-	// 	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-	// 	queryTokenizer: Bloodhound.tokenizers.whitespace,
-	// 	limit: 10,
-	// 	prefetch: {
-	// 		url: '/school/department/',
-	// 		filter: function(list) {
-	// 			console.log(list);
-	// 			return list;
-	// 		}
-	// 	}
-	// });
 
+<<<<<<< HEAD
 
 
 	$('#major').editable({
@@ -60,7 +49,34 @@ $(function(){
 		typeahead: {
 			source:''
 		}
+=======
+	// this should really only be done when you first click on the editable
+	$.ajax({
+		url: '/school/department/',
+		type: 'GET',
+		success: function(data) {
+			var majors = $.map(data.majors, function(major, index) { 
+				return major.name;
+			});
+			$('#major').editable({
+				mode: 'inline',
+				unsavedclass: 'text-danger',
+				emptyclass: '',
+				emptytext: 'Select your major',
+				highlight: '',
+				onblur: 'submit',				
+				send: 'always',
+				showbuttons: false,
+				url: '/profile/edit-major/',
+				title: 'Choose your Major',
+				typeahead: {
+					local: majors,
+				}
+			});
+		},
+>>>>>>> 7401743f7de7c31da3944db6e59315f6dfb4c1c7
 	});
+
 
 	$('#pic-input').change(function() {
 		var form = $('#pic-form').get(0);

@@ -78,6 +78,11 @@ class DashboardView(View):
         time = timezone.localtime(timezone.now(),
                                   timezone.get_current_timezone()).strftime(date_format)
 
+        classmate = self._get_classmate(list(self.student.courses.all()))
+        if classmate:
+            classmates = [classmate]
+        else:
+            classmates = []
         data = {
             'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
             'referral_info': ref,
@@ -88,19 +93,21 @@ class DashboardView(View):
             'school': school,
             'weather': weather,
             'current_time': time,
-            'classmates': [self._get_classmate()],
+            'classmates': classmates,
         }
         return render(request, self.template_name, data)
 
-    def _get_classmate(self):
-        courses = self.student.courses.all()
+    def _get_classmate(self, courses):
         if not len(courses):
             return None
-        course = courses[randrange(len(courses))]
+        index = randrange(len(courses))
+        course = courses[index]
         people = list(course.student_set.exclude(pk=self.student.pk))
         if people:
             person = people[randrange(len(people))]
         else: 
+            # remove this course and try again
+            del course[index]
             return self._get_classmate()
         print(person)
         return person

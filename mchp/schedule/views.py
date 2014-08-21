@@ -390,7 +390,7 @@ course = CourseView.as_view()
 url: /department/
 name: department_list
 '''
-class DepartmentList(ListView):
+class DepartmentList(View, AjaxableResponseMixin):
     template_name = 'schedule/course_list.html'
 
     def POST(self, request, *args, **kwargs):
@@ -398,9 +398,9 @@ class DepartmentList(ListView):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            majors = Department.objects.all().values('name')
+            majors = Department.objects.all().order_by('name').values('name')
             data = {
-                'majors': majors
+                'majors': list( majors )
             }
             return self.render_to_json_response(data, status=200)
         else:
