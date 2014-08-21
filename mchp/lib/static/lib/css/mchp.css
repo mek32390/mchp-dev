@@ -292,15 +292,15 @@ body {
 }
 
 /* make nav drop down menu expand on hover */
-@media only screen and (min-width : 768px) {
+/*@media only screen and (min-width : 768px) {*/
      /*Make Navigation Toggle on Desktop Hover */
-    #user-dropdown:hover .dropdown-menu {
+   /* #user-dropdown:hover .dropdown-menu {
         display: block;
     }
     #notifs-dropdown:hover .dropdown-menu {
         display: block;
     }
-}
+}*/
 
 /* Style Read and Unread Notifications */
 .read-notifications {

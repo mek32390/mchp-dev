@@ -51,7 +51,7 @@
 			<i class="fa fa-university fa-fw"></i><a href="{% url "school" student.school.pk %}">{{student.school.name}}</p></a>
 		<div class="about-container">
 			{% ifequal viewer student %}
-			<p class="lead" id="about" data-type="text" data-title=""
+			<p class="lead" id="about" data-type="text" data-title="blurb"
 				data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{profile.blurb}}</p> 
 			{% else %}
 			<p class="lead" id="about-other">{{profile.blurb}}</p> 
@@ -101,6 +101,14 @@
 										{{course.document_count}}</p>
 								</div>
 							</div>
+							{% empty %}
+							{% ifequal viewer student %}
+							<p class="lead text-center">You haven't added any classes yet, but it's never to late!</p>
+							<p class="text-center"><a href="{% url 'course_add'%}" class="btn btn-primary">Add Classes</a></p>
+							{% else %}
+							<p class="lead text-center">{{student.first_name}} isn't enrolled in any classes</p>
+							{% endifequal %}
+							<hr>
 							{% endfor %}
 						</div>
 					</div>

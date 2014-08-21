@@ -58,7 +58,6 @@ $(function(){
 		},
 	});
 
-
 	$('#pic-input').change(function() {
 		var form = $('#pic-form').get(0);
 		$.ajax({
