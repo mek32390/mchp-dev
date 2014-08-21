@@ -149,6 +149,7 @@ var addRss = function(section, rss, name) {
 	// remove some extra stuff some feeds seem to add
 	$content.find('p').siblings().remove();
 	$content.find('img').remove();
+	$content.find('script').remove();
 };
 
 var processFeed = function(feed) {
