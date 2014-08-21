@@ -28,7 +28,7 @@
               100  points <a href="#points-modal" data-toggle="modal" class='btn btn-xs btn-default pull-right'>Manage Points</a>
             </li>
           	<li class="list-group-item">
-              <i class="fa fa-gear"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-default pull-right'>Reset Password</a>
+              <i class="fa fa-lock"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-default pull-right'>Reset Password</a>
             </li>
           	<li class="list-group-item">
               <i class="fa fa-university"></i> University of Arizona <a href="{%url 'account_email'%}" class='btn btn-xs btn-default pull-right'>Transfer Schools</a>
@@ -36,10 +36,10 @@
           </ul>
           <ul class="list-group">
           <li class="list-group-item">
-              <i class="fa fa-paw"></i> Referral Code: {{referral_code}}<a href="#" class='btn btn-xs btn-default pull-right'>Copy</a>
+              <i class="fa fa-paw"></i> Your Code: {{referral_code}}<a href="#" class='btn btn-xs btn-default pull-right'>Copy</a>
             </li>
             <li class="list-group-item">
-              <i class="fa fa-paw"></i> Referral Link: {{request.get_host}}/?ref={{referral_link}} <a href="#" class='btn btn-xs btn-default pull-right'>Copy</a>
+              <i class="fa fa-paw"></i> Your Link: {{request.get_host}}/?ref={{referral_link}} <a href="#" class='btn btn-xs btn-default pull-right'>Copy</a>
             </li>
           </ul>
           </p>
