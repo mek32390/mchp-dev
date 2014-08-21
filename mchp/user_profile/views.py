@@ -22,7 +22,6 @@ from referral.models import ReferralCode, Referral
 import json
 import logging
 import magic
-# from PIL import Image
 logger = logging.getLogger(__name__)
 
 '''
@@ -226,14 +225,6 @@ class PicView(View, AjaxableResponseMixin):
                 if profile.pic:
                     profile.pic.delete(False)
 
-                # image = pic
-                # img = Image.open(image)
-                # img = img.rotate(90)
-                # image.seek(0)
-                # img.save(image, "jpeg")
-                # image.seek(0)
-                # image.read()
-
                 # save the new pic
                 profile.pic = pic
                 profile.save()
@@ -287,16 +278,18 @@ name: edit_major
 class MajorView(View, AjaxableResponseMixin):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            major = request.POST.get('value', '')
-            print(major)
-            major = Department.objects.filter(
-                name__icontains=major
-            )
+            major_str = request.POST.get('value', '')
             self.student = request.user.student
+            major = Department.objects.filter(
+                name=major_str,
+            )
+            if not major.exists():
+                major = Department.objects.filter(
+                    name__icontains=major_str
+                )
             if major.exists():
                 self.student.major = major[0]
                 self.student.save()
-                print(self.student.major.name)
                 return self.render_to_json_response({}, status=200)
             else:
                 return self.render_to_json_response('We could not find that major! Pick something less esoteric', status=403)
