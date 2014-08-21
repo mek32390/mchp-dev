@@ -42,13 +42,13 @@
 		</div>
 		{% endifequal %}
 		<h2 style="margin-bottom:;">{{student.name}}</h2>
-		<p class="small">{{student.name}} &nbsp;
-			{% ifequal viewer student %}
+		<p class="small">
+			{% ifequal viewer student %}<i class="fa fa-graduation-cap fa-fw"></i> 
 			<a href="#" data-type="typeaheadjs" id="major" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"> {% if student.major %}{{student.major}}{% endif %} Major</a>
 			{% else %}
 			<span id="major-other"><i class="fa fa-graduation-cap fa-fw"></i> {% if student.major %}{{student.major}}{% endif %} Major</span> &nbsp;
 			{% endifequal %}
-			<i class="fa fa-university fa-fw"></i>{{student.school.name}}</p>
+			<i class="fa fa-university fa-fw"></i><a href="{% url "school" student.school.pk %}">{{student.school.name}}</p></a>
 		<div class="about-container">
 			{% ifequal viewer student %}
 			<p class="lead" id="about" data-type="text" data-title="blurb"
