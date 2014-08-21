@@ -86,7 +86,7 @@
 						</h2>
 
 						<h5>
-							<strong>Prof</strong> {{calendar.course.professor}}
+							<strong>Inst</strong> {{calendar.course.professor}}
 							{% if calendar.accuracy < 0 %}
 							<i class="fa fa-fw fa-bullseye text-primary"></i>No Ratings&nbsp;
 							{% else %}
@@ -136,7 +136,7 @@
 							<div class="media">
 								<a class="pull-left" href="{%url "profile" owner.pk %}">
 									<img class="media-object img-circle img-thumbnail" 
-									src="{{owner.profile.profile_image_url}}" width="65px">
+									src="{{owner.profile.profile_image_url}}" width="65px" style="height:65px;">
 								</a>
 								<div class="media-body">
 									<h4 class="media-heading">
@@ -145,14 +145,24 @@
 									{% with owner.subscribers as subscribers %}
 									<p><span class="label label-info">{{subscribers}} Calendar{{subscribers|pluralize}} sold</span> 
 									</p>
-										{% endwith %}
-									</div>
+									<p>
+										<div class="progress">
+											<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
+												<span class="sr-only">Documents</span>
+											</div>
+											<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
+												<span class="sr-only">Calendars</span>
+											</div>
+										</div>
+									</p>
+									{% endwith %}
 								</div>
 							</div>
-						</div><!-- end col -->
-					</div>
+						</div>
+					</div><!-- end col -->
 				</div>
-			</div><!-- end top panel -->
-		</div><!-- end well -->
-	</div><!-- end container -->
-	{% endblock %}
+			</div>
+		</div><!-- end top panel -->
+	</div><!-- end well -->
+</div><!-- end container -->
+{% endblock %}
