@@ -131,13 +131,13 @@ class UserProfile(models.Model):
     def profile_image_url(self):
         fb_uid = SocialAccount.objects.filter(user=self.student.user, provider='facebook')
      
-        if len(fb_uid):
+        if self.pic:
+            return self.pic.url
+        elif len(fb_uid):
             request = 'https://graph.facebook.com/{}/picture/?width=800&redirect=false'.format(fb_uid[0].uid)
             response = urllib.request.urlopen(request)
             obj = json.loads(response.readall().decode('utf-8'))
             return obj['data']['url']
-        elif self.pic:
-            return self.pic.url
         else:
             return "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/girl-boy.svg"
 

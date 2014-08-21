@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     url(r'^notifications/', views.notifications, name='notifications'),
     url(r'^edit-blurb/', views.edit_blurb, name='edit_blurb'),
     url(r'^edit-major/', views.edit_major, name='edit_major'),
+    url(r'^edit-pic/', views.edit_pic, name='edit_pic'),
     url(r'^$', views.profile, name='my_profile'),
 )

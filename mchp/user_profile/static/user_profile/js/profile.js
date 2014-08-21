@@ -62,16 +62,19 @@ $(function(){
 		}
 	});
 
-
-	$('#username').editable({
-    mode: 'inline',
-    showbuttons: false,
-    url: '/post',
-    pk: 1,
-    title: 'Enter an Italian city',
-    typeahead: {
-        local: ['Rome', 'Milan', 'Venice', 'Florence']
-    }
+	$('#pic-input').change(function() {
+		var form = $('#pic-form').get(0);
+		$.ajax({
+			url: '/profile/edit-pic/',
+			data: new FormData(form),
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success: function(data) {
+				$('.profile-image').attr('src', data.url);
+				addMessage('Your latest internet persona has been given wings', 'success');
+			},
+		});
 	});
 
 });
