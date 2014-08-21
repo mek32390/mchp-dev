@@ -106,7 +106,7 @@
 									<p class="lead text-center">You haven't added any classes yet... Well, what're you waiting for?</p>
 									<p class="text-center"><a href="{% url 'course_add'%}" class="btn btn-primary">Add Classes</a></p>
 									{% else %}
-									<p class="lead text-center">{{student.first_name}} isn't enrolled in any classes</p>
+									<p class="lead text-center">{{student.name}} isn't enrolled in any classes</p>
 									{% endifequal %}
 									<hr>
 									{% endfor %}
@@ -168,7 +168,7 @@
 						<p class="lead text-center">You haven't sold any documents yet, but it wouldn't hurt to try!</p>
 						<p><a href="{% url 'document_upload'%}" class="btn btn-primary">Sell Document</a></p>
 						{% else %}
-						<p class="lead text-center">{{student.first_name}} isn't selling any documents!</p>
+						<p class="lead text-center">{{student.name}} isn't selling any documents!</p>
 						{% endifequal %}
 					</div>
 					{% else %}
@@ -177,7 +177,7 @@
 						<p class="lead text-center">You haven't sold any documents yet, but it wouldn't hurt to try! </p>
 						<p><a href="{% url 'document_upload'%}" class="btn btn-primary">Sell a Document</a></p>
 						{% else %}
-						<p class="lead text-center">{{student.first_name}} isn't selling any documents!</p>
+						<p class="lead text-center">{{student.name}} isn't selling any documents!</p>
 						{% endifequal %}
 						<hr>
 					</div>
@@ -232,7 +232,7 @@
 						<p class="lead">You haven't created any calendars yet, but you don't know what you're missing!</p>
 							<p><a href="{% url 'calendar_create'%}" class="btn btn-primary">Create a Calendar</a></p>
 						{% else %}
-						<p class="lead text-center">{{student.first_name}} isn't selling any calendars!</p>
+						<p class="lead text-center">{{student.name}} isn't selling any calendars!</p>
 						{% endifequal %}
 						<hr>
 					</div>
