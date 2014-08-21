@@ -21,6 +21,7 @@ from referral.models import ReferralCode, Referral
 
 import json
 import logging
+import magic
 logger = logging.getLogger(__name__)
 
 '''
@@ -208,6 +209,46 @@ class AjaxableResponseMixin(object):
                 "extra_tags": message.tags,
             })
         return django_messages
+
+'''
+url: /profile/edit-pic/
+name: edit_pic
+'''
+class PicView(View, AjaxableResponseMixin):
+    def post(self, request, *args, **kwargs):
+        print(request.FILES)
+        if request.is_ajax():
+            pic = request.FILES.get('pic')
+            if self._check_pic(pic):
+                profile = request.user.student.profile
+                # Pass false so FileField doesn't save the model.
+                if profile.pic:
+                    profile.pic.delete(False)
+
+                # save the new pic
+                profile.pic = pic
+                profile.save()
+                data = {
+                    'url': profile.pic.url
+                }
+            else:
+                return self.render_to_json_response('Unsupported filetype', status=403)
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('my_profile'))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('my_profile'))
+
+    def _check_pic(self, pic):
+        filetypes = [b'image/jpeg', b'image/png', b'image/gif',]
+
+        chunk = pic.file.read(1024)
+        filetype = magic.from_buffer(chunk, mime=True)
+        pic.file.seek(0,0)
+        return filetype in filetypes
+
+edit_pic = PicView.as_view()
 
 '''
 url: /profile/edit-blurb/

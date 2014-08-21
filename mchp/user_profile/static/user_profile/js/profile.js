@@ -79,10 +79,25 @@ $(function(){
 	// });
 
 	//button to trigger about field (not used right now)
-$('#edit-button').click(function(e) {
-	e.stopPropagation();
-	$('#about').editable('toggle');
+	$('#edit-button').click(function(e) {
+		e.stopPropagation();
+		$('#about').editable('toggle');
+	});
 
-});
+	$('#pic-input').change(function() {
+		var form = $('#pic-form').get(0);
+		$.ajax({
+			url: '/profile/edit-pic/',
+			data: new FormData(form),
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success: function(data) {
+				$('.profile-image').attr('src', data.url);
+				console.log(data.url);
+
+			},
+		});
+	});
 
 });
