@@ -2,6 +2,7 @@
 
 {% block head_title %}Change account settings{% endblock %}
 {% block extra_head %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
 
   {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/account_settings.css' %}">
@@ -9,42 +10,45 @@
 {% endblock %}
 
 {% block body %}
+{% load referral %}
 <div class='container'>
-  <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-        <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/settings.svg" width="100px" class="center-block">
-        <h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
-        <p class="text-center"><small>@{{user.username}}</small></p>
-      <div class="well">
-		<a href="/login/facebook" class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook"></i> Connect with Facebook</a>
-            
-          <p>
-          
-          <ul class="list-group">
-          	<li class="list-group-item"> 
-              <i class="fa fa-book fa-fw"></i> 5 classes <a href="{%url 'course_add'%}" class="btn btn-xs btn-default pull-right">Edit Schedule</a></span>
-            </li>
-            <li class="list-group-item">
-              100  points <a href="#points-modal" data-toggle="modal" class='btn btn-xs btn-default pull-right'>Manage Points</a>
-            </li>
-          	<li class="list-group-item">
-              <i class="fa fa-gear"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-default pull-right'>Reset Password</a>
-            </li>
-          	<li class="list-group-item">
-              <i class="fa fa-university"></i> University of Arizona <a href="{%url 'account_email'%}" class='btn btn-xs btn-default pull-right'>Transfer Schools</a>
-            </li>
-          </ul>
-          <ul class="list-group">
-          <li class="list-group-item">
-              <i class="fa fa-paw"></i> Referral Code: {{referral_code}}<a href="#" class='btn btn-xs btn-default pull-right'>Copy</a>
-            </li>
-            <li class="list-group-item">
-              <i class="fa fa-paw"></i> Referral Link: {{request.get_host}}/?ref={{referral_link}} <a href="#" class='btn btn-xs btn-default pull-right'>Copy</a>
-            </li>
-          </ul>
-          </p>
-        </div>   
-    </div>
-  </div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/settings.svg" width="100px" class="center-block">
+			<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
+			<p class="text-center"><small>{{user.username}}</small></p>
+			<div class="well">
+				<a href="/login/facebook" class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook"></i> Connect with Facebook</a>
+				<p>
+					<ul class="list-group">
+						<li class="list-group-item"> 
+							<i class="fa fa-book fa-fw"></i>{{user.student.courses.count}} classes <a href="{%url 'course_add'%}" class="btn btn-xs btn-default pull-right">Edit Schedule</a></span>
+					</li>
+					<li class="list-group-item">
+						{{user.student.total_points}}  points <a href="#points-modal" data-toggle="modal" class='btn btn-xs btn-default pull-right'>Manage Points</a>
+					</li>
+					<li class="list-group-item">
+						<i class="fa fa-gear"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-default pull-right'>Reset Password</a>
+					</li>
+					<li class="list-group-item">
+						<i class="fa fa-university"></i> {{user.student.school.name}} <a href="{%url 'account_email'%}" class='btn btn-xs btn-default pull-right'>Transfer Schools</a>
+					</li>
+				</ul>
+				<ul class="list-group">
+					<li class="list-group-item">
+						<i class="fa fa-paw"></i> Referral Code: {{referral_code}}
+						<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_code }}" 
+							class='btn btn-xs btn-default pull-right copy-button' id="code-button">Copy</a>
+					</li>
+					<li class="list-group-item">
+						<i class="fa fa-paw"></i> Referral Link: http://{{request.get_host}}/?ref={{referral_link}} 
+						<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_link }}"
+							class='btn btn-xs btn-default pull-right copy-button' id="link-button">Copy</a>
+					</li>
+				</ul>
+			</p>
+		</div>   
+	</div>
+</div>
 </div>
 {% endblock %}
