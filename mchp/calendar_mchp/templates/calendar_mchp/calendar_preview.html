@@ -86,7 +86,7 @@
 						</h2>
 
 						<h5>
-							<strong>Inst</strong> {{calendar.course.professor}}
+							<strong>Prof</strong> {{calendar.course.professor}}
 							{% if calendar.accuracy < 0 %}
 							<i class="fa fa-fw fa-bullseye text-primary"></i>No Ratings&nbsp;
 							{% else %}
@@ -99,7 +99,7 @@
 							{% if calendar.accuracy < 0 %}
 							{% else %}
 							<!-- accuracy bar -->
-							<div class="progress margin-btm-sm" style="width:61%;">
+							<div class="progress margin-btm-sm" style="width:68%;">
 							  <div class="progress-bar progress-bar-primary" style="width: {{calendar.accuracy}}%">
 							    <span class="sr-only">{{calendar.accuracy}}% Accuracy</span>
 							  </div>
@@ -140,13 +140,13 @@
 								</a>
 								<div class="media-body">
 									<h4 class="media-heading">
-										<a href="#">{{owner.name}}</a> <small>Level {{owner_level}}</small>
+										<a href="#">{{owner.name}}</a> <small><!-- Level {{owner_level}} --></small>
 									</h4>
 									{% with owner.subscribers as subscribers %}
 									<p><span class="label label-info">{{subscribers}} Calendar{{subscribers|pluralize}} sold</span> 
 									</p>
 									<p>
-										<div class="progress">
+										<div class="progress" style="width:68%">
 											<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
 												<span class="sr-only">Documents</span>
 											</div>

@@ -240,7 +240,7 @@ class CalendarUnsubscribeView(View, AjaxableResponseMixin):
                 sub.delete()
                 messages.success(
                     self.request,
-                    "Like sands of the hourglass, so is your subscription to that calendar."
+                    "Say \"Adiós\" to that calendar subscription..."
                 )
                 status = 200
             else:
@@ -556,7 +556,7 @@ class CalendarPreview(DetailView):
         if calendar.owner == self.student:
             messages.error(
                 request,
-                "Woah there Narcissus, you can't subscribe to your own calendar"
+                "We know it's good, but you can't subscribe to your own calendar!"
             )
             return self.get(request, *args, **kwargs)
 
@@ -568,7 +568,7 @@ class CalendarPreview(DetailView):
             if subscription.enabled:
                 messages.warning(
                     request,
-                    "Slow down there Eager McBeaver, you're already subscribed to that calendar"
+                    "Slow down there kiddo, you're already subscribed to that calendar"
                 )
             else:
                 if not self.student.reduce_points(calendar.price):
@@ -589,13 +589,13 @@ class CalendarPreview(DetailView):
                     subscription.save()
                     messages.success(
                         request,
-                        "Your subscription has gone through Carrousel and been renewed"
+                        "Your subscription has gone through and has been renewed"
                     )
         else:
             if not self.student.reduce_points(calendar.price):
                 messages.error(
                     request,
-                    "Pump your break kid, you don't have enough points to buy that."
+                    "You'll need more points to subscribe to this calendar"
                 )
                 subscription.delete()
                 return self.get(request, *args, **kwargs)

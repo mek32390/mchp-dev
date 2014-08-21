@@ -377,7 +377,7 @@ $(function() {
 		$('#subscription-label-holder-'+$(this).data('cal')).remove();
 	});
 	$('.submit-accuracy').click(function() {
-		addMessage('Thanks for the rate asshole, go fuck yourself', 'success');
+		addMessage('Thanks for the rating! You can change it anytime.', 'success');
 	});
 
 	/*******************************

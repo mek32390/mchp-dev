@@ -311,7 +311,7 @@ class MajorView(View, AjaxableResponseMixin):
                 self.student.save()
                 return self.render_to_json_response({}, status=200)
             else:
-                return self.render_to_json_response('We could not find that major! Pick something less esoteric', status=403)
+                return self.render_to_json_response('We couldn\'t find that major! Try picking something less esoteric', status=403)
         else:
             return redirect(reverse('my_profile'))
 
