@@ -150,6 +150,8 @@ var addRss = function(section, rss, name) {
 	$content.find('p').siblings().remove();
 	$content.find('img').remove();
 	$content.find('script').remove();
+	$content.find('br').remove();
+	$content.find('a').remove();
 };
 
 var processFeed = function(feed) {
