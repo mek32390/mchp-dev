@@ -141,7 +141,14 @@ var addRss = function(section, rss, name) {
 	var $content = $item.find('.news-content');
 	$item.find('.news-headline').html(rss.title);
 	$item.find('.news-headline').attr('href', rss.link);
-	var description = $('<div>'+rss.description+'</div>').text();
+
+	// um
+	// this is so that resources inside the html are not fetched,
+	// resulting in wasted bandwidth and mixed content on the page
+	var dom = '<!DOCTYPE html><html><head></head><body>'+rss.description +'</body></html>';
+	var doc = new DOMParser().parseFromString(dom, 'text/html');
+	var description = doc.body.textContent;
+
 	if (description.length > 200) {
 		var $continueLink = $('<a>[...]</a>');
 		$continueLink.attr('href', rss.link);
