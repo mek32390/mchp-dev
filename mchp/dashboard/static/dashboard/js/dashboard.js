@@ -116,7 +116,6 @@ var fetchRss = function() {
 			var url = $link.data('link') ;
 			var name = $link.data('name');
 			var count = $link.data('count');
-			var fuckyou = 'shitfucking';
 			var successFn = function(feed) {
 				for(var i = 0 ; i < count ; i++) {
 					addRss($section, feed.items[i], name);
@@ -142,23 +141,11 @@ var addRss = function(section, rss, name) {
 	var $content = $item.find('.news-content');
 	$item.find('.news-headline').html(rss.title);
 	$item.find('.news-headline').attr('href', rss.link);
-	$content.html(rss.description);
+	$content.text(rss.description.substring(0,200));
 	$item.find('.news-time').text(time.fromNow());
 	$item.find('.news-name').text(name);
 	section.append($item);
 	// remove some extra stuff some feeds seem to add
-	$content.find('p').siblings().remove();
-	$content.find('img').remove();
-	$content.find('script').remove();
-	$content.find('br').remove();
-	$content.find('a').remove();
-	$content.find('em').remove();
-	$content.find('strong').remove();
-	$content.find('style').remove();
-	$content.find('script').remove();
-	$content.find('noscript').remove();
-	$content.find('iframe').remove();
-	$content.find('div').remove();
 };
 
 var processFeed = function(feed) {
