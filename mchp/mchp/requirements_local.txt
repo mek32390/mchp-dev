@@ -1,4 +1,2 @@
 django-extensions
 django-debug-toolbar
-django-elasticsearch-debug-toolbar
-django-sslserver

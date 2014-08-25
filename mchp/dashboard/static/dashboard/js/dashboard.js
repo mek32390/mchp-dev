@@ -141,7 +141,7 @@ var addRss = function(section, rss, name) {
 	var $content = $item.find('.news-content');
 	$item.find('.news-headline').html(rss.title);
 	$item.find('.news-headline').attr('href', rss.link);
-	var description = $('<p>'+rss.description+'</p>').text();
+	var description = $('<div>'+rss.description+'</div>').text();
 	if (description.length > 200) {
 		var $continueLink = $('<a>[...]</a>');
 		$continueLink.attr('href', rss.link);
