@@ -150,6 +150,15 @@ var addRss = function(section, rss, name) {
 	$content.find('p').siblings().remove();
 	$content.find('img').remove();
 	$content.find('script').remove();
+	$content.find('br').remove();
+	$content.find('a').remove();
+	$content.find('em').remove();
+	$content.find('strong').remove();
+	$content.find('style').remove();
+	$content.find('script').remove();
+	$content.find('noscript').remove();
+	$content.find('iframe').remove();
+	$content.find('div').remove();
 };
 
 var processFeed = function(feed) {

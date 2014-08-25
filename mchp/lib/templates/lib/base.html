@@ -173,14 +173,9 @@
 						<li><a href="{%url 'classes'%}"><i class="fa fa-book"></i></a></li>
 						<li><a href="{%url 'calendar'%}"><i class="fa fa-calendar"></i></a></li>
 					</ul>
-					<form class="navbar-form navbar-left" role="search">
-						<!-- <div class="input-group"> -->
-  			
+					<!-- <form class="navbar-form navbar-left" role="search">  			
 			<input id="mchp-search" class="form-control typeahead" placeholder="Search for a course" type="text" data-provide="typeahead">
-			<!-- <span class="input-group-addon"><i class="fa fa-search"></i></span> -->
-		<!-- </div> -->
-						<!-- <button type="submit" class="btn btn-default">Submit</button> -->
-					</form>
+					</form> -->
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points">{{student.total_points}}</span> <i class="fa fa-dot-circle-o"></i></a></li>
 
@@ -225,8 +220,8 @@
 							{% endif %}
 							<li><a href="{% url 'my_profile' %}">My Page</a></li>
 							<li class="divider"></li>
-							<li><a href="{% url 'course_create'%}">Create class</a></li>
-							<li><a href="{% url 'course_add'%}">Add class</a></li>
+							<!-- <li><a href="{% url 'course_create'%}">Create class</a></li> -->
+							<li><a href="{% url 'course_add'%}">My Schedule</a></li>
 							<li class="divider"></li>
 							<li><a href="{% url 'document_upload'%}">Upload Document</a></li>
 							<li><a href="{% url 'document_list'%}">My Documents</a></li>
