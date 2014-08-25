@@ -141,7 +141,7 @@ var addRss = function(section, rss, name) {
 	var $content = $item.find('.news-content');
 	$item.find('.news-headline').html(rss.title);
 	$item.find('.news-headline').attr('href', rss.link);
-	$content.text(rss.description.substring(0,200));
+	$content.text(rss.description.substr(0,200));
 	$item.find('.news-time').text(time.fromNow());
 	$item.find('.news-name').text(name);
 	section.append($item);
