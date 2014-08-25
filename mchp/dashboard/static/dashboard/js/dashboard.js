@@ -153,7 +153,6 @@ var addRss = function(section, rss, name) {
 	$item.find('.news-time').text(time.fromNow());
 	$item.find('.news-name').text(name);
 	section.append($item);
-	// remove some extra stuff some feeds seem to add
 };
 
 var processFeed = function(feed) {
