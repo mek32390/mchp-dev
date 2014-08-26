@@ -76,7 +76,7 @@ def add_document_upload(sender, **kwargs):
         'type': DASH_EVENTS.index('document add'),
         'document': upload.document,
         'course': upload.document.course,
-        'student': upload.student,
+        'student': upload.owner,
     }
     dash_item = DashEvent(**data)
     dash_item.save()

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>{% block head_title %}{% endblock %}</title>
-
+		 <link rel="shortcut icon" href="https://s3.amazonaws.com/mchp-dev/static/lib/img/favicon.ico" />
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css">
@@ -173,14 +173,9 @@
 						<li><a href="{%url 'classes'%}"><i class="fa fa-book"></i></a></li>
 						<li><a href="{%url 'calendar'%}"><i class="fa fa-calendar"></i></a></li>
 					</ul>
-					<form class="navbar-form navbar-left" role="search">
-						<!-- <div class="input-group"> -->
-  			
+					<!-- <form class="navbar-form navbar-left" role="search">  			
 			<input id="mchp-search" class="form-control typeahead" placeholder="Search for a course" type="text" data-provide="typeahead">
-			<!-- <span class="input-group-addon"><i class="fa fa-search"></i></span> -->
-		<!-- </div> -->
-						<!-- <button type="submit" class="btn btn-default">Submit</button> -->
-					</form>
+					</form> -->
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points">{{student.total_points}}</span> <i class="fa fa-dot-circle-o"></i></a></li>
 

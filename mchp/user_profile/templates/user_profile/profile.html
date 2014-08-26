@@ -119,15 +119,15 @@
 					{% for document in upload_list %}
 						<div class="col-sm-3 col-centered">
 						    <div class="list-group-item" id="document_{{document.pk}}" style="margin-bottom:20px;">
-						    	<div class="img-thumbnail" style="width:75px;">
+						    	<div class="img-thumbnail" style="width:100%;">
 									<a href="{% url 'document_list' %}
 									{{ document.uuid}}/
 									{{ document.slug}} ">
 
 									{% if document.preview %}
-									<img src="{{document.preview.url}}" style="">
+									<img src="{{document.preview.url}}" width="100%">
 									{% else %}
-									<img src="{% static 'documents/img/loading_file.svg' %}" style="">
+									<img src="{% static 'documents/img/loading_file.svg' %}" width="100%">
 									{% endif %}
 									</a>
 								</div>
