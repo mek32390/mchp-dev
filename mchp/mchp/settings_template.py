@@ -148,9 +148,17 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOGIN_REDIRECT_URL = '/dashboard/'
 SOCIALACCOUNT_QUERY_EMAIL = True
+
+# email
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'AKIAILBSJCVZ2FI3ZF7A'
+EMAIL_HOST_PASSWORD = 'AkC6J6wQL474JQ2KRnPj3Yrbk1TgMOsb4m/wJoaMnx8P'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'contact@mycollegehomepage.com'
 
 # Add this depending on the id of the site
 #SITE_ID = 2
@@ -229,7 +237,6 @@ LOGGING = {
         },
     },
 }
-
 # site related pricing stuff
 MCHP_PRICING = {
     # percent out of 100

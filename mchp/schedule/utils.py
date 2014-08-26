@@ -14,53 +14,50 @@ def add_timezones():
     import os
     import json
     from time import sleep
+    import time
     google_base_url = 'https://maps.googleapis.com/maps/api/'
-    url = google_base_url + 'geocode/json'
     key = os.getenv('GOOGLE_API_KEY', '')
-    index = 1306
-    stop = 2000
+    index = 2586
+    stop = 4000
     schools = schedule.models.School.objects.all().order_by('name')[index:stop]
     for school in schools:
-        continue
-        if school.zip_code:
+        index = index+1
+        if not school.zip_code:
+            url = google_base_url + 'geocode/json'
+            sleep(.3)
+            print(str(index) + '. ' + school.name)
+            address = school.address + " " + school.city + " " + school.state
+            params = {
+                'key': key,
+                'address': address,
+            }
+            response = requests.get(url, params=params)
+            info = json.loads(response.content.decode('utf-8'))
+            if info['status'] != "OK":
+                print(info['status'])
+                continue
+            else:
+                results = info['results']
+            for result in results:
+                loc = result['geometry']['location']
+                lat = loc['lat']
+                lng = loc['lng']
+                school.lat = lat
+                school.lng = lng
+                print(lat)
+                print(lng)
+                for component in result['address_components']:
+                    if component['types'] and component['types'][0] == 'postal_code':
+                        zip_code = component['long_name']
+                        school.zip_code = zip_code
+                        print(zip_code)
+                print('\n')
+            school.save()
+
+        url = google_base_url + 'timezone/json'
+        if not school.lat or school.timezone:
             continue
         sleep(.3)
-        index = index+1
-        print(str(index) + '. ' + school.name)
-        address = school.address + " " + school.city + " " + school.state
-        params = {
-            'key': key,
-            'address': address,
-        }
-        response = requests.get(url, params=params)
-        info = json.loads(response.content.decode('utf-8'))
-        if info['status'] != "OK":
-            print(info['status'])
-            continue
-        else:
-            results = info['results']
-        for result in results:
-            loc = result['geometry']['location']
-            lat = loc['lat']
-            lng = loc['lng']
-            school.lat = lat
-            school.lng = lng
-            print(lat)
-            print(lng)
-            for component in result['address_components']:
-                if component['types'] and component['types'][0] == 'postal_code':
-                    zip_code = component['long_name']
-                    school.zip_code = zip_code
-                    print(zip_code)
-            print('\n')
-        school.save()
-    url = google_base_url + 'timezone/json'
-    import time
-    for school in schools:
-        if not school.lat:
-            continue
-        sleep(.3)
-        index = index+1
         print(str(index) + '. ' + school.name)
         params = {
             'key': key,
