@@ -33,18 +33,27 @@ class DocumentUploadForm(ModelForm):
             # dict(x.items() | y.items()) combines the _base attrs with 
             # any class specific attrs, like the placeholder
             'title': TextInput(attrs=dict({
-                'placeholder': 'Document Title'
+                'placeholder': 'ex: Exam 1 Study Guide',
+                'data-toggle':'tooltip',
+                'data-placement':'right',
+                'data-original-title':'Document title only. Please don\'t include the name of the class'
             }.items() | input_attr.items())),
 
             'description': TextInput(attrs=dict({
-                'placeholder':'Short description of file'
+                'placeholder':'Short description of this file',
+                'data-toggle':'tooltip',
+                'data-placement':'right',
+                'data-original-title':'What you say here will help convince your classmates to buy this'
             }.items() | input_attr.items())),
 
             'price': TextInput(attrs=dict({
-                'placeholder':'ex: 500'
+                'placeholder':'type a price in points, ex: 400',
+                'data-toggle':'tooltip',
+                'data-placement':'right',
+                'data-original-title':'The average document sells for 400 points. Type a number!'
             }.items() | input_attr.items())),
             'course': TextInput(attrs=dict({
-                'placeholder':'ex: csc 245',
+                'placeholder':'type a course code and number: CSC 245',
                 'autocomplete': 'off',
                 'data-toggle': 'dropdown',
                 'class': 'form-control input-lg dropdown-toggle'
