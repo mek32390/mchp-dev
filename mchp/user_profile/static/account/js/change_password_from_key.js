@@ -6,7 +6,7 @@ $(function() {
 
 	// change placeholder text on form inputs
 	$('#id_password1').attr('placeholder','New Password')
-	$('#id_password2').attr('placeholder','Repeat New Password')
+	$('#id_password2').attr('placeholder','Repeat it please')
 
 
 	// style error message to BS Validator
