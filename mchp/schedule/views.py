@@ -153,6 +153,7 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
             'dept', 'course_number', 'professor'
         )
         # user performed a search
+        results = []
         if 'q' in request.GET:
             show_results = True
             query = request.GET['q']
