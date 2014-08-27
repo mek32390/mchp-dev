@@ -164,7 +164,9 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
                 pk__in=enrolled_courses
             ).order_by(
                 'dept', 'course_number', 'professor'
-            ).annotate(student_count = Count('student'))
+            ).annotate(
+                student_count = Count('enrollment__student'),
+            )
 
         data = {
             'query': query,
