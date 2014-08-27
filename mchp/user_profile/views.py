@@ -58,7 +58,8 @@ class ProfileView(DetailView):
         ).order_by('create_date')[:10]
         context['upload_list'] = docs
         cals = ClassCalendar.objects.filter(
-            owner = self.object
+            owner = self.object,
+            private=False,
         ).select_related()
         context['calendars'] = cals
         
