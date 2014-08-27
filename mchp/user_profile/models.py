@@ -186,7 +186,7 @@ class OneTimeFlag(models.Model):
     objects = managers.OneTimeFlagManager()
 
     def __str__(self):
-        return "Seen Event #{}: {}".format(self.event.pk, self.event.name)
+        return "{} has seen Event #{}: {}".format(self.student.user.username, self.event.pk, self.event.name)
 
 class UserRole(models.Model):
     user = models.OneToOneField(User, related_name='user_roles')
