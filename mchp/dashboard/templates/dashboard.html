@@ -145,9 +145,15 @@
           </p>
         </div>
         {% empty %}
-        <div class="list-group-item">
-          You've got nothing. Woop!
-        </div>
+				{% if events_possible %}
+				<div class="list-group-item">
+					You've got nothing. Woop!
+				</div>
+				{% else %}
+				<div class="list-group-item">
+					Hey, you'll need to create or subscribe to a calendar to see what's going on today
+				</div>
+				{% endif %}
         {% endfor %}
       </div>
       <div class="row">

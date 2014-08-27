@@ -13,7 +13,7 @@ from lib.decorators import school_required
 from schedule.models import SchoolQuicklink, SchoolAlias
 # from user_profile.models import Enrollment
 # from documents.models import Document
-from calendar_mchp.models import CalendarEvent, ClassCalendar
+from calendar_mchp.models import CalendarEvent, ClassCalendar, Subscription
 from dashboard.models import RSSSetting, Weather, DashEvent, RSSType, RSSLink
 from dashboard.utils import DASH_EVENTS
 from referral.models import ReferralCode
@@ -99,12 +99,20 @@ class DashboardView(View):
         else:
             classmates = []
 
+        # check if they have cals or subscriptions
+        events_possible = ClassCalendar.objects.filter(
+            owner=self.student,
+        ).exists() or Subscription.objects.filter(
+            student=self.student,
+        ).exists()
+
         data = {
             'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
             'referral_info': ref,
             'school_links': s_links,
             'events': events[:5],
             'event_count': events.count(),
+            'events_possible': events_possible,
             'rss_types': rss_types,
             'school': school,
             'weather': weather,
