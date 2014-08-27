@@ -10,7 +10,7 @@ from django.views.generic import View
 
 from lib.decorators import school_required
 # from lib import utils
-from schedule.models import SchoolQuicklink
+from schedule.models import SchoolQuicklink, SchoolAlias
 # from user_profile.models import Enrollment
 # from documents.models import Document
 from calendar_mchp.models import CalendarEvent, ClassCalendar
@@ -55,6 +55,13 @@ class DashboardView(View):
 
         # school 
         school = self.student.school
+        alias = SchoolAlias.objects.filter(
+            domain=school
+        )
+        if alias.exists():
+            setattr(school, 'alias', alias[0].alias)
+        else:
+            setattr(school, 'alias', school.name)
 
         # weather
         # the weather must be stored for 30 minutes before making another request i think this is a
@@ -118,7 +125,6 @@ class DashboardView(View):
             # remove this course and try again
             del courses[index]
             return self._get_classmate(courses)
-        print(person)
         return person
 
     def post(self, request, *args, **kwargs):
