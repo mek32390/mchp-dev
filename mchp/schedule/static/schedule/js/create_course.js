@@ -1,10 +1,4 @@
 $(document).ready( function() {
-    // show college select form when clicked
-    $('.show-college').on('click', function () {
-        $('.display-college').fadeOut(250, function () {
-            $('#college_select').fadeIn(500);
-        });
-    });
 
     // Create Class Form Validation
 	$('#course_create').bootstrapValidator({

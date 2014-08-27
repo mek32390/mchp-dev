@@ -14,9 +14,9 @@
 			<div class="col-sm-6 col-sm-offset-3">
 				<h3 class="text-center lead">Do you attend...</h3>
 				<h2 class="text-center college_name">{{guess_school.name}}</h2>
-				<img class="media-object img-responsive center-block" style="" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building.svg" alt="college">
+				<img class="center-block img-responsive" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building-with-flag.svg" alt="Choose School">
 				<h4 class="text-center">
-					<p><small>Our MCHP wizard determined that you go to "{{guess_school.name}}"</small></p>
+					<p><small>Our mchp wizard determined that you go to "{{guess_school.name}}"</small></p>
 				</h4>
 				<hr>
 				<form class="form-signin" role="form" id='college_form' method="post" action="{% url 'confirm_school' %}">
@@ -28,7 +28,7 @@
 					<button class="btn btn-lg btn-primary btn-block  acct-form" type="submit"><i class="fa fa-check-square-o"></i> Yes, I do!</button>
 				</form>
 				<p></p>
-				<button id="nope" class="btn btn-danger btn-block acct-form" > Nope!</button>
+				<button id="nope" class="btn btn-danger btn-block acct-form" > Nope</button>
 			</div>
 		</div>
 	</div>
@@ -36,14 +36,14 @@
 	<div id="school-list">
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<h4 class="text-center lead">We couldn't find your college!</h4>
-				<p class="text-center">Choose your college from the list below.</p>
+				<h4 class="text-center lead">We couldn't find your school!</h4>
+				<p class="text-center">Choose your school from the list below.</p>
 				<form class="form-signin" role="form" id='college-form2' method="post" action="{% url 'confirm_school' %}">
 					{% csrf_token %}
 					<div class="input-group input-group-lg">
-						<span class='input-group-addon'>School</span>
+						<span class='input-group-addon'><i class="fa fa-university"></i></span>
 						<select name="school" class="form-control course-select">
-							<option class="default" value="-1" selected>Choose your school</option>
+							<option class="default" value="-1" selected>Type to search for your school</option>
 							{% for school in schools %}
 							<option class="school" value="{{school.pk}}">{{school.name}}</option>
 							{% endfor %}
@@ -52,7 +52,7 @@
 					<br>
 					<p>
 						<button id="join-college" class="btn btn-lg btn-primary btn-block
-							btn-md" disabled type="submit"><i class="fa fa-check-square-o"></i> Join College</button>
+							btn-md" disabled type="submit"><i class="fa fa-check-square-o"></i> Join School</button>
 					</p>
 				</form>
 			</div>
