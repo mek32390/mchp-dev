@@ -19,12 +19,14 @@
 			<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
 			<p class="text-center"><small>{{user.username}}</small></p>
 			<div class="well">
+				{% if not user.socialaccount_set.all.0 %}
 				{% include "socialaccount/snippets/login_extra.html" %}
 				<a href="{% provider_login_url "facebook" process="connect" %}">
 					<button class="btn btn-facebook btn-block btn-sm">
 						Connect with Facebook
 					</button>
 				</a>
+				{% endif %}
 				<p>
 					<ul class="list-group">
 						<li class="list-group-item"> 
