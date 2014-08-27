@@ -121,7 +121,7 @@ class Enrollment(models.Model):
         super(Enrollment, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "joined {} on {}".format(self.course.display, self.join_date)
+        return "joined {} on {}".format(self.course.display(), self.join_date)
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')

@@ -32,7 +32,9 @@ def add_class_join(sender, **kwargs):
     enroll = kwargs['enroll']
 
     # first, send the fact that they joined to everyone already enrolled
-    followers = enroll.course.student_set.all()
+    followers = enroll.course.student_set.exclude(
+        pk=enroll.student.pk
+    )
     data = {
         'type': DASH_EVENTS.index('other class join'),
         'course': enroll.course,
