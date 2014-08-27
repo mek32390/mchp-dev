@@ -31,7 +31,7 @@
 			<form method="post" action="{% url "edit_pic" %}" id="pic-form">
 				{% csrf_token %}
 				<div class="btn-file">
-					<span class=""><i class="fa fa-camera"></i> Update <input name="pic" id="pic-input" type="file">
+					<span class=""><small><i class="fa fa-camera"></i> Update </small><input name="pic" id="pic-input" type="file">
 					</span>
 				</div>
 			</form>
