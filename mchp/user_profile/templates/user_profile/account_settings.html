@@ -18,7 +18,12 @@
 			<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
 			<p class="text-center"><small>{{user.username}}</small></p>
 			<div class="well">
-				<button class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook"></i> Connect with Facebook</button>
+				<a title="Facebook" class="socialaccount_provider facebook" 
+					href="javascript:allauth.facebook.login('', 'authenticate',
+					'login')">
+					<button class="btn btn-facebook btn-block btn-sm">
+						Use Facebook
+				</button></a>
 				{% include "socialaccount/snippets/login_extra.html" %}
 				<p>
 					<ul class="list-group">
