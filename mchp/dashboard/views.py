@@ -10,10 +10,10 @@ from django.views.generic import View
 
 from lib.decorators import school_required
 # from lib import utils
-from schedule.models import SchoolQuicklink
+from schedule.models import SchoolQuicklink, SchoolAlias
 # from user_profile.models import Enrollment
 # from documents.models import Document
-from calendar_mchp.models import CalendarEvent, ClassCalendar
+from calendar_mchp.models import CalendarEvent, ClassCalendar, Subscription
 from dashboard.models import RSSSetting, Weather, DashEvent, RSSType, RSSLink
 from dashboard.utils import DASH_EVENTS
 from referral.models import ReferralCode
@@ -32,7 +32,7 @@ class DashboardView(View):
     def get(self, request, *args, **kwargs):
         s_links = SchoolQuicklink.objects.filter(
             domain=self.student.school
-        )
+        ).order_by('id')
 
         events = CalendarEvent.objects.filter(
             Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student))
@@ -55,6 +55,13 @@ class DashboardView(View):
 
         # school 
         school = self.student.school
+        alias = SchoolAlias.objects.filter(
+            domain=school
+        )
+        if alias.exists():
+            setattr(school, 'alias', alias[0].alias)
+        else:
+            setattr(school, 'alias', school.name)
 
         # weather
         # the weather must be stored for 30 minutes before making another request i think this is a
@@ -64,8 +71,9 @@ class DashboardView(View):
             fetch__gte=timezone.now() + timedelta(minutes=-30),
         )
         if saved_weather.exists():
-            weather = saved_weather[0].info
-        else:
+            weather = saved_weather[0]
+            weather = weather.info if weather.info else None
+        elif school.zip_code:
             saved_weather, created = Weather.objects.get_or_create(zipcode=school.zip_code)
             weather_info = pywapi.get_weather_from_weather_com(school.zip_code, units='imperial')
             weather_info = weather_info['current_conditions']
@@ -73,6 +81,8 @@ class DashboardView(View):
 
             saved_weather.info = json.dumps(weather_info)
             saved_weather.save()
+        else: 
+            weather = None
 
         date_format = "%Y-%m-%dT%H:%M:%S%z" 
         time = timezone.localtime(timezone.now(),
@@ -89,12 +99,20 @@ class DashboardView(View):
         else:
             classmates = []
 
+        # check if they have cals or subscriptions
+        events_possible = ClassCalendar.objects.filter(
+            owner=self.student,
+        ).exists() or Subscription.objects.filter(
+            student=self.student,
+        ).exists()
+
         data = {
             'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
             'referral_info': ref,
             'school_links': s_links,
             'events': events[:5],
             'event_count': events.count(),
+            'events_possible': events_possible,
             'rss_types': rss_types,
             'school': school,
             'weather': weather,
@@ -115,7 +133,6 @@ class DashboardView(View):
             # remove this course and try again
             del courses[index]
             return self._get_classmate(courses)
-        print(person)
         return person
 
     def post(self, request, *args, **kwargs):

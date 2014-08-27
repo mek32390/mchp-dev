@@ -2,6 +2,9 @@ import pytz
 
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 
 class TimezoneMiddleware(object):
     # activate the current time zone for the student according to their school time zone
@@ -23,3 +26,25 @@ class CustomMessageMiddleware(object):
             mes.append(message)
         setattr(request, 'rails_messages', mes)
         # storage.used = False
+
+class UserMigrationMiddleware(object):
+
+    def process_request(self, request):
+        # first try their session (when they enter on the landing page)
+        email = request.session.get('initial_email', None)
+        # then try to see if this was a login attempt
+        if not email:
+            email = request.POST.get('login', None)
+        # no use in doing queries with None
+        if not email:
+            return 
+        # try to match w/ users who exist from old site
+        user = User.objects.filter(
+            password ='blank',
+            email=email,
+        )
+        # force old users to make a new password
+        if user.exists():
+            request.session['migration'] = True 
+            request.session.pop('initial_email', None)
+            return redirect(reverse('account_reset_password'))

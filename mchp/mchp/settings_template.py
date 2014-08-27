@@ -48,7 +48,6 @@ INSTALLED_APPS = (
     'schedule',
     'payment',
 
-    'haystack',
     'storages',
     'stored_messages',
 
@@ -64,6 +63,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'lib.middleware.UserMigrationMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -166,15 +166,6 @@ DEFAULT_FROM_EMAIL = 'contact@mycollegehomepage.com'
 # import from allauth_settings.py
 from mchp.allauth_settings import *
 
-# Search 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
-    },
-}
-
 # 
 # Stripe
 #
@@ -217,24 +208,12 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        # don't show haystack
-        'requests.packages.urllib3.connectionpool': {
-            'handlers': ['null'],  # Quiet by default!
-            'propagate': False,
-            'level':'DEBUG',
-        },
-        # don't show elasticsearch 
-        'pyelasticsearch': {
-            'handlers': ['null'],  # Quiet by default!
-            'propagate': False,
-            'level':'DEBUG',
-        },
-        # don't show all those sql statements
-        'django.db.backends': {
-            'handlers': ['null'],  # Quiet by default!
-            'propagate': False,
-            'level':'DEBUG',
-        },
+        # # don't show all those sql statements
+        # 'django.db.backends': {
+        #     'handlers': ['null'],  # Quiet by default!
+        #     'propagate': False,
+        #     'level':'DEBUG',
+        # },
     },
 }
 # site related pricing stuff

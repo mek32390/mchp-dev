@@ -83,7 +83,7 @@ $(function(){
 		});
 		fetchRss();
 		if ($('.news-list-item:visible').length === 0) {
-			$('.news-list-empty').toggleClass('hidden');
+			$('.news-list-empty').removeClass('hidden');
 		}
 	});
 
@@ -98,7 +98,7 @@ $(function(){
 
 var fetchRss = function() {
 	if ($('.news-list-item:visible').length !== 0) {
-		$('.news-list-empty').toggleClass('hidden');
+		$('.news-list-empty').addClass('hidden');
 	}
 	
 	var $sections = $('.news-group');

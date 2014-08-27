@@ -18,6 +18,11 @@ class StudentManager(models.Manager):
         roles = user_profile.models.UserRole(user=user)
         roles.save()
 
+        # set username for social users
+        if user.first_name:
+            user.username = user.first_name + user.last_name
+            user.save()
+
         # set default rss settings
         dashboard.models.RSSSetting.objects.restore_default_settings(student)
         return student

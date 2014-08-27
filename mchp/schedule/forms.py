@@ -3,8 +3,6 @@ from django.forms import ModelForm,TextInput
 from schedule.models import Course
 from user_profile.models import Student
 
-from haystack.forms import SearchForm
-
 '''
 entry point for this file, most forms come from a model, so using modelform makes sense. They all
 get stypled in order to allow the front bootstrap stuff to work
@@ -97,9 +95,3 @@ class CourseChangeForm(_BaseCourseForm):
     class Meta:
         model = Student 
         fields = ['courses']
-
-# search form
-class CourseSearchForm(SearchForm):
-
-    def no_query_found(self):
-        pass
