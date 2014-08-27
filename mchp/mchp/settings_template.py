@@ -216,7 +216,6 @@ LOGGING = {
         # },
     },
 }
-DEFAULT_HTTP_PROTOCOL = "https"
 # site related pricing stuff
 MCHP_PRICING = {
     # percent out of 100
