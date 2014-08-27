@@ -11,6 +11,7 @@
 
 {% block body %}
 {% load referral %}
+{% load socialaccount %}
 <div class='container'>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
@@ -18,13 +19,11 @@
 			<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
 			<p class="text-center"><small>{{user.username}}</small></p>
 			<div class="well">
-				<a title="Facebook" class="socialaccount_provider facebook" 
-					href="javascript:allauth.facebook.login('', 'authenticate',
-					'login')">
+				<a href="{% provider_login_url "facebook" process="connect" %}">
 					<button class="btn btn-facebook btn-block btn-sm">
-						Use Facebook
-				</button></a>
-				{% include "socialaccount/snippets/login_extra.html" %}
+						Connect with Facebook
+					</button>
+				</a>
 				<p>
 					<ul class="list-group">
 						<li class="list-group-item"> 
