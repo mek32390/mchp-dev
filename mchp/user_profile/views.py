@@ -132,6 +132,9 @@ class ConfirmSchoolView(View):
     template_name = 'user_profile/school.html'
 
     def get(self, request, *args, **kwargs):
+        # clear out the migration session info
+        request.session.pop('migration', None)
+
         all_schools = School.objects.all().values('name', 'domain', 'pk').order_by('name')
         next = request.GET.get('next', '')
         email = request.user.email.split('@')[1]

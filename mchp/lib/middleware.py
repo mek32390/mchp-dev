@@ -35,6 +35,9 @@ class UserMigrationMiddleware(object):
         # then try to see if this was a login attempt
         if not email:
             email = request.POST.get('login', None)
+        # no use in doing queries with None
+        if not email:
+            return 
         # try to match w/ users who exist from old site
         user = User.objects.filter(
             password ='blank',
@@ -42,5 +45,6 @@ class UserMigrationMiddleware(object):
         )
         # force old users to make a new password
         if user.exists():
+            request.session['migration'] = True 
             request.session.pop('initial_email', None)
             return redirect(reverse('account_reset_password'))
