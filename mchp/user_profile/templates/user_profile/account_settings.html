@@ -18,7 +18,8 @@
 			<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
 			<p class="text-center"><small>{{user.username}}</small></p>
 			<div class="well">
-				<a href="/login/facebook" class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook"></i> Connect with Facebook</a>
+				<button class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook"></i> Connect with Facebook</button>
+				{% include "socialaccount/snippets/login_extra.html" %}
 				<p>
 					<ul class="list-group">
 						<li class="list-group-item"> 
