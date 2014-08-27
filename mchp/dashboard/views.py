@@ -64,8 +64,9 @@ class DashboardView(View):
             fetch__gte=timezone.now() + timedelta(minutes=-30),
         )
         if saved_weather.exists():
-            weather = saved_weather[0].info
-        else:
+            weather = saved_weather[0]
+            weather = weather.info if weather.info else None
+        elif school.zip_code:
             saved_weather, created = Weather.objects.get_or_create(zipcode=school.zip_code)
             weather_info = pywapi.get_weather_from_weather_com(school.zip_code, units='imperial')
             weather_info = weather_info['current_conditions']
@@ -73,6 +74,8 @@ class DashboardView(View):
 
             saved_weather.info = json.dumps(weather_info)
             saved_weather.save()
+        else: 
+            weather = None
 
         date_format = "%Y-%m-%dT%H:%M:%S%z" 
         time = timezone.localtime(timezone.now(),
