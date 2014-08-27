@@ -3,7 +3,7 @@
 {% block head_title %}{{ document.title }}{% endblock %}
 
 {% block extra_head %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'documents/css/view.css' %}">
@@ -61,9 +61,8 @@
 			<div class="media-body">
 				<h4 class="media-heading">Share this and get <strong>500</strong> points back immediately!</h4>
 				Each time you click the <a href="#" class="btnShare btn btn-facebook btn-xs fb-share-button">
-				<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button data-clipboard-text="#" 
-				id="copy-button" class="btn btn-warning btn-xs"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
-				<span class="copy-message"></span> buttons below, we'll reward both you and your friend <strong>500 points</strong> each if they sign up with us through your link. Remember, the same rules apply when you share your unique referall code and referall link found on your account page. Happy studying, sharing, and earning!<strong>- mchp</strong>
+				<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button class="btn btn-warning btn-xs"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+				buttons below, we'll reward both you and your friend <strong>500 points</strong> each if they sign up with us through your link. Remember, the same rules apply when you share your unique referall code and referall link found on your account page. Happy studying, sharing, and earning!<strong>- mchp</strong>
 			</div>
 		</div>
 	</div><!-- end alert -->
