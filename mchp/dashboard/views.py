@@ -32,7 +32,7 @@ class DashboardView(View):
     def get(self, request, *args, **kwargs):
         s_links = SchoolQuicklink.objects.filter(
             domain=self.student.school
-        )
+        ).order_by('id')
 
         events = CalendarEvent.objects.filter(
             Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student))
