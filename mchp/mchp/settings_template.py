@@ -69,6 +69,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'referral.middleware.ReferralMiddleware',
     'lib.middleware.TimezoneMiddleware',
+    'lib.middleware.CustomMessageMiddleware',
 )
 
 from django.contrib.messages import constants as message_constants
@@ -125,6 +126,7 @@ STATICFILES_STORAGE = 'documents.s3utils.StaticS3Storage'
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '//{}.s3.amazonaws.com/static/'.format(AWS_STORAGE_BUCKET_NAME)
+# STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
 MEDIA_URL =  '//{}.s3.amazonaws.com/media/'.format(AWS_STORAGE_BUCKET_NAME)
@@ -146,9 +148,17 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOGIN_REDIRECT_URL = '/dashboard/'
 SOCIALACCOUNT_QUERY_EMAIL = True
+
+# email
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'AKIAILBSJCVZ2FI3ZF7A'
+EMAIL_HOST_PASSWORD = 'AkC6J6wQL474JQ2KRnPj3Yrbk1TgMOsb4m/wJoaMnx8P'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'contact@mycollegehomepage.com'
 
 # Add this depending on the id of the site
 #SITE_ID = 2
@@ -181,7 +191,7 @@ from datetime import timedelta
 CELERYBEAT_SCHEDULE = {
     'collect-subscriptions': {
         'task': 'calendar_mchp.tasks.bill_collector',
-        'schedule': timedelta(seconds=5),
+        'schedule': timedelta(hours=12),
     },
 }
 CELERY_TIMEZONE = 'UTC'
@@ -227,7 +237,6 @@ LOGGING = {
         },
     },
 }
-
 # site related pricing stuff
 MCHP_PRICING = {
     # percent out of 100

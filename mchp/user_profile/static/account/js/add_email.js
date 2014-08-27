@@ -17,7 +17,7 @@ $(function() {
 	$("#id_email").wrap( $( "<div class='form-group'><div class='input-group input-group-lg'></div></div>" ) );
 	$("#id_email").before( "<span class='input-group-addon'><i class='fa fa-envelope fa-fw'></i></span>" );
 	$("#id_email").addClass("form-control");
-	$('#id_email').attr('placeholder','Enter .edu e-mail');
+	$('#id_email').attr('placeholder','Enter .EDU e-mail');
 
     // BS Validator 
     $('.add_email').bootstrapValidator({

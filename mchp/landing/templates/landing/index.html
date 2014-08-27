@@ -4,75 +4,75 @@
 {% block head_title %}mycollegehomepage.com | mchp{% endblock %}
 
 {% block extra_head %}
-    {% load staticfiles %}
-        <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
-        <script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
-        <link rel="stylesheet" type="text/css" href="{% static 'landing/css/landing.css' %}">
-        <script src="{% static 'landing/js/landing.js' %}"></script>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
+<script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'landing/css/landing.css' %}">
+<script src="{% static 'landing/js/landing.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-    {% block content %}
-        <!-- Start Navigation -->
+{% block content %}
+<!-- Start Navigation -->
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">mchp</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/accounts/login">Login</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">mchp</a>
+</div>
+<div class="navbar-collapse collapse">
+  <ul class="nav navbar-nav navbar-right">
+    <li><a href="/accounts/login">Login</a></li>
+</ul>
+</div><!--/.nav-collapse -->
+</div>
 </div>
 <!-- End Navigation -->
 <div class="container text-center">
-     <h1>mycollegehomepage</h1>
-    <p class="lead">Welcome! This semester will be fun... let's get started shall we??</p>
-    <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-          <hr style="margin-top: 0px;">
-                    <!-- ug what why is there two forms -->
-                    <form id="emailForm" method="post" action="{% url 'get_email' %}">
-                            {% csrf_token %}
-            <div class="form-group">
-                <div class="input-group">
-                    <input type="email" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
-                    <span class="input-group-btn">
-                        <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
-                    </span>
-                </div>
+   <h1>mycollegehomepage</h1>
+   <p class="lead">Welcome! This semester will be fun... let's get started shall we??</p>
+   <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <hr style="margin-top: 0px;">
+      <!-- ug what why is there two forms -->
+      <form id="emailForm" method="post" action="{% url 'get_email' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="input-group">
+                <input type="email" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
+                <span class="input-group-btn">
+                    <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
+                </span>
             </div>
-            </form>
         </div>
-    </div>
-    <br></br>
-    <div class="row text-center">
-        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-            <div class="flipper">
-                <div class="front">
-                    <div id="ballWrapper" class="">
-                        <div id="ball" class="floating border-warning">
-                            <img class="landing-icon" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/bag.svg" alt="backpack" width="75">
-                        </div>
-                        <!--<div id="ballShadow"></div>--></div>
+    </form>
+</div>
+</div>
+<br></br>
+<div class="row text-center">
+    <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper">
+            <div class="front">
+                <div id="ballWrapper" class="">
+                    <div id="ball" class="floating border-warning">
+                        <img class="landing-icon" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/bag.svg" alt="backpack" height="70">
+                    </div>
+                    <!--<div id="ballShadow"></div>--></div>
                 </div>
                 <div class="back">
                     <div class="panel panel-warning">
                         <div class="panel-heading">
-                             <h3 class="panel-title">Your Life</h3>
+                           <h3 class="panel-title">Your Life</h3>
 
-                        </div>
-                        <div class="panel-body">
-                            <p class="text-center"><i class="fa fa-check fa-3x text-warning"></i> 
-                            </p>We're like a virtual backpack. We've put everything you need, all in one place.</div>
+                       </div>
+                       <div class="panel-body">
+                        <p class="text-center"><i class="fa fa-check fa-3x text-warning"></i> 
+                        </p>We're like a virtual backpack. We've put everything you need, all in one place.</div>
                     </div>
                 </div>
             </div>
@@ -82,93 +82,92 @@
                 <div class="front">
                     <div id="ballWrapper" class="">
                         <div id="ball" class="floating border-success">
-                            <img class="landing-icon" src="http://new.mycollegehomepage.com/images/svg/money.svg" alt="money" width="95" style="top:28px;">
+                            <img class="landing-icon" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="money" height="80" style="top:35px;">
                         </div>
                         <!--<div id="ballShadow"></div>--></div>
-                </div>
-                <div class="back">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                             <h3 class="panel-title">Your Earnings</h3>
+                    </div>
+                    <div class="back">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                               <h3 class="panel-title">Your Earnings</h3>
 
-                        </div>
-                        <div class="panel-body">
+                           </div>
+                           <div class="panel-body">
                             <p class="text-center"><i class="fa fa-money fa-3x text-success"></i> 
                             </p>Sell your Study Guides, create Calendars for your classmates to subscribe to, and get paid.</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-            <div class="flipper">
-                <div class="front">
-                    <div id="ballWrapper" class="">
-                        <div id="ball" class="floating border-danger">
-                            <img class="landing-icon" src="http://new.mycollegehomepage.com/images/svg/book.svg" alt="book" width="80">
+            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <div class="flipper">
+                    <div class="front">
+                        <div id="ballWrapper" class="">
+                            <div id="ball" class="floating border-danger">
+                                <img class="landing-icon" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="book" height="70">
+                            </div>
+                            <!--<div id="ballShadow"></div>--></div>
                         </div>
-                        <!--<div id="ballShadow"></div>--></div>
-                </div>
-                <div class="back">
-                    <div class="panel panel-danger">
-                        <div class="panel-heading">
-                             <h3 class="panel-title">Your Classes</h3>
+                        <div class="back">
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">
+                                   <h3 class="panel-title">Your Classes</h3>
 
+                               </div>
+                               <div class="panel-body">
+                                <p class="text-center"><i class="fa fa-book fa-3x text-danger"></i> 
+                                </p>View what's happening in your classes in a completely new way. Staying organized just got a whole lot easier.</div>
+                            </div>
                         </div>
-                        <div class="panel-body">
-                            <p class="text-center"><i class="fa fa-book fa-3x text-danger"></i> 
-                            </p>View what's happening in your classes in a completely new way. Staying organized just got a whole lot easier.</div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-            <div class="flipper">
-                <div class="front">
-                    <div id="ballWrapper" class="">
-                        <div id="ball" class="floating border-info">
-                            <img class="landing-icon" src="http://new.mycollegehomepage.com/images/svg/storage.svg" alt="documents" width="95">
-                        </div>
-                        <!--<div id="ballShadow"></div>--></div>
-                </div>
-                <div class="back">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                             <h3 class="panel-title">Your Docs</h3>
+                <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                    <div class="flipper">
+                        <div class="front">
+                            <div id="ballWrapper" class="">
+                                <div id="ball" class="floating border-info">
+                                    <img class="landing-icon" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/storage.svg" alt="documents" height="70">
+                                </div>
+                                <!--<div id="ballShadow"></div>--></div>
+                            </div>
+                            <div class="back">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                       <h3 class="panel-title">Your Docs</h3>
 
+                                   </div>
+                                   <div class="panel-body">
+                                    <p class="text-center"><i class="fa fa-file-text-o fa-3x text-info"></i> 
+                                    </p>View documents uploaded by others, or upload your own and sell them. Either way, we'll keep them organized for you. </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="panel-body">
-                            <p class="text-center"><i class="fa fa-file-text-o fa-3x text-info"></i> 
-                            </p>View documents uploaded by others, or upload your own and sell them. Either way, we'll keep them organized for you. </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-            <div class="flipper">
-                <div class="front">
-                    <div id="ballWrapper" class="animated">
-                        <div id="ball" class="floating border-default">
-                            <img class="landing-icon" src="http://new.mycollegehomepage.com/images/svg/calendar.svg" alt="money" width="80">
-                        </div>
-                        <!--<div id="ballShadow"></div>--></div>
-                </div>
-                <div class="back">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                             <h3 class="panel-title">Your Calendars</h3>
+                    <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                        <div class="flipper">
+                            <div class="front">
+                                <div id="ballWrapper" class="animated">
+                                    <div id="ball" class="floating border-default">
+                                        <img class="landing-icon" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calenda-default.svg" alt="calendar" height="70">
+                                    </div>
+                                    <!--<div id="ballShadow"></div>--></div>
+                                </div>
+                                <div class="back">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                           <h3 class="panel-title">Your Calendars</h3>
 
+                                       </div>
+                                       <div class="panel-body">
+                                        <p class="text-center"><i class="fa fa-calendar fa-3x text-default"></i> 
+                                        </p>Make private or public calendars, which your classmates can subscribe to for a monthly fee.</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="panel-body">
-                            <p class="text-center"><i class="fa fa-calendar fa-3x text-default"></i> 
-                            </p>Make private or public calendars, which your classmates can subscribe to for a monthly fee.</div>
                     </div>
+
+                    <div class="small text-default text-center" style="position:relative; margin: 0 auto;"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}">Privacy Policy</a></small> </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-<div class="small text-default text-center" style="position:relative; margin: 0 auto;"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}">Privacy Policy</a></small> </div>
-</div>
-    {% endblock %}
-{% endblock %}
-
+                {% endblock %}
+                {% endblock %}

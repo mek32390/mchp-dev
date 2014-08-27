@@ -8,18 +8,14 @@
 {% block extra_head %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
-<!-- this ruins tooltips -->
-<!-- <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script> -->
 
 {% load staticfiles %}
-<!-- // <script src="{% static 'dashboard/js/quicklinks.js' %}"></script> -->
 <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
 
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
-<!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
 <!-- <script src="{% static 'lib/js/animatescroll.min.js' %}"></script> -->
 
 
@@ -171,17 +167,17 @@
                 </div>
               </div>
             </div>
-						{% empty %}
-						<div class="list-group-item">
-							<div class="media-body">
-								<p class="margin-btm-none"><strong>Congrats on beating your classmates here.</strong> Did you know that for every person that signs up through <a href="{{request.get_host}}/?ref={{referral_info.referral_link}}"/>your link</a> or that enters your code, <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" data-toggle="modal">referral window</a>, you'll both get 500 points?</p>
-							</div>
-						</div>
-						{% endfor %}
-					</div>
-				</div>
-			</div>
-		</div><!-- End Today Col -->
+            {% empty %}
+            <div class="list-group-item">
+              <div class="media-body">
+                <p class="margin-btm-none"><strong>Congrats on beating your classmates here.</strong> Did you know that for every person that signs up through <a href="{{request.get_host}}/?ref={{referral_info.referral_link}}"/>your link</a> or that enters your code, <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" data-toggle="modal">referral window</a>, you'll both get 500 points?</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div><!-- End Today Col -->
 
     <div class="col-sm-4 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
       <h2>Pulse <small> feel the vibe</small></h2>
@@ -310,9 +306,9 @@
                   </a>
                 </li>
                 {% endfor %}
-								<li class="news-list-empty">
-									<a href="#">Get some stories by clicking those bars.</a>
-								</li>
+                <li class="news-list-empty">
+                  <a href="#">Get some stories by clicking those bars.</a>
+                </li>
               </ul>
             </span><!--end navbar header -->
           </nav> 
@@ -324,7 +320,7 @@
               </li>
               {% for link in rss.links %}
               <li class="list-group-item news-item news-item-proto hidden" data-link="{{link.url}}"
-								data-name="{{link.name}}" data-count="{{link.story_count}}"> 
+                data-name="{{link.name}}" data-count="{{link.story_count}}"> 
                 <a href="#" class="news-headline" target="_blank"></a>  
                 <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
                 <p class="small news-content"></p>

@@ -4,7 +4,7 @@
 {% for message in messages reversed%}
 <li class="list-group-item">
 	{{ message.message }}
-	<span class="pull-right">
+	<span class="pull-right small">
 		{{message.message.date|naturaltime}}
 	</span>
 </li>
