@@ -253,6 +253,10 @@
 					{% else %}
 					<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 						<div class="container">
+							<ul class="nav navbar-nav navbar-right">
+									<li><a href="{% url 'account_login' %}" target="_blank">Log In</a></li>
+									<li><a href="{% url 'account_signup' %}" target="_blank">Sign Up</a></li>
+								</ul>
 							<div class="navbar-header">
 								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 									<span class="sr-only">Toggle navigation</span>

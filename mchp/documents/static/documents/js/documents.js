@@ -9,7 +9,7 @@ $(function(){
 			// $('.copy-message').html("&#x2714; Link copied.");
 			$copy = $('#copy-button');
 			$copy.attr('class', 'btn-success btn');
-			$copy.text('Link copied');
+			$copy.html('<i class="fa fa-check-circle-o"></i> Copied! Spread the love!');
 		});
 	}
 	/* fb stuff */

@@ -5,7 +5,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
 
 {% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
 <script src="{% static 'documents/js/preview.js' %}"></script>
+<script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -60,9 +62,9 @@
 					data-title="{{document.title}}" 
 					data-desc="{{document.description}}" 
 					class="btnShare btn btn-facebook btn-xs fb-share-button">
-					<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button data-clipboard-text="{{request.get_host}}{{current_path | referral:referral_link }}" 
+					<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button 
 					class="btn btn-warning btn-xs"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
-				<span class="copy-message"></span> buttons, we'll reward you <strong>500 points</strong> for every person that signs up with us by clicking through your links. Remember, the same rules apply when you share your unique referall code and referall link. <strong>- mchp</strong>
+				 buttons, we'll reward you <strong>500 points</strong> for every person that signs up with us by clicking through your links. Remember, the same rules apply when you share your unique referall code and referall link. <strong>- mchp</strong>
 			</div>
 		</div>
 	</div><!-- end alert -->
@@ -78,7 +80,7 @@
 			<a href="{%url "course" document.course.pk%}{{document.course.name}}"><i class="fa fa-book">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
 		</li>
 		<li class="active">
-			<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{document.title}}</a>
+			<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-text-o"></i>&nbsp;{{document.title}}</a>
 		</li>
 	</ol>
 	<div class="well">
@@ -124,7 +126,7 @@
 						</form>
 						<button form="buy-form" class="btn btn-success">
 							{% if owns %}
-							<i class="fa fa-fw fa-shopping-cart"></i>View
+							<i class="fa fa-fw fa-eye"></i>View
 							{% else %}
 							<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
 							{% endif %}
