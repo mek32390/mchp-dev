@@ -160,7 +160,10 @@ class ConfirmSchoolView(View):
         school = request.POST.get('school', '')
         school = School.objects.get(pk=school)
         try:
-            request.user.student 
+            student = request.user.student 
+            student.school = school
+            student.save()
+            return redirect(reverse('dashboard'))
         except Student.DoesNotExist:
             Student.objects.create_student(request.user, school)
 
