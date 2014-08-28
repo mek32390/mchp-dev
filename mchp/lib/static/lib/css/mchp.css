@@ -127,6 +127,7 @@ body {
   top: 2px;
 }
 
+/* for points icon in nav */
 #purchasePointsMenu:hover #nav-chip-icon{
   fill: #333;
 }
