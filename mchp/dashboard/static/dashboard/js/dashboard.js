@@ -153,10 +153,10 @@ var addRss = function(section, rss, name) {
 	var description = doc.body.textContent;
 
 	if (description.length > 200) {
-		var $continueLink = $('<a>[...]</a>');
-		$continueLink.attr('href', rss.link);
+		var $continueText = $('<span>...</span>');
+		// $continueLink.attr('href', rss.link);
 		$content.text(description.substr(0,200).trim());
-		$content.append($continueLink);
+		$content.append($continueText);
 	} else {
 		$content.text(description);
 	}
