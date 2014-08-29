@@ -3,7 +3,7 @@
 {% block head_title %}{{calendar}} Calendar{% endblock %}
 
 {% block extra_head %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/calendar_preview.css' %}">
@@ -155,7 +155,7 @@
 								</a>
 								<div class="media-body">
 									<h4 class="media-heading">
-										<a href="#">{{owner.name}}</a> <small><!-- Level {{owner_level}} --></small>
+										<a href="{%url "profile" owner.pk %}">{{owner.name}}</a> <small><!-- Level {{owner_level}} --></small>
 									</h4>
 									{% with owner.subscribers as subscribers %}
 									<p><span class="label label-info">{{subscribers}} Calendar{{subscribers|pluralize}} sold</span> 
