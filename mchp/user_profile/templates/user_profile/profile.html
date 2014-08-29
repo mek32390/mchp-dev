@@ -43,7 +43,7 @@
 			{% ifequal viewer student %}
 			<span href="#" data-type="typeaheadjs" id="major" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"> {% if student.major %}{{student.major}}{% endif %}</span> &nbsp;
 			{% else %}
-			<span id="major-other"> {% if student.major %}{{student.major}}{% else %}No Major{% endif %}</span> &nbsp;
+			<span id="major-other"> {% if student.major %}{{student.major}}{% else %}Select your Major{% endif %}</span> &nbsp;
 			{% endifequal %}
 			<i class="fa fa-university fa-fw"></i><a href="{% url "school" student.school.pk %}">{{student.school.name}}</a>
 		</p>
