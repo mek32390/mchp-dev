@@ -199,7 +199,7 @@ class DocumentDetailPreview(DetailView):
             # student didn't have enough points
             messages.error(
                 request,
-                "Pump your break kid, you don't have enough points to buy that."
+                "Pump your breaks kid, you don't have enough points to buy that."
             )
         else:
             # student bought the doc

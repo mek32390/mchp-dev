@@ -56,16 +56,16 @@
 							<div class="panel-body">
 								
 								<p class="text-center h4">Total Events</p>
-								<img class="img-thumbnail center-block text-center" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" style="width:70px" />
+								<img class="center-block text-center" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" style="width:70px" />
 								<p class="assignment-number text-center text-default h4">{{total_count}}</p>
-								<p class="text-center h4">Next event is {{next_event.start|naturaltime}}</p>
+								<p class="text-center h5">Next event is {{next_event.start|naturaltime}}</p>
 								<!-- <ul class="list-inline text-center">
 								  <li>Accuracy</li>
 								  <li>Last Updated</li>
 								  <li>Accuracy</li>
 								</ul> -->
 								<hr>
-								<h5>Previous events: <span class="badge pull-right">{{past_count}}</span></h5>
+								<h5>Previous events: <span class="badge">{{past_count}}</span></h5>
 								<div class="list-group">
 									{% for event in events %}
 									<div class="list-group-item">
