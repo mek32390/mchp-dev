@@ -75,7 +75,7 @@ $(function(){
 		$('#news-'+setting).toggleClass('hidden');
 
 		$.ajax({
-			url: '/dashboard/toggle-rss/',
+			url: '/home/toggle-rss/',
 			type: 'POST',
 			data: {
 				'setting': setting,
@@ -122,7 +122,7 @@ var fetchRss = function() {
 				}
 			};
 			$.getFeed({
-				url: '/dashboard/rss-proxy/',
+				url: '/home/rss-proxy/',
 				data: {
 					'url': url,
 				},
@@ -133,6 +133,9 @@ var fetchRss = function() {
 };
 
 var addRss = function(section, rss, name) {
+	if (!rss) {
+		return;
+	}
 	var $item = $('.news-item-proto').first().clone();
 	$item.removeClass('news-item-proto');
 	$item.removeClass('hidden');
@@ -245,7 +248,7 @@ Pulse.prototype.render = function(items) {
 var fetchFeed = function() {
 	var feed = [];
 	$.ajax({
-		url: '/dashboard/feed/',
+		url: '/home/feed/',
 		type: 'GET',
 		success: function(data) {
 			items = processFeed(data.feed);

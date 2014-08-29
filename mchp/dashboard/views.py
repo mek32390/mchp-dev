@@ -26,6 +26,10 @@ from random import randrange
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
 
+'''
+url: /home/
+name: dashboard
+'''
 class DashboardView(View):
     template_name = 'dashboard.html'
 
@@ -180,7 +184,7 @@ class AjaxableResponseMixin(object):
         return self.render_to_json_response(data, status=status)
 
 '''
-url: /dashboard/feed/
+url: /home/feed/
 name: dashboard_feed
 '''
 class DashboardFeed(View, AjaxableResponseMixin):
@@ -219,7 +223,7 @@ class DashboardFeed(View, AjaxableResponseMixin):
 feed = DashboardFeed.as_view()
 
 '''
-url: /dashboard/rss-proxy/
+url: /home/rss-proxy/
 name: dashboard_rss_proxy
 '''
 class DashboardRssProxy(View, AjaxableResponseMixin):
@@ -250,7 +254,7 @@ rss_proxy = DashboardRssProxy.as_view()
 
 
 '''
-url: /dashboard/toggle-rss/
+url: /home/toggle-rss/
 name: toggle_rss
 '''
 class ToggleRSSSetting(View, AjaxableResponseMixin):
