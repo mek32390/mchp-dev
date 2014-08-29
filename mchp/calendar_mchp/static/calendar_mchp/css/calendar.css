@@ -145,3 +145,7 @@
 .event-last-edit {
 	font-size: 8pt;
 }
+
+.datepicker {
+	z-index: 1061!important;
+}

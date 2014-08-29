@@ -43,7 +43,7 @@ class DashboardView(View):
             | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
             start__range=(timezone.now(), timezone.now() + timedelta(days=1))
         ).order_by('start')
-        rss_types = RSSType.objects.all()
+        rss_types = RSSType.objects.all().order_by('link_order')
         for rss in rss_types:
             links = RSSLink.objects.filter(
                 rss_type=rss
