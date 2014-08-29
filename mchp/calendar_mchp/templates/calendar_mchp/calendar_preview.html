@@ -123,18 +123,24 @@
 						</form>
 						{% if user.is_anonymous %}
 						<button class="btn btn-success" data-toggle="modal" data-target="#mchp-login-prompt">
-							<i class="fa fa-fw fa-shopping-cart"></i>Subscribe
+							<i class="fa fa-fw fa-shopping-cart"></i> Subscribe
 						</button>
 						{% else %}
+						 {% ifequal owner user.student %}
+						<a href="{% url 'calendar' %}" class="btn btn-success">
+							<i class="fa fa-fw fa-eye"></i> View
+						</a>
+						{% else %}
 						<button form="subscribe-form" class="btn btn-success">
-							<i class="fa fa-fw fa-shopping-cart"></i>Subscribe
+							<i class="fa fa-fw fa-shopping-cart"></i> Subscribe
 						</button>
+						{% endifequal %}
 						{% endif %}
 						<a href="{{request.get_host}}{{current_path | referral:referral_link}}" 
 						data-title="{{calendar.title}} Calendar" 
 						data-desc="{{calendar.description}}" 
 						class="btnShare btn btn-facebook fb-share-button">
-						<i class="fa fa-fw fa-facebook"></i>Share this</a>
+						<i class="fa fa-fw fa-facebook"></i> Share this</a>
 						<button data-clipboard-text="{{request.get_host}}{{current_path | referral:referral_link }}" 
 						id="copy-button" class="btn btn-warning"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 						
