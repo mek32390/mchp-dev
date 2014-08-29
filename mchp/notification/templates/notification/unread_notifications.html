@@ -1,0 +1,7 @@
+{% if notifications %}
+{% for notification in notifications %}
+<li class="unread-notifications">
+	<a><span class="label label-success">New</span> {{notification.message}}</a> 
+</li>
+{% endfor %}
+{% endif %}

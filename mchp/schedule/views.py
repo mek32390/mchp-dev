@@ -17,6 +17,7 @@ from lib.decorators import school_required, class_required
 from lib.utils import random_mix
 from calendar_mchp.models import ClassCalendar, CalendarEvent
 from documents.models import Document
+from notification.api import add_notification
 from schedule.forms import CourseCreateForm, CourseChangeForm
 from schedule.models import Course, School, SchoolQuicklink, Section, Department
 from schedule.utils import WEEK_DAYS
@@ -27,9 +28,6 @@ import logging
 import json
 logger = logging.getLogger(__name__)
 
-from django.contrib.messages import add_message
-
-import stored_messages
 
 # most views should inherit from this if they submit form data
 class _BaseCourseView(FormView):
@@ -121,18 +119,14 @@ class CourseCreateView(_BaseCourseView):
             self.request,
             "Course created successfully!"
         )
-
-        add_message(
-            self.request, 
-            stored_messages.STORED_INFO, 
+        add_notification(
+            self.request.user,
             'You created a class! ' + str(course.dept) + ' ' + str(course.course_number)
         )
-        add_message(
-            self.request, 
-            stored_messages.STORED_INFO, 
-            'You are now enrolled in ' + str(course.dept) + ' ' + str(course.course_number)
+        add_notification(
+            self.request.user,
+            'You are now enrolled in ' + str(course.dept) + ' ' + str(course.course_number),
         )
-        
         return super(CourseCreateView, self).form_valid(form)
 
 course_create = CourseCreateView.as_view()

@@ -244,7 +244,7 @@
 					
 					<li class="dropdown" id="notifs-dropdown">
 						{% unread_count as unread %}
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">{{unread}}</span> <i class="fa fa-lightbulb-o"></i></a>
+						<a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">{{unread}}</span> <i class="fa fa-lightbulb-o"></i></a>
 						<ul class="dropdown-menu">
 							{% unread_notifications unread %}
 							{% read_notifications unread %}
@@ -320,15 +320,13 @@
 	<!-- end user popover -->
 	<!-- Django Messages -->
 	<div class="django-messages">
-		{% for message in request.rails_messages %}
-		{% if message.tags %}
+		{% for message in messages %}
 		<div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 			<ul class="messages">
 				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
 			</ul>
 		</div>
-		{% endif %}
 		{% endfor %}
 	</div>
 	{% block body %}

@@ -13,13 +13,12 @@ from django.views.generic.edit import DeleteView,View, UpdateView
 from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from documents.models import Upload
+from notification.api import add_notification_for, add_notification
 from lib.decorators import class_required
 from referral.models import ReferralCode
 from schedule.models import Course, Section
 from schedule.utils import WEEK_DAYS
 from user_profile.models import OneTimeFlag
-
-import stored_messages
 
 from datetime import datetime,timedelta
 from decimal import Decimal, ROUND_HALF_DOWN
@@ -188,9 +187,8 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
                     calendar=cal
                 )
                 subscribers = list(map(lambda sub: sub.student.user, subs))
-                stored_messages.api.add_message_for(
+                add_notification_for(
                     subscribers,
-                    stored_messages.STORED_INFO,
                     '{} has deleted a calendar for {}'.format(request.user.username, cal.course)
                 )
                 subs.delete()
@@ -330,9 +328,8 @@ class EventAddView(View, AjaxableResponseMixin):
             subscribers = list(map(lambda sub: sub.student.user, Subscription.objects.filter(
                 calendar=calendar
             )))
-            stored_messages.api.add_message_for(
+            add_notification_for(
                 subscribers,
-                stored_messages.STORED_INFO,
                 '{} has add an event to {}'.format(request.user.username, calendar.course)
             )
 
@@ -463,9 +460,8 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                     subscribers = list(map(lambda sub: sub.student.user, Subscription.objects.filter(
                         calendar=event.calendar
                     )))
-                    stored_messages.api.add_message_for(
+                    add_notification_for(
                         subscribers,
-                        stored_messages.STORED_INFO,
                         '{} has updated event: {} in {}'.format(request.user.username, event.title, event.calendar.course)
                     )
                 except (CalendarExpiredError, BringingUpThePastError) as e:
@@ -607,9 +603,8 @@ class CalendarPreview(DetailView):
                 request,
                 "Your subscription has been noted"
             )
-            stored_messages.api.add_message_for(
-                [calendar.owner.user], 
-                stored_messages.STORED_INFO,
+            add_notification(
+                calendar.owner.user, 
                 '{} has subscribed to your {} calendar'.format(request.user.username, calendar.course)
             )
         return redirect(reverse('calendar'))

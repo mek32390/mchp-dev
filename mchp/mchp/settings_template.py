@@ -45,12 +45,12 @@ INSTALLED_APPS = (
     'calendar_mchp',
     'documents',
     'dashboard',
+    'notification',
     'referral',
     'schedule',
     'payment',
 
     'storages',
-    'stored_messages',
 
     'allauth',
     'allauth.account',
@@ -70,12 +70,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'referral.middleware.ReferralMiddleware',
     'lib.middleware.TimezoneMiddleware',
-    'lib.middleware.CustomMessageMiddleware',
 )
 
 from django.contrib.messages import constants as message_constants
 MESSAGE_TAGS = {message_constants.ERROR: 'danger'}
-MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
+INBOX_EXPIRE_DAYS = 30
 
 ROOT_URLCONF = 'mchp.urls'
 
