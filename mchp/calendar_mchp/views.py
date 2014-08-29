@@ -676,6 +676,10 @@ class CalendarPreview(DetailView):
             all_counts = 1
         cal_percent = (cals * 100) / all_counts
         doc_percent = (docs * 100) / all_counts
+        if self.student:
+            flag = self.student.one_time_flag.get_flag(self.student, 'preview'),
+        else:
+            flag = None
 
         data = {
             'calendar': calendar,
@@ -687,7 +691,7 @@ class CalendarPreview(DetailView):
             'total_count': total_count,
             'referral_link': referral_link,
             'current_path': request.get_full_path(),
-            'preview_flag': self.student.one_time_flag.get_flag(self.student, 'preview'),
+            'preview_flag': flag, 
             'cal_percent': cal_percent,
             'doc_percent': doc_percent,
         }
