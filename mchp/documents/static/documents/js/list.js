@@ -133,9 +133,17 @@ $(function(){
 			}
 		});
 	}
-	for (var pk in newly_uploaded) {
-		worker(newly_uploaded[pk]);
-	}
+	$.each(newly_uploaded, function(index, upload){
+		var pk = upload.pk;
+		var create_date = moment(upload.create_date);
+		var diff = moment().diff(create_date, 'minutes');
+		if (diff>10) {
+			$('#generating_message_' + pk).text('Your document is borked :(');
+			$('#description-'+pk).remove();
+			return true;
+		}
+		worker(pk);
+	});
 });
 
 function addMessage(text, extra_tags) {

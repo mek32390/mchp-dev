@@ -72,6 +72,10 @@ class OneTimeFlagManager(models.Manager):
 
     @staticmethod
     def get_flag(student, event):
+        # usually this mean the user is not logged in, so don't show any of these
+        if not student:
+            return (True,)
+
         if event in ONE_TIME_EVENTS_DICT.keys():
             pk = ONE_TIME_EVENTS_DICT[event]
         else:

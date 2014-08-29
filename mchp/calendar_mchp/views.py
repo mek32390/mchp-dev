@@ -17,6 +17,7 @@ from lib.decorators import class_required
 from referral.models import ReferralCode
 from schedule.models import Course, Section
 from schedule.utils import WEEK_DAYS
+from user_profile.models import OneTimeFlag
 
 import stored_messages
 
@@ -687,7 +688,7 @@ class CalendarPreview(DetailView):
             'total_count': total_count,
             'referral_link': referral_link,
             'current_path': request.get_full_path(),
-            'preview_flag': self.student.one_time_flag.get_flag(self.student, 'preview'),
+            'preview_flag': OneTimeFlag.objects.get_flag(self.student, 'preview'),
             'cal_percent': cal_percent,
             'doc_percent': doc_percent,
         }

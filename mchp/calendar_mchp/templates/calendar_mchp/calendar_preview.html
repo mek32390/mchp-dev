@@ -120,9 +120,15 @@
 						<form id="subscribe-form" method="post" action="{{current_path}}">
 							{% csrf_token %}
 						</form>
+						{% if user.is_anonymous %}
+						<button class="btn btn-success" data-toggle="modal" data-target="#mchp-login-prompt">
+							<i class="fa fa-fw fa-shopping-cart"></i>Subscribe
+						</button>
+						{% else %}
 						<button form="subscribe-form" class="btn btn-success">
 							<i class="fa fa-fw fa-shopping-cart"></i>Subscribe
 						</button>
+						{% endif %}
 						<a href="{{request.get_host}}{{current_path | referral:referral_link}}" 
 						data-title="{{calendar.title}} Calendar" 
 						data-desc="{{calendar.description}}" 
