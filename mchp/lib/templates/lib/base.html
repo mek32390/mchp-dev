@@ -33,18 +33,13 @@
 						<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt="sign up or login">
 						<br></br> 
 						<p><small>Log In or Sign Up using:</small></p>
-						<a title="Facebook" class="socialaccount_provider facebook" 
-							href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
-							<button class="btn btn-facebook btn-block btn-primary btn-lg">
-								Facebook
-							</button>
+						<a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg" 
+							href="javascript:allauth.facebook.login('', 'authenticate', 'login')" target="_blank"><i class="fa fa-facebook"></i> Facebook
 						</a>
 						{% include "socialaccount/snippets/login_extra.html" %}
 						<hr> 
 						<span id="login-options">
-							<a href="{% url 'account_login' %}?next={{request.get_full_path}}" >Log In with e-mail</a> &nbsp; or &nbsp; <a id="show-signup" class="">
-								Sign Up
-							</a>
+							<a href="{% url 'account_login' %}?next={{request.get_full_path}}" target="_blank">Log In with e-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
 						</span>
 						<form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden">
 							{% csrf_token %}
@@ -52,8 +47,10 @@
 								<div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
 									<input name="email" class="form-control" placeholder="What is your .EDU e-mail?">
 								</div>
-								<input class="form-control" type="submit" value="Sign up" >
 							</div>
+							<p></p>
+							<button class="btn btn-default btn-block" type="submit" target="_blank">Sign Up</button>
+
 						</form>
 					</div>
 				</div>
