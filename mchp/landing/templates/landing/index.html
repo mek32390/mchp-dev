@@ -20,7 +20,7 @@
 <body>
     <!-- Start Navigation -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
+      <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -38,7 +38,7 @@
 </div>
 </div>
 <!-- End Navigation -->
-<div class="container-fluid text-center">
+<div class="container text-center">
  <h1>mycollegehomepage</h1>
  <p class="lead">Welcome! This semester will be fun... let's get started shall we??</p>
  <div class="row">
@@ -144,7 +144,7 @@
             </div>
         </div>
     </div>
-    <div class="flip-container animated swing delayed-4 duration-4" ontouchstart="this.classList.toggle('hover');">
+    <div class="flip-container animated swing delayed-4 duration-4 hidden-sm" ontouchstart="this.classList.toggle('hover');">
         <div class="flipper">
             <div class="front">
                 <div id="ballWrapper" class="animated">
@@ -166,7 +166,7 @@
         </div>
     </div>
 </div>
-<div class="small text-default text-center" style="position:relative; margin: 0 auto;"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}">Privacy Policy</a></small> </div>
+<div class="small text-default text-center" style="position:relative; margin: 0 auto;"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a></small> </div>
 </div>
 </body>
 </html>
