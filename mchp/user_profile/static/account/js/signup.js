@@ -28,6 +28,7 @@ $(function() {
 			$('.emailSignup').fadeIn(500);
 			$('.email_reminder').fadeIn(500);
 			$('.email_reminder').toggleClass('hidden');
+			$('#id_first_name').focus();
 		});
 	});
 	// hide unwanted labels
