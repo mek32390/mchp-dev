@@ -95,6 +95,16 @@
 
 #news-navbar {
     min-height: 37px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.flex-nav {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
 }
 
 /* set custom news nav styles for small screens */

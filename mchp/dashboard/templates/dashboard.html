@@ -305,7 +305,7 @@
         <div class="front">
           <nav id="news-navbar" class="navbar navbar-default" role="navigation">
             <span class="navbar-header">
-              <ul class="nav navbar-nav">
+              <ul class="nav navbar-nav flex-nav">
                 {% for rss,visible in rss_types %}
                 <li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{rss.pk}}">
                   <a class="news-link" data-toggle="tooltip" data-title="{{rss.name}}"
