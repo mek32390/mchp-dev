@@ -138,6 +138,11 @@ $(function() {
 	if($.bootstrapValidator) {
 		loginModal();
 	}
+
+	// mark notifications read
+	$('#toggle-notifications').click(function() {
+		mark_all_read();
+	});
 });
 
 var loginModal = function () {
@@ -193,4 +198,15 @@ var toggle_flag = function(id) {
 		type: 'POST',
 		data: {'event': id},
 	});
+};
+
+var marked = false;
+var mark_all_read = function() {
+	if (!marked) {
+		$.ajax({
+			url: '/notification/mark-all/',
+			type: 'POST',
+		});
+		marked = !marked;
+	}
 };

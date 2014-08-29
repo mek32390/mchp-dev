@@ -32,6 +32,7 @@ class RSSType(models.Model):
     name = models.CharField(max_length=20)
     icon = models.CharField(max_length=30)
     color = models.CharField(max_length=10)
+    link_order = models.IntegerField(unique=True)
 
     def __str__(self):
         return self.name

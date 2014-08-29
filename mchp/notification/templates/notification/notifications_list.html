@@ -1,0 +1,15 @@
+<ul class="list-group">
+	{% if notifications %}
+	{% load humanize %}
+	{% for notification in notifications %}
+	<li class="list-group-item">
+		{{ notification.message }}
+		<span class="pull-right small">
+			{{notification.create_date|naturaltime}}
+		</span>
+	</li>
+	{% endfor %}
+	{% else %}
+	<li class="list-group-item">And then there were none. Notifications that is.</li>
+	{% endif %}
+</ul>
