@@ -13,7 +13,7 @@ from django.views.generic.edit import DeleteView,View, UpdateView
 from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from documents.models import Upload
-from lib.decorators import school_required
+from lib.decorators import class_required
 from referral.models import ReferralCode
 from schedule.models import Course, Section
 from schedule.utils import WEEK_DAYS
@@ -154,7 +154,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
         }
         return self.render_to_json_response(data, status=200)
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarCreateView, self).dispatch(*args, **kwargs)
@@ -215,7 +215,7 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarDeleteView, self).dispatch(*args, **kwargs)
@@ -259,7 +259,7 @@ class CalendarUnsubscribeView(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarUnsubscribeView, self).dispatch(*args, **kwargs)
@@ -399,7 +399,7 @@ class EventAddView(View, AjaxableResponseMixin):
         }
         return render(request, self.template_name, data)
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(EventAddView, self).dispatch(*args, **kwargs)
@@ -490,7 +490,7 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(EventUpdateView, self).dispatch(*args, **kwargs)
@@ -533,7 +533,7 @@ class EventDeleteView(DeleteView, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(EventDeleteView, self).dispatch(*args, **kwargs)
@@ -763,7 +763,7 @@ class CalendarView(View):
         }
         return render(request, self.template_name, data)
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarView, self).dispatch(*args, **kwargs)
@@ -836,7 +836,7 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarUpdateView, self).dispatch(*args, **kwargs)
@@ -878,7 +878,7 @@ class SubscriptionUpdateView(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(SubscriptionUpdateView, self).dispatch(*args, **kwargs)
@@ -982,7 +982,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarFeed, self).dispatch(*args, **kwargs)
@@ -1047,7 +1047,7 @@ class CalendarListView(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarListView, self).dispatch(*args, **kwargs)

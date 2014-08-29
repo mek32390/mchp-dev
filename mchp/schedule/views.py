@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from django.core import serializers
 from django.utils import timezone
 
-from lib.decorators import school_required
+from lib.decorators import school_required, class_required
 from lib.utils import random_mix
 from calendar_mchp.models import ClassCalendar, CalendarEvent
 from documents.models import Document
@@ -562,7 +562,7 @@ class ClassesView(View):
 
         return render(request, self.template_name, data)
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(ClassesView, self).dispatch(*args, **kwargs)
