@@ -1,8 +1,14 @@
 {% extends 'schedule/base.html' %}
 
-{% block head_title %}School{% endblock %}
+{% block head_title %}{{school.name}}{% endblock %}
 
 {% block extra_head %}
+	<meta property="og:site_name" content="mycollegehomepage" />
+	<meta property="og:type" content="website" /> 
+	<meta property="og:title" content="{{school.name}}" />
+	<meta property="og:description" content="{{school.name}} has {{student_count}} Student{{student_count|pluralize}}, {{document_count}} Document{{document_count|pluralize}}, and {{cal_count}} Calendar{{cal_count|pluralize}}" />
+	<meta property="og:image" content="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building-with-flag.svg" />
+	<meta property="fb:app_id" content="369999156462705" />
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'schedule/css/school.css' %}">
