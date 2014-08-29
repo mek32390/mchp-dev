@@ -150,8 +150,8 @@
 					You've got nothing. Woop!
 				</div>
 				{% else %}
-				<div class="list-group-item">
-					Hey, you'll need to create or subscribe to a calendar to see what's going on today
+				<div class="list-group-item list-group-item-danger">
+					Hey, you'll need to <a href="{% url 'calendar_create' %}">Create a Calendar</a> or <a href="{% url 'calendar' %}">subscribe</a> to a calendar to see what's going on today.
 				</div>
 				{% endif %}
         {% endfor %}
