@@ -39,9 +39,9 @@
 						{% include "socialaccount/snippets/login_extra.html" %}
 						<hr> 
 						<span id="login-options">
-							<a href="{% url 'account_login' %}?next={{request.get_full_path}}" target="_blank">Log In with e-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
+							<a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with e-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
 						</span>
-						<form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden">
+						<form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
 							{% csrf_token %}
 							<div class='form-group'>
 								<div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
@@ -49,7 +49,7 @@
 								</div>
 							</div>
 							<p></p>
-							<button class="btn btn-default btn-block" type="submit" target="_blank">Sign Up</button>
+							<button class="btn btn-default btn-block" type="submit">Sign Up</button>
 
 						</form>
 					</div>

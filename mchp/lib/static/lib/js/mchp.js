@@ -132,7 +132,12 @@ $(function() {
             }
         }, 100);
     });
-	loginModal();
+	// won't work w/o the validator, its not needed on every page anyway
+	// really this should only be called on pages that we know have a 
+	// #email-signup form TODO
+	if($.bootstrapValidator) {
+		loginModal();
+	}
 });
 
 var loginModal = function () {
