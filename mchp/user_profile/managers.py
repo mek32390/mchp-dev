@@ -3,14 +3,12 @@ from django.db import models
 import user_profile.models
 from user_profile.utils import ONE_TIME_EVENTS_DICT
 import dashboard.models
-import schedule.models
 
 class StudentManager(models.Manager):
     # get or create the referral codes for a user
     def create_student(self, user, school):
         student = user_profile.models.Student(
             user=user, school=school,
-            major=schedule.models.Department.objects.get(name="Undecided")
         )
         student.save()
         profile = user_profile.models.UserProfile(student=student)
