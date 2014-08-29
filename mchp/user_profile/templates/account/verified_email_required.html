@@ -12,7 +12,7 @@
     "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/rss.svg" alt=
     "Verify Email Address">
 	<div class="row">
-		<div class="col-sm-8 col-sm-offset-2">
+		<div class="col-sm-8 col-sm-offset-2 text-center">
 			<hr>
 			{% url 'account_email' as email_url %}
 
@@ -20,6 +20,11 @@
 				you are who you claim to be. For this purpose, we require that you
 				verify ownership of your <strong>.EDU e-mail address</strong>. We have sent an e-mail to you for
 				verification. Please click on the link inside this e-mail.{% endblocktrans %}</p>
+				<h4 class="text-center">No Email?<small> oh noes</small></h4>
+				<p class="text-center">
+					Check your <strong class="text-danger">SPAM!</strong>
+				</p>
+				<p class="small text-center">(It hurts us to think we'd be considered such garbage)</p>
 			<p>{% blocktrans %}<strong>Note:</strong> you can still <a href="{{email_url}}">change your .EDU e-mail address</a>.{% endblocktrans %}</p>
 		</div>
 	</div>
