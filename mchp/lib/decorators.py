@@ -25,8 +25,7 @@ def class_required(func):
         else:
             messages.info(
                 request,
-                "Right as you click, the Dean pops up and informs\
-                you that only students with classes are allowed there. Bummer."
+                "Wait a sec, you haven't added a class to your schedule yet!"
             )
             return redirect(reverse('course_add'))
     return decorator
