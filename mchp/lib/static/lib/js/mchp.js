@@ -132,7 +132,54 @@ $(function() {
             }
         }, 100);
     });
+	// won't work w/o the validator, its not needed on every page anyway
+	// really this should only be called on pages that we know have a 
+	// #email-signup form TODO
+	if($.bootstrapValidator) {
+		loginModal();
+	}
+
+	// mark notifications read
+	$('#toggle-notifications').click(function() {
+		mark_all_read();
+	});
 });
+
+var loginModal = function () {
+    // show email sign up input when clicked
+    $('#show-signup').on('click', function () {
+        $('#login-options').fadeOut(250, function () {
+            $('#email-signup').fadeIn(500).removeClass('hidden');
+        });
+    });
+
+    //validate signup form 
+    $('#email-signup').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            email: {
+                trigger: 'keyup',
+                validators: {
+                    notEmpty: {
+                        message: 'This field is required'
+                    },
+                    emailAddress: {
+                        message: 'Please enter a valid email address'
+                    },
+                    regexp: {
+                        regexp: /(\.edu)$/,
+                        message: 'Only .edu emails allowed'
+                    }
+                }
+            }
+        }
+    });
+};
 
 function addMessage(text, extra_tags) {
     var message = $(
@@ -151,4 +198,15 @@ var toggle_flag = function(id) {
 		type: 'POST',
 		data: {'event': id},
 	});
+};
+
+var marked = false;
+var mark_all_read = function() {
+	if (!marked) {
+		$.ajax({
+			url: '/notification/mark-all/',
+			type: 'POST',
+		});
+		marked = !marked;
+	}
 };

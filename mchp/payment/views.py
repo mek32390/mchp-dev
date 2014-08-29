@@ -114,7 +114,7 @@ class SaveInfoView(View, AjaxableResponseMixin):
             # everything worked
             messages.success(
                 self.request,
-                'card info saved',
+                'Card info saved, hooray!',
             )
             data = {
                 'messages': self.ajax_messages(),
@@ -264,7 +264,7 @@ class PayoutView(View, AjaxableResponseMixin):
             if cents < 2000:
                 messages.error(
                     self.request,
-                    "You can't cash out till you reach $20",
+                    "You can't cash out till you reach $20 in savings.",
                 )
                 status = 402
                 data = {
@@ -298,7 +298,7 @@ class PayoutView(View, AjaxableResponseMixin):
                 self.student.save()
                 messages.success(
                     self.request,
-                    "You will recieve your funds in a few days, hold tight",
+                    "You will recieve your funds in the next day or two, hold tight",
                 )
                 status = 200
             else:

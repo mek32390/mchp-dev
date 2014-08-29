@@ -2,6 +2,11 @@
 /* This is for custom landing page styles
 /*
 /*
+*/
+
+body {
+    margin-top: 70px;
+}
 
 /* floating */
 .floating {
@@ -55,6 +60,46 @@
     100% {
         -webkit-transform: translateY(0%);
     }
+}
+
+/* Text "Small Color" */
+.text-dull {
+  color: #777777;
+}
+/* Delayed Animations */
+.delayed-1 {
+  -webkit-animation-delay: .10s;
+  animation-delay: .10s;
+}
+.delayed-2 {
+  -webkit-animation-delay: .2s;
+  animation-delay: .2s;
+}
+.delayed-3 {
+  -webkit-animation-delay: .3s;
+  animation-delay: .3s;
+}
+.delayed-4 {
+  -webkit-animation-delay: .4s;
+  animation-delay: .4s;
+}
+
+/* Duration Animations */
+.duration-1 {
+  -webkit-animation-duration: 1.2s;
+  animation-duration: 1.2s;
+}
+.duration-2 {
+  -webkit-animation-duration: 1.4s;
+  animation-duration: 1.4s;
+}
+.duration-3 {
+  -webkit-animation-duration: 1.6s;
+  animation-duration: 1.6s;
+}
+.duration-4 {
+  -webkit-animation-duration: 1.8s;
+  animation-duration: 1.8s;
 }
 
 /* Flip */

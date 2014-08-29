@@ -69,7 +69,7 @@ class CourseCreateForm(_BaseCourseForm):
         labels = {
             'dept': 'Course Code',
             'course_number': 'Course #',
-            'professor': 'Prof Last Name',
+            'professor': 'Instructor Last Name',
         }
         error_messages = {
             'dept': {

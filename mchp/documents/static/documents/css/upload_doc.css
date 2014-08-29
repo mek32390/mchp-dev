@@ -25,3 +25,15 @@ li {
 	border-top-left-radius: 0px;
 	border-bottom-left-radius: 0px;
 }
+.loading {
+    left: 50%;
+    top: 50%;
+    z-index: 99999;
+
+    height: 40px;
+    margin-top: -20px;
+
+    width: 60px;
+    margin-left: -30px;
+	position:fixed; 
+}

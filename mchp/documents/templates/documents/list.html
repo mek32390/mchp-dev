@@ -1,6 +1,7 @@
 {% extends 'documents/base.html' %}
 
 {% block extra_head %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'documents/css/list.css' %}">
 <script src="{% static 'documents/js/list.js' %}"></script>
@@ -66,7 +67,11 @@
 									{% else %}
 									<script>
 										var newly_uploaded = (typeof newly_uploaded != 'undefined' && newly_uploaded instanceof Array) ? newly_uploaded : [];
-										newly_uploaded.push({{document.pk}});
+										var upload = {
+											pk: '{{document.pk}}',
+											create_date: "{{document.create_date|date:'c'}}",
+										};
+										newly_uploaded.push(upload);
 									</script>
 									<div id="generating_message_{{document.pk}}">
 										We're prepping this doc for it's big debut... <i class="fa fa-spinner fa-spin"></i>
@@ -78,7 +83,7 @@
 								<a href="javascript:void(0)" class="badge delete-button" data-document="{{document.pk}}">delete</a>
 							</small> 
 
-							<span class="description">
+							<span class="description" id="description-{{document.pk}}">
 								<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
 								<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{ document.down}}&nbsp;
 								{% with document.review_count as review_count %}

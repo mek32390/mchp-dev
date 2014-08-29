@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'mchp/templates/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -44,12 +45,12 @@ INSTALLED_APPS = (
     'calendar_mchp',
     'documents',
     'dashboard',
+    'notification',
     'referral',
     'schedule',
     'payment',
 
     'storages',
-    'stored_messages',
 
     'allauth',
     'allauth.account',
@@ -69,12 +70,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'referral.middleware.ReferralMiddleware',
     'lib.middleware.TimezoneMiddleware',
-    'lib.middleware.CustomMessageMiddleware',
 )
 
 from django.contrib.messages import constants as message_constants
 MESSAGE_TAGS = {message_constants.ERROR: 'danger'}
-MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
+INBOX_EXPIRE_DAYS = 30
 
 ROOT_URLCONF = 'mchp.urls'
 
@@ -148,7 +148,7 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
-LOGIN_REDIRECT_URL = '/dashboard/'
+LOGIN_REDIRECT_URL = '/home/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 # email

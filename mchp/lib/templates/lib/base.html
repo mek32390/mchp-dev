@@ -6,7 +6,6 @@
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
-
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
@@ -25,6 +24,39 @@
 		{%load payment%}
 		{% load notifications %}
 
+		{% if user.is_anonymous %}
+		<div class="modal fade" id="mchp-login-prompt" tabindex="-1" role="dialog" aria-labelledby="login-prompt" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-body text-center">
+						<h3>Got Credentials?</h3>
+						<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt="sign up or login">
+						<br></br> 
+						<p><small>Log In or Sign Up using:</small></p>
+						<a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg" 
+							href="javascript:allauth.facebook.login('', 'authenticate', 'login')" target="_blank"><i class="fa fa-facebook"></i> Facebook
+						</a>
+						{% include "socialaccount/snippets/login_extra.html" %}
+						<hr> 
+						<span id="login-options">
+							<a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with e-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
+						</span>
+						<form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
+							{% csrf_token %}
+							<div class='form-group'>
+								<div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
+									<input name="email" class="form-control" placeholder="What is your .EDU e-mail?">
+								</div>
+							</div>
+							<p></p>
+							<button class="btn btn-default btn-block" type="submit">Sign Up</button>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
 		{% if user.is_authenticated %}
 		{% if user.student %}
 		{% with user.student as student %}
@@ -212,7 +244,7 @@
 					
 					<li class="dropdown" id="notifs-dropdown">
 						{% unread_count as unread %}
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">{{unread}}</span> <i class="fa fa-lightbulb-o"></i></a>
+						<a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">{{unread}}</span> <i class="fa fa-lightbulb-o"></i></a>
 						<ul class="dropdown-menu">
 							{% unread_notifications unread %}
 							{% read_notifications unread %}
@@ -254,6 +286,10 @@
 					{% else %}
 					<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 						<div class="container">
+							<ul class="nav navbar-nav navbar-right">
+									<li><a href="{% url 'account_login' %}" target="_blank">Log In</a></li>
+									<li><a href="{% url 'account_signup' %}" target="_blank">Sign Up</a></li>
+								</ul>
 							<div class="navbar-header">
 								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 									<span class="sr-only">Toggle navigation</span>
@@ -284,15 +320,13 @@
 	<!-- end user popover -->
 	<!-- Django Messages -->
 	<div class="django-messages">
-		{% for message in request.rails_messages %}
-		{% if message.tags %}
+		{% for message in messages %}
 		<div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 			<ul class="messages">
 				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
 			</ul>
 		</div>
-		{% endif %}
 		{% endfor %}
 	</div>
 	{% block body %}
@@ -300,8 +334,8 @@
 
 	{% block extra_body %}
 	{% endblock %}
-<!-- begin olark code --
+<!-- begin olark code -->
 <script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){ f[z]=function(){ (a.s=a.s||[]).push(arguments)};var a=f[z]._={ },q=c.methods.length;while(q--){(function(n){f[z][n]=function(){ f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={ 0:+new Date};a.P=function(u){ a.p[u]=new Date-a.p[0]};function s(){ a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){ hd="head";return["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if(!m){ return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if(/MSIE[ ]+6/.test(navigator.userAgent)){ b.src="javascript:false"}b.allowTransparency="true";v[j](b);try{ b.contentWindow[g].open()}catch(w){ c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try{ var t=b.contentWindow[g];t.write(p());t.close()}catch(x){ b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({ loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure","extend","declare","identify"]}); /* custom configuration goes here (www.olark.com/documentation) */ olark.identify('8250-169-10-2159');/*]]>*/</script><noscript><a href="https://www.olark.com/site/8250-169-10-2159/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript> 
-<!-- end olark code -->
+<!-- end olark code-->
 </body>
 </html>

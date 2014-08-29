@@ -146,7 +146,7 @@ class DocumentListView(ListView):
             # can't filter on annotations so get the count manually
             'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+\
             'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"'+\
-            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))',
         })
 
     def get_context_data(self, **kwargs):
@@ -162,6 +162,7 @@ class DocumentListView(ListView):
             'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
         })
         context['purchases'] = purchases
+        context['now'] = timezone.now()
 
         return context
 
@@ -198,7 +199,7 @@ class DocumentDetailPreview(DetailView):
             # student didn't have enough points
             messages.error(
                 request,
-                "Pump your break kid, you don't have enough points to buy that."
+                "Pump your breaks kid, you don't have enough points to buy that."
             )
         else:
             # student bought the doc

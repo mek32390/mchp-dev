@@ -1,6 +1,6 @@
 {% extends "lib/base.html" %}
 
-{% block head_title %}Dashboard{% endblock %}
+{% block head_title %}My college home page (title drop!){% endblock %}
 
 {% block head %}
 {% endblock %}
@@ -150,8 +150,8 @@
 					You've got nothing. Woop!
 				</div>
 				{% else %}
-				<div class="list-group-item">
-					Hey, you'll need to create or subscribe to a calendar to see what's going on today
+				<div class="list-group-item list-group-item-danger">
+					Hey, you'll need to <a href="{% url 'calendar_create' %}">Create a Calendar</a> or <a href="{% url 'calendar' %}">subscribe</a> to a calendar to see what's going on today.
 				</div>
 				{% endif %}
         {% endfor %}
@@ -186,7 +186,7 @@
       </div>
     </div><!-- End Today Col -->
 
-    <div class="col-sm-4 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
+    <div class="col-sm-8 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
       <h2>Pulse <small> feel the vibe</small></h2>
       <hr class="margin-top-sm">
       <!-- <div class="row">
@@ -298,14 +298,14 @@
     </div>
 
     <!-- </div> End Pulse Col -->
-    <div class="col-md-4 col-sm-4 animated bounceInUp delayed-md">
+    <div class="col-md-4 col-sm-12 animated bounceInUp delayed-md">
       <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class="pull-right" data-toggle="tooltip" data-original-title="Customize Stories"><small><i class="fa fa-bars"></i></small></a></h2>
       <hr class="margin-top-sm">
       <div class="flip-holder">
         <div class="front">
           <nav id="news-navbar" class="navbar navbar-default" role="navigation">
             <span class="navbar-header">
-              <ul class="nav navbar-nav">
+              <ul class="nav navbar-nav flex-nav">
                 {% for rss,visible in rss_types %}
                 <li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{rss.pk}}">
                   <a class="news-link" data-toggle="tooltip" data-title="{{rss.name}}"

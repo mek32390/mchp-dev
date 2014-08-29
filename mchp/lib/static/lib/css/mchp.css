@@ -28,8 +28,8 @@ body {
 
 /* style inputs to fit BS3 */
 .input-group .form-control:not(:first-child):not(:last-child) {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+   /* border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;*/
 }
 
 /* scrolling */
@@ -89,7 +89,7 @@ body {
     border-color: #3c5081;
 }
 
-/* Text "Small Color" */
+/*/* Text "Small Color" */
 .text-dull {
   color: #777777;
 }
@@ -118,7 +118,7 @@ body {
 .duration-lg {
   -webkit-animation-duration: 4s;
   animation-duration: 4s;
-}
+}*/
 
 /* custom svg chip icon in nav */
 #nav-chip-icon {
@@ -127,6 +127,7 @@ body {
   top: 2px;
 }
 
+/* for points icon in nav */
 #purchasePointsMenu:hover #nav-chip-icon{
   fill: #333;
 }

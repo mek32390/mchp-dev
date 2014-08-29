@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import View
 
-from lib.decorators import school_required
+from lib.decorators import class_required
 # from lib import utils
 from schedule.models import SchoolQuicklink, SchoolAlias
 # from user_profile.models import Enrollment
@@ -26,6 +26,10 @@ from random import randrange
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
 
+'''
+url: /home/
+name: dashboard
+'''
 class DashboardView(View):
     template_name = 'dashboard.html'
 
@@ -139,7 +143,7 @@ class DashboardView(View):
         return HttpResponseNotAllowed(['GET'])
 
     @method_decorator(ensure_csrf_cookie)
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardView, self).dispatch(*args, **kwargs)
@@ -180,7 +184,7 @@ class AjaxableResponseMixin(object):
         return self.render_to_json_response(data, status=status)
 
 '''
-url: /dashboard/feed/
+url: /home/feed/
 name: dashboard_feed
 '''
 class DashboardFeed(View, AjaxableResponseMixin):
@@ -211,7 +215,7 @@ class DashboardFeed(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('dashboard'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardFeed, self).dispatch(*args, **kwargs)
@@ -219,7 +223,7 @@ class DashboardFeed(View, AjaxableResponseMixin):
 feed = DashboardFeed.as_view()
 
 '''
-url: /dashboard/rss-proxy/
+url: /home/rss-proxy/
 name: dashboard_rss_proxy
 '''
 class DashboardRssProxy(View, AjaxableResponseMixin):
@@ -241,7 +245,7 @@ class DashboardRssProxy(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('dashboard'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardRssProxy, self).dispatch(*args, **kwargs)
@@ -250,7 +254,7 @@ rss_proxy = DashboardRssProxy.as_view()
 
 
 '''
-url: /dashboard/toggle-rss/
+url: /home/toggle-rss/
 name: toggle_rss
 '''
 class ToggleRSSSetting(View, AjaxableResponseMixin):
