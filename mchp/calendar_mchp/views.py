@@ -364,7 +364,6 @@ class EventAddView(View, AjaxableResponseMixin):
         else:
             start_time = timezone.make_aware(date, timezone.get_current_timezone())
             start = timezone.localtime(start_time, timezone=timezone.utc)
-            print(start)
             end = start + timedelta(hours=1)
         return (start, end)
 
@@ -416,7 +415,6 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
         if self.request.is_ajax():
-            print(request.POST)
             event = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
                 id = request.POST.get('pk', None)
@@ -430,7 +428,6 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                         json.loads(date), DATE_FORMAT),
                         timezone.get_current_timezone())
                     start = timezone.localtime(start, timezone=timezone.utc)
-                    print(start)
                     end = start + timedelta(hours=1)
                     setattr(event, 'start', start)
                     setattr(event, 'end', end)
@@ -444,7 +441,6 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                     description = request.POST.get('value', '')
                     setattr(event, 'description', description)
                 if update == 'class':
-                    print(request.POST.get('value', 'fuck'))
                     calendar = ClassCalendar.objects.filter(
                         owner = self.student,
                         course__pk = request.POST.get('value', -1)
@@ -733,11 +729,9 @@ class CalendarView(View):
         ).values('pk', 'accuracy', 'payment_date', 'subscribe_date', 'price', 'enabled', 'calendar')
         for subscription in subscriptions:
             for info in subscription_info:
-                print(info)
                 if info['calendar'] == subscription.pk:
                     payment_date = timezone.localtime(info['payment_date'], timezone=timezone.get_current_timezone())
                     subscribe_date = timezone.localtime(info['subscribe_date'], timezone=timezone.get_current_timezone())
-                    print(payment_date)
                     setattr(subscription, 'rating', info['accuracy'])
                     setattr(subscription, 'payment_date', payment_date)
                     setattr(subscription, 'subscribe_date', subscribe_date)
@@ -861,7 +855,6 @@ class SubscriptionUpdateView(View, AjaxableResponseMixin):
             if subscription.exists():
                 subscription = subscription[0]
                 rating = int(request.POST.get('rating', None))
-                print(rating)
                 if rating != None:
                     subscription.accuracy = rating
                     subscription.save()
@@ -1040,7 +1033,6 @@ class CalendarListView(View, AjaxableResponseMixin):
                 calendar['time'] = time_string
                 del calendar['create_date']
 
-            print(calendars)
             data = {
                 'calendars': list(calendars),
             }
