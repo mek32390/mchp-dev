@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import View
 
-from lib.decorators import school_required
+from lib.decorators import class_required
 # from lib import utils
 from schedule.models import SchoolQuicklink, SchoolAlias
 # from user_profile.models import Enrollment
@@ -139,7 +139,7 @@ class DashboardView(View):
         return HttpResponseNotAllowed(['GET'])
 
     @method_decorator(ensure_csrf_cookie)
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardView, self).dispatch(*args, **kwargs)
@@ -211,7 +211,7 @@ class DashboardFeed(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('dashboard'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardFeed, self).dispatch(*args, **kwargs)
@@ -241,7 +241,7 @@ class DashboardRssProxy(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('dashboard'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardRssProxy, self).dispatch(*args, **kwargs)
