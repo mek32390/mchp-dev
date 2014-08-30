@@ -220,6 +220,12 @@ $(function() {
 	 **************************/
 	$('.manage-calendar-tab').click(function(){
 		$('.manage-calendar-tab').removeClass('active');
+		$('.prompt-delete-message').addClass('hidden');
+		$('.not-delete-button').addClass('hidden');
+		$('.confirm-delete-button').addClass('hidden');
+		$('.end-subscription').addClass('hidden');
+		$('.prompt-delete-button').removeClass('hidden');
+
 	});
 
 	$('.prompt-delete-button').on('click', function () {

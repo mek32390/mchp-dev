@@ -121,14 +121,14 @@ body {
 }*/
 
 /* custom svg chip icon in nav */
-#nav-chip-icon {
+svg #nav-chip-icon {
   fill: #777;
   position: relative;
-  top: 2px;
+  top: 5px;
 }
 
 /* for points icon in nav */
-#purchasePointsMenu:hover #nav-chip-icon{
+#purchasePointsMenu:hover svg#nav-chip-icon{
   fill: #333;
 }
 
