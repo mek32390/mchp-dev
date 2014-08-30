@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from celery import shared_task
 
+from django.conf import settings
 from django.core.files.base import File
 from django.core.files.images import ImageFile
 
@@ -62,7 +63,7 @@ def create_preview(instance):
         instance.preview.save(preview, ImageFile(open(preview_name, 'rb'), preview_name))
         os.remove(preview_name)
 
-    instance.document.storage.connection.put_acl('mchp-dev', 'media/' + instance.document.name, '',
+    instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '',
                                                {'x-amz-acl':'private'})
 
 
