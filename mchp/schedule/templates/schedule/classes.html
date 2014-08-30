@@ -43,7 +43,7 @@
 		{% else %}
 		<div class="tab-pane fade" id="course{{forloop.counter}}">
 		{% endifequal %}
-		<p></p>
+		<!-- <p></p>
 		<div class="alert alert-info alert-dismissible fade in" id="ref-alert" role="alert">
 		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 		<div class="media margin-top-none">
@@ -55,7 +55,7 @@
 				<span class="btn btn-default btn-sm btn-file"><i class="fa fa-file-o"></i> Upload Syllabus <input type="file"></span>
 			</div>
 		</div>
-	</div><!-- end alert -->
+	</div> --><!-- end alert -->
 			<div class="well well-md animated " style="padding-bottom:0px; margin-top:20px;">
 				<div class="panel panel-default">
 					<div class="panel-body">
@@ -66,7 +66,7 @@
 							<div class="media-body">
 								<h2 class="media-heading"><a href="{% url "course" course.pk %}{{course.name}}">{{course.dept}} {{course.course_number}}</a></h2>
 								<h5>
-								<span class="btn btn-default btn-sm btn-file"><i class="fa fa-file-o"></i> Upload Syllabus <input type="file"></span>&nbsp;
+								<!-- <span class="btn btn-default btn-sm btn-file"><i class="fa fa-file-o"></i> Upload Syllabus <input type="file"></span>&nbsp; -->
 									<i class="fa fa-male"></i> Instructor {{course.professor}} &nbsp; 
 									<i class="fa fa-university"></i> <a href="{% url "school" course.domain__pk %}{{course.domain__name}}"> {{course.domain__name}}</a>
 								</h5>
