@@ -13,6 +13,8 @@ def add_event(sender, **kwargs):
     print(event.pk)
 
     calendar = event.calendar
+	if calendar.private:
+		return
     followers = calendar.subscribers.all()
     data = {
         'type': DASH_EVENTS.index('calendar add'),

@@ -39,7 +39,7 @@ class DashboardView(View):
         ).order_by('id')
 
         events = CalendarEvent.objects.filter(
-            Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student))
+            Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student,private=False))
             | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
             start__range=(timezone.now(), timezone.now() + timedelta(days=1))
         ).order_by('start')
