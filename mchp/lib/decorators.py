@@ -3,6 +3,8 @@ from allauth.account.decorators import verified_email_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
+
+from schedule.models import School
  
 def school_required(func):
     
