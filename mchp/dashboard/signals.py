@@ -10,11 +10,10 @@ from dashboard.utils import DASH_EVENTS
 @receiver(calendar_event_created)
 def add_event(sender, **kwargs):
     event = kwargs['event']
-    print(event.pk)
 
     calendar = event.calendar
-	if calendar.private:
-		return
+    if calendar.private:
+        return
     followers = calendar.subscribers.all()
     data = {
         'type': DASH_EVENTS.index('calendar add'),
