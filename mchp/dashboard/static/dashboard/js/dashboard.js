@@ -144,11 +144,17 @@ var addRss = function(section, rss, name) {
 	var $content = $item.find('.news-content');
 	$item.find('.news-headline').html(rss.title);
 	$item.find('.news-headline').attr('href', rss.link);
+	$item.find('.news-time').text(time.fromNow());
+	$item.find('.news-name').text(name);
 
 	// um
 	// this is so that resources inside the html are not fetched,
 	// resulting in wasted bandwidth and mixed content on the page
 	var dom = '<!DOCTYPE html><html><head></head><body>'+rss.description +'</body></html>';
+    if (!DOMParser) {
+        section.append($item);
+        return;
+    }
 	var doc = new DOMParser().parseFromString(dom, 'text/html');
 	var description = doc.body.textContent;
 
@@ -160,8 +166,6 @@ var addRss = function(section, rss, name) {
 	} else {
 		$content.text(description);
 	}
-	$item.find('.news-time').text(time.fromNow());
-	$item.find('.news-name').text(name);
 	section.append($item);
 };
 
