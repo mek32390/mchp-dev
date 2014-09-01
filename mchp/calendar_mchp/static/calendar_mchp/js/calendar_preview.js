@@ -13,7 +13,7 @@ $(function() {
 	/* fb stuff */
 	window.fbAsyncInit = function(){
 		FB.init({
-			appId: '1488225931413638',
+			appId: '369999156462705',
 		status: true,
 		cookie: true,
 		xfbml: true 
@@ -37,7 +37,7 @@ $(function() {
 			link: url, 
 			name: title,
 			description: desc,
-			picture: 'https://s3-us-west-2.amazonaws.com/mchpstatic/Circle+Icons+/Custom/calendar-blank.svg',
+			picture: 'https://s3-us-west-2.amazonaws.com/mchpstatic/calenda-default.svg',
 		};
 		console.log(obj);
 		function callback(response){

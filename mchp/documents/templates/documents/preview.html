@@ -1,6 +1,13 @@
 {% extends 'documents/base.html' %}
 {% block head_title %}{{ document.title }}{% endblock %}
 
+<meta property="fb:app_id" content="369999156462705" /> 
+<meta property="og:type" content="product" /> 
+<meta property="og:url" content="{{request.get_host}}{{current_path}}" /> 
+<meta property="og:title" content="{{document.title}} in {{document.course.dept}} {{document.course.course_number}}" /> 
+<meta property="og:image" content="{{document.preview.url}}" /> 
+<meta property="og:description" content="{{document.description}}" />
+
 {% block extra_head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
 
