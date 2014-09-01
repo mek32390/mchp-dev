@@ -13,7 +13,7 @@ $(function() {
 	/* fb stuff */
 	window.fbAsyncInit = function(){
 		FB.init({
-			appId: '1488225931413638',
+			appId: '369999156462705',
 		status: true,
 		cookie: true,
 		xfbml: true 
