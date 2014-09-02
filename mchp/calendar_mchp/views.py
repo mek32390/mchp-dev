@@ -294,7 +294,7 @@ class EventAddView(View, AjaxableResponseMixin):
             # most things don't let you submit a time yet
             if event['hasTime']:
                 start = datetime.strptime(date, DATE_FORMAT)
-                start = timezone.make_aware(start, timezone.utc)
+                start = timezone.make_aware(start, timezone.get_current_timezone())
                 end = start + timedelta(hours=1)
             else:
                 date = datetime.strptime(date, DATE_FORMAT)
