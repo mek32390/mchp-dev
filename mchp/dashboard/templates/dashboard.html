@@ -164,22 +164,14 @@
             {% for classmate in classmates %}
             <div class="list-group-item">
               <div class="media">
-<<<<<<< HEAD
-                <a class="pull-left" href="#">
-=======
                 <a class="pull-left" href="{% url "profile" classmate.pk %}">
->>>>>>> development
                   <img class="media-object img-thumbnail img-circle center-block" width="50"
                   src="{{classmate.profile.profile_image_url}}" />
                 </a>
                 <div class="media-body">
-<<<<<<< HEAD
-                  <h5 class="media-heading">{{classmate.user.username}}</h5>
-=======
                   <a href="{% url "profile" classmate.pk %}">
                     <h5 class="media-heading">{{classmate.user.username}}</h5>
                   </a>
->>>>>>> development
                   <p class="small margin-btm-none">{{classmate.major}}</p>
                 </div>
               </div>
