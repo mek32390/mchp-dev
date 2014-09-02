@@ -481,9 +481,10 @@ class SchoolView(DetailView):
         s_count = self.object.student_school.all().count()
         context['student_count'] = s_count
         all_counts = len(cals) + len(docs) + s_count
-        context['student_percent'] = (s_count * 100) / all_counts
-        context['cal_percent'] = (len(cals) * 100) / all_counts
-        context['doc_percent'] = (len(docs) * 100) / all_counts
+        if all_counts:
+            context['student_percent'] = (s_count * 100) / all_counts
+            context['cal_percent'] = (len(cals) * 100) / all_counts
+            context['doc_percent'] = (len(docs) * 100) / all_counts
 
         links = SchoolQuicklink.objects.filter(
             domain=self.get_object

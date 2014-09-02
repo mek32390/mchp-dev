@@ -82,10 +82,6 @@ def create_preview(instance):
 
     instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '',
                                                {'x-amz-acl':'private'})
-    add_notification(
-        upload.owner.user,
-        'Your document has made it through, fuck yes'.format(instance.title) 
-    )
 
 
 # just runs the command passed to it
