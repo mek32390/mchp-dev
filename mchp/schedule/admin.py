@@ -5,7 +5,7 @@ from django import forms
 from schedule.models import SchoolQuicklink, School, SchoolAlias
 
 for model in get_models(get_app('schedule')):
-    if model == SchoolQuicklink or model == SchoolAlias:
+    if model == SchoolAlias:
         continue
     admin.site.register(model)
 
@@ -17,6 +17,8 @@ class SchoolQuicklinkAdminForm(forms.ModelForm):
 
 class SchoolQuickLinkAdmin(admin.ModelAdmin):
     form = SchoolQuicklinkAdminForm
+
+# admin.site.register(SchoolQuickLink, SchoolQuickLinkAdmin)
 
 class SchoolAliasAdminForm(forms.ModelForm):
     domain = forms.ModelChoiceField(queryset=School.objects.order_by('name'))
