@@ -201,15 +201,15 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="{%url 'dashboard'%}"><i class="fa fa-home"></i></a></li>
-						<li><a href="{%url 'classes'%}"><i class="fa fa-book"></i></a></li>
-						<li><a href="{%url 'calendar'%}"><i class="fa fa-calendar"></i></a></li>
+						<li><a href="{%url 'dashboard'%}" data-toggle="tooltip" data-original-title="Home" data-placement="bottom"><i class="fa fa-home"></i></a></li>
+						<li><a href="{%url 'classes'%}" data-toggle="tooltip" data-original-title="Classes" data-placement="bottom"><i class="fa fa-book"></i></a></li>
+						<li><a href="{%url 'calendar'%}" data-toggle="tooltip" data-original-title="Calendar" data-placement="bottom"><i class="fa fa-calendar"></i></a></li>
 					</ul>
 					<!-- <form class="navbar-form navbar-left" role="search">  			
 			<input id="mchp-search" class="form-control typeahead" placeholder="Search for a course" type="text" data-provide="typeahead">
 					</form> -->
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points">{{student.total_points}}</span> <!-- <i class="fa fa-calendar"></i> -->
+						<li><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points" data-toggle="tooltip" data-original-title="Points" data-placement="bottom">{{student.total_points}}</span> <!-- <i class="fa fa-calendar"></i> -->
 						<!-- stupid svg icon that we should unclude from somewhere else -->
 						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="14px" height="14px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" id="nav-chip-icon" style="fill: #777; position: relative; top: 2px;">
 						<g>
@@ -242,7 +242,7 @@
 						</ul> -->
 					<!-- </li> -->
 					
-					<li class="dropdown" id="notifs-dropdown">
+					<li class="dropdown" id="notifs-dropdown" data-toggle="tooltip" data-original-title="Notifications" data-placement="bottom">
 						{% unread_count as unread %}
 						<a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">{{unread}}</span> <i class="fa fa-lightbulb-o"></i></a>
 						<ul class="dropdown-menu">
