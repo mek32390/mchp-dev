@@ -58,7 +58,8 @@ class ProfileView(DetailView):
         ).order_by('create_date')[:10]
         context['upload_list'] = docs
         cals = ClassCalendar.objects.filter(
-            owner = self.object
+            owner = self.object,
+            private=False,
         ).select_related()
         context['calendars'] = cals
         
@@ -132,6 +133,9 @@ class ConfirmSchoolView(View):
     template_name = 'user_profile/school.html'
 
     def get(self, request, *args, **kwargs):
+        # clear out the migration session info
+        request.session.pop('migration', None)
+
         all_schools = School.objects.all().values('name', 'domain', 'pk').order_by('name')
         next = request.GET.get('next', '')
         email = request.user.email.split('@')[1]
@@ -156,7 +160,10 @@ class ConfirmSchoolView(View):
         school = request.POST.get('school', '')
         school = School.objects.get(pk=school)
         try:
-            request.user.student 
+            student = request.user.student 
+            student.school = school
+            student.save()
+            return redirect(reverse('dashboard'))
         except Student.DoesNotExist:
             Student.objects.create_student(request.user, school)
 

@@ -23,17 +23,6 @@ $(function() {
     } else {
 		$form.submit();
 	}
-   
-    // style error message to BS Validator
-    var html = [],
-        $list = $('.errorlist');
-
-    html.push('<div class="errorlist">');
-        $list.find('li').each(function() {
-        html.push('<p class="text-danger small">' + $(this).text() + '</p>');
-        });
-    html.push('</div>');
-    $list.replaceWith(html.join(''));
     
     // Convert form fields to BS Validator
     $("#id_first_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );

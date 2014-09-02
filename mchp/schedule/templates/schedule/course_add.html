@@ -93,13 +93,11 @@
 											</h4>
 											<p class="list-group-item-text">
 												<i class='fa fa-user fa-fw'></i> 
-												{% ifequal course.student_count 1%}
-													{{course.student_count}} Student
-												{% else %}
-													{{course.student_count}} Students
-												{% endifequal %}
-												<i class='fa fa-file fa-fw'></i> 0 Documents 
-												<i class='fa fa-calendar fa-fw'></i> 0 Calendars
+												{{course.student_count}} Student{{course.student_count|pluralize}}
+												<i class='fa fa-file fa-fw'></i> 
+												{{course.doc_count}} Document{{course.doc_count|pluralize}}
+												<i class='fa fa-calendar fa-fw'></i> 
+												{{course.cal_count}} Calendar{{course.cal_count|pluralize}}
 											</p>
 										</div>
 									{% endfor %}
@@ -110,7 +108,7 @@
 								{% else %}
 									<div class="list-group-item list-group-item-danger">
 											<a href="{% url 'course_create' %}" class="btn btn-danger pull-right">Create Class</a> 
-											<h5>No classes matched this search! Create this class to earn points.</h5> 
+											<h5>No classes matched this search!</h5> 
 										</div>
 								{% endif %}
 							</div>

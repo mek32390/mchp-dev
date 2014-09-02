@@ -1,6 +1,6 @@
 $(function() {
     $("#id_email").focus();
-    $("#id_email").attr("placeholder", "Enter your .edu e-mail");
+    $("#id_email").attr("placeholder", "Enter your .EDU e-mail");
     $("label").hide();
 
     // style error message to BS Validator

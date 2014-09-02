@@ -5,10 +5,7 @@
 {% block extra_head %}
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
-<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> -->
-
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/fullcalendar.css' %}">
@@ -177,7 +174,7 @@
 													<span class="prompt-delete-message small hidden">Are you sure?</span> &nbsp;
 													<span class="btn btn-danger btn-xs confirm-delete-button hidden" data-cal="{{calendar.pk}}">Yes</span>
 													<span class=" btn btn-default btn-xs not-delete-button hidden">Cancel</span>
-													<span class="pull-right btn btn-danger btn-xs prompt-delete-button">Delete</span>
+													<span class="btn btn-danger btn-xs prompt-delete-button">Delete</span>
 												</span>
 											</h3>
 										</div>
@@ -208,7 +205,7 @@
 													>
 													<label class="col-sm-4 control-label">Price:</label>
 													<div class="col-sm-8">
-														<span class="calendar-price" data-pk="{{calendar.pk}}" data-name="price">{{calendar.price}}</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per fortnight (2 weeks) that your classmates pay to subscribe to your calendar"></i></span>
+														<span class="calendar-price" data-pk="{{calendar.pk}}" data-name="price">{{calendar.price}}</span> &nbsp;<span><i class="fa fa-info-circle small" data-toggle="tooltip" data-placement="right" data-original-title="This is the price per fortnight (14 days) that your classmates pay to subscribe to your calendar"></i></span>
 													</div>
 												</div>
 												<div class="form-group form-group-sm">
@@ -451,7 +448,7 @@
 						</div>
 						<div class="col-xs-4">
 							<span class="pull-right">
-								<a href="#" class=" view-cals margin-btm-none text-default btn btn-default btn-xs"> Browse Calendars</a>	
+								<a href="#" class="view-cals margin-btm-none btn btn-primary btn-xs"> Browse Calendars</a>	
 							</span>
 						</div>
 					</div>

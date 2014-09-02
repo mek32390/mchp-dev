@@ -66,7 +66,8 @@ $(function(){
 	$('#ref-alert').on('close.bs.alert', function  () {
 		toggle_flag($(this).data('event'));
 	});
-	$('.pulse-con').css('max-height',$(window).height() - 200);
+	$('.pulse-con').css('max-height',$(window).height() - 100);
+	$('#news-scroll').css('max-height',$(window).height() - 100);
 
 	$('.toggle-rss').click(function() {
 		var setting = $(this).data('setting');
@@ -75,7 +76,7 @@ $(function(){
 		$('#news-'+setting).toggleClass('hidden');
 
 		$.ajax({
-			url: '/dashboard/toggle-rss/',
+			url: '/home/toggle-rss/',
 			type: 'POST',
 			data: {
 				'setting': setting,
@@ -83,7 +84,7 @@ $(function(){
 		});
 		fetchRss();
 		if ($('.news-list-item:visible').length === 0) {
-			$('.news-list-empty').toggleClass('hidden');
+			$('.news-list-empty').removeClass('hidden');
 		}
 	});
 
@@ -98,7 +99,7 @@ $(function(){
 
 var fetchRss = function() {
 	if ($('.news-list-item:visible').length !== 0) {
-		$('.news-list-empty').toggleClass('hidden');
+		$('.news-list-empty').addClass('hidden');
 	}
 	
 	var $sections = $('.news-group');
@@ -116,14 +117,13 @@ var fetchRss = function() {
 			var url = $link.data('link') ;
 			var name = $link.data('name');
 			var count = $link.data('count');
-			var fuckyou = 'shitfucking';
 			var successFn = function(feed) {
 				for(var i = 0 ; i < count ; i++) {
 					addRss($section, feed.items[i], name);
 				}
 			};
 			$.getFeed({
-				url: '/dashboard/rss-proxy/',
+				url: '/home/rss-proxy/',
 				data: {
 					'url': url,
 				},
@@ -134,6 +134,9 @@ var fetchRss = function() {
 };
 
 var addRss = function(section, rss, name) {
+	if (!rss) {
+		return;
+	}
 	var $item = $('.news-item-proto').first().clone();
 	$item.removeClass('news-item-proto');
 	$item.removeClass('hidden');
@@ -142,16 +145,29 @@ var addRss = function(section, rss, name) {
 	var $content = $item.find('.news-content');
 	$item.find('.news-headline').html(rss.title);
 	$item.find('.news-headline').attr('href', rss.link);
-	$content.html(rss.description);
 	$item.find('.news-time').text(time.fromNow());
 	$item.find('.news-name').text(name);
+
+	// um
+	// this is so that resources inside the html are not fetched,
+	// resulting in wasted bandwidth and mixed content on the page
+	var dom = '<!DOCTYPE html><html><head></head><body>'+rss.description +'</body></html>';
+    if (!DOMParser) {
+        section.append($item);
+        return;
+    }
+	var doc = new DOMParser().parseFromString(dom, 'text/html');
+	var description = doc.body.textContent;
+
+	if (description.length > 200) {
+		var $continueText = $('<span>...</span>');
+		// $continueLink.attr('href', rss.link);
+		$content.text(description.substr(0,200).trim());
+		$content.append($continueText);
+	} else {
+		$content.text(description);
+	}
 	section.append($item);
-	// remove some extra stuff some feeds seem to add
-	$content.find('p').siblings().remove();
-	$content.find('img').remove();
-	$content.find('script').remove();
-	$content.find('br').remove();
-	$content.find('a').remove();
 };
 
 var processFeed = function(feed) {
@@ -237,7 +253,7 @@ Pulse.prototype.render = function(items) {
 var fetchFeed = function() {
 	var feed = [];
 	$.ajax({
-		url: '/dashboard/feed/',
+		url: '/home/feed/',
 		type: 'GET',
 		success: function(data) {
 			items = processFeed(data.feed);

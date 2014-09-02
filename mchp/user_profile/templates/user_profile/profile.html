@@ -10,8 +10,8 @@
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/inputs-ext/typeaheadjs/typeaheadjs.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.9.3/typeahead.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/inputs-ext/typeaheadjs/typeaheadjs.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.9.3/typeahead.min.js"></script>
 
 
 {% load staticfiles %}
@@ -31,7 +31,7 @@
 			<form method="post" action="{% url "edit_pic" %}" id="pic-form">
 				{% csrf_token %}
 				<div class="btn-file">
-					<span class=""><i class="fa fa-camera"></i> Update <input name="pic" id="pic-input" type="file">
+					<span class=""><small><i class="fa fa-camera"></i> Update </small><input name="pic" id="pic-input" type="file">
 					</span>
 				</div>
 			</form>
@@ -43,7 +43,7 @@
 			{% ifequal viewer student %}
 			<span href="#" data-type="typeaheadjs" id="major" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"> {% if student.major %}{{student.major}}{% endif %}</span> &nbsp;
 			{% else %}
-			<span id="major-other"> {% if student.major %}{{student.major}}{% else %}No Major{% endif %}</span> &nbsp;
+			<span id="major-other"> {% if student.major %}{{student.major}}{% else %}Select your Major{% endif %}</span> &nbsp;
 			{% endifequal %}
 			<i class="fa fa-university fa-fw"></i><a href="{% url "school" student.school.pk %}">{{student.school.name}}</a>
 		</p>
@@ -119,15 +119,15 @@
 					{% for document in upload_list %}
 						<div class="col-sm-3 col-centered">
 						    <div class="list-group-item" id="document_{{document.pk}}" style="margin-bottom:20px;">
-						    	<div class="img-thumbnail" style="width:75px;">
+						    	<div class="img-thumbnail" style="width:100%;">
 									<a href="{% url 'document_list' %}
 									{{ document.uuid}}/
 									{{ document.slug}} ">
 
 									{% if document.preview %}
-									<img src="{{document.preview.url}}" style="">
+									<img src="{{document.preview.url}}" width="100%">
 									{% else %}
-									<img src="{% static 'documents/img/loading_file.svg' %}" style="">
+									<img src="{% static 'documents/img/loading_file.svg' %}" width="100%">
 									{% endif %}
 									</a>
 								</div>
@@ -222,7 +222,7 @@
 						    <div class="list-group-item calendar-item" style="margin-bottom:20px;">
 						      <img class="" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" width="75px" alt="calendar">
 						      <div class="assignment-number text-center text-default h3 calendar-event-count">{{calendar.events}}</div>
-						        <h4><a href="#" class="calendar-title">{{calendar.title}}</a> <small>{{calendar.price}} points</small></h4>
+									<h4><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a> <small>{{calendar.price}} points</small></h4>
 						       	<span class="description">
 									<h5 class="">Prof <span
 										class='calendar-professor'>{{calendar.course.professor}}</span>

@@ -10,9 +10,10 @@ from dashboard.utils import DASH_EVENTS
 @receiver(calendar_event_created)
 def add_event(sender, **kwargs):
     event = kwargs['event']
-    print(event.pk)
 
     calendar = event.calendar
+    if calendar.private:
+        return
     followers = calendar.subscribers.all()
     data = {
         'type': DASH_EVENTS.index('calendar add'),
@@ -32,7 +33,9 @@ def add_class_join(sender, **kwargs):
     enroll = kwargs['enroll']
 
     # first, send the fact that they joined to everyone already enrolled
-    followers = enroll.course.student_set.all()
+    followers = enroll.course.student_set.exclude(
+        pk=enroll.student.pk
+    )
     data = {
         'type': DASH_EVENTS.index('other class join'),
         'course': enroll.course,
@@ -76,7 +79,7 @@ def add_document_upload(sender, **kwargs):
         'type': DASH_EVENTS.index('document add'),
         'document': upload.document,
         'course': upload.document.course,
-        'student': upload.student,
+        'student': upload.owner,
     }
     dash_item = DashEvent(**data)
     dash_item.save()

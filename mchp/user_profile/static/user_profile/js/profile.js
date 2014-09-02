@@ -50,7 +50,6 @@ $(function(){
 				send: 'always',
 				showbuttons: false,
 				url: '/profile/edit-major/',
-				title: 'Choose your Major',
 				typeahead: {
 					local: majors,
 				}

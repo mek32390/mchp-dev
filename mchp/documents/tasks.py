@@ -1,7 +1,9 @@
 from __future__ import absolute_import
 
 from celery import shared_task
+from celery.utils.log import get_task_logger
 
+from django.conf import settings
 from django.core.files.base import File
 from django.core.files.images import ImageFile
 
@@ -12,8 +14,10 @@ import os.path
 
 from wand.image import Image
 
-import logging
-logger = logging.getLogger(__name__)
+from notification.api import add_notification
+from documents.models import Upload
+
+logger = get_task_logger(__name__)
 
 @shared_task
 def create_preview(instance):
@@ -27,10 +31,13 @@ def create_preview(instance):
                     b'application/vnd.oasis.opendocument.spreadsheet',
                    ]
 
-    logger.debug(instance.filetype)
+    logger.error(instance.filetype)
     if not instance.filetype in filetypes and not instance.filetype in convert_type:
         return
 
+    upload = Upload.objects.get(
+        document=instance
+    )
     if instance.filetype in convert_type:
         output = 'tmp{}.pdf'.format(uuid.uuid4())
         input = 'old{}'.format(uuid.uuid4())
@@ -38,14 +45,25 @@ def create_preview(instance):
         urllib.request.urlretrieve(instance.document.url, input)
 
         unoconv_command = 'unoconv -f pdf --output="{}" "{}" '.format(output, input)
-        logger.debug('converting {}'.format(unoconv_command))
+        logger.error('converting {}'.format(unoconv_command))
         _run(unoconv_command)
         new_doc = "{}.pdf".format(
             os.path.splitext(instance.filename())[0]
         )
-        logger.debug(new_doc)
+        logger.error(new_doc)
         instance.document.delete()
-        instance.document.save(new_doc, File(open(output,'rb'), output))
+        try:
+            instance.document.save(new_doc, File(open(output,'rb'), output))
+        except FileNotFoundError:
+            logger.error('Error converting {}'.format(instance.title))
+            add_notification(
+                upload.owner.user,
+                'Your document, {}, asplode. Try converting it to pdf, or upload something else.'.format(instance.title) 
+            )
+            instance.delete()
+            os.remove(input)
+            return
+            
         os.remove(input)
         os.remove(output)
 
@@ -62,13 +80,17 @@ def create_preview(instance):
         instance.preview.save(preview, ImageFile(open(preview_name, 'rb'), preview_name))
         os.remove(preview_name)
 
-    instance.document.storage.connection.put_acl('mchp-dev', 'media/' + instance.document.name, '',
+    instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '',
                                                {'x-amz-acl':'private'})
+    add_notification(
+        upload.owner.user,
+        'Your document has made it through, fuck yes'.format(instance.title) 
+    )
 
 
 # just runs the command passed to it
 def _run(command):
-    logger.debug(command)
+    logger.error(command)
 
     proc = subprocess.Popen(command,
         shell=True,
@@ -76,5 +98,8 @@ def _run(command):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    stdout_value = proc.communicate()[0]
-    logger.debug('stdout: ' + str(stdout_value))
+    print(proc.communicate())
+    # stdout_value = proc.communicate()[0]
+    # stderr_value = proc.communicate()[1]
+    # logger.info('stdout: ' + str(stdout_value))
+    # logger.error('stderr: ' + str(stderr_value))

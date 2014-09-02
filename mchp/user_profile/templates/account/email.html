@@ -13,20 +13,19 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center">{% trans "Transfer Universities" %}</h2>
+    <h2 class="text-center">{% trans "Transfer Schools" %}</h2>
     <p><img class="media-object img-responsive center-block" src=
         "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt=
-        "..."></p>
+        "Transfer Schools"></p>
         {% if user.emailaddress_set.all %}
         <p class="text-center ">{% trans 'The following .EDU e-mail addresses are associated with your account:' %}</p>
         <div class="row">
-            <div class="col-xs-6 col-xs-offset-3">
+            <div class="col-sm-8 col-sm-offset-2">
               <div class="panel panel-default">
                 <div class="panel-body">
                     <form action="{% url 'account_email' %}" class="email_list" method="post">
                         {% csrf_token %}
                         <fieldset class="blockLabels">
-
                           {% for emailaddress in user.emailaddress_set.all %}
                           <div class="ctrlHolder">
                               <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
@@ -35,11 +34,11 @@
 
                                   {{ emailaddress.email }}
                                   {% if emailaddress.verified %}
-                                  <span class="verified text-success"><label class="label label-success"><small>Verified</small></label></span>
+                                  <span class="verified text-success"><small>Verified</small></span>
                                   {% else %}
-                                  <span class="unverified text-danger"><label class="label label-danger"><small>Unverified</small></label></span>
+                                  <span class="unverified text-danger"><small>Unverified</small></span>
                                   {% endif %}
-                                  {% if emailaddress.primary %}<span class="primary text-primary"><label class="label label-primary"><small>Primary</small></label></span>{% endif %}
+                                  {% if emailaddress.primary %}<span class="primary text-primary"><small>Primary</small></span>{% endif %}
                               </label>
                           </div>
 
@@ -80,7 +79,7 @@
             {% csrf_token %}
             {{ form.as_p}}
             <div class="form-group">
-                <button name="action_add" class="primaryAction btn btn-primary btn-block" type="submit">{% trans "Add E-mail" %}</button>
+                <button name="action_add" class="primaryAction btn btn-primary btn-block" type="submit">{% trans "Add e-mail" %}</button>
             </div>
         </form>
     </div>

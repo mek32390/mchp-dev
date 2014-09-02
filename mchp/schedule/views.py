@@ -13,25 +13,21 @@ from django.http import HttpResponse
 from django.core import serializers
 from django.utils import timezone
 
-from lib.decorators import school_required
+from lib.decorators import school_required, class_required
 from lib.utils import random_mix
 from calendar_mchp.models import ClassCalendar, CalendarEvent
 from documents.models import Document
-from schedule.forms import CourseCreateForm, CourseChangeForm, CourseSearchForm
+from notification.api import add_notification
+from schedule.forms import CourseCreateForm, CourseChangeForm
 from schedule.models import Course, School, SchoolQuicklink, Section, Department
 from schedule.utils import WEEK_DAYS
 from user_profile.models import Enrollment
-
-from haystack.query import SQ
 
 from datetime import datetime
 import logging
 import json
 logger = logging.getLogger(__name__)
 
-from django.contrib.messages import add_message
-
-import stored_messages
 
 # most views should inherit from this if they submit form data
 class _BaseCourseView(FormView):
@@ -123,18 +119,14 @@ class CourseCreateView(_BaseCourseView):
             self.request,
             "Course created successfully!"
         )
-
-        add_message(
-            self.request, 
-            stored_messages.STORED_INFO, 
+        add_notification(
+            self.request.user,
             'You created a class! ' + str(course.dept) + ' ' + str(course.course_number)
         )
-        add_message(
-            self.request, 
-            stored_messages.STORED_INFO, 
-            'You are now enrolled in ' + str(course.dept) + ' ' + str(course.course_number)
+        add_notification(
+            self.request.user,
+            'You are now enrolled in ' + str(course.dept) + ' ' + str(course.course_number),
         )
-        
         return super(CourseCreateView, self).form_valid(form)
 
 course_create = CourseCreateView.as_view()
@@ -149,23 +141,32 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
-        existing_courses = []
         query = ''
         show_results = False
         enrolled_courses = Course.objects.filter(student=self.student).order_by(
             'dept', 'course_number', 'professor'
         )
         # user performed a search
+        results = []
         if 'q' in request.GET:
             show_results = True
             query = request.GET['q']
-            if query != '':
-                existing_courses = self.search_classes(request, enrolled_courses)
+            name = query.replace(' ', '')
+            results = Course.objects.filter(
+                domain=self.student.school,
+                name__icontains=name,
+            ).exclude(
+                pk__in=enrolled_courses
+            ).order_by(
+                'dept', 'course_number', 'professor'
+            ).annotate(
+                student_count = Count('enrollment__student'),
+            )
 
         data = {
             'query': query,
             'enrolled_courses': enrolled_courses,
-            'course_results': existing_courses,
+            'course_results': results,
             'show_results': show_results,
         }
 
@@ -173,39 +174,6 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
         # context acts like a stack here, update is a push to combine 
         context_data.update(data)
         return render(request, self.template_name, context_data)
-
-    # using haystack
-    def search_classes(self, request, already_enrolled):
-        # haystack stuff
-        form = CourseSearchForm(request.GET)
-        sq = SQ()
-
-        # add a filter for already enrolled classes
-        for course in already_enrolled:
-            sq.add(~SQ(
-                dept=course.dept, 
-                course_number=course.course_number,
-                professor=course.professor,
-            ), SQ.OR)
-
-        # perform search 
-        if not already_enrolled:
-            courses = form.search().filter()
-        else:
-            courses = form.search().filter(sq)
-
-        # annotate the results with number of students in each course
-        # first get all primary keys from the search results
-        pks = list(map((lambda c: c.pk), courses))
-        course_list = Course.objects.filter(
-            pk__in=pks, 
-            # filter out other schools
-            domain=self.student.school
-        )\
-        .order_by('dept', 'course_number', 'professor')\
-        .annotate(student_count = Count('student'))
-
-        return course_list
 
     def form_invalid(self, form):
         messages.error(
@@ -478,7 +446,7 @@ class SchoolView(DetailView):
         ).values(
             'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
             'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
-            'owner__user__username'
+            'owner__user__username', 'course__pk', 'course__dept', 'course__course_number',
         ).order_by('create_date')[:5]
 
         for calendar in cals:
@@ -508,6 +476,7 @@ class SchoolView(DetailView):
 
         context['popular_calendars'] = cals
         context['cal_count'] = len(cals)
+        context['doc_count'] = len(docs)
 
         s_count = self.object.student_school.all().count()
         context['student_count'] = s_count
@@ -579,16 +548,20 @@ class ClassesView(View):
 
             joins = []
             for join in latest_joins:
-                joins.append(Activity('join', join.student.name, join.join_date, ''))
+                joins.append(Activity('join', join.student.name, join.join_date, join.student))
 
             both = list(random_mix(act, joins))
             course['activity'] = both
+            students = Enrollment.objects.filter(
+                course__pk=course['pk']
+            )
+            course['students'] = students
 
         data['course_list'] = courses
 
         return render(request, self.template_name, data)
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(ClassesView, self).dispatch(*args, **kwargs)

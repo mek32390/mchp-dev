@@ -27,6 +27,9 @@ WEATHER_ICONS = {
     # moon: waning crescent
     25: 'wi wi-moon-waning-crescent',
 
+    # cloudy
+    26: 'wi wi-cloudy',
+
     # n: mostly cloudy
     27: 'wi wi-cloudy',
 

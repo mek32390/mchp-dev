@@ -1,6 +1,8 @@
 {% extends 'documents/base.html' %}
+{% block head_title %}My Documents{% endblock %}
 
 {% block extra_head %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'documents/css/list.css' %}">
 <script src="{% static 'documents/js/list.js' %}"></script>
@@ -15,7 +17,7 @@
 			<div class="media">
 				<img class="media-object pull-left animated slideInLeft" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/storage.svg" height="50px" alt="sell documents">
 				<div class="media-body">
-					<h2 class="media-heading">My Documents <div class='pull-right'> <a href="{%url 'document_upload'%}" class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a> </div></h2>
+					<h2 class="media-heading">My Documents <div class='pull-right'> <a href="{%url 'document_upload'%}" class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a> </div></h2>
 					make money while you study</div>
 			</div>
 			<hr>
@@ -66,7 +68,11 @@
 									{% else %}
 									<script>
 										var newly_uploaded = (typeof newly_uploaded != 'undefined' && newly_uploaded instanceof Array) ? newly_uploaded : [];
-										newly_uploaded.push({{document.pk}});
+										var upload = {
+											pk: '{{document.pk}}',
+											create_date: "{{document.create_date|date:'c'}}",
+										};
+										newly_uploaded.push(upload);
 									</script>
 									<div id="generating_message_{{document.pk}}">
 										We're prepping this doc for it's big debut... <i class="fa fa-spinner fa-spin"></i>
@@ -78,7 +84,7 @@
 								<a href="javascript:void(0)" class="badge delete-button" data-document="{{document.pk}}">delete</a>
 							</small> 
 
-							<span class="description">
+							<span class="description" id="description-{{document.pk}}">
 								<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
 								<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{ document.down}}&nbsp;
 								{% with document.review_count as review_count %}
@@ -92,6 +98,12 @@
 								Purchase{{purchase_count|pluralize}}
 								{% endwith %}
 							</span> 
+              <div>
+                for
+                <a href="{%url "course" document.course.pk%}">
+                   {{document.course}}
+                </a>
+              </div>
 						</div> 
 					</div> 
 				</li> 
@@ -100,14 +112,14 @@
 			<div id="no-documents" class="text-center" style="display: none;">
 				<hr>
 				<h4 class="lead">You're not selling any documents!</h4>
-				<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
+				<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
 				<hr>
 			</div> 
 			{% else %}
 			<div id="no-documents" class="text-center">
 				<hr>
 				<h4 class="lead">You're not selling any documents!</h4>
-				<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Sell Documents &raquo;</a>
+				<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
 				<hr>
 			</div>
 			{% endif %} 
@@ -159,14 +171,14 @@
 	<div id="no-purchases" class="text-center" style="display: none">
 		<hr>
 		<h4 class="lead">You haven't purchased any documents!</h4>
-		<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+		<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
 		<hr>
 	</div>
 	{% else %}
 	<div id="no-purchases" class="text-center">
 		<hr>
 		<h4 class="lead">You haven't purchased any documents!</h4>
-		<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file fa-fw"></i> Browse Documents &raquo;</a>
+		<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
 		<hr>
 	</div>
 	{% endif %}

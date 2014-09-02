@@ -1,22 +1,35 @@
 from django.db import models
+from django.db.utils import IntegrityError
 
 import user_profile.models
 from user_profile.utils import ONE_TIME_EVENTS_DICT
 import dashboard.models
-import schedule.models
+import random
 
 class StudentManager(models.Manager):
     # get or create the referral codes for a user
     def create_student(self, user, school):
         student = user_profile.models.Student(
             user=user, school=school,
-            major=schedule.models.Department.objects.get(name="Undecided")
         )
         student.save()
         profile = user_profile.models.UserProfile(student=student)
         profile.save()
         roles = user_profile.models.UserRole(user=user)
         roles.save()
+
+        # set username for social users
+        if user.first_name:
+            username = user.first_name + user.last_name
+            user.username = username
+            saved = False
+            while not saved:
+                try:
+                    user.save()
+                    saved = True
+                except IntegrityError:
+                    username = username + str(random.randrange(0,100))
+                    user.username = username
 
         # set default rss settings
         dashboard.models.RSSSetting.objects.restore_default_settings(student)
@@ -67,6 +80,10 @@ class OneTimeFlagManager(models.Manager):
 
     @staticmethod
     def get_flag(student, event):
+        # usually this mean the user is not logged in, so don't show any of these
+        if not student:
+            return (True,)
+
         if event in ONE_TIME_EVENTS_DICT.keys():
             pk = ONE_TIME_EVENTS_DICT[event]
         else:

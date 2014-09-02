@@ -13,12 +13,12 @@ from django.views.generic.edit import DeleteView,View, UpdateView
 from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from documents.models import Upload
-from lib.decorators import school_required
+from notification.api import add_notification_for, add_notification
+from lib.decorators import class_required
 from referral.models import ReferralCode
 from schedule.models import Course, Section
 from schedule.utils import WEEK_DAYS
-
-import stored_messages
+from user_profile.models import OneTimeFlag
 
 from datetime import datetime,timedelta
 from decimal import Decimal, ROUND_HALF_DOWN
@@ -123,7 +123,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             'end_date': end_date,
             'private': request.POST.get('private', True),
             'color': request.POST.get('color', '#FFFFFF'),
-            'price': request.POST.get('price', 100),
+            'price': request.POST.get('price', 200),
         }
         return ClassCalendar(**calendar_data)
     
@@ -154,7 +154,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
         }
         return self.render_to_json_response(data, status=200)
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarCreateView, self).dispatch(*args, **kwargs)
@@ -187,9 +187,8 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
                     calendar=cal
                 )
                 subscribers = list(map(lambda sub: sub.student.user, subs))
-                stored_messages.api.add_message_for(
+                add_notification_for(
                     subscribers,
-                    stored_messages.STORED_INFO,
                     '{} has deleted a calendar for {}'.format(request.user.username, cal.course)
                 )
                 subs.delete()
@@ -215,7 +214,7 @@ class CalendarDeleteView(DeleteView, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarDeleteView, self).dispatch(*args, **kwargs)
@@ -259,7 +258,7 @@ class CalendarUnsubscribeView(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarUnsubscribeView, self).dispatch(*args, **kwargs)
@@ -295,7 +294,7 @@ class EventAddView(View, AjaxableResponseMixin):
             # most things don't let you submit a time yet
             if event['hasTime']:
                 start = datetime.strptime(date, DATE_FORMAT)
-                start = timezone.make_aware(start, timezone.utc)
+                start = timezone.make_aware(start, timezone.get_current_timezone())
                 end = start + timedelta(hours=1)
             else:
                 date = datetime.strptime(date, DATE_FORMAT)
@@ -327,12 +326,12 @@ class EventAddView(View, AjaxableResponseMixin):
             )
             # send a notification to everyone that an event has been added
             subscribers = list(map(lambda sub: sub.student.user, Subscription.objects.filter(
-                calendar=calendar
+                calendar=calendar,
+                calendar__private=False,
             )))
-            stored_messages.api.add_message_for(
+            add_notification_for(
                 subscribers,
-                stored_messages.STORED_INFO,
-                '{} has add an event to {}'.format(request.user.username, calendar.course)
+                '{} has added an event to {}'.format(request.user.username, calendar.course)
             )
 
         if self.request.is_ajax():
@@ -363,7 +362,6 @@ class EventAddView(View, AjaxableResponseMixin):
         else:
             start_time = timezone.make_aware(date, timezone.get_current_timezone())
             start = timezone.localtime(start_time, timezone=timezone.utc)
-            print(start)
             end = start + timedelta(hours=1)
         return (start, end)
 
@@ -399,7 +397,7 @@ class EventAddView(View, AjaxableResponseMixin):
         }
         return render(request, self.template_name, data)
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(EventAddView, self).dispatch(*args, **kwargs)
@@ -415,7 +413,6 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
 
     def post(self, request, *args, **kwargs):
         if self.request.is_ajax():
-            print(request.POST)
             event = CalendarEvent.objects.filter(
                 calendar__owner=self.student,
                 id = request.POST.get('pk', None)
@@ -429,7 +426,6 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                         json.loads(date), DATE_FORMAT),
                         timezone.get_current_timezone())
                     start = timezone.localtime(start, timezone=timezone.utc)
-                    print(start)
                     end = start + timedelta(hours=1)
                     setattr(event, 'start', start)
                     setattr(event, 'end', end)
@@ -443,7 +439,6 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                     description = request.POST.get('value', '')
                     setattr(event, 'description', description)
                 if update == 'class':
-                    print(request.POST.get('value', 'fuck'))
                     calendar = ClassCalendar.objects.filter(
                         owner = self.student,
                         course__pk = request.POST.get('value', -1)
@@ -466,9 +461,8 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
                     subscribers = list(map(lambda sub: sub.student.user, Subscription.objects.filter(
                         calendar=event.calendar
                     )))
-                    stored_messages.api.add_message_for(
+                    add_notification_for(
                         subscribers,
-                        stored_messages.STORED_INFO,
                         '{} has updated event: {} in {}'.format(request.user.username, event.title, event.calendar.course)
                     )
                 except (CalendarExpiredError, BringingUpThePastError) as e:
@@ -490,7 +484,7 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(EventUpdateView, self).dispatch(*args, **kwargs)
@@ -533,7 +527,7 @@ class EventDeleteView(DeleteView, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(EventDeleteView, self).dispatch(*args, **kwargs)
@@ -610,9 +604,8 @@ class CalendarPreview(DetailView):
                 request,
                 "Your subscription has been noted"
             )
-            stored_messages.api.add_message_for(
-                [calendar.owner.user], 
-                stored_messages.STORED_INFO,
+            add_notification(
+                calendar.owner.user, 
                 '{} has subscribed to your {} calendar'.format(request.user.username, calendar.course)
             )
         return redirect(reverse('calendar'))
@@ -687,7 +680,7 @@ class CalendarPreview(DetailView):
             'total_count': total_count,
             'referral_link': referral_link,
             'current_path': request.get_full_path(),
-            'preview_flag': self.student.one_time_flag.get_flag(self.student, 'preview'),
+            'preview_flag': OneTimeFlag.objects.get_flag(self.student, 'preview'),
             'cal_percent': cal_percent,
             'doc_percent': doc_percent,
         }
@@ -732,11 +725,9 @@ class CalendarView(View):
         ).values('pk', 'accuracy', 'payment_date', 'subscribe_date', 'price', 'enabled', 'calendar')
         for subscription in subscriptions:
             for info in subscription_info:
-                print(info)
                 if info['calendar'] == subscription.pk:
                     payment_date = timezone.localtime(info['payment_date'], timezone=timezone.get_current_timezone())
                     subscribe_date = timezone.localtime(info['subscribe_date'], timezone=timezone.get_current_timezone())
-                    print(payment_date)
                     setattr(subscription, 'rating', info['accuracy'])
                     setattr(subscription, 'payment_date', payment_date)
                     setattr(subscription, 'subscribe_date', subscribe_date)
@@ -763,7 +754,7 @@ class CalendarView(View):
         }
         return render(request, self.template_name, data)
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarView, self).dispatch(*args, **kwargs)
@@ -808,6 +799,15 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
                     elif private == 2:
                         setattr(calendar, 'private', True)
                     changed_privacy = True
+                    # notif followers
+                    subscribers = list(map(lambda sub: sub.student.user, Subscription.objects.filter(
+                        calendar=calendar,
+                    )))
+                    private = 'private' if calendar.private else 'public'
+                    add_notification_for(
+                        subscribers,
+                        '{} has made their {} calendar {}'.format(request.user.username, calendar.course, private)
+                    )
 
                 if update == 'price':
                     price = request.POST.get('value', 0)
@@ -836,7 +836,7 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarUpdateView, self).dispatch(*args, **kwargs)
@@ -860,7 +860,6 @@ class SubscriptionUpdateView(View, AjaxableResponseMixin):
             if subscription.exists():
                 subscription = subscription[0]
                 rating = int(request.POST.get('rating', None))
-                print(rating)
                 if rating != None:
                     subscription.accuracy = rating
                     subscription.save()
@@ -878,7 +877,7 @@ class SubscriptionUpdateView(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(SubscriptionUpdateView, self).dispatch(*args, **kwargs)
@@ -982,7 +981,7 @@ class CalendarFeed(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarFeed, self).dispatch(*args, **kwargs)
@@ -1039,7 +1038,6 @@ class CalendarListView(View, AjaxableResponseMixin):
                 calendar['time'] = time_string
                 del calendar['create_date']
 
-            print(calendars)
             data = {
                 'calendars': list(calendars),
             }
@@ -1047,7 +1045,7 @@ class CalendarListView(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('calendar'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(CalendarListView, self).dispatch(*args, **kwargs)

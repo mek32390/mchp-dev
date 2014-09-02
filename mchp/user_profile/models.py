@@ -121,7 +121,7 @@ class Enrollment(models.Model):
         super(Enrollment, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "joined {} on {}".format(self.course.display, self.join_date)
+        return "joined {} on {}".format(self.course.display(), self.join_date)
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
@@ -186,7 +186,7 @@ class OneTimeFlag(models.Model):
     objects = managers.OneTimeFlagManager()
 
     def __str__(self):
-        return "Seen Event #{}: {}".format(self.event.pk, self.event.name)
+        return "{} has seen Event #{}: {}".format(self.student.user.username, self.event.pk, self.event.name)
 
 class UserRole(models.Model):
     user = models.OneToOneField(User, related_name='user_roles')
