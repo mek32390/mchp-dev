@@ -555,7 +555,6 @@ class ClassesView(View):
                 course__pk=course['pk']
             )
             course['students'] = students
-            course['fuck'] = 'what'
 
         data['course_list'] = courses
 

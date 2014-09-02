@@ -111,27 +111,28 @@
 						<div class="small-scroll-con scrolls">
 							<div class="panel-body">
 								<div class="list-group">
-                  {{ course}}
-									{% for student in course.student_set %}
-									<li class="list-group-item">
-										<div class="media">
-											<a class="pull-left" href="#">
-												<img class="media-object img-circle img-thumbnail"
-												src="{{student.profile.profile_image_url}}" width="40px" alt="...">
-											</a>
-											<div class="media-body">
-												<h5 class="media-heading" style="margin-bottom:0px;"><a href="#"
-														class="user-popover">{{student.name}}</a><span class="pull-right"><small>active 2 hours ago</small></span></h5>
-												<small>
-													Marketing Major
-													<!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 12</span> <i class="fa fa-check"></i> Friends -->
-												</small>
-												<small>
+									{% for enrollment in course.students %}
+                  {% with enrollment.student as student %}
+                  <li class="list-group-item">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle img-thumbnail"
+                        src="{{student.profile.profile_image_url}}" width="40px" alt="...">
+                      </a>
+                      <div class="media-body">
+                        <h5 class="media-heading" style="margin-bottom:0px;"><a href="#"
+                            class="user-popover">{{student.name}}</a><span class="pull-right"><small>active 2 hours ago</small></span></h5>
+                        <small>
+                          Marketing Major
+                          <!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 12</span> <i class="fa fa-check"></i> Friends -->
+                        </small>
+                        <small>
 
-												</small>
-											</div>
-										</div>
-									</li>
+                        </small>
+                      </div>
+                    </div>
+                  </li>
+                  {% endwith %}
 									{% empty %}
 									<div class="panel panel-default">
 										<div class="panel-body text-center">
@@ -178,6 +179,9 @@
 													<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 													Purchase{{document.sold|pluralize}}
 												</span>
+                        {% with document.upload.owner as owner %}
+                        <div> uploaded by <a href="{%url "profile" owner.pk %}">{{owner}}</a> </div>
+                        {% endwith %}
 											</div>
 										</div>
 									</div>
