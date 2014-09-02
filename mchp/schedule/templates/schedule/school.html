@@ -138,7 +138,9 @@
 											<li class='calendar-time small'><i class="fa fa-fw fa-clock-o"></i> {{calendar.time}}</li>
 										</ul>
 										<p class="small">Created by <a href="{% url "profile" calendar.owner %}"
-												class="calendar-uploader">{{calendar.owner__user__username}}</a></p>
+												class="calendar-uploader">{{calendar.owner__user__username}}</a>
+                      in <a href="{% url "course" calendar.course__pk%}">{{calendar.course__dept}} {{calendar.course__course_number}}</a>
+                    </p>
 									</span>
 								</div>
 							</div>

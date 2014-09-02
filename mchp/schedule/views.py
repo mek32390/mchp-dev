@@ -446,7 +446,7 @@ class SchoolView(DetailView):
         ).values(
             'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
             'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
-            'owner__user__username'
+            'owner__user__username', 'course__pk', 'course__dept', 'course__course_number',
         ).order_by('create_date')[:5]
 
         for calendar in cals:
