@@ -367,8 +367,12 @@ class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
                     data['messages'] =  self.ajax_messages()
                     return self.render_to_json_response(data, status=403)
                 else:
+                    # delete upload and purchases
+                    doc = doc[0]
+                    doc.upload.delete()
+                    doc.purchased_document.all().delete()
                     # actually delete document
-                    doc[0].delete()
+                    doc.delete()
                     messages.success(
                         self.request,
                         "Document deleted successfully."

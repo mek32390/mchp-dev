@@ -35,6 +35,9 @@ def create_preview(instance):
     if not instance.filetype in filetypes and not instance.filetype in convert_type:
         return
 
+    upload = Upload.objects.get(
+        document=instance
+    )
     if instance.filetype in convert_type:
         output = 'tmp{}.pdf'.format(uuid.uuid4())
         input = 'old{}'.format(uuid.uuid4())
@@ -53,9 +56,6 @@ def create_preview(instance):
             instance.document.save(new_doc, File(open(output,'rb'), output))
         except FileNotFoundError:
             logger.error('Error converting {}'.format(instance.title))
-            upload = Upload.objects.get(
-                document=instance
-            )
             add_notification(
                 upload.owner.user,
                 'Your document, {}, asplode. Try converting it to pdf, or upload something else.'.format(instance.title) 
@@ -82,6 +82,10 @@ def create_preview(instance):
 
     instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '',
                                                {'x-amz-acl':'private'})
+    add_notification(
+        upload.owner.user,
+        'Your document has made it through, fuck yes'.format(instance.title) 
+    )
 
 
 # just runs the command passed to it

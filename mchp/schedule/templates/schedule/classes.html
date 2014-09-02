@@ -111,7 +111,8 @@
 						<div class="small-scroll-con scrolls">
 							<div class="panel-body">
 								<div class="list-group">
-									{% for student in course.students %}
+                  {{ course}}
+									{% for student in course.student_set %}
 									<li class="list-group-item">
 										<div class="media">
 											<a class="pull-left" href="#">
