@@ -294,7 +294,7 @@ class EventAddView(View, AjaxableResponseMixin):
             # most things don't let you submit a time yet
             if event['hasTime']:
                 start = datetime.strptime(date, DATE_FORMAT)
-                start = timezone.make_aware(start, timezone.utc)
+                start = timezone.make_aware(start, timezone.get_current_timezone())
                 end = start + timedelta(hours=1)
             else:
                 date = datetime.strptime(date, DATE_FORMAT)
@@ -326,11 +326,12 @@ class EventAddView(View, AjaxableResponseMixin):
             )
             # send a notification to everyone that an event has been added
             subscribers = list(map(lambda sub: sub.student.user, Subscription.objects.filter(
-                calendar=calendar
+                calendar=calendar,
+                calendar__private=False,
             )))
             add_notification_for(
                 subscribers,
-                '{} has add an event to {}'.format(request.user.username, calendar.course)
+                '{} has added an event to {}'.format(request.user.username, calendar.course)
             )
 
         if self.request.is_ajax():
@@ -798,6 +799,15 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
                     elif private == 2:
                         setattr(calendar, 'private', True)
                     changed_privacy = True
+                    # notif followers
+                    subscribers = list(map(lambda sub: sub.student.user, Subscription.objects.filter(
+                        calendar=calendar,
+                    )))
+                    private = 'private' if calendar.private else 'public'
+                    add_notification_for(
+                        subscribers,
+                        '{} has made their {} calendar {}'.format(request.user.username, calendar.course, private)
+                    )
 
                 if update == 'price':
                     price = request.POST.get('value', 0)

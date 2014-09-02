@@ -1,4 +1,5 @@
 {% extends 'documents/base.html' %}
+{% block head_title %}My Documents{% endblock %}
 
 {% block extra_head %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
@@ -97,6 +98,12 @@
 								Purchase{{purchase_count|pluralize}}
 								{% endwith %}
 							</span> 
+              <div>
+                for
+                <a href="{%url "course" document.course.pk%}">
+                   {{document.course}}
+                </a>
+              </div>
 						</div> 
 					</div> 
 				</li> 

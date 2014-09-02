@@ -16,5 +16,5 @@ class DocumentManager(models.Manager):
         Activity = namedtuple('Activity', ['type', 'title', 'time', 'user'])
         events = []
         for doc in docs:
-            events.append(Activity('document', doc.title, doc.create_date, doc.upload.owner))
+            events.append(Activity('document', doc, doc.create_date, doc.upload.owner))
         return events

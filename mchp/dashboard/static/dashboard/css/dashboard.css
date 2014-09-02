@@ -26,8 +26,9 @@
 
 /* college pulse styles */
 .pulse-con {
-	overflow: auto; 
-	max-height: 450px;
+	overflow: auto;
+    height: 100%;
+	/*max-height: 640px;*/
 }
 
 /* news section flip */
@@ -83,7 +84,7 @@
 
 /* set custom height for the news section to scroll in */
 #news-scroll {
-    height: 100%;
+    /*height: 100%;*/
     position: absolute;
     overflow: auto;
 }

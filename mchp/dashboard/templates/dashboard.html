@@ -1,6 +1,6 @@
 {% extends "lib/base.html" %}
 
-{% block head_title %}My college home page (title drop!){% endblock %}
+{% block head_title %}mycollegehomepage{% endblock %}
 
 {% block head %}
 {% endblock %}
@@ -25,77 +25,6 @@
 {% block body %}
 {% load humanize %}
 {% load dashboard %}
-<!-- Say Hey modal -->
-<!-- <div id="say-hey-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content text-center">
-      <div class="modal-body">
-        <p class="lead">Send something to <img class="img-thumbnail img-circle" width="35" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /> Brost:</p>
-        <div class="row">
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/cup.svg" alt="cup of coffee">
-              <h5>Cup O' Joe</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="coffee">
-            </label>
-          </div>
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/donut.svg" alt="rate calendar accuracy">
-              <h5>Sprinkled Donut</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="donut">
-            </label>
-          </div>
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/icecream.svg" height="70px" alt="rate calendar accuracy">
-              <h5>Fruit Popsicle</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="popsicle">
-            </label>
-          </div>
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pills.svg" alt="rate calendar accuracy">
-              <h5>Happy &nbsp; Pill &nbsp;</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="happypill">
-            </label>
-          </div>
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/wine.svg" alt="rate calendar accuracy">
-              <h5>Sparkling Beverage</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="beverage">
-            </label>
-
-          </div>
-        </div>
-        <p></p>
-      </br>
-      They'll be notified of your kind gesture. 
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Send Gift</button>
-    </div>
-  </div>
-</div>
-</div> -->
-<!-- <div class="progress score-bar" style="margin-top:-20px; opacity:.5;">
-  <span class="score-breakdown">
-    <a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
-      <span class="sr-only">35% Complete (success)</span>
-    </a>
-    <a href="#" class="progress-bar progress-bar-primary animated slideInLeft" id="score_2">
-      <span class="sr-only">20% Complete (warning)</span>
-    </a>
-    <a href="#" class="progress-bar progress-bar-info animated slideInLeft" id="score_3" >
-      <span class="sr-only">45% Complete (danger)</span>
-    </a>
-  </span>
-  <a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
-    <span class="sr-only">35% Complete (success)</span>
-  </a>
-</div>
-<!-- End Score Bar -->
 
 <div class="container">
   {% if not dashboard_ref_flag.0 %}
@@ -110,13 +39,15 @@
     </div>
   </div><!-- end alert -->
   {% endif %}
-  <ol class="breadcrumb" style="margin-bottom:5px;">
-    <li data-weather="{{weather}}"> 
-      <span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
-        {% weather_icon weather.icon weather.text %} {{school.city}}
-      </span> 
-      <span id="weather_temp">{{weather.temperature}} &deg;F</span> &nbsp;
-    </li>
+  <ol class="breadcrumb margin-btm-sm">
+		{% if weather %}
+		<li data-weather="{{weather}}"> 
+			<span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
+				{% weather_icon weather.icon weather.text %} {{school.city}}
+			</span> 
+			<span id="weather_temp">{{weather.temperature}} &deg;F</span> &nbsp;
+		</li>
+		{% endif %}
     <li><a target="_blank" href="http://{{school.domain}}">{{school.alias}}</a></li>
     {% for link in school_links %}
     <li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
@@ -156,18 +87,20 @@
       </div>
       <div class="row">
         <div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
-          <h2 class="margin-top-none">People <small>to meet</small></h2>
+          <h2 class="">People <small>to meet</small></h2>
           <hr class="margin-top-sm">
           <div class="list-group">
             {% for classmate in classmates %}
             <div class="list-group-item">
               <div class="media">
-                <a class="pull-left" href="#">
+                <a class="pull-left" href="{% url "profile" classmate.pk %}">
                   <img class="media-object img-thumbnail img-circle center-block" width="50"
                   src="{{classmate.profile.profile_image_url}}" />
                 </a>
                 <div class="media-body">
-                  <h5 class="media-heading">{{classmate.user.username}}</h5>
+                  <a href="{% url "profile" classmate.pk %}">
+                    <h5 class="media-heading">{{classmate.user.username}}</h5>
+                  </a>
                   <p class="small margin-btm-none">{{classmate.major}}</p>
                 </div>
               </div>
@@ -190,7 +123,7 @@
       <!-- <div class="row">
       <div class="col-sm-8"> -->
       <div class="pulse-con">
-        <div class="list-group" id="pulse">
+        <div class="list-group margin-btm-none" id="pulse">
           <div class="text-center dash-load">
             Checking Pulse
           </div>
@@ -317,7 +250,7 @@
               </ul>
             </span><!--end navbar header -->
           </nav> 
-          <span id="news-scroll" data-spy="scroll" data-offset="0">
+          <span id="news-scroll" class="margin-btm-none" data-spy="scroll" data-offset="0">
             {% for rss,visible in rss_types %}
             <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
               <li class="list-group-item news-header" style="background-color: #{{rss.color}};">

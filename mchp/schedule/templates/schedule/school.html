@@ -3,12 +3,12 @@
 {% block head_title %}{{school.name}}{% endblock %}
 
 {% block extra_head %}
-	<meta property="og:site_name" content="mycollegehomepage" />
-	<meta property="og:type" content="website" /> 
-	<meta property="og:title" content="{{school.name}}" />
-	<meta property="og:description" content="{{school.name}} has {{student_count}} Student{{student_count|pluralize}}, {{document_count}} Document{{document_count|pluralize}}, and {{cal_count}} Calendar{{cal_count|pluralize}}" />
-	<meta property="og:image" content="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building-with-flag.svg" />
-	<meta property="fb:app_id" content="369999156462705" />
+<meta property="fb:app_id" content="369999156462705" /> 
+<meta property="og:type" content="website" /> 
+<!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
+<meta property="og:title" content="{{school.name}} ({{school.city}}, {{school.state}})" /> 
+<meta property="og:image" content="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building-with-flag.png" /> 
+<meta property="og:description" content="{{student_count}} Student{{student_count|pluralize}} &nbsp; {{doc_count}} Document{{doc_count|pluralize}} &nbsp; {{cal_count}} Calendar{{cal_count|pluralize}}" />
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'schedule/css/school.css' %}">
@@ -33,15 +33,13 @@
 					<div class="media-heading">
 						<span class="pull-right">
 			<a button type="button" class="btn btn-success btn-xs" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Document</a>
-			<a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a>
+			<!-- <a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a> -->
 		</span>
 						<h2 class="media-heading">{{school.name}} <small>{{school.city}}, {{school.state}}</small></h2>
 					</div>
 					<p>
 						<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
-						{% with school.document_count as document_count %}
-						<i class="fa fa-file-text-o"></i> {{document_count}} Document{{document_count|pluralize}} &nbsp;
-						{% endwith %}
+						<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
 						<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
 					</p>
 					<div class="progress" style="width:68%;">
@@ -86,7 +84,7 @@
 											{% endwith %}
 											<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 											Purchase{{document.sold|pluralize}}
-											<p class="small margin-top-sm">Uploaded by <a href="#">{{document.upload_set.get.owner.user.student.name}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+                      <p class="small margin-top-sm">Uploaded by <a href="{%url "profile" document.upload.owner.pk%}">{{document.upload.owner}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
 										</span>
 									</div>
 								</div>
@@ -95,7 +93,7 @@
 							<div class="list-group">
 								<div class="list-group-item">
 									<p class="h5">Be the first to sell a document at this school!</p>
-									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'>Sell a Document</a>
+									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Document</a>
 								</div>						
 							</div>
 							{% endfor %}
@@ -128,7 +126,7 @@
 										<small class="calendar-browse-price">{{calendar.price}} points</small>
 										<div class="pull-right small calendar-create-date"><small>{{calendar.create_date|naturaltime}}</small></div></h4>
 									<span class="description">
-										<span class='calendar-professor'><strong>Prof {{calendar.course__professor}}</strong></span>
+										<span class='calendar-professor'><strong>Inst {{calendar.course__professor}}</strong></span>
 										<i class="fa fa-bullseye text-primary"></i> 
 										{% if calendar.accuracy < 0 %}
 										<span class="calendar-accuracy">No ratings&nbsp;</span>
@@ -140,7 +138,9 @@
 											<li class='calendar-time small'><i class="fa fa-fw fa-clock-o"></i> {{calendar.time}}</li>
 										</ul>
 										<p class="small">Created by <a href="{% url "profile" calendar.owner %}"
-												class="calendar-uploader">{{calendar.owner__user__username}}</a></p>
+												class="calendar-uploader">{{calendar.owner__user__username}}</a>
+                      in <a href="{% url "course" calendar.course__pk%}">{{calendar.course__dept}} {{calendar.course__course_number}}</a>
+                    </p>
 									</span>
 								</div>
 							</div>
@@ -149,7 +149,7 @@
 						<div class="list-group">
 								<div class="list-group-item">
 									<p class="h5">Be the first to create a calendar at this school!</p>
-									<a button type="button" class="btn btn-success" href='{% url "calendar_create" %}'> Create a Calendar</a>
+									<a button type="button" class="btn btn-success" href='{% url "calendar_create" %}'><i class="fa fa-fw fa-money"></i> Create Calendar</a>
 								</div>						
 							</div>
 						{% endfor %}

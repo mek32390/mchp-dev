@@ -3,6 +3,13 @@
 {% block head_title %}{{calendar}} Calendar{% endblock %}
 
 {% block extra_head %}
+<meta property="fb:app_id" content="369999156462705" /> 
+<meta property="og:type" content="product" /> 
+<!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
+<meta property="og:title" content="{{calendar.title}} Calendar" /> 
+<meta property="og:image" content="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" /> 
+<meta property="og:description" content="{{calendar.description}}" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
 
 {% load staticfiles %}
@@ -136,11 +143,11 @@
 						</button>
 						{% endifequal %}
 						{% endif %}
-						<a href="{{request.get_host}}{{current_path | referral:referral_link}}" 
-						data-title="{{calendar.title}} Calendar" 
-						data-desc="{{calendar.description}}" 
-						class="btnShare btn btn-facebook fb-share-button">
-						<i class="fa fa-fw fa-facebook"></i> Share this</a>
+							<a href="{{request.get_host}}{{current_path | referral:referral_link}}" 
+							data-title="{{calendar.title}} Calendar" 
+							data-desc="{{calendar.description}}" 
+							class="btnShare btn btn-facebook fb-share-button">
+							<i class="fa fa-fw fa-facebook"></i> Share this</a>
 						<button data-clipboard-text="{{request.get_host}}{{current_path | referral:referral_link }}" 
 						id="copy-button" class="btn btn-warning"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 						

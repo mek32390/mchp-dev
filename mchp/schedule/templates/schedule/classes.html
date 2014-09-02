@@ -2,10 +2,6 @@
 
 {% block head_title %}My Classes{% endblock %}
 
-<script>
-
-</script>
-
 {% block extra_head %}
 	{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/classes.css' %}">
@@ -15,7 +11,7 @@
 {% block body %}
 {% load humanize %}
 <div class="container animated bounceInUp">
-	<h2>Your Classes
+	<h2 class="margin-top-sm">Your Classes
 		<!-- <div class="pull-right">
 		<a href="/schedule" class="btn btn-primary btn-sm"><i class="fa fa-calendar-o"></i> Your Schedule &raquo;</a>
 		<a href="/sell/" class="btn btn-success btn-sm"><i class="fa fa-money"></i> Sell a Document &raquo;</a>
@@ -64,23 +60,12 @@
 								<img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" width="74px" alt="class">
 							</a>
 							<div class="media-body">
-								<h2 class="media-heading"><a href="{% url "course" course.pk %}{{course.name}}">{{course.dept}} {{course.course_number}}</a></h2>
+								<h1 class="media-heading"><a href="{% url "course" course.pk %}{{course.name}}">{{course.dept}} {{course.course_number}}</a></h1>
 								<h5>
 								<!-- <span class="btn btn-default btn-sm btn-file"><i class="fa fa-file-o"></i> Upload Syllabus <input type="file"></span>&nbsp; -->
 									<i class="fa fa-male"></i> Instructor {{course.professor}} &nbsp; 
 									<i class="fa fa-university"></i> <a href="{% url "school" course.domain__pk %}{{course.domain__name}}"> {{course.domain__name}}</a>
 								</h5>
-								<div class="progress" style="width: 68%; margin-bottom:5px;">
-									<div class="progress-bar progress-bar-primary" style="width: 30%">
-										<span class="sr-only">67% Complete (info)</span> 
-									</div>
-									<div class="progress-bar progress-bar-success" style="width: 30%">
-										<span class="sr-only">11% Complete (primary)</span> 
-									</div>
-									<div class="progress-bar progress-bar-danger" style="width: 40%">
-										<span class="sr-only">22% Complete (warning)</span> 
-									</div>
-								</div>
 							</div>
 						</div>
 					</div><!-- end panel body -->
@@ -99,14 +84,14 @@
 									{% ifequal act.type "document" %}
 									<li class="list-group-item">
 										<h5 class="list-group-item-heading">
-											<i class="fa fa-file-text-o fa-lg pull-left"></i><a href="#">{{act.title}}</a> added to Documents</h5>
-										<p class="list-group-item-text"><small>{{act.time|naturaltime}} by <a href="#">{{act.user.name}}</a></small></p>
+                      <i class="fa fa-file-text-o fa-lg pull-left"></i><a href="{%url "document_preview" act.title.uuid%}">{{act.title}}</a> added to Documents</h5>
+                    <p class="list-group-item-text"><small>{{act.time|naturaltime}} by <a href="{%url "profile" act.user.pk%}">{{act.user.name}}</a></small></p>
 									</li>
 									{% endifequal %}
 									{% ifequal act.type "join" %}
 									<li class="list-group-item">
 										<h5 class="list-group-item-heading"><i class="fa fa-user fa-lg pull-left">
-										</i><a href="#">{{act.title}}</a> joined the class</h5>
+                    </i><a href="{% url "profile" act.user.pk %}">{{act.title}}</a> joined the class</h5>
 										<p class="list-group-item-text"><small>{{act.time|naturaltime}}</small></p>
 									</li>
 									{% endifequal %}
@@ -126,30 +111,31 @@
 						<div class="small-scroll-con scrolls">
 							<div class="panel-body">
 								<div class="list-group">
-									{% for student in course.students %}
-									<li class="list-group-item">
-										<div class="media">
-											<a class="pull-left" href="#">
-												<img class="media-object img-circle img-thumbnail"
-												src="{{student.profile.profile_image_url}}" width="40px" alt="...">
-											</a>
-											<div class="media-body">
-												<h5 class="media-heading" style="margin-bottom:0px;"><a href="#"
-														class="user-popover">{{student.name}}</a><span class="pull-right"><small>active 2 hours ago</small></span></h5>
-												<small>
-													Marketing Major
-													<!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 12</span> <i class="fa fa-check"></i> Friends -->
-												</small>
-												<small>
+									{% for enrollment in course.students %}
+                  {% with enrollment.student as student %}
+                  <li class="list-group-item">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle img-thumbnail"
+                        src="{{student.profile.profile_image_url}}" width="40px" alt="...">
+                      </a>
+                      <div class="media-body">
+                        <h5 class="media-heading" style="margin-bottom:0px;"><a href="#">{{student.name}}</a><span class="pull-right"><small>active 2 hours ago</small></span></h5>
+                        <small>
+                          Marketing Major
+                          <!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 12</span> <i class="fa fa-check"></i> Friends -->
+                        </small>
+                        <small>
 
-												</small>
-											</div>
-										</div>
-									</li>
+                        </small>
+                      </div>
+                    </div>
+                  </li>
+                  {% endwith %}
 									{% empty %}
 									<div class="panel panel-default">
 										<div class="panel-body text-center">
-									<p class="lead">You're the first person to join this class! Have you made a <a href="{% url 'calendar_create' %}">calendar</a> yet?</p>
+									<p class="lead">You're the first person to join this class!</p>
 									</div>
 								</div>
 									{% endfor %}
@@ -181,7 +167,7 @@
 											</span>
 											<div class="media-body">
 												<h4 class="media-heading"><a href="{% url "document_list" %}{{document.uuid}}">{{document.title}}</a>
-													<small>{{document.price}} points</small><span class="pull-right"><small>{{document.create_date|naturaltime}}</small></span></h4>
+													<small>{{document.price}} points</small><span class="pull-right small"><small>{{document.create_date|naturaltime}}</small></span></h4>
 												<span class="description">
 													<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
 													<i class="fa fa-fw fa-thumbs-down text-danger
@@ -192,6 +178,9 @@
 													<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 													Purchase{{document.sold|pluralize}}
 												</span>
+                        {% with document.upload.owner as owner %}
+                        <div> uploaded by <a href="{%url "profile" owner.pk %}">{{owner}}</a> </div>
+                        {% endwith %}
 											</div>
 										</div>
 									</div>
