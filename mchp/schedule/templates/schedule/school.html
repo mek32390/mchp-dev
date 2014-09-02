@@ -6,7 +6,8 @@
 	<meta property="og:site_name" content="mycollegehomepage" />
 	<meta property="og:type" content="website" /> 
 	<meta property="og:title" content="{{school.name}}" />
-	<meta property="og:description" content="{{school.name}} has {{student_count}} Student{{student_count|pluralize}}, {{document_count}} Document{{document_count|pluralize}}, and {{cal_count}} Calendar{{cal_count|pluralize}}" />
+	<meta property="og:description" content="{{school.name}} has {{student_count}}
+  Student{{student_count|pluralize}}, {{doc_count}} Document{{doc_count|pluralize}}, and {{cal_count}} Calendar{{cal_count|pluralize}}" />
 	<meta property="og:image" content="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building-with-flag.svg" />
 	<meta property="fb:app_id" content="369999156462705" />
 
@@ -39,9 +40,7 @@
 					</div>
 					<p>
 						<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
-						{% with school.document_count as document_count %}
-						<i class="fa fa-file-text-o"></i> {{document_count}} Document{{document_count|pluralize}} &nbsp;
-						{% endwith %}
+						<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
 						<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
 					</p>
 					<div class="progress" style="width:68%;">
@@ -86,7 +85,7 @@
 											{% endwith %}
 											<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 											Purchase{{document.sold|pluralize}}
-											<p class="small margin-top-sm">Uploaded by <a href="#">{{document.upload_set.get.owner.user.student.name}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+                      <p class="small margin-top-sm">Uploaded by <a href="{%url "profile" document.upload.owner.pk%}">{{document.upload.owner}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
 										</span>
 									</div>
 								</div>
@@ -128,7 +127,7 @@
 										<small class="calendar-browse-price">{{calendar.price}} points</small>
 										<div class="pull-right small calendar-create-date"><small>{{calendar.create_date|naturaltime}}</small></div></h4>
 									<span class="description">
-										<span class='calendar-professor'><strong>Prof {{calendar.course__professor}}</strong></span>
+										<span class='calendar-professor'><strong>Inst {{calendar.course__professor}}</strong></span>
 										<i class="fa fa-bullseye text-primary"></i> 
 										{% if calendar.accuracy < 0 %}
 										<span class="calendar-accuracy">No ratings&nbsp;</span>

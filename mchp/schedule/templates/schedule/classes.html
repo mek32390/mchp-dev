@@ -84,14 +84,14 @@
 									{% ifequal act.type "document" %}
 									<li class="list-group-item">
 										<h5 class="list-group-item-heading">
-											<i class="fa fa-file-text-o fa-lg pull-left"></i><a href="#">{{act.title}}</a> added to Documents</h5>
-										<p class="list-group-item-text"><small>{{act.time|naturaltime}} by <a href="#">{{act.user.name}}</a></small></p>
+                      <i class="fa fa-file-text-o fa-lg pull-left"></i><a href="{%url "document_preview" act.title.uuid%}">{{act.title}}</a> added to Documents</h5>
+                    <p class="list-group-item-text"><small>{{act.time|naturaltime}} by <a href="{%url "profile" act.user.pk%}">{{act.user.name}}</a></small></p>
 									</li>
 									{% endifequal %}
 									{% ifequal act.type "join" %}
 									<li class="list-group-item">
 										<h5 class="list-group-item-heading"><i class="fa fa-user fa-lg pull-left">
-										</i><a href="#">{{act.title}}</a> joined the class</h5>
+                    </i><a href="{% url "profile" act.user.pk %}">{{act.title}}</a> joined the class</h5>
 										<p class="list-group-item-text"><small>{{act.time|naturaltime}}</small></p>
 									</li>
 									{% endifequal %}
