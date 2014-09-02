@@ -5,7 +5,7 @@
 {% block extra_head %}
 <meta property="fb:app_id" content="369999156462705" /> 
 <meta property="og:type" content="website" /> 
-<meta property="og:url" content="{{request.get_host}}{{current_path}}" /> 
+<!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
 <meta property="og:title" content="{{course.dept}} {{course.course_number}} at {{course.domain.name}}" /> 
 <meta property="og:image" content="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" /> 
 <meta property="og:description" content="{{student_count}} Student{{student_count|pluralize}} &nbsp; {{doc_count}} Document{{doc_count|pluralize}} &nbsp; {{cal_count}} Calendar{{cal_count|pluralize}}" />
