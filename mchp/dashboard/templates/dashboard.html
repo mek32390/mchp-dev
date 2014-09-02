@@ -194,7 +194,7 @@
       <!-- <div class="row">
       <div class="col-sm-8"> -->
       <div class="pulse-con">
-        <div class="list-group" id="pulse">
+        <div class="list-group margin-btm-none" id="pulse">
           <div class="text-center dash-load">
             Checking Pulse
           </div>
@@ -321,7 +321,7 @@
               </ul>
             </span><!--end navbar header -->
           </nav> 
-          <span id="news-scroll" data-spy="scroll" data-offset="0">
+          <span id="news-scroll" class="margin-btm-none" data-spy="scroll" data-offset="0">
             {% for rss,visible in rss_types %}
             <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
               <li class="list-group-item news-header" style="background-color: #{{rss.color}};">
