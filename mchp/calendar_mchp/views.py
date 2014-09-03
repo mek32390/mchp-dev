@@ -303,8 +303,8 @@ class EventAddView(View, AjaxableResponseMixin):
             # add the event
             event_data = {
                 'calendar': calendar,
-                'title': event['title'],
-                'description': event['description'],
+                'title': event['title'][:30],
+                'description': event['description'][:200],
                 'start': start,
                 'end': end,
                 'all_day': all_day,

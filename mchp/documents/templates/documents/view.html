@@ -7,7 +7,9 @@
 <meta property="og:type" content="product" /> 
 <!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
 <meta property="og:title" content="{{document.title}} in {{document.course.dept}} {{document.course.course_number}}" /> 
+{% if document.preview %}
 <meta property="og:image" content="{{document.preview.url}}" /> 
+{% endif %}
 <meta property="og:description" content="{{document.description}}" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>

@@ -47,4 +47,4 @@ class Referral(models.Model):
         unique_together = ('user', 'referrer')
 
     def __str__(self):
-        return "referral made {}".format(self.create_date)
+        return "{} referred {} on {}".format(self.referrer.username, self.user.username, self.create_date)

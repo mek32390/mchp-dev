@@ -234,6 +234,9 @@ class DashboardRssProxy(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
             url = request.GET.get('url', None)
+            if url == '':
+                return HttpResponse({}, status=400)
+
             link = RSSLink.objects.filter(
                 url=url
             )

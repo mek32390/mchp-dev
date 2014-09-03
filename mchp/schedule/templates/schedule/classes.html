@@ -121,9 +121,14 @@
                         src="{{student.profile.profile_image_url}}" width="40px" alt="...">
                       </a>
                       <div class="media-body">
-                        <h5 class="media-heading" style="margin-bottom:0px;"><a href="#">{{student.name}}</a><span class="pull-right"><small>active 2 hours ago</small></span></h5>
+                        <h5 class="media-heading" style="margin-bottom:0px;"><a
+                            href="#">{{student.name}}</a><span class="pull-right"><small>active {{ student.user.last_login|naturaltime }}</small></span></h5>
                         <small>
-                          Marketing Major
+                          {% if student.major %}
+                          {{ student.major }} Major
+                          {% else %}
+                          No Major
+                          {% endif %}
                           <!-- <span class="label label-default">Novice</span> <span class="label label-default"><i class="fa fa-trophy"></i> 12</span> <i class="fa fa-check"></i> Friends -->
                         </small>
                         <small>
