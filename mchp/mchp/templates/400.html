@@ -1,15 +1,18 @@
 {% extends "lib/base.html" %}
 
 {% block head_title %}400 Error{% endblock %}
-
+{% load staticfiles %}
 {% block head %}
 
 {% endblock %}
 
 {% block body %}
 <div class="container text-center">
-	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" width="200" alt="400 error">
-	<h1>Our servers are trying to tell us something...</h1>
-	<p class="lead">It sounds like they can't process your request. What language are you speaking to them?</p>
+	<div class="jumbotron">
+		<h2><strong>400</strong></h2>
+		<img src="{% static 'lib/img/support.svg' %}" width="200" alt="400 error">
+		<h1>Our servers are trying to tell us something...</h1>
+		<p class="lead">It sounds like they can't process your request. What language are you speaking to them?</p>
+	</div>
 </div>
 {% endblock %}

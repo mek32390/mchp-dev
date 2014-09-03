@@ -29,7 +29,7 @@
 	<div class="well" style="padding-bottom:0px;">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building-with-flag.svg" alt="school"></a>
+				<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="{% static 'lib/img/building-with-flag.svg' %}" alt="school"></a>
 					<div class="media-heading">
 						<span class="pull-right">
 			<a button type="button" class="btn btn-success btn-xs" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Document</a>
@@ -121,7 +121,7 @@
 								<span class="pull-left" href="#">
 									<a href="{%url "calendar_preview" calendar.pk%}" class='calendar-picture-link'>
 										<div class="media-object img-thumbnail">
-											<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" style="width:64px">
+											<img src="{% static 'lib/img/calendar-blank.svg' %}" style="width:64px">
 										</div>
 										<div class="assignment-number text-center text-default h4
 											calendar-event-count" data-toggle="tooltip" data-original-title="Events">{{calendar.events}}</div>

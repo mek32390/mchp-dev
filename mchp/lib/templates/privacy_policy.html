@@ -1,7 +1,7 @@
 {% extends "lib/base.html" %}
 
 {% block head_title %}Privacy{% endblock %}
-
+{% load staticfiles %}
 {% block head %}
 {% endblock %}
 
@@ -9,7 +9,7 @@
 <div class="container">
 	<div class="jumbotron">
 		<div class="media">
-			<img class="media-object img-thumbnail img-circle pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/eye.svg" alt="privacy policy">
+			<img class="media-object img-thumbnail img-circle pull-left" src="{% static 'lib/img/eye.svg' %}" alt="privacy policy">
 			<div class="media-body">
 				<h1 class="media-heading">Privacy</h1>
 				<p class="lead">It's yours for the keeping</p>

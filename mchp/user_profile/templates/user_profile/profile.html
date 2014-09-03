@@ -85,7 +85,7 @@
 						<p></p>
 						<!-- don't include the slug here -->
 						<a href="{%url "course" course.pk%}">
-							<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="classes">
+							<img src="{% static 'lib/img/book.svg' %}" alt="classes">
 						</a>
 						<!-- <i class="fa fa-check-circle-o fa-2x class-in-common"></i> -->
 						<div class="caption">
@@ -220,7 +220,7 @@
 						{% for calendar in calendars %}
 						<div class="col-sm-3 col-centered text-center">
 						    <div class="list-group-item calendar-item" style="margin-bottom:20px;">
-						      <img class="" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" width="75px" alt="calendar">
+						      <img src="{% static 'lib/img/calendar-blank.svg' %}" width="75px" alt="calendar">
 						      <div class="assignment-number text-center text-default h3 calendar-event-count">{{calendar.events}}</div>
 									<h4><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a> <small>{{calendar.price}} points</small></h4>
 						       	<span class="description">

@@ -10,6 +10,7 @@
 
 {% block body %}
 {% load humanize %}
+
 <div class="container animated bounceInUp">
 	<h2 class="margin-top-sm">Your Classes
 		<!-- <div class="pull-right">
@@ -57,7 +58,7 @@
 					<div class="panel-body">
 						<div class="media">
 							<a class="pull-left" href="{% url "course" course.pk %}{{course.name}}">
-								<img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" width="74px" alt="class">
+								<img class="media-object" src="{% static 'lib/img/book.svg' %}" width="74px" alt="class">
 							</a>
 							<div class="media-body">
 								<h1 class="media-heading"><a href="{% url "course" course.pk %}{{course.name}}">{{course.dept}} {{course.course_number}}</a></h1>
