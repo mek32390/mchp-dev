@@ -272,10 +272,10 @@
       <div class="back">  
         <div class="panel panel-default">
           <div class="panel-body">
-            <div class="well">
+            <div class="well margin-btm-none">
               <h4 class="text-center">Customize Your Interests</h4>
               <hr class="margin-top-sm">
-              <ul class="list-inline text-center">
+              <ul class="list-inline text-center margin-btm-none">
                 {% for rss, visible in rss_types %}
                 <li class="list-group" style="width:111px;">
                   <div class="list-group-item btn btn-default {% if visible %}active{% endif %} toggle-rss" data-toggle="button" data-setting="{{rss.pk}}">
