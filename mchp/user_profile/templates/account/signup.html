@@ -7,11 +7,13 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block extra_head %}
+<script src="https://connect.facebook.net/en_US/all.js"></script>
 	{% load staticfiles %}
         <script src="{% static 'account/js/signup.js' %}"></script>
 {% endblock %}
 
 {% block content %}
+{% providers_media_js %}
 <div class="container">
     <h2 class="text-center">Got Credentials?</h2>
 
@@ -28,7 +30,6 @@
 			<button class="btn btn-facebook btn-block btn-primary btn-lg">
 				Use Facebook
 		</button></a>
-		{% include "socialaccount/snippets/login_extra.html" %}
 	</div>
 	<hr>
 	<span class="help-block text-center"><a href="#" id='show-signUp'>Use your own</a></span>

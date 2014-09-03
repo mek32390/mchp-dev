@@ -19,7 +19,9 @@ document_uploaded = Signal(providing_args=['upload'])
 def create_preview_task(sender, instance, **kwargs):
     # don't do this more than once 
     if not kwargs['created']:
-        return 
+        # return 
+        pass
+    print('saving ' + instance.title)
 
     # this queues a celery task
     try:

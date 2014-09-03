@@ -84,7 +84,13 @@
 											{% endwith %}
 											<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 											Purchase{{document.sold|pluralize}}
-                      <p class="small margin-top-sm">Uploaded by <a href="{%url "profile" document.upload.owner.pk%}">{{document.upload.owner}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+											{% with document.upload.owner as owner %}
+											{% if owner %}
+											<p class="small margin-top-sm">Uploaded by <a href="{%url "profile" owner.pk%}">{{owner}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+											{% else %}
+											<p class="small margin-top-sm">Uploaded by Unknown in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+											{% endif %}
+											{% endwith %}
 										</span>
 									</div>
 								</div>
