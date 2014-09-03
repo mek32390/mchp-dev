@@ -661,11 +661,13 @@ $(function() {
 			$(this).parents('.list-group-item').remove();
 		});
 	});
-    setTimeout(function() {
+    var clearPopovers = function () {
         if(!$('.popover:hover').length) {
             $('.popover').remove();
         }
-    }, 2000)
+        setTimeout(clearPopovers, 2000)
+    }
+    clearPopovers();
 	$('#calendar').on('mouseleave', '.canvas-day', function(jsEvent) {
 		var $canvas = $(this);
 		setTimeout(function () {
