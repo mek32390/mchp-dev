@@ -1,16 +1,19 @@
 {% extends "lib/base.html" %}
 
 {% block head_title %}500 Error{% endblock %}
-
+{% load staticfiles %}
 {% block head %}
 
 {% endblock %}
 
 {% block body %}
 <div class="container text-center">
-	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" width="200" alt="500 error">
-	<h1>Our servers are trying to tell us something...</h1>
-	<p class="lead">They are in a fight with eachother, and neither of them want to display this page...</p>
+	<div class="jumbotron">
+		<h2><strong>500</strong></h2>
+		<img src="{% static 'lib/img/support.svg' %}" width="200" alt="500 error">
+		<h1>Our servers are trying to tell us something...</h1>
+		<p class="lead">They are in a fight with eachother, and neither of them want to display this page...</p>
+	</div>
 </div>
 
 {% endblock %}
