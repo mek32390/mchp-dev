@@ -662,7 +662,7 @@ $(function() {
 		});
 	});
     var clearPopovers = function () {
-        if(!$('.popover:hover').length) {
+        if(!$('.popover:hover').length && !$('.canvas-day:hover').length) {
             $('.popover').remove();
         }
         setTimeout(clearPopovers, 2000)
