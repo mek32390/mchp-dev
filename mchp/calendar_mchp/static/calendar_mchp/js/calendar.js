@@ -661,7 +661,12 @@ $(function() {
 			$(this).parents('.list-group-item').remove();
 		});
 	});
-	$('body').on('mouseleave', '.canvas-day', function(jsEvent) {
+    setTimeout(function() {
+        if(!$('.popover:hover').length) {
+            $('.popover').remove();
+        }
+    }, 2000)
+	$('#calendar').on('mouseleave', '.canvas-day', function(jsEvent) {
 		var $canvas = $(this);
 		setTimeout(function () {
 			if(!$('.popover:hover').length) {
