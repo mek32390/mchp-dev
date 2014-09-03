@@ -6,7 +6,9 @@
 <meta property="og:type" content="product" /> 
 <!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
 <meta property="og:title" content="{{document.title}} in {{document.course.dept}} {{document.course.course_number}}" /> 
+{% if document.preview %}
 <meta property="og:image" content="{{document.preview.url}}" /> 
+{% endif %}
 <meta property="og:description" content="{{document.description}}" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
@@ -90,7 +92,7 @@
 				<div class="row">
 					<div class="col-sm-5">
 						{% if document.preview %}
-						<img class="img-thumbnail center-block" style="margin-bottom:10px;" src={{document.preview.url}}></img>
+						<img class="img-thumbnail center-block" style="margin-bottom:10px;" src="{{document.preview.url}}"></img>
 						{% else %}
 						<img class="img-thumbnail center-block" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}">
 						{% endif %}
