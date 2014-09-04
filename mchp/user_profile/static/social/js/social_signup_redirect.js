@@ -16,7 +16,9 @@ $(function() {
         $('.email_reminder h4').html("Sign up with E-mail");
     }
 	$form = ($('#signup_form'));
-    var username = $('#id_firstname').attr('value') + $('#id_lastname').attr('value')
+    var username = $('#id_firstname').attr('value') + $('#id_lastname').attr('value');
+    console.log($('#id_firstname'));
+    console.log(username);
 	$('#id_username').val(username); 
 	$('#id_email').text(hidden);
     // don't loop if the form doesn't validate
