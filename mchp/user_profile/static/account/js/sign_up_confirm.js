@@ -8,4 +8,5 @@ $(function() {
 		$('#id_email').attr('value', hidden_email);
 		$('.signup').submit();
 	}
+	$('#id_username').attr('value', '');
 });
