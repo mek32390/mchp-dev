@@ -12,9 +12,16 @@ class DocumentManager(models.Manager):
             pk = course['pk']
         docs = documents.models.Document.objects.filter(
             course=pk
-        ).select_related('upload')[:3]
+        )[:3]
         Activity = namedtuple('Activity', ['type', 'title', 'time', 'user'])
         events = []
         for doc in docs:
-            events.append(Activity('document', doc, doc.create_date, doc.upload.owner))
+            # upload = documents.models.Upload.objects.filter(
+            #     document=doc
+            # )
+            # if upload.exists():
+            #     owner = upload[0].owner
+            # else:
+            owner = None
+            events.append(Activity('document', doc, doc.create_date, owner))
         return events

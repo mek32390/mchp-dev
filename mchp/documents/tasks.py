@@ -31,18 +31,32 @@ def create_preview(instance):
                     b'application/vnd.oasis.opendocument.spreadsheet',
                    ]
 
-    logger.error(instance.filetype)
-    if not instance.filetype in filetypes and not instance.filetype in convert_type:
+    if type(instance.filetype) == str:
+        filetype = instance.filetype.encode('utf-8')
+    else:
+        filetype = instance.filetype
+
+    if not filetype in filetypes and not filetype in convert_type:
+        logger.error('unrecognized file type: ' + instance.filetype)
         return
 
-    upload = Upload.objects.get(
+    upload = Upload.objects.filter(
         document=instance
     )
-    if instance.filetype in convert_type:
+    if upload.exists():
+        upload = upload[0]
+    else: 
+        upload = None
+    if filetype in convert_type:
+        logger.error('converting: ' + instance.title)
         output = 'tmp{}.pdf'.format(uuid.uuid4())
-        input = 'old{}'.format(uuid.uuid4())
+        input = '/tmp/old{}'.format(uuid.uuid4())
 
-        urllib.request.urlretrieve(instance.document.url, input)
+        try:
+            urllib.request.urlretrieve(instance.document.url, input)
+        except OSError as e:
+            logger.error(str(e))
+            return
 
         unoconv_command = 'unoconv -f pdf --output="{}" "{}" '.format(output, input)
         logger.error('converting {}'.format(unoconv_command))
@@ -56,33 +70,43 @@ def create_preview(instance):
             instance.document.save(new_doc, File(open(output,'rb'), output))
         except FileNotFoundError:
             logger.error('Error converting {}'.format(instance.title))
-            add_notification(
-                upload.owner.user,
-                'Your document, {}, asplode. Try converting it to pdf, or upload something else.'.format(instance.title) 
-            )
+            if upload:
+                add_notification(
+                    upload.owner.user,
+                    'Your document, {}, asplode. Try converting it to pdf, or upload something else.'.format(instance.title) 
+                )
+            else:
+                logger.error('Document #{}, {}, has no uploader.'.format(instance.id, instance.title))
             instance.delete()
             os.remove(input)
             return
             
         os.remove(input)
         os.remove(output)
+        logger.error('converted: ' + instance.title)
 
     size = 500
-    with Image(filename=instance.document.url+'[0]') as img:
-        preview_name = '/tmp/tmp{}.png'.format(uuid.uuid4().hex)
-        img.save(filename=preview_name)
-        img = Image(filename=preview_name)
-        img.transform(resize=str(size))
-        img.save(filename=preview_name)
-        preview = "{}_preview.png".format(
-            os.path.splitext(instance.filename())[0]
-        )
-        instance.preview.save(preview, ImageFile(open(preview_name, 'rb'), preview_name))
-        os.remove(preview_name)
+    try:
+        with Image(filename=instance.document.url+'[0]') as img:
+            logger.error('making thumbnail for: ' + instance.title)
+            preview_name = '/tmp/tmp{}.png'.format(uuid.uuid4().hex)
+            img.save(filename=preview_name)
+            img = Image(filename=preview_name)
+            img.transform(resize=str(size))
+            img.save(filename=preview_name)
+            preview = "{}_preview.png".format(
+                os.path.splitext(instance.filename())[0]
+            )
+            try:
+                instance.preview.save(preview, ImageFile(open(preview_name, 'rb'), preview_name))
+            except Exception as e:
+                logger.error(str(e))
+            os.remove(preview_name)
+            logger.error('made thumbnail for: ' + instance.title)
+    except Exception as e: 
+        logger.error(str(e))
 
-    instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '',
-                                               {'x-amz-acl':'private'})
-
+    instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
 
 # just runs the command passed to it
 def _run(command):

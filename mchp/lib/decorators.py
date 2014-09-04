@@ -1,14 +1,46 @@
 from allauth.account.decorators import verified_email_required
+from allauth.account.models import EmailAddress
 
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 
 from schedule.models import School
+
+import re
+
+def edu_email_required(func):
+    
+    @verified_email_required
+    def decorator(request, *args, **kwargs):
+        email = EmailAddress.objects.filter(
+            user=request.user,
+            primary=True,
+            verified=True,
+        )
+        if email.exists():
+            email = email[0]
+        else:
+            messages.error(
+                request,
+                "You need a verified .edu email to visit our site!"
+            )
+            return redirect(reverse('account_email'))
+        p = re.compile('.*(\.edu)$', re.IGNORECASE)
+        # they have a verified, primary .edu email address
+        if p.match(email.email):
+            return func(request, *args, **kwargs)
+        else:
+            messages.error(
+                request,
+                "You need a verified .edu email to visit our site!"
+            )
+            return redirect(reverse('account_email'))
+    return decorator
  
 def school_required(func):
     
-    @verified_email_required
+    @edu_email_required
     def decorator(request, *args, **kwargs):
         if request.user.student_exists.__call__():
             student = request.user.student

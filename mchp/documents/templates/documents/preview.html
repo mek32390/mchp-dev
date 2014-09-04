@@ -158,30 +158,36 @@
 							<hr>
 							<p class="">"{{document.description}}"</p>
 							<hr>
-							<div class="media">
-								<a class="pull-left" href="{%url "profile" uploader.pk %}">
-									<img class="media-object img-circle img-thumbnail" 
-									src="{{uploader.profile.profile_image_url}}" width="65px" style="height: 65px;">
-								</a>
-								<div class="media-body">
-									<h4 class="media-heading">
-										<a href="{% url "profile" uploader.pk%}">
-											{{uploader}}
-										</a>
-									</h4>
-									<span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
-									<p>
-										<div class="progress" style="width:68%">
-											<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
-												<span class="sr-only">Documents</span>
-											</div>
-											<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
-												<span class="sr-only">Calendars</span>
-											</div>
-										</div>
-									</p>
-								</div>
-							</div>
+              {% if uploader %}
+              <div class="media">
+                <a class="pull-left" href="{%url "profile" uploader.pk %}">
+                  <img class="media-object img-circle img-thumbnail" 
+                  src="{{uploader.profile.profile_image_url}}" width="65px" style="height: 65px;">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">
+                    <a href="{% url "profile" uploader.pk%}">
+                      {{uploader}}
+                    </a>
+                  </h4>
+                  <span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
+                  <p>
+                    <div class="progress" style="width:68%">
+                      <div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
+                        <span class="sr-only">Documents</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
+                        <span class="sr-only">Calendars</span>
+                      </div>
+                    </div>
+                  </p>
+                </div>
+              </div>
+              {% else %}
+              <div class="media-body">
+                This was uploaded by a ghost! Or we just don't have the original uploader information! sorry
+              </div>
+              {% endif %}
 						</div>
 
 					</div><!-- end col -->

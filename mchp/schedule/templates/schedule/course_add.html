@@ -95,9 +95,13 @@
 												<i class='fa fa-user fa-fw'></i> 
 												{{course.student_count}} Student{{course.student_count|pluralize}}
 												<i class='fa fa-file fa-fw'></i> 
-												{{course.doc_count}} Document{{course.doc_count|pluralize}}
+                        {% with course.document_count as doc_count %}
+                        {{doc_count}} Document{{doc_count|pluralize}}
+                        {% endwith %}
 												<i class='fa fa-calendar fa-fw'></i> 
-												{{course.cal_count}} Calendar{{course.cal_count|pluralize}}
+                        {% with course.calendar_count as cal_count %}
+                        {{cal_count}} Calendar{{cal_count|pluralize}}
+                        {% endwith %}
 											</p>
 										</div>
 									{% endfor %}
