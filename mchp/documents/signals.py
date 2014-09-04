@@ -19,9 +19,7 @@ document_uploaded = Signal(providing_args=['upload'])
 def create_preview_task(sender, instance, **kwargs):
     # don't do this more than once 
     if not kwargs['created']:
-        # return 
-        pass
-    print('saving ' + instance.title)
+        return 
 
     # this queues a celery task
     try:
@@ -29,6 +27,7 @@ def create_preview_task(sender, instance, **kwargs):
         create_preview.apply_async(args=[instance], countdown=5)
         # create_preview(instance)
     except OSError:
+        logger.error('Celery does not seem to be running')
         # no thumbs for you (start celery/MQ process)
         pass
 

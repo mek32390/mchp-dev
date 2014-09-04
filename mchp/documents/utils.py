@@ -22,9 +22,10 @@ def reupload_doc():
     docs = dictfetchall(cursor)
 
     base_url = 'https://mchpstore.s3.amazonaws.com/'
+    all_docs = []
     for doc in docs:
         old_id = doc['id']
-        cursor.execute('select id from documents_document where old_id = %s', [old_id])
+        cursor.execute('select id from documents_document where old_id = %s and preview = \'\'', [old_id])
         document = cursor.fetchone()
         if document:
             new_id = document[0]
@@ -33,7 +34,8 @@ def reupload_doc():
             )[0]
         else: 
             continue
-        print(document.preview)
+        print(document.title)
+        all_docs.append(document)
         continue
         url = base_url+"{}".format(doc['path'])
 
@@ -50,6 +52,7 @@ def reupload_doc():
         document.document = new_file
         print('found ' + document.title)
         document.save()
+    return all_docs
 
 def upload_doc():
     cursor = connections['production'].cursor()

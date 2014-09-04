@@ -59,6 +59,9 @@ def add_class_join(sender, **kwargs):
 @receiver(document_purchased)
 def add_document_purchase(sender, **kwargs):
     purchase = kwargs['purchase']
+    # this doc has no uploader, so don't inform anyone
+    if not purchase.document.upload:
+        return
 
     data = {
         'type': DASH_EVENTS.index('document purchase'),
@@ -69,6 +72,7 @@ def add_document_purchase(sender, **kwargs):
     dash_item = DashEvent(**data)
     dash_item.save()
     dash_item.followers.add(purchase.document.upload.owner)
+
 
 @receiver(document_uploaded)
 def add_document_upload(sender, **kwargs):

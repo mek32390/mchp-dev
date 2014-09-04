@@ -41,11 +41,17 @@
 		<p class="small">
 			<i class="fa fa-graduation-cap fa-fw"></i> 
 			{% ifequal viewer student %}
-			<span href="#" data-type="typeaheadjs" id="major" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"> {% if student.major %}{{student.major}}{% endif %}</span> &nbsp;
+			<span href="#" data-type="typeaheadjs" id="major" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"> 
+        {% if student.major %}{{student.major}} {% else %} Select your Major{% endif %}
+      </span> &nbsp;
 			{% else %}
-			<span id="major-other"> {% if student.major %}{{student.major}}{% else %}Select your Major{% endif %}</span> &nbsp;
+			<span id="major-other"> {% if student.major %}{{student.major}}{% else %}Has not selected a major yet!{% endif %}</span> &nbsp;
 			{% endifequal %}
-			<i class="fa fa-university fa-fw"></i><a href="{% url "school" student.school.pk %}">{{student.school.name}}</a>
+      {% ifequal student.school.name 'deleted' %}
+      <i class="fa fa-university fa-fw"></i>Is not enrolled at a school!
+      {% else %}
+      <i class="fa fa-university fa-fw"></i><a href="{% url "school" student.school.pk %}">{{student.school.name}}</a>
+      {% endifequal %}
 		</p>
 			<div class="about-container">
 				{% ifequal viewer student %}

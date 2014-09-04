@@ -189,9 +189,15 @@ class DocumentDetailPreview(DetailView):
 
         document = self.get_object()
         # if they already bought the doc
-        uploader = Upload.objects.get(document=document).owner
+        uploader = Upload.objects.filter(document=document)
+        if uploader.exists():
+            uploader = uploader[0].owner
+            uploader_pk = uploader.pk
+        else:
+            uploader = None
+            uploader_pk = -1
         if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
-           uploader.pk == self.student.pk:
+           uploader_pk == self.student.pk:
            # or they uploaded it themselves, redirect to the view of the doc
             return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 
@@ -205,12 +211,13 @@ class DocumentDetailPreview(DetailView):
             # student bought the doc
             purchase = DocumentPurchase(document=document, student=self.student)
             purchase.save()
-            # give uploader the points 
-            points = document.price * (settings.MCHP_PRICING['commission_rate'] / 100)
-            points = points / 100
-            points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
-            uploader.modify_balance(points)
-            uploader.save()
+            # give uploader the points, if they exist
+            if uploader:
+                points = document.price * (settings.MCHP_PRICING['commission_rate'] / 100)
+                points = points / 100
+                points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
+                uploader.modify_balance(points)
+                uploader.save()
 
         return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 
@@ -220,7 +227,11 @@ class DocumentDetailPreview(DetailView):
         context = self.get_context_data(object=self.object)
 
         # info about the document
-        uploader = Upload.objects.get(document=self.object).owner
+        uploader = Upload.objects.filter(document=self.object)
+        if uploader.exists():
+            uploader = uploader[0].owner
+        else:
+            uploader = None
 
         document = self.get_object()
         owns = False
@@ -228,9 +239,15 @@ class DocumentDetailPreview(DetailView):
         if not request.user.is_anonymous() and request.user.student_exists():
             referral_link = ReferralCode.objects.get_referral_code(request.user).referral_link
             # check if they already bought the doc
-            uploader = Upload.objects.get(document=document).owner
+            uploader = Upload.objects.filter(document=document)
+            if uploader.exists():
+                uploader = uploader[0].owner
+                uploader_pk = uploader.pk
+            else:
+                uploader = None
+                uploader_pk = -1
             if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
-               uploader.pk == self.student.pk:
+               uploader_pk == self.student.pk:
                 owns = True
 
         cals = ClassCalendar.objects.filter(
@@ -244,10 +261,14 @@ class DocumentDetailPreview(DetailView):
             all_counts = 1
         context['cal_percent'] = (cals * 100) / all_counts
         context['doc_percent'] = (docs * 100) / all_counts
+        if uploader:
+            docs_sold = uploader.sales()
+        else:
+            docs_sold = 0
 
         data = {
             'current_path': request.get_full_path(),
-            'docs_sold': uploader.sales(),
+            'docs_sold': docs_sold, 
             'uploader': uploader,
             'student': self.student,
             'reviews': self.object.purchased_document.exclude(review_date=None),
@@ -295,10 +316,16 @@ class DocumentDetailView(DetailView):
         purchased = DocumentPurchase.objects.filter(document=self.object,
                                                     student=self.student).exists()
         # or if they own the doc
-        owner = Upload.objects.get(document=self.object).owner
+        owner = Upload.objects.filter(document=self.object)
+        if owner.exists():
+            owner = owner[0]
+            owner_pk = owner.pk
+        else:
+            owner = None
+            owner_pk = -1
 
         # if not, redirect to the preview page
-        if not purchased and owner.pk != self.student.pk:
+        if not purchased and owner_pk != self.student.pk:
             return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'] + '/' +
                             self.object.slug)
         # check if they have reviewed it
