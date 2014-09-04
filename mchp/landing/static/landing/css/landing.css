@@ -83,6 +83,10 @@ body {
   -webkit-animation-delay: .4s;
   animation-delay: .4s;
 }
+.delayed-5 {
+  -webkit-animation-delay: 1.5s;
+  animation-delay: 1.5s;
+}
 
 /* Duration Animations */
 .duration-1 {
@@ -219,4 +223,10 @@ body .flip-container .flipper {
     left: 0px;
     right: 0px;
     top: 40px;
+}
+
+#instruction-text {
+    position: relative;
+    margin: 0 auto;
+    top: -70px;
 }

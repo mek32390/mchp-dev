@@ -12,6 +12,10 @@
 {% load staticfiles %}
 <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
 
+<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
+<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
+<script src="{% static 'dashboard/js/dashboard-tour.js' %}"></script>
+
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
@@ -62,6 +66,8 @@
   <!-- End Quicklinks -->
   <div class="row"><!-- Begin Row --> 
     <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
+      <div class="row">
+        <div class="col-sm-12 today-section">
       <h2 style>Today&nbsp;<small>in your life</small></h2>
       <hr class="margin-top-sm">
       <h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
@@ -85,8 +91,10 @@
 				{% endif %}
         {% endfor %}
       </div>
+    </div>
+  </div>
       <div class="row">
-        <div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
+        <div class="col-xs-12 animated bounceInUp people-section"><!-- Begin Friend Col -->
           <h2>People <small>to meet</small></h2>
           <hr class="margin-top-sm">
           <div class="list-group">
@@ -122,7 +130,7 @@
       </div>
     </div><!-- End Today Col -->
 
-    <div class="col-sm-8 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
+    <div class="col-sm-8 col-md-5 animated bounceInUp delayed-sm pulse-section"><!-- Begin Pulse Col -->
       <h2>Pulse <small> feel the vibe</small></h2>
       <hr class="margin-top-sm">
       <!-- <div class="row">
@@ -229,7 +237,7 @@
     </div>
 
    </div> <!--  End Pulse Col -->
-    <div class="col-md-4 col-sm-12 animated bounceInUp delayed-md">
+    <div class="col-md-4 col-sm-12 animated bounceInUp delayed-md stories-section">
       <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class="pull-right" data-toggle="tooltip" data-original-title="Customize Stories"><small><i class="fa fa-bars"></i></small></a></h2>
       <hr class="margin-top-sm">
       <div class="flip-holder">

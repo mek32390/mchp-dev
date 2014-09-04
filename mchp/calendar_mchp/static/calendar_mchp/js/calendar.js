@@ -390,31 +390,31 @@ $(function() {
 	 * CALENDAR INTRODUCTION STUFF *
 	 *******************************/
 
-	if($('#calStepOne').length) {
-		$('#yourCalList').hide();
-	}
-	// show calendar step three  when clicked
-    $('.stepOneNext').on('click', function () {
-    	$('#calStepOne').fadeOut(250, function () {
-    		$('#calStepTwo').fadeIn(500);
-    		$('#calStepTwo').removeClass("hidden");
-    	});
-	});
-	// show calendar step three when clicked
-    $('.stepTwoNext').on('click', function () {
-	$('#calStepTwo').fadeOut(250, function () {
-		$('#calStepThree').fadeIn(500);
-		$('#calStepThree').removeClass("hidden");
-		});
-	});
-	// switch to your cal list when clicked and close intro
-	$('.stepThreeNext').on('click', function () {
-		$('.cal-intro').fadeOut(250, function () {
-			$('#yourCalList').fadeIn(500);
-		});
-		var event = $(this).data('event');
-		toggle_flag(event);
-	});
+	// if($('#calStepOne').length) {
+	// 	$('#yourCalList').hide();
+	// }
+	// // show calendar step three  when clicked
+ //    $('.stepOneNext').on('click', function () {
+ //    	$('#calStepOne').fadeOut(250, function () {
+ //    		$('#calStepTwo').fadeIn(500);
+ //    		$('#calStepTwo').removeClass("hidden");
+ //    	});
+	// });
+	// // show calendar step three when clicked
+ //    $('.stepTwoNext').on('click', function () {
+	// $('#calStepTwo').fadeOut(250, function () {
+	// 	$('#calStepThree').fadeIn(500);
+	// 	$('#calStepThree').removeClass("hidden");
+	// 	});
+	// });
+	// // switch to your cal list when clicked and close intro
+	// $('.stepThreeNext').on('click', function () {
+	// 	$('.cal-intro').fadeOut(250, function () {
+	// 		$('#yourCalList').fadeIn(500);
+	// 	});
+	// 	var event = $(this).data('event');
+	// 	toggle_flag(event);
+	// });
 
 	// using jquery.cookie plugin
 	var csrftoken = $.cookie('csrftoken');

@@ -6,6 +6,10 @@
 	{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/classes.css' %}">
 		<script src="{% static 'schedule/js/classes.js' %}"></script>
+
+		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
+		<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
+		<script src="{% static 'schedule/js/classes-tour.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -22,7 +26,7 @@
 	<ul class="nav nav-tabs nav-justified" role="tablist">
 		{% for course in course_list %}
 		{% ifequal forloop.counter 1 %}
-		<li class="active"><a href="#course{{forloop.counter}}" data-toggle="tab">
+		<li class="active course-tab-active"><a href="#course{{forloop.counter}}" data-toggle="tab">
 				<h5><i class="fa fa-book"></i> {{course.dept}} {{course.course_number}}</h5>
 		</a></li>
 		{% else %}
@@ -53,7 +57,7 @@
 			</div>
 		</div>
 	</div> --><!-- end alert -->
-			<div class="well well-md animated " style="padding-bottom:0px; margin-top:20px;">
+			<div class="well well-md" style="padding-bottom:0px; margin-top:20px;">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="media">
@@ -73,14 +77,13 @@
 				</div><!-- end panel -->
 			</div><!-- end well -->
 			<div class="row">
-				<div class="col-sm-5 animated ">
+				<div class="col-sm-5 animated">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">Activity <span class="badge">{{course.activity|length}}</span></h3>
 						</div><!-- end panel heading -->
-						<div class="small-scroll-con scrolls">
 							<div class="panel-body">
-								<div class="list-group">
+								<div class="list-group small-scroll-con scrolls">
 									{% for act in course.activity %}
 									{% ifequal act.type "document" %}
 									<li class="list-group-item">
@@ -103,15 +106,13 @@
 									<!-- </li> -->
 								</div>
 							</div><!-- end panel body -->
-						</div>
 					</div><!-- end panel -->
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">Classmates <span class="badge">{{course.students|length}}</span></h3>
 						</div><!-- end panel heading -->
-						<div class="small-scroll-con scrolls">
 							<div class="panel-body">
-								<div class="list-group">
+								<div class="list-group small-scroll-con scrolls">
 									{% for enrollment in course.students %}
                   {% with enrollment.student as student %}
                   <li class="list-group-item">
@@ -142,7 +143,6 @@
 									{% endfor %}
 								</div>
 							</div><!-- end panel body -->
-						</div>
 					</div><!-- end panel -->
 				</div><!-- end col -->
 				<div class="col-sm-7 animated ">
@@ -151,9 +151,8 @@
 							<h3 class="panel-title">Documents <span class="badge">{{course.documents|length}}</span>
 							</h3>
 						</div><!-- end panel heading -->
-						<div class="doc-con scrolls">
 							<div class="panel-body">
-								<div class="list-group">
+								<div class="list-group doc-con scrolls">
 									{% for document in course.documents %}
 									<div class="list-group-item">
 										<div class="media">
@@ -194,7 +193,6 @@
 									{% endfor %}
 								</div>
 							</div><!-- end panel body -->
-						</div>
 					</div><!-- end panel -->
 				</div><!-- end col -->
 			</div><!-- end row -->

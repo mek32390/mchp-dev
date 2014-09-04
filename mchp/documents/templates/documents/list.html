@@ -75,7 +75,7 @@
 										newly_uploaded.push(upload);
 									</script>
 									<div id="generating_message_{{document.pk}}">
-										We're prepping this doc for it's big debut... <i class="fa fa-spinner fa-spin"></i>
+										<span class="text-dull">We're prepping this doc for it's big debut... <i class="fa fa-spinner fa-spin"></i></span>
 									</div>
 									{% endif %}
 								</div>
@@ -99,7 +99,7 @@
 								{% endwith %}
 							</span> 
               <div>
-                for
+                in
                 <a href="{%url "course" document.course.pk%}">
                    {{document.course}}
                 </a>
