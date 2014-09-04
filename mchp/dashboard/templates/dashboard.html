@@ -252,7 +252,7 @@
           </nav> 
           <span id="news-scroll" class="margin-btm-none" data-spy="scroll" data-offset="0">
             {% for rss,visible in rss_types %}
-            <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
+            <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% else %}visible-group{% endif %}">
               <li class="list-group-item news-header" style="background-color: #{{rss.color}};">
                 <h5 class="margin-top-none margin-btm-none">{{rss.name}}</h5>
               </li>

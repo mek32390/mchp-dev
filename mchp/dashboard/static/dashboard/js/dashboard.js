@@ -66,8 +66,13 @@ $(function(){
 	$('#ref-alert').on('close.bs.alert', function  () {
 		toggle_flag($(this).data('event'));
 	});
-	$('.pulse-con').css('max-height',$(window).height() - 100);
-	$('#news-scroll').css('max-height',$(window).height() - 100);
+
+	var btmHeight = $(window).height() - 0;
+
+	$('.pulse-con').css('max-height', btmHeight);
+	$('#news-scroll').css('max-height', btmHeight);
+
+	$('#news-scroll > ul.news-group.list-group.visible-group:last').css('margin-bottom','0');
 
 	$('.toggle-rss').click(function() {
 		var setting = $(this).data('setting');
