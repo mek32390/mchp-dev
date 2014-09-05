@@ -151,7 +151,13 @@ $(function() {
 	$('.one-time-alert').on('close.bs.alert', function  () {
 		toggle_flag($(this).data('event'));
 	});
+	set_username();
 });
+
+var MCHP_USERNAME = '';
+var set_username = function(username) {
+	MCHP_USERNAME = $('.mchp-username').text();
+};
 
 var loginModal = function () {
     // show email sign up input when clicked

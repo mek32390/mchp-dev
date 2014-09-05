@@ -22,7 +22,7 @@ $(function() {
 		{
 			path: "/classes",
 			orphan: true,
-		    title: "<strong>Here are your Classes, Mitch!</strong>",
+		    title: "<strong>Here are your Classes, "+ MCHP_USERNAME +"!</strong>",
 		    content: 'All of your classes on a single page. We like to call it, "simple."'
 		},
 		{

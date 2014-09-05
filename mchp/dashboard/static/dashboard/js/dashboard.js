@@ -30,7 +30,7 @@ $(function(){
 		{
 			path: "/home",
 			orphan: true,
-			title: "<strong>Welcome home, Mitch</strong>",
+			title: "<strong>Welcome home, " + MCHP_USERNAME + "</strong>",
 			content: "This is your homepage. We've customized it just for you, and it puts everything you need, all in one place.",
 		},
 		{

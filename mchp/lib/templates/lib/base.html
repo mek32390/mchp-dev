@@ -62,6 +62,7 @@
 		{% if user.is_authenticated %}
 		{% if user.student %}
 		{% with user.student as student %}
+		<div class="mchp-username hidden">{{student.name}}</div>
 		<!-- Set Homepage Modal -->
 		<div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
 			<div class="modal-dialog">

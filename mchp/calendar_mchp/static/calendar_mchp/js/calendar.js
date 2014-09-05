@@ -22,7 +22,7 @@ $(function() {
 		steps: [
 		{
 			orphan: true,
-		    title: "<strong>This is your Calendar, Mitch!</strong>",
+		    title: "<strong>This is your Calendar, " + MCHP_USERNAME+"!</strong>",
 		    content: 'Here\'s how mchp calendars work: Let\'s say you want to make an "ECON 200" calendar, and put assignment due dates, tests, and projects in it...'
 		},
 		{
@@ -748,8 +748,8 @@ $(function() {
         if(!$('.popover:hover').length && !$('.canvas-day:hover').length && !$('.fc-day:hover').length) {
             $('.popover').remove();
         }
-        setTimeout(clearPopovers, 2000)
-    }
+        setTimeout(clearPopovers, 2000);
+    };
     clearPopovers();
 	$('#calendar').on('mouseleave', '.canvas-day', function(jsEvent) {
 		var $canvas = $(this);
