@@ -24,7 +24,6 @@ $(function(){
     	},
 
 		name: "dashboard-tour",
-		storage: false,
 		backdrop: true,
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
 		steps: [
@@ -98,8 +97,6 @@ $(function(){
 	// Start the tour
 	tour.start();
 
-
-
  	/*
 	/*
 	/* NEWS FUNCTIONS
@@ -162,9 +159,6 @@ $(function(){
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
 		}
-	});
-	$('#ref-alert').on('close.bs.alert', function  () {
-		toggle_flag($(this).data('event'));
 	});
 	$('.pulse-con').css('max-height',$(window).height() - 100);
 	$('#news-scroll').css('max-height',$(window).height() - 100);

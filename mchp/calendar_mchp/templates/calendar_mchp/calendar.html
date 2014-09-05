@@ -17,7 +17,7 @@
 		
 <script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
-<script src="{% static 'calendar_mchp/js/calendar.js' %}?v=001"></script>
+<script src="{% static 'calendar_mchp/js/calendar.js' %}"></script>
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-datepicker.js' %}"></script>
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-clockpicker.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-slider.min.js' %}"></script>
@@ -318,34 +318,6 @@
 			</h3>
 			<hr style="margin-top:12px;">
 			<p></p>
-			<!-- {% if not turtorial_flag.0 %} -->
-			<!-- <div class="panel panel-default cal-intro">
-				<div class="panel-body">
-					<div id="calStepOne">
-						<p><strong>Yoohoo!</strong><small class="pull-right"><small>1/3</small></small></p>
-						<p>The calendars you create and the calendars you subscribe to will show up here.</p>
-						<hr/>
-						<button href="#" class="btn btn-primary btn-xs btn-block stepOneNext">Next</button>
-					</div>
-					<div id="calStepTwo" class="hidden">
-						<p><strong>Did you know...</strong><small class="pull-right"><small>2/3</small></small></p>
-						<p>Once you create a class calendar, your classmates can <em>subscribe</em> to your calendar, and for every one of them that does, you'll make money!</p>
-						<hr>
-						<button type="button" class="btn btn-primary btn-xs btn-block stepTwoNext">Next</button>
-					</div>
-					<div id="calStepThree" class="hidden">
-						<p><strong>This is because...</strong><small class="pull-right"><small>3/3</small></small></p>
-						<p>You can also <em>subscribe</em> one of your classmate's class calendars, and for every calendar you subscribe to, you'll fork over some points!</p>
-						<p>What would you like to do?</p>
-						<hr>
-						<p>
-							<button data-event="{{turtorial_flag.1}}" class="btn btn-success btn-xs btn-block stepThreeNext view-cals">View Others</button>
-							<a data-event="{{turtorial_flag.1}}" type="button" href="#" class="btn btn-primary btn-xs btn-block stepThreeNext">Create my Own</a>
-						</p>
-					</div>
-				</div>
-			</div> --><!-- end panel -->
-			<!-- {% endif %} -->
 			<div id="yourCalList">
 				<div class="owned-cals-section">
 				<h5>School<span class="badge pull-right" id="owned-calendar-count">{{owned_calendars|length}}</span></h5>

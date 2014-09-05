@@ -23,8 +23,8 @@
 {% load humanize %}
 {% load referral %}
 <div class="container animated bounceInUp">
-	{% if not preview_flag.0 %}
-	<div data-event="{{preview_flag.1}}" class="alert alert-info alert-dismissible fade in" role="alert">
+	{% if not preview_flag %}
+	<div data-event="{{preview_flag_name}}" class="one-time-alert alert alert-info alert-dismissible fade in" role="alert">
 		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 		<div class="media margin-top-none">
 			<img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">

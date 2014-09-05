@@ -143,6 +143,14 @@ $(function() {
 	$('#toggle-notifications').click(function() {
 		mark_all_read();
 	});
+
+	// for toggleing one time events
+	$('.one-time-event').on('click', function  () {
+		toggle_flag($(this).data('event'));
+	});
+	$('.one-time-alert').on('close.bs.alert', function  () {
+		toggle_flag($(this).data('event'));
+	});
 });
 
 var loginModal = function () {
