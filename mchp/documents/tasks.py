@@ -120,7 +120,6 @@ def _run(command):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    print(proc.communicate())
     # stdout_value = proc.communicate()[0]
     # stderr_value = proc.communicate()[1]
     # logger.info('stdout: ' + str(stdout_value))

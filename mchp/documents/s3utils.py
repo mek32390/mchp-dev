@@ -12,7 +12,6 @@ MediaS3Storage = lambda: S3Storage(location='media')
 
 def filetype(loc):
     mime = magic.Magic(mime=True)
-    print(mime.from_file(loc))
 
 class S3Auth:
 
