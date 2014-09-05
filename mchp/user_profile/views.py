@@ -365,12 +365,13 @@ name: toggle_flag
 class ToggleFlag(View, AjaxableResponseMixin):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            event = request.POST.get('event', -1)
-            event = OneTimeEvent.objects.filter(pk=event)
-            if not event.exists():
-                return self.render_to_json_response({}, status=403)
-            else:
-                event=event[0]
+            event_name = request.POST.get('event', '')
+            event = OneTimeEvent.objects.get_event(event_name)
+            if not event:
+                data = {
+                    'error': '{} is not a valid event'.format(event_name)
+                }
+                return self.render_to_json_response(data, status=400)
 
             OneTimeFlag.objects.set_flag(request.user.student, event)    
             return self.render_to_json_response({}, status=200)

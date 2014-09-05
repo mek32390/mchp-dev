@@ -266,6 +266,7 @@ class DocumentDetailPreview(DetailView):
         else:
             docs_sold = 0
 
+        document_preview_flag = 'document preview referral'
         data = {
             'current_path': request.get_full_path(),
             'docs_sold': docs_sold, 
@@ -277,6 +278,8 @@ class DocumentDetailPreview(DetailView):
             'slug': self.object.slug,
             'owns': owns,
             'referral_link': referral_link,
+            'document_preview_flag': self.student.one_time_flag.get_flag(self.student, document_preview_flag),
+            'document_preview_flag_name': document_preview_flag,
         }
         context.update(data)
         return self.render_to_response(context)
@@ -351,6 +354,9 @@ class DocumentDetailView(DetailView):
         context['slug'] = self.object.slug
         context['student'] = self.student 
         context['referral_link'] = self.referral_link
+        document_referral_flag = 'document referral'
+        context['document_referral_flag'] = self.student.one_time_flag.get_flag(self.student, document_referral_flag)
+        context['document_referral_flag_name'] = document_referral_flag
         return context
 
     # this page needs to be publically viewable to redirect properly

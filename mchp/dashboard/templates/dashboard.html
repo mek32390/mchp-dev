@@ -12,6 +12,9 @@
 {% load staticfiles %}
 <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
 
+<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
+<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
+
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
@@ -27,14 +30,14 @@
 {% load dashboard %}
 
 <div class="container">
-  {% if not dashboard_ref_flag.0 %}
-  <div class="alert alert-info alert-dismissible fade in" data-event="{{dashboard_ref_flag.1}}" id="ref-alert" role="alert">
-    <button type="button" class="close" data-event="{{dashboard_ref_flag.1}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  {% if not dashboard_ref_flag %}
+  <div class="one-time-alert alert alert-info alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
+    <button type="button" class="close" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <div class="media margin-top-none">
       <img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" width="75px" alt="earn referral points">
       <div class="media-body">
-        <h4 class="media-heading">Refer a friend, and you both get a <strong>free study guide!</strong></h4>
-        For every person that signs up with us by entering your code <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. You can also use your link found in your <a href="{% url 'account_settings'%}" class="alert-link">account settings</a> <strong>- mchp</strong>
+        <h4 class="media-heading">Refer a friend, and you both get <strong>500 points</strong></h4>
+        You now have a unique referral code, <strong>"{{referral_info.referral_code}}"</strong>. When someone enters it in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. We also gave you a unique referral link to share, which you can find in your <a href="{% url 'account_settings'%}" class="alert-link">account settings</a> <strong>- mchp</strong>
       </div>
     </div>
   </div><!-- end alert -->
@@ -62,6 +65,8 @@
   <!-- End Quicklinks -->
   <div class="row"><!-- Begin Row --> 
     <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
+      <div class="row">
+        <div class="col-sm-12 today-section">
       <h2 style>Today&nbsp;<small>in your life</small></h2>
       <hr class="margin-top-sm">
       <h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
@@ -85,8 +90,10 @@
 				{% endif %}
         {% endfor %}
       </div>
+    </div>
+  </div>
       <div class="row">
-        <div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
+        <div class="col-xs-12 animated bounceInUp people-section"><!-- Begin Friend Col -->
           <h2>People <small>to meet</small></h2>
           <hr class="margin-top-sm">
           <div class="list-group">
@@ -111,7 +118,7 @@
               <!-- <div class="media-body"> -->
                 <div class="alert alert-success" role="alert">
    <h4>You're the first!</h4>
-    For every person that signs up and enters your code, <strong>"{{referral_info.referral_code}}"</strong> in the <a class="alert-link" href="#referral-modal" data-toggle="modal">referral window</a> (they can click on their name in the top right also), you'll both get <strong>500 points.</strong>
+    Don't be a stranger, tell your friends to enter your code, <strong>"{{referral_info.referral_code}}"</strong> in the <a class="alert-link" href="#referral-modal" data-toggle="modal">referral window</a>, and you'll both get <strong>500 points.</strong>
 </div>
               <!-- </div> -->
             <!-- </div>
@@ -122,7 +129,7 @@
       </div>
     </div><!-- End Today Col -->
 
-    <div class="col-sm-8 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
+    <div class="col-sm-8 col-md-5 animated bounceInUp delayed-sm pulse-section"><!-- Begin Pulse Col -->
       <h2>Pulse <small> feel the vibe</small></h2>
       <hr class="margin-top-sm">
       <!-- <div class="row">
@@ -229,7 +236,7 @@
     </div>
 
    </div> <!--  End Pulse Col -->
-    <div class="col-md-4 col-sm-12 animated bounceInUp delayed-md">
+    <div class="col-md-4 col-sm-12 animated bounceInUp delayed-md stories-section">
       <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class="pull-right" data-toggle="tooltip" data-original-title="Customize Stories"><small><i class="fa fa-bars"></i></small></a></h2>
       <hr class="margin-top-sm">
       <div class="flip-holder">

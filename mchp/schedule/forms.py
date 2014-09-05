@@ -54,7 +54,7 @@ class CourseCreateForm(_BaseCourseForm):
             # dict(x.items() | y.items()) combines the _base attrs with 
             # any class specific attrs, like the placeholder
             'dept': TextInput(attrs=dict({
-                'placeholder': 'ex: PSY'
+                'placeholder': 'ex: ECON'
             }.items() | _BaseCourseForm.input_attr.items())),
 
             'course_number': TextInput(attrs=dict({

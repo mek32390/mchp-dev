@@ -38,6 +38,7 @@ class DashboardView(View):
             domain=self.student.school
         ).order_by('id')
 
+        print(self.student)
         events = CalendarEvent.objects.filter(
             Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student,private=False))
             | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
@@ -49,9 +50,10 @@ class DashboardView(View):
                 rss_type=rss
             )
             setattr(rss, 'links', links)
-        show_rss = list(map(lambda setting: setting.rss_type, RSSSetting.objects.filter(
+        settings = RSSSetting.objects.filter(
             student=self.student
-        )))
+        )
+        show_rss = list(map(lambda setting: setting.rss_type, settings))
 
         # filter all rss types w/ just the ones the user wants shown
         rss_types = [(rss,True) if rss in show_rss else (rss,False) for rss in rss_types]
@@ -110,8 +112,10 @@ class DashboardView(View):
             student=self.student,
         ).exists()
 
+        dashboard_ref_flag = 'dashboard referral'
         data = {
-            'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
+            'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, dashboard_ref_flag),
+            'dashboard_ref_flag_name': dashboard_ref_flag, 
             'referral_info': ref,
             'school_links': s_links,
             'events': events[:5],

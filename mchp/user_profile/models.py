@@ -174,10 +174,12 @@ class StudentQuicklink(models.Model):
         return "{} has link to {}".format(self.student.user.username, self.quick_link)
 
 class OneTimeEvent(models.Model):
-    name = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50, blank=True, unique=True)
+
+    objects = managers.OneTimeEventManager()
 
     def __str__(self):
-        return "Event #{}".format(self.pk)
+        return "Event #{} :: {}".format(self.pk, self.name)
 
 class OneTimeFlag(models.Model):
     student = models.ForeignKey(Student, related_name='one_time_flag')
