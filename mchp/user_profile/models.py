@@ -36,7 +36,7 @@ class Student(models.Model):
 
     def name(self):
         if self.user.first_name:
-            return self.user.first_name + " " + self.user.last_name
+            return self.user.first_name
         else:
             return self.user.username
 
