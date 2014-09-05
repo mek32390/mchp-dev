@@ -158,7 +158,8 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'AKIAILBSJCVZ2FI3ZF7A'
 EMAIL_HOST_PASSWORD = 'AkC6J6wQL474JQ2KRnPj3Yrbk1TgMOsb4m/wJoaMnx8P'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'contact@mycollegehomepage.com'
+SERVER_EMAIL = 'mchp error <contact@mycollegehomepage.com>'
+DEFAULT_FROM_EMAIL = 'mchp contact <contact@mycollegehomepage.com>'
 
 # Add this depending on the id of the site
 #SITE_ID = 2
@@ -190,7 +191,12 @@ CELERY_TIMEZONE = 'UTC'
 #Logging
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        }
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
@@ -201,19 +207,25 @@ LOGGING = {
             'level': 'DEBUG',
             'class':'django.utils.log.NullHandler',
         },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+            'email_backend': 'django_smtp_ssl.SSLEmailBackend',
+        }
     },
     'loggers': {
-        '': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
+        'django': {
+            'handlers': ['null'],
             'propagate': True,
+            'level': 'INFO',
         },
-        # # don't show all those sql statements
-        # 'django.db.backends': {
-        #     'handlers': ['null'],  # Quiet by default!
-        #     'propagate': False,
-        #     'level':'DEBUG',
-        # },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
     },
 }
 # site related pricing stuff
