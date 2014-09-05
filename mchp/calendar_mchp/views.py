@@ -390,10 +390,12 @@ class EventAddView(View, AjaxableResponseMixin):
 
             setattr(calendar, 'sections', sections)
         selected_calendar = request.GET.get('calendar', '')
+        event_flag = 'events tutorial'
         data = {
             'calendars': calendars,
             'selected_calendar': selected_calendar,
-            'events_turtorial': self.student.one_time_flag.get_flag(self.student, 'events turtorial')
+            'events_tutorial': self.student.one_time_flag.get_flag(self.student, event_flag),
+            'events_tutorial_name': event_flag, 
         }
         return render(request, self.template_name, data)
 
@@ -670,6 +672,7 @@ class CalendarPreview(DetailView):
         cal_percent = (cals * 100) / all_counts
         doc_percent = (docs * 100) / all_counts
 
+        preview_flag_name = 'calendar preview referral'
         data = {
             'calendar': calendar,
             'owner': calendar.owner,
@@ -680,7 +683,8 @@ class CalendarPreview(DetailView):
             'total_count': total_count,
             'referral_link': referral_link,
             'current_path': request.get_full_path(),
-            'preview_flag': OneTimeFlag.objects.get_flag(self.student, 'preview'),
+            'preview_flag': OneTimeFlag.objects.get_flag(self.student, preview_flag_name),
+            'preview_flag_name': preview_flag_name ,
             'cal_percent': cal_percent,
             'doc_percent': doc_percent,
         }
@@ -744,8 +748,10 @@ class CalendarView(View):
                 start__gte=timezone.now(),
             ).count()
             setattr(calendar, 'missed_events', missed_events)
+        calendar_tutorial = 'calendar tutorial'
         data = {
-            'turtorial_flag': self.student.one_time_flag.get_flag(self.student, 'calendar turtorial'),
+            'turtorial_flag': self.student.one_time_flag.get_flag(self.student, calendar_tutorial),
+            'turtorial_flag_name': calendar_tutorial, 
             'calendar_courses': cal_courses,
             'courses': courses,
             'owned_calendars': owned_calendars,

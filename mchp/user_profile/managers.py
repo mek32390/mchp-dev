@@ -2,7 +2,6 @@ from django.db import models
 from django.db.utils import IntegrityError
 
 import user_profile.models
-from user_profile.utils import ONE_TIME_EVENTS_DICT
 import dashboard.models
 import random
 
@@ -52,9 +51,13 @@ class UserRoleManager(models.Manager):
             return roles
 
 class OneTimeEventManager(models.Manager):
-    def get_event(id):
+    @staticmethod
+    def get_event(name):
+        if not name:
+            return None
+
         return user_profile.models.OneTimeEvent.objects.get_or_create(
-            pk=id
+            name=name
         )[0]
 
 class OneTimeFlagManager(models.Manager):
@@ -79,19 +82,17 @@ class OneTimeFlagManager(models.Manager):
         )
 
     @staticmethod
-    def get_flag(student, event):
+    def get_flag(student, event_name):
         # usually this mean the user is not logged in, so don't show any of these
         if not student:
             return (True,)
 
-        if event in ONE_TIME_EVENTS_DICT.keys():
-            pk = ONE_TIME_EVENTS_DICT[event]
-        else:
-            return None
-        event, created = user_profile.models.OneTimeEvent.objects.get_or_create(pk=pk, name=event)
+        event = user_profile.models.OneTimeEvent.objects.filter(
+            name=event_name
+        )
 
         flag = user_profile.models.OneTimeFlag.objects.filter(
             student=student,
             event=event,
         )
-        return (flag.exists(), event.pk)
+        return flag.exists()
