@@ -38,7 +38,6 @@ class DashboardView(View):
             domain=self.student.school
         ).order_by('id')
 
-        print(self.student)
         events = CalendarEvent.objects.filter(
             Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student,private=False))
             | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
