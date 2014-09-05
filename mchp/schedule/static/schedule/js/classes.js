@@ -16,7 +16,6 @@ $(function() {
 	var tour = new Tour({
 
 		name: "classes-tour",
-		storage: false,
 		backdrop: true,
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
 		steps: [
@@ -34,11 +33,11 @@ $(function() {
 		    placement: "bottom",
 		    onShown: function() {
 	        	$('body > ul > li:nth-child(2').addClass('disabled').css('pointer-events','none');
-	        	$('body > ul > li:nth-child(3').addClass('disabled').css('pointer-events','none');;
-	        	$('body > ul > li:nth-child(4').addClass('disabled').css('pointer-events','none');;
-	        	$('body > ul > li:nth-child(5').addClass('disabled').css('pointer-events','none');;
-	        	$('body > ul > li:nth-child(6').addClass('disabled').css('pointer-events','none');;
-	        	$('body > ul > li:nth-child(7').addClass('disabled').css('pointer-events','none');;
+	        	$('body > ul > li:nth-child(3').addClass('disabled').css('pointer-events','none');
+	        	$('body > ul > li:nth-child(4').addClass('disabled').css('pointer-events','none');
+	        	$('body > ul > li:nth-child(5').addClass('disabled').css('pointer-events','none');
+	        	$('body > ul > li:nth-child(6').addClass('disabled').css('pointer-events','none');
+	        	$('body > ul > li:nth-child(7').addClass('disabled').css('pointer-events','none');
     		}
 		},
 		{
