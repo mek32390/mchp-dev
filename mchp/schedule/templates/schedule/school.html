@@ -43,9 +43,9 @@
 						<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
 					</p>
 					<div class="progress" style="width:68%;">
-						<div class="progress-bar progress-bar-info" data-toggle="tooltip" data-original-title="Students" data-placement="bottom" style="width: {{student_percent}}%"> <span class="sr-only">{{student_percent}}% Students</span> </div>
-						<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%"> <span class="sr-only">{{doc_percent}}% Documents</span> </div>
-						<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%"> <span class="sr-only">{{cal_percent}}% Calendars</span> </div>
+						<div class="progress-bar progress-bar-info" data-toggle="tooltip" data-original-title="{{student_count}} Student{{student_count|pluralize}}" data-placement="bottom" style="width: {{student_percent}}%"> <span class="sr-only">{{student_percent}}% Students</span> </div>
+						<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="{{doc_count}} Document{{doc_count|pluralize}}" data-placement="bottom" style="width: {{doc_percent}}%"> <span class="sr-only">{{doc_percent}}% Documents</span> </div>
+						<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="{{cal_count}} Calendar{{cal_count|pluralize}}" data-placement="bottom" style="width: {{cal_percent}}%"> <span class="sr-only">{{cal_percent}}% Calendars</span> </div>
 					</div>
 				</div><!-- end media -->
 			</div><!-- end panel body -->
@@ -59,7 +59,7 @@
 				</div>
 				<!-- <div class="doc-con scrolls"> -->
 					<!-- <div class="panel-body"> -->
-						<div class="list-group item-list">
+						<div class="list-group item-list scrolls doc-scroll">
 							{% for document in popular_documents %}
 							<div class="list-group-item">
 								<div class="media">
@@ -77,6 +77,7 @@
 											<small>{{document.price}} points</small><div class="pull-right small hidden-sm"><small>{{document.create_date|naturaltime}}</small></div>
 										</h4>
 										<span class="description">
+											<strong>Instr {{document.course.professor}}</strong>
 											<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
 											<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{document.down}}&nbsp;
 											{% with document.review_count as review_count %}
@@ -114,7 +115,7 @@
 					<h3 class="panel-title"> Popular Calendars <span class="badge">{{cal_count}}</span></h3>
 				</div>
 				<!-- <div class="panel-body"> -->
-					<div class="list-group item-list">
+					<div class="list-group item-list scrolls cal-scroll">
 						{% for calendar in popular_calendars %}
 						<div class="list-group-item">
 							<div class="media">
@@ -128,11 +129,11 @@
 									</a>
 								</span>
 								<div class="media-body">
-									<h4 class="media-heading"><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a>
+									<h4 class="media-heading"><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}} Calendar</a>
 										<small class="calendar-browse-price">{{calendar.price}} points</small>
 										<div class="pull-right small calendar-create-date"><small>{{calendar.create_date|naturaltime}}</small></div></h4>
 									<span class="description">
-										<span class='calendar-professor'><strong>Inst {{calendar.course__professor}}</strong></span>
+										<span class='calendar-professor'><strong>Instr {{calendar.course__professor}}</strong></span>
 										<i class="fa fa-bullseye text-primary"></i> 
 										{% if calendar.accuracy < 0 %}
 										<span class="calendar-accuracy">No ratings&nbsp;</span>
