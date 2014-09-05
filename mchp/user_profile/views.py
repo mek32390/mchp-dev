@@ -132,8 +132,17 @@ name: migrate_user
 class MigrateUserView(View):
     template_name = 'user_profile/migrate_user.html'
 
+    # uggg
     def get(self, request, *args, **kwargs):
         email = request.session.pop('email', None)
+        from allauth.account.forms import ResetPasswordForm
+        form = ResetPasswordForm()
+        cleaned_data = {
+            'email': email
+        }
+        setattr(form, 'cleaned_data', cleaned_data)
+        form.clean_email()
+        form.save()
         data = {
             'email': email,
         }
