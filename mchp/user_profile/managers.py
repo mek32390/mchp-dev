@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.utils import IntegrityError
 
+from notification.api import add_notification
 import user_profile.models
 from user_profile.utils import ONE_TIME_EVENTS_DICT
 import dashboard.models
@@ -36,10 +37,21 @@ class StudentManager(models.Manager):
         return student
 
     def referral_reward(self, user, referrer):
-        user.student.add_earned_points(500)
+        reward_points = 500
+        user.student.add_earned_points(reward_points)
         referrer_roles = user_profile.models.UserRole.objects.get_roles(referrer)
         if referrer_roles.rep:
             referrer.student.modify_balance(1)
+            add_notification(
+                referrer,
+                user.username + " used your code. You've got money in the bank",
+            )
+        else:
+            referrer.student.add_earned_points(reward_points)
+            add_notification(
+                referrer,
+                user.username + " used your code. You made a cool {} points".format(reward_points),
+            )
 
 class UserRoleManager(models.Manager):
     def get_roles(self, user):

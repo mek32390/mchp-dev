@@ -28,7 +28,7 @@ class ReferralCode(models.Model):
         super(ReferralCode, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "Code: {} :: Link: {}".format(self.referral_code, self.referral_link)
+        return "{} has Code: {} :: Link: {}".format(self.user.username, self.referral_code, self.referral_link)
 
 class Referral(models.Model):
     user = models.ForeignKey(User, primary_key=True, related_name='referree')
