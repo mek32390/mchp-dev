@@ -23,35 +23,53 @@ $(function() {
 		steps: [
 		{
 			orphan: true,
-		    title: "<strong>Your Calendar(s)</strong>",
-		    content: 'Here\'s how mchp calendars work: You can make a calendar for each of the classes you are in. For instance, you can make an "ECON 200" calendar, and put assignment due dates, tests, and projects in it.'
+		    title: "<strong>This is your Calendar, Mitch!</strong>",
+		    content: 'Here\'s how mchp calendars work: Let\'s say you want to make an "ECON 200" calendar, and put assignment due dates, tests, and projects in it...'
 		},
 		{
 			orphan: true,
 		    title: "<strong>Private Calendar</strong>",
-		    content: "If you choose to make your ECON 200 Calendar private, only you will be able to see the events in it, just like a regular calendar- for your eyes only."
+		    content: "If you want to make it private, only you will be able to see the events you add to it. It's just like a regular calendar- for your eyes only."
 		},
 		{
 			orphan: true,
 		    title: "<strong>Selling a Calendar</strong>",
-		    content: "If you choose to sell it, your classmates will be able to subscribe to it for a fee, and they will get to see all of the events you add to it, rate it, and get notified whenever you change something on it. For every classmate that subscribes to it, you'll make money by the week.</li></ul>"
+		    content: "If you choose to sell it, your classmates will be able to subscribe to it by paying you a subscription fee every 14 days. In return, they'll get to see the events you add, and get notified whenever you change or add events."
+		},
+		{
+			orphan: true,
+		    title: "<strong>Selling a Calendar cont.</strong>",
+		    content: "Your classmates will get to rate and review your calendar, just like they would if they bought a document from you. So, it's up to you to keep your calendar up-to-date and accurate, so you can get higher ratings and get more subscribers."
 		},
 		{
 			element: ".owned-cals-section",
 		    title: "<strong>Calendars You Own</strong>",
-		    content: "This is where the calendars you create will appear, regardless if you are selling them or not.",
+		    content: "The calendars <em>you create</em> will appear here.",
 		    placement: "right"
 		},
 		{
 			element: ".following-cals-section",
 		    title: "<strong>Calendars You Follow</strong>",
-		    content: "This is where the calendars you subscribe to will appear.",
-		    placement: "right"
+		    content: "The calendars <em>you subscribe to</em> will appear here.",
+		    placement: "right",
+		     onHide: function() {
+	        	$('.flip-holder').toggleClass("flip");
+    		}
 		},
 		{
 			element: ".view-cals-btn",
 		    title: "<strong>Browse Calendars to Follow</strong>",
 		    content: "This is where your classmates' calendars that they choose to sell will appear.",
+		    placement: "left",
+		    // reflex: true,
+		    //  onHide: function() {
+	     //    	$('.flip-holder').toggleClass("flip");
+    		// }
+		},
+		{
+			element: ".back",
+		    title: "<strong>Here are the calendars for your classes</strong>",
+		    content: "Cool, right?",
 		    placement: "left"
 		},
 		{

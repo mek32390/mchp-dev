@@ -20,7 +20,7 @@ $(function(){
 	        $('.people-section').removeClass('animated bounceInUp');
 	        $('.pulse-section').removeClass('animated bounceInUp');
 	        $('.stories-section').removeClass('animated bounceInUp');
-	        // $('a').addClass('disabled');
+	        $('.alert-link').css('pointer-events','none');
     	},
 
 		name: "dashboard-tour",
@@ -32,14 +32,17 @@ $(function(){
 			path: "/home",
 			orphan: true,
 			title: "<strong>Welcome home, Mitch</strong>",
-			content: "This is your homepage within a homepage. It could be the first of it\'s kind, but who knows... Your homepage takes activity from all over mchp and organizes it for you so you'll always know what's going on in your classes, and your life.",
+			content: "This is your homepage. We've customized it just for you, and it puts everything you need, all in one place.",
 		},
 		{
 			path: "/home",
 			element: "#ref-alert",
 			title: "<strong>Your Referral Code</strong>",
-			content: 'Read above, it\'s important. Your unique referral code is <strong>"CODE"</strong>. You also have a unique referral link. Both can be accessed from your Account Settings page (top right of the page).',
+			content: 'Read above, it\'s important.',
 			placement: "bottom",
+			// onHidden: function (tour) { 
+			// 	$('#referral-modal').modal('show')
+			// }
 		},
 		{
 			path: "/home",
@@ -52,7 +55,7 @@ $(function(){
 			path: "/home",
 			element: ".today-section",
 			title: "<strong>Your Events</strong>",
-			content: "Each day, we'll check to see if you have any events in your calendar for that day, and if you do, you'll see them here.",
+			content: "Each day, we'll check to see if you have any events that day, and if you do, you'll see them here.",
 			placement: "right"
 		},
 		{
@@ -66,7 +69,7 @@ $(function(){
 			path: "/home",
 			element: ".pulse-section",
 			title: "<strong>Your Pulse</strong>",
-			content: "The Pulse is a feed of everything important going on in your classes and mchp. You'll see things like when someone joins a class you're in, or when a document or calendar is created.",
+			content: "The Pulse is a feed of everything important going on in your classes and mchp.",
 			placement: "right"
 		},
 		{

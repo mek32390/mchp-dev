@@ -23,8 +23,8 @@ $(function() {
 		{
 			path: "/classes",
 			orphan: true,
-		    title: "<strong>Your Classes</strong>",
-		    content: 'All of your classes on a single page. We like to call this, "easy and awesome."'
+		    title: "<strong>Here are your Classes, Mitch!</strong>",
+		    content: 'All of your classes on a single page. We like to call it, "simple."'
 		},
 		{
 			path: "/classes",
@@ -34,18 +34,18 @@ $(function() {
 		    placement: "bottom",
 		    onShown: function() {
 	        	$('body > ul > li:nth-child(2').addClass('disabled').css('pointer-events','none');
-	        	$('body > ul > li:nth-child(3').addClass('disabled').css('pointer-events','none');;
-	        	$('body > ul > li:nth-child(4').addClass('disabled').css('pointer-events','none');;
-	        	$('body > ul > li:nth-child(5').addClass('disabled').css('pointer-events','none');;
-	        	$('body > ul > li:nth-child(6').addClass('disabled').css('pointer-events','none');;
-	        	$('body > ul > li:nth-child(7').addClass('disabled').css('pointer-events','none');;
+	        	$('body > ul > li:nth-child(3').addClass('disabled').css('pointer-events','none');
+	        	$('body > ul > li:nth-child(4').addClass('disabled').css('pointer-events','none');
+	        	$('body > ul > li:nth-child(5').addClass('disabled').css('pointer-events','none');
+	        	$('body > ul > li:nth-child(6').addClass('disabled').css('pointer-events','none');
+	        	$('body > ul > li:nth-child(7').addClass('disabled').css('pointer-events','none');
     		}
 		},
 		{
 			path: "/classes",
-			element: "#course1 > div.well.well-md",
+			element: "#course1 > .well ",
 		    title: "<strong>Class Information</strong>",
-		    content: "If you click the title of your class, it will take you to the course page, where you can see all the documents and calendars associated with the course. Same goes for your college or university.",
+		    content: "Clicking the title of your class will take you to a public course page, where you can see all the documents and calendars associated with the entire course. Same goes for your college or university.",
 		    reflex: true,
 		    placement: "bottom"
 		},

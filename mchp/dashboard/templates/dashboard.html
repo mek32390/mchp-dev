@@ -36,8 +36,8 @@
     <div class="media margin-top-none">
       <img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" width="75px" alt="earn referral points">
       <div class="media-body">
-        <h4 class="media-heading">Refer a friend, and you both get a <strong>free study guide!</strong></h4>
-        For every person that signs up with us by entering your code <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. You can also use your link found in your <a href="{% url 'account_settings'%}" class="alert-link">account settings</a> <strong>- mchp</strong>
+        <h4 class="media-heading">Refer a friend, and you both get <strong>500 points</strong></h4>
+        You now have a unique referral code, <strong>"{{referral_info.referral_code}}"</strong>. When someone enters it in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. We also gave you a unique referral link to share, which you can find in your <a href="{% url 'account_settings'%}" class="alert-link">account settings</a> <strong>- mchp</strong>
       </div>
     </div>
   </div><!-- end alert -->
@@ -118,7 +118,7 @@
               <!-- <div class="media-body"> -->
                 <div class="alert alert-success" role="alert">
    <h4>You're the first!</h4>
-    For every person that signs up and enters your code, <strong>"{{referral_info.referral_code}}"</strong> in the <a class="alert-link" href="#referral-modal" data-toggle="modal">referral window</a> (they can click on their name in the top right also), you'll both get <strong>500 points.</strong>
+    Don't be a stranger, tell your friends to enter your code, <strong>"{{referral_info.referral_code}}"</strong> in the <a class="alert-link" href="#referral-modal" data-toggle="modal">referral window</a>, and you'll both get <strong>500 points.</strong>
 </div>
               <!-- </div> -->
             <!-- </div>
