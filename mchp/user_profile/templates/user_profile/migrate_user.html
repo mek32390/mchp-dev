@@ -1,0 +1,23 @@
+{% extends 'user_profile/base.html' %}
+{% block head_title %}We recognise you!{% endblock %}
+{% load staticfiles %}
+{% block body %}
+<div class='container'>
+	<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h2 class="text-center">You've got (more) mail!<small></small></h2>
+      <p><img class="media-object img-responsive center-block" src=
+        "{% static 'lib/img/rss.svg' %}" alt=
+        "verify email account">
+        <p class="text-center"> You need to reset your password!</p>
+        <div class='emailVerify acct-form'>
+          <hr>
+          <div class="email text-center">
+            {{email}}
+          </div>
+        </div>
+      </div>   
+    </div>   
+  </div>   
+</div>
+{% endblock %}

@@ -126,6 +126,25 @@ class NotificationsView(View):
 notifications = NotificationsView.as_view()
 
 '''
+url: /profile/migrate-user/
+name: migrate_user
+'''
+class MigrateUserView(View):
+    template_name = 'user_profile/migrate_user.html'
+
+    def get(self, request, *args, **kwargs):
+        email = request.session.pop('email', None)
+        data = {
+            'email': email,
+        }
+        return render(request, self.template_name, data)
+
+    def dispatch(self, *args, **kwargs):
+        return super(MigrateUserView, self).dispatch(*args, **kwargs)
+
+migrate_user = MigrateUserView.as_view()
+
+'''
 url: /profile/confirm-school/
 name: confirm_school
 '''

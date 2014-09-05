@@ -34,5 +34,5 @@ class UserMigrationMiddleware(object):
         # force old users to make a new password
         if user.exists():
             request.session['migration'] = True 
-            request.session.pop('initial_email', None)
-            return redirect(reverse('account_reset_password'))
+            request.session['email'] = request.session.pop('initial_email', None)
+            return redirect(reverse('migrate_user'))

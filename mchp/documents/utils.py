@@ -54,6 +54,22 @@ def reupload_doc():
         document.save()
     return all_docs
 
+def fix_thumbs():
+    docs = Document.objects.all()
+    from wand.image import Image
+    from django.core.files.images import ImageFile
+    for doc in docs:
+        preview = doc.preview
+        img = Image(filename=doc.preview.url)
+        if img.height > 600:
+            img.crop(0,0,500,600)
+            preview_name = '/tmp/fuck'
+            img.save(filename=preview_name)
+            doc.preview.delete()
+            doc.preview.save(preview.name, ImageFile(open(preview_name, 'rb'), preview_name))
+            os.remove(preview_name)
+            print(preview.name)
+
 def upload_doc():
     cursor = connection.cursor()
     cursor.execute("select * from old_doc order by id")

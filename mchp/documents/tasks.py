@@ -93,6 +93,8 @@ def create_preview(instance):
             img.save(filename=preview_name)
             img = Image(filename=preview_name)
             img.transform(resize=str(size))
+            if img.height > 600:
+                img.crop(0,0,500,600)
             img.save(filename=preview_name)
             preview = "{}_preview.png".format(
                 os.path.splitext(instance.filename())[0]
