@@ -120,13 +120,13 @@
                   {% with enrollment.student as student %}
                   <li class="list-group-item">
                     <div class="media">
-                      <a class="pull-left" href="#">
+											<a class="pull-left" href="{%url "profile" student.pk%}{{student.name}}">
                         <img class="media-object img-circle img-thumbnail"
                         src="{{student.profile.profile_image_url}}" width="40px" alt="...">
                       </a>
                       <div class="media-body">
                         <h5 class="media-heading" style="margin-bottom:0px;"><a
-                            href="#">{{student.name}}</a><span class="pull-right"><small>active {{ student.user.last_login|naturaltime }}</small></span></h5>
+														href="{%url "profile" student.pk%}{{student.name}}">{{student.name}}</a><span class="pull-right"><small>active {{ student.user.last_login|naturaltime }}</small></span></h5>
                         <small>
                           {% if student.major %}
                           {{ student.major }} Major
