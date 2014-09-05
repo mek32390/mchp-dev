@@ -43,20 +43,20 @@
 		{% if weather %}
 		<li data-weather="{{weather}}"> 
 			<span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
-				{% weather_icon weather.icon weather.text %} {{school.city}}
+				<strong>{% weather_icon weather.icon weather.text %} {{school.city}}</strong>
 			</span> 
-			<span id="weather_temp">{{weather.temperature}} &deg;F</span> &nbsp;
+			<span id="weather_temp"><strong>{{weather.temperature}} &deg;F</strong></span> &nbsp;
 		</li>
 		{% endif %}
-    <li><a target="_blank" href="http://{{school.domain}}">{{school.alias}}</a></li>
+    <li><strong><a target="_blank" href="http://{{school.domain}}">{{school.alias}}</a></strong></li>
     {% for link in school_links %}
-    <li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
+    <li><strong><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></strong></li>
     {% endfor %}
     <span class="pull-right">
-      <span class="fa fa-fw fa-clock-o"></span>
+      <strong><span class="fa fa-fw fa-clock-o"></span>
       <span class="current-time" data-time="{{current_time}}">
         {{current_time|time:"g:i:s a"}}
-      </span>
+      </span></strong>
     </span>
   </ol>
   <!-- End Quicklinks -->
@@ -252,7 +252,7 @@
           </nav> 
           <span id="news-scroll" class="margin-btm-none" data-spy="scroll" data-offset="0">
             {% for rss,visible in rss_types %}
-            <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
+            <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% else %}visible-group{% endif %}">
               <li class="list-group-item news-header" style="background-color: #{{rss.color}};">
                 <h5 class="margin-top-none margin-btm-none">{{rss.name}}</h5>
               </li>

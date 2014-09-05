@@ -66,9 +66,9 @@
 									<span class="pull-left" href="#">
 										<div class="media-object img-thumbnail">
 											{% if document.preview %}
-											<a href="#"><img src="{{document.preview.url}}" style="width:64px"></a>
+											<a href="{%url "document_detail" document.uuid %}"><img src="{{document.preview.url}}" style="width:64px"></a>
 											{% else %}
-											<a href="#"><img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a>
+											<a href="{%url "document_detail" document.uuid %}"><img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a>
 											{% endif %}
 										</div>
 									</span>
