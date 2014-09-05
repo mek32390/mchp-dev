@@ -13,55 +13,81 @@ $(function(){
 	*/
 
 
-	// Instance the dashboard tour
+	// Instance the tour
 	var tour = new Tour({
-		name: "calendar-tour",
+
+		onShow: function(tour) {
+	        $('.people-section').removeClass('animated bounceInUp');
+	        $('.pulse-section').removeClass('animated bounceInUp');
+	        $('.stories-section').removeClass('animated bounceInUp');
+	        // $('a').addClass('disabled');
+    	},
+
+		name: "dashboard-tour",
 		storage: false,
 		backdrop: true,
-		path: "/calendar",
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
 		steps: [
 		{
+			path: "/home",
 			orphan: true,
-		    title: "<strong>Your Calendar(s)</strong>",
-		    content: 'Here\'s how mchp calendars work: You can make a calendar for each of the classes you are in. For instance, you can make an "ECON 200" calendar, and put assignment due dates, tests, and projects in it.'
+			title: "<strong>Welcome home, Mitch</strong>",
+			content: "This is your homepage within a homepage. It could be the first of it\'s kind, but who knows... Your homepage takes activity from all over mchp and organizes it for you so you'll always know what's going on in your classes, and your life.",
 		},
 		{
-			orphan: true,
-		    title: "<strong>Private Calendar</strong>",
-		    content: "If you choose to make your ECON 200 Calendar private, only you will be able to see the events in it, just like a regular calendar- for your eyes only."
+			path: "/home",
+			element: "#ref-alert",
+			title: "<strong>Your Referral Code</strong>",
+			content: 'Read above, it\'s important. Your unique referral code is <strong>"CODE"</strong>. You also have a unique referral link. Both can be accessed from your Account Settings page (top right of the page).',
+			placement: "bottom",
 		},
 		{
-			orphan: true,
-		    title: "<strong>Selling a Calendar</strong>",
-		    content: "If you choose to sell it, your classmates will be able to subscribe to it for a fee, and they will get to see all of the events you add to it, rate it, and get notified whenever you change something on it. For every classmate that subscribes to it, you'll make money by the week.</li></ul>"
+			path: "/home",
+			element: ".breadcrumb",
+			title: "<strong>Your Quicklinks</strong>",
+			content: "Click on a link and it will open in a new tab. It's that easy.",
+			placement: "bottom"
 		},
 		{
-			element: ".owned-cals-section",
-		    title: "<strong>Calendars You Own</strong>",
-		    content: "This is where the calendars you create will appear, regardless if you are selling them or not.",
-		    placement: "right"
+			path: "/home",
+			element: ".today-section",
+			title: "<strong>Your Events</strong>",
+			content: "Each day, we'll check to see if you have any events in your calendar for that day, and if you do, you'll see them here.",
+			placement: "right"
 		},
 		{
-			element: ".following-cals-section",
-		    title: "<strong>Calendars You Follow</strong>",
-		    content: "This is where the calendars you subscribe to will appear.",
-		    placement: "right"
+			path: "/home",
+			element: ".people-section",
+			title: "<strong>Your Peers</strong>",
+			content: "You'll see your classmates, friends, and fellow mchp users here.",
+			placement: "right"
 		},
 		{
-			element: ".view-cals-btn",
-		    title: "<strong>Browse Calendars to Follow</strong>",
-		    content: "This is where your classmates' calendars that they choose to sell will appear.",
-		    placement: "left"
+			path: "/home",
+			element: ".pulse-section",
+			title: "<strong>Your Pulse</strong>",
+			content: "The Pulse is a feed of everything important going on in your classes and mchp. You'll see things like when someone joins a class you're in, or when a document or calendar is created.",
+			placement: "right"
 		},
 		{
+			path: "/home",
+			element: ".stories-section",
+			title: "<strong>Your Stories</strong>",
+			content: "You can choose what stories to follow by customizing your interests (<i class='fa fa-bars'></i>). We've got plenty to choose from, so have at it after we're done with this tour.",
+			placement: "left",
+			onShown: function() {
+	        	$('.stories-section').css({'height':'90%'});
+	        	$('#news-scroll').css({'height':'90%'});
+    		}
+		},
+		{
+			path: "/home",
 			element: ".step-2",
 		    title: "<strong>What would you like to do next?</strong>",
-		    content: "Click the <i class='fa fa-home'></i> (home) icon above to go to your homepage, or the <i class='fa fa-book'></i> (book) to go to your classes.",
+		    content: "Click the <i class='fa fa-book'></i> (book) to go to your classes, or the <i class='fa fa-calendar'></i> (calendar) to go to your calendar.",
 		    placement: "bottom",
-		    reflex: true
+		    reflex: "true"
 		}
-		
 	]});
 
 	// Initialize the tour
