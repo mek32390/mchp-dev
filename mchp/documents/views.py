@@ -316,9 +316,9 @@ class DocumentDetailView(DetailView):
         purchased = DocumentPurchase.objects.filter(document=self.object,
                                                     student=self.student).exists()
         # or if they own the doc
-        owner = Upload.objects.filter(document=self.object)
-        if owner.exists():
-            owner = owner[0]
+        upload = Upload.objects.filter(document=self.object)
+        if upload.exists():
+            owner = upload[0].owner
             owner_pk = owner.pk
         else:
             owner = None

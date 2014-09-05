@@ -55,7 +55,7 @@ def reupload_doc():
     return all_docs
 
 def upload_doc():
-    cursor = connections['production'].cursor()
+    cursor = connection.cursor()
     cursor.execute("select * from old_doc order by id")
     docs = dictfetchall(cursor)
 

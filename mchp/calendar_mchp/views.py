@@ -642,7 +642,7 @@ class CalendarPreview(DetailView):
         # class meeting times
         sections = Section.objects.filter(
             course=calendar.course,
-            student=self.student,
+            student=calendar.owner,
         )
         for section in sections:
             day_name = WEEK_DAYS[section.day]
