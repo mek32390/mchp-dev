@@ -20,7 +20,6 @@ $(function() {
 	var tour = new Tour({
 		name: "calendar-tour",
 		backdrop: true,
-		storage: false,
 		onStart: stopClearPopovers,
 		onEnd: restartClearPopovers,
 		path: "/calendar/",
