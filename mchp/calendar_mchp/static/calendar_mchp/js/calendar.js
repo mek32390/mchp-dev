@@ -11,19 +11,22 @@ $(function() {
 	/* TOUR FUNCTIONS
 	/*
 	*/
+	var stopClearPopovers = clearPopovers();
+	var restartClearPopovers = function() {
+		stopClearPopovers = clearPopovers();
+	};
 
 	// Instance the tour
 	var tour = new Tour({
-
 		onShow: function(tour) {
 	        $('.flip-holder').addClass('hidden');
 	        $('#cal-img-holder').removeClass('hidden');	   
 	        $('#full-cal-js').addClass('hidden');     
     	},
-
 		name: "calendar-tour",
 		backdrop: true,
-		// storage: false,
+		onStart: stopClearPopovers,
+		onEnd: restartClearPopovers,
 		path: "/calendar/",
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« prev</button><button class='btn btn-default btn-sm' data-role='next'>next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>end tour</button></nav></div>",
 		steps: [
@@ -86,6 +89,9 @@ $(function() {
 	tour.init();
 	// start the tour
 	tour.start();
+	$('.tour-backdrop').click(function() {
+		$(this).remove();
+	});
 
 
 	/************************
@@ -745,13 +751,6 @@ $(function() {
 			$(this).parents('.list-group-item').remove();
 		});
 	});
-    var clearPopovers = function () {
-        if(!$('.popover:hover').length && !$('.canvas-day:hover').length && !$('.fc-day:hover').length) {
-            $('.popover').remove();
-        }
-        setTimeout(clearPopovers, 2000);
-    };
-    clearPopovers();
 	$('#calendar').on('mouseleave', '.canvas-day', function(jsEvent) {
 		var $canvas = $(this);
 		setTimeout(function () {
@@ -1112,4 +1111,23 @@ var updateEvents = function(calendar) {
 		// draw a number w/ num of events for that day
 		drawEvents($(this), eventCount);
 	});
+};
+
+var CLEAR_TIME = 1000;
+var clearPopovers = function () {
+	function run() {
+		if(!$('.popover:hover').length && !$('.canvas-day:hover').length && !$('.fc-day:hover').length) {
+			$('.popover').remove();
+		}
+		timer = setTimeout(run, CLEAR_TIME);
+	}
+	timer = setTimeout(run, CLEAR_TIME);
+
+	function stop() {
+		if (timer) {
+			clearTimeout(timer);
+			timer = 0;
+		}
+	}
+	return stop;
 };
