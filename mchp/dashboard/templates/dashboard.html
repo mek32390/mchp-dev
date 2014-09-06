@@ -42,7 +42,7 @@
     </div>
   </div><!-- end alert -->
   {% endif %}
-  <ol class="breadcrumb margin-btm-sm">
+  <ol id="quicklinks" class="breadcrumb margin-btm-sm">
 		{% if weather %}
 		<li data-weather="{{weather}}"> 
 			<span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
@@ -66,7 +66,7 @@
   <div class="row"><!-- Begin Row --> 
     <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
       <div class="row">
-        <div class="col-sm-12 today-section">
+        <div id="today-section" class="col-sm-12">
       <h2 style>Today&nbsp;<small>in your life</small></h2>
       <hr class="margin-top-sm">
       <h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
@@ -93,7 +93,7 @@
     </div>
   </div>
       <div class="row">
-        <div class="col-xs-12 animated bounceInUp people-section"><!-- Begin Friend Col -->
+        <div id="people-section" class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
           <h2>People <small>to meet</small></h2>
           <hr class="margin-top-sm">
           <div class="list-group">
@@ -129,7 +129,7 @@
       </div>
     </div><!-- End Today Col -->
 
-    <div class="col-sm-8 col-md-5 animated bounceInUp delayed-sm pulse-section"><!-- Begin Pulse Col -->
+    <div id="pulse-section" class="col-sm-8 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
       <h2>Pulse <small> feel the vibe</small></h2>
       <hr class="margin-top-sm">
       <!-- <div class="row">
@@ -236,7 +236,7 @@
     </div>
 
    </div> <!--  End Pulse Col -->
-    <div class="col-md-4 col-sm-12 animated bounceInUp delayed-md stories-section">
+    <div id="stories-section" class="col-md-4 col-sm-12 animated bounceInUp delayed-md stories-section">
       <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class="pull-right" data-toggle="tooltip" data-original-title="Customize Stories"><small><i class="fa fa-bars"></i></small></a></h2>
       <hr class="margin-top-sm">
       <div class="flip-holder">

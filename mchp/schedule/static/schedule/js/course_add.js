@@ -16,13 +16,14 @@ $(function() {
 	var tour1 = new Tour({
 		name: "addclass-tour-1",
 		backdrop: true,
+		// storage: false,
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
 		steps: [
 
 		{
 			path: "/school/course/add/",
 			orphan: true,
-		    title: "<strong>Welcome!</strong>",
+		    title: "<strong>Welcome " + MCHP_USERNAME + "!</strong>",
 		    content: "This is your class schedule page, where you can add and drop classes from your schedule. Your schedule looks empty, so let's start off by adding some classes to it.",
 		    backdrop: "true"
 		},
@@ -30,7 +31,7 @@ $(function() {
 			path: "/school/course/add/",
 			element: "#class_search_form",
 		    title: "<strong>Search for a Class</strong>",
-		    content: "Enter a <strong>Course Code</strong> and <strong>Number</strong>, then hit Enter!",
+		    content: "Enter a <strong>Course Code</strong> and <strong>Number</strong>, then hit Enter! ex: ECON 200",
 		    placement: "bottom",
 		    reflex: true
 		    // onHidden: function (tour1) {tour1.end()}
@@ -47,7 +48,7 @@ $(function() {
 	// Instance the second tour
 	var tour2 = new Tour({
 		name: "addclass-tour-2",
-		storage: false,
+		// storage: false,
 		backdrop: true,
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
 		steps: [
