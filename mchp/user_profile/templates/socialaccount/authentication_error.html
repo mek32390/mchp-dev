@@ -3,13 +3,13 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
-
+{% load staticfiles %}
 {% block content %}
 <div class="container text-center">
 	<h2 class="text-center">{% trans "Facebook Login Failure!" %}</h2>
 
     <p><img class="media-object img-responsive center-block" src=
-    "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt=
+    "{% static 'lib/img/support.svg' %}" alt=
     "..."></p>
 <p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
 

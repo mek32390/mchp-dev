@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.utils import IntegrityError
 
+from notification.api import add_notification
 import user_profile.models
-from user_profile.utils import ONE_TIME_EVENTS_DICT
 import dashboard.models
 import random
 
@@ -36,10 +36,21 @@ class StudentManager(models.Manager):
         return student
 
     def referral_reward(self, user, referrer):
-        user.student.add_earned_points(500)
+        reward_points = 500
+        user.student.add_earned_points(reward_points)
         referrer_roles = user_profile.models.UserRole.objects.get_roles(referrer)
         if referrer_roles.rep:
             referrer.student.modify_balance(1)
+            add_notification(
+                referrer,
+                user.username + " used your code. You've got money in the bank",
+            )
+        else:
+            referrer.student.add_earned_points(reward_points)
+            add_notification(
+                referrer,
+                user.username + " used your code. You made a cool {} points".format(reward_points),
+            )
 
 class UserRoleManager(models.Manager):
     def get_roles(self, user):
@@ -52,9 +63,13 @@ class UserRoleManager(models.Manager):
             return roles
 
 class OneTimeEventManager(models.Manager):
-    def get_event(id):
+    @staticmethod
+    def get_event(name):
+        if not name:
+            return None
+
         return user_profile.models.OneTimeEvent.objects.get_or_create(
-            pk=id
+            name=name
         )[0]
 
 class OneTimeFlagManager(models.Manager):
@@ -79,19 +94,17 @@ class OneTimeFlagManager(models.Manager):
         )
 
     @staticmethod
-    def get_flag(student, event):
+    def get_flag(student, event_name):
         # usually this mean the user is not logged in, so don't show any of these
         if not student:
             return (True,)
 
-        if event in ONE_TIME_EVENTS_DICT.keys():
-            pk = ONE_TIME_EVENTS_DICT[event]
-        else:
-            return None
-        event, created = user_profile.models.OneTimeEvent.objects.get_or_create(pk=pk, name=event)
+        event = user_profile.models.OneTimeEvent.objects.filter(
+            name=event_name
+        )
 
         flag = user_profile.models.OneTimeFlag.objects.filter(
             student=student,
             event=event,
         )
-        return (flag.exists(), event.pk)
+        return flag.exists()

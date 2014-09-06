@@ -12,6 +12,9 @@
 {% load staticfiles %}
 <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
 
+<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
+<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
+
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
@@ -25,114 +28,45 @@
 {% block body %}
 {% load humanize %}
 {% load dashboard %}
-<!-- Say Hey modal -->
-<!-- <div id="say-hey-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content text-center">
-      <div class="modal-body">
-        <p class="lead">Send something to <img class="img-thumbnail img-circle" width="35" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/c53.0.160.160/p160x160/10446520_10204273575384586_95083878510350887_n.jpg?oh=bab77c36336afdf560d7852d911a72e1&oe=54539D9F&__gda__=1414225759_eb9a93971a2f583843459e74267ca211" /> Brost:</p>
-        <div class="row">
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/cup.svg" alt="cup of coffee">
-              <h5>Cup O' Joe</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="coffee">
-            </label>
-          </div>
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/donut.svg" alt="rate calendar accuracy">
-              <h5>Sprinkled Donut</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="donut">
-            </label>
-          </div>
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/icecream.svg" height="70px" alt="rate calendar accuracy">
-              <h5>Fruit Popsicle</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="popsicle">
-            </label>
-          </div>
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pills.svg" alt="rate calendar accuracy">
-              <h5>Happy &nbsp; Pill &nbsp;</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="happypill">
-            </label>
-          </div>
-          <div class="col-xs-2 col-centered">
-            <label class="gift-label">
-              <img class="animated delayed-xs bounceIn gift-image" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/wine.svg" alt="rate calendar accuracy">
-              <h5>Sparkling Beverage</h5>
-              <input type="radio" class="gift-radio center-block text-centered" name="select-gift" id="beverage">
-            </label>
-
-          </div>
-        </div>
-        <p></p>
-      </br>
-      They'll be notified of your kind gesture. 
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Send Gift</button>
-    </div>
-  </div>
-</div>
-</div> -->
-<!-- <div class="progress score-bar" style="margin-top:-20px; opacity:.5;">
-  <span class="score-breakdown">
-    <a href="#" class="progress-bar progress-bar-success animated slideInLeft" id="score_1">
-      <span class="sr-only">35% Complete (success)</span>
-    </a>
-    <a href="#" class="progress-bar progress-bar-primary animated slideInLeft" id="score_2">
-      <span class="sr-only">20% Complete (warning)</span>
-    </a>
-    <a href="#" class="progress-bar progress-bar-info animated slideInLeft" id="score_3" >
-      <span class="sr-only">45% Complete (danger)</span>
-    </a>
-  </span>
-  <a href="#" class="progress-bar progress-bar-warning hidden" style="width:55%;" id="level_score">
-    <span class="sr-only">35% Complete (success)</span>
-  </a>
-</div>
-<!-- End Score Bar -->
 
 <div class="container">
-  {% if not dashboard_ref_flag.0 %}
-  <div class="alert alert-info alert-dismissible fade in" data-event="{{dashboard_ref_flag.1}}" id="ref-alert" role="alert">
-    <button type="button" class="close" data-event="{{dashboard_ref_flag.1}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  {% if not dashboard_ref_flag %}
+  <div class="one-time-alert alert alert-info alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
+    <button type="button" class="close" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <div class="media margin-top-none">
-      <img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="earn referral points" width="70px">
+      <img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" width="75px" alt="earn referral points">
       <div class="media-body">
-        <h4 class="media-heading">Refer a friend, and you both get a <strong>free study guide!</strong></h4>
-        For every person that signs up with us by clicking on your
-        <a class="alert-link" href="{{request.get_host}}/?ref={{referral_info.referral_link}}"/>link</a>, or by
-        entering your code <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. <strong>- mchp</strong>
+        <h4 class="media-heading">Refer a friend, and you both get <strong>500 points</strong></h4>
+        You now have a unique referral code, <strong>"{{referral_info.referral_code}}"</strong>. When someone enters it in the <a href="#referral-modal" class="alert-link" data-toggle="modal">referral window</a>, you will both earn <strong>500 points!</strong> That's one <strong>free study guide</strong> for each of you. We also gave you a unique referral link to share, which you can find in your <a href="{% url 'account_settings'%}" class="alert-link">account settings</a> <strong>- mchp</strong>
       </div>
     </div>
   </div><!-- end alert -->
   {% endif %}
   <ol class="breadcrumb margin-btm-sm">
-    <li data-weather="{{weather}}"> 
-      <span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
-        {% weather_icon weather.icon weather.text %} {{school.city}}
-      </span> 
-      <span id="weather_temp">{{weather.temperature}} &deg;F</span> &nbsp;
-    </li>
-    <li><a target="_blank" href="http://{{school.domain}}">{{school.alias}}</a></li>
+		{% if weather %}
+		<li data-weather="{{weather}}"> 
+			<span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
+				<strong>{% weather_icon weather.icon weather.text %} {{school.city}}</strong>
+			</span> 
+			<span id="weather_temp"><strong>{{weather.temperature}} &deg;F</strong></span> &nbsp;
+		</li>
+		{% endif %}
+    <li><strong><a target="_blank" href="http://{{school.domain}}">{{school.alias}}</a></strong></li>
     {% for link in school_links %}
-    <li><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></li>
+    <li><strong><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></strong></li>
     {% endfor %}
     <span class="pull-right">
-      <span class="fa fa-fw fa-clock-o"></span>
+      <strong><span class="fa fa-fw fa-clock-o"></span>
       <span class="current-time" data-time="{{current_time}}">
         {{current_time|time:"g:i:s a"}}
-      </span>
+      </span></strong>
     </span>
   </ol>
   <!-- End Quicklinks -->
   <div class="row"><!-- Begin Row --> 
     <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
+      <div class="row">
+        <div class="col-sm-12 today-section">
       <h2 style>Today&nbsp;<small>in your life</small></h2>
       <hr class="margin-top-sm">
       <h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
@@ -150,15 +84,17 @@
 					You've got nothing. Woop!
 				</div>
 				{% else %}
-				<div class="list-group-item list-group-item-danger">
-					Hey, you'll need to <a href="{% url 'calendar_create' %}">Create a Calendar</a> or <a href="{% url 'calendar' %}">subscribe</a> to a calendar to see what's going on today.
+				 <div class="alert alert-danger" role="alert">
+					<h4>Hey there newbie!</h4> You should either <a class="alert-link" href="{% url 'calendar_create' %}">Create</a> or <a class="alert-link" href="{% url 'calendar' %}">Subscribe</a> to a calendar to see what's going on today.
 				</div>
 				{% endif %}
         {% endfor %}
       </div>
+    </div>
+  </div>
       <div class="row">
-        <div class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
-          <h2 class="">People <small>to meet</small></h2>
+        <div class="col-xs-12 animated bounceInUp people-section"><!-- Begin Friend Col -->
+          <h2>People <small>to meet</small></h2>
           <hr class="margin-top-sm">
           <div class="list-group">
             {% for classmate in classmates %}
@@ -177,18 +113,23 @@
               </div>
             </div>
             {% empty %}
-            <div class="list-group-item">
-              <div class="media-body">
-                <p class="margin-btm-none"><strong>Congrats on beating your classmates here.</strong> Did you know that for every person that signs up through <a href="{{request.get_host}}/?ref={{referral_info.referral_link}}"/>your link</a> or that enters your code, <strong>{{referral_info.referral_code}}</strong> in the <a href="#referral-modal" data-toggle="modal">referral window</a>, you'll both get 500 points?</p>
-              </div>
-            </div>
+          <!--   <div class="panel panel-default">
+              <div class="panel-body"> -->
+              <!-- <div class="media-body"> -->
+                <div class="alert alert-success" role="alert">
+   <h4>You're the first!</h4>
+    Don't be a stranger, tell your friends to enter your code, <strong>"{{referral_info.referral_code}}"</strong> in the <a class="alert-link" href="#referral-modal" data-toggle="modal">referral window</a>, and you'll both get <strong>500 points.</strong>
+</div>
+              <!-- </div> -->
+            <!-- </div>
+            </div> -->
             {% endfor %}
           </div>
         </div>
       </div>
     </div><!-- End Today Col -->
 
-    <div class="col-sm-8 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
+    <div class="col-sm-8 col-md-5 animated bounceInUp delayed-sm pulse-section"><!-- Begin Pulse Col -->
       <h2>Pulse <small> feel the vibe</small></h2>
       <hr class="margin-top-sm">
       <!-- <div class="row">
@@ -196,15 +137,10 @@
       <div class="pulse-con">
         <div class="list-group margin-btm-none" id="pulse">
           <div class="text-center dash-load">
-            Checking Pulse
+            <p><i class="fa fa-spinner fa-spin"></i> Checking Pulse</p>
           </div>
           <div class="dash-empty hidden text-center">
-            <!-- <div class="media"> <a target="_blank" href="#" class="media-object img-thumbnail pull-left btn-primary btn-xs">
-                <h5><i class="fa fa-tree fa-fw"></i></h5>
-              </a>
-              <div class="media-body">
-                <p class="media-heading"> -->
-                  <img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/safe.svg" class="img-circle img-thumbnail" width="75px" alt="no pulse">
+                  <img src="{% static 'lib/img/safe.svg' %}" width="70px" class="img-circle img-thumbnail" alt="no pulse">
                   <h5>You have no pulse!</h5>
                   <h6>Quick, somebody get a doctor!</h6>
           </div>
@@ -294,13 +230,13 @@
                 </a> 
               </div>
             </div>
-          </div>
+          </li>
         </div>
       </div>
     </div>
 
-    <!-- </div> End Pulse Col -->
-    <div class="col-md-4 col-sm-12 animated bounceInUp delayed-md">
+   </div> <!--  End Pulse Col -->
+    <div class="col-md-4 col-sm-12 animated bounceInUp delayed-md stories-section">
       <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class="pull-right" data-toggle="tooltip" data-original-title="Customize Stories"><small><i class="fa fa-bars"></i></small></a></h2>
       <hr class="margin-top-sm">
       <div class="flip-holder">
@@ -323,7 +259,7 @@
           </nav> 
           <span id="news-scroll" class="margin-btm-none" data-spy="scroll" data-offset="0">
             {% for rss,visible in rss_types %}
-            <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% endif %} ">
+            <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% else %}visible-group{% endif %}">
               <li class="list-group-item news-header" style="background-color: #{{rss.color}};">
                 <h5 class="margin-top-none margin-btm-none">{{rss.name}}</h5>
               </li>
@@ -343,14 +279,14 @@
       <div class="back">  
         <div class="panel panel-default">
           <div class="panel-body">
-            <div class="well">
+            <div class="well margin-btm-none">
               <h4 class="text-center">Customize Your Interests</h4>
               <hr class="margin-top-sm">
-              <ul class="list-inline text-center">
+              <ul class="list-inline text-center margin-btm-none">
                 {% for rss, visible in rss_types %}
                 <li class="list-group" style="width:111px;">
                   <div class="list-group-item btn btn-default {% if visible %}active{% endif %} toggle-rss" data-toggle="button" data-setting="{{rss.pk}}">
-                    <i class="fa {{rss.icon}} fa-3x"></i>
+                    <i class="fa {{rss.icon}} fa-2x"></i>
                     <h5>{{rss.name}}</h5>
                   </div>
                 </li> 

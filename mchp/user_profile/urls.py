@@ -15,5 +15,6 @@ urlpatterns = patterns('',
     url(r'^edit-blurb/', views.edit_blurb, name='edit_blurb'),
     url(r'^edit-major/', views.edit_major, name='edit_major'),
     url(r'^edit-pic/', views.edit_pic, name='edit_pic'),
+    url(r'^migrate-user/', views.migrate_user, name='migrate_user'),
     url(r'^$', views.profile, name='my_profile'),
 )

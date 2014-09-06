@@ -1,7 +1,7 @@
 {% extends "lib/base.html" %}
 
 {% block head_title %}Help{% endblock %}
-
+{% load staticfiles %}
 {% block head %}
 <style>
 
@@ -61,7 +61,7 @@ $(document).ready(function () {
 	<div class="jumbotron">
 		<div class="media">
 			<a class="pull-left" href="#">
-				<img class="media-object img-thumbnail img-circle" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt="privacy policy">
+				<img class="media-object img-thumbnail img-circle" src="{% static 'lib/img/support.svg' %}" alt="privacy policy">
 			</a>
 			<div class="media-body">
 				<h1 class="media-heading">Help</h1>

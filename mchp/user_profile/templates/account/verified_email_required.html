@@ -4,12 +4,12 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
-
+{% load staticfiles %}
 {% block content %}
 <div class="container">
 	<h2 class="text-center">{% trans "Verify Your E-mail Address" %}</h2>
 	<img class="img-responsive center-block" src=
-    "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/rss.svg" alt=
+    "{% static 'lib/img/support.rss' %}" alt=
     "Verify Email Address">
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2 text-center">

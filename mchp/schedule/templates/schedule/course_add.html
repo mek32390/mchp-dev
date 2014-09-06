@@ -5,6 +5,8 @@
 {% block extra_head %}
 	{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/course_add.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
+		<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
 		<script src="{% static 'schedule/js/course_add.js' %}"></script>
 		<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 {% endblock %}
@@ -14,9 +16,9 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="media">
-    			<img class="media-object pull-left animated slideInLeft" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/clocks.svg" height="50px" alt="schedule">
+    			<img class="media-object pull-left animated slideInLeft" src="{% static 'lib/img/clocks.svg' %}" height="50px" alt="schedule">
   				<div class="media-body">
-    			<h2 class="media-heading">Class Schedule <div class='pull-right'> <a href='/classes/' class='btn btn-primary'><i class="fa fa-book fa-fw"></i> Your Classes &raquo;</a> </div></h2>
+    			<h2 class="media-heading">Class Schedule</h2>
 				Add, Drop, or Create a Class</div>
 			</div>
 			<hr>
@@ -57,17 +59,17 @@
 			</div>
 
 			<div class="col-sm-8">
-				<div class="panel panel-default">
+				<div class="panel panel-default step-1">
 					<div class="panel-heading">
 						<h2 class="panel-title">Add a Class</h2>
 					</div>
 					<div class="panel-body">							
-							<form id="class_search_form" class="" method="get" action="{% url 'course_add' %}">
+							<form id="class_search_form" method="get" action="{% url 'course_add' %}">
 								<div class="input-group">
 								<input type="text" class="form-control input-lg" 
-								placeholder="Search for a class: PSY 200" name="q">
+								placeholder="Type Course Code and Number: 'ECON 200'" name="q">
 								<span class="input-group-btn">
-									<button class="btn btn-primary btn-lg" type="submit"><i class="fa fa-search"></i> Search</button>
+									<button class="btn btn-primary btn-lg search-button" type="submit"><i class="fa fa-search"></i> Search</button>
 								</span>
 								</div>
 							</form>
@@ -82,7 +84,7 @@
 										<div class="list-group-item">
 											<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
 												<small>with Instructor {{course.professor}}</small> 
-												<button class="pull-right btn btnlg btn-success"
+												<button class="pull-right btn btn-success join"
 													autocomplete="off"
 													id="join-button-{{course.pk}}"
 													form="{{course.pk}}_course_add">Join</button>
@@ -95,9 +97,13 @@
 												<i class='fa fa-user fa-fw'></i> 
 												{{course.student_count}} Student{{course.student_count|pluralize}}
 												<i class='fa fa-file fa-fw'></i> 
-												{{course.doc_count}} Document{{course.doc_count|pluralize}}
+                        {% with course.document_count as doc_count %}
+                        {{doc_count}} Document{{doc_count|pluralize}}
+                        {% endwith %}
 												<i class='fa fa-calendar fa-fw'></i> 
-												{{course.cal_count}} Calendar{{course.cal_count|pluralize}}
+                        {% with course.calendar_count as cal_count %}
+                        {{cal_count}} Calendar{{cal_count|pluralize}}
+                        {% endwith %}
 											</p>
 										</div>
 									{% endfor %}
@@ -120,5 +126,5 @@
 		</div>		
 	</div>
 </div>
-</div>	
+</div>
 {% endblock %}

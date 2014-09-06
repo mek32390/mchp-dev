@@ -50,9 +50,6 @@ $(function() {
 
 		return false;
 	});
-	$('.alert').on('close.bs.alert', function  () {
-		toggle_flag($(this).data('event'));
-	});
 
 	// show email sign up input when clicked
     $('#show-signup').on('click', function () {

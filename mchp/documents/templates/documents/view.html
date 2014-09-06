@@ -7,7 +7,9 @@
 <meta property="og:type" content="product" /> 
 <!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
 <meta property="og:title" content="{{document.title}} in {{document.course.dept}} {{document.course.course_number}}" /> 
+{% if document.preview %}
 <meta property="og:image" content="{{document.preview.url}}" /> 
+{% endif %}
 <meta property="og:description" content="{{document.description}}" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
@@ -61,18 +63,20 @@
 		</div>
 	</div>
 <div class="container">
-	<div class="alert alert-info alert-dismissible fade in" role="alert">
+	{% if not document_referral_flag %}
+	<div data-event="{{document_referral_flag_name}}" class="one-time-alert alert alert-info alert-dismissible fade in" role="alert">
 		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 		<div class="media" style="margin-top:0px;">
-			<img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="earn referral points">
+			<img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
 			<div class="media-body">
 				<h4 class="media-heading">Share this and get <strong>500</strong> points back immediately!</h4>
 				Each time you click the <a href="#" class="btnShare btn btn-facebook btn-xs fb-share-button">
-				<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button class="btn btn-warning btn-xs"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+					<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button class="btn btn-warning btn-xs"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 				buttons below, we'll reward both you and your friend <strong>500 points</strong> each if they sign up with us through your link. Remember, the same rules apply when you share your unique referall code and referall link found on your account page. Happy studying, sharing, and earning!<strong>- mchp</strong>
 			</div>
 		</div>
 	</div><!-- end alert -->
+	{% endif %}
 	<div class="row">
 		<div class="col-xs-12">
 			<ol class="breadcrumb">

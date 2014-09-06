@@ -49,9 +49,10 @@ class DashboardView(View):
                 rss_type=rss
             )
             setattr(rss, 'links', links)
-        show_rss = list(map(lambda setting: setting.rss_type, RSSSetting.objects.filter(
+        settings = RSSSetting.objects.filter(
             student=self.student
-        )))
+        )
+        show_rss = list(map(lambda setting: setting.rss_type, settings))
 
         # filter all rss types w/ just the ones the user wants shown
         rss_types = [(rss,True) if rss in show_rss else (rss,False) for rss in rss_types]
@@ -110,8 +111,10 @@ class DashboardView(View):
             student=self.student,
         ).exists()
 
+        dashboard_ref_flag = 'dashboard referral'
         data = {
-            'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
+            'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, dashboard_ref_flag),
+            'dashboard_ref_flag_name': dashboard_ref_flag, 
             'referral_info': ref,
             'school_links': s_links,
             'events': events[:5],
@@ -234,6 +237,9 @@ class DashboardRssProxy(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
             url = request.GET.get('url', None)
+            if url == '':
+                return HttpResponse({}, status=400)
+
             link = RSSLink.objects.filter(
                 url=url
             )

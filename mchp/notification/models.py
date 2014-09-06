@@ -19,7 +19,7 @@ class NotificationArchive(models.Model):
     notifications = managers.NotificationArchiveManager()
 
     def __str__(self):
-        return "[{}] {}".format(self.user, self.message)
+        return "[{}] {}".format(self.user, self.notification)
 
 class Inbox(models.Model):
     user = models.ForeignKey(User, related_name='notification_inbox')
@@ -31,7 +31,7 @@ class Inbox(models.Model):
         verbose_name_plural = ('inboxes')
 
     def expired(self):
-        expiration_date = self.message.date + timezone.timedelta(
+        expiration_date = self.notification.date + timezone.timedelta(
             days=settings.INBOX_EXPIRE_DAYS
         )
         return expiration_date <= timezone.now()

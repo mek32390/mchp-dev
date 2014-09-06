@@ -216,6 +216,10 @@ svg #nav-chip-icon {
     border-bottom-left-radius: 4px;
 }
 
+/* Hide end button on tours until last step */
+/*.tour-btn-end { display: none; }*/
+
+
 /* make nav drop down menu expand on hover */
 /*@media only screen and (min-width : 768px) {*/
      /*Make Navigation Toggle on Desktop Hover */

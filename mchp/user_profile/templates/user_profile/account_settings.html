@@ -15,7 +15,7 @@
 <div class='container'>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/settings.svg" width="100px" class="center-block">
+			<img src="{% static 'lib/img/settings.svg' %}" width="100px" class="center-block">
 			<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
 			<p class="text-center"><small>{{user.username}}</small></p>
 			<div class="well">

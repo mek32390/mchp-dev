@@ -126,6 +126,37 @@ class NotificationsView(View):
 notifications = NotificationsView.as_view()
 
 '''
+url: /profile/migrate-user/
+name: migrate_user
+'''
+class MigrateUserView(View):
+    template_name = 'user_profile/migrate_user.html'
+
+    # uggg
+    def get(self, request, *args, **kwargs):
+        email = request.session.pop('email', None)
+        request.session.flush()
+        if not email:
+            return render(request, self.template_name, {})
+        from allauth.account.forms import ResetPasswordForm
+        form = ResetPasswordForm()
+        cleaned_data = {
+            'email': email
+        }
+        setattr(form, 'cleaned_data', cleaned_data)
+        form.clean_email()
+        form.save()
+        data = {
+            'email': email,
+        }
+        return render(request, self.template_name, data)
+
+    def dispatch(self, *args, **kwargs):
+        return super(MigrateUserView, self).dispatch(*args, **kwargs)
+
+migrate_user = MigrateUserView.as_view()
+
+'''
 url: /profile/confirm-school/
 name: confirm_school
 '''
@@ -334,12 +365,13 @@ name: toggle_flag
 class ToggleFlag(View, AjaxableResponseMixin):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            event = request.POST.get('event', -1)
-            event = OneTimeEvent.objects.filter(pk=event)
-            if not event.exists():
-                return self.render_to_json_response({}, status=403)
-            else:
-                event=event[0]
+            event_name = request.POST.get('event', '')
+            event = OneTimeEvent.objects.get_event(event_name)
+            if not event:
+                data = {
+                    'error': '{} is not a valid event'.format(event_name)
+                }
+                return self.render_to_json_response(data, status=400)
 
             OneTimeFlag.objects.set_flag(request.user.student, event)    
             return self.render_to_json_response({}, status=200)

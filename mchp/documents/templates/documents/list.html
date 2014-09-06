@@ -15,7 +15,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="media">
-				<img class="media-object pull-left animated slideInLeft" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/storage.svg" height="50px" alt="sell documents">
+				<img class="media-object pull-left animated slideInLeft" src="{% static 'lib/img/storage.svg' %}" height="50px" alt="sell documents">
 				<div class="media-body">
 					<h2 class="media-heading">My Documents <div class='pull-right'> <a href="{%url 'document_upload'%}" class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a> </div></h2>
 					make money while you study</div>
@@ -75,7 +75,7 @@
 										newly_uploaded.push(upload);
 									</script>
 									<div id="generating_message_{{document.pk}}">
-										We're prepping this doc for it's big debut... <i class="fa fa-spinner fa-spin"></i>
+										<span class="text-dull">We're prepping this doc for it's big debut... <i class="fa fa-spinner fa-spin"></i></span>
 									</div>
 									{% endif %}
 								</div>
@@ -99,7 +99,7 @@
 								{% endwith %}
 							</span> 
               <div>
-                for
+                in
                 <a href="{%url "course" document.course.pk%}">
                    {{document.course}}
                 </a>

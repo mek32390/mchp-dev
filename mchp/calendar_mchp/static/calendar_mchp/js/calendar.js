@@ -3,7 +3,91 @@
  *
  * This file handles the functionality of the calendar page.
  */
+
 $(function() {
+
+	/*
+	/*
+	/* TOUR FUNCTIONS
+	/*
+	*/
+
+	// Instance the tour
+	var tour = new Tour({
+
+		name: "calendar-tour",
+		backdrop: true,
+		storage: false,
+		path: "/calendar/",
+		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« prev</button><button class='btn btn-default btn-sm' data-role='next'>next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>end tour</button></nav></div>",
+		steps: [
+		{
+			orphan: true,
+		    title: "<strong>this is your calendar, " + MCHP_USERNAME + "!</strong>",
+		    content: 'here\'s how mchp calendars work: let\'s say you want to make an "econ 200" calendar, and put assignment due dates, tests, and projects in it...'
+		},
+		{
+			orphan: true,
+		    title: "<strong>private calendar</strong>",
+		    content: "if you want to make it private, only you will be able to see the events you add to it. it's just like a regular calendar- for your eyes only."
+		},
+		{
+			orphan: true,
+		    title: "<strong>selling a calendar</strong>",
+		    content: "if you choose to sell it, your classmates will be able to subscribe to it by paying you a subscription fee every 14 days. in return, they'll get to see the events you add, and get notified whenever you change or add events."
+		},
+		{
+			orphan: true,
+		    title: "<strong>selling a calendar cont.</strong>",
+		    content: "your classmates will get to rate and review your calendar, just like they would if they bought a document from you. so, it's up to you to keep your calendar up-to-date and accurate, so you can get higher ratings and get more subscribers."
+		},
+		{
+			element: ".owned-cals-section",
+		    title: "<strong>calendars you own</strong>",
+		    content: "the calendars <em>you create</em> will appear here.",
+		    placement: "right"
+		},
+		{
+			element: ".following-cals-section",
+		    title: "<strong>calendars you follow</strong>",
+		    content: "the calendars <em>you subscribe to</em> will appear here.",
+		    placement: "right",
+		     onhide: function() {
+	        	$('.flip-holder').toggleclass("flip");
+    		}
+		},
+		{
+			element: ".view-cals-btn",
+		    title: "<strong>browse calendars to follow</strong>",
+		    content: "this is where your classmates' calendars that they choose to sell will appear.",
+		    placement: "left",
+		    // reflex: true,
+		    //  onhide: function() {
+	     //    	$('.flip-holder').toggleclass("flip");
+    		// }
+		},
+		{
+			element: ".back",
+		    title: "<strong>here are the calendars for your classes</strong>",
+		    content: "cool, right?",
+		    placement: "left"
+		},
+		{
+			element: ".step-2",
+		    title: "<strong>what would you like to do next?</strong>",
+		    content: "click the <i class='fa fa-home'></i> (home) icon above to go to your homepage, or the <i class='fa fa-book'></i> (book) to go to your classes.",
+		    placement: "bottom",
+		    reflex: true
+		}
+		
+	]});
+
+	// initialize the tour
+	tour.init();
+	// start the tour
+	tour.start();
+
+
 	/************************
 	 * for rating calendars *
 	 ************************/
@@ -390,31 +474,31 @@ $(function() {
 	 * CALENDAR INTRODUCTION STUFF *
 	 *******************************/
 
-	if($('#calStepOne').length) {
-		$('#yourCalList').hide();
-	}
-	// show calendar step three  when clicked
-    $('.stepOneNext').on('click', function () {
-    	$('#calStepOne').fadeOut(250, function () {
-    		$('#calStepTwo').fadeIn(500);
-    		$('#calStepTwo').removeClass("hidden");
-    	});
-	});
-	// show calendar step three when clicked
-    $('.stepTwoNext').on('click', function () {
-	$('#calStepTwo').fadeOut(250, function () {
-		$('#calStepThree').fadeIn(500);
-		$('#calStepThree').removeClass("hidden");
-		});
-	});
-	// switch to your cal list when clicked and close intro
-	$('.stepThreeNext').on('click', function () {
-		$('.cal-intro').fadeOut(250, function () {
-			$('#yourCalList').fadeIn(500);
-		});
-		var event = $(this).data('event');
-		toggle_flag(event);
-	});
+	// if($('#calStepOne').length) {
+	// 	$('#yourCalList').hide();
+	// }
+	// // show calendar step three  when clicked
+ //    $('.stepOneNext').on('click', function () {
+ //    	$('#calStepOne').fadeOut(250, function () {
+ //    		$('#calStepTwo').fadeIn(500);
+ //    		$('#calStepTwo').removeClass("hidden");
+ //    	});
+	// });
+	// // show calendar step three when clicked
+ //    $('.stepTwoNext').on('click', function () {
+	// $('#calStepTwo').fadeOut(250, function () {
+	// 	$('#calStepThree').fadeIn(500);
+	// 	$('#calStepThree').removeClass("hidden");
+	// 	});
+	// });
+	// // switch to your cal list when clicked and close intro
+	// $('.stepThreeNext').on('click', function () {
+	// 	$('.cal-intro').fadeOut(250, function () {
+	// 		$('#yourCalList').fadeIn(500);
+	// 	});
+	// 	var event = $(this).data('event');
+	// 	toggle_flag(event);
+	// });
 
 	// using jquery.cookie plugin
 	var csrftoken = $.cookie('csrftoken');
@@ -661,6 +745,13 @@ $(function() {
 			$(this).parents('.list-group-item').remove();
 		});
 	});
+    var clearPopovers = function () {
+        if(!$('.popover:hover').length && !$('.canvas-day:hover').length && !$('.fc-day:hover').length) {
+            $('.popover').remove();
+        }
+        setTimeout(clearPopovers, 2000);
+    };
+    clearPopovers();
 	$('#calendar').on('mouseleave', '.canvas-day', function(jsEvent) {
 		var $canvas = $(this);
 		setTimeout(function () {

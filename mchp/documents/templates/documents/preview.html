@@ -6,7 +6,9 @@
 <meta property="og:type" content="product" /> 
 <!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
 <meta property="og:title" content="{{document.title}} in {{document.course.dept}} {{document.course.course_number}}" /> 
+{% if document.preview %}
 <meta property="og:image" content="{{document.preview.url}}" /> 
+{% endif %}
 <meta property="og:description" content="{{document.description}}" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
@@ -51,30 +53,24 @@
 	</div>
 </div>  -->
 <!-- End Modal -->
-
-
 <div class="container animated bounceInUp">
-	<div class="alert alert-info alert-dismissible fade in" role="alert">
+	{% if not document_preview_flag %}
+	<div data-event="{{document_preview_flag_name}}" class="one-time-alert alert alert-info alert-dismissible fade in" role="alert">
 		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 		<div class="media" style="margin-top:0px;">
-			<img class="media-object pull-left" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/money.svg" alt="earn referral points">
+			<img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
 			<div class="media-body">
 				<h4 class="media-heading">The easiest way to get <strong>free</strong> points, study guides, and calendars...</h4>
-				Is to get your friends to sign up on mchp! Each time you click the <a href="{{request.get_host}}{{current_path | referral:referral_link}}" 
-					{% if document.preview %}
-					data-image="{{document.preview.url}}"
-					{% else %}
-					data-image=""
-					{% endif %}
-					data-title="{{document.title}}" 
-					data-desc="{{document.description}}" 
-					class="btnShare btn btn-facebook btn-xs fb-share-button">
-					<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button 
-					class="btn btn-warning btn-xs"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
-				 buttons, we'll reward you <strong>500 points</strong> for every person that signs up with us by clicking through your links. Remember, the same rules apply when you share your unique referall code and referall link. <strong>- mchp</strong>
+				Is to get your friends to sign up on mchp! Each time you click the 
+				<a href="#" class="btn btn-facebook btn-xs fb-share-button disabled">
+					<i class="fa fa-fw fa-facebook"></i>Share
+				</a> or the 
+				<button class="btn btn-warning btn-xs disabled"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+				buttons, we'll reward you <strong>500 points</strong> for every person that signs up with us by clicking through your links. Remember, the same rules apply when you share your unique referall code and referall link. <strong>- mchp</strong>
 			</div>
 		</div>
 	</div><!-- end alert -->
+	{% endif %}
 
 	<ol class="breadcrumb">
 		<!-- <h class="pull-right">
@@ -89,7 +85,7 @@
 		<li class="active">
 			<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-text-o"></i>&nbsp;{{document.title}}</a>
 		</li>
-			<a class="btn btn-success btn-xs pull-right" href="{% url 'document_upload' %}"><i class="fa fa-money"></i>&nbsp;Sell Document</a>
+		<a class="btn btn-success btn-xs pull-right" href="{% url 'document_upload' %}"><i class="fa fa-money"></i>&nbsp;Sell Document</a>
 	</ol>
 	<div class="well">
 		<div class="panel panel-default">
@@ -97,31 +93,31 @@
 				<div class="row">
 					<div class="col-sm-5">
 						{% if document.preview %}
-						<img class="img-thumbnail center-block" style="margin-bottom:10px;" src={{document.preview.url}}></img>
+						<img class="img-thumbnail center-block" style="margin-bottom:10px;" src="{{document.preview.url}}"></img>
 						{% else %}
 						<img class="img-thumbnail center-block" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}">
 						{% endif %}
 					</div>
 					<div class="col-sm-7">
-						<h2 class="margin-top-none margin-btm-sm">{{ document.title }}
-							<small class="pull-right"><span class="pull-right">{{document.price}} points</span>
+						<h2 class="margin-top-none margin-btm-sm">{{ document.title }}<small class="pull-right"><span class="pull-right">{{document.price}} points</span>
 								<p class="margin-top-none margin-btm-none"></p>
 								<span class="pull-right margin-top-none"><small>{{document.create_date|naturaltime}}</small></span>
 							</small>
 						</h2>
-
 						<h5><i class="fa fa-fw fa-thumbs-up text-success"></i>{{ document.up }}&nbsp;<i
 								class="fa fa-fw fa-thumbs-down text-danger">
 							</i>{{ document.down }} &nbsp;<i class="fa fa-comments text-info fa-fw">
 							</i>&nbsp;{{ review_count }} Review{{review_count|pluralize}} &nbsp;<i class="fa fa-fw fa-money text-success">
 							</i>&nbsp;{{ document.purchase_count }} Purchase{{document.purchase_count | pluralize}}
 						</h5>
-						<div class="progress" style="width:68%">
+						<div class="progress margin-btm-none" style="width:68%">
 							<div class="progress-bar progress-bar-success" style="width:{{document.normalize_positive_votes}}%">
 							</div>
 							<div class="progress-bar progress-bar-danger" style="width:{{document.normalize_negative_votes}}%">
 							</div>
 						</div><!-- end ratings bar -->
+						<p class="h6"><a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a> 
+							with Instructor {{document.course.professor}}</p>
 						<!-- <p class="h6">Students who bought this</p>
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
 						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
@@ -163,30 +159,36 @@
 							<hr>
 							<p class="">"{{document.description}}"</p>
 							<hr>
-							<div class="media">
-								<a class="pull-left" href="{%url "profile" uploader.pk %}">
-									<img class="media-object img-circle img-thumbnail" 
-									src="{{uploader.profile.profile_image_url}}" width="65px" style="height: 65px;">
-								</a>
-								<div class="media-body">
-									<h4 class="media-heading">
-										<a href="{% url "profile" uploader.pk%}">
-											{{uploader}}
-										</a>
-									</h4>
-									<span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
-									<p>
-										<div class="progress" style="width:68%">
-											<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
-												<span class="sr-only">Documents</span>
-											</div>
-											<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
-												<span class="sr-only">Calendars</span>
-											</div>
-										</div>
-									</p>
-								</div>
-							</div>
+              {% if uploader %}
+              <div class="media">
+                <a class="pull-left" href="{%url "profile" uploader.pk %}">
+                  <img class="media-object img-circle img-thumbnail" 
+                  src="{{uploader.profile.profile_image_url}}" width="65px" style="height: 65px;">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">
+                    <a href="{% url "profile" uploader.pk%}">
+                      {{uploader}}
+                    </a>
+                  </h4>
+                  <span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
+                  <p>
+                    <div class="progress" style="width:68%">
+                      <div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
+                        <span class="sr-only">Documents</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
+                        <span class="sr-only">Calendars</span>
+                      </div>
+                    </div>
+                  </p>
+                </div>
+              </div>
+              {% else %}
+              <div class="media-body">
+                This was uploaded by a ghost! Or we just don't have the original uploader information! sorry
+              </div>
+              {% endif %}
 						</div>
 
 					</div><!-- end col -->
