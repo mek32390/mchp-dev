@@ -89,7 +89,7 @@ class Document(models.Model):
     def tmp_url(self):
         doc = self.document
         s = S3Auth(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
-        url = s.get_v2('mchp-dev', '/media/' + doc.name)
+        url = s.get_v2(settings.AWS_STORAGE_BUCKET_NAME, '/media/' + doc.name)
         return url
 
     '''

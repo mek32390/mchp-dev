@@ -2,6 +2,7 @@
 
 {% block head_title %}Choose your School{% endblock %}
 {% block extra_head %}
+
 	{% load staticfiles %}
 	<script src="{% static 'user_profile/js/confirm-school.js' %}"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/confirm-school.css' %}">
@@ -12,9 +13,9 @@
 	<div id="college_select">
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<h3 class="text-center lead">Do you attend...</h3>
+				<h3 class="text-center lead">Thanks for verifying that you're a student! Do you attend...</h3>
 				<h2 class="text-center college_name">{{guess_school.name}}</h2>
-				<img class="center-block img-responsive" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/building-with-flag.svg" alt="Choose School">
+				<img class="center-block img-responsive" src="{% static 'lib/img/building-with-flag.svg' %}" alt="Choose School">
 				<h4 class="text-center">
 					<p><small>Our mchp wizard determined that you go to "{{guess_school.name}}"</small></p>
 				</h4>

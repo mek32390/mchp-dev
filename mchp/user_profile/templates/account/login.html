@@ -2,28 +2,29 @@
 
 {% load i18n %}
 {% load account %}
+{% load socialaccount %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block extra_head %}
   {% load staticfiles %}
-      <script src="{% static 'account/js/login.js' %}"></script> 
+  <script src="{% static 'account/js/login.js' %}"></script> 
 {% endblock %}
 
 {% block content %}
+{% providers_media_js %}
 <div class="container text-center">
   <div class="acct-form ">
     <h2>{% trans "Log In" %} <small> let's go</small></h2>
     <div id='facebookLogin'>      
     {% if socialaccount.providers  %}
       <div class="socialaccount_ballot">
+      <!-- <a title="Facebook" class="" href="/accounts/facebook/login/"> -->
       <a title="Facebook" class="socialaccount_provider facebook" 
-      href="javascript:allauth.facebook.login('', 'authenticate',
-      'login')">
+      href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
       <button class="btn btn-facebook btn-block btn-primary btn-lg">
         Use Facebook
       </button></a>
-      {% include "socialaccount/snippets/login_extra.html" %}
       </div>
       <hr>
         <span class="help-block text-center"><a href="#" id='show-login'>Use .EDU e-mail</a></span>

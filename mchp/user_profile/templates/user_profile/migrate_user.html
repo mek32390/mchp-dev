@@ -1,0 +1,28 @@
+{% extends 'user_profile/base.html' %}
+{% block head_title %}The great migration{% endblock %}
+{% load staticfiles %}
+{% block body %}
+<div class='container'>
+	<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+			{% if email %}
+			<h2 class="text-center">You've got mail!<small></small></h2>
+			<p><img class="media-object img-responsive center-block" src=
+				"{% static 'lib/img/rss.svg' %}" alt=
+				"verify email account">
+				<p class="text-center">We've upgraded security around here, and you'll need to reset your password please!</p>
+				<div class='emailVerify acct-form'>
+					<hr>
+					<div class="email text-center">
+						{{email}}
+					</div>
+				</div>
+				{% else %}
+				<h2 class="text-center">Nobody here but us chickens.</h2>
+				<img src="{% static 'lib/img/egg.svg' %}" class="center-block">
+				{% endif %}
+      </div>   
+    </div>   
+  </div>   
+</div>
+{% endblock %}

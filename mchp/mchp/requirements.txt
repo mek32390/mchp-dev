@@ -2,7 +2,6 @@ Django==1.6
 psycopg2==2.5.3
 django-allauth
 south
-django-haystack==2.1.0
 pyelasticsearch
 fake-factory
 pillow
@@ -12,6 +11,5 @@ celery
 wand
 stripe
 jsonfield
-django-stored-messages
 svn+http://python-weather-api.googlecode.com/svn/trunk/
 django-smtp-ssl

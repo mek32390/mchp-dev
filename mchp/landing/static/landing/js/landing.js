@@ -1,4 +1,8 @@
 $(function() {
+    $('.flip-container').on('mouseenter', function () {
+        $('#instruction-text').addClass('fadeOutDown').toggleClass('delayed-5');
+    });
+
     // BS Validator 
     $('#emailForm').bootstrapValidator({
         fields: {

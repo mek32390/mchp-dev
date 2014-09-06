@@ -4,7 +4,7 @@
 	<script type="text/javascript">
 		var payout_url = '{%url "payout"%}';
 	</script>
-	<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/pig.svg" class="animated rubberBand"/>
+	<img src="{% static 'lib/img/pig.svg' %}" class="animated rubberBand"/>
 	<p></p>
 	<p class="lead">You've got <strong>$<span class="savings-amount">{{student.display_balance}}</span></strong> in the bank!</p>
 	<hr>

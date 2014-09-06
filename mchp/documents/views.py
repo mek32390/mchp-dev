@@ -146,7 +146,7 @@ class DocumentListView(ListView):
             # can't filter on annotations so get the count manually
             'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+\
             'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"'+\
-            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))',
         })
 
     def get_context_data(self, **kwargs):
@@ -162,6 +162,7 @@ class DocumentListView(ListView):
             'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
         })
         context['purchases'] = purchases
+        context['now'] = timezone.now()
 
         return context
 
@@ -188,9 +189,15 @@ class DocumentDetailPreview(DetailView):
 
         document = self.get_object()
         # if they already bought the doc
-        uploader = Upload.objects.get(document=document).owner
+        uploader = Upload.objects.filter(document=document)
+        if uploader.exists():
+            uploader = uploader[0].owner
+            uploader_pk = uploader.pk
+        else:
+            uploader = None
+            uploader_pk = -1
         if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
-           uploader.pk == self.student.pk:
+           uploader_pk == self.student.pk:
            # or they uploaded it themselves, redirect to the view of the doc
             return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 
@@ -198,18 +205,19 @@ class DocumentDetailPreview(DetailView):
             # student didn't have enough points
             messages.error(
                 request,
-                "Pump your break kid, you don't have enough points to buy that."
+                "Pump your breaks kid, you don't have enough points to buy that."
             )
         else:
             # student bought the doc
             purchase = DocumentPurchase(document=document, student=self.student)
             purchase.save()
-            # give uploader the points 
-            points = document.price * (settings.MCHP_PRICING['commission_rate'] / 100)
-            points = points / 100
-            points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
-            uploader.modify_balance(points)
-            uploader.save()
+            # give uploader the points, if they exist
+            if uploader:
+                points = document.price * (settings.MCHP_PRICING['commission_rate'] / 100)
+                points = points / 100
+                points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
+                uploader.modify_balance(points)
+                uploader.save()
 
         return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 
@@ -219,7 +227,11 @@ class DocumentDetailPreview(DetailView):
         context = self.get_context_data(object=self.object)
 
         # info about the document
-        uploader = Upload.objects.get(document=self.object).owner
+        uploader = Upload.objects.filter(document=self.object)
+        if uploader.exists():
+            uploader = uploader[0].owner
+        else:
+            uploader = None
 
         document = self.get_object()
         owns = False
@@ -227,9 +239,15 @@ class DocumentDetailPreview(DetailView):
         if not request.user.is_anonymous() and request.user.student_exists():
             referral_link = ReferralCode.objects.get_referral_code(request.user).referral_link
             # check if they already bought the doc
-            uploader = Upload.objects.get(document=document).owner
+            uploader = Upload.objects.filter(document=document)
+            if uploader.exists():
+                uploader = uploader[0].owner
+                uploader_pk = uploader.pk
+            else:
+                uploader = None
+                uploader_pk = -1
             if DocumentPurchase.objects.filter(document=document, student=self.student).exists() or\
-               uploader.pk == self.student.pk:
+               uploader_pk == self.student.pk:
                 owns = True
 
         cals = ClassCalendar.objects.filter(
@@ -243,10 +261,15 @@ class DocumentDetailPreview(DetailView):
             all_counts = 1
         context['cal_percent'] = (cals * 100) / all_counts
         context['doc_percent'] = (docs * 100) / all_counts
+        if uploader:
+            docs_sold = uploader.sales()
+        else:
+            docs_sold = 0
 
+        document_preview_flag = 'document preview referral'
         data = {
             'current_path': request.get_full_path(),
-            'docs_sold': uploader.sales(),
+            'docs_sold': docs_sold, 
             'uploader': uploader,
             'student': self.student,
             'reviews': self.object.purchased_document.exclude(review_date=None),
@@ -255,6 +278,8 @@ class DocumentDetailPreview(DetailView):
             'slug': self.object.slug,
             'owns': owns,
             'referral_link': referral_link,
+            'document_preview_flag': self.student.one_time_flag.get_flag(self.student, document_preview_flag),
+            'document_preview_flag_name': document_preview_flag,
         }
         context.update(data)
         return self.render_to_response(context)
@@ -294,10 +319,16 @@ class DocumentDetailView(DetailView):
         purchased = DocumentPurchase.objects.filter(document=self.object,
                                                     student=self.student).exists()
         # or if they own the doc
-        owner = Upload.objects.get(document=self.object).owner
+        upload = Upload.objects.filter(document=self.object)
+        if upload.exists():
+            owner = upload[0].owner
+            owner_pk = owner.pk
+        else:
+            owner = None
+            owner_pk = -1
 
         # if not, redirect to the preview page
-        if not purchased and owner.pk != self.student.pk:
+        if not purchased and owner_pk != self.student.pk:
             return redirect(reverse('document_list') + 'preview/' + self.kwargs['uuid'] + '/' +
                             self.object.slug)
         # check if they have reviewed it
@@ -323,6 +354,9 @@ class DocumentDetailView(DetailView):
         context['slug'] = self.object.slug
         context['student'] = self.student 
         context['referral_link'] = self.referral_link
+        document_referral_flag = 'document referral'
+        context['document_referral_flag'] = self.student.one_time_flag.get_flag(self.student, document_referral_flag)
+        context['document_referral_flag_name'] = document_referral_flag
         return context
 
     # this page needs to be publically viewable to redirect properly
@@ -366,8 +400,12 @@ class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
                     data['messages'] =  self.ajax_messages()
                     return self.render_to_json_response(data, status=403)
                 else:
+                    # delete upload and purchases
+                    doc = doc[0]
+                    doc.upload.delete()
+                    doc.purchased_document.all().delete()
                     # actually delete document
-                    doc[0].delete()
+                    doc.delete()
                     messages.success(
                         self.request,
                         "Document deleted successfully."

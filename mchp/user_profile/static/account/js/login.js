@@ -10,15 +10,13 @@ $(function() {
 	$('label[for="id_login"]').hide();
 	$('label[for="id_password"]').hide();
 
-	// style error message to BS Validator
-	var html = [], $list = $('.errorlist');
+	// make error messages into actual messages
+	var $list = $('.errorlist').first();
 
-	html.push('<div class="errorlist">');
-	$list.find('li').each(function() {
-		html.push('<p class="text-danger small">' + $(this).text() + '</p>');
+	$list.children().each(function() {
+		addMessage($(this).text(), 'danger');
 	});
-	html.push('</div>');
-	$list.replaceWith(html.join(''));
+	$('.errorlist').remove();
 
 	// Convert form to BS Validator
 	$("#id_login").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
@@ -32,7 +30,7 @@ $(function() {
 	// don't collaspe the manual signup when the page refreshes 
     if(document.referrer === document.URL) {
         $('#facebookLogin').fadeOut(1, function () {
-            $('.emailLogin').show()
+            $('.emailLogin').show();
         });
     }
 

@@ -15,7 +15,7 @@ class DocumentUtilsTest(TestCase):
 
     def s3_url(self):
         s = S3Auth(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
-        url = s.get_v2('mchp-dev', '/media/documents/1880s_uncle_grandpa.gif')
+        url = s.get_v2(settings.AWS_STORAGE_BUCKET_NAME, '/media/documents/1880s_uncle_grandpa.gif')
         print(url)
 
 class DocumentModelTest(TestCase):

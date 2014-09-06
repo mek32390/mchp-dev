@@ -36,7 +36,7 @@ class Student(models.Model):
 
     def name(self):
         if self.user.first_name:
-            return self.user.first_name + " " + self.user.last_name
+            return self.user.first_name
         else:
             return self.user.username
 
@@ -121,7 +121,7 @@ class Enrollment(models.Model):
         super(Enrollment, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "joined {} on {}".format(self.course.display, self.join_date)
+        return "joined {} on {}".format(self.course.display(), self.join_date)
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
@@ -174,10 +174,12 @@ class StudentQuicklink(models.Model):
         return "{} has link to {}".format(self.student.user.username, self.quick_link)
 
 class OneTimeEvent(models.Model):
-    name = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50, blank=True, unique=True)
+
+    objects = managers.OneTimeEventManager()
 
     def __str__(self):
-        return "Event #{}".format(self.pk)
+        return "Event #{} :: {}".format(self.pk, self.name)
 
 class OneTimeFlag(models.Model):
     student = models.ForeignKey(Student, related_name='one_time_flag')
@@ -186,7 +188,7 @@ class OneTimeFlag(models.Model):
     objects = managers.OneTimeFlagManager()
 
     def __str__(self):
-        return "Seen Event #{}: {}".format(self.event.pk, self.event.name)
+        return "{} has seen Event #{}: {}".format(self.student.user.username, self.event.pk, self.event.name)
 
 class UserRole(models.Model):
     user = models.OneToOneField(User, related_name='user_roles')

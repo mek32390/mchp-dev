@@ -3,6 +3,13 @@
 {% block head_title %}Course{% endblock %}
 
 {% block extra_head %}
+<meta property="fb:app_id" content="369999156462705" /> 
+<meta property="og:type" content="website" /> 
+<!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
+<meta property="og:title" content="{{course.dept}} {{course.course_number}} at {{course.domain.name}}" /> 
+<meta property="og:image" content="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.png" /> 
+<meta property="og:description" content="{{student_count}} Student{{student_count|pluralize}} &nbsp; {{doc_count}} Document{{doc_count|pluralize}} &nbsp; {{cal_count}} Calendar{{cal_count|pluralize}}" />
+
 	{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/course.css' %}">
 		<script src="{% static 'schedule/js/course.js' %}"></script>
@@ -16,7 +23,7 @@
 	<ol class="breadcrumb">
 		<div class="pull-right">
 			<a button type="button" class="btn btn-success btn-xs" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
-			<a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a>
+			<!-- <a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a> -->
 		</div>
 		<li><a href="{%url "school" course.domain.pk%}{{course.domain.name}}"><i class="fa fa-university fa-fw"></i> {{course.domain.name}}</a> </li>
 		<li class="active"><i class="fa fa-book fa-fw"></i> {{course.dept}} {{course.course_number}}</li>
@@ -24,7 +31,7 @@
 	<div class="well" style="padding-bottom:0px;">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/book.svg" alt="course"></a>
+				<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="{% static 'lib/img/book.svg' %}" alt="course"></a>
 					<div class="media-body">
 						<h2 class="media-heading">{{course.dept}} {{course.course_number}}
 							<small> at <a href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></small>
@@ -47,9 +54,9 @@
 						</p>
 					</div>
 					<div class="progress" style="margin-bottom:0px; width:68%;">
-						<div class="progress-bar progress-bar-info" data-toggle="tooltip" data-original-title="Students" data-placement="bottom" style="width: {{student_percent}}%"> <span class="sr-only">67% Complete (info)</span> </div>
-						<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%"> <span class="sr-only">11% Complete (primary)</span> </div>
-						<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%"> <span class="sr-only">22% Complete (warning)</span> </div>
+						<div class="progress-bar progress-bar-info" data-toggle="tooltip" data-original-title="{{student_count}} Student{{student_count|pluralize}}" data-placement="bottom" style="width: {{student_percent}}%"> <span class="sr-only">67% Complete (info)</span> </div>
+						<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="{{doc_count}} Document{{doc_count|pluralize}}" data-placement="bottom" style="width: {{doc_percent}}%"> <span class="sr-only">11% Complete (primary)</span> </div>
+						<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="{{cal_count}} Calendar{{cal_count|pluralize}}" data-placement="bottom" style="width: {{cal_percent}}%"> <span class="sr-only">22% Complete (warning)</span> </div>
 					</div>
 				</div>
 			</div>
@@ -64,16 +71,16 @@
 				</div>
 				<!-- <div class="doc-con scrolls">
 					<div class="panel-body"> -->
-						<div class="list-group item-list">
+						<div class="list-group item-list scrolls doc-scroll">
 							{% for document in popular_documents %}
 							<div class="list-group-item">
 								<div class="media">
 									<span class="pull-left" href="#">
 										<div class="media-object img-thumbnail">
 											{% if document.preview %}
-											<a href="#"><img src="{{document.preview.url}}" style="width:64px"></a>
+											<a href="{%url "document_detail" document.uuid %}"><img src="{{document.preview.url}}" style="width:64px"></a>
 											{% else %}
-											<a href="#"><img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a>
+											<a href="{%url "document_detail" document.uuid %}"><img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a>
 											{% endif %}
 									</div></span>
 									<div class="media-body">
@@ -81,6 +88,7 @@
 											<small>{{document.price}} points</small><div class="pull-right small
 												text-muted hidden-sm"><small>{{document.create_date|naturaltime}}</small></div></h4>
 										<span class="description">
+											<strong>Instr {{document.course.professor}}</strong>
 											<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
 											<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{document.down}}&nbsp;
 											{% with document.review_count as review_count %}
@@ -88,7 +96,11 @@
 											{% endwith %}
 											<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 											Purchase{{document.sold|pluralize}}
-											<p class="small" style="margin-top:5px;">Uploaded by <a class="user-popover" href="#"></a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+                      {% if document.upload %}
+                      <p class="small" style="margin-top:5px;">Uploaded by <a class=""
+                          href="{% url "profile" document.upload.owner.pk%}">{{document.upload.owner}}</a> 
+                      </p>
+                      {% endif %}
 										</span>
 									</div>
 								</div>
@@ -97,7 +109,7 @@
 							<div class="list-group">
 								<div class="list-group-item">
 									<p class="h5">Be the first to sell a document for this class!</p>
-									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'> Sell a Document</a>
+									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Document</a>
 								</div>						
 							</div>
 							{% endfor %}
@@ -112,25 +124,25 @@
 					<h3 class="panel-title tour-step-four"> Popular Calendars <span class="badge">{{popular_calendars|length}}</span></h3>
 				</div>
 				<!-- <div class="panel-body"> -->
-					<div class="list-group item-list">
+					<div class="list-group item-list scrolls cal-scroll">
 						{% for calendar in popular_calendars %}
 						<div class="list-group-item">
 							<div class="media">
 								<span class="pull-left" href="#">
 									<a href="{% url "calendar_preview" calendar.pk%}" class='calendar-picture-link'>
 										<div class="media-object img-thumbnail">
-											<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/calendar-blank.svg" style="width:64px">
+											<img src="{% static 'lib/img/calendar-blank.svg' %}" style="width:64px">
 										</div>
 										<div class="assignment-number text-center text-default h4
 											calendar-event-count" data-toggle="tooltip" data-original-title="Events">{{calendar.events}}</div>
 									</a>
 								</span>
 								<div class="media-body">
-									<h4 class="media-heading"><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a>
-										<small class="calendar-browse-price">{{calendar.price}} points <span class="label label-success"><i class="fa fa-check-circle-o"></i></span></small>
+									<h4 class="media-heading"><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}} Calendar</a>
+										<small class="calendar-browse-price">{{calendar.price}} points</small>
 										<div class="pull-right small text-muted calendar-create-date"><small>{{calendar.create_date|naturaltime}}</small></div></h4>
 									<span class="description">
-										<span class='calendar-professor'><strong>Prof {{calendar.course__professor}}</strong></span>
+										<span class='calendar-professor'><strong>Instr {{calendar.course__professor}}</strong></span>
 										<i class="fa fa-bullseye text-primary"></i> 
 										{% if calendar.accuracy < 0 %}
 										<span class="calendar-accuracy">No ratings&nbsp;</span>
@@ -151,7 +163,7 @@
 						<div class="list-group">
 								<div class="list-group-item">
 									<p class="h5">Be the first to create a calendar for this class!</p>
-									<a button type="button" class="btn btn-success" href='{% url "calendar_create" %}'> Create a Calendar</a>
+									<a button type="button" class="btn btn-success" href='{% url "calendar_create" %}'><i class="fa fa-fw fa-money"></i> Create Calendar</a>
 								</div>						
 							</div>
 						{% endfor %}

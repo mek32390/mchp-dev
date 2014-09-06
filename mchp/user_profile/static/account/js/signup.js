@@ -28,22 +28,20 @@ $(function() {
 			$('.emailSignup').fadeIn(500);
 			$('.email_reminder').fadeIn(500);
 			$('.email_reminder').toggleClass('hidden');
+			$('#id_first_name').focus();
 		});
 	});
 	// hide unwanted labels
 	$('label').hide();
 	$('#id_confirmation_key').remove();
 
-	// style error message to BS Validator
-	var html = [];
-	var $list = $('.errorlist');
+	// make error messages into actual messages
+	var $list = $('.errorlist').first();
 
-    html.push('<div class="errorlist">');
-        $list.find('li').each(function() {
-        html.push('<p class="text-danger small">' + $(this).text() + '</p>');
-        });
-    html.push('</div>');
-    $list.replaceWith(html.join(''));
+	$list.children().each(function() {
+		addMessage($(this).text(), 'danger');
+	});
+	$('.errorlist').remove();
     
     // Convert form fields to BS Validator
     $("#id_first_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );

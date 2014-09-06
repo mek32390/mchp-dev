@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'mchp/templates/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -44,13 +45,12 @@ INSTALLED_APPS = (
     'calendar_mchp',
     'documents',
     'dashboard',
+    'notification',
     'referral',
     'schedule',
     'payment',
 
-    'haystack',
     'storages',
-    'stored_messages',
 
     'allauth',
     'allauth.account',
@@ -64,17 +64,17 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'lib.middleware.UserMigrationMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'referral.middleware.ReferralMiddleware',
     'lib.middleware.TimezoneMiddleware',
-    'lib.middleware.CustomMessageMiddleware',
 )
 
 from django.contrib.messages import constants as message_constants
 MESSAGE_TAGS = {message_constants.ERROR: 'danger'}
-MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
+INBOX_EXPIRE_DAYS = 30
 
 ROOT_URLCONF = 'mchp.urls'
 
@@ -148,7 +148,7 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
-LOGIN_REDIRECT_URL = '/dashboard/'
+LOGIN_REDIRECT_URL = '/home/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 # email
@@ -158,22 +158,14 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'AKIAILBSJCVZ2FI3ZF7A'
 EMAIL_HOST_PASSWORD = 'AkC6J6wQL474JQ2KRnPj3Yrbk1TgMOsb4m/wJoaMnx8P'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'contact@mycollegehomepage.com'
+SERVER_EMAIL = 'mchp error <contact@mycollegehomepage.com>'
+DEFAULT_FROM_EMAIL = 'mchp contact <contact@mycollegehomepage.com>'
 
 # Add this depending on the id of the site
 #SITE_ID = 2
 
 # import from allauth_settings.py
 from mchp.allauth_settings import *
-
-# Search 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
-    },
-}
 
 # 
 # Stripe
@@ -199,7 +191,12 @@ CELERY_TIMEZONE = 'UTC'
 #Logging
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        }
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
@@ -210,30 +207,24 @@ LOGGING = {
             'level': 'DEBUG',
             'class':'django.utils.log.NullHandler',
         },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+            'email_backend': 'django_smtp_ssl.SSLEmailBackend',
+        }
     },
     'loggers': {
-        '': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
+        'django': {
+            'handlers': ['null'],
             'propagate': True,
+            'level': 'INFO',
         },
-        # don't show haystack
-        'requests.packages.urllib3.connectionpool': {
-            'handlers': ['null'],  # Quiet by default!
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
             'propagate': False,
-            'level':'DEBUG',
-        },
-        # don't show elasticsearch 
-        'pyelasticsearch': {
-            'handlers': ['null'],  # Quiet by default!
-            'propagate': False,
-            'level':'DEBUG',
-        },
-        # don't show all those sql statements
-        'django.db.backends': {
-            'handlers': ['null'],  # Quiet by default!
-            'propagate': False,
-            'level':'DEBUG',
         },
     },
 }

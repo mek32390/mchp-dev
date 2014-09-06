@@ -50,8 +50,8 @@ class SchoolQuicklink(models.Model):
         return "Quicklink: {} :: {}".format(self.domain, self.quick_link)
 
 class SchoolAlias(models.Model):
-    domain = models.ForeignKey('School', related_name='SchoolAlias_domain')
-    alias = models.CharField(max_length=12)
+    domain = models.ForeignKey(School, related_name='SchoolAlias_domain')
+    alias = models.CharField(max_length=100)
 
     class Meta:
         unique_together = ('domain', 'alias')

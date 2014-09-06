@@ -7,28 +7,29 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block extra_head %}
+<script src="https://connect.facebook.net/en_US/all.js"></script>
 	{% load staticfiles %}
         <script src="{% static 'account/js/signup.js' %}"></script>
 {% endblock %}
 
 {% block content %}
+{% providers_media_js %}
 <div class="container">
     <h2 class="text-center">Got Credentials?</h2>
 
-    <p><img class="media-object img-responsive center-block" src=
-    "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt=
+    <p><img class="img-responsive center-block" src=
+    "{% static 'lib/img/support.svg' %}" alt=
     "..."></p>
 <div class="acct-form">
 <div class='facebookSignup'>
-	<p class="text-center">Finish signing up:</p>
+	<p class="text-center small">She's not letting you through without them!</p>
 	<div class="socialaccount_ballot">
 		<a title="Facebook" class="socialaccount_provider facebook" 
-			href="javascript:allauth.facebook.login('', 'authenticate',
-			'login')">
+			href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
+		<!-- <a title="Facebook" class="" href="/accounts/facebook/login/"> -->
 			<button class="btn btn-facebook btn-block btn-primary btn-lg">
 				Use Facebook
 		</button></a>
-		{% include "socialaccount/snippets/login_extra.html" %}
 	</div>
 	<hr>
 	<span class="help-block text-center"><a href="#" id='show-signUp'>Use your own</a></span>
@@ -36,7 +37,7 @@
 
 <div class="email_reminder text-center hidden">
 	<p><strong>
-		Using your E-mail:</strong> {{ request.session.initial_email }}
+		Using your .EDU e-mail:</strong> {{ request.session.initial_email }}
 		<small class="text-danger"><a class="text-danger" href="/"> {% trans "(edit)" %}</a></small></p>
 </div>
 <form class="emailSignup" id="signup-form" method="post" action="{% url 'account_signup' %}">

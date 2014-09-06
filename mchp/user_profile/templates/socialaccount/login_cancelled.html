@@ -7,12 +7,12 @@
 
 {% block content %}
 <div class="container text-center">    
-	<h2>{% trans "Login Cancelled" %}</h2>
+	<h2>{% trans "Login or Signup Cancelled" %}</h2>
 	<hr style="width:300px;">
 	{% url 'account_login' as login_url %}
 
-	<p>{% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts.{% endblocktrans %}</p>
-	<p>{% blocktrans %}If this was a mistake, please proceed to <a href="{{login_url}}">sign in</a>.{% endblocktrans %}</p>
+	<p>{% blocktrans %}You decided to cancel logging in or signing up to our site using your facebook account.{% endblocktrans %}</p>
+	<p>If this was a mistake, please proceed to <a href="{{login_url}}">login</a> or <a href="{% url 'account_signup' %}">signup</a>.</p>
 </div>
 {% endblock %}
 

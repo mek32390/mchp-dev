@@ -2,19 +2,20 @@
 <html>
 	<head>
 		<title>{% block head_title %}{% endblock %}</title>
-		 <link rel="shortcut icon" href="https://s3.amazonaws.com/mchp-dev/static/lib/img/favicon.ico" />
+		<link rel="shortcut icon" href="https://s3.amazonaws.com/mchp-dev/static/lib/img/favicon.ico" />
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
-
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 		{% load staticfiles %}
+
 		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/mchp.css' %}">
 		<script src="{% static 'lib/js/mchp.js' %}"></script>
 		<script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
 		{% block head %}
+
 		{% endblock %}
 		{% block extra_head %}
 		{% endblock %}
@@ -25,9 +26,43 @@
 		{%load payment%}
 		{% load notifications %}
 
+		{% if user.is_anonymous %}
+		<div class="modal fade" id="mchp-login-prompt" tabindex="-1" role="dialog" aria-labelledby="login-prompt" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-body text-center">
+						<h3>Got Credentials?</h3>
+						<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt="sign up or login">
+						<br></br> 
+						<p><small>Log In or Sign Up using:</small></p>
+						<a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg" 
+							href="javascript:allauth.facebook.login('', 'authenticate', 'login')" target="_blank"><i class="fa fa-facebook"></i> Facebook
+						</a>
+						{% include "socialaccount/snippets/login_extra.html" %}
+						<hr> 
+						<span id="login-options">
+							<a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with e-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
+						</span>
+						<form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
+							{% csrf_token %}
+							<div class='form-group'>
+								<div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
+									<input name="email" class="form-control" placeholder="What is your .EDU e-mail?">
+								</div>
+							</div>
+							<p></p>
+							<button class="btn btn-default btn-block" type="submit">Sign Up</button>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
 		{% if user.is_authenticated %}
 		{% if user.student %}
 		{% with user.student as student %}
+		<div class="mchp-username hidden">{{student.name}}</div>
 		<!-- Set Homepage Modal -->
 		<div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -168,19 +203,19 @@
 					<a class="navbar-brand" href="{%url 'dashboard'%}">mchp</a>
 				</div>
 				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="{%url 'dashboard'%}"><i class="fa fa-home"></i></a></li>
-						<li><a href="{%url 'classes'%}"><i class="fa fa-book"></i></a></li>
-						<li><a href="{%url 'calendar'%}"><i class="fa fa-calendar"></i></a></li>
+					<ul class="nav navbar-nav step-2">
+						<li class=""><a href="{%url 'dashboard'%}" data-toggle="tooltip" data-original-title="Home" data-placement="bottom"><i class="fa fa-home"></i></a></li>
+						<li><a href="{%url 'classes'%}" data-toggle="tooltip" data-original-title="Classes" data-placement="bottom"><i class="fa fa-book"></i></a></li>
+						<li><a href="{%url 'calendar'%}" data-toggle="tooltip" data-original-title="Calendar" data-placement="bottom"><i class="fa fa-calendar"></i></a></li>
 					</ul>
 					<!-- <form class="navbar-form navbar-left" role="search">  			
 			<input id="mchp-search" class="form-control typeahead" placeholder="Search for a course" type="text" data-provide="typeahead">
 					</form> -->
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points">{{student.total_points}}</span>
+						<li><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points" data-toggle="tooltip" data-original-title="Points" data-placement="bottom">{{student.total_points}}</span> <!-- <i class="fa fa-calendar"></i> -->
 						<!-- stupid svg icon that we should unclude from somewhere else -->
-						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="nav-chip-icon" x="0px" y="0px" height="14px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-						<g class="nav-chip-icon">
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="14px" height="14px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" id="nav-chip-icon" style="fill: #777; position: relative; top: 2px;">
+						<g>
 							<g>
 								<path d="M49.834,1C22.864,1,1,22.864,1,49.833c0,26.972,21.864,48.833,48.835,48.833c26.97,0,48.833-21.861,48.833-48.833    C98.668,22.864,76.805,1,49.834,1 M83.212,80.034l-4.392-5.24c-0.617,0.716-1.264,1.411-1.939,2.088    c-5.561,5.56-12.529,9.194-20.104,10.574l2.533,6.382L40.371,93.84l2.341-6.416c-7.504-1.404-14.409-5.027-19.925-10.542    c-0.719-0.719-1.405-1.463-2.059-2.228l-4.264,5.39L6.991,63.645l6.719-1.18c-1.397-4.006-2.126-8.262-2.126-12.631    c0-4.428,0.749-8.742,2.185-12.797l-6.783-0.995l9.466-16.405l4.391,5.242c0.62-0.717,1.269-1.416,1.945-2.092    c5.561-5.562,12.534-9.197,20.109-10.577l-2.532-6.382h18.939l-2.345,6.417c7.503,1.406,14.407,5.026,19.921,10.542    c0.721,0.72,1.406,1.465,2.062,2.231l4.265-5.39l9.47,16.402l-6.719,1.177c1.396,4.006,2.125,8.26,2.125,12.626    c0,4.431-0.749,8.747-2.186,12.802l6.781,0.996L83.212,80.034z"/>
 							</g>
@@ -210,9 +245,9 @@
 						</ul> -->
 					<!-- </li> -->
 					
-					<li class="dropdown" id="notifs-dropdown">
+					<li class="dropdown" id="notifs-dropdown" data-toggle="tooltip" data-original-title="Notifications" data-placement="bottom">
 						{% unread_count as unread %}
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">{{unread}}</span> <i class="fa fa-lightbulb-o"></i></a>
+						<a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge">{{unread}}</span> <i class="fa fa-lightbulb-o"></i></a>
 						<ul class="dropdown-menu">
 							{% unread_notifications unread %}
 							{% read_notifications unread %}
@@ -223,8 +258,8 @@
 					</li>
 					<li class="dropdown" id="user-dropdown">
 						<a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
-							src="{{student.profile.profile_image_url}}" style="height:18px; width: 18px;"
-							class="img-circle profile-image"> {{user.first_name}}
+							src="{{student.profile.profile_image_url}}" height="18px" width="18px"
+							class="img-circle profile-image" style="position:relative;"/> {{user.first_name}}
 							<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							{% if not user.referree.count %}
@@ -236,7 +271,7 @@
 							<li><a href="{% url 'my_profile' %}">My Page</a></li>
 							<li class="divider"></li>
 							<!-- <li><a href="{% url 'course_create'%}">Create class</a></li> -->
-							<li><a href="{% url 'course_add'%}">My Schedule</a></li>
+							<li><a href="{% url 'course_add'%}">Edit My Schedule</a></li>
 							<li class="divider"></li>
 							<li><a href="{% url 'document_upload'%}">Upload Document</a></li>
 							<li><a href="{% url 'document_list'%}">My Documents</a></li>
@@ -254,6 +289,10 @@
 					{% else %}
 					<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 						<div class="container">
+							<ul class="nav navbar-nav navbar-right">
+									<!-- <li><a href="{% url 'account_login' %}" target="_blank">Login</a></li>
+									<li><a href="{% url 'account_signup' %}" target="_blank">Signup</a></li> -->
+								</ul>
 							<div class="navbar-header">
 								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 									<span class="sr-only">Toggle navigation</span>
@@ -284,15 +323,13 @@
 	<!-- end user popover -->
 	<!-- Django Messages -->
 	<div class="django-messages">
-		{% for message in request.rails_messages %}
-		{% if message.tags %}
+		{% for message in messages %}
 		<div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 			<ul class="messages">
 				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
 			</ul>
 		</div>
-		{% endif %}
 		{% endfor %}
 	</div>
 	{% block body %}
@@ -300,8 +337,8 @@
 
 	{% block extra_body %}
 	{% endblock %}
-<!-- begin olark code --
-<script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){ f[z]=function(){ (a.s=a.s||[]).push(arguments)};var a=f[z]._={ },q=c.methods.length;while(q--){(function(n){f[z][n]=function(){ f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={ 0:+new Date};a.P=function(u){ a.p[u]=new Date-a.p[0]};function s(){ a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){ hd="head";return["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if(!m){ return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if(/MSIE[ ]+6/.test(navigator.userAgent)){ b.src="javascript:false"}b.allowTransparency="true";v[j](b);try{ b.contentWindow[g].open()}catch(w){ c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try{ var t=b.contentWindow[g];t.write(p());t.close()}catch(x){ b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({ loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure","extend","declare","identify"]}); /* custom configuration goes here (www.olark.com/documentation) */ olark.identify('8250-169-10-2159');/*]]>*/</script><noscript><a href="https://www.olark.com/site/8250-169-10-2159/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript> 
-<!-- end olark code -->
+<!-- begin olark code -->
+
+<!-- end olark code-->
 </body>
 </html>

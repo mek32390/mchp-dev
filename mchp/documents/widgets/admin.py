@@ -9,8 +9,8 @@ class AdminDocThumnailWidget(AdminFileWidget):
     def render(self, name, value, attrs=None):
         output = []
 
-        if value != None:
-            output.append(u'<img style="width:64px" alt="%s" src="%s" />' % (value.url, value.url,))
+        if value:
+            output.append('<img style="width:64px" alt="%s" src="%s" />' % (value.url, value.url,))
         else :
             output.append(_(u'Thumbnail will be automatically generated from uploaded document.'))
 

@@ -49,8 +49,9 @@
     -o-transition: 0.6s;
 }
 .flip-holder .back {
-    background: none;
+    background: #fff;
     position: relative;
+    height: 680px;
     z-index:0;
         -webkit-transition: 0.6s;
     -moz-transition: 0.6s;
@@ -143,4 +144,8 @@
 
 .event-last-edit {
 	font-size: 8pt;
+}
+
+.datepicker {
+	z-index: 1061!important;
 }

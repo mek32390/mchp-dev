@@ -16,24 +16,16 @@ $(function() {
         $('.email_reminder h4').html("Sign up with E-mail");
     }
 	$form = ($('#signup_form'));
-	$('#id_username').val('charles' + new Date().getTime());
+    var username = $('#id_first_name').attr('value') + $('#id_last_name').attr('value');
+    console.log($('#id_firstname'));
+    console.log(username);
+	$('#id_username').val(username); 
 	$('#id_email').text(hidden);
     // don't loop if the form doesn't validate
     if(document.referrer === document.URL) {
     } else {
 		$form.submit();
 	}
-   
-    // style error message to BS Validator
-    var html = [],
-        $list = $('.errorlist');
-
-    html.push('<div class="errorlist">');
-        $list.find('li').each(function() {
-        html.push('<p class="text-danger small">' + $(this).text() + '</p>');
-        });
-    html.push('</div>');
-    $list.replaceWith(html.join(''));
     
     // Convert form fields to BS Validator
     $("#id_first_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );

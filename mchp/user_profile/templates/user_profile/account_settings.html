@@ -11,14 +11,22 @@
 
 {% block body %}
 {% load referral %}
+{% load socialaccount %}
 <div class='container'>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<img src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/settings.svg" width="100px" class="center-block">
+			<img src="{% static 'lib/img/settings.svg' %}" width="100px" class="center-block">
 			<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
 			<p class="text-center"><small>{{user.username}}</small></p>
 			<div class="well">
-				<a href="/login/facebook" class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook"></i> Connect with Facebook</a>
+				{% if not user.socialaccount_set.all.0 %}
+				{% include "socialaccount/snippets/login_extra.html" %}
+				<a href="{% provider_login_url "facebook" process="connect" %}">
+					<button class="btn btn-facebook btn-block btn-sm">
+						Connect with Facebook
+					</button>
+				</a>
+				{% endif %}
 				<p>
 					<ul class="list-group">
 						<li class="list-group-item"> 
@@ -35,12 +43,12 @@
 					</li>
 				</ul>
 				<ul class="list-group">
-					<li class="list-group-item" data-toggle="tooltip" data-original-title="For each person that enters your code after signing up, you'll both get 500 points!">
+					<li class="list-group-item" data-toggle="tooltip" data-original-title="For each person that enters your code after signing up, you'll both get 500 points!" data-placement="right">
 						<i class="fa fa-paw"></i> Your Code: {{referral_code}}
 						<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_code }}" 
 							class='btn btn-xs btn-default pull-right copy-button' id="code-button">Copy</a>
 					</li>
-					<li class="list-group-item" data-toggle="tooltip" data-original-title="For each person that signs up through your link, you'll both get 500 points!">
+					<li class="list-group-item" data-toggle="tooltip" data-original-title="For each person that signs up through your link, you'll both get 500 points!" data-placement="right">
             <div class="row">
               <div class="col-xs-10">
 						<i class="fa fa-paw"></i> Your Link: http://{{request.get_host}}/?ref={{referral_link}} 

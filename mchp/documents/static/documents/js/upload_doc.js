@@ -10,7 +10,6 @@ $(function() {
 	$("#id_course").addClass("form-control");
 	// convert default browse file to nice input
 	$("#id_document").wrap("<div class='input-lg form-control'></div>").addClass("btn");
-
     // Upload Doc Form Validation
   	$('#upload_form').bootstrapValidator({
         message: 'This value is not valid',
@@ -77,8 +76,10 @@ $(function() {
                 }
             }
         }
-  	});
-    
+	}).on('success.form.bv', function(e) {
+		$('.loading').removeClass('hidden');
+	});
+
 	window.autocomplete = new Autocomplete({
 		form_selector: '.autocomplete',
 		minimum_length: 1,

@@ -1,7 +1,6 @@
 import pytz
 
 from django.utils import timezone
-from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
@@ -15,17 +14,6 @@ class TimezoneMiddleware(object):
                 timezone.activate(pytz.timezone(tz))
             else:
                 timezone.deactivate()
-
-class CustomMessageMiddleware(object):
-
-    def process_request(self, request):
-        storage = messages.get_messages(request)
-        mes = []
-        # what = storage.inbox_list(request.user)
-        for message in storage:
-            mes.append(message)
-        setattr(request, 'rails_messages', mes)
-        # storage.used = False
 
 class UserMigrationMiddleware(object):
 
@@ -46,5 +34,5 @@ class UserMigrationMiddleware(object):
         # force old users to make a new password
         if user.exists():
             request.session['migration'] = True 
-            request.session.pop('initial_email', None)
-            return redirect(reverse('account_reset_password'))
+            request.session['email'] = request.session.pop('initial_email', None)
+            return redirect(reverse('migrate_user'))

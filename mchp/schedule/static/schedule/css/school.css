@@ -1,6 +1,17 @@
-.doc-con {
+/*
+/*
+/* Styles for the School page
+/*
+*/
+
+.doc-scroll {
 	overflow: auto;
-	max-height: 470px;
+	max-height: 500px;
+}
+
+.cal-scroll {
+	overflow: auto;
+	max-height: 500px;
 }
 
 .assignment-number {

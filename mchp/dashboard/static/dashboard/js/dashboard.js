@@ -1,4 +1,101 @@
+/*
+ * dashboard.js
+ *
+ * This file handles functionality for dashboard
+ */
+
 $(function(){
+
+ 	/*
+	/*
+	/* TOUR FUNCTIONS
+	/*
+	*/
+
+
+	// Instance the tour
+	var tour = new Tour({
+
+		onShow: function(tour) {
+	        $('.people-section').removeClass('animated bounceInUp');
+	        $('.pulse-section').removeClass('animated bounceInUp');
+	        $('.stories-section').removeClass('animated bounceInUp');
+	        $('.alert-link').css('pointer-events','none');
+    	},
+
+		name: "dashboard-tour",
+		backdrop: true,
+		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
+		steps: [
+		{
+			path: "/home",
+			orphan: true,
+			title: "<strong>Welcome home, " + MCHP_USERNAME + "</strong>",
+			content: "This is your homepage. We've customized it just for you, and it puts everything you need, all in one place.",
+		},
+		{
+			path: "/home",
+			element: "#ref-alert",
+			title: "<strong>Your Referral Code</strong>",
+			content: 'Read above, it\'s important.',
+			placement: "bottom",
+			// onHidden: function (tour) { 
+			// 	$('#referral-modal').modal('show')
+			// }
+		},
+		{
+			path: "/home",
+			element: ".breadcrumb",
+			title: "<strong>Your Quicklinks</strong>",
+			content: "Click on a link and it will open in a new tab. It's that easy.",
+			placement: "bottom"
+		},
+		{
+			path: "/home",
+			element: ".today-section",
+			title: "<strong>Your Events</strong>",
+			content: "Each day, we'll check to see if you have any events that day, and if you do, you'll see them here.",
+			placement: "right"
+		},
+		{
+			path: "/home",
+			element: ".people-section",
+			title: "<strong>Your Peers</strong>",
+			content: "You'll see your classmates, friends, and fellow mchp users here.",
+			placement: "right"
+		},
+		{
+			path: "/home",
+			element: ".pulse-section",
+			title: "<strong>Your Pulse</strong>",
+			content: "The Pulse is a feed of everything important going on in your classes and mchp.",
+			placement: "right"
+		},
+		{
+			path: "/home",
+			element: ".stories-section",
+			title: "<strong>Your Stories</strong>",
+			content: "You can choose what stories to follow by customizing your interests (<i class='fa fa-bars'></i>). We've got plenty to choose from, so have at it after we're done with this tour.",
+			placement: "left",
+			onShown: function() {
+	        	$('.stories-section').css({'height':'90%'});
+	        	$('#news-scroll').css({'height':'90%'});
+    		}
+		},
+		{
+			path: "/home",
+			element: ".step-2",
+		    title: "<strong>What would you like to do next?</strong>",
+		    content: "Click the <i class='fa fa-book'></i> (book) to go to your classes, or the <i class='fa fa-calendar'></i> (calendar) to go to your calendar.",
+		    placement: "bottom",
+		    reflex: "true"
+		}
+	]});
+
+	// Initialize the tour
+	tour.init();
+	// Start the tour
+	tour.start();
 
  	/*
 	/*
@@ -63,10 +160,8 @@ $(function(){
 			}
 		}
 	});
-	$('#ref-alert').on('close.bs.alert', function  () {
-		toggle_flag($(this).data('event'));
-	});
-	$('.pulse-con').css('max-height',$(window).height() - 200);
+	$('.pulse-con').css('max-height',$(window).height() - 100);
+	$('#news-scroll').css('max-height',$(window).height() - 100);
 
 	$('.toggle-rss').click(function() {
 		var setting = $(this).data('setting');
@@ -75,7 +170,7 @@ $(function(){
 		$('#news-'+setting).toggleClass('hidden');
 
 		$.ajax({
-			url: '/dashboard/toggle-rss/',
+			url: '/home/toggle-rss/',
 			type: 'POST',
 			data: {
 				'setting': setting,
@@ -83,7 +178,7 @@ $(function(){
 		});
 		fetchRss();
 		if ($('.news-list-item:visible').length === 0) {
-			$('.news-list-empty').toggleClass('hidden');
+			$('.news-list-empty').removeClass('hidden');
 		}
 	});
 
@@ -98,7 +193,7 @@ $(function(){
 
 var fetchRss = function() {
 	if ($('.news-list-item:visible').length !== 0) {
-		$('.news-list-empty').toggleClass('hidden');
+		$('.news-list-empty').addClass('hidden');
 	}
 	
 	var $sections = $('.news-group');
@@ -122,7 +217,7 @@ var fetchRss = function() {
 				}
 			};
 			$.getFeed({
-				url: '/dashboard/rss-proxy/',
+				url: '/home/rss-proxy/',
 				data: {
 					'url': url,
 				},
@@ -133,6 +228,9 @@ var fetchRss = function() {
 };
 
 var addRss = function(section, rss, name) {
+	if (!rss) {
+		return;
+	}
 	var $item = $('.news-item-proto').first().clone();
 	$item.removeClass('news-item-proto');
 	$item.removeClass('hidden');
@@ -141,24 +239,28 @@ var addRss = function(section, rss, name) {
 	var $content = $item.find('.news-content');
 	$item.find('.news-headline').html(rss.title);
 	$item.find('.news-headline').attr('href', rss.link);
+	$item.find('.news-time').text(time.fromNow());
+	$item.find('.news-name').text(name);
 
 	// um
 	// this is so that resources inside the html are not fetched,
 	// resulting in wasted bandwidth and mixed content on the page
 	var dom = '<!DOCTYPE html><html><head></head><body>'+rss.description +'</body></html>';
+    if (!DOMParser) {
+        section.append($item);
+        return;
+    }
 	var doc = new DOMParser().parseFromString(dom, 'text/html');
 	var description = doc.body.textContent;
 
 	if (description.length > 200) {
-		var $continueLink = $('<a>[...]</a>');
-		$continueLink.attr('href', rss.link);
+		var $continueText = $('<span>...</span>');
+		// $continueLink.attr('href', rss.link);
 		$content.text(description.substr(0,200).trim());
-		$content.append($continueLink);
+		$content.append($continueText);
 	} else {
 		$content.text(description);
 	}
-	$item.find('.news-time').text(time.fromNow());
-	$item.find('.news-name').text(name);
 	section.append($item);
 };
 
@@ -245,7 +347,7 @@ Pulse.prototype.render = function(items) {
 var fetchFeed = function() {
 	var feed = [];
 	$.ajax({
-		url: '/dashboard/feed/',
+		url: '/home/feed/',
 		type: 'GET',
 		success: function(data) {
 			items = processFeed(data.feed);

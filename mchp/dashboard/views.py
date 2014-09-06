@@ -8,12 +8,12 @@ from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import View
 
-from lib.decorators import school_required
+from lib.decorators import class_required
 # from lib import utils
-from schedule.models import SchoolQuicklink
+from schedule.models import SchoolQuicklink, SchoolAlias
 # from user_profile.models import Enrollment
 # from documents.models import Document
-from calendar_mchp.models import CalendarEvent, ClassCalendar
+from calendar_mchp.models import CalendarEvent, ClassCalendar, Subscription
 from dashboard.models import RSSSetting, Weather, DashEvent, RSSType, RSSLink
 from dashboard.utils import DASH_EVENTS
 from referral.models import ReferralCode
@@ -26,28 +26,33 @@ from random import randrange
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
 
+'''
+url: /home/
+name: dashboard
+'''
 class DashboardView(View):
     template_name = 'dashboard.html'
 
     def get(self, request, *args, **kwargs):
         s_links = SchoolQuicklink.objects.filter(
             domain=self.student.school
-        )
+        ).order_by('id')
 
         events = CalendarEvent.objects.filter(
-            Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student))
+            Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student,private=False))
             | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
             start__range=(timezone.now(), timezone.now() + timedelta(days=1))
         ).order_by('start')
-        rss_types = RSSType.objects.all()
+        rss_types = RSSType.objects.all().order_by('link_order')
         for rss in rss_types:
             links = RSSLink.objects.filter(
                 rss_type=rss
             )
             setattr(rss, 'links', links)
-        show_rss = list(map(lambda setting: setting.rss_type, RSSSetting.objects.filter(
+        settings = RSSSetting.objects.filter(
             student=self.student
-        )))
+        )
+        show_rss = list(map(lambda setting: setting.rss_type, settings))
 
         # filter all rss types w/ just the ones the user wants shown
         rss_types = [(rss,True) if rss in show_rss else (rss,False) for rss in rss_types]
@@ -55,6 +60,13 @@ class DashboardView(View):
 
         # school 
         school = self.student.school
+        alias = SchoolAlias.objects.filter(
+            domain=school
+        )
+        if alias.exists():
+            setattr(school, 'alias', alias[0].alias)
+        else:
+            setattr(school, 'alias', school.name)
 
         # weather
         # the weather must be stored for 30 minutes before making another request i think this is a
@@ -92,12 +104,22 @@ class DashboardView(View):
         else:
             classmates = []
 
+        # check if they have cals or subscriptions
+        events_possible = ClassCalendar.objects.filter(
+            owner=self.student,
+        ).exists() or Subscription.objects.filter(
+            student=self.student,
+        ).exists()
+
+        dashboard_ref_flag = 'dashboard referral'
         data = {
-            'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, 'dashboard ref'),
+            'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, dashboard_ref_flag),
+            'dashboard_ref_flag_name': dashboard_ref_flag, 
             'referral_info': ref,
             'school_links': s_links,
             'events': events[:5],
             'event_count': events.count(),
+            'events_possible': events_possible,
             'rss_types': rss_types,
             'school': school,
             'weather': weather,
@@ -118,14 +140,13 @@ class DashboardView(View):
             # remove this course and try again
             del courses[index]
             return self._get_classmate(courses)
-        print(person)
         return person
 
     def post(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(['GET'])
 
     @method_decorator(ensure_csrf_cookie)
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardView, self).dispatch(*args, **kwargs)
@@ -166,7 +187,7 @@ class AjaxableResponseMixin(object):
         return self.render_to_json_response(data, status=status)
 
 '''
-url: /dashboard/feed/
+url: /home/feed/
 name: dashboard_feed
 '''
 class DashboardFeed(View, AjaxableResponseMixin):
@@ -197,7 +218,7 @@ class DashboardFeed(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('dashboard'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardFeed, self).dispatch(*args, **kwargs)
@@ -205,7 +226,7 @@ class DashboardFeed(View, AjaxableResponseMixin):
 feed = DashboardFeed.as_view()
 
 '''
-url: /dashboard/rss-proxy/
+url: /home/rss-proxy/
 name: dashboard_rss_proxy
 '''
 class DashboardRssProxy(View, AjaxableResponseMixin):
@@ -216,6 +237,9 @@ class DashboardRssProxy(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
             url = request.GET.get('url', None)
+            if url == '':
+                return HttpResponse({}, status=400)
+
             link = RSSLink.objects.filter(
                 url=url
             )
@@ -227,7 +251,7 @@ class DashboardRssProxy(View, AjaxableResponseMixin):
         else:
             return redirect(reverse('dashboard'))
 
-    @method_decorator(school_required)
+    @method_decorator(class_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super(DashboardRssProxy, self).dispatch(*args, **kwargs)
@@ -236,7 +260,7 @@ rss_proxy = DashboardRssProxy.as_view()
 
 
 '''
-url: /dashboard/toggle-rss/
+url: /home/toggle-rss/
 name: toggle_rss
 '''
 class ToggleRSSSetting(View, AjaxableResponseMixin):

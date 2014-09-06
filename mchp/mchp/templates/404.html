@@ -1,0 +1,19 @@
+{% extends "lib/base.html" %}
+
+{% block head_title %}404 Error{% endblock %}
+{% load staticfiles %}
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="container text-center">
+	<div class="jumbotron">
+		<h2><strong>404</strong></h2>
+		<img src="{% static 'lib/img/support.svg' %}" width="200" alt="404 error">
+		<h1>Our servers are trying to tell us something...</h1>
+		<p class="lead">They couldn't find what you're looking for, because it does not exist.</p>
+	</div>
+</div>
+
+{% endblock %}
