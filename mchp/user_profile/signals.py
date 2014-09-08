@@ -20,6 +20,8 @@ def log_in_notify(sender, request, user, **kwargs):
         adapt = adapt[0]
     if mitch.exists():
         mitch = mitch[0]
+    if not mitch and not adapt:
+        return
     add_notification_for(
         [adapt, mitch],
         user.username + ' has logged in'
