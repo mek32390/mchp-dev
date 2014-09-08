@@ -14,6 +14,7 @@ $(function() {
 
 	// Instance the first tour
 	var tour1 = new Tour({
+
 		name: "addclass-tour-1",
 		backdrop: true,
 		// storage: false,
@@ -21,33 +22,36 @@ $(function() {
 		steps: [
 
 		{
-			path: "/school/course/add/",
-			orphan: true,
+			// path: "/school/course/add/",
+			element: "#enrolled-panel",
 		    title: "<strong>Welcome " + MCHP_USERNAME + "!</strong>",
 		    content: "This is your class schedule page, where you can add and drop classes from your schedule. Your schedule looks empty, so let's start off by adding some classes to it.",
-		    backdrop: "true"
+		    reflex: true
 		},
 		{
-			path: "/school/course/add/",
-			element: "#class_search_form",
+			element: "#search-panel",
+			backdrop: false,
 		    title: "<strong>Search for a Class</strong>",
 		    content: "Enter a <strong>Course Code</strong> and <strong>Number</strong>, then hit Enter! ex: ECON 200",
-		    placement: "bottom",
-		    reflex: true
-		    // onHidden: function (tour1) {tour1.end()}
+		    placement: "left"
+		    // reflex: true
 		}
-
+		
 	]});
 
 	// Initialize the tour
 	tour1.init();
 	// Start the tour
 	tour1.start();
+	// end the tour on search submit
+	$('#class_search_form').on('submit', function () {
+		tour1.end();
+	});
 
 
 	// Instance the second tour
 	var tour2 = new Tour({
-		name: "addclass-tour-2",
+		// name: "addclass-tour-2",
 		// storage: false,
 		backdrop: true,
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
