@@ -1,5 +1,5 @@
 {% extends 'user_profile/base.html' %}
-{% block head_title %}The great migration{% endblock %}
+{% block head_title %}The Great Migration{% endblock %}
 {% load staticfiles %}
 {% block body %}
 <div class='container'>
@@ -10,7 +10,9 @@
 			<p><img class="media-object img-responsive center-block" src=
 				"{% static 'lib/img/rss.svg' %}" alt=
 				"verify email account">
-				<p class="text-center">We've upgraded security around here, and you'll need to reset your password please!</p>
+				<p class="text-center lead">We've upgraded security around here.</p>
+        <p class="text-center">Please check your .EDU e-mail for a password reset verification e-mail from us.</p>
+        <p class="text-center">No e-mail? Be sure to check your <span class="text-danger">SPAM!</span></p>
 				<div class='emailVerify acct-form'>
 					<hr>
 					<div class="email text-center">
