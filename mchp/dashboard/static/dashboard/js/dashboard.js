@@ -16,16 +16,17 @@ $(function(){
 	// Instance the tour
 	var tour = new Tour({
 
-		onShow: function(tour) {
+		onStart: function(tour) {
 	        $('#people-section').removeClass('animated bounceInUp');
 	        $('#pulse-section').removeClass('animated bounceInUp');
-	        $('#stories-section').removeClass('animated bounceInUp');
+	        $('#stories-section').removeClass('animated bounceInUp').css('height','690px');
 	        $('.alert-link').css('pointer-events','none');
+	        $('.flip-holder div').css({'-webkit-backface-visibility':'hidden','backface-visibility':'hidden'});
     	},
 
 		name: "dashboard-tour",
 		backdrop: true,
-		// storage: false,
+		storage: false,
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
 		steps: [
 		{
@@ -74,17 +75,7 @@ $(function(){
 			element: "#stories-section",
 			title: "<strong>Your Stories</strong>",
 			content: "You can choose what stories to follow by customizing your interests (<i class='fa fa-bars'></i>). We've got plenty to choose from, so have at it after we're done with this tour.",
-			placement: "left",
-			onShown: function() {
-	        	$('.stories-section').css('height','500px');
-	        	$('#stories-section').css('height','500px');
-	        	$('.front').css('height','100%');
-	        	$('.back').addClass('hidden');
-	        	$('#news-scroll').css('height','500px');
-    		},
-    		onHidden: function() {
-    			$('.back').removeClass('hidden');
-    		}
+			placement: "left"
 		},
 		{
 			path: "/home",
