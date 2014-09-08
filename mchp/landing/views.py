@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 
 def index(request):
+    if request.user.is_authenticated():
+        return redirect(reverse('dashboard'))
+
     # agent = [request.META['HTTP_USER_AGENT']]
     #agent = PageHit.objects.all()[:5]
     # context = {'user_agent': agent}
