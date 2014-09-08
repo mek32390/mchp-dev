@@ -60,6 +60,9 @@ WEATHER_ICONS = {
     # d: AM showers
     39: 'wi wi-day-showers',
 
+    # heavy rain
+    40: 'wi wi-rain',
+
     # # n: showers late
     # 45: 'wi wi-night-alt-showers',
 
