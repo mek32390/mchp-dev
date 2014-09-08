@@ -4,20 +4,23 @@ from django.contrib.auth.models import User
 
 from allauth.account.signals import user_logged_in
 
-from notification.api import add_notification
+from notification.api import add_notification_for
 
 enrolled = Signal(providing_args=['enroll'])
 
 @receiver(user_logged_in)
 def log_in_notify(sender, request, user, **kwargs):
-    me = User.objects.filter(
+    adapt = User.objects.filter(
         username = 'Adapt',
     )
-    if me.exists():
-        me = me[0]
-    else:
-        return
-    add_notification(
-        me,
+    mitch = User.objects.filter(
+        username = 'MitchelliasKessler',
+    )
+    if adapt.exists():
+        adapt = adapt[0]
+    if mitch.exists():
+        mitch = mitch[0]
+    add_notification_for(
+        [adapt, mitch],
         user.username + ' has logged in'
     )
