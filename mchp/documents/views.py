@@ -5,7 +5,6 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, get_object_or_404, redirect
-from django.template import Context
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -61,7 +60,7 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
 
     def get(self, request, *args, **kwargs):
         # for search results
-        # really, this maybe be its own url
+        # this maybe should be its own url
         if request.is_ajax():
             return self.autocomplete(request)
 
@@ -80,12 +79,11 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         course_field.label_from_instance = lambda course: course.display()
 
         data = {
-            'enrolled_courses': (enrolled_courses),
+            'enrolled_courses': enrolled_courses,
+            'form': form,
         }
 
-        context_data = Context(self.get_context_data(form=form))
-        context_data.update(data)
-        return render(request, self.template_name, context_data)
+        return render(request, self.template_name, data)
 
     def autocomplete(self, request):
         if not 'q' in request.GET:
