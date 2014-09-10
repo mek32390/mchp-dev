@@ -57,9 +57,9 @@
 				<div class="panel-heading clearfix">
 					<h3 class="panel-title"> Popular Documents <span class="badge">{{popular_documents|length}}</span></h3>
 				</div>
-				<!-- <div class="doc-con scrolls"> -->
-					<!-- <div class="panel-body"> -->
-						<div class="list-group item-list scrolls doc-scroll">
+				<div class="doc-scroll scrolls">
+					<div class="panel-body">
+						<div class="list-group item-list">
 							{% for document in popular_documents %}
 							<div class="list-group-item">
 								<div class="media">
@@ -105,17 +105,18 @@
 							</div>
 							{% endfor %}
 						</div>
-					<!-- </div> -->
-				<!-- </div> -->
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class='col-sm-6'>
-			<div class="panel panel-default" id="">
+			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
 					<h3 class="panel-title"> Popular Calendars <span class="badge">{{cal_count}}</span></h3>
 				</div>
-				<!-- <div class="panel-body"> -->
-					<div class="list-group item-list scrolls cal-scroll">
+				<div class="scrolls cal-scroll">
+				<div class="panel-body">
+					<div class="list-group item-list">
 						{% for calendar in popular_calendars %}
 						<div class="list-group-item">
 							<div class="media">
@@ -161,7 +162,8 @@
 							</div>
 						{% endfor %}
 					</div>
-				<!-- </div> -->
+				</div>
+			</div>
 			</div>
 		</div>
 	</div>
