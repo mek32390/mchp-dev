@@ -49,7 +49,7 @@ WEATHER_ICONS = {
     32: 'wi wi-day-sunny',
 
     # n: mostly clear / fair
-    33: 'wi wi-cloud',
+    33: 'wi wi-night-clear',
 
     # d: mostly sunny / fair
     34: 'wi wi-day-sunny',
