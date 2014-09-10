@@ -1117,7 +1117,10 @@ var CLEAR_TIME = 1000;
 var clearPopovers = function () {
 	function run() {
 		if(!$('.popover:hover').length && !$('.canvas-day:hover').length && !$('.fc-day:hover').length) {
-			$('.popover').remove();
+			$('.event-popover-container').each(function() {
+				var pop = $(this).parent().parent('.popover');
+				pop.remove();
+			});
 		}
 		timer = setTimeout(run, CLEAR_TIME);
 	}
