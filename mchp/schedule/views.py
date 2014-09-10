@@ -6,7 +6,6 @@ from django.views.generic.list import ListView
 from django.views.generic import View
 from django.utils.decorators import method_decorator
 from django.contrib import messages
-from django.template import Context
 from django.db.models import Count
 from django.db import IntegrityError
 from django.http import HttpResponse
@@ -138,9 +137,6 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
     # get search results (if requested), 
     # and show search box and currently enrolled courses
     def get(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
         query = ''
         show_results = False
         enrolled_courses = Course.objects.filter(student=self.student).order_by(
@@ -170,10 +166,7 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
             'show_results': show_results,
         }
 
-        context_data = Context(self.get_context_data(form=form))
-        # context acts like a stack here, update is a push to combine 
-        context_data.update(data)
-        return render(request, self.template_name, context_data)
+        return render(request, self.template_name, data)
 
     def form_invalid(self, form):
         messages.error(
