@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.cache import get_cache
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseNotAllowed, HttpResponse
@@ -237,16 +238,37 @@ class DashboardRssProxy(View, AjaxableResponseMixin):
     def get(self, request, *args, **kwargs):
         if self.request.is_ajax():
             url = request.GET.get('url', None)
-            if url == '':
+            if url == '' or not url:
                 return HttpResponse({}, status=400)
 
             link = RSSLink.objects.filter(
                 url=url
             )
-            if not link.exists():
+            if link.exists():
+                # each rss feed gets cached 
+                cache_key = link[0].pk
+            else:
+                # only send requests to approved sites, otherwise any arbitrary url could be
+                # requested by the user
                 return HttpResponse({}, status=400)
 
-            response = requests.get(url)
+            # try to return the page from cache so we don't slam rss feeds and get refused
+            rss_cache = get_cache('rss_cache')
+            rss_data = rss_cache.get(cache_key)
+
+            # it was found in the cache
+            if not rss_data == None:
+                return HttpResponse(rss_data, status=200)
+
+            # it hasn't been saved or it expired
+            try:
+                response = requests.get(url)
+            except requests.exceptions.ConnectionError:
+                return HttpResponse({'error': 'connection refused from ' + url}, status=400)
+            # save it in the cache for 5 mins
+            rss_lifetime = 300
+            rss_cache.set(cache_key, response.content, rss_lifetime)
+            # return the rss data
             return HttpResponse(response.content, status=200)
         else:
             return redirect(reverse('dashboard'))
