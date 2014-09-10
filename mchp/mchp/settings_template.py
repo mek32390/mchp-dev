@@ -98,6 +98,15 @@ if 'test' in sys.argv:
     SOUTH_TESTS_MIGRATE = False
     DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    },
+    'rss_cache': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
