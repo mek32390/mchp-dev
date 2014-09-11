@@ -89,7 +89,7 @@
                       <i class="fa fa-file-text-o fa-lg pull-left"></i><a href="{%url "document_preview" act.title.uuid%}">{{act.title}}</a> added to Documents</h5>
                     <p class="list-group-item-text">
                         {% if act.user %}
-                        <small>{{act.time|naturaltime}} by <a href="{%url "profile" act.user.pk%}">{{act.user.name}}</a></small>
+                        <small>{{act.time|naturaltime}} by <a href="{%url "profile" act.user.pk%}">{{act.user.username}}</a></small>
                         {% endif %}
                     </p>
 									</li>
@@ -125,7 +125,7 @@
                       </a>
                       <div class="media-body">
                         <h5 class="media-heading" style="margin-bottom:0px;"><a
-														href="{%url "profile" student.pk%}{{student.name}}">{{student.name}}</a><span class="pull-right"><small>active {{ student.user.last_login|naturaltime }}</small></span></h5>
+														href="{%url "profile" student.pk%}{{student.name}}">{{student.user.username}}</a><span class="pull-right"><small>active {{ student.user.last_login|naturaltime }}</small></span></h5>
                         <small>
                           {% if student.major %}
                           {{ student.major }} Major

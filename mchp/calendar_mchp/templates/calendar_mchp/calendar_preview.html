@@ -162,7 +162,7 @@
 								</a>
 								<div class="media-body">
 									<h4 class="media-heading">
-										<a href="{%url "profile" owner.pk %}">{{owner.name}}</a> <small><!-- Level {{owner_level}} --></small>
+										<a href="{%url "profile" owner.pk %}">{{owner}}</a> <small><!-- Level {{owner_level}} --></small>
 									</h4>
 									{% with owner.subscribers as subscribers %}
 									<p><span class="label label-info">{{subscribers}} Calendar{{subscribers|pluralize}} sold</span> 
