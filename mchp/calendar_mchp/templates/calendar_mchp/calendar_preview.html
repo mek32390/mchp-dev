@@ -76,8 +76,8 @@
 								<div class="list-group">
 									{% for event in events %}
 									<div class="list-group-item">
-										<strong><i class="fa fa-fw fa-check text-success"></i> {{event.title}}</strong>
-										<small class="pull-right">{{event.start|naturaltime}}</small>
+										<p><strong><i class="fa fa-fw fa-check text-success"></i> {{event.title}}</strong>
+										<small class="pull-right">{{event.start|naturaltime}}</small></p>
 									</div>
 									{% empty %}
 									</br>
