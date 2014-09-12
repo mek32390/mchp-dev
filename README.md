@@ -73,5 +73,8 @@ For starting celery, make sure you are on the same level as manage.py (start rab
 ```
 Upgrade Django to 1.7 
 ``` 
-# pip install -U Django and then python3 manage.py migrate, then python3 manage.py migrate --fake schedule, then migrate
+# pip install -U Django
+# python3 manage.py migrate
+# python3 manage.py migrate --fake schedule
+# python3 manage.py migrate
 ```
