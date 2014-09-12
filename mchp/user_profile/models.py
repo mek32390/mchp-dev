@@ -102,9 +102,9 @@ class Student(models.Model):
 
 
     def __str__(self):
-        if self.user.first_name:
-            return self.user.first_name + " " + self.user.last_name
-        else:
+        # if self.user.first_name:
+            # return self.user.first_name + " " + self.user.last_name
+        # else:
             return self.user.username
 
 User.student = property(lambda u: Student.objects.get(user=u))

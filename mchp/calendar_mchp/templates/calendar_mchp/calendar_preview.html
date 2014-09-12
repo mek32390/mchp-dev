@@ -7,7 +7,7 @@
 <meta property="og:type" content="product" /> 
 <!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
 <meta property="og:title" content="{{calendar.title}} Calendar" /> 
-<meta property="og:image" content="" /> 
+<meta property="og:image" content="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar-default.png" /> 
 <meta property="og:description" content="{{calendar.description}}" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
@@ -76,8 +76,8 @@
 								<div class="list-group">
 									{% for event in events %}
 									<div class="list-group-item">
-										<strong><i class="fa fa-fw fa-check text-success"></i> {{event.title}}</strong>
-										<small class="pull-right">{{event.start|naturaltime}}</small>
+										<p><strong><i class="fa fa-fw fa-check text-success"></i> {{event.title}}</strong>
+										<small class="pull-right">{{event.start|naturaltime}}</small></p>
 									</div>
 									{% empty %}
 									</br>
@@ -162,7 +162,7 @@
 								</a>
 								<div class="media-body">
 									<h4 class="media-heading">
-										<a href="{%url "profile" owner.pk %}">{{owner.name}}</a> <small><!-- Level {{owner_level}} --></small>
+										<a href="{%url "profile" owner.pk %}">{{owner}}</a> <small><!-- Level {{owner_level}} --></small>
 									</h4>
 									{% with owner.subscribers as subscribers %}
 									<p><span class="label label-info">{{subscribers}} Calendar{{subscribers|pluralize}} sold</span> 

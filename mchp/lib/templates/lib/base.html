@@ -17,6 +17,20 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/mchp.css' %}">
 		<script src="{% static 'lib/js/mchp.js' %}"></script>
 		<script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
+		<script type="text/javascript"> 
+		var $buoop = {
+				vs:{i:10,f:15,o:12.1,s:5.1},
+				reminder:0,
+		}; 
+		$buoop.ol = window.onload; 
+		window.onload=function(){ 
+		 try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
+		 var e = document.createElement("script"); 
+		 e.setAttribute("type", "text/javascript"); 
+		 e.setAttribute("src", "//browser-update.org/update.js"); 
+		 document.body.appendChild(e); 
+		} 
+		</script> 
 		{% block head %}
 
 		{% endblock %}
@@ -35,7 +49,7 @@
 				<div class="modal-content">
 					<div class="modal-body text-center">
 						<h3>Got Credentials?</h3>
-						<img class="img-circle img-thumbnail" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/support.svg" alt="sign up or login">
+						<img class="img-circle img-thumbnail" src="{% static 'lib/img/support.svg' %}" alt="sign up or login">
 						<br></br> 
 						<p><small>Log In or Sign Up using:</small></p>
 						<a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg" 
@@ -75,7 +89,7 @@
 						<h4 class="modal-title" id="sethomeModalLabel">Make us your Homepage!</h4>
 					</div>
 					<div class="modal-body">
-						<img class="center-block" src="https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/flask.svg" alt="select browser">
+						<img class="center-block" src="{% static 'lib/img/flask.svg' %}" alt="select browser">
 						<h4 class="text-center">Pick your poison:</h4>
 						<!-- Start Collapse -->
 						<div class="panel-group" id="accordion">
@@ -262,7 +276,7 @@
 					<li class="dropdown" id="user-dropdown">
 						<a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
 							src="{{student.profile.profile_image_url}}" height="18px" width="18px"
-							class="img-circle profile-image" style="position:relative;"/> {{user.first_name}}
+							class="img-circle profile-image"/> {{user.first_name}}
 							<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							{% if not user.referree.count %}
@@ -311,7 +325,7 @@
 	</div><!-- End Nav -->
 	
 	<!-- user popover -->
-	<div id="userPopoverContent" class="hidden" style="width:200px;">
+	<!-- <div id="userPopoverContent" class="hidden" style="width:200px;">
 		<span class="text-center">
 		<img class="img-circle img-thumbnail center-block" src="{{profile.profile_image_url}}" width="120px"/>
 		<h5 style="margin-bottom:0px;"><a href="{% url 'my_profile' %}">{{user.first_name}} {{user.last_name}}</a></h5>
@@ -322,7 +336,7 @@
 			<div class="progress" style="margin-bottom:;"><a href="#" class="progress-bar progress-bar-success" style="width:20%;"></a><a href="#" class="progress-bar progress-bar-primary" style="width:20%;"></a><a href="#" class="progress-bar progress-bar-info" style="width:60%;" ></a></div>
 		</small>
 		</span>
-	</div>
+	</div> -->
 	<!-- end user popover -->
 	<!-- Django Messages -->
 	<div class="django-messages">
