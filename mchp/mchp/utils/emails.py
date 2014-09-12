@@ -22,7 +22,7 @@ email_list = []
 with open('names.csv', newline='') as csvfile:
     name_reader = csv.reader(csvfile, delimiter=',', quotechar='\\')
     for row in name_reader:
-        email_t = get_email(row[1].split(' ')[0], row[0])
+        email_t = get_email(row[0], row[1].split(' ')[0])
         email_list.append(email_t)
 
 with open('emails.csv', 'w', newline='') as csvfile:
