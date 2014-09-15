@@ -126,21 +126,6 @@ $(function(){
 
     });
 
-	/*
-	 * QUICKLINKS FUNCTIONS SEEM TO BE CAUSING A LOT OF TROUBLE 
-	 * SO I MOVED THEM DOWN HERE AND COMMENTED THEM OUT
-	 */
-
-	//make breadcrumbs sortable
-	// $(".breadcrumb").sortable ({ 
-	// 	cancel: '#weather_data',
-	// 	placeholder: 'ql-placeholder',
-	// 	containment: ".breadcrumb",
-	// 	scroll: false
-	// });
-	//make a breadcrumb not clickable when dragging
-	// $( ".breadcrumb" ).disableSelection();
-
 	// using jquery.cookie plugin
 	var csrftoken = $.cookie('csrftoken');
 	function csrfSafeMethod(method) {

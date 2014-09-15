@@ -142,6 +142,7 @@ $(function() {
 	// mark notifications read
 	$('#toggle-notifications').click(function() {
 		mark_all_read();
+		$('#notification-count').text('0');
 	});
 
 	// for toggleing one time events
