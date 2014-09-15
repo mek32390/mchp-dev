@@ -164,7 +164,6 @@ $(function() {
 	};
 	$.fn.editable.defaults.success = editableSuccess;
 
-	// The following editables are still a work in progress
 	// make title editable
 	var eventEditUrl = '/calendar/events/update/';
 	$('.edit-event-title').editable({
@@ -180,11 +179,11 @@ $(function() {
 	});
 	// initialize date picker
 	// this is duplicated code from below but I needed it to work
+	// -mitch
 	$('input.date').datepicker({
 		format: "D M d, yyyy", //"yyyy-m-d"
 	    startDate: "today",
 		autoclose: true,
-		todayHighlight: true
     }).on('changeDate', function(jsEvent) {
 		var pick = moment.utc(jsEvent.date);
 
@@ -401,7 +400,6 @@ $(function() {
 		format: "D M d, yyyy", //"yyyy-m-d"
 	    startDate: "today",
 		autoclose: true,
-		todayHighlight: true
     }).on('changeDate', function(jsEvent) {
 		var pick = moment.utc(jsEvent.date);
 		pick.hour(23);
@@ -476,36 +474,6 @@ $(function() {
 		addMessage('Thanks for the rating! You can change it anytime.', 'success');
 	});
 
-	/*******************************
-	 * CALENDAR INTRODUCTION STUFF *
-	 *******************************/
-
-	// if($('#calStepOne').length) {
-	// 	$('#yourCalList').hide();
-	// }
-	// // show calendar step three  when clicked
- //    $('.stepOneNext').on('click', function () {
- //    	$('#calStepOne').fadeOut(250, function () {
- //    		$('#calStepTwo').fadeIn(500);
- //    		$('#calStepTwo').removeClass("hidden");
- //    	});
-	// });
-	// // show calendar step three when clicked
- //    $('.stepTwoNext').on('click', function () {
-	// $('#calStepTwo').fadeOut(250, function () {
-	// 	$('#calStepThree').fadeIn(500);
-	// 	$('#calStepThree').removeClass("hidden");
-	// 	});
-	// });
-	// // switch to your cal list when clicked and close intro
-	// $('.stepThreeNext').on('click', function () {
-	// 	$('.cal-intro').fadeOut(250, function () {
-	// 		$('#yourCalList').fadeIn(500);
-	// 	});
-	// 	var event = $(this).data('event');
-	// 	toggle_flag(event);
-	// });
-
 	// using jquery.cookie plugin
 	var csrftoken = $.cookie('csrftoken');
 	function csrfSafeMethod(method) {
@@ -540,13 +508,6 @@ $(function() {
 		modal.find('#edit-calendar-link-'+pk).remove();
 		modal.find('#edit-calendar-tab-'+pk).remove();
 	});
-
-	// $('.pre-delete-button').click(function() {
-	// 	var $modal = $('#delete-cal-modal');
-	// 	var pk = $(this).data('cal');
-	// 	$('.confirm-delete-button').data('cal', pk);
-	// 	$modal.modal('show');
-	// });
 
 	$('.toggle-events').click(function(jsEvent) {
 		var pk = $(this).data('cal');
@@ -588,6 +549,22 @@ $(function() {
 				container: 'body',
 			});
 			$(this).popover('show');
+
+			var $target = $(jsEvent.target);
+			var startDate = $target.data('date');
+			startDate = moment.utc(startDate);
+			$('input[name=title]').focus();
+
+			// initialize date picker
+			$('input.date').datepicker({
+				format: "D M d, yyyy", 
+				startDate: 'today',
+				autoclose: true,
+			}).on('changeDate', function(event) {
+				var date = event.date;
+				var pick = moment.utc(date);
+				$('.date-input').data('date', pick);
+			});
 		},
 
 		events: {
@@ -645,24 +622,6 @@ $(function() {
 		},
 		eventAfterAllRender: function(view) {
 		},
-		// eventClick: function(calEvent, jsEvent, view) {
-		// 	eventData = {
-		// 		id: calEvent.id,
-		// 		title: calEvent.title,
-		// 		start: calEvent.start.toJSON(),
-		// 		end: calEvent.end.toJSON(),
-		// 		all_day: calEvent.allDay,
-		// 	};
-		// 	console.log(calEvent);
-		// 	$event = $(jsEvent.target).parents('.fc-event-container');
-		// 	console.log($event);
-		// 	console.log($event[0]);
-		// 	console.log($($event[0]));
-		// 	$event.popover('show');
-		// 	// deleteEvent(eventData);
-		// 	// $('#calendar').fullCalendar('removeEvents', calEvent.id);
-		// 	return false;
-		// },
 		timezone: 'local',
 	});
 
@@ -784,6 +743,17 @@ $(function() {
 			container: 'body',
 		});
 		$(this).popover('show');
+		$('input[name=title]').focus();
+
+		// initialize date picker
+		$('input.date').datepicker({
+			format: "D M d, yyyy", 
+			startDate: 'today',
+		}).on('changeDate', function(event) {
+			var date = event.date;
+			var pick = moment.utc(date);
+			$('.date-input').data('date', pick);
+		});
 	});
 
 	// close the popovers when you click outside
@@ -816,19 +786,6 @@ $(function() {
 	        $(".cal-name").html($(this).clone());
 	        $(".cal-name").data('calendar', $(this).data('calendar'));
     	});
-
-    	// initialize date picker
-		$('input.date').datepicker({
-			format: "D M d, yyyy", //"yyyy-m-d"
-		    startDate: "today",
-			autoclose: true,
-			todayHighlight: true
-	    }).on('changeDate', function(event) {
-			var date = event.date;
-			date.setUTCHours(0,0,0,0);
-			var pick = moment.utc(date);
-			$('.date-input').data('date', pick);
-		});
 	});
 
 	// submitting the form in the event creation popover

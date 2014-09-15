@@ -147,7 +147,7 @@ class CalendarEvent(models.Model):
         if(self.end > self.start):
             super().save()
         else:
-            raise TimeOrderError("Start date must come before end date")
+            raise TimeOrderError("Event start date must come before end date")
         self.last_edit = timezone.now()
         super(CalendarEvent, self).save(*args, **kwargs)
 

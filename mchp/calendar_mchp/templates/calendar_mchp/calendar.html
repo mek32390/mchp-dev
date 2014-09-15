@@ -546,7 +546,7 @@
 	<form method="post" id="add-event-form">
 		{% csrf_token %}
 		<p><input class="form-control" name="title" placeholder="Event Title" required></p>
-		<p><input type="text" class="date-input form-control date" ></p>
+		<p><input tabindex="-1" type="text" class="date-input form-control date" ></p>
 		<p><input name="description" class="form-control" placeholder="Notes"></p>	
 		<button type="submit" class="btn btn-primary btn-sm btn-block">Add Event</button>
 	</form>
@@ -571,7 +571,7 @@
 					<span class="event-options pull-right small">
 						<i class="fa fa-dollar text-success"></i>
 						<a href="#" class="event-edit-link"><i class="fa fa-pencil text-default"></i></a> 
-						<a href="#" class="event-delete-link" href="#"><i class="fa fa-times text-danger"></i></a>
+						<a class="event-delete-link" style="cursor: pointer"><i class="fa fa-times text-danger"></i></a>
 					</span>
 
 				<span class="small event-description"></span>

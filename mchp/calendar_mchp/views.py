@@ -354,11 +354,19 @@ class EventAddView(View, AjaxableResponseMixin):
                 start,
                 timezone.utc
             )
-            end = datetime.combine(start, section.end_time)
-            end = timezone.make_aware(
-                end,
-                timezone.utc
+            # this little dance is because of the way section store times but not dates in utc,
+            # so if the time is late enough in the day, it would suddenly be on the wrong day
+            # because of the conversion, thus we transform the time and then reapply the day.
+            start = timezone.localtime(start, timezone.get_current_timezone()).time()
+            start = datetime.combine(date, start)
+            start = timezone.make_aware(
+                start,
+                timezone.get_current_timezone()
             )
+            # ultimately the event ends up being in utc time on the correct day
+            start = timezone.localtime(start, timezone.utc)
+            # skip the same dance for the end time, and just set it to be in an hour
+            end = start + timedelta(hours=1)
         else:
             start_time = timezone.make_aware(date, timezone.get_current_timezone())
             start = timezone.localtime(start_time, timezone=timezone.utc)
