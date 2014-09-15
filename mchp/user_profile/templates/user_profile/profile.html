@@ -37,7 +37,12 @@
 			</form>
 		</div>
 		{% endifequal %}
+		{% ifequal viewer student %}
+		<h2 id="profile-username" data-type="text" data-title="username"
+				data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}" style="margin-bottom:;">{{student}}</h2>
+		{% else %}
 		<h2 style="margin-bottom:;">{{student}}</h2>
+		{% endifequal %}
 		<p class="small">
 			<i class="fa fa-graduation-cap fa-fw"></i> 
 			{% ifequal viewer student %}

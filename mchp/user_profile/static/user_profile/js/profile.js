@@ -32,6 +32,25 @@ $(function(){
 		send: 'always',
     });
 
+	$('#profile-username').editable({
+    	mode: 'inline',
+    	inputclass: 'input-lg',
+		url: '/profile/edit-username/',
+		unsavedclass: 'text-danger',
+		emptyclass: '',
+		emptytext: 'Change your username',
+		highlight: '',
+		onblur: 'submit',				
+		send: 'always',
+		success: function(data) {
+			addMessage('You shall henceforth be known as ' + data.username, 'success');
+		},
+		error: function(response, newvalue) {
+			addMessage('Tough luck, someone already has that username!', 'danger');
+			return '';
+		},
+    });
+
 	// this should really only be done when you first click on the editable
 	$.ajax({
 		url: '/school/department/',
