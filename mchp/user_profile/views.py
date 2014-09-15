@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 from django.shortcuts import redirect,render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -306,6 +307,33 @@ class PicView(View, AjaxableResponseMixin):
         return filetype in filetypes
 
 edit_pic = PicView.as_view()
+
+'''
+url: /profile/edit-username/
+name: edit_username
+'''
+class UsernameView(View, AjaxableResponseMixin):
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            username = request.POST.get('value', '')[:30]
+            request.user.username = username
+            # respect blacklisted username from all auth settings
+            from allauth.account import app_settings
+            username_blacklist_lower = [ub.lower() for ub in app_settings.USERNAME_BLACKLIST]
+            if username.lower() in username_blacklist_lower:
+                return self.render_to_json_response({'error': 'You can not user that name'}, status=403)
+            try:
+                request.user.save()
+            except IntegrityError:
+                return self.render_to_json_response({'error': 'Someone already has that username.'}, status=400)
+            return self.render_to_json_response({'username': username}, status=200)
+        else:
+            return redirect(reverse('my_profile'))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('my_profile'))
+
+edit_username = UsernameView.as_view()
 
 '''
 url: /profile/edit-blurb/
