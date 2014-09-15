@@ -270,6 +270,9 @@ var processFeed = function(feed) {
 		} else if (itemData.document__title !== null) {
 			title = itemData.document__title;
 			link = '/documents/'+itemData.document__uuid + '/' + title;
+		} else if (itemData.calendar__title !== null) {
+			title = itemData.calendar__title;
+			link = '/calendar/preview/' + itemData.calendar__pk + '/';
 		}
 		var item = new PulseItem({
 			type: itemData.type,

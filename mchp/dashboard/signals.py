@@ -43,7 +43,6 @@ def add_subscription_notice(sender, **kwargs):
     dash_item = DashEvent(**data)
     dash_item.save()
     dash_item.followers.add(owner)
-    print(dash_item)
 
 @receiver(enrolled)
 def add_class_join(sender, **kwargs):
