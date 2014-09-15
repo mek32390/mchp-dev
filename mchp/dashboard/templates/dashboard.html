@@ -110,7 +110,9 @@
                   <a href="{% url "profile" classmate.pk %}">
                     <h5 class="media-heading">{{classmate.user.username}}</h5>
                   </a>
-                  <p class="small margin-btm-none">{{classmate.major}}</p>
+									<p class="small margin-btm-none">
+										{%if classmate.major%}{{classmate.major}}{%else%}{{classmate.school.name}}{%endif%}
+									</p>
                 </div>
               </div>
             </div>
