@@ -55,6 +55,10 @@ $(function() {
 
 		// each calendar has its own days and end date, this is an awful way to get them
 		var end_date = window['end_date_'+pk];
+		// end date of the calendar is in utc, so it has to be converted here
+		end_date = moment.utc(end_date);
+		end_date.local();
+
 		var meeting_days = window['meeting_days_'+pk];
 
 		// add a row for every day between today and the end of the calendar
@@ -66,10 +70,14 @@ $(function() {
 			if($.inArray(day.isoWeekday(), meeting_days) > -1) {
 				add_event_template(day, $event_table);
 			}
+			// add a row for the last day of class
+			if(!days.hasNext()) {
+				add_event_template(day, $event_table);
+			}
 		}
 		// add one last row for last day of class
 		var $last = $('<tr class="last-event event-template">' + 
-				'<td colspan="4" class="event-title"><span><strong>Last day of Class: ' + moment.utc(end_date).format('MMMM Do') +'<strong></span></td>' + 
+				'<td colspan="4" class="event-title"><span><strong>Last day of Class: ' + moment(end_date).format('MMMM Do') +'<strong></span></td>' + 
 				'</tr>');
 		$event_table.append($last);
 		// make the newly added fields editable

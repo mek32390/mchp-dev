@@ -130,10 +130,19 @@ class CalendarEvent(models.Model):
 
         # don't let end date go past six months from calendar creation
         if self.end > self.calendar.end_date:
-            raise CalendarExpiredError("You can not add events after a calendar's end date: {}".format(self.calendar.end_date.strftime('%B %d, %Y')))
+            end_date = timezone.localtime(
+                self.calendar.end_date, 
+                timezone.get_current_timezone()
+            ).strftime('%B %d, %Y')
+            raise CalendarExpiredError(
+                "You can not add events after this calendar's end date: {}"\
+                .format(end_date)
+            )
 
         if self.start < timezone.now():
-            raise BringingUpThePastError("You can not change the past. Give it up, Gatsby.")
+            raise BringingUpThePastError(
+                "You can not change the past. Give it up, Gatsby."
+            )
 
         if(self.end > self.start):
             super().save()

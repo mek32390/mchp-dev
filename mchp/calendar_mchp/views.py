@@ -786,10 +786,12 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
 
                 date = request.POST.get('date', None)
                 if date:
+                    print(date)
                     end_date = timezone.make_aware(datetime.strptime(
                         json.loads(date), DATE_FORMAT),
                         timezone.get_current_timezone())
                     end_date = timezone.localtime(end_date, timezone=timezone.utc)
+                    print(end_date)
                     setattr(calendar, 'end_date', end_date)
 
                 update = request.POST.get('name', '')
