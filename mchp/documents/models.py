@@ -151,13 +151,13 @@ class DocumentPurchase(models.Model):
         unique_together = ('document', 'student')
 
     def save(self, *args, **kwargs):
-        from documents.signals import document_uploaded
+        from documents.signals import document_purchased
         signal = False
         if not self.pk:
             signal=True
         super(DocumentPurchase, self).save(*args, **kwargs)
         if signal:
-            document_uploaded.send(sender=self.__class__, upload=self)
+            document_purchased.send(sender=self.__class__, upload=self)
 
     def __str__(self):
         return "{} bought {}".format(
