@@ -205,6 +205,7 @@ class DashboardFeed(View, AjaxableResponseMixin):
                                       'document__title', 'document__uuid',
                                       'event__title', 
                                       'student__user__username', 'student__pk',
+                                      'calendar__title', 'calendar__pk',
                                      ).order_by('-date_created')
             for item in feed:
                 item['time'] = item['date_created'].strftime(DATE_FORMAT)

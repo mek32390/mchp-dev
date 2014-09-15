@@ -5,6 +5,7 @@ DASH_EVENTS = [
     'document add',
     'other class join',
     'class join',
+    'subscription',
 ]
 DASH_EVENT_LIST = list(zip(range(100), DASH_EVENTS))
 

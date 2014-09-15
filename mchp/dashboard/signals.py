@@ -1,6 +1,6 @@
 from django.dispatch.dispatcher import receiver
 
-from calendar_mchp.signals import calendar_event_created
+from calendar_mchp.signals import calendar_event_created,subscription
 from user_profile.signals import enrolled
 from documents.signals import document_uploaded, document_purchased
 
@@ -27,6 +27,22 @@ def add_event(sender, **kwargs):
     dash_item.save()
     for student in followers:
         dash_item.followers.add(student)
+
+@receiver(subscription)
+def add_subscription_notice(sender, **kwargs):
+    subscription = kwargs['subscription']
+    calendar = subscription.calendar    
+    subscriber = subscription.student
+    owner = calendar.owner
+    data = {
+        'type': DASH_EVENTS.index('subscription'),
+        'calendar': calendar,
+        'course': calendar.course,
+        'student': subscriber,
+    }
+    dash_item = DashEvent(**data)
+    dash_item.save()
+    dash_item.followers.add(owner)
 
 @receiver(enrolled)
 def add_class_join(sender, **kwargs):

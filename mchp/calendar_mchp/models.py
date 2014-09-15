@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
-from calendar_mchp.signals import calendar_event_created, calendar_event_edited
+from calendar_mchp.signals import calendar_event_created, calendar_event_edited, subscription
 
 class ClassCalendarManager(models.Manager):
     def default(self, student):
@@ -93,6 +93,7 @@ class Subscription(models.Model):
             # set first payment date
             self.subscribe_date = timezone.now()
             self.payment_date = self.subscribe_date + settings.MCHP_PRICING['subscription_length']
+            subscription.send(sender=self.__class__, subscription=self)
         # fix up accuracy ratings 
         # this should be a validator instead, but this is more simple 
         if self.accuracy < -1:
