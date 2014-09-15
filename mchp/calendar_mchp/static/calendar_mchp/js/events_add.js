@@ -69,6 +69,7 @@ $(function() {
 			// don't include days that aren't part of the schedule
 			if($.inArray(day.isoWeekday(), meeting_days) > -1) {
 				add_event_template(day, $event_table);
+				continue;
 			}
 			// add a row for the last day of class
 			if(!days.hasNext()) {
