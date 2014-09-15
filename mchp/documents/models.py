@@ -157,7 +157,7 @@ class DocumentPurchase(models.Model):
             signal=True
         super(DocumentPurchase, self).save(*args, **kwargs)
         if signal:
-            document_purchased.send(sender=self.__class__, upload=self)
+            document_purchased.send(sender=self.__class__, purchase=self)
 
     def __str__(self):
         return "{} bought {}".format(

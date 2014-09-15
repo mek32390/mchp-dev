@@ -118,9 +118,7 @@ def _run(command):
         shell=True,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
     )
-    # stdout_value = proc.communicate()[0]
-    # stderr_value = proc.communicate()[1]
-    # logger.info('stdout: ' + str(stdout_value))
-    # logger.error('stderr: ' + str(stderr_value))
+    stderr_value = proc.communicate()[1]
+    logger.error('stderr: ' + str(stderr_value))
