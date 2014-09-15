@@ -434,11 +434,11 @@ class EventUpdateView(UpdateView, AjaxableResponseMixin):
 
                 update = request.POST.get('name', '')
                 if update == 'title':
-                    description = request.POST.get('value', '')
+                    description = request.POST.get('value', '')[:30]
                     setattr(event, 'title', description)
 
                 if update == 'description':
-                    description = request.POST.get('value', '')
+                    description = request.POST.get('value', '')[:200]
                     setattr(event, 'description', description)
                 if update == 'class':
                     calendar = ClassCalendar.objects.filter(
