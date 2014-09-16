@@ -239,3 +239,8 @@ svg #nav-chip-icon {
 .unread-notifications {
   cursor: default;
 }
+
+.unread-notification {
+  background-color: #B80000;
+  cursor: default;
+}
