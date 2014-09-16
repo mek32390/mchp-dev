@@ -5,6 +5,12 @@ $(function () {
             $('#email-signup').fadeIn(500).removeClass('hidden');
         });
     });
+	$('.facebook').click(function() {
+		$('#mchp-login-prompt').modal('hide');
+		$(window).on('focus', function() {
+			document.location.reload();
+		});
+	});
 
     //validate signup form 
     $('#email-signup').bootstrapValidator({
