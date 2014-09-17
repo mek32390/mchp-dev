@@ -435,7 +435,7 @@ class SchoolView(DetailView):
             'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
             'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
             'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
-        }).order_by('-sold')[:15]
+        }).order_by('-sold')
 
         context['popular_documents'] = docs
 
@@ -448,7 +448,7 @@ class SchoolView(DetailView):
             'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
             'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
             'owner__user__username', 'course__pk', 'course__dept', 'course__course_number',
-        ).order_by('create_date')[:5]
+        ).order_by('-subscriptions')
 
         for calendar in cals:
             calendar_instance = ClassCalendar.objects.get(pk=calendar['pk'])
