@@ -22,7 +22,7 @@ def add_timezones():
     schools = schedule.models.School.objects.all().order_by('name')[index:stop]
     for school in schools:
         index = index+1
-        if not school.zip_code:
+        if not school.zipcode:
             url = google_base_url + 'geocode/json'
             sleep(.3)
             print(str(index) + '. ' + school.name)
@@ -48,9 +48,9 @@ def add_timezones():
                 print(lng)
                 for component in result['address_components']:
                     if component['types'] and component['types'][0] == 'postal_code':
-                        zip_code = component['long_name']
-                        school.zip_code = zip_code
-                        print(zip_code)
+                        zipcode = component['long_name']
+                        school.zipcode = zipcode
+                        print(zipcode)
                 print('\n')
             school.save()
 
@@ -164,10 +164,10 @@ def add_course_to_db(school, num, **kwargs):
         )
         course.save()
 
-def fill_departments():
+def fill_majors():
     with open('./schedule/majors.txt') as file:
         for major in file:
-            dept = schedule.models.Department(name=major.rstrip('\n'))
+            dept = schedule.models.Major(name=major.rstrip('\n'))
             dept.save()
             print(major.rstrip('\n'))
 

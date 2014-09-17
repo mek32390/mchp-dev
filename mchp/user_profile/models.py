@@ -18,7 +18,7 @@ class Student(models.Model):
     user = models.OneToOneField(User, related_name='student_user')
 
     school = models.ForeignKey('schedule.School', related_name='student_school')
-    major = models.ForeignKey('schedule.Department', blank=True, null=True)
+    major = models.ForeignKey('schedule.Major', blank=True, null=True)
     courses = models.ManyToManyField('schedule.Course', through='Enrollment')
 
     friends = models.ManyToManyField('self', db_table='user_profile_friends')

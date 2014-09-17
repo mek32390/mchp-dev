@@ -18,7 +18,7 @@ from calendar_mchp.models import ClassCalendar, CalendarEvent
 from documents.models import Document
 from notification.api import add_notification
 from schedule.forms import CourseCreateForm, CourseChangeForm
-from schedule.models import Course, School, SchoolQuicklink, Section, Department
+from schedule.models import Course, School, SchoolQuicklink, Section, Major
 from schedule.utils import WEEK_DAYS
 from user_profile.models import Enrollment
 
@@ -348,10 +348,10 @@ class CourseView(DetailView):
 course = CourseView.as_view()
 
 '''
-url: /department/
-name: department_list
+url: /major/
+name: major_list
 '''
-class DepartmentList(View, AjaxableResponseMixin):
+class MajorList(View, AjaxableResponseMixin):
     template_name = 'schedule/course_list.html'
 
     def POST(self, request, *args, **kwargs):
@@ -359,7 +359,7 @@ class DepartmentList(View, AjaxableResponseMixin):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            majors = Department.objects.all().order_by('name').values('name')
+            majors = Major.objects.all().order_by('name').values('name')
             data = {
                 'majors': list( majors )
             }
@@ -368,9 +368,9 @@ class DepartmentList(View, AjaxableResponseMixin):
             return redirect(reverse('my_profile'))
 
     def dispatch(self, *args, **kwargs):
-        return super(DepartmentList, self).dispatch(*args, **kwargs)
+        return super(MajorList, self).dispatch(*args, **kwargs)
 
-department_list = DepartmentList.as_view()
+major_list = MajorList.as_view()
 
 '''
 url: /school/course/

@@ -30,6 +30,10 @@ def read_count(context):
 @register.inclusion_tag("notification/read_notifications.html", takes_context=True)
 def read_notifications(context, unread=0):
     if "user" in context:
+        if unread > 5 :
+            return {
+                'notifications': []
+            }
         num = 5 - unread
         user = context["user"]
         if user.is_authenticated():
