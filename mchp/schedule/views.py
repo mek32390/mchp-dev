@@ -296,7 +296,7 @@ class CourseView(View):
                 sections = Section.objects.filter(
                     course=calendar_instance.course,
                     student__pk=calendar['owner'],
-                )
+                ).order_by('day')
                 time_string = ''
                 for section in sections:
                     day_name = WEEK_DAYS[section.day]
