@@ -381,7 +381,7 @@ class EventAddView(View, AjaxableResponseMixin):
             sections = Section.objects.filter(
                 course=calendar.course,
                 student=self.student,
-            )
+            ).order_by('day')
             calendar.end_date = timezone.make_naive(calendar.end_date, timezone.utc)
             for section in sections:
                 day_name = WEEK_DAYS[section.day]
