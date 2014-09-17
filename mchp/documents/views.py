@@ -271,8 +271,9 @@ class DocumentDetailPreview(DetailView):
             'docs_sold': docs_sold, 
             'uploader': uploader,
             'student': self.student,
-            'reviews': self.object.purchased_document.exclude(review_date=None),
-            'review_count': self.object.purchased_document.exclude(review_date=None).count(),
+            'reviews': self.object.purchased_document.exclude(review_date=None).exclude(review__exact=''),
+            'review_count':
+            self.object.purchased_document.exclude(review_date=None).exclude(review__exact='').count(),
             'uuid': self.kwargs['uuid'],
             'slug': self.object.slug,
             'owns': owns,

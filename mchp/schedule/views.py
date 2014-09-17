@@ -18,7 +18,7 @@ from calendar_mchp.models import ClassCalendar, CalendarEvent
 from documents.models import Document
 from notification.api import add_notification
 from schedule.forms import CourseCreateForm, CourseChangeForm
-from schedule.models import Course, School, SchoolQuicklink, Section, Department
+from schedule.models import Course, School, SchoolQuicklink, Section, Major
 from schedule.utils import WEEK_DAYS
 from user_profile.models import Enrollment
 
@@ -246,82 +246,88 @@ url: /school/course/<number>/<slug>/
 url: /school/course/<number>/
 name: course
 '''
-class CourseView(DetailView):
+class CourseView(View):
     template_name = 'schedule/course.html'
     model = Course
 
     def get_object(self):
-        return get_object_or_404(self.model, id=self.kwargs['number'])
+        if hasattr(self, 'object'):
+            return self.object
+        else:
+            self.object = get_object_or_404(self.model, id=self.kwargs['number'])
+        return self.object
 
     def get(self, request, *args, **kwargs):
-        # if the user types a different slug, and that slug is actually a course that exists
-        # redirect to that course instead, otherwise just use the pk value and ignore the slug
-        if 'slug' in kwargs and not request.user.is_anonymous():
-            slug = self.kwargs['slug']
-            number = self.kwargs['number']
-            course = Course.objects.filter(name=slug.upper(),
-                                           domain=self.request.user.student.school)
-            if course.exists() and course[0].pk != int(number):
-                kw = {
-                    'number': course[0].pk,
-                    'slug': slug,
-                }
-                return redirect(reverse('course_slug', kwargs=kw))
-        return super(CourseView, self).get(self, request, *args, **kwargs)
+        return render(request, self.template_name, self.get_context_data())
 
     def get_context_data(self, **kwargs):
-        context = super(CourseView, self).get_context_data(**kwargs)
-        docs = self.object.document_set.all(
-        ).annotate(
-            sold=Count('purchased_document__document'),
-        ).extra(select = {
-            'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
-            'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
-            'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
-        }).order_by('-sold')[:15]
+        course = self.get_object()
+        context = {'course': course}
 
+        courses = Course.objects.filter(
+            course_group=course.course_group,
+        )
+        docs = []
+        cals = []
+        student_count = 0
+        for course in courses:
+            course_docs = course.document_set.all(
+            ).annotate(
+                sold=Count('purchased_document__document'),
+            ).extra(select = {
+                'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
+                'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
+                'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
+            }).order_by('-sold')[:15]
+            docs.append(course_docs)
+
+            course_cals = course.calendar_courses.filter(
+                private=False,
+            ).annotate(
+                subscriptions=Count('subscribers')
+            ).values(
+                'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
+                'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
+                'owner__user__username'
+            ).order_by('create_date')[:5]
+
+            for calendar in course_cals:
+                calendar_instance = ClassCalendar.objects.get(pk=calendar['pk'])
+                sections = Section.objects.filter(
+                    course=calendar_instance.course,
+                    student__pk=calendar['owner'],
+                ).order_by('day')
+                time_string = ''
+                for section in sections:
+                    day_name = WEEK_DAYS[section.day]
+                    start_date = datetime.combine(datetime.today(), section.start_time)
+                    end_date = datetime.combine(datetime.today(), section.end_time)
+
+                    start_time = timezone.make_aware(start_date, timezone.utc)
+                    end_time = timezone.make_aware(end_date, timezone.utc)
+                    start_time = timezone.localtime(start_time, timezone=timezone.get_current_timezone())
+                    end_time = timezone.localtime(end_time, timezone=timezone.get_current_timezone())
+                    time_string += day_name[:3] + ' '
+                    time_string += start_time.strftime('%I%p').lstrip('0') + '-'
+                    time_string += end_time.strftime('%I%p').lstrip('0') + ' '
+                calendar['time'] = time_string
+                total_count = CalendarEvent.objects.filter(
+                    calendar=calendar_instance
+                ).count()
+                calendar['events'] = total_count
+            cals.append(course_cals)
+            student_count = student_count + course.student_set.count()
+
+        docs = [doc for course_doc in docs for doc in course_doc]
         context['popular_documents'] = docs
+        context['doc_count'] = len(docs)
 
-        cals = self.object.calendar_courses.filter(
-            private=False,
-        ).annotate(
-            subscriptions=Count('subscribers')
-        ).values(
-            'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
-            'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
-            'owner__user__username'
-        ).order_by('create_date')[:5]
-
-        for calendar in cals:
-            calendar_instance = ClassCalendar.objects.get(pk=calendar['pk'])
-            sections = Section.objects.filter(
-                course=calendar_instance.course,
-                student__pk=calendar['owner'],
-            )
-            time_string = ''
-            for section in sections:
-                day_name = WEEK_DAYS[section.day]
-                start_date = datetime.combine(datetime.today(), section.start_time)
-                end_date = datetime.combine(datetime.today(), section.end_time)
-
-                start_time = timezone.make_aware(start_date, timezone.utc)
-                end_time = timezone.make_aware(end_date, timezone.utc)
-                start_time = timezone.localtime(start_time, timezone=timezone.get_current_timezone())
-                end_time = timezone.localtime(end_time, timezone=timezone.get_current_timezone())
-                time_string += day_name[:3] + ' '
-                time_string += start_time.strftime('%I%p').lstrip('0') + '-'
-                time_string += end_time.strftime('%I%p').lstrip('0') + ' '
-            calendar['time'] = time_string
-            total_count = CalendarEvent.objects.filter(
-                calendar=calendar_instance
-            ).count()
-            calendar['events'] = total_count
-
+        cals = [cal for course_cal in cals for cal in course_cal]
         context['popular_calendars'] = cals
         context['cal_count'] = len(cals)
 
         # make the bars work
-        s_count = self.object.student_set.all().count()
+        s_count = course.student_set.all().count()
         context['student_count'] = s_count
         all_counts = len(cals) + len(docs) + s_count
         if all_counts:
@@ -330,11 +336,13 @@ class CourseView(DetailView):
             context['doc_percent'] = (len(docs) * 100) / all_counts
 
         if self.student:
+            course = self.get_object()
             context['student'] = self.student
-            context['enrolled'] = Course.objects.filter(
-                pk=self.object.pk,
+            context['enrolled'] = Enrollment.objects.filter(
+                course__pk__in=[c.pk for c in courses],
                 student=self.student
             ).exists()
+        context['student_count'] = student_count
 
         return context
 
@@ -348,10 +356,10 @@ class CourseView(DetailView):
 course = CourseView.as_view()
 
 '''
-url: /department/
-name: department_list
+url: /major/
+name: major_list
 '''
-class DepartmentList(View, AjaxableResponseMixin):
+class MajorList(View, AjaxableResponseMixin):
     template_name = 'schedule/course_list.html'
 
     def POST(self, request, *args, **kwargs):
@@ -359,7 +367,7 @@ class DepartmentList(View, AjaxableResponseMixin):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            majors = Department.objects.all().order_by('name').values('name')
+            majors = Major.objects.all().order_by('name').values('name')
             data = {
                 'majors': list( majors )
             }
@@ -368,9 +376,9 @@ class DepartmentList(View, AjaxableResponseMixin):
             return redirect(reverse('my_profile'))
 
     def dispatch(self, *args, **kwargs):
-        return super(DepartmentList, self).dispatch(*args, **kwargs)
+        return super(MajorList, self).dispatch(*args, **kwargs)
 
-department_list = DepartmentList.as_view()
+major_list = MajorList.as_view()
 
 '''
 url: /school/course/
@@ -427,7 +435,7 @@ class SchoolView(DetailView):
             'review_count': 'SELECT COUNT(*) FROM "documents_documentpurchase"'+ \
             'WHERE ("documents_documentpurchase"."document_id" = "documents_document"."id"' +\
             'AND NOT ("documents_documentpurchase"."review_date" IS NULL))'
-        }).order_by('-sold')[:15]
+        }).order_by('-sold')
 
         context['popular_documents'] = docs
 
@@ -440,14 +448,14 @@ class SchoolView(DetailView):
             'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
             'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
             'owner__user__username', 'course__pk', 'course__dept', 'course__course_number',
-        ).order_by('create_date')[:5]
+        ).order_by('-subscriptions')
 
         for calendar in cals:
             calendar_instance = ClassCalendar.objects.get(pk=calendar['pk'])
             sections = Section.objects.filter(
                 course=calendar_instance.course,
                 student__pk=calendar['owner'],
-            )
+            ).order_by('day')
             time_string = ''
             for section in sections:
                 day_name = WEEK_DAYS[section.day]

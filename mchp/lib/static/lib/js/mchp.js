@@ -143,6 +143,7 @@ $(function() {
 	$('#toggle-notifications').click(function() {
 		mark_all_read();
 		$('#notification-count').text('0');
+		$('#notification-count').removeClass('unread-notification');
 	});
 
 	// for toggleing one time events

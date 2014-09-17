@@ -73,15 +73,15 @@ class DashboardView(View):
         # the weather must be stored for 30 minutes before making another request i think this is a
         # license thing
         saved_weather = Weather.objects.filter(
-            zipcode=school.zip_code,
+            zipcode=school.zipcode,
             fetch__gte=timezone.now() + timedelta(minutes=-30),
         )
         if saved_weather.exists():
             weather = saved_weather[0]
             weather = weather.info if weather.info else None
-        elif school.zip_code:
-            saved_weather, created = Weather.objects.get_or_create(zipcode=school.zip_code)
-            weather_info = pywapi.get_weather_from_weather_com(school.zip_code, units='imperial')
+        elif school.zipcode:
+            saved_weather, created = Weather.objects.get_or_create(zipcode=school.zipcode)
+            weather_info = pywapi.get_weather_from_weather_com(school.zipcode, units='imperial')
             weather_info = weather_info['current_conditions']
             weather = weather_info
 

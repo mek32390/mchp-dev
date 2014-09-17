@@ -18,7 +18,7 @@ class Student(models.Model):
     user = models.OneToOneField(User, related_name='student_user')
 
     school = models.ForeignKey('schedule.School', related_name='student_school')
-    major = models.ForeignKey('schedule.Department', blank=True, null=True)
+    major = models.ForeignKey('schedule.Major', blank=True, null=True)
     courses = models.ManyToManyField('schedule.Course', through='Enrollment')
 
     friends = models.ManyToManyField('self', db_table='user_profile_friends')
@@ -121,7 +121,7 @@ class Enrollment(models.Model):
         super(Enrollment, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "joined {} on {}".format(self.course.display(), self.join_date)
+        return "{} joined {} on {}".format(self.student.name(), self.course.display(), self.join_date)
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')

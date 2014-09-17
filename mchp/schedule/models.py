@@ -16,7 +16,7 @@ class School(models.Model):
     city = models.CharField(max_length=60, blank=True)
     state = models.CharField(max_length=20, blank=True, choices=US_STATES)
     country = models.CharField(max_length=45, blank=True)
-    zip_code = models.CharField(max_length=11, blank=True)
+    zipcode = models.CharField(max_length=11, blank=True)
 
     timezone = models.CharField(max_length=50, blank=True)
     lat = models.DecimalField(max_digits=19, decimal_places=15, default=Decimal('00.000'))
@@ -59,7 +59,7 @@ class SchoolAlias(models.Model):
     def __str__(self):
         return "Alias for {}: {}".format(self.domain, self.alias)
 
-class Department(models.Model):
+class Major(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -74,7 +74,7 @@ class DisplayCourseManager(models.Manager):
         )
 
 class Course(models.Model):
-    domain = models.ForeignKey('School')
+    domain = models.ForeignKey(School)
     dept = models.CharField(max_length=6)
     course_number = models.IntegerField(
         validators=[MaxValueValidator(99999), MinValueValidator(99)]
@@ -83,12 +83,42 @@ class Course(models.Model):
     professor = models.CharField(max_length=30)
     creation_date = models.DateTimeField(auto_now_add=True)
 
+    course_group = models.IntegerField(blank=True, null=True)
+
     # managers for 'deleted' cases
     objects = models.Manager() # The default manager.
     display_objects = DisplayCourseManager()
 
     def save(self, *args, **kwargs):
-        self.name = self.dept + str(self.course_number)
+        if not self.pk:
+            self.name = self.dept + str(self.course_number)
+
+        # look for similar classes at the same school w/ diff prof
+        group_members = Course.objects.filter(
+            name=self.name,
+            domain=self.domain,
+        )
+        # if this object doesn't have a group, but there are other similar classes
+        if group_members.exists() and not self.course_group:
+            # pick a group member
+            member = group_members[0]
+            course_group = member.course_group
+            # see if *that* member has a group
+            if course_group:
+                self.course_group = course_group
+            else:
+                # if not, takes the other memeber's pk as the new course_group
+                self.course_group = member.pk
+                # and assign it to all members in the group
+                for group_member in group_members:
+                    group_member.course_group = self.course_group
+        elif not self.course_group:
+            # save the course initially to get its pk
+            super(Course, self).save(*args, **kwargs)
+            self.course_group = self.pk
+            # assign the course_group as pk
+            super(Course, self).save(*args, **kwargs)
+            return
         super(Course, self).save(*args, **kwargs)
 
     class Meta:

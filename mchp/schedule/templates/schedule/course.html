@@ -36,20 +36,14 @@
 						<h2 class="media-heading">{{course.dept}} {{course.course_number}}
 							<small> at <a href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></small>
 							<small class="pull-right">
-								{% if student and not enrolled %}
-								<a id="join-button" href="javascript:void(0)" class="btn btn-success" data-course="{{course.pk}}">Join this class</a>
-								{% else %}
+								{% if student and enrolled %}
 								<button class="btn btn-success disabled"><i class="fa fa-check"></i> Enrolled</button>
 								{% endif %}
 							</small>
 						</h2>
 						<p class="animated">
-							{% with course.student_count as student_count %}
 							<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
-							{% endwith %}
-							{% with course.document_count as doc_count %}
 							<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
-							{% endwith %}
 							<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
 						</p>
 					</div>

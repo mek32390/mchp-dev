@@ -13,6 +13,9 @@ WEATHER_ICONS = {
     # t-storms late
     4: 'wi wi-storm-showers',
 
+    # light drizzle
+    9: 'wi wi-night-alt-sprinkle',
+
     # n/d showers 
     11: 'wi wi-showers',
 

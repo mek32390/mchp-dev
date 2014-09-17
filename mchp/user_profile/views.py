@@ -15,7 +15,7 @@ from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent
-from schedule.models import School, Department
+from schedule.models import School, Major
 from user_profile.models import Student, OneTimeFlag, OneTimeEvent
 from documents.models import Document
 from lib.decorators import school_required
@@ -171,11 +171,12 @@ class ConfirmSchoolView(View):
         all_schools = School.objects.all().values('name', 'domain', 'pk').order_by('name')
         next = request.GET.get('next', '')
         email = request.user.email.split('@')[1]
-        email_parts = email.split('.')[:-1]
+        email_parts = email.split('.')[:-1][0] + '.edu'
         guess_schools = School.objects.get(pk=1)
         for part in email_parts:
             if part == 'email':
                 continue
+
             schools = School.objects.filter(domain__icontains=part)
             if schools.exists():
                 guess_schools = schools[0]
@@ -365,11 +366,11 @@ class MajorView(View, AjaxableResponseMixin):
         if request.is_ajax():
             major_str = request.POST.get('value', '')
             self.student = request.user.student
-            major = Department.objects.filter(
+            major = Major.objects.filter(
                 name=major_str,
             )
             if not major.exists():
-                major = Department.objects.filter(
+                major = Major.objects.filter(
                     name__icontains=major_str
                 )
             if major.exists():

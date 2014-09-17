@@ -53,7 +53,7 @@ $(function(){
 
 	// this should really only be done when you first click on the editable
 	$.ajax({
-		url: '/school/department/',
+		url: '/school/major/',
 		type: 'GET',
 		success: function(data) {
 			var majors = $.map(data.majors, function(major, index) { 

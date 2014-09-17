@@ -7,6 +7,8 @@ def add_notification(user, message):
 def add_notification_for(users, message):
     notification = Notification.objects.create(message=message)
     for user in users:
+        if not user:
+            continue
         Inbox.notifications.store(user,notification)
 
 def mark_read(user, notification):
