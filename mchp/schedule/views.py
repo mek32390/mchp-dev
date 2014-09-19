@@ -286,8 +286,8 @@ class CourseView(View):
             ).annotate(
                 subscriptions=Count('subscribers')
             ).values(
-                'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
-                'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
+                'pk', 'description', 'create_date', 'end_date', 'color', 'title',
+                'course__professor', 'owner__user__username', 'subscriptions', 'owner',
                 'owner__user__username'
             ).order_by('create_date')[:5]
 
@@ -445,8 +445,8 @@ class SchoolView(DetailView):
         ).annotate(
             subscriptions=Count('subscribers')
         ).values(
-            'pk', 'price', 'description', 'create_date', 'end_date', 'color', 'title',
-            'accuracy', 'course__professor', 'owner__user__username', 'subscriptions', 'owner',
+            'pk', 'description', 'create_date', 'end_date', 'color', 'title',
+            'course__professor', 'owner__user__username', 'subscriptions', 'owner',
             'owner__user__username', 'course__pk', 'course__dept', 'course__course_number',
         ).order_by('-subscriptions')
 
