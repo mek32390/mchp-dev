@@ -128,11 +128,23 @@ $(document).ready(function () {
 			<h3>Buying Documents</h3>
 			<p>To buy a document, you'll need to make sure you have the proper amount of points in your account. Other than that, all you need to do is click the green <button class='btn btn-success animated animated-lg tada btn-xs'> <i class='fa fa-fw fa-shopping-cart'></i> Buy Me! </button> button. Once you buy a document, you'll have it forever, and it will be neatly organized for you with your other purchased documents on your <a href="{% url 'document_list' %}">My Documents</a> page. You'll notice that once you've purchased a document, the "Study Me" button will change to a <button class='btn-xs btn btn-info animated animated-lg tada'> <i class='fa fa-fw fa-eye'></i> View </button> button.</p>
 			<h3 id="sharing-docs" class="group">Sharing Documents</h3>
-			<p>First and foremost, any time you share a document on facebook or copy and paste a link to the document (any document, not just your own), you'll have an oppurtinity to make easy money. If a non-registered user clicks on any link you've shared, and they also sign up with mchp, you'll <strong>recieve 500 points</strong> straight to your account. This also applies to sharing calendars, too!</p> 
+			<p>First and foremost, any time you share a document on facebook or copy and paste a link to
+				the document (any document, not just your own), you'll have an oppurtinity to make easy
+			money. If a non-registered user clicks on any link you've shared, and they also sign up with
+			mchp, you'll <strong>recieve {{referral_reward}} points</strong> straight to your account. This also applies to sharing calendars, too!</p> 
 			<p>If you're selling documents, then you're probably going to want to share each of your documents so others can purchase them so you can get paid for your work. If you're buying a document, then there's a good chance your other classmates can benefit from studying the same document you're studying as well. Luckily, all documents are sharable, and your referral link is attached to any document you share. 
 				<ul>
-					<li><strong>Share on Facebook:</strong> click the <button class='btn btn-facebook btn-xs'> <i class='fa fa-fw fa-facebook'></i> Share </button> button to share the document directly to facebook. Did you know that you can share the document in a personal message, too? Feel free to customize the message by adding some text to it. Remember, you'll also get 500 points for every signup referall you earn.</li>
-					<li><strong>Copy Link Button:</strong> click the <button class="btn btn-warning btn-xs"> <i class="fa fa-paperclip fa-fw"></i> Copy link</button> button. The link to the document will be automatically copied to your clipboard. You can paste this link anywhere you'd like, such as in an email, message, or facebook group. You can also copy the url from the address bar at the thop of the browser window. Remember, you'll also get 500 points for every signup referall you earn.</li>
+					<li><strong>Share on Facebook:</strong> click the <button class='btn btn-facebook btn-xs'>
+							<i class='fa fa-fw fa-facebook'></i> Share </button> button to share the document
+					directly to facebook. Did you know that you can share the document in a personal message,
+				too? Feel free to customize the message by adding some text to it. Remember, you'll also get
+				{{referral_reward}} points for every signup referall you earn.</li>
+					<li><strong>Copy Link Button:</strong> click the <button class="btn btn-warning btn-xs">
+							<i class="fa fa-paperclip fa-fw"></i> Copy link</button> button. The link to the
+					document will be automatically copied to your clipboard. You can paste this link anywhere
+				you'd like, such as in an email, message, or facebook group. You can also copy the url from
+				the address bar at the thop of the browser window. Remember, you'll also get
+			{{referral_reward}} points for every signup referall you earn.</li>
 				</ul>  
 				<hr>
 				<h1 id="section-5" class="group">Calendar</h1>
@@ -155,10 +167,23 @@ $(document).ready(function () {
 					<h3>What type of events should I add to my calendar?</h3>
 					<p>Think about this: if you're making a class calendar, and you're planning on selling it, your classmates will have to pay you to follow this calendar. You should strive to make it better than what your professor would do if he or she were to manage a calendar on their own! This way, your classmates are happy to cough up a couple of bucks per month to follow your calendar, your calendar will get better ratings, and you'll continue making money each month. Assignments typically include what is "due" in a class or what is required of students. The best way to determine what you should include when adding your class's assignments and events is to ask yourself, "Would I personally want to be aware of this?" If the answer is "Yes", then you should definitely add it to the class calendar you manage!</p>
 					<h3>Sharing Calendars</h3>
-					<p>Just like <a href="#sharing-docs">Sharing Documents</a>, any time you share a calendar on facebook or copy and paste a link to the calendar (any calendar, not just your own), you'll have an oppurtinity to make easy money. If a non-registered user clicks on any link you've shared, and they also sign up with mchp, you'll <strong>recieve 500 points</strong> straight to your account.
+					<p>Just like <a href="#sharing-docs">Sharing Documents</a>, any time you share a calendar
+						on facebook or copy and paste a link to the calendar (any calendar, not just your own),
+						you'll have an oppurtinity to make easy money. If a non-registered user clicks on any
+						link you've shared, and they also sign up with mchp, you'll <strong>recieve
+						{{referral_reward}} points</strong> straight to your account.
 						<ul>
-							<li><strong>Share on Facebook:</strong> click the <button class='btn btn-facebook btn-xs'> <i class='fa fa-fw fa-facebook'></i> Share </button> button to share the calendar directly to facebook. Did you know that you can share the calendar in a personal message, too? Feel free to customize the message by adding some text to it. Remember, you'll also get 500 points for every signup referall you earn.</li>
-							<li><strong>Copy Link Button:</strong> click the <button class="btn btn-warning btn-xs"> <i class="fa fa-paperclip fa-fw"></i> Copy link</button> button. The link to the calendar will be automatically copied to your clipboard. You can paste this link anywhere you'd like, such as in an email, message, or facebook group. You can also copy the url from the address bar at the thop of the browser window. Remember, you'll also get 500 points for every signup referall you earn.</li>
+							<li><strong>Share on Facebook:</strong> click the <button class='btn btn-facebook
+									btn-xs'> <i class='fa fa-fw fa-facebook'></i> Share </button> button to share the
+							calendar directly to facebook. Did you know that you can share the calendar in a
+						personal message, too? Feel free to customize the message by adding some text to it.
+						Remember, you'll also get {{referral_reward}} points for every signup referall you earn.</li>
+							<li><strong>Copy Link Button:</strong> click the <button class="btn btn-warning
+									btn-xs"> <i class="fa fa-paperclip fa-fw"></i> Copy link</button> button. The link
+							to the calendar will be automatically copied to your clipboard. You can paste this
+						link anywhere you'd like, such as in an email, message, or facebook group. You can also
+					copy the url from the address bar at the thop of the browser window. Remember, you'll also
+					get {{referral_reward}} points for every signup referall you earn.</li>
 						</ul> 
 					</p> 
 					<hr>
