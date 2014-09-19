@@ -411,3 +411,25 @@ class ToggleFlag(View, AjaxableResponseMixin):
         return redirect(reverse('my_profile'))
 
 toggle_flag = ToggleFlag.as_view()
+
+'''
+url: /profile/confirmed/
+name: account_confirmed
+'''
+class EmailConfirmedView(View, AjaxableResponseMixin):
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            address = request.GET.get('email', None)
+            email = EmailAddress.objects.filter(
+               email=address 
+            )
+            if not email.exists():
+                return self.render_to_json_response({}, status=404)
+            else:
+                email = email[0]
+            confirmed = email.verified
+            return self.render_to_json_response({'confirmed': confirmed}, status=200)
+        else:
+            return redirect(reverse('my_profile'))
+
+account_confirmed = EmailConfirmedView.as_view()
