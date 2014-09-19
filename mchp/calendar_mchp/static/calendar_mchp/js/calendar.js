@@ -41,11 +41,6 @@ $(function() {
 		    title: "<strong>Selling a Calendar</strong>",
 		    content: "If you choose to sell it, your classmates will be able to subscribe to it by paying you a subscription fee every 14 days. In return, they'll get to see the events you add, and get notified whenever you change or add events."
 		},
-		// {
-		// 	orphan: true,
-		//     title: "<strong>Selling a Calendar cont.</strong>",
-		//     content: "Your classmates will get to rate and review your calendar, just like they would if they bought a document from you. So, it's up to you to keep your calendar up-to-date and accurate, so you can get higher ratings and get more subscribers."
-		// },
 		{
 			element: ".owned-cals-section",
 		    title: "<strong>Calendars you Own</strong>",
@@ -129,20 +124,6 @@ $(function() {
 		var $modal = $(this);
 		var $slider = $('#ex1');
 		$slider.data('cal', $modal.data('cal'));
-	});
-
-	$('.toggle-accuracy-modal').click(function() {
-		var $link = $(this);
-		var pk = $link.data('cal');
-		var $modal = $('#rate-cal-modal');
-		$modal.data('cal', pk);
-		$modal.data('cal', pk);
-		var rating = parseInt($link.data('rating'));
-		rating = rating >= 0 ? rating : 0;
-
-		var $slider = $('#ex1');
-		$slider.slider('setValue', rating);
-		$modal.modal('show');
 	});
 
 	/*******************************
@@ -356,19 +337,6 @@ $(function() {
 			]
 	});
 
-	 // make calendar price editable
-	$('.calendar-price').editable({
-	    	mode: 'inline',
-	    	inputclass: '',
-			url: calendarEditUrl,
-			unsavedclass: 'text-danger',
-			emptyclass: '',
-			emptytext: 'Enter a price for this calendar',
-			highlight: '',
-			onblur: 'submit',				
-			send: 'always',
-	});
-
 	// for the calendar description
 	$('.calendar-description').editable({
 	    	mode: 'inline',
@@ -468,9 +436,6 @@ $(function() {
 	$('.end-subscription').click(function() {
 		endSubscription($(this).data('cal'));
 		$('#subscription-label-holder-'+$(this).data('cal')).remove();
-	});
-	$('.submit-accuracy').click(function() {
-		addMessage('Thanks for the rating! You can change it anytime.', 'success');
 	});
 
 	// using jquery.cookie plugin
@@ -910,18 +875,10 @@ $(function() {
 						$calendar.find('.calendar-picture-link').attr('href', '/calendar/preview/'+calendar.pk);
 						$calendar.find('.calendar-uploader').attr('href', '/profile/'+calendar.owner);
 						$calendar.find('.calendar-uploader').text(calendar.owner__user__username);
-						if(subscriptions.indexOf(calendar.pk) > -1) {
-							$calendar.find('.calendar-browse-price').html(calendar.price + ' points ' + $calendar.find('.calendar-browse-price').html());
-						} else {
-							$calendar.find('.calendar-browse-price').text(calendar.price + ' points');
-						}
 						$calendar.find('.calendar-description').text(calendar.description);
 						$calendar.find('.calendar-subscriptions').text(' ' + calendar.subscriptions + ' followers');
 						$calendar.find('.calendar-event-count').text(calendar.events);
 						$calendar.find('.calendar-create-date').text(moment.utc(calendar.date).from(moment.utc()));
-						if(calendar.accuracy >= 0) {
-							$calendar.find('.calendar-accuracy').text(calendar.accuracy + '% Accurate');
-						}
 						$calendar.find('.calendar-professor').text(calendar.course__professor);
 						$calendar.find('.calendar-time').html(calendar.time);
 						$calList.append($calendar);

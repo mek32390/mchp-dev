@@ -131,16 +131,9 @@
 								</span>
 								<div class="media-body">
 									<h4 class="media-heading"><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}} Calendar</a>
-										<small class="calendar-browse-price">{{calendar.price}} points</small>
 										<div class="pull-right small calendar-create-date"><small>{{calendar.create_date|naturaltime}}</small></div></h4>
 									<span class="description">
 										<span class='calendar-professor'><strong>Instr {{calendar.course__professor}}</strong></span>
-										<i class="fa fa-bullseye text-primary"></i> 
-										{% if calendar.accuracy < 0 %}
-										<span class="calendar-accuracy">No ratings&nbsp;</span>
-										{% else %}
-										{{calendar.accuracy}}% Accuracy&nbsp;
-										{% endif %}
 										<i class="fa fa-fw fa-users"></i> <span class="calendar-subscriptions">{{calendar.subscriptions}} followers&nbsp;</span>
 										<ul class="list-inline small margin-btm-none">
 											<li class='calendar-time small'><i class="fa fa-fw fa-clock-o"></i> {{calendar.time}}</li>

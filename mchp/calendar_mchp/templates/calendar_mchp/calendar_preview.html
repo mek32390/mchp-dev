@@ -66,11 +66,6 @@
 								<img class="center-block text-center" src="{% static 'lib/img/calendar-blank.svg' %}" style="width:70px" />
 								<p class="assignment-number text-center text-default h4">{{total_count}}</p>
 								<p class="text-center h5">Next event is {{next_event.start|naturaltime}}</p>
-								<!-- <ul class="list-inline text-center">
-								  <li>Accuracy</li>
-								  <li>Last Updated</li>
-								  <li>Accuracy</li>
-								</ul> -->
 								<hr>
 								<h5>Previous events: <span class="badge">{{past_count}}</span></h5>
 								<div class="list-group">
@@ -89,41 +84,20 @@
 					</div>
 					<div class="col-sm-7">
 						<h2 class="margin-top-none margin-btm-sm">{{calendar}} Calendar&nbsp;
-							<small class="pull-right" data-toggle="tooltip" data-original-title="A fortnight is a unit of time equal to 14 days (2 weeks)">{{calendar.price}} points <span data-toggle="tooltip" data-originial-title="A fortnight is a unit of time equal to 14 days (2 weeks).">/Fortnight</span>
-								<p class="margin-top-none margin-btm-none"></p>
 							<span class="pull-right margin-top-none"><small>{{calendar.create_date|naturaltime}}</small></span>
 						</small>
 						</h2>
 
 						<h5>
 							<strong>Instr</strong> {{calendar.course.professor}}
-							{% if calendar.accuracy < 0 %}
-							<i class="fa fa-fw fa-bullseye text-primary"></i>No Ratings&nbsp;
-							{% else %}
-							<i class="fa fa-fw fa-bullseye text-primary"></i>{{calendar.accuracy}}% Accuracy&nbsp;
-							{% endif %}
 							{% with calendar.subscribers.count as subscribers %}
 							<i class="fa fa-fw fa-users"></i> {{subscribers}} Follower{{subscribers|pluralize}}&nbsp;
 							{% endwith %}
 						</h5>
-							{% if calendar.accuracy < 0 %}
-							{% else %}
-							<!-- accuracy bar -->
-							<div class="progress margin-btm-sm" style="width:68%;">
-							  <div class="progress-bar progress-bar-primary" style="width: {{calendar.accuracy}}%">
-							    <span class="sr-only">{{calendar.accuracy}}% Accuracy</span>
-							  </div>
-							</div>
-							<!-- end accuracy bar -->
-							{% endif %}
-						</h5>
-							<!-- <ul class="list-inline margin-top small"> -->
 							<i class="fa fa-fw fa-clock-o"></i>
 							{% for section in calendar.sections %}
-							<!-- <li> -->
 							<span>{{section.day_name|slice:":3"}} {{section.start|time:"fA"}}-{{section.end|time:"fA"}}&nbsp; </span>
 							{% endfor %}
-						<!-- </ul> -->
 						<p></p>
 						<form id="subscribe-form" method="post" action="{{current_path}}">
 							{% csrf_token %}
@@ -165,7 +139,7 @@
 										<a href="{%url "profile" owner.pk %}">{{owner}}</a> <small><!-- Level {{owner_level}} --></small>
 									</h4>
 									{% with owner.subscribers as subscribers %}
-									<p><span class="label label-info">{{subscribers}} Calendar{{subscribers|pluralize}} sold</span> 
+									<p><span class="label label-info">Total subscribers: {{subscribers}}</span> 
 									</p>
 									<p>
 										<div class="progress" style="width:68%">

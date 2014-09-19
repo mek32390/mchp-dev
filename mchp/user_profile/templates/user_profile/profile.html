@@ -162,39 +162,6 @@
 								</span>
 						    </div>
 						</div>
-					<!-- <li class="list-group-item" id="document_{{document.pk}}">
-						<div class="media">
-							<div class="img-thumbnail pull-left">
-								<a href="{% url 'document_list' %}
-								{{ document.uuid}}/
-								{{ document.slug}} ">
-
-								{% if document.preview %}
-								<img src="{{document.preview.url}}" style="width:64px">
-								{% else %}
-								<img src="{% static 'documents/img/loading_file.svg' %}" style="width:64px">
-								{% endif %}
-								</a>
-							</div>
-							<div class="media-body">
-								<h4 class="media-heading"><a href="{% url 'document_list' %}
-									{{ document.uuid}}/
-									{{ document.slug}}
-									">{{ document.title }}</a> <small>{{document.price}} points</small>
-									<div class="pull-right small"><small>{{document.create_date | naturaltime}}</small></div>
-								</h4>
-								<span class="description">
-									<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
-									<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
-									<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}} Reviews&nbsp;&nbsp;
-									<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.purchase_count}} Purchases
-									<p class="small margin-top-sm">in 
-										<a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a>
-									</p>
-								</span>
-							</div>
-						</div>
-					</li> -->
 					{% endfor %}
 					</div>
 				</div>
@@ -233,18 +200,13 @@
 						    <div class="list-group-item calendar-item" style="margin-bottom:20px;">
 						      <img src="{% static 'lib/img/calendar-blank.svg' %}" width="75px" alt="calendar">
 						      <div class="assignment-number text-center text-default h3 calendar-event-count">{{calendar.events}}</div>
-									<h4><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a> <small>{{calendar.price}} points</small></h4>
+									<h4><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a> 
+									</h4>
 						       	<span class="description">
 									<h5 class="">Prof <span
 										class='calendar-professor'>{{calendar.course.professor}}</span>
 									</h5>
 									<h6 class="">
-										<i class="fa fa-bullseye text-primary"></i>
-										{% if calendar.accuracy >= 0 %}
-										<span class="calendar-accuracy">{{calendar.accuracy}}</span>
-										{% else %}
-										<span class="calendar-accuracy">No ratings&nbsp;</span>
-										{% endif %}
 										{% with calendar.subscribers.count as subscribers %}
 										<i class="fa fa-fw fa-users"></i><span class="calendar-subscriptions">{{subscribers}} followers&nbsp;</span>
 										{% endwith %}

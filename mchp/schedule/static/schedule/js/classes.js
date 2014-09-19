@@ -127,17 +127,9 @@ $(function() {
 					$calendar.find('.calendar-picture-link').attr('href', '/calendar/preview/'+calendar.pk);
 					$calendar.find('.calendar-uploader').attr('href', '/profile/'+calendar.owner);
 					$calendar.find('.calendar-uploader').text(calendar.owner__user__username);
-					if(subscriptions.indexOf(calendar.pk) > -1) {
-						$calendar.find('.calendar-browse-price').html(calendar.price + ' lemons ' + $calendar.find('.calendar-browse-price').html());
-					} else {
-						$calendar.find('.calendar-browse-price').text(calendar.price + ' lemons');
-					}
 					$calendar.find('.calendar-subscriptions').text(' ' + calendar.subscriptions + ' followers');
 					$calendar.find('.calendar-event-count').text(calendar.events);
 					$calendar.find('.calendar-create-date').text(moment.utc(calendar.date).from(moment.utc()));
-					if(calendar.accuracy >= 0) {
-						$calendar.find('.calendar-accuracy').text(calendar.accuracy + '% Accurate');
-					}
 					$calendar.find('.calendar-professor').text(calendar.course__professor);
 					$calendar.find('.calendar-time').html(calendar.time);
 					$calList.append($calendar);
