@@ -10,22 +10,15 @@ $(function() {
         $('.form-group-email').hide();
         $('label[for=id_email]').hide();
         $('#id_email').attr('value', hidden);
+		// show email below email label
+		var $show_email = $('<div class="small">'+hidden+'</div>');
+		$('#id_email').parent().append($show_email);
     } else if(hidden === '') {
         // if there is no session email, this will show the e-mail input field
 		$('.email_reminder').show();
         $('.email_reminder h4').html("Sign up with E-mail");
     }
-	$form = ($('#signup_form'));
-    var username = $('#id_first_name').attr('value') + $('#id_last_name').attr('value');
-    console.log($('#id_firstname'));
-    console.log(username);
-	$('#id_username').val(username); 
 	$('#id_email').text(hidden);
-    // don't loop if the form doesn't validate
-    if(document.referrer === document.URL) {
-    } else {
-		$form.submit();
-	}
     
     // Convert form fields to BS Validator
     $("#id_first_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );

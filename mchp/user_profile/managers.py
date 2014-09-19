@@ -1,10 +1,8 @@
 from django.db import models
-from django.db.utils import IntegrityError
 
 from notification.api import add_notification
 import user_profile.models
 import dashboard.models
-import random
 
 class StudentManager(models.Manager):
     # get or create the referral codes for a user
@@ -17,19 +15,6 @@ class StudentManager(models.Manager):
         profile.save()
         roles = user_profile.models.UserRole(user=user)
         roles.save()
-
-        # set username for social users
-        if user.first_name:
-            username = user.first_name + user.last_name
-            user.username = username
-            saved = False
-            while not saved:
-                try:
-                    user.save()
-                    saved = True
-                except IntegrityError:
-                    username = username + str(random.randrange(0,100))
-                    user.username = username
 
         # set default rss settings
         dashboard.models.RSSSetting.objects.restore_default_settings(student)
