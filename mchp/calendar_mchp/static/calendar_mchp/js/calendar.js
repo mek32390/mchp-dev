@@ -18,11 +18,7 @@ $(function() {
 
 	// Instance the tour
 	var tour = new Tour({
-		onShow: function(tour) {
-	        $('.flip-holder').addClass('hidden');
-	        $('#cal-img-holder').removeClass('hidden');	   
-	        $('#full-cal-js').addClass('hidden');     
-    	},
+		
 		name: "calendar-tour",
 		backdrop: true,
 		onStart: stopClearPopovers,
@@ -33,23 +29,23 @@ $(function() {
 		{
 			orphan: true,
 		    title: "<strong>This is your calendar, " + MCHP_USERNAME + "!</strong>",
-		    content: 'Here\'s how mchp calendars work: let\'s say you want to make an "econ 200" calendar, and put assignment due dates, tests, and projects in it...'
+		    content: 'Let\'s say you want to make an "ECON 200" calendar, and put assignment due dates, tests, and projects in it...'
 		},
 		{
 			orphan: true,
 		    title: "<strong>Private Calendar</strong>",
-		    content: "If you want to make it private, only you will be able to see the events you add to it. It's just like a regular calendar- for your eyes only."
+		    content: "If you want to make it private, only you will be able to see the events you add to it, like a regular calendar."
 		},
 		{
 			orphan: true,
 		    title: "<strong>Selling a Calendar</strong>",
 		    content: "If you choose to sell it, your classmates will be able to subscribe to it by paying you a subscription fee every 14 days. In return, they'll get to see the events you add, and get notified whenever you change or add events."
 		},
-		{
-			orphan: true,
-		    title: "<strong>Selling a Calendar cont.</strong>",
-		    content: "Your classmates will get to rate and review your calendar, just like they would if they bought a document from you. So, it's up to you to keep your calendar up-to-date and accurate, so you can get higher ratings and get more subscribers."
-		},
+		// {
+		// 	orphan: true,
+		//     title: "<strong>Selling a Calendar cont.</strong>",
+		//     content: "Your classmates will get to rate and review your calendar, just like they would if they bought a document from you. So, it's up to you to keep your calendar up-to-date and accurate, so you can get higher ratings and get more subscribers."
+		// },
 		{
 			element: ".owned-cals-section",
 		    title: "<strong>Calendars you Own</strong>",
@@ -68,30 +64,33 @@ $(function() {
 		{
 			element: ".view-cals-btn",
 		    title: "<strong>Browse Calendars to Follow</strong>",
-		    content: "This is where your classmates' calendars that they choose to sell will appear.",
+		    content: "You can find calendars that your classmates are selling here.",
 		    placement: "left",
-		    reflex: true,
-		     onhide: function() {
-	        	$('.flip-holder').toggleclass("flip");
-    		}
+		    reflex: true
 		},
 		{
 			element: ".step-2",
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
-		    content: "Click the <i class='fa fa-home'></i> (home) icon above to go to your homepage, or the <i class='fa fa-book'></i> (book) to go to your classes.",
+		    content: "<p>To create a calendar, click <a href='/calendar/create/' id='create-cal-btn'>here.</a></p>Click the <i class='fa fa-home'></i> (home) icon above to go to your homepage, or the <i class='fa fa-book'></i> (book) to go to your classes.",
 		    placement: "bottom",
 		    reflex: true
 		}
 		
 	]});
 
+	
+
 	// initialize the tour
 	tour.init();
 	// start the tour
 	tour.start();
+	// remove backdrop when clicked
 	$('.tour-backdrop').click(function() {
 		$(this).remove();
 	});
+
+	
+
 
 
 	/************************
