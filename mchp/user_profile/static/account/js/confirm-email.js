@@ -35,6 +35,33 @@ $(function(){
 		return false; 
 
 	});
-	
-
+	var email = $('#saved_email').val();
+	checkForConfirmation(email);
 });
+var checkForConfirmation = function(email) {
+
+	var confirmUrl = "/profile/confirmed/"; // page just for seeing if the user confirmed email yet
+
+	$.ajax({
+		type: "GET",
+		url: confirmUrl,
+		data: {
+			'email': email,
+		},
+		success: function(data) {
+			if (data.confirmed) {
+				// redirect to root, which takes you to home page, which takes you to confirm school
+				// probably
+				window.location.replace('/');
+			} else {
+				setTimeout(function() {
+					checkForConfirmation(email);
+				}, 1500);
+			}
+		},
+		error: function(data) {
+			// stop trying
+		}
+	});
+
+};
