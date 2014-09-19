@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.cache import get_cache
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponseNotAllowed, HttpResponse
 from django.shortcuts import render, redirect
@@ -50,10 +51,10 @@ class DashboardView(View):
                 rss_type=rss
             )
             setattr(rss, 'links', links)
-        settings = RSSSetting.objects.filter(
+        rss_settings = RSSSetting.objects.filter(
             student=self.student
         )
-        show_rss = list(map(lambda setting: setting.rss_type, settings))
+        show_rss = list(map(lambda setting: setting.rss_type, rss_settings))
 
         # filter all rss types w/ just the ones the user wants shown
         rss_types = [(rss,True) if rss in show_rss else (rss,False) for rss in rss_types]
@@ -126,6 +127,7 @@ class DashboardView(View):
             'weather': weather,
             'current_time': time,
             'classmates': classmates,
+            'referral_reward': settings.MCHP_PRICING['referral_reward']
         }
         return render(request, self.template_name, data)
 

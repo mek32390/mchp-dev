@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from notification.api import add_notification
 import user_profile.models
@@ -21,7 +22,7 @@ class StudentManager(models.Manager):
         return student
 
     def referral_reward(self, user, referrer):
-        reward_points = 500
+        reward_points = settings.MCHP_PRICING['referral_reward']
         user.student.add_earned_points(reward_points)
         referrer_roles = user_profile.models.UserRole.objects.get_roles(referrer)
         if referrer_roles.rep:

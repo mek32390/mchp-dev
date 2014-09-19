@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import render
 from django.views.generic import View
@@ -24,6 +25,7 @@ class HelpView(View):
 
     def get(self, request, *args, **kwargs):
         data = {
+            'referral_reward': settings.MCHP_PRICING['referral_reward']
         }
         return render(request, self.template_name, data)
 

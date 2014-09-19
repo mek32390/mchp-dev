@@ -278,6 +278,7 @@ class DocumentDetailPreview(DetailView):
             'slug': self.object.slug,
             'owns': owns,
             'referral_link': referral_link,
+            'referral_reward': settings.MCHP_PRICING['referral_reward'],
             'document_preview_flag': flag, 
             'document_preview_flag_name': document_preview_flag,
         }
@@ -354,6 +355,7 @@ class DocumentDetailView(DetailView):
         context['slug'] = self.object.slug
         context['student'] = self.student 
         context['referral_link'] = self.referral_link
+        context['referral_reward'] = settings.MCHP_PRICING['referral_reward']
         document_referral_flag = 'document referral'
         context['document_referral_flag'] = self.student.one_time_flag.get_flag(self.student, document_referral_flag)
         context['document_referral_flag_name'] = document_referral_flag

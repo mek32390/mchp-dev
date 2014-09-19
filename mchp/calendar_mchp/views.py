@@ -690,6 +690,7 @@ class CalendarPreview(DetailView):
             'next_event': next_event,
             'total_count': total_count,
             'referral_link': referral_link,
+            'referral_reward': settings.MCHP_PRICING['referral_reward'],
             'current_path': request.get_full_path(),
             'preview_flag': OneTimeFlag.objects.get_flag(self.student, preview_flag_name),
             'preview_flag_name': preview_flag_name ,

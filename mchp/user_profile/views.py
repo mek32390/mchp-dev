@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.shortcuts import redirect,render, get_object_or_404
@@ -97,6 +98,7 @@ class AccountSettingsView(View):
         data = {
             'referral_code': ref.referral_code,
             'referral_link': ref.referral_link,
+            'referral_reward': settings.MCHP_PRICING['referral_reward'],
         }
         return render(request, self.template_name, data)
 
