@@ -22,8 +22,6 @@ class ClassCalendar(models.Model):
     course = models.ForeignKey('schedule.Course', related_name="calendar_courses")
 
     private = models.BooleanField(default=True)
-    price = models.PositiveIntegerField(default=0)
-    accuracy = models.FloatField(default=-1)
 
     create_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
@@ -76,12 +74,8 @@ class Subscription(models.Model):
     student = models.ForeignKey('user_profile.Student')
     calendar = models.ForeignKey(ClassCalendar)
 
-    price = models.PositiveIntegerField(default=1)
-    payment_date = models.DateTimeField()
     subscribe_date = models.DateTimeField(auto_now_add=True)
     enabled = models.BooleanField(default=True)
-
-    accuracy = models.SmallIntegerField(default=-1)
 
     def save(self, *args, **kwargs):
         # object is new
@@ -92,14 +86,7 @@ class Subscription(models.Model):
                 return
             # set first payment date
             self.subscribe_date = timezone.now()
-            self.payment_date = self.subscribe_date + settings.MCHP_PRICING['subscription_length']
             subscription.send(sender=self.__class__, subscription=self)
-        # fix up accuracy ratings 
-        # this should be a validator instead, but this is more simple 
-        if self.accuracy < -1:
-            self.accuracy = 0
-        if self.accuracy > 10:
-            self.accuracy = 10
         super(Subscription, self).save(*args, **kwargs)
 
     def __str__(self):

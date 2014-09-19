@@ -21,7 +21,6 @@ from schedule.utils import WEEK_DAYS
 from user_profile.models import OneTimeFlag
 
 from datetime import datetime,timedelta
-from decimal import Decimal, ROUND_HALF_DOWN
 import json
 import logging
 logger = logging.getLogger(__name__)
@@ -123,7 +122,6 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             'end_date': end_date,
             'private': request.POST.get('private', True),
             'color': request.POST.get('color', '#FFFFFF'),
-            'price': request.POST.get('price', 200),
         }
         return ClassCalendar(**calendar_data)
     
@@ -574,42 +572,7 @@ class CalendarPreview(DetailView):
                     request,
                     "Slow down there kiddo, you're already subscribed to that calendar"
                 )
-            else:
-                if not self.student.reduce_points(calendar.price):
-                    messages.error(
-                        request,
-                        "Well that didn't do much good, try buying some points first"
-                    )
-                    return self.get(request, *args, **kwargs)
-                else:
-                    # renew subscription
-                    points = calendar.price * (settings.MCHP_PRICING['commission_rate'] / 100)
-                    points = points / 100
-                    points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
-                    calendar.owner.modify_balance(points)
-                    calendar.owner.save()
-
-                    subscription.enabled=True
-                    subscription.save()
-                    messages.success(
-                        request,
-                        "Your subscription has gone through and has been renewed"
-                    )
         else:
-            if not self.student.reduce_points(calendar.price):
-                messages.error(
-                    request,
-                    "You'll need more points to subscribe to this calendar"
-                )
-                subscription.delete()
-                return self.get(request, *args, **kwargs)
-            subscription.price = calendar.price
-            subscription.save()
-            points = calendar.price * (settings.MCHP_PRICING['commission_rate'] / 100)
-            points = points / 100
-            points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
-            calendar.owner.modify_balance(points)
-            calendar.owner.save()
             messages.success(
                 request,
                 "Your subscription has been noted"
@@ -626,8 +589,6 @@ class CalendarPreview(DetailView):
             referral_link = ReferralCode.objects.get_referral_code(request.user).referral_link
 
         calendar = get_object_or_404(self.model, pk=self.kwargs['pk'], private=False)
-        # this is going to recalculate its accuracy 
-        calendar.save()
 
         events = CalendarEvent.objects.filter(
             calendar=calendar,
@@ -730,33 +691,18 @@ class CalendarView(View):
         subscriptions = ClassCalendar.objects.filter(
             subscription__student=self.student,
             subscription__enabled=True,
-            subscription__accuracy__gte=-1,
         ).order_by('title')
         subscription_info = Subscription.objects.filter(
             student=self.student,
             enabled=True,
-        ).values('pk', 'accuracy', 'payment_date', 'subscribe_date', 'price', 'enabled', 'calendar')
+        ).values('pk', 'subscribe_date', 'enabled', 'calendar')
         for subscription in subscriptions:
             for info in subscription_info:
                 if info['calendar'] == subscription.pk:
-                    payment_date = timezone.localtime(info['payment_date'], timezone=timezone.get_current_timezone())
                     subscribe_date = timezone.localtime(info['subscribe_date'], timezone=timezone.get_current_timezone())
-                    setattr(subscription, 'rating', info['accuracy'])
-                    setattr(subscription, 'payment_date', payment_date)
                     setattr(subscription, 'subscribe_date', subscribe_date)
-                    setattr(subscription, 'price', info['price'])
                     setattr(subscription, 'enabled', info['enabled'])
 
-        delinquent_subscriptions = ClassCalendar.objects.filter(
-            subscription__student=self.student,
-            subscription__enabled=False,
-        ).order_by('title')
-        for calendar in delinquent_subscriptions:
-            missed_events = CalendarEvent.objects.filter(
-                calendar=calendar,
-                start__gte=timezone.now(),
-            ).count()
-            setattr(calendar, 'missed_events', missed_events)
         calendar_tutorial = 'calendar tutorial'
         data = {
             'turtorial_flag': self.student.one_time_flag.get_flag(self.student, calendar_tutorial),
@@ -765,7 +711,6 @@ class CalendarView(View):
             'courses': courses,
             'owned_calendars': owned_calendars,
             'subscriptions': subscriptions,
-            'delinquent_subscriptions': delinquent_subscriptions,
         }
         return render(request, self.template_name, data)
 
@@ -826,19 +771,6 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
                         '{} has made their {} calendar {}'.format(request.user.username, calendar.course, private)
                     )
 
-                if update == 'price':
-                    price = request.POST.get('value', 0)
-                    try:
-                        price = int(price)
-                        setattr(calendar, 'price', price)
-                    except:
-                        response = "That's not a price that you can sell something for"
-                        status=400
-                        data = {
-                            'response': response,
-                        }
-                        return self.render_to_json_response(data, status=status)
-
                 calendar.save()
                 response = "Calendar updated"
                 status=200
@@ -859,47 +791,6 @@ class CalendarUpdateView(View, AjaxableResponseMixin):
         return super(CalendarUpdateView, self).dispatch(*args, **kwargs)
 
 calendar_update = CalendarUpdateView.as_view()
-
-'''
-url: /calendar/subscription/update
-name: subscription_update
-'''
-class SubscriptionUpdateView(View, AjaxableResponseMixin):
-    def get(self, request, *args, **kwargs):
-        return HttpResponseNotAllowed(['POST'])
-
-    def post(self, request, *args, **kwargs):
-        if request.is_ajax():
-            subscription = Subscription.objects.filter(
-                student=self.student,
-                calendar = request.POST.get('calendar', None)
-            )
-            if subscription.exists():
-                subscription = subscription[0]
-                rating = int(request.POST.get('rating', None))
-                if rating != None:
-                    subscription.accuracy = rating
-                    subscription.save()
-                    # update aggragate calendar accuracy
-                    subscription.calendar.save()
-                response = "Accuracy updated"
-                status=200
-            else:
-                response = "You are not subscribed to that calendar"
-                status=403
-            data = {
-                'response': response,
-            }
-            return self.render_to_json_response(data, status=status)
-        else:
-            return redirect(reverse('calendar'))
-
-    @method_decorator(class_required)
-    def dispatch(self, *args, **kwargs):
-        self.student = self.request.user.student
-        return super(SubscriptionUpdateView, self).dispatch(*args, **kwargs)
-
-subscription_update = SubscriptionUpdateView.as_view()
 
 '''
 url: /calendar/feed/
@@ -1025,16 +916,13 @@ class CalendarListView(View, AjaxableResponseMixin):
                 events=Count('calendarevent__pk'),
             ).order_by(
                 'create_date', 'title'
-            ).values('title', 'price', 'owner', 'events', 'owner__user__username','pk',
+            ).values('title', 'owner', 'events', 'owner__user__username','pk',
                      'description', 'create_date', 'course__professor')
             for calendar in calendars:
                 date = timezone.localtime(calendar['create_date'], timezone=timezone.utc)
                 calendar['date'] = date.strftime(DATE_FORMAT)
                 calendar_instance = ClassCalendar.objects.get(pk=calendar['pk'])
-                # reset accuracy
-                calendar_instance.save()
                 calendar['subscriptions'] = calendar_instance.subscribers.count()
-                calendar['accuracy'] = calendar_instance.accuracy
                 sections = Section.objects.filter(
                     course=calendar_instance.course,
                     student__pk=calendar['owner'],
