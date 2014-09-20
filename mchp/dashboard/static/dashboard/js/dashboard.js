@@ -169,6 +169,8 @@ $(function(){
 	fetchRss();
 	var now = moment($('.current-time').data('time'));
 	startTime(now._tzm);
+	$($('#news-navbar').find('.news-list-item:visible')[0]).find('a.news-link').click();
+	window.scrollTo(0,0);
 });
 
 var fetchRss = function() {
