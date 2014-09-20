@@ -51,7 +51,7 @@
 						<a href="#" id="select-calendar-{{calendar.pk}}" role="menuitem" tabindex="-1" data-cal="{{calendar.pk}}">
 							<span style="color: {{calendar.color}};">{{calendar.course}}
 								{% if not calendar.private %}
-								<i class="fa fa-dollar text-success small fa-fw"></i>
+								<i class="fa fa-bullhorn text-info small fa-fw"></i>
 								{% endif %}
 							</span>
 						</a>
@@ -73,7 +73,7 @@
 							{% if not calendar.private %}
 									
 							<span class="selling  pull-right text-success"><strong><i class="fa
-										fa-check-circle-o fa-fw"></i>Selling</strong></span>
+										fa-check-circle-o fa-fw"></i>Public</strong></span>
 
 							{% endif %}
 						</span>

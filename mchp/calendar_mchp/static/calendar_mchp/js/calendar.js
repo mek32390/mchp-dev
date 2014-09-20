@@ -551,6 +551,8 @@ $(function() {
 						'private': event.calendar__private,
 						'owned': event.owned,
 						'last_edit': moment.utc(event.last_edit),
+						'author': event.author || '',
+						'authorPK': event.author_pk || -1,
 					});
 				});
 				$('.fc-day').each(function() {
@@ -617,18 +619,18 @@ $(function() {
 					$item.find('.event-time').text(event.start.format('hh:mm a'));
 					$item.find('.event-class').text(event.course);
 					$item.find('.event-id').text(event.id);
-					$item.find('.event-last-edit').text(event.last_edit.fromNow());
-					// $item.find('.sub-event-last-edit').text(event.last_edit.fromNow());
+					$item.find('.event-author-link').text(event.author);
+					$item.find('.event-author-link').attr('href', '/profile/'+ event.authorPK);
 					$item.find('.calendar-indicator').css('color', event.color);
 					if(event.private) {
-						$item.find('.fa-dollar').remove();
-						$item.find('.sub-event-last-edit').remove();
+						$item.find('.fa-bullhorn').remove();
 					}
 					if(!event.owned) {
 						$item.find('.event-edit-link').remove();
 						$item.find('.event-delete-link').remove();
-						$item.find('.fa-dollar').remove();
-						// $item.find('.event-last-edit').remove();
+						$item.find('.fa-bullhorn').remove();
+					} else {
+						$item.find('.event-author').remove();
 					}
 					$list_group.append($item);
 				});

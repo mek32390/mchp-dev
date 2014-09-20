@@ -167,7 +167,7 @@
 											<a class="btn btn-xs btn-default pull-right" href="{% url 'event_add' %}?calendar={{calendar.pk}}">Events Import</a>
 											<form class="form-horizontal" id="edit-calendar-form">
 												<div class="form-group form-group-sm">
-													<label class="col-sm-4 control-label">Selling:</label>
+													<label class="col-sm-4 control-label">Public:</label>
 													<div class="col-sm-4">
 														<span class="calendar-selling" data-name="private" data-pk="{{calendar.pk}}" data-type="select">
 															{% if calendar.private %}
@@ -289,7 +289,8 @@
 			<p></p>
 			<div id="yourCalList">
 				<div class="owned-cals-section">
-				<h5>School<span class="badge pull-right" id="owned-calendar-count">{{owned_calendars|length}}</span></h5>
+				<h5>School<span class="badge pull-right"
+						id="owned-calendar-count">{{total_school_calendars}}</span></h5>
 				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Own</li>
 				<!-- don't delete this again -->
 				<div class="hidden" id="make-a-calendar">
@@ -321,7 +322,7 @@
 						<i class="fa fa-fw fa-lock" data-toggle="tooltip" data-original-title="Private" data-placement="left"></i>
 						{% else %}
 						<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i></a> 
-						<i class="fa fa-fw fa-dollar text-success" data-toggle="tooltip" data-original-title="Selling" data-placement="left"></i>
+						<i class="fa fa-fw fa-bullhorn text-info" data-toggle="tooltip" data-original-title="Public" data-placement="left"></i>
 						{% endif %}
 					</small>
 				</div>
@@ -526,20 +527,16 @@
 	<span class="list-group margin-top-none margin-btm-none">
 		<span class="list-group-item">
 			<span class="margin-btm-sm margin-top-none h5">
-				<!-- <span class="sub-event-last-edit pull-right margin-btm-none small">sub</span> -->
-				<span class="event-last-edit margin-btm-none pull-right small"></span>
-
+				<span class="event-author margin-btm-none pull-right small">
+					by 
+					<a href="#" class="event-author-link"></a>
+				</span>
+				<span class="event-options pull-right small">
+					<i class="fa fa-bullhorn text-info"></i>
+					<a href="#" class="event-edit-link"><i class="fa fa-pencil text-default"></i></a> 
+					<a class="event-delete-link" style="cursor: pointer"><i class="fa fa-times text-danger"></i></a>
+				</span>
 				<span class="event-title calendar-indicator"></span>
-				
-
-				<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
-					
-					<span class="event-options pull-right small">
-						<i class="fa fa-dollar text-success"></i>
-						<a href="#" class="event-edit-link"><i class="fa fa-pencil text-default"></i></a> 
-						<a class="event-delete-link" style="cursor: pointer"><i class="fa fa-times text-danger"></i></a>
-					</span>
-
 				<span class="small event-description"></span>
 			</span>
 			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->

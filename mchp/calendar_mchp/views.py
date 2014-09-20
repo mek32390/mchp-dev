@@ -711,6 +711,7 @@ class CalendarView(View):
             'courses': courses,
             'owned_calendars': owned_calendars,
             'subscriptions': subscriptions,
+            'total_school_calendars': len(owned_calendars) + len(subscriptions)
         }
         return render(request, self.template_name, data)
 
@@ -842,6 +843,8 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 'calendar__private',
                 'calendar__course__pk',
                 'calendar__course__name',
+                'calendar__owner__user__username',
+                'calendar__owner__pk',
             )
             for event in subscribed_events:
                 start_time = timezone.localtime(event['calendar__calendarevent__start'], timezone=timezone.get_current_timezone())
@@ -857,7 +860,11 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 event['title'] = event['calendar__calendarevent__title']
                 event['description'] = event['calendar__calendarevent__description']
                 event['owned'] = False
+                event['author'] = event['calendar__owner__user__username']
+                event['author_pk'] = event['calendar__owner__pk']
 
+                del event['calendar__owner__pk']
+                del event['calendar__owner__user__username']
                 del event['calendar__calendarevent__start']
                 del event['calendar__calendarevent__end']
                 del event['calendar__calendarevent__title']
