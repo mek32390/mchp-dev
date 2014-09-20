@@ -945,7 +945,7 @@ var deleteCalendar = function(cal_pk) {
 		},
 	});
 };
-var drawCircle = function(canvas) {
+var drawCircle = function(canvas, old) {
 	var count = $(canvas).data('count');
 
 	if (canvas.getContext){
@@ -962,11 +962,18 @@ var drawCircle = function(canvas) {
 
 		ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
 
-		ctx.fillStyle="#4C9ED9";
+		var color = "#4C9ED9";
+		var stroke = "#357EBD";
+		if (old) {
+			ctx.globalAlpha = 0.4;
+			stroke = 'rgba(0,0,0,0)';
+		}
+
+		ctx.fillStyle=color;
 		ctx.fill();
 		ctx.fillStyle="#FFFFFF";
       	ctx.lineWidth = 1;
-		ctx.strokeStyle = '#357EBD';
+		ctx.strokeStyle = stroke;
       	ctx.stroke();
 
 		var font_x = parseInt(y*(2/3)).toString();
@@ -975,6 +982,8 @@ var drawCircle = function(canvas) {
 		ctx.fillText(count, x-text_start.width/2, y + (y*(2/7)));
   }
 };
+
+var TODAY = moment().startOf('day').utc().startOf('day');
 
 var drawEvents = function(day, count){
 	// first remove old count
@@ -999,7 +1008,11 @@ var drawEvents = function(day, count){
 			count+
 			'"></canvas>');
 	day.html($canvas);
-	drawCircle($canvas.get(0));
+	var old = false;
+	if (date.isBefore(TODAY)) {
+		old = true;
+	}
+	drawCircle($canvas.get(0), old);
 };
 
 var updateEvents = function(calendar) {
