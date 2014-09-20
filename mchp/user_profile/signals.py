@@ -14,7 +14,7 @@ def log_in_notify(sender, request, user, **kwargs):
         username = 'Adapt',
     )
     mitch = User.objects.filter(
-        username = 'MitchelliasKessler',
+        username = 'mitchellias',
     )
     if adapt.exists():
         adapt = adapt[0]
