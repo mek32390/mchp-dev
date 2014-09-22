@@ -4,7 +4,7 @@
 {% block extra_head %}
 <meta property="fb:app_id" content="369999156462705" /> 
 <meta property="og:type" content="product" /> 
-<!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
+<meta property="og:url" content="{{request.get_host}}{{current_path}}" /> 
 <meta property="og:title" content="{{document.title}} in {{document.course.dept}} {{document.course.course_number}}" /> 
 {% if document.preview %}
 <meta property="og:image" content="{{document.preview.url}}" /> 
@@ -141,7 +141,7 @@
 							{% endif %}
 						</button>
 						{% endif %}
-						<a href="{{request.get_host}}{{current_path | referral:referral_link}}" 
+						<a href="{{current_path | referral:referral_link}}" 
 							{% if document.preview %}
 							data-image="{{document.preview.url}}"
 							{% else %}
@@ -151,7 +151,7 @@
 							data-desc="{{document.description}}" 
 							class="btnShare btn btn-facebook fb-share-button">
 							<i class="fa fa-fw fa-facebook"></i>Share this</a>
-						<button data-clipboard-text="{{request.get_host}}{{current_path | referral:referral_link }}" 
+						<button data-clipboard-text="{{current_path | referral:referral_link }}" 
 							id="copy-button" class="btn btn-warning"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 						<span class="copy-message"></span>
 
