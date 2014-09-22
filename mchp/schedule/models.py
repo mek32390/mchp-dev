@@ -156,6 +156,7 @@ class Section(models.Model):
 
     class Meta:
         unique_together = ("student", "course", "day")
+        ordering = ['day']
 
     def __str__(self):
         return "{} from {} to {}".format(WEEK_DAYS[self.day], self.start_time, self.end_time)
