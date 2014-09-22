@@ -13,10 +13,11 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/inputs-ext/typeaheadjs/typeaheadjs.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.9.3/typeahead.min.js"></script>
 
-
 {% load staticfiles %}
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/user_profile.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
+<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
 <script src="{% static 'user_profile/js/profile.js' %}"></script>
 
 {% endblock %}
@@ -31,7 +32,7 @@
 			<form method="post" action="{% url "edit_pic" %}" id="pic-form">
 				{% csrf_token %}
 				<div class="btn-file">
-					<span class=""><small><i class="fa fa-camera"></i> Update </small><input name="pic" id="pic-input" type="file">
+					<span><small><i class="fa fa-camera"></i> Update </small><input name="pic" id="pic-input" type="file">
 					</span>
 				</div>
 			</form>
@@ -65,7 +66,7 @@
 				{% else %}
 				<p class="lead" id="about-other">{{profile.blurb}}</p> 
 				{% endifequal %}
-			</div>
+			</div>	
 			<p></p>
 			<div class="progress">
 				<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
