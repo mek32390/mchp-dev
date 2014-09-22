@@ -52,19 +52,6 @@ class ClassCalendar(models.Model):
         else:
             raise TimeOrderError("Start date must come before end date")
 
-        # set accuracy 
-        subs = Subscription.objects.filter(
-            calendar = self
-        )
-        accuracies = list(map(lambda sub: sub.accuracy, subs))
-        accuracies = list(filter(lambda score: score != -1, accuracies))
-        if(len(accuracies)):
-            accuracy = sum(accuracies) / len(accuracies)
-            # convert acc to a percentage
-            accuracy = round(accuracy * 10, 0)
-            # format to no decimal places
-            self.accuracy = '{:3.0f}'.format(accuracy)
-
         super(ClassCalendar, self).save(*args, **kwargs)
 
     def __str__(self):
