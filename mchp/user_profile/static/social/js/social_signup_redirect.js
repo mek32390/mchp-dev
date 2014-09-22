@@ -19,6 +19,8 @@ $(function() {
         $('.email_reminder h4').html("Sign up with E-mail");
     }
 	$('#id_email').text(hidden);
+	$('#id_username').val('');
+	$('#id_username').focus();
     
     // Convert form fields to BS Validator
     $("#id_first_name").wrap( $( "<div class='form-group'><div class='input-group'></div></div>" ) );
