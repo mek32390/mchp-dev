@@ -39,9 +39,7 @@
 				<h4 class="media-heading">Refer a friend, and you both get <strong>{{referral_reward}} points</strong></h4>
         You now have a unique referral code, <strong>"{{referral_info.referral_code}}"</strong>.
 				When someone enters it in the <a href="#referral-modal" class="alert-link"
-					data-toggle="modal">referral window</a>, you will both earn <strong>{{referral_reward}} points!</strong> We also gave you a unique referral link to share, which you can find in your <a href="{% url 'account_settings'%}" class="alert-link">account settings.</a> 
-        <p></p>
-        <p>One more thing, if you want to get paid real money instead of points, message us on our <a class="alert-link" href="https://www.facebook.com/MyCollegeHomepage?ref=bookmarks" target="_blank">facebook page</a>. <strong>- mchp</strong>
+					data-toggle="modal">referral window</a> (it's in the dropdown menu in the top right), you will both earn <strong>{{referral_reward}} points!</strong> We also gave you a unique referral link to share, which you can find in your <a href="{% url 'account_settings'%}" class="alert-link">account settings.</a> When someone clicks it and joins mchp, you'll both get 200 points! <strong>- mchp</strong>
       </div>
     </div>
   </div><!-- end alert -->
@@ -89,9 +87,16 @@
 					You've got nothing. Woop!
 				</div>
 				{% else %}
-				 <div class="alert alert-danger" role="alert">
-					<h4>Hey there newbie!</h4> You should either <a class="alert-link" href="{% url 'calendar_create' %}">Create</a> or <a class="alert-link" href="{% url 'calendar' %}">Subscribe</a> to a calendar to see what's going on today.
-				</div>
+        <p>Start by following some calendars or <a href="{% url 'calendar_create' %}">make your own.</a></p>
+        <div class="list-group-item">
+          <a href="#"><strong>ECON 200 Calendar</strong></a> <a href="#" class="label label-success pull-right">follow</a>
+        </div>
+        <div class="list-group-item">
+          <a href="#"><strong>MIS 111 Calendar</strong></a> <a href="#" class="label label-success pull-right">follow</a>
+        </div>
+        <div class="list-group-item">
+          <a href="#"><strong>ACCT 200 Calendar</strong></a> <a href="#" class="label label-success pull-right">follow</a>
+        </div>
 				{% endif %}
         {% endfor %}
       </div>
