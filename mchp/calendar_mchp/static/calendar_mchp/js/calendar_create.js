@@ -5,28 +5,6 @@
  */
 $(function() {
 
-	$('.what').children('.color-box').each(function() {
-		var $prev = $(this).prevAll();
-		prevColors = [];
-		$prev.each(function() {
-			var otherColor = $(this).data('color');
-			prevColors.push(otherColor);
-		});
-
-		var color = pickColor(prevColors, 50);
-		$(this).data('color', color);
-		var colorString = Please.RGB_to_HEX(color);
-		$(this).text(colorString);
-		$(this).css('background-color', colorString);
-		$prev = $(this).prevAll();
-		var colorSpan = '<span style="color: '+colorString+';">'+colorString+'</span>';
-		$prev.each(function() {
-			var otherColor = $(this).data('color');
-			$(this).append('<hr/><p>Distance from ' + colorSpan + ': ' + calculateColorDistance(color, otherColor) + '</p>');
-			
-		});
-	});
-
 	// if the select changes, show sell or not sell radios
 	$('.course-select').change(function() {
 		$('.cal-sell').fadeIn(500).removeClass('hidden');
@@ -83,60 +61,6 @@ $(function() {
 	$( window ).unload(function() {
 		$('#calendar-create')[0].reset();
 	});	
-
-	// bootstrap validator
-	// $('').bootstrapValidator({
- //        fields: {
- //        	course: {
- //                validators: {
- //                    notEmpty: {
- //                        message: 'Please choose a class'
- //                    }
- //                }
- //            },
- //            private: {
- //                validators: {
- //                    notEmpty: {
- //                        message: 'Please select one of the options above'
- //                    }
- //                }
- //            },
- //            clockstart: {
- //            	trigger: 'blur',
- //                validators: {
- //                    notEmpty: {
- //                        message: 'Your class start time is required'
- //                    }
- //                }
- //            },
- //            clockend: {
- //            	trigger: 'blur',
- //                validators: {
- //                    notEmpty: {
- //                        message: 'Your class end time is required'
- //                    }
- //                }
- //            },
- //            // enddate: {
- //            //     validators: {
- //            //         notEmpty: {
- //            //             message: 'Your class end date is required'
- //            //         }
- //            //     }
- //            // },
- //            description: {
- //                validators: {
- //                    notEmpty: {
- //                        message: 'Don\'t you want your classmates to buy this?'
- //                    }
- //                }
- //            },
- //        }
-	// });
-	// .on('success.form.bv', function(e) {
-	// 	// Prevent form submission
-	// 	e.preventDefault();
-	// });
 
 	/***********************
 	 * Submitting the form *
@@ -228,7 +152,12 @@ var pickColor = function(otherColors, threshold) {
 		var distance = calculateColorDistance(candidateColor, color);
 		return distance > threshold;
 	};
+	var tries = 0;
 	while (true) {
+		tries++;
+		if (tries > 100000) {
+			break;
+		}
 		// try a new color
 		candidateColor = Please.make_color({format: 'rgb'});
 		// compare it to every other color in the array

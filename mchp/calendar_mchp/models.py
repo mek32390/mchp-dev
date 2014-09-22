@@ -51,6 +51,8 @@ class ClassCalendar(models.Model):
             super().save()
         else:
             raise TimeOrderError("Start date must come before end date")
+        # always end on the last minute of the day 
+        self.end_date = self.end_date.replace(hour=11, minute=59)
 
         super(ClassCalendar, self).save(*args, **kwargs)
 
