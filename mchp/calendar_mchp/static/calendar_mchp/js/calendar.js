@@ -21,6 +21,7 @@ $(function() {
 		
 		name: "calendar-tour",
 		backdrop: true,
+		// storage: false,
 		onStart: stopClearPopovers,
 		onEnd: restartClearPopovers,
 		path: "/calendar/",
@@ -29,7 +30,7 @@ $(function() {
 		{
 			orphan: true,
 		    title: "<strong>This is your calendar, " + MCHP_USERNAME + "!</strong>",
-		    content: 'Let\'s say you want to make an "ECON 200" calendar, and put assignment due dates, tests, and projects in it...'
+		    content: 'You can make a calendar for each of your enrolled classes, with the option to set each one as <strong>public</strong> or <strong>private.</strong>'
 		},
 		{
 			orphan: true,
@@ -38,8 +39,8 @@ $(function() {
 		},
 		{
 			orphan: true,
-		    title: "<strong>Selling a Calendar</strong>",
-		    content: "If you choose to sell it, your classmates will be able to subscribe to it by paying you a subscription fee every 14 days. In return, they'll get to see the events you add, and get notified whenever you change or add events."
+		    title: "<strong>Public Calendar</strong>",
+		    content: "If you make it public, your classmates will be able to subscribe to it. In return, they'll get to see the events you add, and get notified whenever you change or add events."
 		},
 		{
 			element: ".owned-cals-section",
