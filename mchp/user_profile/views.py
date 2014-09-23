@@ -173,7 +173,7 @@ class ConfirmSchoolView(View):
         all_schools = School.objects.all().values('name', 'domain', 'pk').order_by('name')
         next = request.GET.get('next', '')
         email = request.user.email.split('@')[1]
-        email_parts = email.split('.')[:-1][0] + '.edu'
+        email_parts = email.split('.')[:-1]
         guess_schools = School.objects.get(pk=1)
         for part in email_parts:
             if part == 'email':
