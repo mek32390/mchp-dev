@@ -59,6 +59,19 @@ class SchoolAlias(models.Model):
     def __str__(self):
         return "Alias for {}: {}".format(self.domain, self.alias)
 
+class SchoolEmail(models.Model):
+    school = models.ForeignKey(School, related_name='school_email', null=True, blank=True)
+    email_domain = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ('school', 'email_domain')
+
+    def __str__(self):
+        if self.school:
+            return "Email for {}: {}".format(self.school.name, self.email_domain)
+        else:
+            return "Email domain: {} is missing its school".format(self.email_domain)
+
 class Major(models.Model):
     name = models.CharField(max_length=100)
 

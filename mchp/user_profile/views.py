@@ -16,7 +16,7 @@ from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent
-from schedule.models import School, Major
+from schedule.models import School, Major, SchoolEmail
 from user_profile.models import Student, OneTimeFlag, OneTimeEvent
 from documents.models import Document
 from lib.decorators import school_required
@@ -172,23 +172,44 @@ class ConfirmSchoolView(View):
 
         all_schools = School.objects.all().values('name', 'domain', 'pk').order_by('name')
         next = request.GET.get('next', '')
-        email = request.user.email.split('@')[1]
-        email_parts = email.split('.')[:-1]
-        guess_schools = School.objects.get(pk=1)
-        for part in email_parts:
-            if part == 'email':
-                continue
-
-            schools = School.objects.filter(domain__icontains=part)
-            if schools.exists():
-                guess_schools = schools[0]
-                break
-
         data = {
             'next': next,
             'schools': all_schools,
-            'guess_school': guess_schools
         }
+        # try to find their email domain in the db
+        email = request.user.email.split('@')[1].lower()
+        school_email = SchoolEmail.objects.filter(
+            email_domain = email
+        )
+        guess_school = None
+
+        # we found it, maybe!
+        if school_email.exists():
+            school_email = school_email[0]
+            guess_school = school_email.school
+        else:
+            # add this domain to the db for later manual curation
+            SchoolEmail.objects.create(
+                email_domain = email
+            )
+
+        # just because we found the email domain, doesn't mean we know the school yet
+        # the school could still be null in the db 
+        if guess_school:
+            data['guess_school'] = guess_school
+        else:
+            # try to match the school based on the schools site domain
+            guess_school = School.objects.get(pk=1)
+            email_parts = email.split('.')[:-1]
+            for part in email_parts:
+                if part == 'email':
+                    continue
+                schools = School.objects.filter(domain__icontains=part)
+                if schools.exists():
+                    guess_school = schools[0]
+                    break
+            data['guess_school'] = guess_school
+
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
