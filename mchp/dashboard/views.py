@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.core.cache import get_cache
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpResponseNotAllowed, HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
@@ -24,7 +24,7 @@ from datetime import timedelta
 import pywapi
 import json
 import requests
-from random import randrange
+from random import randrange, shuffle
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
 
@@ -127,6 +127,7 @@ class DashboardView(View):
             'weather': weather,
             'current_time': time,
             'classmates': classmates,
+            'calendars': self._get_calendars(self.student.courses.all()),
             'referral_reward': settings.MCHP_PRICING['referral_reward']
         }
         return render(request, self.template_name, data)
@@ -144,6 +145,23 @@ class DashboardView(View):
             del courses[index]
             return self._get_classmate(courses)
         return person
+
+    def _get_calendars(self, courses):
+        subs = Subscription.objects.filter(
+            student = self.student
+        )
+        if subs.exists():
+            return []
+        all_cals = []
+        for course in courses:
+            cals = ClassCalendar.objects.filter(
+                course = course,
+            ).annotate(
+                subscriptions=Count('subscribers')
+            ).order_by('subscriptions')
+            all_cals = all_cals + list(cals)[:2]
+        shuffle(all_cals)
+        return all_cals[:4]
 
     def post(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(['GET'])
