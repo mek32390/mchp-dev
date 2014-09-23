@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.flatpages',
 
+    'demo',
     'lib',
     'landing',
     'user_profile',
@@ -70,6 +71,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'referral.middleware.ReferralMiddleware',
     'lib.middleware.TimezoneMiddleware',
+    'donottrack.middleware.DoNotTrackMiddleware',
 )
 
 from django.contrib.messages import constants as message_constants
@@ -149,6 +151,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     # allauth specific context processors
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
+    "donottrack.context_processors.donottrack",
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -244,6 +247,7 @@ MCHP_PRICING = {
     'subscription_length': timedelta(days=14),
     'delinquent_subscription_length': timedelta(days=1),
     'calendar_expiration': timedelta(days=183),
+    'referral_reward': 200,
 }
 
 
