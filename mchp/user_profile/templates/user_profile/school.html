@@ -1,4 +1,4 @@
-{% extends "user_profile/base.html" %}
+{% extends "lib/base.html" %}
 
 {% block head_title %}Choose your School{% endblock %}
 {% block extra_head %}
@@ -8,7 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/confirm-school.css' %}">
 {% endblock %}
 
-{% block content %}
+{% block body %}
+{{user.student}}
 <div class="container">
 	<div id="college_select">
 		<div class="row">
