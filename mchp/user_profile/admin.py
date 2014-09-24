@@ -27,6 +27,7 @@ class CustomUserAdmin(UserAdmin):
         StudentInline,
         UserRoleInline,
     ]
+    list_filter = UserAdmin.list_filter + ('date_joined',)
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
