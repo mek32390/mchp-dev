@@ -199,7 +199,9 @@ class DocumentDetailPreview(DetailView):
            # or they uploaded it themselves, redirect to the view of the doc
             return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 
-        if not self.student.reduce_points(document.price):
+
+        points_left = self.student.reduce_points(document.price)
+        if points_left is None:
             # student didn't have enough points
             messages.error(
                 request,

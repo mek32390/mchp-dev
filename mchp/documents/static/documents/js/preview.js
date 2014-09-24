@@ -44,8 +44,8 @@ $(function () {
 		}
 		var docPrice = parseInt($('#document-price').text());
 		var points = parseInt($('.student-points').text());
-		var afterBalance = points|0 - docPrice|0;
-		if (afterBalance > 0) {
+		var afterBalance = (points|0) - (docPrice|0);
+		if (afterBalance >= 0) {
 			return true;
 		} else {
 			$('#points-modal').modal('show');
