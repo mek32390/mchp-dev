@@ -8,6 +8,8 @@ from django.views.generic.edit import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from allauth.account.models import EmailAddress
+
 from lib.decorators import school_required
 from payment.models import StripeCustomer, WebhookMessage
 from decimal import Decimal, ROUND_HALF_DOWN
@@ -125,10 +127,22 @@ class SaveInfoView(View, AjaxableResponseMixin):
 
     def customer_stripe_errors(self, token):
         customer = []
+        email = EmailAddress.objects.filter(
+            user=self.student.user
+        )
+        if email.exists():
+            email = email[0].email
+        else:
+            email = ''
+        metadata = {
+            'school': self.student.school.name,
+        }
         try: 
             customer = stripe.Customer.create(
                 card=token,
-                description=self.student.name()
+                description=self.student.user.username,
+                email=email,
+                metadata=metadata,
             )
         except stripe.error.CardError as e: 
             body = e.json_body
@@ -157,6 +171,7 @@ class SaveInfoView(View, AjaxableResponseMixin):
         except Exception as e:
             data ={
                 'response': 'Something else happened',
+                'error': str(e),
             }
             return None, self.render_to_json_response(data, status=500)
         return customer, None
@@ -193,10 +208,12 @@ class ChargeView(View, AjaxableResponseMixin):
         amount = request.POST.get('amount', 0)
         if customer.exists():
             customer_id = customer[0].stripe_id
+            description = 'Purchase of {} points.'.format(amount)
             res = stripe.Charge.create(
                 amount=amount,
                 currency="usd",
-                customer=customer_id
+                customer=customer_id,
+                description=description,
             )
             if res.paid and not res.failure_code:
                 self.student.add_purchased_points(int(amount))
