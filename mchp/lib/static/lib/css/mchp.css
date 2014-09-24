@@ -11,7 +11,7 @@ body {
 .django-messages {
     right: 20px;
     position: fixed;
-    z-index: 999;
+    z-index: 999999999;
   	width: 300px;
   	opacity:0.9;
     transition: .4s ease;
