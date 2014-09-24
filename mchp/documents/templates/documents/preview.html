@@ -99,7 +99,10 @@
 						{% endif %}
 					</div>
 					<div class="col-sm-7">
-						<h2 class="margin-top-none margin-btm-sm">{{ document.title }}<small class="pull-right"><span class="pull-right">{{document.price}} points</span>
+						<h2 class="margin-top-none margin-btm-sm">{{ document.title }}<small class="pull-right">
+								<span class="pull-right"> 
+									<span id="document-price">{{document.price}}</span> points
+								</span>
 								<p class="margin-top-none margin-btm-none"></p>
 								<span class="pull-right margin-top-none"><small>{{document.create_date|naturaltime}}</small></span>
 							</small>
@@ -118,13 +121,6 @@
 						</div><!-- end ratings bar -->
 						<p class="h6"><a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a> 
 							with Instructor {{document.course.professor}}</p>
-						<!-- <p class="h6">Students who bought this</p>
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp;
-						<a href "#"><img src="http://www.mitchellias.com/wp-content/uploads/2013/05/255271_10150996937846930_1180475451_n-320x320.jpg" style="width: 25px;" class="img-circle"></a>&nbsp; -->
 						<form id="buy-form" method="post" action="{{current_path}}">
 							{% csrf_token %}
 						</form>
