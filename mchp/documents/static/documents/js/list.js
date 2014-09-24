@@ -75,14 +75,14 @@ $(function(){
 			$('#purchased_' + pk).fadeOut(300, function() {
 				$(this).remove();
 				$purchased_list = $('#purchased-list');
-				// show the "you haven't bought any documents" message
-				if($purchased_list.children().length < 1) {
-					$('#no-purchases').show();
-				}
 				// decrement number of purchased documents
 				$count = $('#purchase-count');
 				count = parseInt($count.html());
 				$count.html(count - 1);
+				// show the "you haven't bought any documents" message
+				if(count <= 0) {
+					$('#no-purchases').show();
+				}
 			});
 		})
 		.fail(function(data) {
