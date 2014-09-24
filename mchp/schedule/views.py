@@ -541,7 +541,7 @@ class ClassesView(View):
             # get some of the latest people to join your classes
             latest_joins = list(Enrollment.objects.filter(
                 course=course['pk']
-            ).order_by('join_date')[:5])
+            ).order_by('-join_date')[:5])
             from collections import namedtuple
             Activity = namedtuple('Activity', ['type', 'title', 'time', 'user'])
 

@@ -345,7 +345,7 @@ class UsernameView(View, AjaxableResponseMixin):
             from allauth.account import app_settings
             username_blacklist_lower = [ub.lower() for ub in app_settings.USERNAME_BLACKLIST]
             if username.lower() in username_blacklist_lower:
-                return self.render_to_json_response({'error': 'You can not user that name'}, status=403)
+                return self.render_to_json_response({'error': 'You can not use that name'}, status=403)
             try:
                 request.user.save()
             except IntegrityError:
@@ -370,8 +370,6 @@ class BlurbView(View, AjaxableResponseMixin):
             profile.blurb = request.POST.get('value', '')[:200]
             profile.save()
             return self.render_to_json_response({}, status=200)
-            # else:
-            #     return self.render_to_json_response({}, status=403)
         else:
             return redirect(reverse('my_profile'))
 
