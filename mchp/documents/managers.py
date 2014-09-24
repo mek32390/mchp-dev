@@ -12,7 +12,7 @@ class DocumentManager(models.Manager):
             pk = course['pk']
         docs = documents.models.Document.objects.filter(
             course=pk
-        )[:3]
+        ).order_by('create_date')[:3]
         Activity = namedtuple('Activity', ['type', 'title', 'time', 'user'])
         events = []
         for doc in docs:
