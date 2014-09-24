@@ -87,3 +87,19 @@ class StudentModelTest(TestCase):
             'end_date': time + timedelta(seconds=5)
         }
         print(data)
+
+from django.core.urlresolvers import reverse
+from selenium_intro.selenium_tests.test import SeleniumTestCase
+from selenium_intro.selenium_tests.webdriver import CustomWebDriver
+
+# Make sure your class inherits from your base class
+class CalendarTest(SeleniumTestCase):
+    def setUp(self):
+        self.wd = CustomWebDriver()
+
+    def tearDown(self):
+        self.wd.quit()
+
+    def test_test(self):
+        self.open(reverse('calendar'))
+        self.wd.find_css('.owned-cals-section.owned-calendar-holder').click()
