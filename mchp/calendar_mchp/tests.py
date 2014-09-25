@@ -38,7 +38,6 @@ class StudentModelTest(TestCase):
 
         self.course = Course(**course_data)
         self.course.save()
-        self.student.courses.add(self.course)
 
     def testCalendarEvent(self):
         test_event = {
@@ -54,7 +53,6 @@ class StudentModelTest(TestCase):
         self.assertEqual(self.course.dept, 'CSC')
         # now = timezone.now()
         # section_data = {
-        #     'course': self.student.courses.all()[0],
         #     'start_date': now,
         #     'end_date': now + timedelta(days=1)
         # }

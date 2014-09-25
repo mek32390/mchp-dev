@@ -84,29 +84,29 @@
 					<h3 class="text-center">
 						{% ifequal viewer student %}
 						Classes
-						<p class="text-center"><span class="badge">{{user.student.courses.count}}</span></p>
+						<p class="text-center"><span class="badge">{{user.student.courses|length}}</span></p>
 						{% else %}
 						{{student.name}}'s Classes
-						<p class="text-center"><span class="badge">{{student.courses.count}}</span></p>
+						<p class="text-center"><span class="badge">{{student.courses|length}}</span></p>
 						{% endifequal %}
 					</h3>
 				</div>
 				<div class="row">
-					{% for enroll in student.courses.all %}
+					{% for course in student.courses %}
 					<div class="col-sm-2 col-centered">
 						<p></p>
 						<!-- don't include the slug here -->
-						<a href="{%url "course" enroll.course.pk%}">
+						<a href="{%url "course" course.pk%}">
 							<img src="{% static 'lib/img/book.svg' %}" alt="classes">
 						</a>
 						<!-- <i class="fa fa-check-circle-o fa-2x class-in-common"></i> -->
 						<div class="caption">
-							<h5><a href="{%url "course" enroll.course.pk%}">{{enroll.course}}</a></h5>
-							<h6>Instructor {{enroll.course.professor}}</h6>
-							<p class="small"><i class="fa fa-users fa-fw"></i> {{enroll.course.student_count}} <i
-							class="faenroll.course
+							<h5><a href="{%url "course" course.pk%}">{{course}}</a></h5>
+							<h6>Instructor {{course.professor}}</h6>
+							<p class="small"><i class="fa fa-users fa-fw"></i> {{course.student_count}} <i
+							class="facourse
 									fa-file-text-o fa-fw"></i> {{.document_count}} <i class="fa fa-calendar
-									fa-fw"></i> {{enroll.course.calendar_count}}</p>
+									fa-fw"></i> {{course.calendar_count}}</p>
 						</div>
 					</div>
 					{% empty %}

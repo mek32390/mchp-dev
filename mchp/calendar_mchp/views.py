@@ -71,9 +71,13 @@ class CalendarCreateView(View, AjaxableResponseMixin):
         return reverse('calendar')
 
     def get(self, request, *args, **kwargs):
-        courses = self.student.courses.exclude(
-            id__in = self.student.calendars.all().values('course__pk')
-        )
+        courses = self.student.courses()
+        course_pks = self.student.calendars.all().values('course__pk')
+        # [{'course__pk': 8}, {'course__pk': 88}, ...] -> [8, 88]
+        course_pks = [course['course__pk'] for course in course_pks]
+        # filter out courses w/ calendars already made
+        courses = [course for course in courses if course.pk not in course_pks]
+
         calendars = ClassCalendar.objects.filter(
             owner = self.student,
         )
@@ -687,7 +691,7 @@ class CalendarView(View):
         cal_courses = ClassCalendar.objects.filter(
             owner = self.student,
         ).values('course__pk', 'course__dept', 'course__course_number')
-        courses = self.student.courses.all()
+        courses = self.student.courses()
         subscriptions = ClassCalendar.objects.filter(
             subscription__student=self.student,
             subscription__enabled=True,

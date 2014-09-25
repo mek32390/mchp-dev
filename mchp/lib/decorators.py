@@ -58,7 +58,7 @@ def class_required(func):
     def decorator(request, *args, **kwargs):
         # we know they have a student because of the previous decorator
         student = request.user.student
-        if student.courses.count():
+        if len(student.courses()) > 0:
             return func(request, *args, **kwargs)
         else:
             messages.info(

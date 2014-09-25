@@ -6,6 +6,7 @@ from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 
 from documents.models import Upload,DocumentPurchase, Document
+from schedule.models import Course
 from user_profile import managers
 
 from decimal import Decimal, ROUND_HALF_DOWN
@@ -81,6 +82,9 @@ class Student(models.Model):
             self.purchased_points = self.purchased_points - points
         self.save()
         return self.total_points();
+
+    def courses(self):
+        return Course.objects.get_courses_for(self)
 
     # this returns the total number of documents that this student has sold
     # e.x. they uploaded two docs and the first was bought 1 time,

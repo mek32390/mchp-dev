@@ -12,6 +12,9 @@ class CourseManager(models.Manager):
         ).order_by('dept', 'course_number', 'professor')
         return courses
 
+    def get_courses_for(self, student):
+        return self.get_classes_for(student)
+
     def get_classes_in_common(self, student1, student2):
         cursor = connection.cursor()
         # simple self join 
@@ -49,7 +52,7 @@ class CourseManager(models.Manager):
             courses = [course]
         else:
             # list for all courses student is in
-            courses = student.courses
+            courses = student.courses()
         classmates = []
         for course in courses:
             classmates += self.get_classlist_for(course, exclude_student=student)

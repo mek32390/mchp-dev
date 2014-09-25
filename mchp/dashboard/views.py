@@ -11,7 +11,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import View
 
 from lib.decorators import class_required
-from schedule.models import SchoolQuicklink, SchoolAlias
+from schedule.models import SchoolQuicklink, SchoolAlias, Course
 from calendar_mchp.models import CalendarEvent, ClassCalendar, Subscription
 from dashboard.models import RSSSetting, Weather, DashEvent, RSSType, RSSLink
 from dashboard.utils import DASH_EVENTS
@@ -92,16 +92,8 @@ class DashboardView(View):
         time = timezone.localtime(timezone.now(),
                                   timezone.get_current_timezone()).strftime(date_format)
 
-        # this is so terrible
-        classmate = self._get_classmate(list(self.student.courses.all()))
-        if classmate:
-            classmates = [classmate]
-
-            second = self._get_classmate(list(self.student.courses.all()))
-            if second and second.pk != classmate.pk:
-                classmates.append(second)
-        else:
-            classmates = []
+        classmates = Course.objects.get_classmates_for(self.student)
+        print(classmates)
 
         # check if they have cals or subscriptions
         events_possible = ClassCalendar.objects.filter(
@@ -124,25 +116,10 @@ class DashboardView(View):
             'weather': weather,
             'current_time': time,
             'classmates': classmates,
-            'calendars': self._get_calendars(self.student.courses.all()),
+            'calendars': self._get_calendars(self.student.courses()),
             'referral_reward': settings.MCHP_PRICING['referral_reward']
         }
         return render(request, self.template_name, data)
-
-    def _get_classmate(self, courses):
-        if not len(courses):
-            return None
-        index = randrange(len(courses))
-        course = courses[index]
-        from schedule.models import Course
-        people = list(Course.objects.get_classmates_for(self.student, course))
-        if people:
-            person = people[randrange(len(people))]
-        else: 
-            # remove this course and try again
-            del courses[index]
-            return self._get_classmate(courses)
-        return person
 
     def _get_calendars(self, courses):
         subs = Subscription.objects.filter(

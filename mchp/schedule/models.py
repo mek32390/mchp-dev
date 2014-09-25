@@ -139,6 +139,7 @@ class Course(models.Model):
 
     class Meta:
         unique_together = ("domain", "dept", "course_number", "professor")
+        ordering = ['dept', 'course_number', 'professor']
 
     def students(self):
         return self.enrollment_set.all()
@@ -161,7 +162,7 @@ class Course(models.Model):
         return "{} {}".format(self.dept, self.course_number)
 
 class Enrollment(models.Model):
-    student = models.ForeignKey('user_profile.Student', related_name='courses')
+    student = models.ForeignKey('user_profile.Student', related_name='enrollment')
     course = models.ForeignKey(Course)
     join_date = models.DateTimeField(auto_now_add=True)
 
