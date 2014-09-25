@@ -68,9 +68,7 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         form = self.get_form(form_class)
         course_field = form.fields['course']
 
-        enrolled_courses = Course.display_objects.filter(
-            student__user = self.request.user
-        ).order_by('dept', 'course_number', 'professor')
+        enrolled_courses = Course.objects.get_courses_for(self.student)
 
         course_field.queryset = enrolled_courses
         course_field.empty_label = 'Pick a course'
