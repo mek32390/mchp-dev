@@ -95,7 +95,8 @@ class DashboardView(View):
         classmates = Course.objects.get_classmates_for(self.student)
         # get rid of duplicates 
         classmates = list(set(classmates))
-        classmates = random.sample(classmates, 2)
+        sample_size = 2 if len(classmates) > 1 else len(classmates)
+        classmates = random.sample(classmates, sample_size)
 
         # check if they have cals or subscriptions
         events_possible = ClassCalendar.objects.filter(
