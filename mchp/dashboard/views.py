@@ -21,7 +21,7 @@ from datetime import timedelta
 import pywapi
 import json
 import requests
-from random import randrange, shuffle
+import random
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
 
@@ -93,7 +93,9 @@ class DashboardView(View):
                                   timezone.get_current_timezone()).strftime(date_format)
 
         classmates = Course.objects.get_classmates_for(self.student)
-        print(classmates)
+        # get rid of duplicates 
+        classmates = list(set(classmates))
+        classmates = random.sample(classmates, 2)
 
         # check if they have cals or subscriptions
         events_possible = ClassCalendar.objects.filter(
@@ -135,7 +137,7 @@ class DashboardView(View):
                 subscriptions=Count('subscribers')
             ).order_by('subscriptions')
             all_cals = all_cals + list(cals)[:2]
-        shuffle(all_cals)
+        random.shuffle(all_cals)
         return all_cals[:4]
 
     def post(self, request, *args, **kwargs):
