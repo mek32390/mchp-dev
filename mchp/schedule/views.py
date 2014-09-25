@@ -510,9 +510,9 @@ class ClassesView(View):
     def get(self, request, *args, **kwargs):
         data = {}
         courses = Course.objects.filter(
-            student__user=self.request.user
+            enrollment__student__user=self.request.user
         ).values(
-            'dept', 'course_number', 'professor', 'pk', 'domain', 'name', 'student__user__username',
+            'dept', 'course_number', 'professor', 'pk', 'domain', 'name', 'enrollment__student__user__username',
             'domain__pk', 'domain__name',
         ).annotate(
             doc_count=Count('document')

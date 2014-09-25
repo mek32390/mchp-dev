@@ -16,7 +16,7 @@ from allauth.account.models import EmailAddress
 from allauth.account.adapter import get_adapter
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent
-from schedule.models import School, Major, SchoolEmail
+from schedule.models import School, Major, SchoolEmail, Course
 from user_profile.models import Student, OneTimeFlag, OneTimeEvent
 from documents.models import Document
 from lib.decorators import school_required
@@ -76,6 +76,7 @@ class ProfileView(DetailView):
             all_counts = 1
         context['cal_percent'] = (len(cals) * 100) / all_counts
         context['doc_percent'] = (len(docs) * 100) / all_counts
+        context['common'] = Course.objects.get_classes_in_common(self.viewer, self.object)
 
         return context
 

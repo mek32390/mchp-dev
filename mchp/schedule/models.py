@@ -141,10 +141,10 @@ class Course(models.Model):
         unique_together = ("domain", "dept", "course_number", "professor")
 
     def students(self):
-        return self.objects.get_classlist_for(self)
+        return self.enrollment_set.all()
 
     def student_count(self):
-        return len(self.students)
+        return len(self.students())
 
     def document_count(self):
         return self.document_set.count()
@@ -171,7 +171,7 @@ class Enrollment(models.Model):
         super(Enrollment, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "{} joined {} on {}".format(self.student.name(), self.course.display(), self.join_date)
+        return "Enrolled in {}".format(self.course)
 
 from schedule.utils import WEEK_DAYS
 class Section(models.Model):
