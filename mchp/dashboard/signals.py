@@ -1,7 +1,8 @@
 from django.dispatch.dispatcher import receiver
 
 from calendar_mchp.signals import calendar_event_created,subscription
-from user_profile.signals import enrolled
+from schedule.signals import enrolled
+from schedule.models import Course
 from documents.signals import document_uploaded, document_purchased
 
 from dashboard.models import DashEvent
@@ -49,8 +50,9 @@ def add_class_join(sender, **kwargs):
     enroll = kwargs['enroll']
 
     # first, send the fact that they joined to everyone already enrolled
-    followers = enroll.course.student_set.exclude(
-        pk=enroll.student.pk
+    followers = Course.objects.get_classlist_for(
+        enroll.course,
+        exclude_student = enroll.student,
     )
     data = {
         'type': DASH_EVENTS.index('other class join'),
@@ -94,7 +96,7 @@ def add_document_purchase(sender, **kwargs):
 def add_document_upload(sender, **kwargs):
     upload = kwargs['upload']
 
-    followers = upload.document.course.student_set.all()
+    followers = Course.objects.get_classlist_for(upload.document.course)
     data = {
         'type': DASH_EVENTS.index('document add'),
         'document': upload.document,

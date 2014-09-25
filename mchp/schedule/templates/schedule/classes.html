@@ -115,8 +115,7 @@
 						</div><!-- end panel heading -->
 							<div class="panel-body">
 								<div class="list-group small-scroll-con scrolls">
-									{% for enrollment in course.students %}
-                  {% with enrollment.student as student %}
+									{% for student in course.students %}
                   <li class="list-group-item">
                     <div class="media">
 											<a class="pull-left" href="{%url "profile" student.pk%}{{student.name}}">
@@ -140,7 +139,6 @@
                       </div>
                     </div>
                   </li>
-                  {% endwith %}
 									{% empty %}
 									<div class="panel panel-default">
 										<div class="panel-body text-center">

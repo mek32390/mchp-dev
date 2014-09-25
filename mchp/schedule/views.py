@@ -17,10 +17,9 @@ from lib.utils import random_mix
 from calendar_mchp.models import ClassCalendar, CalendarEvent
 from documents.models import Document
 from notification.api import add_notification
-from schedule.forms import CourseCreateForm, CourseChangeForm
-from schedule.models import Course, School, SchoolQuicklink, Section, Major
+from schedule.forms import CourseCreateForm
+from schedule.models import Course, School, SchoolQuicklink, Section, Major, Enrollment
 from schedule.utils import WEEK_DAYS
-from user_profile.models import Enrollment
 
 from datetime import datetime
 import logging
@@ -132,16 +131,13 @@ course_create = CourseCreateView.as_view()
 
 class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
     template_name = 'schedule/course_add.html'
-    form_class = CourseChangeForm
 
     # get search results (if requested), 
     # and show search box and currently enrolled courses
     def get(self, request, *args, **kwargs):
         query = ''
         show_results = False
-        enrolled_courses = Course.objects.filter(student=self.student).order_by(
-            'dept', 'course_number', 'professor'
-        )
+        enrolled_courses = Course.objects.get_classes_for(self.student)
         # user performed a search
         results = []
         if 'q' in request.GET:
@@ -168,66 +164,61 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
 
         return render(request, self.template_name, data)
 
-    def form_invalid(self, form):
-        messages.error(
-            self.request,
-            "Failed to add course."
-        )
+    def post(self, request, *args, **kwargs):
         if self.request.is_ajax():
-            return self.render_to_json_response(dict(form.errors.items()), status=400)
-        else:
-            return self.get(self.request)
-
-    def form_valid(self, form):
-        # save model manually, don't call save form
-        # form.save() would overwrite current classes instead of appending
-        student = self.student
-        course_to_add = form.cleaned_data['courses'][0]
-        enroll = Enrollment(student=student, course=course_to_add)
-        enroll.save()
-
-        messages.success(
-            self.request,
-            "Course added successfully!"
-        )
-
-        if self.request.is_ajax():
-            course = serializers.serialize('json', [course_to_add])
+            course_id = request.POST.get('course', None)
+            course = Course.objects.filter(
+                pk=course_id
+            )
+            if course.exists():
+                course = course[0]
+            else:
+                messages.error(
+                    self.request,
+                    "Failed to add course. Not found."
+                )
+                return self.render_to_json_response({}, status=400)
+            enroll = Enrollment(student=self.student, course=course)
+            enroll.save()
+            messages.success(
+                self.request,
+                "Course added successfully!"
+            )
+            course = serializers.serialize('json', [course])
             data = {
                 'messages': self.ajax_messages(),
                 'course': course,
             }
             return self.render_to_json_response(data)
         else:
-            return super(CourseAddView, self).form_valid(form)
+            return redirect(reverse('course_add')) 
 
 course_add = CourseAddView.as_view()
 
 class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
-    form_class = CourseChangeForm
 
     def get(self, request):
         return redirect(reverse('course_add'))
 
-    def form_invalid(self, form):
-        messages.error(
-            self.request,
-            "Failed to delete course"
-        )
+    def post(self, request, *args, **kwargs):
         if self.request.is_ajax():
-            return self.render_to_json_response(dict(form.errors.items()), status=400)
-        else:
-            return redirect(reverse('course_add'))
-
-    def form_valid(self, form):
-        if self.request.is_ajax():
-            course = form.cleaned_data['courses']
-            for c in course:
-                enroll = Enrollment.objects.filter(
-                    student=self.student,
-                    course=c,
+            course_id = request.POST.get('course', None)
+            course = Course.objects.filter(
+                pk=course_id
+            )
+            if course.exists():
+                course = course[0]
+            else:
+                messages.error(
+                    self.request,
+                    "Failed to remove course"
                 )
-                enroll.delete()
+                return self.render_to_json_response({}, status=400)
+            enroll = Enrollment.objects.filter(
+                student=self.student,
+                course=course,
+            )
+            enroll.delete()
             messages.success(
                 self.request,
                 "Course removed successfully"
@@ -237,7 +228,7 @@ class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
             }
             return self.render_to_json_response(data)
         else:
-            return redirect(reverse('course_add'))
+            return redirect(reverse('course_add')) 
 
 course_remove = CourseRemoveView.as_view()
 
@@ -316,7 +307,7 @@ class CourseView(View):
                 ).count()
                 calendar['events'] = total_count
             cals.append(course_cals)
-            student_count = student_count + course.student_set.count()
+            student_count = student_count + course.student_count()
 
         docs = [doc for course_doc in docs for doc in course_doc]
         context['popular_documents'] = docs
@@ -327,7 +318,7 @@ class CourseView(View):
         context['cal_count'] = len(cals)
 
         # make the bars work
-        s_count = course.student_set.all().count()
+        s_count = course.student_count()
         context['student_count'] = s_count
         all_counts = len(cals) + len(docs) + s_count
         if all_counts:
@@ -518,9 +509,9 @@ class ClassesView(View):
     def get(self, request, *args, **kwargs):
         data = {}
         courses = Course.objects.filter(
-            student__user=self.request.user
+            enrollment__student__user=self.request.user
         ).values(
-            'dept', 'course_number', 'professor', 'pk', 'domain', 'name', 'student__user__username',
+            'dept', 'course_number', 'professor', 'pk', 'domain', 'name', 'enrollment__student__user__username',
             'domain__pk', 'domain__name',
         ).annotate(
             doc_count=Count('document')
@@ -554,9 +545,7 @@ class ClassesView(View):
 
             both = list(random_mix(act, joins))
             course['activity'] = both
-            students = Enrollment.objects.filter(
-                course__pk=course['pk']
-            )
+            students = Course.objects.get_classlist_for(Course.objects.get(pk=course['pk']))
             course['students'] = students
 
         data['course_list'] = courses

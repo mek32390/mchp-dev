@@ -11,10 +11,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import View
 
 from lib.decorators import class_required
-# from lib import utils
 from schedule.models import SchoolQuicklink, SchoolAlias
-# from user_profile.models import Enrollment
-# from documents.models import Document
 from calendar_mchp.models import CalendarEvent, ClassCalendar, Subscription
 from dashboard.models import RSSSetting, Weather, DashEvent, RSSType, RSSLink
 from dashboard.utils import DASH_EVENTS
@@ -137,7 +134,8 @@ class DashboardView(View):
             return None
         index = randrange(len(courses))
         course = courses[index]
-        people = list(course.student_set.exclude(pk=self.student.pk))
+        from schedule.models import Course
+        people = list(Course.objects.get_classmates_for(self.student, course))
         if people:
             person = people[randrange(len(people))]
         else: 

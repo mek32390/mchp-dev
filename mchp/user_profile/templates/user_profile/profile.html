@@ -92,18 +92,21 @@
 					</h3>
 				</div>
 				<div class="row">
-					{% for course in student.courses.all %}
+					{% for enroll in student.courses.all %}
 					<div class="col-sm-2 col-centered">
 						<p></p>
 						<!-- don't include the slug here -->
-						<a href="{%url "course" course.pk%}">
+						<a href="{%url "course" enroll.course.pk%}">
 							<img src="{% static 'lib/img/book.svg' %}" alt="classes">
 						</a>
 						<!-- <i class="fa fa-check-circle-o fa-2x class-in-common"></i> -->
 						<div class="caption">
-							<h5><a href="{%url "course" course.pk%}">{{course}}</a></h5>
-							<h6>Instructor {{course.professor}}</h6>
-							<p class="small"><i class="fa fa-users fa-fw"></i> {{course.student_count}} <i class="fa fa-file-text-o fa-fw"></i> {{course.document_count}} <i class="fa fa-calendar fa-fw"></i> {{course.calendar_count}}</p>
+							<h5><a href="{%url "course" enroll.course.pk%}">{{enroll.course}}</a></h5>
+							<h6>Instructor {{enroll.course.professor}}</h6>
+							<p class="small"><i class="fa fa-users fa-fw"></i> {{enroll.course.student_count}} <i
+							class="faenroll.course
+									fa-file-text-o fa-fw"></i> {{.document_count}} <i class="fa fa-calendar
+									fa-fw"></i> {{enroll.course.calendar_count}}</p>
 						</div>
 					</div>
 					{% empty %}
