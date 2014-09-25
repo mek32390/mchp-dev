@@ -151,7 +151,7 @@ $(function() {
 		$.ajax({
 			url: '/school/course/remove/',
 			type: 'POST',
-			data: {'courses': course,},
+			data: {'course': course,},
 		})
 		// success
 		.done(function(data) {

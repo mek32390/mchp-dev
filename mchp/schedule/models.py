@@ -3,6 +3,8 @@ from django.db.models import Count
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 from schedule.utils import clean_domain, US_STATES
+from schedule import managers
+from schedule.signals import enrolled
 
 from functools import reduce
 from decimal import Decimal
@@ -98,8 +100,9 @@ class Course(models.Model):
 
     course_group = models.IntegerField(blank=True, null=True)
 
+    objects = managers.CourseManager() 
+
     # managers for 'deleted' cases
-    objects = models.Manager() # The default manager.
     display_objects = DisplayCourseManager()
 
     def save(self, *args, **kwargs):
@@ -138,10 +141,10 @@ class Course(models.Model):
         unique_together = ("domain", "dept", "course_number", "professor")
 
     def students(self):
-        return self.student_set.all().select_related()
+        return self.objects.get_classlist_for(self)
 
     def student_count(self):
-        return self.student_set.count()
+        return len(self.students)
 
     def document_count(self):
         return self.document_set.count()
@@ -156,6 +159,19 @@ class Course(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.dept, self.course_number)
+
+class Enrollment(models.Model):
+    student = models.ForeignKey('user_profile.Student', related_name='courses')
+    course = models.ForeignKey(Course)
+    join_date = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            enrolled.send(sender=self.__class__, enroll=self)
+        super(Enrollment, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return "{} joined {} on {}".format(self.student.name(), self.course.display(), self.join_date)
 
 from schedule.utils import WEEK_DAYS
 class Section(models.Model):

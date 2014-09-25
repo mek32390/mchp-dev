@@ -1,7 +1,6 @@
 from django.forms import ModelForm,TextInput
 
-from schedule.models import Course
-from user_profile.models import Student
+from schedule.models import Course, Enrollment
 
 '''
 entry point for this file, most forms come from a model, so using modelform makes sense. They all
@@ -93,5 +92,5 @@ class CourseChangeForm(_BaseCourseForm):
         super(CourseChangeForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        model = Student 
-        fields = ['courses']
+        model = Enrollment 
+        fields = ['course']

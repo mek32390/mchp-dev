@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 
-from user_profile.signals import enrolled
 from documents.models import Upload,DocumentPurchase, Document
 from user_profile import managers
 
@@ -19,7 +18,6 @@ class Student(models.Model):
 
     school = models.ForeignKey('schedule.School', related_name='student_school')
     major = models.ForeignKey('schedule.Major', blank=True, null=True)
-    courses = models.ManyToManyField('schedule.Course', through='Enrollment')
 
     friends = models.ManyToManyField('self', db_table='user_profile_friends')
 
@@ -109,19 +107,6 @@ class Student(models.Model):
 
 User.student = property(lambda u: Student.objects.get(user=u))
 User.student_exists = lambda u: Student.objects.filter(user=u).exists()
-
-class Enrollment(models.Model):
-    student = models.ForeignKey(Student)
-    course = models.ForeignKey('schedule.Course')
-    join_date = models.DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            enrolled.send(sender=self.__class__, enroll=self)
-        super(Enrollment, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return "{} joined {} on {}".format(self.student.name(), self.course.display(), self.join_date)
 
 class UserProfile(models.Model):
     student = models.OneToOneField(Student, related_name='student_profile')
