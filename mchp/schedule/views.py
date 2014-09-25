@@ -17,7 +17,7 @@ from lib.utils import random_mix
 from calendar_mchp.models import ClassCalendar, CalendarEvent
 from documents.models import Document
 from notification.api import add_notification
-from schedule.forms import CourseCreateForm, CourseChangeForm
+from schedule.forms import CourseCreateForm
 from schedule.models import Course, School, SchoolQuicklink, Section, Major, Enrollment
 from schedule.utils import WEEK_DAYS
 
@@ -196,7 +196,6 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
 course_add = CourseAddView.as_view()
 
 class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
-    form_class = CourseChangeForm
 
     def get(self, request):
         return redirect(reverse('course_add'))
