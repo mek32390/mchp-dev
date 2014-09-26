@@ -48,7 +48,7 @@
 			<i class="fa fa-graduation-cap fa-fw"></i> 
 			{% ifequal viewer student %}
 			<span href="#" data-type="typeaheadjs" id="major" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"> 
-        {% if student.major %}{{student.major}} {% else %} Select your Major{% endif %}
+        {% if student.major %}{{student.major}} {% else %} <span class="text-danger">Select your Major</span>{% endif %}
       </span> &nbsp;
 			{% else %}
 			<span id="major-other"> {% if student.major %}{{student.major}}{% else %}Has not selected a major yet!{% endif %}</span> &nbsp;
