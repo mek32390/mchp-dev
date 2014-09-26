@@ -118,7 +118,7 @@ def create_preview(instance):
     _document_notify(instance)
 
 def _document_notify(document):
-    template = 'document/email/document_uploaded'
+    template = 'email/document_uploaded'
     subject = 'Get ready for some studying!'
     context = {
         'document': document,
