@@ -51,8 +51,12 @@ def send_email_for(email_template, subject, context, users):
             user=user,
             primary=True,
         )
+        if address.exists():
+            address = address[0].email
+        else:
+            continue
         email = render_email(email_template, subject, address, context)
-        emails += email
+        emails.append(email)
     connection = get_connection()
     connection.send_messages(emails)
 
