@@ -16,6 +16,8 @@ from wand.image import Image
 
 from notification.api import add_notification
 from documents.models import Upload
+from lib.utils import send_email_for
+from schedule.models import Course, Enrollment
 
 logger = get_task_logger(__name__)
 
@@ -109,6 +111,28 @@ def create_preview(instance):
         logger.error(str(e))
 
     instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
+    add_notification(
+        upload.owner.user,
+        'Your document, {}, is ready to be sold!'.format(instance.title) 
+    )
+    _document_notify(instance)
+
+def _document_notify(document):
+    template = 'document/email/document_uploaded'
+    subject = 'Get ready for some studying!'
+    context = {
+        'document': document,
+        'course': document.course,
+    }
+    students = Course.objects.get_classlist_for(document.course)
+    logger.info(students)
+    enrollment = Enrollment.objects.filter(
+        course=document.course,
+        student__in=students,
+        receive_email=True,
+    )
+    users = [enroll.student.user for enroll in enrollment]
+    send_email_for(template, subject, context, users)
 
 # just runs the command passed to it
 def _run(command):
@@ -120,6 +144,7 @@ def _run(command):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
+    logger.error(proc)
     # stdout_value = proc.communicate()[0]
     # stderr_value = proc.communicate()[1]
     # logger.info('stdout: ' + str(stdout_value))

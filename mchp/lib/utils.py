@@ -41,6 +41,7 @@ def render_email(template_prefix, subject, address, context):
         [address]
     )
     email.attach_alternative(bodies['html'], 'text/html')
+    print(email)
     return email
 
 def send_email_for(email_template, subject, context, users):

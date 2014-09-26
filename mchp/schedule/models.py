@@ -164,6 +164,8 @@ class Course(models.Model):
 class Enrollment(models.Model):
     student = models.ForeignKey('user_profile.Student', related_name='enrollment')
     course = models.ForeignKey(Course)
+    # if the student wants to get emails related to class activity
+    receive_email = models.BooleanField(default=True)
     join_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
