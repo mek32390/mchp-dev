@@ -3,7 +3,7 @@ psycopg2==2.5.3
 django-allauth
 south
 pyelasticsearch
-fake-factory==0.4.0
+fake-factory
 pillow
 python-magic
 git+https://github.com/coagulant/django-storages-py3

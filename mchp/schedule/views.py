@@ -558,3 +558,13 @@ class ClassesView(View):
         return super(ClassesView, self).dispatch(*args, **kwargs)
 
 classes = ClassesView.as_view()
+
+'''
+url: /school/course/unsubscribe/
+name: course_email_unsubscribe
+'''
+class EmailUnsubscribeView(View):
+    def post(self, request, *args, **kwargs):
+        pass
+
+course_email_unsubscribe = EmailUnsubscribeView.as_view()

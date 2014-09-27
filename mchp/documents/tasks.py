@@ -115,11 +115,9 @@ def create_preview(instance):
         upload.owner.user,
         'Your document, {}, is ready to be sold!'.format(instance.title) 
     )
-    _document_notify(instance)
 
 def _document_notify(document):
     template = 'email/document_uploaded'
-    subject = 'Get ready for some studying!'
     context = {
         'document': document,
         'course': document.course,
@@ -132,7 +130,7 @@ def _document_notify(document):
         receive_email=True,
     )
     users = [enroll.student.user for enroll in enrollment]
-    send_email_for(template, subject, context, users)
+    send_email_for(template, context, users)
 
 # just runs the command passed to it
 def _run(command):

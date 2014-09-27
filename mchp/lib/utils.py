@@ -20,13 +20,20 @@ def random_mix(seq_a, seq_b):
         for x in it: yield x
         iters = [iter(seq_a), iter(seq_b)]
 
-def render_email(template_prefix, subject, address, context):
+def render_email(template_prefix, address, context):
     """
     template prefix example: 'lib/email/account_message'
     it is expected that both a .txt and .html version exist
+    A subject template can also be provided.
     """
+    try:
+        subject_template_name = "{}_subject.txt".format(template_prefix)
+        subject = render_to_string(subject_template_name, context)
+    except TemplateDoesNotExist:
+        subject = ''
     # remove line breaks
     subject = " ".join(subject.splitlines()).strip()
+
     bodies = {}
     for ext in ['html', 'txt']:
         try:
@@ -44,7 +51,7 @@ def render_email(template_prefix, subject, address, context):
     print(email)
     return email
 
-def send_email_for(email_template, subject, context, users):
+def send_email_for(email_template, context, users):
     emails = []
     for user in users:
         address = EmailAddress.objects.filter(
@@ -55,7 +62,7 @@ def send_email_for(email_template, subject, context, users):
             address = address[0].email
         else:
             continue
-        email = render_email(email_template, subject, address, context)
+        email = render_email(email_template, address, context)
         emails.append(email)
     connection = get_connection()
     connection.send_messages(emails)
