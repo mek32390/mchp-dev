@@ -16,7 +16,7 @@ from documents.models import Upload
 from notification.api import add_notification_for, add_notification
 from lib.decorators import class_required
 from referral.models import ReferralCode
-from schedule.models import Course, Section
+from schedule.models import Enrollment, Section
 from schedule.utils import WEEK_DAYS
 from user_profile.models import OneTimeFlag
 
@@ -105,16 +105,16 @@ class CalendarCreateView(View, AjaxableResponseMixin):
         return self._make_sections(request.POST.get('times', {}), calendar)
 
     def _make_calendar(self, request):
-        course = Course.objects.filter(
-            pk=request.POST.get('course', ''),
-            student=self.student,
+        enroll = Enrollment.objects.filter(
+            student = self.student,
+            course__pk=request.POST.get('course', -1)
         )
-        if not course.exists():
+        if not enroll.exists():
             # you can only create a calendar for a course you're enrolled in
             return self.send_ajax_error_message('You are not enrolled in that class', status=403)
         else:
             # course found
-            course = course[0]
+            course = enroll[0].course
 
         end_date = timezone.make_aware(datetime.strptime(
             request.POST.get('enddate', ''), "%m/%d/%Y"),
