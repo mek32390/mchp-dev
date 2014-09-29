@@ -6,6 +6,14 @@
 
 $(function(){
 
+	/* Navigation panel */
+	$('.navbar-fixed-top').on('mouseenter', function () {
+		$('#nav-panel').fadeIn(250);
+		$('#quicklinks').on('mouseenter', function () {		
+			$('#nav-panel').fadeOut(250);
+		});
+	});
+
  	/*
 	/*
 	/* TOUR FUNCTIONS

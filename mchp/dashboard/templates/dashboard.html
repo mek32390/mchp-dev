@@ -30,6 +30,48 @@
 {% load dashboard %}
 
 <div class="container">
+
+  <div id="nav-panel" class="well text-center animated bounceInDown" style="display:none;">
+    <div class="row">
+      <div class="col-xs-3 col-sm-2">
+        <a href="{%url 'dashboard'%}">
+          <img class="" src="{% static 'lib/img/bag.svg' %}" width="100%" height="60px" alt="clocks">
+          <h6 class="text-default">Home</h6>
+        </a>
+      </div>
+      <div class="col-xs-3 col-sm-2">
+        <a href="{%url 'classes'%}">
+          <img class="" src="{% static 'lib/img/book.svg' %}" width="60px" height="60px" alt="classes">
+          <h6 class="text-default">Classes</h6>
+        </a>
+      </div>
+      <div class="col-xs-3 col-sm-2">
+        <a href="{%url 'calendar'%}">
+          <img class="" src="{% static 'lib/img/calendar-default.svg' %}" width="60px" height="60px" alt="calendar">
+          <h6 class="text-default">Calendar</h6>
+        </a>
+      </div>
+      <div class="col-xs-3 col-sm-2">
+        <a href="{% url "school" school.pk %}">
+          <img class="" src="{% static 'lib/img/building-with-flag.svg' %}" width="60px" height="60px" alt="college" style="">
+          <h6 class="text-default">Univeristy</h6>
+        </a>
+      </div>
+      <div class="col-xs-3 col-sm-2">
+        <a href="{%url 'document_upload'%}">
+          <img class="" src="{% static 'lib/img/money.svg' %}" width="60px" height="60px" alt="Sell Document">
+          <h6 class="text-default">Sell Document</h6>
+        </a>
+      </div>
+      <div class="col-xs-3 col-sm-2">
+        <a href="{% url 'my_profile' %}">
+          <img class="img-circle" src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-9/10670073_10152739198961341_2613566293340518956_n.jpg?oh=8caafa1534ce6699612d8f679a68a810&oe=54BFC199&__gda__=1422761359_b5809e4f8d592411df334fd006375b91" width="60px" height="60px" alt="My Page">
+          <h6 class="text-default">My Page</h6>
+        </a>
+      </div>
+    </div>
+  </div>
+
   {% if not dashboard_ref_flag %}
   <div class="one-time-alert alert alert-info alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
     <button type="button" class="close" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
