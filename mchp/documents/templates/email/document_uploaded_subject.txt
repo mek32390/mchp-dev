@@ -1,1 +1,1 @@
-Get ready. To Study.
+{{course}} {{document.title}}
