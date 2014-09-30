@@ -40,6 +40,7 @@ def create_preview(instance):
 
     if not filetype in filetypes and not filetype in convert_type:
         logger.error('unrecognized file type: ' + instance.filetype)
+        print('unrecognized file type: ' + instance.filetype)
         return
 
     upload = Upload.objects.filter(
@@ -51,12 +52,14 @@ def create_preview(instance):
         upload = None
     if filetype in convert_type:
         logger.error('converting: ' + instance.title)
+        print('converting: '+ instance.title)
         output = 'tmp{}.pdf'.format(uuid.uuid4())
         input = '/tmp/old{}'.format(uuid.uuid4())
 
         try:
             urllib.request.urlretrieve(instance.document.url, input)
         except OSError as e:
+            print(str(e))
             logger.error(str(e))
             return
 
@@ -66,12 +69,12 @@ def create_preview(instance):
         new_doc = "{}.pdf".format(
             os.path.splitext(instance.filename())[0]
         )
-        logger.error(new_doc)
         instance.document.delete()
         try:
             instance.document.save(new_doc, File(open(output,'rb'), output))
         except FileNotFoundError:
             logger.error('Error converting {}'.format(instance.title))
+            print('error converting ' + instance.title)
             if upload:
                 add_notification(
                     upload.owner.user,
@@ -86,11 +89,13 @@ def create_preview(instance):
         os.remove(input)
         os.remove(output)
         logger.error('converted: ' + instance.title)
+        print('converted: ' + instance.title)
 
     size = 500
     try:
         with Image(filename=instance.document.url+'[0]') as img:
             logger.error('making thumbnail for: ' + instance.title)
+            print('makeing thumbnail for: ' + instance.title)
             preview_name = '/tmp/tmp{}.png'.format(uuid.uuid4().hex)
             img.save(filename=preview_name)
             img = Image(filename=preview_name)
@@ -105,10 +110,13 @@ def create_preview(instance):
                 instance.preview.save(preview, ImageFile(open(preview_name, 'rb'), preview_name))
             except Exception as e:
                 logger.error(str(e))
+                print(str(e))
             os.remove(preview_name)
             logger.error('made thumbnail for: ' + instance.title)
+            print('made thumbnail for: ' + instance.title)
     except Exception as e: 
         logger.error(str(e))
+        print(str(e))
 
     instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
     add_notification(
@@ -142,8 +150,6 @@ def _run(command):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    logger.error(proc)
-    # stdout_value = proc.communicate()[0]
-    # stderr_value = proc.communicate()[1]
-    # logger.info('stdout: ' + str(stdout_value))
-    # logger.error('stderr: ' + str(stderr_value))
+    out, err = proc.communicate()
+    print('stderr: ' + str(err))
+    print('stdout: ' + str(out))
