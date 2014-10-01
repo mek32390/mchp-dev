@@ -82,7 +82,7 @@ $(function(){
 			path: "/home",
 			element: ".step-2",
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
-		    content: "Click the <i class='fa fa-book'></i> (book) to go to your classes, or the <i class='fa fa-calendar'></i> (calendar) to go to your calendar.",
+		    content: "There is much yet to be discovered!",
 		    placement: "bottom",
 		    reflex: "true"
 		}

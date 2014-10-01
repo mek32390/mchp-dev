@@ -74,7 +74,7 @@ $(function() {
 			path: "/classes",
 			element: ".step-2",
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
-		    content: "Click the <i class='fa fa-home'></i> (home) icon above to go to your homepage, or the <i class='fa fa-calendar'></i> (calendar) to go to your calendar.",
+		    content: "<p>You surely haven\'t seen it all, have you?</p>",
 		    placement: "bottom",
 		    reflex: true
 		}

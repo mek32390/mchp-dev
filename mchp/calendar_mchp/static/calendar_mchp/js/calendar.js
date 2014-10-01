@@ -67,7 +67,7 @@ $(function() {
 		{
 			element: ".step-2",
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
-		    content: "<p>To create a calendar, click <a href='/calendar/create/' id='create-cal-btn'>here.</a></p>Click the <i class='fa fa-home'></i> (home) icon above to go to your homepage, or the <i class='fa fa-book'></i> (book) to go to your classes.",
+		    content: "<p>To create a calendar, click <a href='/calendar/create/' id='create-cal-btn'>here.</a> Or, continue exploring...</p>",
 		    placement: "bottom",
 		    reflex: true
 		}

@@ -13,6 +13,12 @@ body {
   padding-bottom: inherit !important;
   padding-right: 3px !important;
   padding-left: 3px !important;
+  border: none !important;
+}
+
+/* nav list */
+.navbar-list {
+  margin-left: -15px !important;
 }
 
 /* django-messages */

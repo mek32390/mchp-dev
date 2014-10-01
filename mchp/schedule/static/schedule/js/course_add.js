@@ -67,8 +67,8 @@ $(function() {
 		{
 			path: "/school/course/add/",
 			element: ".step-2",
-		    title: "<strong>What would you like to do next?</strong>",
-		    content: "<p>Click the <i class='fa fa-home'></i> (home) icon above to go to your homepage, the <i class='fa fa-book'></i> (book) to go to your classes, or the <i class='fa fa-calendar'></i> (calendar) to go to your calendar.</p><p class='small'>Click 'End Tour' to continue adding classes to your schedule. You can add/drop classes from your schedule anytime.</p>",
+		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
+		    content: "<p>Choose wisely, young grasshopper.</p><p class='small'>You can add/drop classes from your schedule anytime by clicking your username in the top right.</p>",
 		    placement: "bottom",
 		    reflex: true
 		}
