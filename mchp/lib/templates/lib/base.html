@@ -216,16 +216,18 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<!-- <a class="navbar-brand" href="{%url 'dashboard'%}">mchp</a> -->
+					<!-- <a class="navbar-brand visible-xs-block" href="{%url 'dashboard'%}">mchp</a> -->
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav step-2 navbar-list" style="margin-left:-15px;">
-						<li><a href="{%url 'dashboard'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/bag.svg' %}" width="20px" height="20px" alt="Home"> Home<!-- </button> --></a></li>
+						<li class=""><a href="{%url 'dashboard'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/bag.svg' %}" width="20px" height="20px" alt="Home"> Home<!-- </button> --></a></li>
 						<li><a href="{%url 'classes'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/book.svg' %}" width="20px" height="20px" alt="Classes"> Classes<!-- </button> --></a></li>
 						<li><a href="{%url 'calendar'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/calendar-default.svg' %}" width="20px" height="20px" alt="Calendar"> Calendar<!-- </button> --></a></li>
 						<li><a href='{% url "school" school.pk %}' class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/building.svg' %}" width="20px" height="20px" alt="School"> School<!-- </button> --></a></li>
-						<li><a href="{%url 'document_list'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/storage.svg' %}" width="20px" height="20px" alt="My Documents docs"> My Docs<!-- </button> --></a></li>
-						<!-- <li><a href="{%url 'document_upload'%}" class=""><img src="{% static 'lib/img/money.svg' %}" width="20px" height="20px" alt="Sell docs"> Sell Docs</a></li> -->
+						<li class="hidden-sm"><a href="{%url 'document_list'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/storage.svg' %}" width="20px" height="20px" alt="My Documents docs"> My Docs<!-- </button> --></a></li>
+						<li class="nav-btn-extra hidden-sm"><a href="{%url 'document_upload'%}" class=""><img src="{% static 'lib/img/money.svg' %}" width="20px" height="20px" alt="Sell docs"> Sell Docs</a></li>
+						<li class="nav-btn-extra hidden-sm hidden-md"><a href="{%url 'help'%}" class=""><img src="{% static 'lib/img/support.svg' %}" width="20px" height="20px" alt="Sell docs"> Help</a></li>
+						<li class="nav-btn-extra hidden-sm hidden-md"><a href="{%url 'course_add'%}" class=""><img src="{% static 'lib/img/settings.svg' %}" width="20px" height="20px" alt="Sell docs"> Account</a></li>
 					</ul>
 					<!-- <form class="navbar-form navbar-left" role="search">  			
 			<input id="mchp-search" class="form-control typeahead" placeholder="Search for a course" type="text" data-provide="typeahead">
