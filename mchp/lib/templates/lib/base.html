@@ -220,9 +220,14 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav step-2">
-						<li class=""><a href="{%url 'dashboard'%}" data-toggle="tooltip" data-original-title="Home" data-placement="bottom"><i class="fa fa-home"></i></a></li>
-						<li><a href="{%url 'classes'%}" data-toggle="tooltip" data-original-title="Classes" data-placement="bottom"><i class="fa fa-book"></i></a></li>
-						<li><a href="{%url 'calendar'%}" data-toggle="tooltip" data-original-title="Calendar" data-placement="bottom"><i class="fa fa-calendar"></i></a></li>
+						<!-- <li class=""><a href="{%url 'dashboard'%}" data-toggle="tooltip" data-original-title="Home" data-placement="bottom"></a></li> -->
+						<li><a href="{%url 'dashboard'%}" class="nav-btn-item"><button type="button" class="btn btn-default navbar-btn"><img src="{% static 'lib/img/bag.svg' %}" width="20px" height="20px" alt="Home"> Home</button></a></li>
+						<li><a href="{%url 'dashboard'%}" class="nav-btn-item"><button type="button" class="btn btn-default navbar-btn"><img src="{% static 'lib/img/book.svg' %}" width="20px" height="20px" alt="Classes"> Classes</button></a></li>
+						<li><a href="{%url 'dashboard'%}" class="nav-btn-item"><button type="button" class="btn btn-default navbar-btn"><img src="{% static 'lib/img/calendar-default.svg' %}" width="20px" height="20px" alt="Calendar"> Calendar</button></a></li>
+						<li><a href="{%url 'dashboard'%}" class="nav-btn-item"><button type="button" class="btn btn-default navbar-btn"><img src="{% static 'lib/img/building.svg' %}" width="20px" height="20px" alt="School"> School</button></a></li>
+						<li><a href="{%url 'dashboard'%}" class="nav-btn-item"><button type="button" class="btn btn-default navbar-btn"><img src="{% static 'lib/img/money.svg' %}" width="20px" height="20px" alt="Sell docs"> Sell Docs</button></a></li>
+						<!-- <li><a href="{%url 'classes'%}" data-toggle="tooltip" data-original-title="Classes" data-placement="bottom"><i class="fa fa-book"></i></a></li>
+						<li><a href="{%url 'calendar'%}" data-toggle="tooltip" data-original-title="Calendar" data-placement="bottom"><i class="fa fa-calendar"></i></a></li> -->
 					</ul>
 					<!-- <form class="navbar-form navbar-left" role="search">  			
 			<input id="mchp-search" class="form-control typeahead" placeholder="Search for a course" type="text" data-provide="typeahead">

@@ -7,6 +7,14 @@ body {
     margin-top: 70px;
 }
 
+/* nav btns */
+.nav-btn-item {
+  padding-top: inherit !important;
+  padding-bottom: inherit !important;
+  padding-right: 3px !important;
+  padding-left: 3px !important;
+}
+
 /* django-messages */
 .django-messages {
     right: 20px;
