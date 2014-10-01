@@ -58,8 +58,7 @@
     <li><strong><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></strong></li>
     {% endfor %}
     <span class="pull-right">
-			<a href="{% url "school" school.pk %}" data-toggle="tooltip" data-original-title="{{school.name}}"><i class="fa fa-fw fa-university"></i></a>&nbsp;
-      <strong><!-- <i class="fa fa-fw fa-clock-o"></i> -->
+      <strong><i class="fa fa-fw fa-clock-o"></i>
       <span class="current-time" data-time="{{current_time}}">
         {{current_time|time:"g:i:s a"}}
       </span></strong>
@@ -120,7 +119,7 @@
 										{%if classmate.major%}{{classmate.major}}{%else%}{%endif%}
 									</p>
 									<p class="small margin-top-none margin-btm-none classes-in-common">
-										You have: 
+										taking 
 										{% for course in classmate.classes_in_common %}
 										{% if not forloop.last %}
 										<a href="{% url "course" course.pk %}">{{course}}</a>,
