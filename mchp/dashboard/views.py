@@ -42,7 +42,10 @@ class DashboardView(View):
             | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
             start__range=(timezone.now(), timezone.now() + timedelta(days=1))
         ).order_by('start')
-        rss_types = RSSType.objects.all().order_by('link_order')
+        rss_types = RSSType.objects.filter(
+            Q(school=self.student.school)
+            |Q(school=None),
+        )
         for rss in rss_types:
             links = RSSLink.objects.filter(
                 rss_type=rss
@@ -97,6 +100,10 @@ class DashboardView(View):
         classmates = list(set(classmates))
         sample_size = 2 if len(classmates) > 1 else len(classmates)
         classmates = random.sample(classmates, sample_size)
+        for classmate in classmates:
+            classes_in_common = Course.objects.get_classes_in_common(classmate, self.student)
+            setattr(classmate, 'classes_in_common', classes_in_common)
+            print(classes_in_common)
 
         # check if they have cals or subscriptions
         events_possible = ClassCalendar.objects.filter(

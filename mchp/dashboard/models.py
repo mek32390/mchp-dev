@@ -33,9 +33,13 @@ class DashEvent(models.Model):
 
 class RSSType(models.Model):
     name = models.CharField(max_length=20)
+    school = models.ForeignKey('schedule.School', null=True, blank=True, default=None)
     icon = models.CharField(max_length=30)
     color = models.CharField(max_length=10)
-    link_order = models.IntegerField(unique=True)
+    link_order = models.IntegerField()
+
+    class Meta:
+        ordering = ('link_order', 'name')
 
     def __str__(self):
         return self.name

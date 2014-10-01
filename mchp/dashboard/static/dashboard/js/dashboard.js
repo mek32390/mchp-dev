@@ -217,7 +217,8 @@ var addRss = function(section, rss, name) {
 	var $item = $('.news-item-proto').first().clone();
 	$item.removeClass('news-item-proto');
 	$item.removeClass('hidden');
-	var time = moment(rss.updated, 'ddd, DD MMM YYYY HH:mm:ss ZZ');
+	// var time = moment(rss.updated, 'ddd, DD MMM YYYY HH:mm:ss ZZ');
+	var time = moment(new Date(rss.updated));
 
 	var $content = $item.find('.news-content');
 	$item.find('.news-headline').html(rss.title);

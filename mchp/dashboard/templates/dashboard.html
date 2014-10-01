@@ -116,8 +116,21 @@
                   <a href="{% url "profile" classmate.pk %}">
                     <h5 class="media-heading">{{classmate.user.username}}</h5>
                   </a>
-									<p class="small margin-btm-none">
-										{%if classmate.major%}{{classmate.major}}{%else%}{{classmate.school.name}}{%endif%}
+									<p class="small h6 margin-btm-sm margin-top-none">
+										{%if classmate.major%}{{classmate.major}}{%else%}{%endif%}
+									</p>
+									<p class="small margin-top-none margin-btm-none classes-in-common">
+										You have: 
+										{% for course in classmate.classes_in_common %}
+										{% if not forloop.last %}
+										<a href="{% url "course" course.pk %}">{{course}}</a>,
+										{% elif forloop.last and forloop.first %}
+										<a href="{% url "course" course.pk %}">{{course}}</a>
+										{% else %}
+										and <a href="{% url "course" course.pk %}">{{course}}</a>
+										{% endif %}
+										{% endfor %}
+										together.
 									</p>
                 </div>
               </div>

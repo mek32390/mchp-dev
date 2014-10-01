@@ -24,6 +24,9 @@ class School(models.Model):
     lat = models.DecimalField(max_digits=19, decimal_places=15, default=Decimal('00.000'))
     lng = models.DecimalField(max_digits=19, decimal_places=15, default=Decimal('00.000'))
 
+    class Meta:
+        ordering = ('name', )
+
     # a list of all school names stored in the database
     def school_list(self):
         return School.objects.all().name
