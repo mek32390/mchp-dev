@@ -152,6 +152,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
     "donottrack.context_processors.donottrack",
+    "schedule.context_processors.school",
 )
 
 AUTHENTICATION_BACKENDS = (
