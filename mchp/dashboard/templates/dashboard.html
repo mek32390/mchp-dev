@@ -119,6 +119,16 @@
 									<p class="small margin-btm-none">
 										{%if classmate.major%}{{classmate.major}}{%else%}{{classmate.school.name}}{%endif%}
 									</p>
+									<p class="small margin-btm-none classes-in-common">
+										You are both in: 
+										{% for course in classmate.classes_in_common %}
+										{% if not forloop.last %}
+										<a href="{% url "course" course.pk %}">{{course}},</a>
+										{% else %}
+										<a href="{% url "course" course.pk %}">{{course}}</a>
+										{% endif %}
+										{% endfor %}
+									</p>
                 </div>
               </div>
             </div>
