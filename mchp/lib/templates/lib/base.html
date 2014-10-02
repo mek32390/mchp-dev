@@ -216,7 +216,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<!-- <a class="navbar-brand visible-xs-block" href="{%url 'dashboard'%}">mchp</a> -->
+					<a class="navbar-brand nav-row-two" href="{%url 'dashboard'%}">mchp</a>
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav step-2 navbar-list" style="margin-left:-15px;">
@@ -225,28 +225,22 @@
 						<li><a href="{%url 'calendar'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/calendar-default.svg' %}" width="20px" height="20px" alt="Calendar"> Calendar<!-- </button> --></a></li>
 						<li><a href='{% url "school" school.pk %}' class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/building.svg' %}" width="20px" height="20px" alt="School"> School<!-- </button> --></a></li>
 						<li class="hidden-sm"><a href="{%url 'document_list'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/storage.svg' %}" width="20px" height="20px" alt="My Documents docs"> Documents<!-- </button> --></a></li>
-						<!-- <li class="nav-btn-extra hidden-sm"><a href="{%url 'document_upload'%}" class=""><img src="{% static 'lib/img/money.svg' %}" width="20px" height="20px" alt="Sell docs"> Sell Docs</a></li> -->
-						<!-- <li class="nav-btn-extra hidden-sm hidden-md"><a href="{%url 'my_profile' %}" class=""><img src="{{student.profile.profile_image_url}}" width="20px" height="20px" alt="Sell docs"> My Page</a></li> -->
 					</ul>
-					<!-- <form class="navbar-form navbar-left" role="search">  			
-			<input id="mchp-search" class="form-control typeahead" placeholder="Search for a course" type="text" data-provide="typeahead">
-					</form> -->
+					<ul class="nav navbar-nav nav-row-two navbar-list panel panel-default" style="margin-left:-15px;">
+						<li class=""><a href="{%url 'dashboard'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/bag.svg' %}" width="20px" height="20px" alt="Home"> Home<!-- </button> --></a></li>
+						<li><a href="{%url 'classes'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/book.svg' %}" width="20px" height="20px" alt="Classes"> Classes<!-- </button> --></a></li>
+						<li><a href="{%url 'calendar'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/calendar-default.svg' %}" width="20px" height="20px" alt="Calendar"> Calendar<!-- </button> --></a></li>
+						<li><a href='{% url "school" school.pk %}' class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/building.svg' %}" width="20px" height="20px" alt="School"> School<!-- </button> --></a></li>
+						<li class="hidden-sm"><a href="{%url 'document_list'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/storage.svg' %}" width="20px" height="20px" alt="My Documents docs"> Documents<!-- </button> --></a></li>
+						<li class="nav-items-extra"><a href="{%url 'document_upload'%}" class=""><img src="{% static 'lib/img/money.svg' %}" width="20px" height="20px" alt="Sell docs"> Sell Docs</a></li>
+						<li class="nav-item-extra"><a href="#" class=""><img src="{% static 'lib/img/settings.svg' %}" width="20px" height="20px" alt="Sell docs"> Account</a></li>
+
+						<!-- span class="nav-less-btn"><a href="#">
+							<i class="fa fa-angle-up fa-2x"></i></a>
+						</span> -->
+					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li data-toggle="tooltip" data-original-title="Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}}</span>
-						<!-- stupid svg icon that we should unclude from somewhere else -->
-						<!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="14px" height="14px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" id="nav-chip-icon" style="fill: #777; position: relative; top: 2px;">
-						<g>
-							<g>
-								<path d="M49.834,1C22.864,1,1,22.864,1,49.833c0,26.972,21.864,48.833,48.835,48.833c26.97,0,48.833-21.861,48.833-48.833    C98.668,22.864,76.805,1,49.834,1 M83.212,80.034l-4.392-5.24c-0.617,0.716-1.264,1.411-1.939,2.088    c-5.561,5.56-12.529,9.194-20.104,10.574l2.533,6.382L40.371,93.84l2.341-6.416c-7.504-1.404-14.409-5.027-19.925-10.542    c-0.719-0.719-1.405-1.463-2.059-2.228l-4.264,5.39L6.991,63.645l6.719-1.18c-1.397-4.006-2.126-8.262-2.126-12.631    c0-4.428,0.749-8.742,2.185-12.797l-6.783-0.995l9.466-16.405l4.391,5.242c0.62-0.717,1.269-1.416,1.945-2.092    c5.561-5.562,12.534-9.197,20.109-10.577l-2.532-6.382h18.939l-2.345,6.417c7.503,1.406,14.407,5.026,19.921,10.542    c0.721,0.72,1.406,1.465,2.062,2.231l4.265-5.39l9.47,16.402l-6.719,1.177c1.396,4.006,2.125,8.26,2.125,12.626    c0,4.431-0.749,8.747-2.186,12.802l6.781,0.996L83.212,80.034z"/>
-							</g>
-							<g>
-								<path d="M49.834,16.597c-8.877,0-17.225,3.458-23.502,9.734c-6.278,6.278-9.734,14.625-9.734,23.502s3.457,17.226,9.734,23.501    c6.278,6.277,14.625,9.736,23.502,9.736s17.225-3.459,23.501-9.736c6.276-6.275,9.733-14.624,9.733-23.501    s-3.457-17.224-9.733-23.502C67.059,20.055,58.712,16.597,49.834,16.597 M69.791,69.791c-5.331,5.33-12.418,8.268-19.957,8.268    s-14.627-2.938-19.957-8.268c-5.331-5.331-8.266-12.418-8.266-19.958c0-7.538,2.936-14.626,8.266-19.957    s12.418-8.266,19.957-8.266s14.625,2.936,19.957,8.266s8.268,12.419,8.268,19.957C78.059,57.373,75.122,64.46,69.791,69.791"/>
-							</g>
-							<g>
-								<path d="M51.945,46.388c-4.684-1.938-6.038-3.101-6.038-5.189c0-1.742,1.23-3.605,4.682-3.605c3.304,0,5.384,1.188,6.271,1.695    l1.037,0.592l2.076-5.475l-0.744-0.438c-1.91-1.118-4.041-1.765-6.492-1.965v-5.275h-5.377v5.614    c-4.963,1.13-8.122,4.782-8.122,9.501c0,5.733,4.577,8.319,9.513,10.254c3.866,1.567,5.443,3.147,5.443,5.459    c0,2.541-2.164,4.25-5.38,4.25c-2.524,0-5.142-0.781-7.181-2.143l-1.087-0.725L38.552,64.5l0.627,0.448    c1.882,1.346,4.861,2.291,7.804,2.513v5.48h5.431v-5.778c5.12-1.181,8.501-5.103,8.501-9.983    C60.916,52.18,58.23,48.951,51.945,46.388"/>
-							</g>
-						</g>
-						</svg> -->
 						<img src="{% static 'lib/img/games.svg' %}" width="20px" height="20px" alt="Home">
 					</a></li>
 					<li class="dropdown" id="notifs-dropdown" data-toggle="tooltip" data-original-title="Notifications" data-placement="bottom">
@@ -264,10 +258,16 @@
 							<li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
 						</ul>
 					</li>
+					<li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
+						<a href="{% url 'my_profile' %}"><img
+							src="{{student.profile.profile_image_url}}" height="20px" width="20px"
+							class="img-circle profile-image"/> <!-- {{user.first_name}} -->
+						</a>
+						</li>
 					<li class="dropdown" id="user-dropdown">
 						<a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
-							src="{{student.profile.profile_image_url}}" height="18px" width="18px"
-							class="img-circle profile-image"/> {{user.first_name}}
+							src="{% static 'lib/img/settings.svg' %}" height="20px" width="20px"
+							class="<!-- img-circle profile-image -->"/> <!-- {{user.first_name}} -->
 							<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							{% if not user.referree.count %}
@@ -276,7 +276,7 @@
 							</li>
 							<li class="divider"></li>
 							{% endif %}
-							<li><a href="{% url 'my_profile' %}">My Page</a></li>
+							<!-- <li><a href="{% url 'my_profile' %}">My Page</a></li> -->
 							<!-- <li class="divider"></li> -->
 							<!-- <li><a href="{% url 'course_create'%}">Create class</a></li> -->
 							<li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
@@ -351,5 +351,6 @@
 	{% if not donottrack %}
 	{% include "lib/google-analytics.html" %} 
 	{% endif %}
+
 	</body>
 </html>
