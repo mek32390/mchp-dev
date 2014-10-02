@@ -31,6 +31,8 @@ urlpatterns = patterns('',
 
     # legacy urls
     url(r'^iowa/', RedirectView.as_view(url=reverse_lazy('dashboard')), name='iowa'),
+    url(r'^illinois/', RedirectView.as_view(url=reverse_lazy('dashboard')), name='illinois'),
+    url(r'^indiana/', RedirectView.as_view(url=reverse_lazy('dashboard')), name='indiana'),
     url(r'^tulane/', RedirectView.as_view(url=reverse_lazy('dashboard')), name='tulane'),
     url(r'^zona/', RedirectView.as_view(url=reverse_lazy('dashboard')), name='zona')
 
