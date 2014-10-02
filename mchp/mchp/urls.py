@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
@@ -27,6 +28,12 @@ urlpatterns = patterns('',
 
     url(r'^$', include('landing.urls')),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/lib/img/favicon.ico')),
+
+    # legacy urls
+    url(r'^iowa/', RedirectView.as_view(url=reverse_lazy('dashboard')), name='iowa'),
+    url(r'^tulane/', RedirectView.as_view(url=reverse_lazy('dashboard')), name='tulane'),
+    url(r'^zona/', RedirectView.as_view(url=reverse_lazy('dashboard')), name='zona')
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += patterns('django.contrib.flatpages.views',
