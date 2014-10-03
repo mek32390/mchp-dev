@@ -103,7 +103,6 @@ class DashboardView(View):
         for classmate in classmates:
             classes_in_common = Course.objects.get_classes_in_common(classmate, self.student)
             setattr(classmate, 'classes_in_common', classes_in_common)
-            print(classes_in_common)
 
         # check if they have cals or subscriptions
         events_possible = ClassCalendar.objects.filter(
