@@ -4,15 +4,6 @@
 
 $(function() {
 
-	$('.nav-item-extra').hide();
-	$('.nav-row-two').hide();
-
-	$('.nav-more-btn').on('click', function () {
-		$('.step-2').toggleClass('nav-hide');
-		$('.nav-row-two').slideToggle('slow');
-		$('.nav-item-extra').animate({width: 'toggle'});
-	});
-
 	//detect window size for nav dropdown
 	// $(window).on('resize', function() {
 	//   	if ($(window).width() > 768) {

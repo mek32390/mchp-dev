@@ -216,7 +216,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand nav-row-two" href="{%url 'dashboard'%}">mchp</a>
+					<!-- <a class="navbar-brand nav-row-two" href="{%url 'dashboard'%}">mchp</a> -->
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav step-2 navbar-list" style="margin-left:-15px;">
@@ -226,20 +226,13 @@
 						<li><a href='{% url "school" school.pk %}' class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/building.svg' %}" width="20px" height="20px" alt="School"> School<!-- </button> --></a></li>
 						<li class="hidden-sm"><a href="{%url 'document_list'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/storage.svg' %}" width="20px" height="20px" alt="My Documents docs"> Documents<!-- </button> --></a></li>
 					</ul>
-					<ul class="nav navbar-nav nav-row-two navbar-list panel panel-default" style="margin-left:-15px;">
-						<li class=""><a href="{%url 'dashboard'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/bag.svg' %}" width="20px" height="20px" alt="Home"> Home<!-- </button> --></a></li>
-						<li><a href="{%url 'classes'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/book.svg' %}" width="20px" height="20px" alt="Classes"> Classes<!-- </button> --></a></li>
-						<li><a href="{%url 'calendar'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/calendar-default.svg' %}" width="20px" height="20px" alt="Calendar"> Calendar<!-- </button> --></a></li>
-						<li><a href='{% url "school" school.pk %}' class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/building.svg' %}" width="20px" height="20px" alt="School"> School<!-- </button> --></a></li>
-						<li class="hidden-sm"><a href="{%url 'document_list'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/storage.svg' %}" width="20px" height="20px" alt="My Documents docs"> Documents<!-- </button> --></a></li>
-						<li class="nav-items-extra"><a href="{%url 'document_upload'%}" class=""><img src="{% static 'lib/img/money.svg' %}" width="20px" height="20px" alt="Sell docs"> Sell Docs</a></li>
-						<li class="nav-item-extra"><a href="#" class=""><img src="{% static 'lib/img/settings.svg' %}" width="20px" height="20px" alt="Sell docs"> Account</a></li>
-
-						<!-- span class="nav-less-btn"><a href="#">
-							<i class="fa fa-angle-up fa-2x"></i></a>
-						</span> -->
-					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						<li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
+						<a href="{% url 'my_profile' %}"><img
+							src="{{student.profile.profile_image_url}}" height="20px" width="20px"
+							class="img-circle profile-image"/> <!-- {{user.username}} -->
+						</a>
+						</li>
 						<li data-toggle="tooltip" data-original-title="Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}}</span>
 						<img src="{% static 'lib/img/games.svg' %}" width="20px" height="20px" alt="Home">
 					</a></li>
@@ -258,12 +251,6 @@
 							<li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
 						</ul>
 					</li>
-					<li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
-						<a href="{% url 'my_profile' %}"><img
-							src="{{student.profile.profile_image_url}}" height="20px" width="20px"
-							class="img-circle profile-image"/> <!-- {{user.username}} -->
-						</a>
-						</li>
 					<li class="dropdown" id="user-dropdown">
 						<a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
 							src="{% static 'lib/img/settings.svg' %}" height="20px" width="20px"
