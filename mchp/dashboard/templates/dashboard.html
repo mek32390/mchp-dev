@@ -108,8 +108,7 @@
             <div class="list-group-item">
               <div class="media">
                 <a class="pull-left" href="{% url "profile" classmate.pk %}">
-                  <img class="media-object img-thumbnail img-circle center-block" style="width:50px;height:50px;"
-                  src="{{classmate.profile.profile_image_url}}" />
+                  <div class="media-object img-thumbnail img-circle center-block profile-image" style="width:50px; height:50px; background-image:url({{classmate.profile.profile_image_url}});"></div>
                 </a>
                 <div class="media-body">
                   <a href="{% url "profile" classmate.pk %}">

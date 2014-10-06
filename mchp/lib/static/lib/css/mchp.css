@@ -4,7 +4,9 @@
 
 /* site-wide-body margin */
 body {
-    margin-top: 70px;
+  margin-top: 70px;
+  z-index: 99;
+
 }
 
 /* nav btns */
@@ -60,8 +62,10 @@ ul.messages {
     padding: initial;
 }
 
-body {
-    z-index: 99;
+/* site-wide profile image */
+.profile-image {
+  background-position: center center;
+  background-size: cover;
 }
 
 /* style inputs to fit BS3 */

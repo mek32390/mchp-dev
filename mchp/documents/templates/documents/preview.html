@@ -156,8 +156,8 @@
               {% if uploader %}
               <div class="media">
                 <a class="pull-left" href="{%url "profile" uploader.pk %}">
-                  <img class="media-object img-circle img-thumbnail" 
-                  src="{{uploader.profile.profile_image_url}}" width="65px" style="height: 65px;">
+                  <div class="media-object img-circle img-thumbnail profile-image" 
+                  style="background-image:url({{uploader.profile.profile_image_url}}); width:65px; height: 65px;"></div>
                 </a>
                 <div class="media-body">
                   <h4 class="media-heading">

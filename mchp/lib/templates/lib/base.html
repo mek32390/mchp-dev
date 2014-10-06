@@ -228,9 +228,9 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
-						<a href="{% url 'my_profile' %}"><img
-							src="{{student.profile.profile_image_url}}" height="20px" width="20px"
-							class="img-circle profile-image"/> <!-- {{user.username}} -->
+						<a href="{% url 'my_profile' %}"><div
+							style="width:20px; height:20px; background-image:url({{student.profile.profile_image_url}});"
+							class="img-circle profile-image"> <!-- {{user.username}} --></div>
 						</a>
 						</li>
 						<li data-toggle="tooltip" data-original-title="Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}}</span>
@@ -253,8 +253,7 @@
 					</li>
 					<li class="dropdown" id="user-dropdown">
 						<a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
-							src="{% static 'lib/img/settings.svg' %}" height="20px" width="20px"
-							class="<!-- img-circle profile-image -->"/> <!-- {{user.username}} -->
+							src="{% static 'lib/img/settings.svg' %}" height="20px" width="20px"/> <!-- {{user.username}} -->
 							<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							{% if not user.referree.count %}
