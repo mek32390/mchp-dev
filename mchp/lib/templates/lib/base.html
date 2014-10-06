@@ -220,28 +220,38 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav step-2 navbar-list" style="margin-left:-15px;">
-						<li class=""><a href="{%url 'dashboard'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/bag.svg' %}" width="20px" height="20px" alt="Home"> Home<!-- </button> --></a></li>
-						<li><a href="{%url 'classes'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/book.svg' %}" width="20px" height="20px" alt="Classes"> Classes<!-- </button> --></a></li>
-						<li><a href="{%url 'calendar'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/calendar-default.svg' %}" width="20px" height="20px" alt="Calendar"> Calendar<!-- </button> --></a></li>
-						<li><a href='{% url "school" school.pk %}' class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/building.svg' %}" width="20px" height="20px" alt="School"> School<!-- </button> --></a></li>
-						<li class="hidden-sm"><a href="{%url 'document_list'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/storage.svg' %}" width="20px" height="20px" alt="My Documents docs"> Documents<!-- </button> --></a></li>
+						<li>
+							<a href="#"><img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"> Home</a>
+						</li>
+						<li>
+							<a href="{% url 'classes'%}"><img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"> Classes</a>
+						</li>
+						<li>
+							<a href="{% url 'calendar'%}"><img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"> Calendar</a>
+						</li>
+						<li>
+							<a href="/school/248/"><img src="{% static 'lib/img/building.svg' %}" class="nav-icon" width="20px" height="20px" alt="School"> School</a>
+						</li>
+						<li>
+							<a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"> Documents</a>
+						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
 						<a href="{% url 'my_profile' %}"><div
 							style="width:20px; height:20px; background-image:url({{student.profile.profile_image_url}});"
-							class="img-circle profile-image"> <!-- {{user.username}} --></div>
+							class="img-circle profile-image nav-icon"> <!-- {{user.username}} --></div>
 						</a>
 						</li>
 						<li data-toggle="tooltip" data-original-title="Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}}</span>
-						<img src="{% static 'lib/img/games.svg' %}" width="20px" height="20px" alt="Home">
+						<img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home">
 					</a></li>
 					<li class="dropdown" id="notifs-dropdown" data-toggle="tooltip" data-original-title="Notifications" data-placement="bottom">
 						{% unread_count as unread %}
 						<a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<span id="notification-count" 
 								class="badge {% if unread %}unread-notification{%else%}read-notification{% endif %} ">
-								{{unread}}</span> <img src="{% static 'lib/img/ring.svg' %}" width="20px" height="20px" alt="Notifications">
+								{{unread}}</span> <img src="{% static 'lib/img/ring.svg' %}" class="nav-icon" width="20px" height="20px" alt="Notifications">
 						</a>
 						<ul class="dropdown-menu">
 							{% unread_notifications unread %}
@@ -253,7 +263,7 @@
 					</li>
 					<li class="dropdown" id="user-dropdown">
 						<a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
-							src="{% static 'lib/img/settings.svg' %}" height="20px" width="20px"/> <!-- {{user.username}} -->
+							src="{% static 'lib/img/settings.svg' %}" class="nav-icon" height="20px" width="20px"/> <!-- {{user.username}} -->
 							<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							{% if not user.referree.count %}

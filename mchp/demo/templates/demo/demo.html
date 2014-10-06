@@ -382,27 +382,37 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav step-2 navbar-list" style="margin-left:-15px !important;">
-						<li class=""><a href="#" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/bag.svg' %}" width="20px" height="20px" alt="Home"> Home<!-- </button> --></a></li>
-						<li><a href="{% url 'classes'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/book.svg' %}" width="20px" height="20px" alt="Classes"> Classes<!-- </button> --></a></li>
-						<li><a href="{% url 'calendar'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/calendar-default.svg' %}" width="20px" height="20px" alt="Calendar"> Calendar<!-- </button> --></a></li>
-						<li><a href='school/248/' class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/building.svg' %}" width="20px" height="20px" alt="School"> School<!-- </button> --></a></li>
-						<li class="hidden-sm"><a href="{% url 'document_list'%}" class=""><!-- <button type="button" class="btn btn-default navbar-btn btn-xs"> --><img src="{% static 'lib/img/storage.svg' %}" width="20px" height="20px" alt="My Documents docs"> Documents<!-- </button> --></a></li>
+						<li class="active">
+							<a href="#"><img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"> Home</a>
+						</li>
+						<li>
+							<a href="{% url 'classes'%}"><img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"> Classes</a>
+						</li>
+						<li>
+							<a href="{% url 'calendar'%}"><img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"> Calendar</a>
+						</li>
+						<li>
+							<a href="/school/248/"><img src="{% static 'lib/img/building.svg' %}" class="nav-icon" width="20px" height="20px" alt="School"> School</a>
+						</li>
+						<li>
+							<a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"> Documents</a>
+						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
 							<a href="{% url 'my_profile' %}"><img
-								src="{% static 'lib/img/dude.svg' %}" height="20px" width="20px"
+								src="{% static 'lib/img/dude.svg' %}" class="nav-icon" height="20px" width="20px"
 								class="img-circle profile-image"/> <!-- {{user.username}} -->
 							</a>
 						</li>
 						<li data-toggle="tooltip" data-original-title="Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">500</span>
-							<img src="{% static 'lib/img/games.svg' %}" width="20px" height="20px" alt="Home">
+							<img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home">
 						</a></li>
 						<li class="dropdown" id="notifs-dropdown" data-toggle="tooltip" data-original-title="Notifications" data-placement="bottom">
 							<a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<span id="notification-count" 
 								class="badge {% if unread %}unread-notification{%else%}read-notification{% endif %} " style="background-color: #B80000;">
-								2</span> <img src="{% static 'lib/img/ring.svg' %}" width="20px" height="20px" alt="Notifications">
+								2</span> <img src="{% static 'lib/img/ring.svg' %}" class="nav-icon" width="20px" height="20px" alt="Notifications">
 							</a>
 							<ul class="dropdown-menu">
 								<li><a href="#"><label class="label label-success">new</label> You made a new sale on "Exam 1 Study Guide"!</a></li>
@@ -416,8 +426,7 @@
 						</li>
 						<li class="dropdown" id="user-dropdown">
 							<a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
-								src="{% static 'lib/img/settings.svg' %}" height="20px" width="20px"
-								class="<!-- img-circle profile-image -->"/> <!-- {{user.username}} -->
+								src="{% static 'lib/img/settings.svg' %}" class="nav-icon" height="20px" width="20px" /> <!-- {{user.username}} -->
 								<span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									{% if not user.referree.count %}
@@ -529,12 +538,12 @@
 
 								<div class="list-group-item">
 									<div class="media">
-										<a class="pull-left" href="/profile/4433/">
+										<a class="pull-left" href="/profile/4258/">
 											<img class="media-object img-thumbnail img-circle center-block" style="width:50px;height:50px;" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/v/t1.0-1/p50x50/1948074_10151938632961930_1503647379_n.jpg?oh=66362bd709cc71e2274cfd7f73db003f&oe=54B97DA2&__gda__=1421674450_5ef2718b46dc0b728a94ca3b9b26582e"
 											>
 										</a>
 										<div class="media-body">
-											<a href="/profile/4433/">
+											<a href="/profile/4258/">
 												<h5 class="media-heading">mitchellias</h5>
 											</a>
 											<p class="small h6 margin-btm-sm margin-top-none">
@@ -549,7 +558,7 @@
 
 								<div class="list-group-item">
 									<div class="media">
-										<a class="pull-left" href="/profile/4433/">
+										<a class="pull-left" href="/profile/4258/">
 											<img class="media-object img-thumbnail img-circle center-block" style="width:50px;height:50px;" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/v/t1.0-1/c15.0.50.50/p50x50/10303375_930349663646618_2481155340544668862_n.jpg?oh=2987b18ba376d1c70a2d945ce6106c78&oe=54C565AB&__gda__=1421056642_2957a2728ed55f4a8565567ce1068435"
 											>
 										</a>
@@ -579,14 +588,6 @@
 					<div class="col-sm-8"> -->
 						<div class="pulse-con">
 							<div class="list-group margin-btm-none" id="pulse">
-								<div class="text-center dash-load">
-									<p><i class="fa fa-spinner fa-spin"></i> Checking Pulse</p>
-								</div>
-								<div class="dash-empty hidden text-center">
-									<img src="https://mchp-production.s3.amazonaws.com:443/static/lib/img/safe.svg" width="70px" class="img-circle img-thumbnail" alt="no pulse">
-									<h5>You have no pulse!</h5>
-									<h6>Quick, somebody get a doctor!</h6>
-								</div>
 								<div class="list-group-item">
 									<div class="media"> <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
 										<h5><i class="fa fa-money fa-fw"></i></h5>
@@ -595,15 +596,16 @@
 										<p class="media-heading">
 											<h class="pull-right"><small><span class="dash-time">4 minutes ago</span></small></h>
 											Your <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> was purchased by <a
-											href="/profile/4243/">
+											href="/profile/4258/">
 											<strong>
-												<span class="dash-target">spencerfreid</span>
+												<span class="dash-target">mitchellias</span>
 											</strong>
 										</a>
 									</p>
 									<a href="/school/course/263/">
-										<span class="description small dash-course">MIS 111</span> </div>
+										<span class="description small dash-course">MIS 111</span> 
 									</a>
+									</div>
 								</div>
 							</div>
 							<div class="list-group-item">
@@ -613,14 +615,14 @@
 								<div class="media-body">
 									<p class="media-heading">
 										<h class="pull-right"><small><span class="dash-time">10 minutes ago</span></small></h>
-										<a href="/documents/f51ece1c1c764d27bb1e3b758dcfeedd/" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> added by <a href="/profile/4433/">
+										<a href="/documents/f51ece1c1c764d27bb1e3b758dcfeedd/" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> added by <a href="/profile/4243/">
 										<strong>
-											<span class="dash-target">mitchellias</span>
+											<span class="dash-target">spencerfreid</span>
 										</strong>
 									</a>
 								</p>
-								<a href="/school/course/372">
-									<span class="description small dash-course">GEOG 330</span>
+								<a href="/school/course/230">
+									<span class="description small dash-course">BNAD 303</span>
 								</a> 
 							</div>
 						</div>
@@ -649,7 +651,7 @@
 							<h class="pull-right"><small><span class="dash-time">12 minutes ago</span></small></h>
 							<a href="/profile/4243/" class="dash-title-link"><strong><span class="dash-title">spencerfried</span></strong></a> joined your class.
 						</p>
-						<a href="/school/course/103">
+						<a href="/school/course/262">
 							<span class="description small dash-course">ECON 200</span>
 						</a> 
 					</div>
