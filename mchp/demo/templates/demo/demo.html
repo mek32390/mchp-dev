@@ -474,6 +474,29 @@
 	<div class="django-messages">
 
 	</div>
+
+	<div class="jumbotron text-center">
+		<h1>mycollegehomepage</h1>
+ <p class="lead">The most convienent thing to hit college since the backpack</p>
+ <div class="row">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+      <!-- <hr style="margin-top: 0px;"> -->
+      <!-- ug what why is there two forms -->
+      <form id="emailForm" method="post" action="{% url 'get_email' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="input-group">
+                <input type="email" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
+                <span class="input-group-btn">
+                    <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+	</div>
+
 	<div class="container">
 
 		<ol id="quicklinks" class="breadcrumb margin-btm-sm">
@@ -485,9 +508,9 @@
 				<span id="weather_temp"><strong>86 &deg;F</strong></span> &nbsp;
 			</li>
 
-			<li><strong><a target="_blank" href="http://www.arizona.edu">Arizona.edu</a></strong></li>
+			<li><strong><a target="_blank" href="http://www.arizona.edu">School Website</a></strong></li>
 
-			<li><strong><a target="_blank" href="http://catmail.arizona.edu/">Catmail</a></strong></li>
+			<li><strong><a target="_blank" href="http://catmail.arizona.edu/">School Email</a></strong></li>
 
 			<li><strong><a target="_blank" href="https://d2l.arizona.edu/d2l/home">D2L</a></strong></li>
 
