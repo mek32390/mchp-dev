@@ -221,7 +221,7 @@
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav step-2 navbar-list" style="margin-left:-15px;">
 						<li>
-							<a href="#"><img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"> Home</a>
+							<a href="{% url 'dashboard'%}"><img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"> Home</a>
 						</li>
 						<li>
 							<a href="{% url 'classes'%}"><img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"> Classes</a>
@@ -230,7 +230,7 @@
 							<a href="{% url 'calendar'%}"><img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"> Calendar</a>
 						</li>
 						<li>
-							<a href="/school/248/"><img src="{% static 'lib/img/building.svg' %}" class="nav-icon" width="20px" height="20px" alt="School"> School</a>
+							<a href="{% url 'school' school.pk %}"><img src="{% static 'lib/img/building.svg' %}" class="nav-icon" width="20px" height="20px" alt="School"> School</a>
 						</li>
 						<li>
 							<a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"> Documents</a>
