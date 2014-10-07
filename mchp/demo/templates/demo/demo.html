@@ -64,7 +64,6 @@
 
 
 
-		<div class="mchp-username hidden">Adapt</div>
 		<!-- Set Homepage Modal -->
 		<div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -394,7 +393,7 @@
 						<li>
 							<a href="/school/248/"><img src="{% static 'lib/img/building.svg' %}" class="nav-icon" width="20px" height="20px" alt="School"> School</a>
 						</li>
-						<li>
+						<li class="hidden-sm">
 							<a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"> Documents</a>
 						</li>
 					</ul>
@@ -417,8 +416,9 @@
 							<ul class="dropdown-menu">
 								<li><a href="#"><label class="label label-success">new</label> You made a new sale on "Exam 1 Study Guide"!</a></li>
 								<li><a href="#"><label class="label label-success">new</label> "Quiz 2" was added to the ECON 200 Calendar</a></li>
-								<li><a href="#"><label class="label label-default">read</label> You joined MIS 111</a></li>
-								<li><a href="#"><label class="label label-default">read</label> You joined MKTG 361</a></li>
+								<li><a href="#"><label class="label label-default">read</label> This is sample data, but it could be real...</a></li>
+								<li><a href="#"><label class="label label-default">read</label> Enter your .EDU email to get started</a></li>
+								<li><a href="#"><label class="label label-default">read</label> Welcome to mchp!</a></li>
 								<li role="presentation" class="divider"></li>
 								<li>View All (hidden)</li>
 								<li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
@@ -477,25 +477,25 @@
 
 	<div class="jumbotron text-center">
 		<h1>mycollegehomepage</h1>
- <p class="lead">The most convienent thing to hit college since the backpack</p>
- <div class="row">
-    <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-      <!-- <hr style="margin-top: 0px;"> -->
-      <!-- ug what why is there two forms -->
-      <form id="emailForm" method="post" action="{% url 'get_email' %}">
-        {% csrf_token %}
-        <div class="form-group">
-            <div class="input-group">
-                <input type="email" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
-                <span class="input-group-btn">
-                    <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
-                </span>
-            </div>
-        </div>
-    </form>
-</div>
-</div>
-<!-- <p><h6><i class="fa fa-fw fa-file-text-o"></i> Buy and Sell Study Guides <i class="fa fa-fw fa-calendar"></i> Collaborate with Classmates on Calendars <i class="fa fa-fw fa-newspaper-o"></i> News and Events at your School</h6></p> -->
+		<p class="lead">The most convienent thing to hit college since the backpack</p>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+				<!-- <hr style="margin-top: 0px;"> -->
+				<!-- ug what why is there two forms -->
+				<form id="emailForm" method="post" action="{% url 'get_email' %}">
+					{% csrf_token %}
+					<div class="form-group">
+						<div class="input-group">
+							<input type="email" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
+							<span class="input-group-btn">
+								<button id="emailSubmit" type="submit" class="btn btn-primary btn-lg" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
+							</span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- <p><h6><i class="fa fa-fw fa-file-text-o"></i> Buy and Sell Study Guides <i class="fa fa-fw fa-calendar"></i> Collaborate with Classmates on Calendars <i class="fa fa-fw fa-newspaper-o"></i> News and Events at your School</h6></p> -->
 	</div>
 
 	<div class="container">
@@ -503,15 +503,15 @@
 		<ol id="quicklinks" class="breadcrumb margin-btm-sm">
 
 			<li data-weather="{&#39;humidity&#39;: &#39;39&#39;, &#39;feels_like&#39;: &#39;85&#39;, &#39;station&#39;: &#39;Davis-Monthan Air Force Base, AZ, US&#39;, &#39;text&#39;: &#39;Clear&#39;, &#39;wind&#39;: {&#39;text&#39;: &#39;NW&#39;, &#39;direction&#39;: &#39;310&#39;, &#39;speed&#39;: &#39;5&#39;, &#39;gust&#39;: &#39;N/A&#39;}, &#39;barometer&#39;: {&#39;reading&#39;: &#39;30.00&#39;, &#39;direction&#39;: &#39;rising rapidly&#39;}, &#39;dewpoint&#39;: &#39;58&#39;, &#39;visibility&#39;: &#39;10.0&#39;, &#39;uv&#39;: {&#39;text&#39;: &#39;Low&#39;, &#39;index&#39;: &#39;0&#39;}, &#39;last_updated&#39;: &#39;9/22/14 8:05 PM MST&#39;, &#39;temperature&#39;: &#39;86&#39;, &#39;moon_phase&#39;: {&#39;text&#39;: &#39;Waning Crescent&#39;, &#39;icon&#39;: &#39;28&#39;}, &#39;icon&#39;: &#39;31&#39;}"> 
-				<span id="weather_data" data-icon="31 is for Clear">
-					<strong><i data-toggle="tooltip" data-original-title="Clear" class="wi wi-night-clear"></i> Tucson</strong>
+				<span id="weather_data" data-icon="30 is for partyly cloudy">
+					<strong><i data-toggle="tooltip" data-original-title="Partly Cloudy" class="wi wi-cloudy"></i> Tucson</strong>
 				</span> 
 				<span id="weather_temp"><strong>86 &deg;F</strong></span> &nbsp;
 			</li>
 
-			<li><strong><a target="_blank" href="http://www.arizona.edu">School Website</a></strong></li>
+			<li><strong><a target="_blank" href="http://www.arizona.edu">Arizona.edu</a></strong></li>
 
-			<li><strong><a target="_blank" href="http://catmail.arizona.edu/">School Email</a></strong></li>
+			<li><strong><a target="_blank" href="http://catmail.arizona.edu/">Catmail</a></strong></li>
 
 			<li><strong><a target="_blank" href="https://d2l.arizona.edu/d2l/home">D2L</a></strong></li>
 
@@ -538,14 +538,14 @@
 							<div class="list-group">
 
 								<div class="list-group-item">
-									<a href="/calendar/" class="h5  text-danger ">Exam 1</a>
+									<a href="{% url 'calendar'%}" class="h5  text-danger ">Exam 1</a>
 									<p class="margin-btm-none"><span class="pull-right text-default small"><small>in 3 hours</small></span>
 										<a href="/school/course/103/" class="h6 text-default">ECON 200</a>
 									</p>
 								</div>
 
 								<div class="list-group-item">
-									<a href="/calendar/" class="h5  text-default ">Read Ch. 1 & 2</a>
+									<a href="{% url 'calendar'%}" class="h5  text-default ">Read Ch. 1 & 2</a>
 									<p class="margin-btm-none"><span class="pull-right text-default small"><small>in 15 hours</small></span>
 										<a href="/school/course/263/" class="h6 text-default">MIS 111</a>
 									</p>
@@ -629,125 +629,125 @@
 									<a href="/school/course/263/">
 										<span class="description small dash-course">MIS 111</span> 
 									</a>
-									</div>
 								</div>
 							</div>
-							<div class="list-group-item">
-								<div class="media"> <a href="/documents/f51ece1c1c764d27bb1e3b758dcfeedd/" class="media-object dash-title-link img-thumbnail pull-left btn-primary btn-xs">
-									<h5><i class="fa fa-file fa-fw"></i></h5>
-								</a>
-								<div class="media-body">
-									<p class="media-heading">
-										<h class="pull-right"><small><span class="dash-time">10 minutes ago</span></small></h>
-										<a href="/documents/f51ece1c1c764d27bb1e3b758dcfeedd/" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> added by <a href="/profile/4243/">
-										<strong>
-											<span class="dash-target">spencerfreid</span>
-										</strong>
-									</a>
-								</p>
-								<a href="/school/course/230">
-									<span class="description small dash-course">BNAD 303</span>
-								</a> 
-							</div>
 						</div>
-					</div>
-					<div class="list-group-item">
-						<div class="media"> <a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-warning btn-xs">
-							<h5><i class="fa fa-lightbulb-o fa-fw"></i></h5>
-						</a>
-						<div class="media-body">
-							<p class="media-heading">
-								<h class="pull-right"><small><span class="dash-time"></span></small></h>
-								<strong>Tip: The most popular docs in your class will be featured on the pulse</strong>
+						<div class="list-group-item">
+							<div class="media"> <a href="/documents/f51ece1c1c764d27bb1e3b758dcfeedd/" class="media-object dash-title-link img-thumbnail pull-left btn-primary btn-xs">
+								<h5><i class="fa fa-file fa-fw"></i></h5>
+							</a>
+							<div class="media-body">
+								<p class="media-heading">
+									<h class="pull-right"><small><span class="dash-time">10 minutes ago</span></small></h>
+									<a href="/documents/preview/1fd02d30cafb4da88a32cc5160879850" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> added by <a href="/profile/4243/">
+									<strong>
+										<span class="dash-target">spencerfreid</span>
+									</strong>
+								</a>
 							</p>
-							<a href="{% url 'document_upload'%}">
-								<span class="description small dash-course">Sell a Document</span>
+							<a href="/school/course/230">
+								<span class="description small dash-course">BNAD 303</span>
 							</a> 
 						</div>
 					</div>
 				</div>
 				<div class="list-group-item">
-					<div class="media"> <a href="/profile/4243/" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
-						<h5><i class="fa fa-user fa-fw"></i></h5>
+					<div class="media"> <a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-warning btn-xs">
+						<h5><i class="fa fa-lightbulb-o fa-fw"></i></h5>
 					</a>
 					<div class="media-body">
 						<p class="media-heading">
-							<h class="pull-right"><small><span class="dash-time">12 minutes ago</span></small></h>
-							<a href="/profile/4243/" class="dash-title-link"><strong><span class="dash-title">spencerfried</span></strong></a> joined your class.
+							<h class="pull-right"><small><span class="dash-time"></span></small></h>
+							<strong>Tip: The most popular docs in your class will be featured on the pulse</strong>
 						</p>
-						<a href="/school/course/262">
-							<span class="description small dash-course">ECON 200</span>
+						<a href="{% url 'document_upload'%}">
+							<span class="description small dash-course">Sell a Document</span>
 						</a> 
 					</div>
 				</div>
 			</div>
 			<div class="list-group-item">
-				<div class="media"> <a href="#" class="dash-title-link media-object img-thumbnail pull-left btn-danger btn-xs">
-					<h5><i class="fa fa-calendar fa-fw"></i></h5>
+				<div class="media"> <a href="/profile/4243/" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
+					<h5><i class="fa fa-user fa-fw"></i></h5>
 				</a>
 				<div class="media-body">
 					<p class="media-heading">
-						<h class="pull-right"><small><span class="dash-time">16 minutes ago</span></small></h>
-						<a href="/calendar" class="dash-title-link"><strong><span class="dash-title">Quiz 2</span></strong>
-						</a> added to calendar by <a href="/profile/4281/">
-						<strong>
-							<span class="dash-target">LaurenKershner</span>
-						</strong>
-					</a>
-				</p>
-				<a href="/school/course/103">
-					<span class="description small dash-course">ECON 200<span> </div>
-					</a>
+						<h class="pull-right"><small><span class="dash-time">12 minutes ago</span></small></h>
+						<a href="/profile/4243/" class="dash-title-link"><strong><span class="dash-title">spencerfried</span></strong></a> joined your class.
+					</p>
+					<a href="/school/course/262">
+						<span class="description small dash-course">ECON 200</span>
+					</a> 
 				</div>
 			</div>
-			<div class="list-group-item">
-				<div class="media"> <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
-					<h5><i class="fa fa-money fa-fw"></i></h5>
+		</div>
+		<div class="list-group-item">
+			<div class="media"> <a href="#" class="dash-title-link media-object img-thumbnail pull-left btn-danger btn-xs">
+				<h5><i class="fa fa-calendar fa-fw"></i></h5>
+			</a>
+			<div class="media-body">
+				<p class="media-heading">
+					<h class="pull-right"><small><span class="dash-time">16 minutes ago</span></small></h>
+					<a href="/calendar" class="dash-title-link"><strong><span class="dash-title">Quiz 2</span></strong>
+					</a> added to calendar by <a href="/profile/4281/">
+					<strong>
+						<span class="dash-target">LaurenKershner</span>
+					</strong>
 				</a>
-				<div class="media-body">
-					<p class="media-heading">
-						<h class="pull-right"><small><span class="dash-time">18 minutes ago</span></small></h>
-						Your <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> was purchased by <a
-						href="/profile/4252/">
-						<strong>
-							<span class="dash-target">Koby</span>
-						</strong>
-					</a>
-				</p>
-				<a href="/school/course/263/">
-					<span class="description small dash-course">MIS 111</span> </div>
+			</p>
+			<a href="/school/course/262">
+				<span class="description small dash-course">ECON 200<span> </div>
 				</a>
 			</div>
 		</div>
 		<div class="list-group-item">
-			<div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
-				<h5><i class="fa fa-user fa-fw"></i></h5>
+			<div class="media"> <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
+				<h5><i class="fa fa-money fa-fw"></i></h5>
 			</a>
 			<div class="media-body">
 				<p class="media-heading">
-					<h class="pull-right"><small><span class="dash-time">1 hour ago</span></small></h>
-					You joined a class</p>
-					<a href="/school/course/263/">
-						<span class="description small dash-course">MIS 111</span>
-					</a> 
-				</div>
-			</div>
-		</li>
+					<h class="pull-right"><small><span class="dash-time">18 minutes ago</span></small></h>
+					Your <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> was purchased by <a
+					href="/profile/4252/">
+					<strong>
+						<span class="dash-target">Koby</span>
+					</strong>
+				</a>
+			</p>
+			<a href="/school/course/263/">
+				<span class="description small dash-course">MIS 111</span> </div>
+			</a>
+		</div>
 	</div>
 	<div class="list-group-item">
-		<div class="media"> <a href="/profile/4247" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
+		<div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
 			<h5><i class="fa fa-user fa-fw"></i></h5>
 		</a>
 		<div class="media-body">
 			<p class="media-heading">
-				<h class="pull-right"><small><span class="dash-time">2 hours ago</span></small></h>
-				<a href="/profile/4247" class="dash-title-link"><strong><span class="dash-title">BradenS</span></strong></a> joined your class.
-			</p>
-			<a href="/school/course/103">
-				<span class="description small dash-course">ECON 200</span>
-			</a> 
+				<h class="pull-right"><small><span class="dash-time">1 hour ago</span></small></h>
+				You joined a class</p>
+				<a href="/school/course/263/">
+					<span class="description small dash-course">MIS 111</span>
+				</a> 
+			</div>
 		</div>
+	</li>
+</div>
+<div class="list-group-item">
+	<div class="media"> <a href="/profile/4247" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
+		<h5><i class="fa fa-user fa-fw"></i></h5>
+	</a>
+	<div class="media-body">
+		<p class="media-heading">
+			<h class="pull-right"><small><span class="dash-time">2 hours ago</span></small></h>
+			<a href="/profile/4247" class="dash-title-link"><strong><span class="dash-title">BradenS</span></strong></a> joined your class.
+		</p>
+		<a href="/school/course/262">
+			<span class="description small dash-course">ECON 200</span>
+		</a> 
 	</div>
+</div>
 </div>
 <div class="list-group-item">
 	<div class="media">
@@ -762,7 +762,7 @@
 					<strong>
 						<span class="dash-target">BradenS</span>
 					</strong>
-				</a> has subscribed to the
+				</a> has subscribed to the class
 				<a href="#" class="dash-title-link">
 					<strong><span class="dash-title"></span></strong>
 				</a> 
@@ -784,7 +784,7 @@
 			<h class="pull-right"><small><span class="dash-time">10 hours ago</span></small></h>
 			<a href="/profile/4243/" class="dash-title-link"><strong><span class="dash-title">spencerfried</span></strong></a> joined your class.
 		</p>
-		<a href="/school/course/103">
+		<a href="/school/course/262">
 			<span class="description small dash-course">ECON 200</span>
 		</a> 
 	</div>
@@ -813,7 +813,7 @@
 		<p class="media-heading">
 			<h class="pull-right"><small><span class="dash-time">2 days ago</span></small></h>
 			You joined a class</p>
-			<a href="/school/course/263/">
+			<a href="/school/course/262/">
 				<span class="description small dash-course">ECON 200</span>
 			</a> 
 		</div>
@@ -855,7 +855,7 @@
 							</a>
 						</li>
 
-						<li class="news-list-item hidden " id="news-list-item-2">
+						<li class="news-list-item " id="news-list-item-2">
 							<a class="news-link" data-toggle="tooltip" data-title="Score"
 							data-placement="bottom" data-setting="2" href="#news-2" ><i class="fa fa-dribbble"></i>
 						</a>
@@ -934,7 +934,7 @@ data-name="NBC" data-count="1">
 
 </ul>
 
-<ul id="news-2" class="news-group list-group hidden">
+<ul id="news-2" class="news-group list-group visible-group">
 	<li class="list-group-item news-header" style="background-color: #eee;">
 		<h5 class="margin-top-none margin-btm-none">Score</h5>
 	</li>
@@ -1121,7 +1121,7 @@ data-name="E! Top Stories" data-count="1">
 					</li> 
 
 					<li class="list-group" style="width:111px;">
-						<div class="list-group-item btn btn-default  toggle-rss" data-toggle="button" data-setting="2">
+						<div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="2">
 							<i class="fa fa-dribbble fa-2x"></i>
 							<h5>Score</h5>
 						</div>
@@ -1171,6 +1171,16 @@ data-name="E! Top Stories" data-count="1">
 </div>
 </div>  <!--End News Col  --> 
 </div> <!--End Row -->
+<div class="row">
+	<br></br>
+	<br></br>
+	<div class="small text-default text-center"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a></small> </div>
+</div>
 </div><!-- End Container -->
+
+</div>
+{% if not donottrack %}
+{% include "lib/google-analytics.html" %} 
+{% endif %}
 </body>
 </html>

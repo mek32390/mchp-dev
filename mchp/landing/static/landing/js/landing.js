@@ -3,6 +3,11 @@ $(function() {
         $('#instruction-text').addClass('fadeOutDown').toggleClass('delayed-5');
     });
 
+    // change notif indicator when clicked
+    $('#toggle-notifications').on('click', function () {
+        $('#notification-count').css("background-color", "#777");
+    });
+
     // BS Validator 
     $('#emailForm').bootstrapValidator({
         fields: {
@@ -17,7 +22,7 @@ $(function() {
                     },
                     regexp: {
                         regexp: /(\.edu)$/,
-                        message: 'Only .edu emails allowed'
+                        message: 'Only .EDU emails allowed'
                     }
                 }
             }
