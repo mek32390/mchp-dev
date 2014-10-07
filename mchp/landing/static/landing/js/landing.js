@@ -1,6 +1,7 @@
 $(function() {
-    $('.flip-container').on('mouseenter', function () {
-        $('#instruction-text').addClass('fadeOutDown').toggleClass('delayed-5');
+
+    $('#homepage-example').on('mouseenter', function () {
+        $('#instruction-text').addClass('animated fadeOutDown');
     });
 
     // change notif indicator when clicked
