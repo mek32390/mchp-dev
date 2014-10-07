@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>{% block head_title %}mycollegehomepage.com | mchp{% endblock %}</title>
@@ -19,54 +20,36 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
-    <script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'landing/css/landing.css' %}">
-    <script src="{% static 'landing/js/landing.js' %}"></script>
-
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/mchp.css' %}">
-    <!-- // <script src="{% static 'demo/js/demo.js' %}"></script> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'landing/css/landing.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
+
+    <script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
     <script src="{% static 'lib/js/mchp.js' %}"></script>
+    <script src="{% static 'landing/js/landing.js' %}"></script>
+    <script src="{% static 'dashboard/js/domparser.js' %}"></script>
     <script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="https://mchp-production.s3.amazonaws.com:443/static/lib/css/mchp.css"> -->
-        <!-- <script src="https://mchp-production.s3.amazonaws.com:443/static/lib/js/mchp.js"></script>
-        // <script src="https://mchp-production.s3.amazonaws.com:443/static/lib/js/enscroll-0.6.0.min.js"></script> -->
-        <script type="text/javascript"> 
-        var $buoop = {
-            vs:{i:10,f:15,o:12.1,s:5.1},
-        }; 
-        $buoop.ol = window.onload; 
-        window.onload=function(){ 
-            try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
-            var e = document.createElement("script"); 
-            e.setAttribute("type", "text/javascript"); 
-            e.setAttribute("src", "//browser-update.org/update.js"); 
-            document.body.appendChild(e); 
-        } 
-        </script> 
-
-        <script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
-
-        <script src="https://mchp-production.s3.amazonaws.com:443/static/dashboard/js/jquery.jfeed.js"></script>
-
-        <link rel="stylesheet" type="text/css" href="https://mchp-production.s3.amazonaws.com:443/static/lib/css/bootstrap-tour.min.css">
-        <script src="https://mchp-production.s3.amazonaws.com:443/static/lib/js/bootstrap-tour.min.js"></script>
-
-        <link rel="stylesheet" type="text/css" href="https://mchp-production.s3.amazonaws.com:443/static/dashboard/css/dashboard.css">
-        <link rel="stylesheet" type="text/css" href="https://mchp-production.s3.amazonaws.com:443/static/dashboard/css/weather-icons.min.css">
-        <script src="https://mchp-production.s3.amazonaws.com:443/static/dashboard/js/dashboard.js"></script>
-        <script src="https://mchp-production.s3.amazonaws.com:443/static/dashboard/js/domparser.js"></script>
-        <script src="https://mchp-production.s3.amazonaws.com:443/static/lib/js/jquery.cookie.js"></script>
-
-
+  
+    <!-- // Notify to update old browsers -->
+    <script type="text/javascript"> 
+    var $buoop = {
+        vs:{i:10,f:15,o:12.1,s:5.1},
+    }; 
+    $buoop.ol = window.onload; 
+    window.onload=function(){ 
+        try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
+        var e = document.createElement("script"); 
+        e.setAttribute("type", "text/javascript"); 
+        e.setAttribute("src", "//browser-update.org/update.js"); 
+        document.body.appendChild(e); 
+    } 
+    </script> 
     {% endblock %}
-
 </head>
-<body>
-    <!-- Set Homepage Modal -->
+    <body>
+        <!-- Set Homepage Modal -->
         <div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -335,7 +318,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- Referral Modal -->
         <div class="modal fade" id="referral-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -368,7 +351,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Start Navigation -->
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
@@ -383,846 +365,575 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav step-2 navbar-list" style="margin-left:-15px !important;">
-                        <li class="active">
-                            <a href="#"><img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"> Home</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'classes'%}"><img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"> Classes</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'calendar'%}"><img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"> Calendar</a>
-                        </li>
-                        <li>
-                            <a href="/school/248/"><img src="{% static 'lib/img/building.svg' %}" class="nav-icon" width="20px" height="20px" alt="School"> School</a>
-                        </li>
-                        <li class="hidden-sm">
-                            <a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"> Documents</a>
-                        </li>
+                        <li><a href="{% url 'dashboard' %}"><img src="{% static 'lib/img/bag.svg' %}" width="20px" height="20px" alt="Home"> Home</a></li>
+                        <li><a href="{% url 'classes'%}"><img src="{% static 'lib/img/book.svg' %}" width="20px" height="20px" alt="Classes"> Classes</a></li>
+                        <li><a href="{% url 'calendar'%}"><img src="{% static 'lib/img/calendar-default.svg' %}" width="20px" height="20px" alt="Calendar"> Calendar</a></li>
+                        <li><a href='/school/248/'><img src="{% static 'lib/img/building.svg' %}" width="20px" height="20px" alt="School"> School</a></li>
+                        <li class="hidden-sm"><a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" width="20px" height="20px" alt="My Documents docs"> Documents</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <!-- <li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
                             <a href="{% url 'my_profile' %}"><img
-                                src="{% static 'lib/img/dude.svg' %}" class="nav-icon" height="20px" width="20px"
-                                class="img-circle profile-image"/> <!-- {{user.username}} -->
-                            <!-- </a>
-                        </li>  -->
-                        <li data-toggle="tooltip" data-original-title="Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">500</span>
-                            <img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home">
-                        </a></li>
-                        <li class="dropdown" id="notifs-dropdown" data-toggle="tooltip" data-original-title="Notifications" data-placement="bottom">
+                                src="{% static 'lib/img/dude.svg' %}" height="20px" width="20px"
+                                class="img-circle profile-image"/>
+                            </a>
+                        </li> -->
+                        <li data-toggle="tooltip" data-original-title="Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">500</span> <img src="{% static 'lib/img/games.svg' %}" width="20px" height="20px" alt="Home"></a>
+                        </li>
+                        <li class="dropdown" id="notifs-dropdown">
                             <a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span id="notification-count" 
-                                class="badge {% if unread %}unread-notification{%else%}read-notification{% endif %} " style="background-color: #B80000;">
-                                2</span> <img src="{% static 'lib/img/ring.svg' %}" class="nav-icon" width="20px" height="20px" alt="Notifications">
+                                <span id="notification-count" class="badge {% if unread %}unread-notification{%else%}read-notification{% endif %}" style="background-color: #B80000;">
+                                2</span> <img src="{% static 'lib/img/ring.svg' %}" width="20px" height="20px" alt="Notifications" data-toggle="tooltip" data-original-title="Notifications" data-placement="bottom">
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"><label class="label label-success">new</label> You made a new sale on "Exam 1 Study Guide"!</a></li>
                                 <li><a href="#"><label class="label label-success">new</label> "Quiz 2" was added to the ECON 200 Calendar</a></li>
-                                <li><a href="#"><label class="label label-default">read</label> This is sample data, but it could be real...</a></li>
-                                <li><a href="#"><label class="label label-default">read</label> Enter your .EDU email to get started</a></li>
-                                <li><a href="#"><label class="label label-default">read</label> Welcome to mchp!</a></li>
+                                <li><a href="#"><label class="label label-default">read</label> You joined MIS 111</a></li>
+                                <li><a href="#"><label class="label label-default">read</label> You joined MKTG 361</a></li>
                                 <li role="presentation" class="divider"></li>
                                 <li>View All (hidden)</li>
                                 <li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="{% url 'account_login'%}">Login</a>
-                        </li>
+                        <li><a href="{% url 'account_login' %}"><strong>Login</strong></a>
                         <!-- <li class="dropdown" id="user-dropdown">
                             <a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
-                                src="{% static 'lib/img/settings.svg' %}" class="nav-icon" height="20px" width="20px" /> <!-- {{user.username}} -->
-                                <!-- <span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    {% if not user.referree.count %}
-                                    <li>
-                                        <a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star"></i> Redeem Referral</strong></a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    {% endif %}
-                                    <li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
-                                    <li><a href="{% url 'document_upload'%}">Upload Documents</a></li>
-                                    <li class="divider"></li>
-                                    <li><a data-toggle="modal" href="#sethomeModal">Set Homepage</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="{% url 'account_settings'%}">My Account</a></li>
-                                    <li><a href="{% url 'help'%}">Help</a></li>
-                                    <li><a href="{% url 'account_logout' %}">Log Out</a></li>
-                                </ul>
-                            </li> --> 
-                        </ul>
-                    </div><!--/.nav-collapse -->
-                </div>
-            </div><!-- End Nav -->
-
-            <!-- user popover -->
-        <!-- <div id="userPopoverContent" class="hidden" style="width:200px;">
-        <span class="text-center">
-        <img class="img-circle img-thumbnail center-block" src="" width="120px"/>
-        <h5 style="margin-bottom:0px;"><a href="/profile/"> </a></h5>
-        <small><span class="text-center center-block">@Adapt</span></small>
-        <h5><small>20 friends and 3 classes in common</small></h5>
-        <hr>
-        <small>
-        <div class="progress" style="margin-bottom:;"><a href="#" class="progress-bar progress-bar-success" style="width:20%;"></a><a href="#" class="progress-bar progress-bar-primary" style="width:20%;"></a><a href="#" class="progress-bar progress-bar-info" style="width:60%;" ></a></div>
-        </small>
-        </span>
-    </div> -->
-    <!-- end user popover -->
-    <!-- Django Messages -->
-    <div class="django-messages">
-
-    </div>
-
-    <div class="jumbotron text-center">
-        <h1>mycollegehomepage</h1>
-        <p class="lead">The most convienent thing to hit college since the backpack</p>
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-                <!-- <hr style="margin-top: 0px;"> -->
-                <!-- ug what why is there two forms -->
-                <form id="emailForm" method="post" action="{% url 'get_email' %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="email" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
-                            <span class="input-group-btn">
-                                <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
-                            </span>
+                                src="{% static 'lib/img/settings.svg' %}" height="20px" width="20px"/>
+                                <span class="caret dropdown-toggle" data-toggle="dropdown"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                {% if not user.referree.count %}
+                                <li>
+                                    <a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star"></i> Redeem Referral</strong></a>
+                                </li>
+                                <li class="divider"></li>
+                                {% endif %}
+                                <li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
+                                <li><a href="{% url 'document_upload'%}">Upload Documents</a></li>
+                                <li class="divider"></li>
+                                <li><a data-toggle="modal" href="#sethomeModal">Set Homepage</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url 'account_settings'%}">My Account</a></li>
+                                <li><a href="{% url 'help'%}">Help</a></li>
+                                <li><a href="{% url 'account_logout' %}">Log Out</a></li>
+                            </ul>
+                        </li> -->
+                    </ul><!-- end navbar right -->
+                </div><!--/.nav-collapse -->
+            </div><!-- end navbar container -->
+        </div><!-- End Nav -->
+        <div class="django-messages"><!-- Django Messages -->
+        </div>
+        <div class="jumbotron text-center">
+            <h1>mycollegehomepage</h1>
+            <p class="lead">The most convienent thing to hit college since the backpack</p>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                    <!-- ug what why is there two forms -->
+                    <form id="emailForm" method="post" action="{% url 'get_email' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="email" class="form-control input-lg" name="email" placeholder="What is your .edu email?"/>
+                                <span class="input-group-btn">
+                                    <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-        <!-- <p><h6><i class="fa fa-fw fa-file-text-o"></i> Buy and Sell Study Guides <i class="fa fa-fw fa-calendar"></i> Collaborate with Classmates on Calendars <i class="fa fa-fw fa-newspaper-o"></i> News and Events at your School</h6></p> -->
-    </div>
-
-    <div class="container" id="homepage-example">
-        <div id="instruction-text" class="text-center center-block">
-            <span class="badge">Below is an example homepage for a University of Arizona Student</span>
-        </div>
-
-        <ol id="quicklinks" class="breadcrumb margin-btm-sm">
-
-            <li data-weather="{&#39;humidity&#39;: &#39;39&#39;, &#39;feels_like&#39;: &#39;85&#39;, &#39;station&#39;: &#39;Davis-Monthan Air Force Base, AZ, US&#39;, &#39;text&#39;: &#39;Clear&#39;, &#39;wind&#39;: {&#39;text&#39;: &#39;NW&#39;, &#39;direction&#39;: &#39;310&#39;, &#39;speed&#39;: &#39;5&#39;, &#39;gust&#39;: &#39;N/A&#39;}, &#39;barometer&#39;: {&#39;reading&#39;: &#39;30.00&#39;, &#39;direction&#39;: &#39;rising rapidly&#39;}, &#39;dewpoint&#39;: &#39;58&#39;, &#39;visibility&#39;: &#39;10.0&#39;, &#39;uv&#39;: {&#39;text&#39;: &#39;Low&#39;, &#39;index&#39;: &#39;0&#39;}, &#39;last_updated&#39;: &#39;9/22/14 8:05 PM MST&#39;, &#39;temperature&#39;: &#39;86&#39;, &#39;moon_phase&#39;: {&#39;text&#39;: &#39;Waning Crescent&#39;, &#39;icon&#39;: &#39;28&#39;}, &#39;icon&#39;: &#39;31&#39;}"> 
-                <span id="weather_data" data-icon="30 is for partyly cloudy">
-                    <strong><i data-toggle="tooltip" data-original-title="Partly Cloudy" class="wi wi-cloudy"></i> Tucson</strong>
-                </span> 
-                <span id="weather_temp"><strong>86 &deg;F</strong></span> &nbsp;
-            </li>
-
-            <li><strong><a target="_blank" href="http://www.arizona.edu">Arizona.edu</a></strong></li>
-
-            <li><strong><a target="_blank" href="http://catmail.arizona.edu/">Catmail</a></strong></li>
-
-            <li><strong><a target="_blank" href="https://d2l.arizona.edu/d2l/home">D2L</a></strong></li>
-
-            <li><strong><a target="_blank" href="https://blackboard.eller.arizona.edu/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1">Blackboard</a></strong></li>
-
-            <li><strong><a target="_blank" href="https://student851.uaccess.arizona.edu/psp/uazsaprd/UA_STUDENT/HRMS/h/?tab=DEFAULT">UAccess</a></strong></li>
-
-            <span class="pull-right">
-
-                <strong><i class="fa fa-fw fa-clock-o"></i>
-                    <span class="current-time" data-time="2014-09-22T20:32:12-0700">
-
-                    </span></strong>
+        <div class="container" id="homepage-example">
+            <ol id="quicklinks" class="breadcrumb margin-btm-sm">
+                <li data-weather="{&#39;humidity&#39;: &#39;39&#39;, &#39;feels_like&#39;: &#39;85&#39;, &#39;station&#39;: &#39;Davis-Monthan Air Force Base, AZ, US&#39;, &#39;text&#39;: &#39;Clear&#39;, &#39;wind&#39;: {&#39;text&#39;: &#39;NW&#39;, &#39;direction&#39;: &#39;310&#39;, &#39;speed&#39;: &#39;5&#39;, &#39;gust&#39;: &#39;N/A&#39;}, &#39;barometer&#39;: {&#39;reading&#39;: &#39;30.00&#39;, &#39;direction&#39;: &#39;rising rapidly&#39;}, &#39;dewpoint&#39;: &#39;58&#39;, &#39;visibility&#39;: &#39;10.0&#39;, &#39;uv&#39;: {&#39;text&#39;: &#39;Low&#39;, &#39;index&#39;: &#39;0&#39;}, &#39;last_updated&#39;: &#39;9/22/14 8:05 PM MST&#39;, &#39;temperature&#39;: &#39;86&#39;, &#39;moon_phase&#39;: {&#39;text&#39;: &#39;Waning Crescent&#39;, &#39;icon&#39;: &#39;28&#39;}, &#39;icon&#39;: &#39;31&#39;}"> 
+                    <span id="weather_data" data-icon="31 is for Clear"><strong><i data-toggle="tooltip" data-original-title="Partly Cloudy" class="wi wi-cloudy"></i> </strong>
+                    </span> 
+                    <span id="weather_temp"><strong>86 &deg;F</strong></span> &nbsp;
+                </li>
+                <li><strong><a target="_blank" href="http://www.arizona.edu">Arizona.edu</a></strong></li>
+                <li><strong><a target="_blank" href="http://catmail.arizona.edu/">Catmail</a></strong></li>
+                <li><strong><a target="_blank" href="https://d2l.arizona.edu/d2l/home">D2L</a></strong></li>
+                <li><strong><a target="_blank" href="https://blackboard.eller.arizona.edu/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1">Blackboard</a></strong></li>
+                <li><strong><a target="_blank" href="https://student851.uaccess.arizona.edu/psp/uazsaprd/UA_STUDENT/HRMS/h/?tab=DEFAULT">UAccess</a></strong></li>
+                <span class="pull-right">
+                    <li><span id="instruction-text"><small>Example homepage @ the <a href="/school/248/">U of A</a></small></span></li>
                 </span>
-            </ol>
-            <!-- End Quicklinks -->
+            </ol><!-- End Quicklinks -->
             <div class="row"><!-- Begin Row --> 
-                <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
+                <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Col One-->
                     <div class="row">
                         <div id="today-section" class="col-sm-12">
                             <h2 style>Today&nbsp;<small>in your life</small></h2>
                             <hr class="margin-top-sm">
                             <h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">2</span></strong></h5>
                             <div class="list-group">
-
                                 <div class="list-group-item">
-                                    <p><a href="{% url 'calendar'%}" class="h5  text-danger ">Exam 1</a></p>
-                                    <p class="margin-btm-none"><span class="pull-right text-default small"><small>in 3 hours</small></span>
-                                        <a href="/school/course/103/" class="h6 text-default">ECON 200</a>
+                                    <a href="/calendar/" class="h5  text-danger ">Exam 1</a>
+                                    <p class="margin-btm-none"><span class="pull-right text-default small"><small>in 3 hours</small></span><a href="/school/course/103/" class="h6 text-default">ECON 200</a>
                                     </p>
                                 </div>
-
                                 <div class="list-group-item">
-                                    <p><a href="{% url 'calendar'%}" class="h5  text-default ">Read Ch. 1 & 2</a></p>
-                                    <p class="margin-btm-none"><span class="pull-right text-default small"><small>in 15 hours</small></span>
-                                        <a href="/school/course/263/" class="h6 text-default">MIS 111</a>
+                                    <a href="/calendar/" class="h5  text-default ">Read Ch. 1 & 2</a>
+                                    <p class="margin-btm-none"><span class="pull-right text-default small"><small>in 15 hours</small></span><a href="/school/course/263/" class="h6 text-default">MIS 111</a>
                                     </p>
                                 </div>
-
-                            </div>
-                        </div>
-                    </div>
+                            </div><!-- End List Group -->
+                        </div><!-- End Today Col/Section -->
+                    </div><!-- End Today Row -->
                     <div class="row">
                         <div id="people-section" class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
                             <h2>People <small>to meet</small></h2>
                             <hr class="margin-top-sm">
                             <div class="list-group">
-
                                 <div class="list-group-item">
                                     <div class="media">
-                                        <a class="pull-left" href="/profile/4258/">
+                                        <a class="pull-left" href="/profile/4433/">
                                             <img class="media-object img-thumbnail img-circle center-block" style="width:50px;height:50px;" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/v/t1.0-1/p50x50/1948074_10151938632961930_1503647379_n.jpg?oh=66362bd709cc71e2274cfd7f73db003f&oe=54B97DA2&__gda__=1421674450_5ef2718b46dc0b728a94ca3b9b26582e"
                                             >
                                         </a>
                                         <div class="media-body">
-                                            <a href="/profile/4258/">
-                                                <h5 class="media-heading">mitchellias</h5>
-                                            </a>
-                                            <p class="small h6 margin-btm-sm margin-top-none">
-                                                Entrepreneurship Major
-                                            </p>
-                                            <p class="small margin-top-none margin-btm-none classes-in-common">
-                                                taking <a href="/school/course/103/">ECON 200</a> and <a href="/school/course/263/">MIS 111</a> together.
+                                            <h5 class="media-heading"><a href="/profile/4433/">mitchellias</a></h5>
+                                            <p class="small h6 margin-btm-sm margin-top-none">Entrepreneurship Major</p>
+                                            <p class="small margin-top-none margin-btm-none classes-in-common">taking <a href="/school/course/103/">ECON 200</a> and <a href="/school/course/263/">MIS 111</a> together.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="list-group-item">
                                     <div class="media">
-                                        <a class="pull-left" href="/profile/4258/">
+                                        <a class="pull-left" href="/profile/4433/">
                                             <img class="media-object img-thumbnail img-circle center-block" style="width:50px;height:50px;" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/v/t1.0-1/c15.0.50.50/p50x50/10303375_930349663646618_2481155340544668862_n.jpg?oh=2987b18ba376d1c70a2d945ce6106c78&oe=54C565AB&__gda__=1421056642_2957a2728ed55f4a8565567ce1068435"
                                             >
                                         </a>
                                         <div class="media-body">
-                                            <a href="/profile/4281/">
-                                                <h5 class="media-heading">LaurenKershner</h5>
-                                            </a>
-                                            <p class="small h6 margin-btm-sm margin-top-none">
-                                                Communications Major
-                                            </p>
-                                            <p class="small margin-top-none margin-btm-none classes-in-common">
-                                                taking <a href="/school/course/103/">ECON 200</a> together.
+                                            <h5 class="media-heading"><a href="/profile/4281/">LaurenKershner</a></h5>
+                                            <p class="small h6 margin-btm-sm margin-top-none">Communications Major</p>
+                                            <p class="small margin-top-none margin-btm-none classes-in-common">taking <a href="/school/course/103/">ECON 200</a> together.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Today Col -->
-
+                            </div><!-- End list group -->
+                        </div><!-- End People to Meet col/Section -->
+                    </div><!-- End People Row-->
+                </div><!-- End Col One-->
                 <div id="pulse-section" class="col-sm-8 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
                     <h2>Pulse <small> feel the vibe</small></h2>
                     <hr class="margin-top-sm">
-                    <!-- <div class="row">
-                    <div class="col-sm-8"> -->
-                        <div class="pulse-con">
-                            <div class="list-group margin-btm-none" id="pulse">
-                                <div class="list-group-item">
-                                    <div class="media"> <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
-                                        <h5><i class="fa fa-money fa-fw"></i></h5>
-                                    </a>
+                    <div class="pulse-con">
+                        <div class="list-group margin-btm-none" id="pulse">
+                            <div class="list-group-item">
+                                <div class="media"><a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
+                                    <h5><i class="fa fa-money fa-fw"></i></h5></a>
                                     <div class="media-body">
                                         <p class="media-heading">
                                             <h class="pull-right"><small><span class="dash-time">4 minutes ago</span></small></h>
-                                            Your <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> was purchased by <a
-                                            href="/profile/4258/">
-                                            <strong>
-                                                <span class="dash-target">mitchellias</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <a href="/school/course/263/">
-                                        <span class="description small dash-course">MIS 111</span> 
-                                    </a>
+                                            Your <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> was purchased by <a href="/profile/4243/"><strong><span class="dash-target">spencerfreid</span></strong></a>
+                                        </p>
+                                        <a href="/school/course/263/"><span class="description small dash-course">MIS 111</span></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="list-group-item">
-                            <div class="media"> <a href="/documents/f51ece1c1c764d27bb1e3b758dcfeedd/" class="media-object dash-title-link img-thumbnail pull-left btn-primary btn-xs">
-                                <h5><i class="fa fa-file fa-fw"></i></h5>
-                            </a>
-                            <div class="media-body">
-                                <p class="media-heading">
-                                    <h class="pull-right"><small><span class="dash-time">10 minutes ago</span></small></h>
-                                    <a href="/documents/preview/1fd02d30cafb4da88a32cc5160879850" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> added by <a href="/profile/4243/">
-                                    <strong>
-                                        <span class="dash-target">spencerfreid</span>
-                                    </strong>
-                                </a>
-                            </p>
-                            <a href="/school/course/230">
-                                <span class="description small dash-course">BNAD 303</span>
-                            </a> 
-                        </div>
-                    </div>
-                </div>
-                <div class="list-group-item">
-                    <div class="media"> <a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-warning btn-xs">
-                        <h5><i class="fa fa-lightbulb-o fa-fw"></i></h5>
-                    </a>
-                    <div class="media-body">
-                        <p class="media-heading">
-                            <h class="pull-right"><small><span class="dash-time"></span></small></h>
-                            <strong>Tip: The most popular docs in your class will be featured on the pulse</strong>
-                        </p>
-                        <a href="{% url 'document_upload'%}">
-                            <span class="description small dash-course">Sell a Document</span>
-                        </a> 
-                    </div>
-                </div>
-            </div>
-            <div class="list-group-item">
-                <div class="media"> <a href="/profile/4243/" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
-                    <h5><i class="fa fa-user fa-fw"></i></h5>
-                </a>
-                <div class="media-body">
-                    <p class="media-heading">
-                        <h class="pull-right"><small><span class="dash-time">12 minutes ago</span></small></h>
-                        <a href="/profile/4243/" class="dash-title-link"><strong><span class="dash-title">spencerfried</span></strong></a> joined your class.
-                    </p>
-                    <a href="/school/course/262">
-                        <span class="description small dash-course">ECON 200</span>
-                    </a> 
-                </div>
-            </div>
-        </div>
-        <div class="list-group-item">
-            <div class="media"> <a href="#" class="dash-title-link media-object img-thumbnail pull-left btn-danger btn-xs">
-                <h5><i class="fa fa-calendar fa-fw"></i></h5>
-            </a>
-            <div class="media-body">
-                <p class="media-heading">
-                    <h class="pull-right"><small><span class="dash-time">16 minutes ago</span></small></h>
-                    <a href="/calendar" class="dash-title-link"><strong><span class="dash-title">Quiz 2</span></strong>
-                    </a> added to calendar by <a href="/profile/4281/">
-                    <strong>
-                        <span class="dash-target">LaurenKershner</span>
-                    </strong>
-                </a>
-            </p>
-            <a href="/school/course/262">
-                <span class="description small dash-course">ECON 200<span> </div>
-                </a>
-            </div>
-        </div>
-        <div class="list-group-item">
-            <div class="media"> <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
-                <h5><i class="fa fa-money fa-fw"></i></h5>
-            </a>
-            <div class="media-body">
-                <p class="media-heading">
-                    <h class="pull-right"><small><span class="dash-time">18 minutes ago</span></small></h>
-                    Your <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> was purchased by <a
-                    href="/profile/4252/">
-                    <strong>
-                        <span class="dash-target">Koby</span>
-                    </strong>
-                </a>
-            </p>
-            <a href="/school/course/263/">
-                <span class="description small dash-course">MIS 111</span> </div>
-            </a>
-        </div>
-    </div>
-    <div class="list-group-item">
-        <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
-            <h5><i class="fa fa-user fa-fw"></i></h5>
-        </a>
-        <div class="media-body">
-            <p class="media-heading">
-                <h class="pull-right"><small><span class="dash-time">1 hour ago</span></small></h>
-                You joined a class</p>
-                <a href="/school/course/263/">
-                    <span class="description small dash-course">MIS 111</span>
-                </a> 
-            </div>
-        </div>
-    </li>
-</div>
-<div class="list-group-item">
-    <div class="media"> <a href="/profile/4247" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
-        <h5><i class="fa fa-user fa-fw"></i></h5>
-    </a>
-    <div class="media-body">
-        <p class="media-heading">
-            <h class="pull-right"><small><span class="dash-time">2 hours ago</span></small></h>
-            <a href="/profile/4247" class="dash-title-link"><strong><span class="dash-title">BradenS</span></strong></a> joined your class.
-        </p>
-        <a href="/school/course/262">
-            <span class="description small dash-course">ECON 200</span>
-        </a> 
-    </div>
-</div>
-</div>
-<div class="list-group-item">
-    <div class="media">
-        <a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-danger btn-xs">
-            <h5><i class="fa fa-calendar fa-fw"></i></h5>
-        </a>
-        <div class="media-body">
-            <p class="media-heading">
-                <h class="pull-right"><small><span class="dash-time">3 hours ago</span></small></h>
-
-                <a href="/profile/4247">
-                    <strong>
-                        <span class="dash-target">BradenS</span>
-                    </strong>
-                </a> has subscribed to the class
-                <a href="#" class="dash-title-link">
-                    <strong><span class="dash-title"></span></strong>
-                </a> 
-                calendar
-            </p>
-            <a href="/school/course/219">
-                <span class="description small dash-course">MKTG 361</span>
-            </a> 
-        </div>
-    </div>
-</li>
-</div>
-<div class="list-group-item">
-    <div class="media"> <a href="/profile/4243/" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
-        <h5><i class="fa fa-user fa-fw"></i></h5>
-    </a>
-    <div class="media-body">
-        <p class="media-heading">
-            <h class="pull-right"><small><span class="dash-time">10 hours ago</span></small></h>
-            <a href="/profile/4243/" class="dash-title-link"><strong><span class="dash-title">spencerfried</span></strong></a> joined your class.
-        </p>
-        <a href="/school/course/262">
-            <span class="description small dash-course">ECON 200</span>
-        </a> 
-    </div>
-</div>
-</div>
-<div class="list-group-item">
-    <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
-        <h5><i class="fa fa-user fa-fw"></i></h5>
-    </a>
-    <div class="media-body">
-        <p class="media-heading">
-            <h class="pull-right"><small><span class="dash-time">11 hours ago</span></small></h>
-            You joined a class</p>
-            <a href="/school/course/219/">
-                <span class="description small dash-course">MKTG 361</span>
-            </a> 
-        </div>
-    </div>
-</li>
-</div>
-<div class="list-group-item">
-    <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
-        <h5><i class="fa fa-user fa-fw"></i></h5>
-    </a>
-    <div class="media-body">
-        <p class="media-heading">
-            <h class="pull-right"><small><span class="dash-time">2 days ago</span></small></h>
-            You joined a class</p>
-            <a href="/school/course/262/">
-                <span class="description small dash-course">ECON 200</span>
-            </a> 
-        </div>
-    </div>
-</li>
-</div>
-<div class="list-group-item">
-    <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-warning btn-xs">
-        <h5><i class="fa fa-home fa-fw"></i></h5>
-    </a>
-    <div class="media-body">
-        <p class="media-heading">
-            <h class="pull-right"><small><span class="dash-time">2 days ago</span></small></h>
-            <strong>Welcome to mchp!</strong> </p>
-                                <!-- <a href="school/course/219/">
-                                    <span class="description small dash-course">MKTG 361</span>
-                                </a>  -->
+                            <div class="list-group-item">
+                                <div class="media"><a href="/documents/f51ece1c1c764d27bb1e3b758dcfeedd/" class="media-object dash-title-link img-thumbnail pull-left btn-primary btn-xs">
+                                    <h5><i class="fa fa-file fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">10 minutes ago</span></small></h>
+                                            <a href="/documents/f51ece1c1c764d27bb1e3b758dcfeedd/" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> added by <a href="/profile/4433/"><strong><span class="dash-target">mitchellias</span></strong></a>
+                                        </p>
+                                        <a href="/school/course/372"><span class="description small dash-course">GEOG 330</span></a> 
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                            <div class="list-group-item">
+                                <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-warning btn-xs">
+                                <h5><i class="fa fa-lightbulb-o fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time"></span></small></h>
+                                            <strong>Tip: The most popular docs in your class will be featured on the pulse</strong>
+                                        </p>
+                                        <a href="{% url 'document_upload'%}"><span class="description small dash-course">Sell a Document</span></a> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"><a href="/profile/4243/" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
+                                <h5><i class="fa fa-user fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">12 minutes ago</span></small></h>
+                                            <a href="/profile/4243/" class="dash-title-link"><strong><span class="dash-title">spencerfried</span></strong></a> joined your class.
+                                        </p>
+                                        <a href="/school/course/103"><span class="description small dash-course">ECON 200</span></a> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"><a href="#" class="dash-title-link media-object img-thumbnail pull-left btn-danger btn-xs">
+                                <h5><i class="fa fa-calendar fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">16 minutes ago</span></small></h>
+                                            <a href="/calendar" class="dash-title-link"><strong><span class="dash-title">Quiz 2</span></strong>
+                                            </a> added to calendar by <a href="/profile/4281/"><strong><span class="dash-target">LaurenKershner</span></strong></a>
+                                        </p>
+                                        <a href="/school/course/103"><span class="description small dash-course">ECON 200<span></a>
+                                    </div>      
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"><a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
+                                <h5><i class="fa fa-money fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">18 minutes ago</span></small></h>
+                                            Your <a href="/documents/preview/4fcb675c72134a39a06bb40759d37db8" class="dash-title-link"><strong><span class="dash-title">Exam 1 Study Guide</span></strong></a> was purchased by <a href="/profile/4252/"><strong><span class="dash-target">Koby</span></strong></a>
+                                        </p>
+                                        <a href="/school/course/263/"><span class="description small dash-course">MIS 111</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
+                                <h5><i class="fa fa-user fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">1 hour ago</span></small></h>
+                                            You joined a class</p>
+                                        </p>
+                                        <a href="/school/course/263/"><span class="description small dash-course">MIS 111</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"> <a href="/profile/4247" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
+                                <h5><i class="fa fa-user fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">2 hours ago</span></small></h>
+                                            <a href="/profile/4247" class="dash-title-link"><strong><span class="dash-title">BradenS</span></strong></a> joined your class.
+                                        </p>
+                                        <a href="/school/course/103"><span class="description small dash-course">ECON 200</span></a> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-danger btn-xs">
+                                    <h5><i class="fa fa-calendar fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">3 hours ago</span></small></h>
+                                            <a href="/profile/4247"><strong><span class="dash-target">BradenS</span></strong>
+                                            </a> has subscribed to the calendar
+                                        </p>
+                                        <a href="/school/course/219"><span class="description small dash-course">MKTG 361</span></a> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"><a href="/profile/4243/" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
+                                <h5><i class="fa fa-user fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">10 hours ago</span></small></h>
+                                            <a href="/profile/4243/" class="dash-title-link"><strong><span class="dash-title">spencerfried</span></strong></a> joined your class.
+                                        </p>
+                                        <a href="/school/course/103"><span class="description small dash-course">ECON 200</span></a> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
+                                <h5><i class="fa fa-user fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">11 hours ago</span></small></h>
+                                            You joined a class
+                                        </p>
+                                        <a href="/school/course/219/"><span class="description small dash-course">MKTG 361</span></a> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
+                                <h5><i class="fa fa-user fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">2 days ago</span></small></h>
+                                            You joined a class
+                                        </p>
+                                        <a href="/school/course/263/"><span class="description small dash-course">ECON 200</span></a> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-warning btn-xs">
+                                <h5><i class="fa fa-home fa-fw"></i></h5></a>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <h class="pull-right"><small><span class="dash-time">2 days ago</span></small></h>
+                                            <strong>Welcome to mchp!</strong>
+                                        </p>                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--  End list group -->
+                    </div><!--  End Pulse Con -->
+                </div><!--  End Pulse Col -->
+                <div id="stories-section" class="col-md-4 col-sm-12 animated bounceInUp delayed-md stories-section">
+                    <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class="pull-right" data-toggle="tooltip" data-original-title="Customize Stories"><small><i class="fa fa-bars"></i></small></a></h2>
+                    <hr class="margin-top-sm">
+                    <div class="flip-holder">
+                        <div class="front">
+                            <nav id="news-navbar" class="navbar navbar-default" role="navigation">
+                                <span class="navbar-header">
+                                    <ul class="nav navbar-nav flex-nav">
+                                        <li class="news-list-item" id="news-list-item-1">
+                                            <a class="news-link" data-toggle="tooltip" data-title="Breaking"
+                                            data-placement="bottom" data-setting="1" href="#news-1" ><i class="fa fa-university"></i>
+                                            </a>
+                                        </li>
+                                        <li class="news-list-item" id="news-list-item-2">
+                                            <a class="news-link" data-toggle="tooltip" data-title="Breaking"
+                                            data-placement="bottom" data-setting="2" href="#news-2" ><i class="fa fa-header"></i>
+                                            </a>
+                                        </li>
+                                        <li class="news-list-item " id="news-list-item-3">
+                                            <a class="news-link" data-toggle="tooltip" data-title="Score"
+                                            data-placement="bottom" data-setting="3" href="#news-3" ><i class="fa fa-dribbble"></i>
+                                            </a>
+                                        </li>
+                                        <li class="news-list-item" id="news-list-item-5">
+                                            <a class="news-link" data-toggle="tooltip" data-title="Tech"
+                                            data-placement="bottom" data-setting="5" href="#news-5" ><i class="fa fa-code"></i>
+                                            </a>
+                                        </li>
+                                        <li class="news-list-item" id="news-list-item-6">
+                                            <a class="news-link" data-toggle="tooltip" data-title="Corporate"
+                                            data-placement="bottom" data-setting="6" href="#news-6" ><i class="fa fa-usd"></i>
+                                            </a>
+                                        </li>
+                                        <li class="news-list-item" id="news-list-item-8">
+                                            <a class="news-link" data-toggle="tooltip" data-title="Fresh Eats"
+                                            data-placement="bottom" data-setting="8" href="#news-8" ><i class="fa fa-leaf"></i>
+                                            </a>
+                                        </li>
+                                        <li class="news-list-item" id="news-list-item-4">
+                                            <a class="news-link" data-toggle="tooltip" data-title="Viral"
+                                            data-placement="bottom" data-setting="4" href="#news-4" ><i class="fa fa-globe"></i>
+                                            </a>
+                                        </li>
+                                        <li class="news-list-item" id="news-list-item-7">
+                                            <a class="news-link" data-toggle="tooltip" data-title="Hollywood"
+                                            data-placement="bottom" data-setting="7" href="#news-7" ><i class="fa fa-ticket"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </span><!--end navbar header -->
+                            </nav> 
+                            <span id="news-scroll" class="margin-btm-none" data-spy="scroll" data-offset="0">
+                                <ul id="news-1" class="news-group list-group visible-group">
+                                    <li class="list-group-item news-header" style="background-color: #eee;">
+                                        <h5 class="margin-top-none margin-btm-none">U of A</h5>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://www.wildcat.arizona.edu/article/2014/10/trio-ready-to-lead-mens-hoops"
+                                    data-name="Daily Wildcat Sports" data-count="1"> 
+                                        <a href="http://www.wildcat.arizona.edu/article/2014/10/trio-ready-to-lead-mens-hoops" class="news-headline" target="_blank">Trio ready to lead men's hoops</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">2 hours ago</span> <span class="label alert-info news-name">Daily Wildcat Sports</span></p>
+                                        <p class="small news-content">Last year, former Wildcat and current NBA player Nick Johnson provided the Arizona men’s basketball team with sturdy, vocal leadership both on and off the court and largely facilitated the team’s chemistry...</p>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://www.wildcat.arizona.edu/article/2014/10/hitchike-app-promotes-ridesharing"
+                                    data-name="Daily Wildcat Sports" data-count="1"> 
+                                        <a href="http://www.wildcat.arizona.edu/article/2014/10/hitchike-app-promotes-ridesharing" class="news-headline" target="_blank">'HitcHike' app promotes ridesharing</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">5 hours ago</span> <span class="label alert-info news-name">Daily Wildcat</span></p>
+                                        <p class="small news-content">HitcHike is a new free app that helps students search and find rides from other students within their respective universities....</p>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://www.wildcat.arizona.edu/article/2014/10/rich-rod-talks-trojans-rankings-and-walkons"
+                                    data-name="Daily Wildcat Sports" data-count="1"> 
+                                        <a href="http://www.wildcat.arizona.edu/article/2014/10/rich-rod-talks-trojans-rankings-and-walkons" class="news-headline" target="_blank">Rich Rod talks Trojans, rankings and walk-ons</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">5 hours ago</span> <span class="label alert-info news-name">Daily Wildcat Sports</span></p>
+                                        <p class="small news-content">Arizona football has its “24-hour” rule, but the Wildcats didn’t need that long after beating then No. 2 team in the nation...</p>
+                                    </li>
+                                </ul>
+                                <ul id="news-2" class="news-group list-group visible-group">
+                                    <li class="list-group-item news-header" style="background-color: #eee;">
+                                        <h5 class="margin-top-none margin-btm-none">Breaking</h5>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://www.nbcnews.com/storyline/ebola-virus-outbreak/u-s-troops-fighting-ebola-africa-will-be-safe-pentagon-n220176" data-name="NBC" data-count="1"> 
+                                        <a href="http://www.nbcnews.com/storyline/ebola-virus-outbreak/u-s-troops-fighting-ebola-africa-will-be-safe-pentagon-n220176" class="news-headline" target="_blank">U.S. Troops Fighting Ebola in Africa Will Be Safe: Pentagon</a>
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">2 hours ago</span> <span class="label alert-info news-name">NBC</span></p>
+                                        <p class="small news-content">Gen. David Rodriguez, commander of U.S. Africa Command, will talk about the military's response to the Ebola crisis in West Africa.</p>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://abcnews.go.com/International/air-strikes-kobani-stopping-isis-takeover-syrian-town/story?id=26017683"
+                                        data-name="ABC" data-count="1"> 
+                                        <a href="http://abcnews.go.com/International/air-strikes-kobani-stopping-isis-takeover-syrian-town/story?id=26017683" class="news-headline" target="_blank">Inside the ISIS Attack for Kobani</a>
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">2 hours ago</span> <span class="label alert-info news-name">ABC</span></p>
+                                        <p class="small news-content">US and partner nations reportedly fired five air strikes over the course of Monday and today that were specifically targeting ISIS tanks and artilery.</p>
+                                    </li>
+                                </ul>
+                                <ul id="news-3" class="news-group list-group visible-group">
+                                    <li class="list-group-item news-header" style="background-color: #eee;">
+                                        <h5 class="margin-top-none margin-btm-none">Score</h5>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://espn.go.com/chicago/nfl/story/_/id/11626814/nfl-sets-dates-2015-draft" data-name="Fox sports" data-count="1"> 
+                                        <a href="http://espn.go.com/chicago/nfl/story/_/id/11626814/nfl-sets-dates-2015-draft" class="news-headline" target="_blank">New look: NFL draft moving to Chicago in '15</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">2 hours ago</span> <span class="label alert-info news-name">ESPN</span></p>
+                                        <p class="small news-content">Though the league is undecided between Los Angeles and Chicago, next year's NFL draft is now set for April 30-May 2, according to league sources.</p>
+                                    </li>
+                                </ul>
+
+                                <ul id="news-5" class="news-group list-group visible-group">
+                                    <li class="list-group-item news-header" style="background-color: #eee;">
+                                        <h5 class="margin-top-none margin-btm-none">Tech</h5>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="hhttp://feedproxy.google.com/~r/Techcrunch/~3/ulGwObiY6FI/"
+                                    data-name="TechCrunch" data-count="1"> 
+                                        <a href="http://feedproxy.google.com/~r/Techcrunch/~3/ulGwObiY6FI/" class="news-headline" target="_blank">Social Curation Platform Storify Gets A Redesign With Support For Group Collaboration</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">15 minutes ago</span> <span class="label alert-info news-name">TechCrunch</span></p>
+                                        <p class="small news-content">Storify, a service that allows users to curate tweets, photos, and other social media posts to create a coherent story, is getting a new design.</p>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://feeds.mashable.com/~r/Mashable/~3/7yaryTQj_-k/"
+                                    data-name="TechCrunch" data-count="1"> 
+                                        <a href="http://feeds.mashable.com/~r/Mashable/~3/7yaryTQj_-k/" class="news-headline" target="_blank">Rare Apple Computer From 1976 to Be Auctioned for About $400,000</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">4 minutes ago</span> <span class="label alert-info news-name">Mashable</span></p>
+                                        <p class="small news-content">A piece of computing history will be auctioned off this month as a rare Apple 1 computer motherboard is likely to fetch around $400,000 — or 600 times the 1976 price of $666.66.</p>
+                                    </li>
+                                </ul>
+                                <ul id="news-6" class="news-group list-group visible-group">
+                                    <li class="list-group-item news-header" style="background-color: #eee;">
+                                        <h5 class="margin-top-none margin-btm-none">Corporate</h5>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://origin-www.businessweek.com/articles/2014-10-07/supreme-court-punts-on-same-sex-marriage-what-happens-next#r=rss"
+                                    data-name="Mashable" data-count="1"> 
+                                        <a href="http://origin-www.businessweek.com/articles/2014-10-07/supreme-court-punts-on-same-sex-marriage-what-happens-next#r=rss" class="news-headline" target="_blank">The Supremes Punt on Same-Sex Marriage: Four Blunt Points</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">4 minutes ago</span> <span class="label alert-info news-name">Bloomberg Business</span></p>
+                                        <p class="small news-content">The Supreme Court caught nearly everyone by surprise when it took a pass—for now—on same-sex marriage. What does it mean?</p>
+                                    </li>
+                                </ul>
+                                <ul id="news-8" class="news-group list-group visible-group">
+                                    <li class="list-group-item news-header" style="background-color: #eee;">
+                                        <h5 class="margin-top-none margin-btm-none">Fresh Eats</h5>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://www.edibleperspective.com/home/2014/10/6/vanilla-bean-cinnamon-lattes-hot-cocoa-fair-trade-giveaway.html"
+                                    data-name="Edible Perspective" data-count="1"> 
+                                        <a href="http://www.edibleperspective.com/home/2014/10/6/vanilla-bean-cinnamon-lattes-hot-cocoa-fair-trade-giveaway.html" class="news-headline" target="_blank">Vanilla Bean Cinnamon Lattes + Hot Cocoa {Fair Trade giveaway!}</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">a day ago</span> <span class="label alert-info news-name">Bloomberg Business</span></p>
+                                        <p class="small news-content">The Supreme Court caught nearly everyone by surprise when it took a pass—for now—on same-sex marriage. What does it mean?</p>
+                                    </li>
+                                </ul>
+                                <ul id="news-4" class="news-group list-group visible-group">
+                                    <li class="list-group-item news-header" style="background-color: #eee;">
+                                        <h5 class="margin-top-none margin-btm-none">Viral</h5>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://elitedaily.com/humor/permanently-surprised-cat-photos/788655/"
+                                    data-name="Elite Daily" data-count="1"> 
+                                        <a href="http://elitedaily.com/humor/permanently-surprised-cat-photos/788655/" class="news-headline" target="_blank">This Cat Has A Hilarious And Permanent Surprised Face (Photos)</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">13 minutes ago</span> <span class="label alert-info news-name">Elite Daily</span></p>
+                                        <p class="small news-content">There is no shortage of funny-looking felines on the Internet. It’s kind of a global obsession to see who can spot the weirdest looking cat (Bub, I’m looking at you).</p>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://www.buzzfeed.com/juliegerstein/nicole-richies-sister-sofia-is-a-model-now?utm_term=4ldqpia"
+                                    data-name="BuzzFeed" data-count="1"> 
+                                        <a href="http://www.buzzfeed.com/juliegerstein/nicole-richies-sister-sofia-is-a-model-now?utm_term=4ldqpia" class="news-headline" target="_blank">Nicole Richie's Sister Sofia Is A Model Now</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">4 hours ago</span> <span class="label alert-info news-name">BuzzFeed</span></p>
+                                        <p class="small news-content">And she’s BFF with Kendall and Kylie Jenner. Meet Sofia Richie, the 16-year-old model sister of Nicole Richie.</p>
+                                    </li>
+                                </ul>
+                                <ul id="news-7" class="news-group list-group visible-group">
+                                    <li class="list-group-item news-header" style="background-color: #eee;">
+                                        <h5 class="margin-top-none margin-btm-none">Hollywood</h5>
+                                    </li>
+                                    <li class="list-group-item news-item news-item-proto" data-link="http://feeds.eonline.com/~r/eonline/topstories/~3/JfF71bA9jOQ/19-people-whose-lives-are-forever-changed-now-that-amanda-bynes-is-back-on-twitter"
+                                    data-name="E! Top Stories" data-count="1"> 
+                                        <a href="http://feeds.eonline.com/~r/eonline/topstories/~3/JfF71bA9jOQ/19-people-whose-lives-are-forever-changed-now-that-amanda-bynes-is-back-on-twitter" class="news-headline" target="_blank">19 People Whose Lives Are Forever Changed Now That Amanda Bynes Is Back on Twitter</a>  
+                                        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time">8 minutes ago</span> <span class="label alert-info news-name">E! Top Stories</span></p>
+                                        <p class="small news-content">To most of the world who woke up today, it was just another Tuesday. They got out of bed. They made coffee. They drove to work. </p>
+                                    </li>
+                                </ul>
+                            </span><!-- end news scroll section --> 
+                        </div><!--end front -->
+                        <div class="back">  
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="well margin-btm-none">
+                                        <h4 class="text-center">Customize Your Interests</h4>
+                                        <hr class="margin-top-sm">
+                                        <ul class="list-inline text-center margin-btm-none">
+
+                                            <li class="list-group" style="width:111px;">
+                                                <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="1">
+                                                    <i class="fa fa-university fa-2x"></i>
+                                                    <h5>U of A</h5>
+                                                </div>
+                                            </li> 
+
+                                            <li class="list-group" style="width:111px;">
+                                                <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="2">
+                                                    <i class="fa fa-header fa-2x"></i>
+                                                    <h5>Breaking</h5>
+                                                </div>
+                                            </li> 
+
+                                            <li class="list-group" style="width:111px;">
+                                                <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="3">
+                                                    <i class="fa fa-dribbble fa-2x"></i>
+                                                    <h5>Score</h5>
+                                                </div>
+                                            </li> 
+
+                                            <li class="list-group" style="width:111px;">
+                                                <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="5">
+                                                    <i class="fa fa-code fa-2x"></i>
+                                                    <h5>Tech</h5>
+                                                </div>
+                                            </li> 
+
+                                            <li class="list-group" style="width:111px;">
+                                                <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="6">
+                                                    <i class="fa fa-usd fa-2x"></i>
+                                                    <h5>Corporate</h5>
+                                                </div>
+                                            </li> 
+
+                                            <li class="list-group" style="width:111px;">
+                                                <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="8">
+                                                    <i class="fa fa-leaf fa-2x"></i>
+                                                    <h5>Fresh Eats</h5>
+                                                </div>
+                                            </li> 
+
+                                            <li class="list-group" style="width:111px;">
+                                                <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="4">
+                                                    <i class="fa fa-globe fa-2x"></i>
+                                                    <h5>Viral</h5>
+                                                </div>
+                                            </li> 
+
+                                            <li class="list-group" style="width:111px;">
+                                                <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="7">
+                                                    <i class="fa fa-ticket fa-2x"></i>
+                                                    <h5>Hollywood</h5>
+                                                </div>
+                                            </li> 
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end back -->
+                    </div><!-- End Flip Holder -->
+                </div><!--End Stories Col  --> 
+            </div><!--End Row -->
+            <div class="row">
+                <br></br><br></br>
+                <div class="small text-default text-center"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a></small>
                 </div>
-
-            </div>
-        </div>
-
-    </div> <!--  End Pulse Col -->
-    <div id="stories-section" class="col-md-4 col-sm-12 animated bounceInUp delayed-md stories-section">
-        <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class="pull-right" data-toggle="tooltip" data-original-title="Customize Stories"><small><i class="fa fa-bars"></i></small></a></h2>
-        <hr class="margin-top-sm">
-        <div class="flip-holder">
-            <div class="front">
-                <nav id="news-navbar" class="navbar navbar-default" role="navigation">
-                    <span class="navbar-header">
-                        <ul class="nav navbar-nav flex-nav">
-                            <li class="news-list-item  " id="news-list-item-9">
-                                <a class="news-link" data-toggle="tooltip" data-title="U of A News"
-                                data-placement="bottom" data-setting="1" href="#news-9" ><i class="fa fa-university"></i>
-                            </a>
-                        </li>
-
-                            <li class="news-list-item  " id="news-list-item-1">
-                                <a class="news-link" data-toggle="tooltip" data-title="Breaking"
-                                data-placement="bottom" data-setting="2" href="#news-1" ><i class="fa fa-header"></i>
-                            </a>
-                        </li>
-
-                        <li class="news-list-item " id="news-list-item-2">
-                            <a class="news-link" data-toggle="tooltip" data-title="Score"
-                            data-placement="bottom" data-setting="3" href="#news-2" ><i class="fa fa-dribbble"></i>
-                        </a>
-                    </li>
-
-                    <li class="news-list-item  " id="news-list-item-5">
-                        <a class="news-link" data-toggle="tooltip" data-title="Tech"
-                        data-placement="bottom" data-setting="5" href="#news-5" ><i class="fa fa-code"></i>
-                    </a>
-                </li>
-
-                <li class="news-list-item  " id="news-list-item-6">
-                    <a class="news-link" data-toggle="tooltip" data-title="Corporate"
-                    data-placement="bottom" data-setting="6" href="#news-6" ><i class="fa fa-usd"></i>
-                </a>
-            </li>
-
-            <li class="news-list-item  " id="news-list-item-8">
-                <a class="news-link" data-toggle="tooltip" data-title="Fresh Eats"
-                data-placement="bottom" data-setting="8" href="#news-8" ><i class="fa fa-leaf"></i>
-            </a>
-        </li>
-
-        <li class="news-list-item  " id="news-list-item-4">
-            <a class="news-link" data-toggle="tooltip" data-title="Viral"
-            data-placement="bottom" data-setting="4" href="#news-4" ><i class="fa fa-globe"></i>
-        </a>
-    </li>
-
-    <li class="news-list-item  " id="news-list-item-7">
-        <a class="news-link" data-toggle="tooltip" data-title="Hollywood"
-        data-placement="bottom" data-setting="7" href="#news-7" ><i class="fa fa-ticket"></i>
-    </a>
-</li>
-
-<li class="news-list-empty ">
-    <a>Get some stories by clicking those bars.</a>
-</li>
-</ul>
-</span><!--end navbar header -->
-</nav> 
-<span id="news-scroll" class="margin-btm-none" data-spy="scroll" data-offset="0">
-    <ul id="news-9" class="news-group list-group visible-group">
-              <li class="list-group-item news-header" style="background-color: #eee;">
-                <h5 class="margin-top-none margin-btm-none">U of A News</h5>
-              </li>
-              
-              <li class="list-group-item news-item news-item-proto hidden" data-link="http://www.wildcat.arizona.edu/section/news.xml" data-name="Daily Wildcat" data-count="2"> 
-                <a href="#" class="news-headline" target="_blank"></a>  
-                <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-                <p class="small news-content"></p>
-              </li>
-              
-              <li class="list-group-item news-item news-item-proto hidden" data-link="http://www.wildcat.arizona.edu/section/sports.xml" data-name="Daily Wildcat Sports" data-count="2"> 
-                <a href="#" class="news-headline" target="_blank"></a>  
-                <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-                <p class="small news-content"></p>
-              </li>
-              
-            <li class="list-group-item news-item" data-link="http://www.wildcat.arizona.edu/section/news.xml" data-name="Daily Wildcat" data-count="2"> 
-                <a href="http://www.wildcat.arizona.edu/article/2014/10/breaking-down-the-newly-top-ten-arizona-footballs-playoff-chances" class="news-headline" target="_blank"></a>  
-                <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-                <p class="small news-content"></p>
-              </li><li class="list-group-item news-item" data-link="http://www.wildcat.arizona.edu/section/news.xml" data-name="Daily Wildcat" data-count="2"> 
-                <a href="http://www.wildcat.arizona.edu/article/2014/10/arizona-volleyball-splits-weekend-pair" class="news-headline" target="_blank"></a>  
-                <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-                <p class="small news-content"></p>
-              </li><li class="list-group-item news-item" data-link="http://www.wildcat.arizona.edu/section/news.xml" data-name="Daily Wildcat" data-count="2"> 
-                <a href="http://www.wildcat.arizona.edu/article/2014/10/yes-means-yes-consent-law-impacts-ua" class="news-headline" target="_blank"></a>  
-                <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-                <p class="small news-content"></p>
-              </li>
-              <li class="list-group-item news-item" data-link="http://www.wildcat.arizona.edu/section/news.xml" data-name="Daily Wildcat" data-count="2"> 
-                <a href="http://www.wildcat.arizona.edu/article/2014/10/proposed-alcohol-policy-aims-to-protect-students-promote-safety" class="news-headline" target="_blank"></a>  
-                <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-                <p class="small news-content"></p>
-              </li>
-          </ul>
-    <ul id="news-1" class="news-group list-group visible-group">
-        <li class="list-group-item news-header" style="background-color: #eee;">
-            <h5 class="margin-top-none margin-btm-none">Breaking</h5>
-        </li>
-
-        <li class="list-group-item news-item news-item-proto hidden" data-link="http://www.huffingtonpost.com/feeds/index.xml"
-        data-name="Huffington Post" data-count="1"> 
-        <a href="#" class="news-headline" target="_blank"></a>  
-        <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-        <p class="small news-content"></p>
-    </li>
-
-    <li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.abcnews.com/abcnews/topstories"
-    data-name="ABC" data-count="1"> 
-    <a href="#" class="news-headline" target="_blank"></a>  
-    <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-    <p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://www.cbsnews.com/latest/rss/main"
-data-name="CBS" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.nbcnews.com/feeds/topstories"
-data-name="NBC" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-</ul>
-
-<ul id="news-2" class="news-group list-group visible-group">
-    <li class="list-group-item news-header" style="background-color: #eee;">
-        <h5 class="margin-top-none margin-btm-none">Score</h5>
-    </li>
-
-    <li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.news.com.au/public/rss/2.0/fs_breaking_news_13.xml"
-    data-name="Fox sports" data-count="1"> 
-    <a href="#" class="news-headline" target="_blank"></a>  
-    <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-    <p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://www.rsssearchhub.com/preview/bleacher-report-front-page-rss-KKdqJm/"
-data-name="Bleacher report" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://sports.espn.go.com/espn/rss/news"
-data-name="ESPN" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-</ul>
-
-<ul id="news-5" class="news-group list-group visible-group">
-    <li class="list-group-item news-header" style="background-color: #eee;">
-        <h5 class="margin-top-none margin-btm-none">Tech</h5>
-    </li>
-
-    <li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.mashable.com/Mashable"
-    data-name="Mashable" data-count="1"> 
-    <a href="#" class="news-headline" target="_blank"></a>  
-    <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-    <p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.venturebeat.com/topstories"
-data-name="Venturebeat" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.wired.com/wired/index"
-data-name="Wired" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.feedburner.com/TechCrunch/"
-data-name="TechCrunch" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-</ul>
-
-<ul id="news-6" class="news-group list-group visible-group">
-    <li class="list-group-item news-header" style="background-color: #eee;">
-        <h5 class="margin-top-none margin-btm-none">Corporate</h5>
-    </li>
-
-    <li class="list-group-item news-item news-item-proto hidden" data-link="http://finance.yahoo.com/news/rssindex/"
-    data-name="Yahoo Finance" data-count="1"> 
-    <a href="#" class="news-headline" target="_blank"></a>  
-    <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-    <p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://www.rsssearchhub.com/preview/the-business-insider-rss-pDKAJ/"
-data-name="Business Insider" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://www.businessweek.com/feeds/most-popular.rss"
-data-name="Bloomberg Bus" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-</ul>
-
-<ul id="news-8" class="news-group list-group visible-group">
-    <li class="list-group-item news-header" style="background-color: #eee;">
-        <h5 class="margin-top-none margin-btm-none">Fresh Eats</h5>
-    </li>
-
-    <li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.feedblitz.com/runningtothekitchen"
-    data-name="Running to the Kitchen" data-count="1"> 
-    <a href="#" class="news-headline" target="_blank"></a>  
-    <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-    <p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.feedburner.com/EdiblePerspective"
-data-name="The eatable perspective" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-</ul>
-
-<ul id="news-4" class="news-group list-group visible-group">
-    <li class="list-group-item news-header" style="background-color: #eee;">
-        <h5 class="margin-top-none margin-btm-none">Viral</h5>
-    </li>
-
-    <li class="list-group-item news-item news-item-proto hidden" data-link="http://www.buzzfeed.com/life.xml"
-    data-name="BuzzFeed" data-count="1"> 
-    <a href="#" class="news-headline" target="_blank"></a>  
-    <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-    <p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://elitedaily.com/feed/"
-data-name="Elite Daily" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://www.funnyordie.com/videos.rss"
-data-name="Funnyordie" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-</ul>
-
-<ul id="news-7" class="news-group list-group visible-group">
-    <li class="list-group-item news-header" style="background-color: #eee;">
-        <h5 class="margin-top-none margin-btm-none">Hollywood</h5>
-    </li>
-
-    <li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.feedburner.com/thr/news"
-    data-name="Hollywood Reporter" data-count="1"> 
-    <a href="#" class="news-headline" target="_blank"></a>  
-    <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-    <p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.feedburner.com/variety/news/frontpage"
-data-name="Variety" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-<li class="list-group-item news-item news-item-proto hidden" data-link="http://feeds.eonline.com/eonline/topstories"
-data-name="E! Top Stories" data-count="1"> 
-<a href="#" class="news-headline" target="_blank"></a>  
-<p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-<p class="small news-content"></p>
-</li>
-
-</ul>
-
-</ul>
-</span><!-- end news scroll section --> 
-</div><!--end front -->
-<div class="back">  
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="well margin-btm-none">
-                <h4 class="text-center">Customize Your Interests</h4>
-                <hr class="margin-top-sm">
-                <ul class="list-inline text-center margin-btm-none">
-
-                    <li class="list-group" style="width:111px;">
-                        <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="1">
-                            <i class="fa fa-header fa-2x"></i>
-                            <h5>Breaking</h5>
-                        </div>
-                    </li> 
-
-                    <li class="list-group" style="width:111px;">
-                        <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="2">
-                            <i class="fa fa-dribbble fa-2x"></i>
-                            <h5>Score</h5>
-                        </div>
-                    </li> 
-
-                    <li class="list-group" style="width:111px;">
-                        <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="5">
-                            <i class="fa fa-code fa-2x"></i>
-                            <h5>Tech</h5>
-                        </div>
-                    </li> 
-
-                    <li class="list-group" style="width:111px;">
-                        <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="6">
-                            <i class="fa fa-usd fa-2x"></i>
-                            <h5>Corporate</h5>
-                        </div>
-                    </li> 
-
-                    <li class="list-group" style="width:111px;">
-                        <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="8">
-                            <i class="fa fa-leaf fa-2x"></i>
-                            <h5>Fresh Eats</h5>
-                        </div>
-                    </li> 
-
-                    <li class="list-group" style="width:111px;">
-                        <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="4">
-                            <i class="fa fa-globe fa-2x"></i>
-                            <h5>Viral</h5>
-                        </div>
-                    </li> 
-
-                    <li class="list-group" style="width:111px;">
-                        <div class="list-group-item btn btn-default active toggle-rss" data-toggle="button" data-setting="7">
-                            <i class="fa fa-ticket fa-2x"></i>
-                            <h5>Hollywood</h5>
-                        </div>
-                    </li> 
-
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end back -->
-</div>
-</div>  <!--End News Col  --> 
-</div> <!--End Row -->
-<div class="row">
-    <br></br>
-    <br></br>
-    <div class="small text-default text-center"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a></small> </div>
-</div>
-</div><!-- End Container -->
-
-</div>
-{% if not donottrack %}
-{% include "lib/google-analytics.html" %} 
-{% endif %}
-</body>
+            </div><!-- End Row -->
+        </div><!-- End Container -->
+        {% if not donottrack %}
+            {% include "lib/google-analytics.html" %} 
+        {% endif %}
+    </body>
 </html>
