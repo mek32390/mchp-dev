@@ -34,7 +34,7 @@ class Document(models.Model):
 
     up = models.IntegerField(default=0)
     down = models.IntegerField(default=0)
-    price = models.PositiveIntegerField(default=0)
+    price = models.PositiveIntegerField(default=400)
 
     document = models.FileField(upload_to=DOCUMENT_LOCATION)
     filetype = models.CharField(max_length=150)
