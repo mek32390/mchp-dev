@@ -31,15 +31,13 @@
 
 <div class="container">
   {% if not dashboard_ref_flag %}
-  <div class="one-time-alert alert alert-info alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
+  <div class="one-time-alert alert alert-success alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
     <button type="button" class="close" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <div class="media margin-top-none">
       <img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" width="75px" alt="earn referral points">
       <div class="media-body">
-				<h4 class="media-heading">Refer a friend, and you both get <strong>{{referral_reward}} points</strong></h4>
-        You now have a unique referral code, <strong>"{{referral_info.referral_code}}"</strong>.
-				When someone enters it in the <a href="#referral-modal" class="alert-link"
-					data-toggle="modal">referral window</a> (it's in the dropdown menu in the top right), you will both earn <strong>{{referral_reward}} points!</strong> We also gave you a unique referral link to share, which you can find in your <a href="{% url 'account_settings'%}" class="alert-link">account settings.</a> When someone clicks it and joins mchp, you'll both get 200 points! <strong>- mchp</strong>
+				<h4 class="media-heading">Consider selling your Study Guides... Midterms are coming up!</h4>
+				Each time you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a> (you can also click the tool icon in the top right), we'll notify your classamtes a couple days before the test. This will help them study better and help you earn more. It's a win win! <strong>- mchp</strong>
       </div>
     </div>
   </div><!-- end alert -->
