@@ -91,8 +91,7 @@
 											<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
 											Purchase{{document.sold|pluralize}}
                       {% if document.upload %}
-                      <p class="small" style="margin-top:5px;">Uploaded by <a class=""
-                          href="{% url "profile" document.upload.owner.pk%}">{{document.upload.owner}}</a> 
+                      <p class="small" style="margin-top:5px;">Uploaded by <a href="{% url "profile" document.upload.owner.pk%}">{{document.upload.owner}}</a> 
                       </p>
                       {% endif %}
 										</span>
