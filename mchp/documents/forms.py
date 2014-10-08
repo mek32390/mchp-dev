@@ -47,7 +47,7 @@ class DocumentUploadForm(ModelForm):
             }.items() | input_attr.items())),
 
             'price': TextInput(attrs=dict({
-                'placeholder':'type a price in points, ex: 400',
+                'placeholder':'type a price in points, ex: 400 would be $4.00',
                 'data-toggle':'tooltip',
                 'data-placement':'right',
                 'data-original-title':'The average document sells for 400 points. Type a number!'

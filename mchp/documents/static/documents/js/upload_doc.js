@@ -8,6 +8,8 @@ $(function() {
 
 	// convert select to nice input
 	$("#id_course").addClass("form-control");
+	// clear the value amount in the price field
+	$("#id_price").attr("value","");
 	// convert default browse file to nice input
 	$("#id_document").wrap("<div class='input-lg form-control'></div>").addClass("btn");
     // Upload Doc Form Validation
