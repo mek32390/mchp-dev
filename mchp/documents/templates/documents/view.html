@@ -70,8 +70,8 @@
 			<img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
 			<div class="media-body">
 				<h4 class="media-heading">Share this and get <strong>{{referral_reward}}</strong> points back immediately!</h4>
-				Each time you click the <a href="#" class="btnShare btn btn-facebook btn-xs fb-share-button">
-					<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button class="btn btn-warning btn-xs"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
+				Each time you click the <a href="#" class="btnShare btn btn-facebook btn-xs fb-share-button disabled">
+					<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button class="btn btn-warning btn-xs disabled"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 				buttons below, we'll reward both you and your friend <strong>{{referral_reward}} points</strong> each if they sign up with us through your link. Remember, the same rules apply when you share your unique referall code and referall link found on your account page. Happy studying, sharing, and earning!<strong>- mchp</strong>
 			</div>
 		</div>
@@ -89,11 +89,12 @@
 				<li class="active">
 					<a href="http://{{request.get_host}}{%url "document_list" %}preview/{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{document.title}}</a>
 				</li>
+				<span class="pull-right"><a href="{% url 'document_upload' %}" class="btn btn-success btn-xs"><i class="fa fa-money"></i> Sell Document</a></span>
 			</ol>
 			<h2>{{document.title}}
 				<div class="pull-right">
 					{% if not rated %}
-					<button id="rate-button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#rate_document"> <i class="fa fa-fw fa-star-half-o"></i> Rate Document</button>
+					<button id="rate-button" class="btn btn-info btn-md" data-toggle="modal" data-target="#rate_document"> <i class="fa fa-fw fa-star-half-o"></i> Rate Document</button>
 					{% endif %}
 					<a href="{{request.get_host}}{{current_path | referral:referral_link}}" 
 						{% if document.preview %}

@@ -155,26 +155,32 @@
 							<hr>
               {% if uploader %}
               <div class="media">
-                <a class="pull-left" href="{%url "profile" uploader.pk %}">
+                <!-- <a class="pull-left" href="{%url "profile" uploader.pk %}">
                   <div class="media-object img-circle img-thumbnail profile-image" 
                   style="background-image:url({{uploader.profile.profile_image_url}}); width:65px; height: 65px;"></div>
-                </a>
+                </a> -->
+                <!-- <a class="pull-left" href="{%url "profile" uploader.pk %}"> -->
+                  <div class="media-object pull-left"><img src="{% static 'lib/img/shirt.svg' %}" class="img-circle img-thumbnail profile-image" style="width:65px; height: 65px;"/></div>
+                <!-- </a> -->
                 <div class="media-body">
-                  <h4 class="media-heading">
-                    <a href="{% url "profile" uploader.pk%}">
-                      {{uploader}}
-                    </a>
-                  </h4>
-                  <span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
+	                <h4 class="media-heading">
+	                    <!-- <a href="{% url "profile" uploader.pk%}"> -->
+	                      {{uploader}}
+	                    <!-- </a> -->
+	                </h4>
+	                <span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
+	                <h6>
+						{%if uploader.major%}{{uploader.major}}{%else%}{%endif%}
+					</h6>
                   <p>
-                    <div class="progress" style="width:68%">
+                   <!--  <div class="progress" style="width:68%">
                       <div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
                         <span class="sr-only">Documents</span>
                       </div>
                       <div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
                         <span class="sr-only">Calendars</span>
                       </div>
-                    </div>
+                    </div> -->
                   </p>
                 </div>
               </div>
