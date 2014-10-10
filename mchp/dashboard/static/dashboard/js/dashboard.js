@@ -39,7 +39,7 @@ $(function(){
 		{
 			path: "/home",
 			element: "#ref-alert",
-			title: "<strong>Your Referral Code</strong>",
+			title: "<strong>Get Paid, Son (or Daughter)!</strong>",
 			content: 'Read above, it\'s important.',
 			placement: "bottom",
 		},
