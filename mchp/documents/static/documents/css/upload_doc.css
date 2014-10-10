@@ -2,6 +2,12 @@
  * This file is for the custom styling on the doc upload page
  */
 
+/* hide doc upload btn in footer on this page */
+#document-upload-btn {
+  display: none;
+}
+
+}
 #id_document {
   /*position: relative;*/
   margin-top: -5px;
