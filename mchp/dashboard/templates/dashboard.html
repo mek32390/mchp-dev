@@ -34,10 +34,10 @@
   <div class="one-time-alert alert alert-success alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
     <button type="button" class="close" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <div class="media margin-top-none">
-      <img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" width="75px" alt="earn referral points">
+      <img class="media-object pull-left animated rubberBand delayed-lg" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
       <div class="media-body">
-				<h4 class="media-heading">Consider selling your Study Guides... Midterms are coming up!</h4>
-				Each time you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a> (you can also click the tool icon in the top right), we'll notify your classamtes a couple days before the test. This will help them study better and help you earn more. Your picture and name won't be attached to the documents you upload. It's a win win! <strong>- mchp</strong>
+        <h4 class="media-heading">Get <strong>$5</strong> for every Study Guide you upload!</h4>
+        Seriously, when you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a>, we'll deposit $5 in your account that day. We'll make sure it's not spam and once your document clears our brief inspection, the money is yours. <strong>- mchp</strong>
       </div>
     </div>
   </div><!-- end alert -->

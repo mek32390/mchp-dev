@@ -55,16 +55,13 @@
 <!-- End Modal -->
 <div class="container animated bounceInUp">
 	{% if not document_preview_flag %}
-	<div data-event="{{document_preview_flag_name}}" class="one-time-alert alert alert-info alert-dismissible fade in" role="alert">
+	<div data-event="{{document_preview_flag_name}}" class="one-time-alert alert alert-success alert-dismissible fade in" role="alert">
 		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		<div class="media" style="margin-top:0px;">
-			<img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
+		<div class="media margin-top-none">
+			<img class="media-object pull-left animated rubberBand delayed-lg" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
 			<div class="media-body">
-				<h4 class="media-heading">Get <strong>200 points</strong> by sharing this document!</h4>
-				Each time you click the <a href="#" class="btn btn-facebook btn-xs fb-share-button disabled">
-					<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button 
-					class="btn btn-warning btn-xs disabled"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
-				 buttons below, we'll reward you <strong>{{referral_reward}} points</strong> for every person that signs up with us by clicking through your links. Remember, the same rules apply when you share your unique referall code and referall link found in your <a href="{% url 'account_settings'%}" class="alert-link">account settings</a>. <strong>- mchp</strong>
+				<h4 class="media-heading">Get <strong>$5</strong> for every Study Guide you upload!</h4>
+				Seriously, when you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a>, we'll deposit $5 in your account that day. We'll make sure it's not spam and once your document clears our brief inspection, the money is yours. <strong>- mchp</strong>
 			</div>
 		</div>
 	</div><!-- end alert -->
