@@ -56,6 +56,27 @@ ul.messages {
     border-bottom-right-radius: 4px;*/
 }
 
+/* document upload btn in footer*/
+#document-upload-btn {
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom: 0px;
+    opacity: .5;
+    transition: all .2s ease;
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+}
+
+#document-upload-btn:hover {
+    color: #fff;
+    background-color: #3071a9;
+    border-color: #285e8e;
+    opacity: 1;
+    transition: all .2s ease;
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+}
+
 /* scrolling */
 .track3 {
     width: 10px;

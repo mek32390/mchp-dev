@@ -326,7 +326,12 @@
 			</div><!--/.nav-collapse -->
 		</div>
 	</div><!-- End Nav -->
-	
+	<!-- add document upload btn to footer -->
+	<div class="container navbar-fixed-bottom pull-right">
+    	<ul class="nav  navbar-right ">
+            <li><a href="{% url 'document_upload'%}" id="document-upload-btn" class="btn btn-md btn-primary"><i class="fa fa-fw fa-plus"></i> Add Document</a></li>
+        </ul>
+	</div>
 	<!-- Django Messages -->
 	<div class="django-messages">
 		{% for message in messages %}
