@@ -69,11 +69,11 @@
 			</div>	
 			<p></p>
 			<div class="progress">
-				<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
-					<span class="sr-only">Documents</span>
+				<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="{{upload_list|length}} Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
+					<span class="sr-only">{{upload_list|length}} Documents</span>
 				</div>
-				<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
-					<span class="sr-only">Calendars</span>
+				<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="{{calendars|length}} Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
+					<span class="sr-only">{{calendars|length}} Calendars</span>
 				</div>
 			</div>
 	</div>
