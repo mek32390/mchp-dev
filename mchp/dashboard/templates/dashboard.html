@@ -2,16 +2,14 @@
 
 {% block head_title %}mycollegehomepage{% endblock %}
 
-{% block head %}
+{% block extra_head %}
     <meta property="fb:app_id" content="369999156462705" /> 
     <meta property="og:type" content="website" /> 
     <meta property="og:url" content="https://mycollegehomepage.com" /> 
     <meta property="og:title" content="mycollegehomepage.com | mchp" /> 
     <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/homepage.png" /> 
     <meta property="og:description" content="The collaborative course management system for college students." />
-{% endblock %}
 
-{% block extra_head %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 
@@ -28,6 +26,12 @@
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <!-- <script src="{% static 'lib/js/animatescroll.min.js' %}"></script> -->
 
+{% endblock %}
+
+{% block body %}
+{% load humanize %}
+{% load dashboard %}
+
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -36,13 +40,6 @@
   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=369999156462705&version=v2.0";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-
-
-{% endblock %}
-
-{% block body %}
-{% load humanize %}
-{% load dashboard %}
 
 <div class="container">
   {% if not dashboard_ref_flag %}
