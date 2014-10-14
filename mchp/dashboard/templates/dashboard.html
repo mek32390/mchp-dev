@@ -22,10 +22,21 @@
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <!-- <script src="{% static 'lib/js/animatescroll.min.js' %}"></script> -->
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=369999156462705&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 
 {% endblock %}
 
 {% block body %}
+{% load referral %}
+{% load socialaccount %}
 {% load humanize %}
 {% load dashboard %}
 
@@ -34,10 +45,10 @@
   <div class="one-time-alert alert alert-success alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
     <button type="button" class="close" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <div class="media margin-top-none">
-      <img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" width="75px" alt="earn referral points">
+      <img class="media-object pull-left animated rubberBand delayed-lg" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
       <div class="media-body">
-				<h4 class="media-heading">Consider selling your Study Guides... Midterms are coming up!</h4>
-				Each time you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a> (you can also click the tool icon in the top right), we'll notify your classamtes a couple days before the test. This will help them study better and help you earn more. Your picture and name won't be attached to the documents you upload. It's a win win! <strong>- mchp</strong>
+        <h4 class="media-heading">Get <strong>$5</strong> for every Study Guide you upload!</h4>
+        Seriously, when you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a>, we'll deposit $5 in your account that day. We'll make sure it's not spam and once your document clears our brief inspection, the money is yours. For your privacy, your name and picture won't be shown. <strong>- mchp</strong>
       </div>
     </div>
   </div><!-- end alert -->
@@ -56,10 +67,11 @@
     <li><strong><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></strong></li>
     {% endfor %}
     <span class="pull-right">
-      <strong><i class="fa fa-fw fa-clock-o"></i>
+      <div class="fb-like" data-href="https://mycollegehomepage.com" data-layout="button_count" data-action="recommend" data-show-faces="false" data-share="true"></div>
+      <!-- <strong><i class="fa fa-fw fa-clock-o"></i>
       <span class="current-time" data-time="{{current_time}}">
         {{current_time|time:"g:i:s a"}}
-      </span></strong>
+      </span></strong> -->
     </span>
   </ol>
   <!-- End Quicklinks -->
@@ -172,7 +184,7 @@
               <div class="media-body">
                 <p class="media-heading">
                   <h class="pull-right"><small><span class="dash-time"></span></small></h>
-                  <a target="_blank" href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong></a> added by <a href="#">
+                  <a href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong></a> added by <a href="#">
                     <strong>
                       <span class="dash-target"></span>
                     </strong>
