@@ -22,10 +22,21 @@
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <!-- <script src="{% static 'lib/js/animatescroll.min.js' %}"></script> -->
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=369999156462705&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 
 {% endblock %}
 
 {% block body %}
+{% load referral %}
+{% load socialaccount %}
 {% load humanize %}
 {% load dashboard %}
 
@@ -56,10 +67,11 @@
     <li><strong><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></strong></li>
     {% endfor %}
     <span class="pull-right">
-      <strong><i class="fa fa-fw fa-clock-o"></i>
+      <div class="fb-like" data-href="https://mycollegehomepage.com" data-layout="button_count" data-action="recommend" data-show-faces="false" data-share="true"></div>
+      <!-- <strong><i class="fa fa-fw fa-clock-o"></i>
       <span class="current-time" data-time="{{current_time}}">
         {{current_time|time:"g:i:s a"}}
-      </span></strong>
+      </span></strong> -->
     </span>
   </ol>
   <!-- End Quicklinks -->
