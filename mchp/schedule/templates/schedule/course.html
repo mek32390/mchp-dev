@@ -22,7 +22,7 @@
 <div class="container animated bounceInUp">
 	<ol class="breadcrumb">
 		<div class="pull-right">
-			<a button type="button" class="btn btn-success btn-xs" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Document</a>
+			<a button type="button" class="btn btn-success btn-xs" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Study Guides</a>
 			<!-- <a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a> -->
 		</div>
 		<li><a href="{%url "school" course.domain.pk%}{{course.domain.name}}"><i class="fa fa-university fa-fw"></i> {{course.domain.name}}</a> </li>
@@ -102,7 +102,7 @@
 							<div class="list-group">
 								<div class="list-group-item">
 									<p class="h5">Be the first to sell a document for this class!</p>
-									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Document</a>
+									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Study Guides</a>
 								</div>						
 							</div>
 							{% endfor %}

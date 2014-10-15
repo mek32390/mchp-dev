@@ -32,7 +32,7 @@
 				<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="{% static 'lib/img/building-with-flag.svg' %}" alt="school"></a>
 					<div class="media-heading">
 						<span class="pull-right">
-			<a button type="button" class="btn btn-success btn-xs" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Document</a>
+			<a button type="button" class="btn btn-success btn-xs" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Study Guides</a>
 			<!-- <a class="btn btn-facebook btn-xs"><i class="fa fa-fw fa-facebook"></i> Share</a> -->
 		</span>
 						<h2 class="media-heading">{{school.name}} <small>{{school.city}}, {{school.state}}</small></h2>
@@ -100,7 +100,7 @@
 							<div class="list-group">
 								<div class="list-group-item">
 									<p class="h5">Be the first to sell a document at this school!</p>
-									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Document</a>
+									<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Study Guides</a>
 								</div>						
 							</div>
 							{% endfor %}

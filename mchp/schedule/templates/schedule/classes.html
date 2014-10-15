@@ -15,11 +15,11 @@
 
 <div class="container animated bounceInUp">
 	<h2 class="margin-top-sm">Your Classes
-		<!-- <div class="pull-right">
-		<a href="/schedule" class="btn btn-primary btn-sm"><i class="fa fa-calendar-o"></i> Your Schedule &raquo;</a>
-		<a href="/sell/" class="btn btn-success btn-sm"><i class="fa fa-money"></i> Sell a Document &raquo;</a>
-		<a href="/docs/" class="btn btn-info btn-sm"><i class="fa fa-file-o "></i> Your Documents &raquo;</a>
-	</div> -->
+		<div class="pull-right">
+		<a href="{% url 'course_add'%}" class="btn btn-primary btn-sm"> Add/Drop Classes &raquo;</a>
+		<!-- <a href="/sell/" class="btn btn-success btn-sm"><i class="fa fa-money"></i> Sell a Document &raquo;</a>
+		<a href="/docs/" class="btn btn-info btn-sm"><i class="fa fa-file-o "></i> Your Documents &raquo;</a> -->
+	</div>
 	</h2>
 	<ul class="nav nav-tabs nav-justified" role="tablist">
 		{% for course in course_list %}
