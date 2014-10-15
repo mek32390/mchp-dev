@@ -21,17 +21,17 @@ $(function() {
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
 		steps: [
 
-		{
-			// path: "/school/course/add/",
-			element: "#enrolled-panel",
-		    title: "<strong>Welcome " + MCHP_USERNAME + "!</strong>",
-		    content: "This is your class schedule page, where you can add and drop classes from your schedule. Your schedule looks empty, so let's start off by adding some classes to it.",
-		    reflex: true
-		},
+		// {
+		// 	// path: "/school/course/add/",
+		// 	element: "#enrolled-panel",
+		//     title: "<strong>Welcome " + MCHP_USERNAME + "!</strong>",
+		//     content: "This is your class schedule page, where you can add and drop classes from your schedule. Your schedule looks empty, so let's start off by adding some classes to it.",
+		//     reflex: true
+		// },
 		{
 			element: "#search-panel",
 			backdrop: false,
-		    title: "<strong>Search for a Class</strong>",
+		    title: "<strong>Welcome " + MCHP_USERNAME + "!</strong>",
 		    content: "Enter a <strong>Course Code</strong> and <strong>Number</strong>, then hit Enter! ex: ECON 200",
 		    placement: "left"
 		    // reflex: true
@@ -71,6 +71,7 @@ $(function() {
 		    content: "Before you leave this page, you may want to make sure all of your classes are added. We'll be more useful to you if they are!",
 		    placement: "bottom",
 		    backdrop: false,
+		    template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>Add More Classes</button></nav></div>",
 		    reflex: true
 		}
 
