@@ -72,10 +72,11 @@ $(function() {
 		},
 		{
 			path: "/classes",
-			element: ".step-2",
+			element: "#nav-list",
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
 		    content: "<p>You surely haven\'t seen it all, have you?</p>",
 		    placement: "bottom",
+		    backdrop: false,
 		    reflex: true
 		}
 		

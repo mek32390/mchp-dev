@@ -65,10 +65,11 @@ $(function() {
 		    reflex: true
 		},
 		{
-			element: ".step-2",
+			element: "#nav-list",
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
 		    content: "<p>To create a calendar, click <a href='/calendar/create/' id='create-cal-btn'>here.</a> Or, continue exploring...</p>",
 		    placement: "bottom",
+		    backdrop: false,
 		    reflex: true
 		}
 		

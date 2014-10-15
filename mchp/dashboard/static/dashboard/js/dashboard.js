@@ -80,10 +80,11 @@ $(function(){
 		},
 		{
 			path: "/home",
-			element: ".step-2",
+			element: "#nav-list",
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
 		    content: "There is much yet to be discovered!",
 		    placement: "bottom",
+		    backdrop: false,
 		    reflex: "true"
 		}
 	]});
