@@ -1,5 +1,39 @@
 $(function(){
 
+	/*
+	/*
+	/* TOUR FUNCTIONS
+	/*
+	*/
+
+	// Instance the first tour
+	var tour = new Tour({
+		onStart: function() {
+			$('.profile-image').removeClass('animated flipInX delayed-sm');
+		},
+
+		name: "profile-tour",
+		backdrop: true,
+		// storage: false,
+		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
+		steps: [
+
+		{
+			element: "#profile-header",
+			backdrop: false,
+		    title: "<strong>Here is your Page, " + MCHP_USERNAME + "!</strong>",
+		    content: "Edit your <strong>Picture</strong>, <strong>Username</strong>, <strong>Major</strong>, and <strong>Blurb</strong> by clicking on them.",
+		    placement: "bottom",
+		    reflex: true
+		}
+		
+	]});
+
+	// Initialize the tour
+	tour.init();
+	// Start the tour
+	tour.start();
+
 	// show profile info when friend button clicked (example)
 	// $('#friend_button').click(function () {
 	// 	$('#top_friends').removeClass('hidden');

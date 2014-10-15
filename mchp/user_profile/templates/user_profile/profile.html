@@ -14,6 +14,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.9.3/typeahead.min.js"></script>
 
 {% load staticfiles %}
+
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/user_profile.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
@@ -25,7 +26,7 @@
 {% block body %}
 {% load humanize %}
 <div class="container">
-	<div class="text-center center-block">
+	<div id="profile-header" class="text-center center-block">
 		<div style="height: 160px; width: 160px; background-image:url({{profile.profile_image_url}});" id="profile-image" class="profile-image animated flipInX img-thumbnail img-circle delayed-sm"></div>
 		{% ifequal viewer student %}
 		<div id="update-photo">
