@@ -93,6 +93,7 @@ $(function(){
 	// Start the tour
 	tour.start();
 
+
  	/*
 	/*
 	/* NEWS FUNCTIONS
