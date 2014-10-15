@@ -70,6 +70,7 @@ $(function() {
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
 		    content: "<p>Choose wisely, young grasshopper.</p><p class='small'>You can add/drop classes from your schedule anytime by clicking your username in the top right.</p>",
 		    placement: "bottom",
+		    backdrop: false,
 		    reflex: true
 		}
 
