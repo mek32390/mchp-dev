@@ -69,8 +69,8 @@ ul.messages {
 
 #document-upload-btn:hover {
     color: #fff;
-    background-color: #3071a9;
-    border-color: #285e8e;
+    background-color: #449d44;
+    border-color: #398439;
     opacity: 1;
     transition: all .2s ease;
     -webkit-transition: all .2s ease;
