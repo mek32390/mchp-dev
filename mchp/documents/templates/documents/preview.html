@@ -152,18 +152,26 @@
 							<hr>
               {% if uploader %}
               <div class="media">
-                <!-- <a class="pull-left" href="{%url "profile" uploader.pk %}">
+              	{% if owns %}
+              	<a class="pull-left" href="{%url "profile" uploader.pk %}">
                   <div class="media-object img-circle img-thumbnail profile-image" 
                   style="background-image:url({{uploader.profile.profile_image_url}}); width:65px; height: 65px;"></div>
-                </a> -->
+                </a>
+              	{% else %}
+              	<div class="media-object pull-left"><img src="{% static 'lib/img/shirt.svg' %}" class="img-circle img-thumbnail profile-image" style="width:65px; height: 65px;"/></div>
+              	{% endif %}
                 <!-- <a class="pull-left" href="{%url "profile" uploader.pk %}"> -->
-                  <div class="media-object pull-left"><img src="{% static 'lib/img/shirt.svg' %}" class="img-circle img-thumbnail profile-image" style="width:65px; height: 65px;"/></div>
+                  
                 <!-- </a> -->
                 <div class="media-body">
 	                <h4 class="media-heading">
-	                    <!-- <a href="{% url "profile" uploader.pk%}"> -->
+	                	{% if owns %}
+	                    <a href="{% url "profile" uploader.pk%}">
 	                      {{uploader}}
-	                    <!-- </a> -->
+	                    </a>
+	                    {% else %}
+	                    Student at <small><a href="{%url "school" document.course.domain.pk%}{{document.course.domain.name}}">{{ document.course.domain.name }}</a></small>
+	                	{% endif %}
 	                </h4>
 	                <span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
 	                <h6>
