@@ -52,7 +52,7 @@ $(function() {
 	// Instance the second tour
 	var tour2 = new Tour({
 		// name: "addclass-tour-2",
-		storage: false,
+		// storage: false,
 		backdrop: true,
 		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
 		steps: [
@@ -61,14 +61,14 @@ $(function() {
 			path: "/school/course/add/",
 			orphan: true,
 		    title: "<strong>Nice work!</strong>",
-		    content: "Now that you've added a class to your schedule, we can explore the rest of mchp!",
+		    content: "You can add/drop classes from your schedule anytime by clicking the tool icon in the top right or from the classes page.",
 		    backdrop: "true"
 		},
 		{
 			path: "/school/course/add/",
 			element: "#nav-list",
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
-		    content: "<p>You can come back to this page anytime by clicking the tool in the top right or from your 'Classes Page'.</p>",
+		    content: "Before you leave this page, you may want to make sure all of your classes are added. We'll be more useful to you if they are!",
 		    placement: "bottom",
 		    backdrop: false,
 		    reflex: true

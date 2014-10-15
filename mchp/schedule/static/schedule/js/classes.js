@@ -72,6 +72,13 @@ $(function() {
 		},
 		{
 			path: "/classes",
+			element: "#edit-classes",
+		    title: "<strong>Add or Drop Classes</strong>",
+		    content: "The more classes you are in, the more mchp can do for you!",
+		    placement: "left"
+		},
+		{
+			path: "/classes",
 			element: "#nav-list",
 		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
 		    content: "<p>You surely haven\'t seen it all, have you?</p>",

@@ -60,7 +60,7 @@ $(function() {
 		{
 			element: ".view-cals-btn",
 		    title: "<strong>Browse Calendars to Follow</strong>",
-		    content: "You can find calendars that your classmates are selling here.",
+		    content: "You can find calendars that your classmates have made here.",
 		    placement: "left",
 		    reflex: true
 		},
