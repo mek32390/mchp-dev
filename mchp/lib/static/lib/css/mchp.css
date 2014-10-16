@@ -46,7 +46,7 @@ ul.messages {
 
 /* site-wide profile image */
 .profile-image {
-  background-position: center center;
+  background-position: 50% 20%;
   background-size: cover;
 }
 
