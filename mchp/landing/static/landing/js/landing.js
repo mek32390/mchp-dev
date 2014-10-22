@@ -1,8 +1,8 @@
 $(function() {
 
-    $('#homepage-example').on('mouseenter', function () {
-        $('#instruction-text').addClass('animated fadeOutDown');
-    });
+    // $('#homepage-example').on('mouseenter', function () {
+    //     $('#instruction-text').addClass('animated fadeOutDown');
+    // });
 
     // change notif indicator when clicked
     $('#toggle-notifications').on('click', function () {
