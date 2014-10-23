@@ -4,6 +4,20 @@
 
 $(function() {
 
+	// add auto drop down functionality of drop downs
+    $(".drop").hover(            
+        function() {
+            $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
+            $(this).toggleClass('open');
+            $('.tooltip').hide();       
+        },
+        function() {
+            $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
+            $(this).toggleClass('open');  
+            $('.tooltip').hide();            
+        }
+    );
+
 	//detect window size for nav dropdown
 	// $(window).on('resize', function() {
 	//   	if ($(window).width() > 768) {
