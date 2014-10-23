@@ -154,7 +154,7 @@ $(function() {
 	}
 
 	// mark notifications read
-	$('#toggle-notifications').click(function() {
+	$('#toggle-notifications').on('mouseover', function() {
 		mark_all_read();
 		$('#notification-count').text('0');
 		$('#notification-count').removeClass('unread-notification');
