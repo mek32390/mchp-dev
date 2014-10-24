@@ -17,7 +17,7 @@
 </div>
 <div class="container">
 	<div class="row">
-		<div class="col-sm-8 col-sm-offset-2">
+		<div class="col-xs-12">
 			<div class="media">
     			<img class="media-object pull-left animated bounceInDown" src="{% static 'lib/img/money.svg' %}" height="50px" alt="Add Documents">
   				<div class="media-body">
@@ -25,7 +25,8 @@
 				Stack some paper</div>
 			</div>
 			<hr>
-			<div class="alert alert-warning">Your classmates <strong>will not</strong> be able to view your <strong>picture</strong> or <strong>name</strong> when you upload a document.</div>
+		</div><!-- end col 12 -->
+		<div class="col-sm-8">
 			<div class="upload-form">
 				<form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
 					{% csrf_token %}
@@ -61,9 +62,54 @@
 					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary btn-block" /></p>
 				</form>
 			</div>
-		</div>
-	</div>
-</div>
+		</div><!-- end col 8 -->
+		<div class="col-sm-4 hidden-xs">
+			<div class="media">
+			  <!-- <a class="pull-left" href="#">
+			    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
+			  </a> -->
+			  <div class="media-body">
+			    <h4 class="media-heading">Get $5 for every Study Guide you upload!</h4>
+			    	<p>
+			    		Study Guides cover specific material that will be on an exam. They are not "just" lecture notes.
+					</p>
+			  </div>
+			</div>
+			<hr class="margin-top-sm">
+			<div class="media">
+			  <!-- <a class="pull-left" href="#">
+			    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
+			  </a> -->
+			  <div class="media-body">
+			    <h4 class="media-heading">Uploads are anonymous</h4>
+			    	<p>
+			    		Your classmates <strong>will not</strong> be able to view your <strong>picture</strong> or <strong>name</strong> when you upload a document.
+					</p>
+			  </div>
+			<hr class="margin-top-sm">
+			<div class="media">
+			  <!-- <a class="pull-left" href="#">
+			    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
+			  </a> -->
+			  <div class="media-body">
+			    <h4 class="media-heading">You can upload your syllabi</h4>
+			    	<p>
+			    		If you upload your syllabus and make it free, it will boost your doc numbers and credibility. Students will be more likely to buy your other documents.
+					</p>
+					<!-- <p>
+			    		Have you uploaded your syllabus yet? Get all of your syllabi up and set their price to 0 points!
+			    	</p> -->
+			  </div>
+			</div>
+			<!-- <div class="alert alert-success">Get <strong>$5 for every study guide</strong> you upload!
+			</div>
+			<div class="alert alert-warning">Your classmates <strong>will not</strong> be able to view your <strong>picture</strong> or <strong>name</strong> when you upload a document.
+			</div>
+			<div class="alert alert-info">Have you uploaded your syllabus yet? Get all of your syllabi up and set their price to 0 points!
+			</div> -->
+		</div><!-- end col 4 -->
+	</div><!-- end row -->
+</div><!-- end container -->
 <div id="enrolled_courses" data-enrolled_courses="{{ enrolled_courses }}">
 </div>
 {% endblock %}
