@@ -277,11 +277,11 @@
 							<!-- <li><a href="{% url 'course_create'%}">Create class</a></li> -->
 							<li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
 							<!-- <li class="divider"></li> -->
-							<li><a href="{% url 'document_upload'%}">Add Document</a></li>
+							<li><a href="{% url 'document_upload'%}">Sell Document</a></li>
 							<!-- <li><a href="{% url 'document_list'%}">My Documents</a></li> -->
 							<!-- <li><a href="{% url 'dashboard'%}">My Homepage</a></li> -->
 							<li class="divider"></li>
-							<li><a data-toggle="modal" href="#sethomeModal">Set Homepage</a></li>
+							<li><a data-toggle="modal" href="#sethomeModal"><strong><i class="fa fa-home fa-fw"></i> Set Homepage</strong></a></li>
 							<li class="divider"></li>
 							<li><a href="{% url 'account_settings'%}">My Account</a></li>
 							<li><a href="{% url 'help'%}">Help</a></li>
@@ -352,6 +352,25 @@
 	{% if not donottrack %}
 	{% include "lib/google-analytics.html" %} 
 	{% endif %}
+	
+	<!-- Ad roll script -->
+	<script type="text/javascript">
+	adroll_adv_id = "NZ2O2RMVURGMVJLHE6CYEK";
+	adroll_pix_id = "6WPDGZE4X5GALGIZZPYYMV";
+	(function () {
+	var oldonload = window.onload;
+	window.onload = function(){
+	   __adroll_loaded=true;
+	   var scr = document.createElement("script");
+	   var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+	   scr.setAttribute('async', 'true');
+	   scr.type = "text/javascript";
+	   scr.src = host + "/j/roundtrip.js";
+	   ((document.getElementsByTagName('head') || [null])[0] ||
+	    document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+	   if(oldonload){oldonload()}};
+	}());
+	</script>
 
 	</body>
 </html>
