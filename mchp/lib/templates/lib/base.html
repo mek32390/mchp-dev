@@ -244,7 +244,7 @@
 						</a>
 						</li>
 						<li data-toggle="tooltip" data-original-title="Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}}</span>
-						<img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home">
+						<img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="points">
 					</a></li>
 					<li class="dropdown drop" id="notifs-dropdown">
 						{% unread_count as unread %}
@@ -327,9 +327,10 @@
 		</div>
 	</div><!-- End Nav -->
 	<!-- add document upload btn to footer -->
-	<div class="container navbar-fixed-bottom pull-right">
+	<div class="container navbar-fixed-bottom">
     	<ul class="nav  navbar-right ">
             <li><a href="{% url 'document_upload'%}" id="document-upload-btn" class="btn btn-md btn-success">Get $5 per Study Guide!</a></li>
+            <!-- <li><a href="#" id="open-chat" class="btn btn-md btn-success">Chat</a></li> -->
         </ul>
 	</div>
 	<!-- Django Messages -->
@@ -371,6 +372,18 @@
 	   if(oldonload){oldonload()}};
 	}());
 	</script>
-
+	<!-- <div class="container navbar-fixed-bottom pull-right">
+	  <ul class="nav  navbar-right ">
+	    <li> -->
+		<!-- Firehose Chat -->
+		<script type="text/javascript">
+		  var FHChat = {product_id: "ea1d78a7bbff"};
+		  FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
+		</script>
+		<!-- </li>
+	  </ul>
+	</div> -->
+	<!-- <div id="fchat-feed"></div> -->
+	<!-- <input type="text" id="fchat-message" /> -->
 	</body>
 </html>
