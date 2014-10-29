@@ -186,7 +186,9 @@
 												</span>
                         {% if document.upload %}
                         {% with document.upload.owner as owner %}
-                        <div> uploaded by <a href="{%url "profile" owner.pk %}">{{owner}}</a> </div>
+                        <div> uploaded by a classmate
+                        	<!-- <a href="{%url "profile" owner.pk %}">{{owner}}</a>  -->
+                        </div>
                         {% endwith %}
                         {% endif %}
 											</div>
