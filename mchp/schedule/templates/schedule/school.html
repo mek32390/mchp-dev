@@ -87,7 +87,10 @@
 											Purchase{{document.sold|pluralize}}
 											{% with document.upload.owner as owner %}
 											{% if owner %}
-											<p class="small margin-top-sm">Uploaded by <a href="{%url "profile" owner.pk%}">{{owner}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+											<p class="small margin-top-sm">Uploaded by a Student in 
+												<!-- <a href="{%url "profile" owner.pk%}">{{owner}}</a> -->
+												<a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a>
+											</p>
 											{% else %}
 											<p class="small margin-top-sm">Uploaded by Unknown in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
 											{% endif %}
