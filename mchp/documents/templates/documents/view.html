@@ -69,7 +69,7 @@
 		<div class="media" style="margin-top:0px;">
 			<img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
 			<div class="media-body">
-				<h4 class="media-heading">Share this and get <strong>{{referral_reward}}</strong> points back immediately!</h4>
+				<h4 class="media-heading">Get <strong>{{referral_reward}}</strong> points back immediately!</h4>
 				Each time you click the <a href="#" class="btnShare btn btn-facebook btn-xs fb-share-button disabled">
 					<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button class="btn btn-warning btn-xs disabled"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 				buttons below, we'll reward both you and your friend <strong>{{referral_reward}} points</strong> each if they sign up with us through your link. Remember, the same rules apply when you share your unique referall code and referall link found on your <a class="alert-link" href="{% url 'account_settings'%}">My Account</a> page. Happy studying, sharing, and earning!<strong>- mchp</strong>
@@ -105,7 +105,7 @@
 						data-title="{{document.title}}" 
 						data-desc="{{document.description}}" class="btnShare
 						btn btn-facebook fb-share-button">
-						<i class="fa fa-fw fa-facebook"></i>Share this to get 200 points</a>
+						<i class="fa fa-fw fa-facebook"></i>Get 200 points for Sharing</a>
 					<button id="copy-button" class="btn btn-warning btn-md"
 						data-clipboard-text="http://{{request.get_host}}{{request.path | referral:referral_link}}">
 						<i class="fa fa-paperclip fa-fw"></i>Copy link</button>
