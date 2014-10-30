@@ -134,7 +134,7 @@
 							{% endif %}
 						</button>
 						{% endif %}
-						<a href="{{current_path | referral:referral_link}}" 
+						<a href="{{current_path | referral:referral_link}}" data-toggle="tooltip" data-original-title="Every person that signs up by clicking your shared link will get you both 200 points!"
 							{% if document.preview %}
 							data-image="{{document.preview.url}}"
 							{% else %}
@@ -143,7 +143,7 @@
 							data-title="{{document.title}}" 
 							data-desc="{{document.description}}" 
 							class="btnShare btn btn-facebook fb-share-button">
-							<i class="fa fa-fw fa-facebook"></i>Share this</a>
+							<i class="fa fa-fw fa-facebook"></i>Share this for 200 points</a>
 						<button data-clipboard-text="{{current_path | referral:referral_link }}" 
 							id="copy-button" class="btn btn-warning"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
 						<span class="copy-message"></span>
