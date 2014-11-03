@@ -4,6 +4,13 @@
 
 {% block extra_head %}
 
+	{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'documents/css/upload_doc.css' %}">
+		<script src="{% static 'documents/js/upload_doc.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
+		<script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
+
+
 	<!-- Facebook Conversion Code for fb ad -->
 	<script>(function() {
 	var _fbq = window._fbq || (window._fbq = []);
@@ -21,11 +28,6 @@
 	</script>
 	<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6020574171826&amp;cd[value]=0.01&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
 
-	{% load staticfiles %}
-		<link rel="stylesheet" type="text/css" href="{% static 'documents/css/upload_doc.css' %}">
-		<script src="{% static 'documents/js/upload_doc.js' %}"></script>
-		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
-		<script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
 {% endblock %}
 
 {% block body %}
