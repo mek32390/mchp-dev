@@ -1,12 +1,58 @@
-bin/
+# .gitignore
+#
 include/
 /lib/
 media/
-*.sw[op]
-*.pyc
+
+# Compiled source #
+*.py[cod]
 __pycache__/
-*settings.py
+
+# C extensions #
+*.so
+
+# packages #
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# logs and databases #
 *.log
-tags
+*.sql
+pip.log.txt
+pip-delete-this-directory.txt
 nohup.out
+
+# Unit test / coverage reports #
+htmlcov/
+.tox
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# vim generated files #
+*.sw[op]
+*~
 Session.vim
+
+# Django stuff #
+*settings.py
+tags
+
+# Apples #
+.DS_Store
+
+# Translations #
+*.mo
+*.pot
