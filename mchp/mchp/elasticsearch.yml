@@ -9,7 +9,7 @@ cluster:
 
 network:
     host: 127.0.0.1
-
+  # host: localhost
 
 #script.disable_dynamic: true
 
