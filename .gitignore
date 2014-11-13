@@ -5,7 +5,7 @@ include/
 media/
 
 # Compiled source #
-*.py[cod]
+*.pyc
 __pycache__/
 
 # C extensions #
@@ -17,7 +17,7 @@ build/
 develop-eggs/
 dist/
 eggs/
-lib/
+#lib/
 lib64/
 parts/
 sdist/
@@ -42,7 +42,8 @@ nosetests.xml
 coverage.xml
 
 # vim generated files #
-*.sw[op]
+*.swo
+*.swp
 *~
 Session.vim
 

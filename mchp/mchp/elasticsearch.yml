@@ -8,10 +8,10 @@ cluster:
   name: cherry
 
 network:
-  host: 127.0.0.1
+    host: 127.0.0.1
   # host: localhost
 
-# script.disable_dynamic: true
+#script.disable_dynamic: true
 
 path:
   logs: /usr/local/var/log

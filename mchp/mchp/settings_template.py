@@ -130,7 +130,7 @@ AWS_STORAGE_BUCKET_NAME = 'mchp-dev'
 # callingformat.subdomain is 2, let's hope this doesn't change
 AWS_CALLING_FORMAT = 2
 
-DEFAULT_FILE_STORAGE = 'documents.s3utils.MediaS3Storage' 
+DEFAULT_FILE_STORAGE = 'documents.s3utils.MediaS3Storage'
 STATICFILES_STORAGE = 'documents.s3utils.StaticS3Storage'
 
 # Static files (CSS, JavaScript, Images)
@@ -180,7 +180,7 @@ DEFAULT_FROM_EMAIL = 'mchp contact <contact@mycollegehomepage.com>'
 # import from allauth_settings.py
 from mchp.allauth_settings import *
 
-# 
+#
 # Stripe
 #
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_trLdDuux3wpqI52nw0U3iNq3")

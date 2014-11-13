@@ -29,7 +29,7 @@ class S3Auth:
                 '/'+bucket+key
         sig = hmac.new(self.encode(self.AWS_SECRET_ACCESS_KEY), msg=self.encode(StringToSign),
                        digestmod='sha1').digest()
-    
+
         base_url = '{}.s3.amazonaws.com'.format(bucket)
         sig = base64.b64encode(sig).decode()
         parms = [
@@ -41,7 +41,7 @@ class S3Auth:
         url = 'https://' + base_url + '{}?{}'.format(key, encoded_parms)
         return url
 
-    # this one doesn't work 
+    # this one doesn't work
     def get_v4(self, bucket, key):
         base_url = '{}.s3.amazonaws.com'.format(bucket)
         resource_url = key
@@ -51,7 +51,7 @@ class S3Auth:
         headers = 'host'
 
         parms = [
-            ('X-Amz-Algorithm', 'AWS4-HMAC-SHA256'), 
+            ('X-Amz-Algorithm', 'AWS4-HMAC-SHA256'),
             ('X-Amz-Credential', cred),
             ('X-Amz-Date', date),
             ('X-Amz-Expires', expires),
@@ -66,7 +66,7 @@ class S3Auth:
                 'host' + '\n' +\
                 'UNSIGNED-PAYLOAD'
         canonical_bytes = hashlib.sha256(canonical_request.encode('utf-8')).hexdigest()
-        scope = time.strftime('%Y%m%d') + '/' + self.AWS_region + '/s3/aws4_request' 
+        scope = time.strftime('%Y%m%d') + '/' + self.AWS_region + '/s3/aws4_request'
         string_to_sign = 'AWS4-HMAC-SHA256' + '\n' +\
                 date + '\n' +\
                 scope + '\n' +\
@@ -77,17 +77,17 @@ class S3Auth:
         date_key = hmac.new(b"AWS4" + self.encode(self.AWS_SECRET_ACCESS_KEY),
                             msg=self.encode(time.strftime('%Y%m%d')),
                             digestmod=hashlib.sha256).digest()
-        date_region_key = hmac.new(date_key, 
+        date_region_key = hmac.new(date_key,
                                    msg=self.encode(self.AWS_region),
                                    digestmod=hashlib.sha256).digest()
-        date_region_service_key = hmac.new(date_region_key, 
+        date_region_service_key = hmac.new(date_region_key,
                                            msg=b"s3",
                                            digestmod=hashlib.sha256).digest()
-        signing_key = hmac.new(date_region_service_key, 
+        signing_key = hmac.new(date_region_service_key,
                                msg=b'aws4-request',
                                digestmod=hashlib.sha256).digest()
-        sig = hmac.new(signing_key, 
-                       msg=self.encode(string_to_sign), 
+        sig = hmac.new(signing_key,
+                       msg=self.encode(string_to_sign),
                        digestmod=hashlib.sha256).digest()
         import base64
         sig = base64.b64encode(sig).decode()
