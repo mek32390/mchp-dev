@@ -3,14 +3,15 @@
 {% block head_title %}mycollegehomepage{% endblock %}
 
 {% block extra_head %}
-    <meta property="fb:app_id" content="369999156462705" /> 
-    <meta property="og:type" content="website" /> 
-    <meta property="og:url" content="https://www.mycollegehomepage.com" /> 
-    <meta property="og:title" content="mycollegehomepage.com | mchp" /> 
-    <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/homepage.png" /> 
+    <meta property="fb:app_id" content="369999156462705" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mycollegehomepage.com" />
+    <meta property="og:title" content="mycollegehomepage.com | mchp" />
+    <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/homepage.png" />
     <meta property="og:description" content="The collaborative course management system for college students." />
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.2.5/moment-timezone.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 
 {% load staticfiles %}
@@ -58,7 +59,7 @@
   {% endif %}
   <ol id="quicklinks" class="breadcrumb margin-btm-sm">
 		{% if weather %}
-		<li data-weather="{{weather}}"> 
+		<li data-weather="{{weather}}">
 			<span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
 				<strong>{% weather_icon weather.icon weather.text %} {{school.city}}</strong>
 			</span> 
@@ -104,7 +105,7 @@
         <p>Start by following some calendars or <a href="{% url 'calendar_create' %}">make your own.</a></p>
 				{% for calendar in calendars%}
 				<div class="list-group-item">
-					<a href="{% url "calendar_preview" calendar.pk %}"><strong>{{calendar.title}} Calendar</strong></a> 
+					<a href="{% url "calendar_preview" calendar.pk %}"><strong>{{calendar.title}} Calendar</strong></a>
 				</div>
 				{% endfor %}
 				{% endif %}
@@ -192,7 +193,7 @@
                 </p>
                 <a href="#">
                   <span class="description small dash-course"></span>
-                </a> 
+                </a>
               </div>
             </div>
           </div>
@@ -258,7 +259,7 @@
                   You joined a class</p>
                 <a href="#">
                   <span class="description small dash-course"></span>
-                </a> 
+                </a>
               </div>
             </div>
           </li>
