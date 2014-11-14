@@ -240,13 +240,13 @@
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
+						<!-- <li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
 						<a href="{% url 'my_profile' %}"><div
 							style="width:20px; height:20px; background-image:url({{student.profile.profile_image_url}});"
-							class="img-circle profile-image nav-icon"> <!-- {{user.username}} --></div>
+							class="img-circle profile-image nav-icon"></div>
 						</a>
-						</li>
-						<li data-toggle="tooltip" data-original-title="Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}}</span>
+						</li> -->
+						<li data-toggle="tooltip" data-original-title="Your Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}} pts</span>
 						<img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="points">
 					</a></li>
 					<li class="dropdown drop" id="notifs-dropdown">
@@ -275,7 +275,7 @@
 							</li>
 							<li class="divider"></li>
 							{% endif %}
-							<!-- <li><a href="{% url 'my_profile' %}">My Page</a></li> -->
+							<li><a href="{% url 'my_profile' %}">My Page</a></li>
 							<!-- <li class="divider"></li> -->
 							<!-- <li><a href="{% url 'course_create'%}">Create class</a></li> -->
 							<li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
@@ -357,16 +357,11 @@
 	{% include "lib/google-analytics.html" %} 
 	{% endif %}
 
-	<!-- Firehose Chat -->
+	<!-- Firehose Chat -
 	<script type="text/javascript">
-	  var FHChat = {product_id: "ea1d78a7bbff"};
-	  FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
-	</script>
-
-	<!-- Adroll Smart pixel -->
-
-	<!-- Intercom tracker -->
-	
+	//   var FHChat = {product_id: "ea1d78a7bbff"};
+	//   FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
+	</script>	-->
 
 </body>
 </html>

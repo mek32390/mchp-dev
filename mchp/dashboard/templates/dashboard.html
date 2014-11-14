@@ -34,14 +34,14 @@
 {% load humanize %}
 {% load dashboard %}
 
-<div id="fb-root"></div>
+<!--<div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=369999156462705&version=v2.0";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+}(document, 'script', 'facebook-jssdk'));</script>-->
 
 <div class="container">
   {% if not dashboard_ref_flag %}
@@ -72,7 +72,7 @@
     <li><strong><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></strong></li>
     {% endfor %}
     <span class="pull-right">
-      <div class="fb-like" data-href="https://www.mycollegehomepage.com" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+      <!-- <div class="fb-like" data-href="https://www.mycollegehomepage.com" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div> -->
       <!-- <strong><i class="fa fa-fw fa-clock-o"></i>
       <span class="current-time" data-time="{{current_time}}">
         {{current_time|time:"g:i:s a"}}
