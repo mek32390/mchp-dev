@@ -11,25 +11,28 @@
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
 
 		{% load staticfiles %}
 
 		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/mchp.css' %}">
 		<script src="{% static 'lib/js/mchp.js' %}"></script>
+        <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 		<script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
-		<script type="text/javascript"> 
+        <script src="{% static 'lib/js/moment-timezone-with-data-2010-2020.js' %}"></script>
+		<script type="text/javascript">
 		var $buoop = {
 				vs:{i:10,f:15,o:12.1,s:5.1},
-		}; 
-		$buoop.ol = window.onload; 
-		window.onload=function(){ 
-		 try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
-		 var e = document.createElement("script"); 
-		 e.setAttribute("type", "text/javascript"); 
-		 e.setAttribute("src", "//browser-update.org/update.js"); 
-		 document.body.appendChild(e); 
-		} 
-		</script> 
+		};
+		$buoop.ol = window.onload;
+		window.onload=function(){
+		 try {if ($buoop.ol) $buoop.ol();}catch (e) {}
+		 var e = document.createElement("script");
+		 e.setAttribute("type", "text/javascript");
+		 e.setAttribute("src", "//browser-update.org/update.js");
+		 document.body.appendChild(e);
+		}
+		</script>
 		{% block head %}
 
 		{% endblock %}
@@ -49,7 +52,7 @@
 					<div class="modal-body text-center">
 						<h3>Got Credentials?</h3>
 						<img class="img-circle img-thumbnail" src="{% static 'lib/img/support.svg' %}" alt="sign up or login">
-						<br></br> 
+						<br></br>
 						<p><small>Log In or Sign Up using:</small></p>
 						<a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg" 
 							href="/accounts/facebook/login/" target="_blank"><i class="fa fa-facebook"></i> Facebook
