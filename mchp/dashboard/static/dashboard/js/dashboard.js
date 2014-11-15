@@ -152,64 +152,64 @@ $(function(){
         $('#news-list-item-'+setting).toggleClass('hidden');
         $('#news-'+setting).toggleClass('hidden');
 
-		$.ajax({
-			url: '/home/toggle-rss/',
-			type: 'POST',
-			data: {
-				'setting': setting,
-			},
-		});
-		fetchRss();
-		if ($('.news-list-item:visible').length === 0) {
-			$('.news-list-empty').removeClass('hidden');
-		}
-	});
+        $.ajax({
+            url: '/home/toggle-rss/',
+            type: 'POST',
+            data: {
+                'setting': setting,
+            },
+        });
+        fetchRss();
+        if ($('.news-list-item:visible').length === 0) {
+            $('.news-list-empty').removeClass('hidden');
+        }
+    });
 
-	window.pulse = new Pulse({
-	});
-	window.pulse.setup();
-	fetchFeed();
-	fetchRss();
-	var now = moment($('.current-time').data('time'));
-	startTime(now._tzm);
-	$($('#news-navbar').find('.news-list-item:visible')[0]).find('a.news-link').click();
-	window.scrollTo(0,0);
+    window.pulse = new Pulse({
+    });
+    window.pulse.setup();
+    fetchFeed();
+    fetchRss();
+    var now = moment($('.current-time').data('time'));
+    startTime(now._tzm);
+    $($('#news-navbar').find('.news-list-item:visible')[0]).find('a.news-link').click();
+    window.scrollTo(0,0);
 });
 
-var fetchRss = function() {
-	if ($('.news-list-item:visible').length !== 0) {
-		$('.news-list-empty').addClass('hidden');
-	}
+var fetchRss = function() {if ($('.news-list-item:visible').length !== 0) {
+    if ($('.news-list-item:visible').length !== 0) {
+        $('.news-list-empty').addClass('hidden');
+    }
 
-	var $sections = $('.news-group');
-	$sections.each(function(index, section) {
-		var $section = $(section);
-		if($section.hasClass('hidden')) {
-			return true;
-		}
-		// clear old items if any
-		$('.news-item:not(.news-item-proto)').remove();
-		var $links = $section.find('.news-item-proto');
-		$links.each(function(index, link) {
-			var $link = $(link);
-			var $section = $link.parents('.news-group');
-			var url = $link.data('link') ;
-			var name = $link.data('name');
-			var count = $link.data('count');
-			var successFn = function(feed) {
-				for(var i = 0 ; i < count ; i++) {
-					addRss($section, feed.items[i], name);
-				}
-			};
-			$.getFeed({
-				url: '/home/rss-proxy/',
-				data: {
-					'url': url,
-				},
-				success: successFn,
-			});
-		});
-	});
+    var $sections = $('.news-group');
+    $sections.each(function(index, section) {
+        var $section = $(section);
+        if($section.hasClass('hidden')) {
+            return true;
+        }
+        // clear old items if any
+        $('.news-item:not(.news-item-proto)').remove();
+        var $links = $section.find('.news-item-proto');
+        $links.each(function(index, link) {
+            var $link = $(link);
+            var $section = $link.parents('.news-group');
+            var url = $link.data('link') ;
+            var name = $link.data('name');
+            var count = $link.data('count');
+            var successFn = function(feed) {
+                for(var i = 0 ; i < count ; i++) {
+                    addRss($section, feed.items[i], name);
+                }
+            };
+            $.getFeed({
+                url: '/home/rss-proxy/',
+                data: {
+                    'url': url,
+                },
+                success: successFn,
+            });
+        });
+    });
 };
 
 var addRss = function(section, rss, name) {
@@ -251,37 +251,37 @@ var addRss = function(section, rss, name) {
 };
 
 var processFeed = function(feed) {
-	var items = [];
-	$.each(feed, function(index, itemData) {
-		var title = '';
-		var link = '/school/course/'+itemData.course__pk;
-		if (itemData.event__title !== null) {
-			title = itemData.event__title;
-			link = '/calendar/';
-		} else if (itemData.document__title !== null) {
-			title = itemData.document__title;
-			link = '/documents/'+itemData.document__uuid + '/' + title;
-		} else if (itemData.calendar__title !== null) {
-			title = itemData.calendar__title;
-			link = '/calendar/preview/' + itemData.calendar__pk + '/';
-		}
-		var item = new PulseItem({
-			type: itemData.type,
-			course: {
-				'name': itemData.course__dept + ' ' + itemData.course__course_number,
-				'pk': itemData.course__pk,
-			},
-			target: {
-				'name': itemData.student__user__username,
-				'pk': itemData.student__pk,
-			},
-			time: moment.utc(itemData.time),
-			title: title,
-			link: link,
-		});
-		items.push(item);
-	});
-	return items;
+    var items = [];
+    $.each(feed, function(index, itemData) {
+        var title = '';
+        var link = '/school/course/'+itemData.course__pk;
+        if (itemData.event__title !== null) {
+            title = itemData.event__title;
+            link = '/calendar/';
+        } else if (itemData.document__title !== null) {
+            title = itemData.document__title;
+            link = '/documents/'+itemData.document__uuid + '/' + title;
+        } else if (itemData.calendar__title !== null) {
+            title = itemData.calendar__title;
+            link = '/calendar/preview/' + itemData.calendar__pk + '/';
+        }
+        var item = new PulseItem({
+            type: itemData.type,
+            course: {
+                'name': itemData.course__dept + ' ' + itemData.course__course_number,
+                'pk': itemData.course__pk,
+            },
+            target: {
+                'name': itemData.student__user__username,
+                'pk': itemData.student__pk,
+            },
+            time: moment.utc(itemData.time),
+            title: title,
+            link: link,
+        });
+        items.push(item);
+    });
+    return items;
 };
 
 var PulseItem = function(options) {
@@ -346,8 +346,8 @@ var fetchFeed = function() {
             addMessage("Pulse not found. He's dead jim.");
         },
         complete: function(data) {
-            return feed;},
-        },
+            return feed;
+        }
     });
 };
 
