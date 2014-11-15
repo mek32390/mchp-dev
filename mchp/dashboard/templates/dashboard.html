@@ -11,9 +11,9 @@
     <meta property="og:description" content="The collaborative course management system for college students." />
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
-
-{# <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script> #}
-
+{% comment "this comment style works better with code" %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+{%  endcomment %}
 {% load staticfiles %}
 <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
 
@@ -24,10 +24,10 @@
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 <script src="{% static 'dashboard/js/domparser.js' %}"></script>
-
-{# <script src="{% static 'lib/js/jquery.cookie.js' %}"></script> #}
-{# <script src="{% static 'lib/js/animatescroll.min.js' %}"></script> #}
-
+{% comment %}
+<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
+<script src="{% static 'lib/js/animatescroll.min.js' %}"></script>
+{% endcomment %}
 {% endblock %}
 
 {% block body %}
