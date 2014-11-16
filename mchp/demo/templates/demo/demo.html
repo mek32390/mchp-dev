@@ -6,12 +6,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <meta property="fb:app_id" content="369999156462705" /> 
-    <meta property="og:type" content="website" /> 
-    <meta property="og:url" content="https://www.mycollegehomepage.com" /> 
-    <meta property="og:title" content="mycollegehomepage.com | mchp" /> 
-    <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/homepage.png" /> 
+
+    <meta property="fb:app_id" content="369999156462705" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mycollegehomepage.com" />
+    <meta property="og:title" content="mycollegehomepage.com | mchp" />
+    <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/homepage.png" />
     <meta property="og:description" content="The collaborative course management system for college students." />
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -24,85 +24,86 @@
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/mchp.css' %}">
 
     <script src="{% static 'lib/js/mchp.js' %}"></script>
-  
+    <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
+
     <!-- // Notify to update old browsers -->
-    <script type="text/javascript"> 
+    <script type="text/javascript">
     var $buoop = {
         vs:{i:10,f:15,o:12.1,s:5.1},
-    }; 
-    $buoop.ol = window.onload; 
-    window.onload=function(){ 
-        try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
-        var e = document.createElement("script"); 
-        e.setAttribute("type", "text/javascript"); 
-        e.setAttribute("src", "//browser-update.org/update.js"); 
-        document.body.appendChild(e); 
-    } 
-    </script> 
+    };
+    $buoop.ol = window.onload;
+    window.onload=function(){
+        try {if ($buoop.ol) $buoop.ol();}catch (e) {}
+        var e = document.createElement("script");
+        e.setAttribute("type", "text/javascript");
+        e.setAttribute("src", "//browser-update.org/update.js");
+        document.body.appendChild(e);
+    }
+    </script>
     {% endblock %}
 </head>
-	<body>
-		<!-- Modal to show how to get class lists-->
-		<div class="modal fade" id="classlistsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Get those Class Lists!</h4>
-		      </div>
-		      <div class="modal-body">
-		      	<div class="panel-group" id="accordion">
-				  <div class="panel panel-info">
-				    <div class="panel-heading">
-				      <h4 class="panel-title">
-				        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-				          	D2L <small>30 seconds per class</small>
-				        </a>
-				      </h4>
-				    </div>
-				    <div id="collapseOne" class="panel-collapse collapse in">
-				      <div class="panel-body">
-				        <ol>
-		                  <li>
-		                    Log in to <a href="https://webauth.arizona.edu/webauth/login?service=https%3A%2F%2Fshibboleth.arizona.edu%2Fidp%2FAuthn%2FRemoteUser" target="_blank"> D2L.</a>
-		                  </li>
-		                  <p></p>
-		                  <li>
-		                    Click on one of your classes that you're in. Once there, click the tab/page called <strong>"Classlist"</strong> which is usually on the main navigation.
-		                  </li>
-		                  <p></p>
-		                  <li>
-		                    Click the button at the top that says, <strong>"Email Classlist"</strong>. Don't worry, this won't email them!
-		                  </li>
-		                  <p></p>
-		                  <li>
-		                    Now copy the entire classlist, (First & Last Names, and E-mails if available) and <strong>paste it into an excel spreadsheet</strong>.
-		                  <p></p>
-		                    If the list is weirdly formatted when you try to paste it, try pasting it in excel this way: <strong>"Right click" and then select, "Paste Special". Then select as "Text"</strong>.
-		                  </li>
-		                  <p></p>
-		                  <li>
-		                    Make the <strong>title of the tab</strong> (bottom of the sheet) the name of the course, ex: ECON 200.
-		                  </li>
-		                  <p></p>
-		                  <li>
-		                    Please repeat this process for each of your D2L classes by making a new tab for each class. Save the Excel sheet and include it in the email you send back to us. Don't forget to <strong>attach your syllabi</strong> as well! 
-		                  <p></p>
-		                </ol>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="panel panel-default">
-				    <div class="panel-heading">
-				      <h4 class="panel-title">
-				        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-				          Blackboard <small>1 min per class</small>
-				        </a>
-				      </h4>
-				    </div>
-				    <div id="collapseTwo" class="panel-collapse collapse">
-				      <div class="panel-body">
-				        <ol>
+    <body>
+        <!-- Modal to show how to get class lists-->
+        <div class="modal fade" id="classlistsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Get those Class Lists!</h4>
+              </div>
+              <div class="modal-body">
+                <div class="panel-group" id="accordion">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            D2L <small>30 seconds per class</small>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                        <ol>
+                          <li>
+                            Log in to <a href="https://webauth.arizona.edu/webauth/login?service=https%3A%2F%2Fshibboleth.arizona.edu%2Fidp%2FAuthn%2FRemoteUser" target="_blank"> D2L.</a>
+                          </li>
+                          <p></p>
+                          <li>
+                            Click on one of your classes that you're in. Once there, click the tab/page called <strong>"Classlist"</strong> which is usually on the main navigation.
+                          </li>
+                          <p></p>
+                          <li>
+                            Click the button at the top that says, <strong>"Email Classlist"</strong>. Don't worry, this won't email them!
+                          </li>
+                          <p></p>
+                          <li>
+                            Now copy the entire classlist, (First & Last Names, and E-mails if available) and <strong>paste it into an excel spreadsheet</strong>.
+                          <p></p>
+                            If the list is weirdly formatted when you try to paste it, try pasting it in excel this way: <strong>"Right click" and then select, "Paste Special". Then select as "Text"</strong>.
+                          </li>
+                          <p></p>
+                          <li>
+                            Make the <strong>title of the tab</strong> (bottom of the sheet) the name of the course, ex: ECON 200.
+                          </li>
+                          <p></p>
+                          <li>
+                            Please repeat this process for each of your D2L classes by making a new tab for each class. Save the Excel sheet and include it in the email you send back to us. Don't forget to <strong>attach your syllabi</strong> as well! 
+                          <p></p>
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                          Blackboard <small>1 min per class</small>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <ol>
                           <li>
                             Log in to <a href="https://blackboard.eller.arizona.edu/" target="_blank"> Blackboard.</a>
                           </li>
@@ -137,20 +138,20 @@
                             Please repeat this process for each of your Blackboard classes by making a new tab for each class. Save the Excel sheet and include it in the email you send back to us. Don't forget to <strong>attach your syllabi</strong> as well! 
                           <p></p>
                         </ol>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="panel panel-warning">
-				    <div class="panel-heading">
-				      <h4 class="panel-title">
-				        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-				          Other <small>1 min per class</small>
-				        </a>
-				      </h4>
-				    </div>
-				    <div id="collapseThree" class="panel-collapse collapse">
-				      <div class="panel-body">
-				        <ol>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-warning">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                          Other <small>1 min per class</small>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <ol>
                           <li>
                             Log in to the website where your course is managed by your instructor, such as D2L, Moodle, or Blackboard.</a>
                           </li>
@@ -173,142 +174,142 @@
                             Please repeat this process for each of your classes by making a new tab for each class. Save the Excel sheet and include it in the email you send back to us. Don't forget to <strong>attach your syllabi</strong> as well! 
                           <p></p>
                         </ol>
-				      </div>
-				    </div>
-				  </div>
-				</div><!-- end panel body --> 
-		      </div><!-- end modal body -->
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-		      </div>
-		    </div>
-		  </div>
-		</div>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- end panel body --> 
+              </div><!-- end modal body -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
 
-		<!-- Modal for referring freinds -->
-		<div class="modal fade" id="referModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel">When your Friends upload, you both get paid!</h4>
-		      </div>
-		      <div class="modal-body">
-		      	<ol>
-		      		<li>
-		        		Copy your unique referral link from the bottom of your <a href="{% url 'account_settings'%}" target="_blank">Account Settings</a> page.
-		        	</li>
-		        	<p></p>
-		        	<li>
-		        		Paste it in an <a href="mailto:?">email</a>, as a status or message on <a href="http://www.facebook.com" target="_blank">facebook</a>, or tweet it on <a href="http://www.twitter.com" target="_blank">twitter</a>...
-		        	</li>
-		        	<p></p>
-		        	<li>
-		        		Every time someone <a href="{%url 'dashboard'%}" target="_blank">signs up</a> by clicking on your link, not only will you both get <strong>200 points</strong>. You both will also get $5 when he or she uploads a Study Guide. That is one hell of a win-win!
-		        	</li>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-		      </div>
-		    </div>
-		  </div>
-		</div>
+        <!-- Modal for referring freinds -->
+        <div class="modal fade" id="referModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">When your Friends upload, you both get paid!</h4>
+              </div>
+              <div class="modal-body">
+                <ol>
+                    <li>
+                        Copy your unique referral link from the bottom of your <a href="{% url 'account_settings'%}" target="_blank">Account Settings</a> page.
+                    </li>
+                    <p></p>
+                    <li>
+                        Paste it in an <a href="mailto:?">email</a>, as a status or message on <a href="http://www.facebook.com" target="_blank">facebook</a>, or tweet it on <a href="http://www.twitter.com" target="_blank">twitter</a>...
+                    </li>
+                    <p></p>
+                    <li>
+                        Every time someone <a href="{%url 'dashboard'%}" target="_blank">signs up</a> by clicking on your link, not only will you both get <strong>200 points</strong>. You both will also get $5 when he or she uploads a Study Guide. That is one hell of a win-win!
+                    </li>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
 
-		<!-- Start Navigation -->
-		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="{%url 'dashboard'%}">mchp</a>
-				</div>
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="/">Sign Up</a>
+        <!-- Start Navigation -->
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{%url 'dashboard'%}">mchp</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/">Sign Up</a>
                         <li><a href="{% url 'account_login' %}">Login</a>
-					</ul><!-- end navbar right -->
-				</div><!--/.nav-collapse -->
-			</div><!-- end navbar container -->
-		</div><!-- End Nav -->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="text-center">
+                    </ul><!-- end navbar right -->
+                </div><!--/.nav-collapse -->
+            </div><!-- end navbar container -->
+        </div><!-- End Nav -->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="text-center">
 
-						<img class="center-block" src="{% static 'lib/img/bag.svg' %}" width="150px" height="150px" />
-				        <h1>mycollegehomepage <strong>555</strong> Deal</h1>
-				        <p class="lead">The most convienent way to make money since your allowance</p>
-				        <!-- <ul class="list-inline">
-				        	<li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn delayed-md" width="100px" height="100px" alt="5 bucks"></li>
-				        	<li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn delayed-sm" width="100px" height="100px" alt="5 bucks"></li>
-				        	<li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn" width="100px" height="100px" alt="5 bucks"></li>
-				        </ul> -->
-			    	</div>
-			    	<hr>
-			    	<br>
-				</div><!-- end col 12 -->
-				<div class="col-sm-4 animated bounceInUp">
-					<div class="well">
-						<div class="panel panel-default">
-							<div class="panel-body">
-							<img src="{% static 'lib/img/file.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
-							<br>
-							<p class="lead text-center">$5 per Study Guide</p>
-							<p class="text-center">We'll give you five bucks for every Study Guide you upload.</p>
-							<a href="{% url 'document_upload'%}" class="btn btn-success btn-lg text-center center-block">Click to Start</a>
-							</div>
-						</div>
-					</div>
-				</div><!-- end col 4 -->
-				<div class="col-sm-4 animated bounceInUp delayed-sm">
-					<div class="well">
-						<div class="panel panel-default">
-							<div class="panel-body">
-							<img src="{% static 'lib/img/book.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
-							<br>
-							<p class="lead text-center">$5 per Class list & Syllabi</p>
-							<p class="text-center">We'll give you five bucks for every Class List and Syllabus pair you send us.</p>
-							<a href="" class="btn btn-primary btn-lg text-center center-block" data-toggle="modal" data-target="#classlistsModal">Click to Start</a>
-						</div>
-					</div>
-				</div>
-				</div><!-- end col 4 -->
-				<div class="col-sm-4 animated bounceInUp delayed-md">
-					<div class="well">
-						<div class="panel panel-default">
-							<div class="panel-body">
-							<img src="{% static 'lib/img/shirt.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
-							<br>
-							<p class="lead text-center">$5 per Referred Uploader</p>
-							<p class="text-center">We'll give you five bucks for every person you refer who uploads a study guide from a different school.</p>
-							<a href="" class="btn btn-warning btn-lg text-center center-block" data-toggle="modal" data-target="#referModal">Click to Start</a>
-							</div>
-						</div>
-					</div>
-				</div><!-- end col 4 -->		
-			</div><!--End Row -->
-			<div class="row">
-			    <br></br><br></br>
-			    <div class="col-sm-12 text-center">
-					<small>You will be notified of your earnings through mchp's in-site notification system. Class lists and syllabi will be rewarded if we don't already have them.</small>
-				</div>
-			    <div class="small text-default text-center"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a></small>
-			    </div>
-			</div><!-- End Row -->
-		</div><!-- End Container -->
-		{% if not donottrack %}
-			{% include "lib/google-analytics.html" %} 
-		{% endif %}
-		<!-- Firehose Chat -->
-	<script type="text/javascript">
-	  var FHChat = {product_id: "ea1d78a7bbff"};
-	  FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
-	</script>
-	</body>
+                        <img class="center-block" src="{% static 'lib/img/bag.svg' %}" width="150px" height="150px" />
+                        <h1>mycollegehomepage <strong>555</strong> Deal</h1>
+                        <p class="lead">The most convienent way to make money since your allowance</p>
+                        <!-- <ul class="list-inline">
+                            <li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn delayed-md" width="100px" height="100px" alt="5 bucks"></li>
+                            <li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn delayed-sm" width="100px" height="100px" alt="5 bucks"></li>
+                            <li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn" width="100px" height="100px" alt="5 bucks"></li>
+                        </ul> -->
+                    </div>
+                    <hr>
+                    <br>
+                </div><!-- end col 12 -->
+                <div class="col-sm-4 animated bounceInUp">
+                    <div class="well">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                            <img src="{% static 'lib/img/file.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
+                            <br>
+                            <p class="lead text-center">$5 per Study Guide</p>
+                            <p class="text-center">We'll give you five bucks for every Study Guide you upload.</p>
+                            <a href="{% url 'document_upload'%}" class="btn btn-success btn-lg text-center center-block">Click to Start</a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end col 4 -->
+                <div class="col-sm-4 animated bounceInUp delayed-sm">
+                    <div class="well">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                            <img src="{% static 'lib/img/book.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
+                            <br>
+                            <p class="lead text-center">$5 per Class list & Syllabi</p>
+                            <p class="text-center">We'll give you five bucks for every Class List and Syllabus pair you send us.</p>
+                            <a href="" class="btn btn-primary btn-lg text-center center-block" data-toggle="modal" data-target="#classlistsModal">Click to Start</a>
+                        </div>
+                    </div>
+                </div>
+                </div><!-- end col 4 -->
+                <div class="col-sm-4 animated bounceInUp delayed-md">
+                    <div class="well">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                            <img src="{% static 'lib/img/shirt.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
+                            <br>
+                            <p class="lead text-center">$5 per Referred Uploader</p>
+                            <p class="text-center">We'll give you five bucks for every person you refer who uploads a study guide from a different school.</p>
+                            <a href="" class="btn btn-warning btn-lg text-center center-block" data-toggle="modal" data-target="#referModal">Click to Start</a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end col 4 -->        
+            </div><!--End Row -->
+            <div class="row">
+                <br></br><br></br>
+                <div class="col-sm-12 text-center">
+                    <small>You will be notified of your earnings through mchp's in-site notification system. Class lists and syllabi will be rewarded if we don't already have them.</small>
+                </div>
+                <div class="small text-default text-center"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a></small>
+                </div>
+            </div><!-- End Row -->
+        </div><!-- End Container -->
+        {% if not donottrack %}
+            {% include "lib/google-analytics.html" %} 
+        {% endif %}
+        <!-- Firehose Chat 
+    <script type="text/javascript">
+      var FHChat = {product_id: "ea1d78a7bbff"};
+      FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
+    </script> -->
+    </body>
 </html>
