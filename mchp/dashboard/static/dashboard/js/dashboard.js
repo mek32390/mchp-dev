@@ -170,7 +170,7 @@ $(function(){
     window.pulse.setup();
     fetchFeed();
     fetchRss();
-    var now = moment($('.current-time').data('time'));
+    var now = moment.utc($('.current-time').data('time'));
     startTime(now._tzm);
     $($('#news-navbar').find('.news-list-item:visible')[0]).find('a.news-link').click();
     window.scrollTo(0,0);
@@ -219,8 +219,8 @@ var addRss = function(section, rss, name) {
     var $item = $('.news-item-proto').first().clone();
     $item.removeClass('news-item-proto');
     $item.removeClass('hidden');
-    // var time = moment(rss.updated, 'ddd, DD MMM YYYY HH:mm:ss ZZ');
-    var time = moment(new Date(rss.updated));
+    // var time = moment.utc(rss.updated, 'ddd, DD MMM YYYY HH:mm:ss ZZ');
+    var time = moment.utc(new Date(rss.updated));
 
     var $content = $item.find('.news-content');
     $item.find('.news-headline').html(rss.title);
@@ -352,9 +352,9 @@ var fetchFeed = function() {
 };
 
 function startTime(zone) {
-    var now = moment().zone(zone);
+    var now = moment.utc().zone(zone);
     $('.current-time').html(now.format('h:mm a'));
     var t = setTimeout(function(){
-        startTime(zone);
-    }, 1000);
+                startTime(zone);
+        }, 1000);
 }
