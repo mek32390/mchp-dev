@@ -170,7 +170,7 @@ $(function(){
     window.pulse.setup();
     fetchFeed();
     fetchRss();
-    var now = moment.utc($('.current-time').data('time'));
+    var now = moment.tz($('.current-time').data('time'));
     startTime(now._tzm);
     $($('#news-navbar').find('.news-list-item:visible')[0]).find('a.news-link').click();
     window.scrollTo(0,0);
@@ -219,8 +219,8 @@ var addRss = function(section, rss, name) {
     var $item = $('.news-item-proto').first().clone();
     $item.removeClass('news-item-proto');
     $item.removeClass('hidden');
-    // var time = moment.utc(rss.updated, 'ddd, DD MMM YYYY HH:mm:ss ZZ');
-    var time = moment.utc(new Date(rss.updated));
+    // var time = moment.tz(rss.updated, 'ddd, DD MMM YYYY HH:mm:ss ZZ');
+    var time = moment.tz(new Date(rss.updated));
 
     var $content = $item.find('.news-content');
     $item.find('.news-headline').html(rss.title);
@@ -275,7 +275,7 @@ var processFeed = function(feed) {
                 'name': itemData.student__user__username,
                 'pk': itemData.student__pk,
             },
-            time: moment.utc(itemData.time),
+            time: moment.tz(itemData.time),
             title: title,
             link: link,
         });
@@ -352,7 +352,7 @@ var fetchFeed = function() {
 };
 
 function startTime(zone) {
-    var now = moment.utc().zone(zone);
+    var now = moment.tz().zone(zone);
     $('.current-time').html(now.format('h:mm a'));
     var t = setTimeout(function(){
                 startTime(zone);
