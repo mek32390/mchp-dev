@@ -241,75 +241,69 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="text-center">
-
-                        <img class="center-block" src="{% static 'lib/img/bag.svg' %}" width="150px" height="150px" />
-                        <h1>mycollegehomepage <strong>555</strong> Deal</h1>
-                        <p class="lead">The most convienent way to make money since your allowance</p>
-                        <!-- <ul class="list-inline">
-                            <li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn delayed-md" width="100px" height="100px" alt="5 bucks"></li>
-                            <li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn delayed-sm" width="100px" height="100px" alt="5 bucks"></li>
-                            <li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn" width="100px" height="100px" alt="5 bucks"></li>
-                        </ul> -->
-                    </div>
-                    <hr>
-                    <br>
-                </div><!-- end col 12 -->
-                <div class="col-sm-4 animated bounceInUp">
-                    <div class="well">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                            <img src="{% static 'lib/img/file.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
-                            <br>
-                            <p class="lead text-center">$5 per Study Guide</p>
-                            <p class="text-center">We'll give you five bucks for every Study Guide you upload.</p>
-                            <a href="{% url 'document_upload'%}" class="btn btn-success btn-lg text-center center-block">Click to Start</a>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- end col 4 -->
-                <div class="col-sm-4 animated bounceInUp delayed-sm">
-                    <div class="well">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                            <img src="{% static 'lib/img/book.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
-                            <br>
-                            <p class="lead text-center">$5 per Class list & Syllabi</p>
-                            <p class="text-center">We'll give you five bucks for every Class List and Syllabus pair you send us.</p>
-                            <a href="" class="btn btn-primary btn-lg text-center center-block" data-toggle="modal" data-target="#classlistsModal">Click to Start</a>
-                        </div>
-                    </div>
-                </div>
-                </div><!-- end col 4 -->
-                <div class="col-sm-4 animated bounceInUp delayed-md">
-                    <div class="well">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                            <img src="{% static 'lib/img/shirt.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
-                            <br>
-                            <p class="lead text-center">$5 per Referred Uploader</p>
-                            <p class="text-center">We'll give you five bucks for every person you refer who uploads a study guide from a different school.</p>
-                            <a href="" class="btn btn-warning btn-lg text-center center-block" data-toggle="modal" data-target="#referModal">Click to Start</a>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- end col 4 -->        
-            </div><!--End Row -->
-            <div class="row">
-                <br></br><br></br>
-                <div class="col-sm-12 text-center">
-                    <small>You will be notified of your earnings through mchp's in-site notification system. Class lists and syllabi will be rewarded if we don't already have them.</small>
-                </div>
-                <div class="small text-default text-center"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a></small>
-                </div>
-            </div><!-- End Row -->
-        </div><!-- End Container -->
-        {% if not donottrack %}
-            {% include "lib/google-analytics.html" %} 
-        {% endif %}
-        <!-- Firehose Chat 
-    <script type="text/javascript">
-      var FHChat = {product_id: "ea1d78a7bbff"};
-      FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
-    </script> -->
-    </body>
+						<img class="center-block" src="{% static 'lib/img/bag.svg' %}" width="150px" height="150px" />
+				        <h1>mycollegehomepage <strong>555</strong> Deal</h1>
+				        <p class="lead">The most convienent way to make money since your allowance</p>
+				        <!-- <ul class="list-inline">
+				        	<li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn delayed-md" width="100px" height="100px" alt="5 bucks"></li>
+				        	<li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn delayed-sm" width="100px" height="100px" alt="5 bucks"></li>
+				        	<li><img src="{% static 'lib/img/games.svg' %}" class="center-block animated rollIn" width="100px" height="100px" alt="5 bucks"></li>
+				        </ul> -->
+			    	</div>
+			    	<hr>
+			    	<br>
+				</div><!-- end col 12 -->
+				<div class="col-sm-4 animated bounceInUp">
+					<div class="well">
+						<div class="panel panel-default">
+							<div class="panel-body">
+							<img src="{% static 'lib/img/file.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
+							<br>
+							<p class="lead text-center">$5 per Study Guide</p>
+							<p class="text-center">We'll give you five bucks for every Study Guide you upload.</p>
+							<a href="{% url 'document_upload'%}" class="btn btn-success btn-lg text-center center-block">Click to Start</a>
+							</div>
+						</div>
+					</div>
+				</div><!-- end col 4 -->
+				<div class="col-sm-4 animated bounceInUp delayed-sm">
+					<div class="well">
+						<div class="panel panel-default">
+							<div class="panel-body">
+							<img src="{% static 'lib/img/book.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
+							<br>
+							<p class="lead text-center">$5 per Class list & Syllabi</p>
+							<p class="text-center">We'll give you five bucks for every Class List and Syllabus pair you send us.</p>
+							<a href="" class="btn btn-primary btn-lg text-center center-block" data-toggle="modal" data-target="#classlistsModal">Click to Start</a>
+						</div>
+					</div>
+				</div>
+				</div><!-- end col 4 -->
+				<div class="col-sm-4 animated bounceInUp delayed-md">
+					<div class="well">
+						<div class="panel panel-default">
+							<div class="panel-body">
+							<img src="{% static 'lib/img/shirt.svg' %}" class="center-block img-thumbnail img-circle" width="100px" height="100px" alt="5 bucks">
+							<br>
+							<p class="lead text-center">$5 per Referred Uploader</p>
+							<p class="text-center">We'll give you five bucks for every person you refer who uploads a study guide from a different school.</p>
+							<a href="" class="btn btn-warning btn-lg text-center center-block" data-toggle="modal" data-target="#referModal">Click to Start</a>
+							</div>
+						</div>
+					</div>
+				</div><!-- end col 4 -->		
+			</div><!--End Row -->
+			<div class="row">
+			    <br></br><br></br>
+			    <div class="col-sm-12 text-center">
+					<small>You will be notified of your earnings through mchp's in-site notification system. Class lists and syllabi will be rewarded if we don't already have them.</small>
+				</div>
+			    <div class="small text-default text-center"><small>mycollegehomepage.com &copy; 2014 | <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a></small>
+			    </div>
+			</div><!-- End Row -->
+		</div><!-- End Container -->
+		{% if not donottrack %}
+			{% include "lib/google-analytics.html" %} 
+		{% endif %}
+	</body>
 </html>
