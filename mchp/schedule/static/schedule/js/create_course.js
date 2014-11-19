@@ -21,7 +21,7 @@ $(document).ready( function() {
                         message: 'The course code can only consist of alphabetical characters'
                     },
                     stringLength: {
-                        min: 3,
+                        min: 2,
                         max: 6,
                         message: 'the course code should be between 3-6 characters'
                     }
