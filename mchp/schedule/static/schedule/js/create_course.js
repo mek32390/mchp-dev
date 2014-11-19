@@ -23,7 +23,7 @@ $(document).ready( function() {
                     stringLength: {
                         min: 2,
                         max: 6,
-                        message: 'the course code should be between 3-6 characters'
+                        message: 'the course code should be between 2-6 characters'
                     }
                 }
             },
