@@ -51,7 +51,7 @@
 						<a href="#" id="select-calendar-{{calendar.pk}}" role="menuitem" tabindex="-1" data-cal="{{calendar.pk}}">
 							<span style="color: {{calendar.color}};">{{calendar.course}}
 								{% if not calendar.private %}
-								<i class="fa fa-bullhorn text-info small fa-fw"></i>
+								<small>(Public)</small>
 								{% endif %}
 							</span>
 						</a>
