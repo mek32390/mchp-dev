@@ -62,7 +62,7 @@
 						<div class="panel panel-default">
 							<div class="panel-body">
 								
-								<p class="text-center h4">Total Events</p>
+								<h3 class="text-center">Total Events</h3>
 								<img class="center-block text-center" src="{% static 'lib/img/calendar-blank.svg' %}" style="width:70px" />
 								<p class="assignment-number text-center text-default h4">{{total_count}}</p>
 								</br>
@@ -92,7 +92,7 @@
 						<h5>
 							<strong>Instr</strong> {{calendar.course.professor}}
 							{% with calendar.subscribers.count as subscribers %}
-							<i class="fa fa-fw fa-users"></i> {{subscribers}} Follower{{subscribers|pluralize}}&nbsp;
+							<i class="fa fa-fw fa-users"></i> {{subscribers}} Subscriber{{subscribers|pluralize}}&nbsp;
 							{% endwith %}
 						</h5>
 							<i class="fa fa-fw fa-clock-o"></i>
@@ -140,7 +140,7 @@
 										<a href="{%url "profile" owner.pk %}">{{owner}}</a> <small><!-- Level {{owner_level}} --></small>
 									</h4>
 									{% with owner.subscribers as subscribers %}
-									<p><span class="label label-info">Total followers: {{subscribers}}</span> 
+									<p><span class="label label-info">Total Subscribers: {{subscribers}}</span> 
 									</p>
 									<p>
 										<div class="progress" style="width:68%">
