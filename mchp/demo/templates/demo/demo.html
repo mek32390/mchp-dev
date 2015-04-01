@@ -65,25 +65,36 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
+					<div class="alert alert-info alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<div class="media" style="margin-top:0px;">
+							<img class="media-object pull-left" src="{% static 'lib/img/chat.svg' %}">
+							<div class="media-body">
+								<h4 class="media-heading">Discussions are here!</h4>
+								If you have something to say, say it! Got a question? Ask it! Look below the Study Guide and you'll see a thread of comments that you and your classmates can participate in.<strong>- mchp</strong>
+								<p><a class="btn btn-danger" href="https://www.mycollegehomepage.com/demo/#disqus_thread"></a></p>
+							</div>
+						</div>
+					</div><!-- end alert -->
 					<ol class="breadcrumb">
 						<li>
 							<a href="https://www.mycollegehomepage.com/school/248/University%20of%20Arizona"><i class="fa fa-university"></i>&nbsp;University of Arizona</a> 
 						</li>
 						<li>
-							<a href='https://www.mycollegehomepage.com/school/course/238/COMM209'><i class="fa fa-book">&nbsp;</i>COMM 209</a> 
+							<a href='https://www.mycollegehomepage.com/school/course/242/COMM318'><i class="fa fa-book">&nbsp;</i>COMM 318</a> 
 						</li>
 						<li class="active">
-							<a href="https://www.mycollegehomepage.com/documents/preview/29cef754e26b4520b78eafa38d4de5a8/exam-2-study-guide"><i class="fa fa-file-o"></i>&nbsp;Exam 2 Study Guide</a>
+							<a href="https://www.mycollegehomepage.com/documents/preview/4018f2ed63fd4b94aaa3ce0fa3bd31c4/comm-318-test-2-study-guidee"><i class="fa fa-file-o"></i>&nbsp;Exam 2 Study Guide</a>
 						</li>
 						<span class="pull-right"><a href="{% url 'document_upload' %}" class="btn btn-success btn-xs"><i class="fa fa-money"></i> Sell Study Guides</a></span>
 					</ol>
-					<h2>COMM 209 Exam 2 Study Guide
+					<h2>COMM 318 Exam 2 Study Guide
 						<div class="pull-right">
 							<a class="btn btn-danger" href="https://www.mycollegehomepage.com/demo/#disqus_thread"></a>
 						</div>
 					</h2>
 					<!-- the pdf -->
-					<embed src="https://dl-web.dropbox.com/get/comm209exam2studyguide.pdf?_subject_uid=30407796&w=AACdjP0VNKT6uDhat8yfjP3OoiaXXZtx5yo6eUgf-4OR3g&get_preview=1&rams_ui=0" width="100%" height="780px">
+					<embed src="https://dl-web.dropbox.com/get/COMM_318_Test_2_Study_Guide.pdf?_subject_uid=30407796&w=AABiWBJspWqKQe9RjWGGgmFzzIyb--ONkXe-OQ3UZnRJdg" width="100%" height="780px">
 					<!-- end pdf -->
 					<br>
 					<div id="disqus_thread"></div><!-- display disqus -->
