@@ -77,7 +77,11 @@
 						</li>
 						<span class="pull-right"><a href="{% url 'document_upload' %}" class="btn btn-success btn-xs"><i class="fa fa-money"></i> Sell Study Guides</a></span>
 					</ol>
-					<h2>COMM 209 Exam 2 Study Guide</h2>
+					<h2>COMM 209 Exam 2 Study Guide
+						<div class="pull-right">
+							<a class="btn btn-danger" href="https://www.mycollegehomepage.com/demo/#disqus_thread"></a>
+						</div>
+					</h2>
 					<!-- the pdf -->
 					<embed src="https://dl-web.dropbox.com/get/comm209exam2studyguide.pdf?_subject_uid=30407796&w=AACdjP0VNKT6uDhat8yfjP3OoiaXXZtx5yo6eUgf-4OR3g&get_preview=1&rams_ui=0" width="100%" height="780px">
 					<!-- end pdf -->
@@ -101,6 +105,20 @@
 		{% if not donottrack %}
 			{% include "lib/google-analytics.html" %} 
 		{% endif %}
+		<!-- display comment count -->
+		<script type="text/javascript">
+		    /* * * CONFIGURATION VARIABLES * * */
+		    var disqus_shortname = 'mycollegehomepagecom';
+		    
+		    /* * * DON'T EDIT BELOW THIS LINE * * */
+		    (function () {
+		        var s = document.createElement('script'); s.async = true;
+		        s.type = 'text/javascript';
+		        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+		        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+		    }());
+		</script>
+
 		<!-- Firehose Chat -->
 	<script type="text/javascript">
 	  var FHChat = {product_id: "ea1d78a7bbff"};
