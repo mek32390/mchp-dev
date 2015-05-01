@@ -11,12 +11,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Campaign',
+            name='CampaignMailer',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('subject', models.CharField(max_length=78)),
                 ('body', models.TextField()),
-                ('sent', models.DateTimeField(null=True, blank=True)),
+                ('active', models.BooleanField(default=False)),
                 ('title', models.CharField(max_length=255)),
             ],
             options={

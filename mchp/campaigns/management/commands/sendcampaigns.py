@@ -1,14 +1,16 @@
 from django.core.management.base import BaseCommand
-from campaigns.models import Campaign
+# from django.utils import timezone
+
+from campaigns.models import CampaignMailer
 
 
 class Command(BaseCommand):
     help = 'Send all pending campaigns'
 
     def handle(self, *args, **options):
-        campaigns = Campaign.objects.filter(sent=None)
-        num_sent = 0
+        campaigns = CampaignMailer.objects.filter(active=True)
+        num_processed = 0
         for campaign in campaigns:
             campaign.send()
-            num_sent += 1
-        self.stdout.write('Processed {} campaign(s)'.format(num_sent))
+            num_processed += 1
+        # self.stdout.write('Successfully processed {}/{} campaign(s)'.format(num_sent, campaigns.count()))
