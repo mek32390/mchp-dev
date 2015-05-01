@@ -11,13 +11,29 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='CampaignMailer',
+            name='EventCampaignMailer',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('subject', models.CharField(max_length=78)),
                 ('body', models.TextField()),
                 ('active', models.BooleanField(default=False)),
                 ('title', models.CharField(max_length=255)),
+                ('lead_time', models.PositiveIntegerField()),
+            ],
+            options={
+                'abstract': False,
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='NewsletterCampaignMailer',
+            fields=[
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('subject', models.CharField(max_length=78)),
+                ('body', models.TextField()),
+                ('active', models.BooleanField(default=False)),
+                ('title', models.CharField(max_length=255)),
+                ('when', models.DateTimeField(verbose_name='send at')),
             ],
             options={
                 'abstract': False,

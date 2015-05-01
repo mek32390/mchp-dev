@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import CampaignMailer
+from .models import EventCampaignMailer
 
 
-@admin.register(CampaignMailer)
-class CampaignMailerAdmin(admin.ModelAdmin):
+@admin.register(EventCampaignMailer)
+class EventCampaignMailerAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ['title', 'active'],

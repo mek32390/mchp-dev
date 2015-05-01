@@ -53,11 +53,9 @@ class BaseCampaignMailer(models.Model):
 
         Notes
         -----
-        The `recipient` dict must contain at minimum `subject`, `body`, and
-        `email` keys.
+        The `recipient` dict must contain at minimum an `email` key.
 
         """
-        print(connection)
         context = Context(recipient)
         subject = self.templates['subject'].render(context)
         body = self.templates['body'].render(context)
@@ -73,8 +71,8 @@ class BaseCampaignMailer(models.Model):
 
         Parameters
         ----------
-        recipients : list or tuple of dicts
-            A list or tuple of dicts representing recipients.
+        recipients : list or tuple of dicts, optional
+            A list or tuple of dicts representing recipients.  Default `None`.
 
         Returns
         -------
@@ -82,32 +80,42 @@ class BaseCampaignMailer(models.Model):
             The count of messages sent.
 
         """
-        connection = get_connection()
-        connection.open()
-
         num_sent = 0
-        for recipient in recipients:
-            self._send_message(recipient, connection)
-            num_sent += 1
+        if recipients:
+            connection = get_connection()
+            connection.open()
 
-        connection.close()
+            for recipient in recipients:
+                self._send_message(recipient, connection)
+                num_sent += 1
+
+            connection.close()
 
         return num_sent
 
     def send(self):
+        """ Build and send a campaign, then report results.
+
+        """
         if self.active:
-            recipients = [{'name':'andrew','email':'hey@yo.com', 'body':'why'}]
+            recipients = self._recipients()
             num_sent = self._send_messages(recipients)
             print('Successfully sent {} message(s)'.format(num_sent))
         else:
             raise RuntimeError("Not active")
+
+    def _recipients(self):
+        """ Get recipients.
+
+        """
+        return []
 
     class Meta:
         abstract = True
 
 
 class CampaignMailer(BaseCampaignMailer):
-    """ A concrete campaign class.
+    """ Another abstract campaign class, this one with a title.
 
     Attributes
     ----------
@@ -118,4 +126,79 @@ class CampaignMailer(BaseCampaignMailer):
     title = models.CharField(max_length=255)
 
     def str(self):
-        pass
+        return self.title
+
+    class Meta:
+        abstract = True
+
+
+class NewsletterCampaignMailer(CampaignMailer):
+    """ A concrete campaign class for newsletters.
+
+    """
+    when = models.DateTimeField('send at')
+
+    def send(self):
+        if self.when <= timezone.now():
+            super().send()
+        else:
+            print('Not yet time')
+
+    def _recipients(self):
+        """ [TODO] return every possible recipient
+
+        """
+        return super()._recipients()
+
+
+class EventCampaignMailer(CampaignMailer):
+    """ A concrete campaign class.
+
+    Attributes
+    ----------
+    lead_time : django.db.models.PositiveIntegerField
+        A lead time, in hours, for mailings before events.
+
+    """
+    lead_time = models.PositiveIntegerField()
+
+    def _recipients_for_event(self, event):
+        """ Determine recipients for an event.
+
+        Returns
+        -------
+        recipients : list
+            A list of dicts of prospective recipients.
+
+        """
+        enrollments = Enrollment.objects.filter(course=event.calendar.course)
+        recipients = []
+        for enrollment in enrollments:
+            recipient = {
+                'email': enrollment.student.user.email_address,
+                'first_name': enrollment.student.user.first_name,
+                'last_name': enrollment.student.user.last_name,
+            }
+            recipients.append(recipient)
+        return recipients
+
+    def _events(self):
+        """ Events with notifications due.
+
+        Returns
+        -------
+        out : list
+            A list of events.
+
+        """
+        return []
+
+    def _recipients(self):
+        """ Return recipients for upcoming events.
+
+        """
+        recipients = []
+        for event in self._events():
+            event_recipients = _recipients_for_event(event)
+            recipients.extend(event_recipients)
+        return recipients
