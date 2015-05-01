@@ -41,7 +41,34 @@ class BaseCampaignMailer(models.Model):
             'body': Template(self.body),
         }
 
-    def _send_campaign(self, recipients):
+    def _send_message(self, recipient, connection):
+        """ Build and send a single message from a campaign.
+
+        Parameters
+        ----------
+        recipient : dict
+            A recipient.
+        connection : django.core.mail.backends.console.EmailBackend
+            A connection with which to send the message.
+
+        Notes
+        -----
+        The `recipient` dict must contain at minimum `subject`, `body`, and
+        `email` keys.
+
+        """
+        print(connection)
+        context = Context(recipient)
+        subject = self.templates['subject'].render(context)
+        body = self.templates['body'].render(context)
+        to_email = recipient['email']
+        msg = EmailMultiAlternatives(subject, strip_tags(body),
+                                     CAMPAIGN_FROM_EMAIL, [to_email],
+                                     connection=connection)
+        msg.attach_alternative(body, "text/html")
+        msg.send()
+
+    def _send_messages(self, recipients):
         """ Build and send a campaign.
 
         Parameters
@@ -60,16 +87,7 @@ class BaseCampaignMailer(models.Model):
 
         num_sent = 0
         for recipient in recipients:
-            context = Context(recipient)
-            subject = self.templates['subject'].render(context)
-            body = self.templates['body'].render(context)
-            plain_text_body = strip_tags(body)
-            to_email = recipient['email']
-            msg = EmailMultiAlternatives(subject, plain_text_body,
-                                             CAMPAIGN_FROM_EMAIL, [to_email],
-                                             connection=connection)
-            msg.attach_alternative(body, "text/html")
-            msg.send()
+            self._send_message(recipient, connection)
             num_sent += 1
 
         connection.close()
@@ -78,8 +96,8 @@ class BaseCampaignMailer(models.Model):
 
     def send(self):
         if self.active:
-            recipients = []
-            num_sent = self._send_campaign(recipients)
+            recipients = [{'name':'andrew','email':'hey@yo.com', 'body':'why'}]
+            num_sent = self._send_messages(recipients)
             print('Successfully sent {} message(s)'.format(num_sent))
         else:
             raise RuntimeError("Not active")
