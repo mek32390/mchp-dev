@@ -8,9 +8,10 @@ class Command(BaseCommand):
     help = 'Send all pending campaigns'
 
     def handle(self, *args, **options):
-        campaigns = EventCampaignMailer.objects.filter(active=True)
+        campaigns = []
+        campaigns.extend(EventCampaignMailer.objects.filter(active=True))
+        # campaigns.extend(NewsletterCampaignMailer.objects.filter(active=True))
         num_processed = 0
         for campaign in campaigns:
             campaign.send()
             num_processed += 1
-        # self.stdout.write('Successfully processed {}/{} campaign(s)'.format(num_sent, campaigns.count()))

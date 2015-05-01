@@ -98,6 +98,7 @@ class BaseCampaignMailer(models.Model):
 
         """
         if self.active:
+            print('Processing campaign {}'.format(self.title))
             recipients = self._recipients()
             num_sent = self._send_messages(recipients)
             print('Successfully sent {} message(s)'.format(num_sent))
