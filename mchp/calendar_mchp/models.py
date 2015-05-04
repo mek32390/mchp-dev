@@ -82,6 +82,15 @@ class Subscription(models.Model):
         return "subscribed to {} on {}".format(self.calendar.title, self.subscribe_date)
 
 class CalendarEvent(models.Model):
+    """
+
+    Attributes
+    ----------
+    notify_lead : django.db.models.PositiveIntegerField
+        A lead time, in minutes, for mailings before events.
+        For example, 24 hours => 2880 minutes.
+
+    """
     calendar = models.ForeignKey(ClassCalendar)
 
     title = models.CharField(max_length=30)
@@ -91,6 +100,7 @@ class CalendarEvent(models.Model):
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True)
+    notify_lead = models.PositiveIntegerField(default=0)
 
     is_recurring = models.BooleanField(default=False)
     

@@ -13,12 +13,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EventCampaignMailer',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
                 ('subject', models.CharField(max_length=78)),
                 ('body', models.TextField()),
                 ('active', models.BooleanField(default=False)),
                 ('title', models.CharField(max_length=255)),
-                ('lead_time', models.PositiveIntegerField()),
             ],
             options={
                 'abstract': False,
@@ -28,7 +27,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='NewsletterCampaignMailer',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
                 ('subject', models.CharField(max_length=78)),
                 ('body', models.TextField()),
                 ('active', models.BooleanField(default=False)),

@@ -2,8 +2,13 @@ from django.core.mail import get_connection, EmailMultiAlternatives
 from django.db import models
 from django.template import Context, Template
 from django.utils import timezone
+from datetime import timedelta
 from django.utils.html import strip_tags
 
+from calendar_mchp.models import CalendarEvent
+from schedule.models import Enrollment
+
+# all campaigns will be sent from this email address
 CAMPAIGN_FROM_EMAIL = 'mchp <study@mycollegehomepage.com>'
 
 
@@ -126,7 +131,7 @@ class CampaignMailer(BaseCampaignMailer):
     """
     title = models.CharField(max_length=255)
 
-    def str(self):
+    def __str__(self):
         return self.title
 
     class Meta:
@@ -161,7 +166,6 @@ class EventCampaignMailer(CampaignMailer):
         A lead time, in hours, for mailings before events.
 
     """
-    lead_time = models.PositiveIntegerField()
 
     def _recipients_for_event(self, event):
         """ Determine recipients for an event.
@@ -192,7 +196,11 @@ class EventCampaignMailer(CampaignMailer):
             A list of events.
 
         """
-        return []
+        now = timezone.now()
+        events = CalendarEvent.objects.filter(start__gte=now,
+                                              notify_lead__gt=0)
+        return [event for event in events
+                if now > event.start - timedelta(minutes=event.notify_lead)]
 
     def _recipients(self):
         """ Return recipients for upcoming events.
@@ -200,6 +208,6 @@ class EventCampaignMailer(CampaignMailer):
         """
         recipients = []
         for event in self._events():
-            event_recipients = _recipients_for_event(event)
+            event_recipients = self._recipients_for_event(event)
             recipients.extend(event_recipients)
         return recipients
