@@ -176,11 +176,12 @@ class EventCampaignMailer(CampaignMailer):
             A list of dicts of prospective recipients.
 
         """
-        enrollments = Enrollment.objects.filter(course=event.calendar.course)
+        enrollments = Enrollment.objects.filter(course=event.calendar.course,
+                                                receive_email=True)
         recipients = []
         for enrollment in enrollments:
             recipient = {
-                'email': enrollment.student.user.email_address,
+                'email': enrollment.student.user.email,  # [TODO] right field?
                 'first_name': enrollment.student.user.first_name,
                 'last_name': enrollment.student.user.last_name,
             }
