@@ -1,17 +1,15 @@
 from django.core.management.base import BaseCommand
 # from django.utils import timezone
 
-from campaigns.models import EventCampaignMailer
+from campaigns.models import CampaignMailer
 
 
 class Command(BaseCommand):
-    help = 'Send all pending campaigns'
+    help = 'Send all due campaign e-mails'
 
     def handle(self, *args, **options):
-        campaigns = []
-        campaigns.extend(EventCampaignMailer.objects.filter(active=True))
-        # campaigns.extend(NewsletterCampaignMailer.objects.filter(active=True))
         num_processed = 0
-        for campaign in campaigns:
-            campaign.send()
+        for mailer in CampaignMailer.objects.all():
+            if mailer.active():
+                mailer.send()
             num_processed += 1
