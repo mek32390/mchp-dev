@@ -21,6 +21,7 @@ class CampaignTemplateAdmin(admin.ModelAdmin):
 
 class SubscribersInline(admin.TabularInline):
     model = models.Subscriber
+    extra = 1
 
 
 @admin.register(models.Campaign)

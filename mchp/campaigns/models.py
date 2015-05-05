@@ -184,14 +184,16 @@ class Campaign(BaseCampaign, TimestampedModelMixin):
             A dictionary to turn into context variables for the message.
 
         """
-        if self.subscribers and self.active():
-            blast = CampaignBlast.objects.create(campaign=self)
-            # access the through table here via its related name
-            for subscriber in self.subscriptions.all():
-                if not subscriber.is_notified():
+        if self.active():
+            new_subscribers = [s for s in self.subscriptions.all()
+                               if not s.is_notified()]
+            if new_subscribers:
+                blast = CampaignBlast.objects.create(campaign=self)
+                # access the through table here via its related name
+                for subscriber in new_subscribers:
                     blast.recipients.add(subscriber)
-            blast.save()
-            blast.send(context=context)
+                blast.save()
+                blast.send(context=context)
 
     # def notified_subscribers():
     #     self.campaign_blasts...
