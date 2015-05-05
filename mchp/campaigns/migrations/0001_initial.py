@@ -12,59 +12,49 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='CampaignMailer',
+            name='Campaign',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('category', models.CharField(max_length=2, choices=[('EV', 'Lead time for event'), ('NL', 'Newsletter')])),
-                ('when', models.DateTimeField(verbose_name='send when', null=True, blank=True, help_text='If unset, this mailer will be disabled.')),
-                ('until', models.DateTimeField(verbose_name='send until', null=True, blank=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('when', models.DateTimeField(help_text='If field is unset, this campaign will be disabled.', verbose_name='campaign start', blank=True, null=True)),
+                ('until', models.DateTimeField(null=True, verbose_name='campaign end', blank=True)),
+                ('name', models.CharField(max_length=255)),
+                ('constituents', models.ManyToManyField(to='user_profile.Student')),
             ],
             options={
+                'abstract': False,
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='CampaignBlast',
+            fields=[
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('sent', models.DateTimeField(null=True, blank=True)),
+                ('campaign', models.ForeignKey(to='campaigns.Campaign')),
+                ('recipients', models.ManyToManyField(to='user_profile.Student', related_name='blasts')),
+            ],
+            options={
+                'abstract': False,
+                'verbose_name': 'blast',
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='CampaignTemplate',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('title', models.CharField(max_length=255)),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('subject', models.CharField(max_length=78)),
                 ('body', models.TextField()),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='EventCampaign',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('clicks', models.PositiveIntegerField(default=0)),
-                ('unsubscribes', models.PositiveIntegerField(default=0)),
-                ('recipients', models.ManyToManyField(to='user_profile.Student')),
-                ('template', models.ForeignKey(to='campaigns.CampaignTemplate')),
+                ('name', models.CharField(max_length=255)),
             ],
             options={
                 'abstract': False,
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='NewsletterCampaign',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('clicks', models.PositiveIntegerField(default=0)),
-                ('unsubscribes', models.PositiveIntegerField(default=0)),
-                ('recipients', models.ManyToManyField(to='user_profile.Student')),
-                ('template', models.ForeignKey(to='campaigns.CampaignTemplate')),
-            ],
-            options={
-                'abstract': False,
+                'verbose_name': 'template',
             },
             bases=(models.Model,),
         ),
         migrations.AddField(
-            model_name='campaignmailer',
+            model_name='campaign',
             name='template',
             field=models.ForeignKey(to='campaigns.CampaignTemplate'),
             preserve_default=True,
