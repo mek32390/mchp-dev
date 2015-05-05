@@ -11,6 +11,7 @@ class Command(BaseCommand):
         from campaigns.utils import upcoming_event_subscribers
         recipients = upcoming_event_subscribers()
         for campaign in Campaign.objects.all():
-            campaign.constituents = utils.upcoming_event_subscribers()
-            campaign.save()
+            # print(campaign.subscribers.all())
+            # campaign.constituents = utils.upcoming_event_subscribers()
+            # campaign.save()
             campaign.blast()

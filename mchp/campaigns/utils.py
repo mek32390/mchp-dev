@@ -1,4 +1,6 @@
+from django.core.mail import EmailMultiAlternatives
 from django.utils import timezone
+from django.utils.html import strip_tags
 
 from datetime import timedelta
 from calendar_mchp.models import CalendarEvent
@@ -54,6 +56,26 @@ def upcoming_event_subscribers():
         subscribers.extend(subscribers_for_event(event))
     return tuple(set(subscribers))
 
-def notinuse_test():
-    "Create campaign for event"
-    # Campaign()
+def make_email_message(subject, body, sender, recipient, connection):
+    """ Build an EmailMessage with HTML and plain text alternatives.
+
+    Parameters
+    ----------
+    subject : str
+        A subject for this message.  Limited to 78 characters.
+    body : str
+        A body for this message.
+    sender : str
+        An e-mail address (and optional name) from which to send this message.
+    recipient : str
+        An e-mail address to which to deliver this message.
+    connection : django.core.mail.backends.console.EmailBackend
+        A connection through which to send the message.
+
+    """
+    msg = EmailMultiAlternatives(subject, strip_tags(body),
+                                 sender, [recipient],
+                                 connection=connection)
+    msg.attach_alternative(body, "text/html")
+    return msg
+

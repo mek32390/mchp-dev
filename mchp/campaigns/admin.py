@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Campaign, CampaignTemplate, CampaignBlast
+from . import models
 
 
-@admin.register(CampaignTemplate)
+@admin.register(models.CampaignTemplate)
 class CampaignTemplateAdmin(admin.ModelAdmin):
+    list_display = ('name',)
     fieldsets = (
         (None, {
             'fields': ['name'],
@@ -11,25 +12,35 @@ class CampaignTemplateAdmin(admin.ModelAdmin):
         ('Content', {
             'fields': ['subject', 'body'],
         }),
+        ('Important dates', {
+            'fields': ['updated', 'created'],
+        })
     )
+    readonly_fields = ('created', 'updated')
 
 
-@admin.register(Campaign)
+class SubscribersInline(admin.TabularInline):
+    model = models.Subscriber
+
+
+@admin.register(models.Campaign)
 class CampaignAdmin(admin.ModelAdmin):
-    list_display = ('template', 'active', 'when', 'until')
+    list_display = ('name', 'template', 'active', 'when', 'until')
     fieldsets = (
         (None, {
             'fields': ['name', 'template'],
         }),
         ('Important dates', {
-            'fields': ['when', 'until'],
+            'fields': ['when', 'until', 'updated', 'created'],
         }),
     )
+    readonly_fields = ('created', 'updated')
+    inlines = [SubscribersInline]
 
-@admin.register(CampaignBlast)
+
+@admin.register(models.CampaignBlast)
 class CampaignBlastAdmin(admin.ModelAdmin):
-    pass
-    # list_display = ('campaign')
+    list_display = ('campaign', 'sent')
     # fieldsets = (
     #     (None, {
     #         'fields': ['template', 'category'],
