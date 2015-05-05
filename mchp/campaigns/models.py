@@ -61,6 +61,7 @@ class CampaignTemplate(BaseCampaignTemplate, TimestampedModelMixin):
 
     class Meta:
         verbose_name = 'template'
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
@@ -169,6 +170,7 @@ class Campaign(BaseCampaign, TimestampedModelMixin):
 
     class Meta:
         verbose_name = 'campaign'
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
@@ -223,7 +225,6 @@ class BaseCampaignBlast(models.Model):
 
     class Meta:
         abstract = True
-        verbose_name = 'blast'
 
     def __str__(self):
         return self.campaign.name
@@ -263,6 +264,7 @@ class CampaignBlast(BaseCampaignBlast):
 
     """
     class Meta:
+        verbose_name = 'blast'
         ordering = ('-sent',)
 
     def _message(self, recipient, connection, context=None):
