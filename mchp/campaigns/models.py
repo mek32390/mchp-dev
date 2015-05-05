@@ -11,24 +11,6 @@ from . import utils
 CAMPAIGN_FROM_EMAIL = 'mchp <study@mycollegehomepage.com>'
 
 
-class TimestampedModelMixin(models.Model):
-    """
-
-    Attributes
-    ----------
-    created : django.db.models.DateTimeField
-        When was this model instance first created?
-    updated : django.db.models.DateTimeField
-        When was this model instance last updated?
-
-    """
-    created = models.DateTimeField('first created', auto_now_add=True)
-    updated = models.DateTimeField('last updated', auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
 class BaseCampaignTemplate(models.Model):
     """ Abstract base class for contents of campaign templates.
 
@@ -38,7 +20,6 @@ class BaseCampaignTemplate(models.Model):
         A subject for the campaign.
     body : django.db.models.TextField
         A template for the message.
-    # last updated, created
 
     """
     subject = models.CharField(max_length=78)
@@ -48,7 +29,7 @@ class BaseCampaignTemplate(models.Model):
         abstract = True
 
 
-class CampaignTemplate(BaseCampaignTemplate, TimestampedModelMixin):
+class CampaignTemplate(BaseCampaignTemplate):
     """ Contents of campaign templates.
 
     Parameters
@@ -80,40 +61,6 @@ class CampaignTemplate(BaseCampaignTemplate, TimestampedModelMixin):
         """
         self.subject_template = Template(self.subject)
         self.body_template = Template(self.body)
-
-
-class BaseCampaign(models.Model):
-    """ A campaign configuration.
-
-    Attributes
-    ----------
-    template : campaigns.CampaignTemplate
-        A template associated with this campaign.
-    when : django.db.models.DateTimeField, optional
-        When does this campaign start?
-    until : django.db.models.DateTimeField
-        When does this campaign end?
-
-    Notes
-    -----
-    A campaign is considered inactive if `when` is unset or in the future
-    or if `until` is past.
-
-    """
-    template = models.ForeignKey(CampaignTemplate)
-    when = models.DateTimeField("campaign start", blank=True, null=True,
-        help_text='If field is unset, this campaign will be disabled.')  # noqa
-    until = models.DateTimeField("campaign end", blank=True, null=True)
-
-    class Meta:
-        abstract = True
-
-    def active(self):
-        if self.when and self.when <= timezone.now():
-            if not self.until or self.until >= timezone.now():
-                return True
-        return False
-    active.boolean = True
 
 
 class Subscriber(models.Model):
@@ -153,12 +100,48 @@ class Subscriber(models.Model):
         return self.notified is not None
 
 
-class Campaign(BaseCampaign, TimestampedModelMixin):
+class BaseCampaign(models.Model):
+    """ A campaign configuration.
+
+    Attributes
+    ----------
+    template : campaigns.CampaignTemplate
+        A template associated with this campaign.
+    when : django.db.models.DateTimeField, optional
+        When does this campaign start?
+    until : django.db.models.DateTimeField
+        When does this campaign end?
+
+    Notes
+    -----
+    A campaign is considered inactive if `when` is unset or in the future
+    or if `until` is past.
+
+    """
+    template = models.ForeignKey(CampaignTemplate)
+    when = models.DateTimeField("campaign start", blank=True, null=True,
+        help_text='If field is unset, this campaign will be disabled.')  # noqa
+    until = models.DateTimeField("campaign end", blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+    def active(self):
+        if self.when and self.when <= timezone.now():
+            if not self.until or self.until >= timezone.now():
+                return True
+        return False
+    active.boolean = True
+
+
+class Campaign(BaseCampaign):
     """ Concrete campaign class.
 
+    Attributes
+    ----------
     name : django.db.models.CharField
         An internal name to identify this campaign.
-    subscribers : django.db.models.ManyToManyField
+    subscribers : django.db.models.ManyToManyField, optional
         Students associated with this campaign.
 
     """
@@ -166,7 +149,6 @@ class Campaign(BaseCampaign, TimestampedModelMixin):
     subscribers = models.ManyToManyField(Student,
                                          through='Subscriber',
                                          blank=True)
-    # [TODO] unsubscribes = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name = 'campaign'
@@ -175,30 +157,31 @@ class Campaign(BaseCampaign, TimestampedModelMixin):
     def __str__(self):
         return self.name
 
-    def blast(self, context=None):
+    def blast(self, context=None, force=False):
         """ Send a blast to this campaign if it is active.
 
         Parameters
         ----------
         context : dict, optional
             A dictionary to turn into context variables for the message.
+        force : bool, optional
+            `True` to notify subscribers who have already been notified,
+            `False` otherwise.  Default `False`.
 
         """
         if self.active():
-            new_subscribers = [s for s in self.subscriptions.all()
-                               if not s.is_notified()]
-            if new_subscribers:
+            # retrieve only subscribers that are enabled users
+            active_subscriptions = self.subscriptions.filter(
+                student__user__is_active=True)
+
+            # limit to new subscribers if `force` is `False`
+            # include all subscribers if `force` is `True`
+            notify_subscribers = [s for s in active_subscriptions
+                                  if force or not s.is_notified()]
+            if notify_subscribers:
                 blast = CampaignBlast.objects.create(campaign=self)
-                # access the through table here via its related name
-                for subscriber in new_subscribers:
-                    blast.recipients.add(subscriber)
-                blast.save()
+                blast.recipients.add(*notify_subscribers)
                 blast.send(context=context)
-
-    # def notified_subscribers():
-    #     self.campaign_blasts...
-
-# Campaign.objects.create(when=course.start-course.lead, until=course.start)
 
 
 class BaseCampaignBlast(models.Model):
@@ -208,16 +191,14 @@ class BaseCampaignBlast(models.Model):
     ----------
     campaign : campaigns.models.Campaign
         A campaign associated with this mailer.
-    recipients : django.db.models.ManyToManyField
+    recipients : django.db.models.ManyToManyField, optional
         Recipients for this blast.
-    sent : django.db.models.DateTimeField
+    sent : django.db.models.DateTimeField, optional
         When this blast was created.
 
     """
     campaign = models.ForeignKey(Campaign)
-    recipients = models.ManyToManyField(Subscriber,
-                                        related_name='blasts',
-                                        blank=True)
+    recipients = models.ManyToManyField(Subscriber, blank=True)
     sent = models.DateTimeField(blank=True, null=True)
 
     # clicks = models.PositiveIntegerField(default=0)
@@ -256,12 +237,16 @@ class BaseCampaignBlast(models.Model):
             A dictionary to turn into context variables for the message.
 
         """
-        self._send(context=context)
-        self.sent = timezone.now()
-        self.save(update_fields=['sent'])
+        try:
+            self._send(context=context)
+        except smtplib.SMTPException:
+            raise
+        finally:
+            self.sent = timezone.now()
+            self.save(update_fields=['sent'])
 
 
-class CampaignBlast(BaseCampaignBlast, TimestampedModelMixin):
+class CampaignBlast(BaseCampaignBlast):
     """ A campaign blast: a single slew of e-mails for one or more subscribers.
 
     """

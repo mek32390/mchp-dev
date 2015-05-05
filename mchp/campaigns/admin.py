@@ -12,16 +12,17 @@ class CampaignTemplateAdmin(admin.ModelAdmin):
         ('Content', {
             'fields': ['subject', 'body'],
         }),
-        ('Important dates', {
-            'fields': ['updated', 'created'],
-        })
+        # ('Important dates', {
+        #     'fields': ['updated', 'created'],
+        # })
     )
-    readonly_fields = ('created', 'updated')
+    # readonly_fields = ('created', 'updated')
 
 
 class SubscribersInline(admin.TabularInline):
     model = models.Subscriber
     extra = 1
+    # ordering = ('student__user__username',)  # [TODO]
 
 
 @admin.register(models.Campaign)
@@ -32,10 +33,9 @@ class CampaignAdmin(admin.ModelAdmin):
             'fields': ['name', 'template'],
         }),
         ('Important dates', {
-            'fields': ['when', 'until', 'updated', 'created'],
+            'fields': ['when', 'until'],
         }),
     )
-    readonly_fields = ('created', 'updated')
     inlines = [SubscribersInline]
 
 
@@ -47,11 +47,7 @@ class CampaignBlastAdmin(admin.ModelAdmin):
             'fields': ['campaign', 'recipients'],
         }),
         ('Important dates', {
-            'fields': ['sent', 'updated', 'created'],
+            'fields': ['sent'],
         }),
     )
-    readonly_fields = ('created', 'updated')
-
-# @admin.register(Campaign)
-# class CampaignAdmin(admin.ModelAdmin):
-#     pass
+    readonly_fields = ('sent',)

@@ -3,8 +3,10 @@ from django.utils import timezone
 from django.utils.html import strip_tags
 
 from datetime import timedelta
+# from . import models
 from calendar_mchp.models import CalendarEvent
 from schedule.models import Enrollment
+
 
 def upcoming_events():
     """ Events with notifications due.
@@ -22,7 +24,33 @@ def upcoming_events():
             if now > event.start - timedelta(minutes=event.notify_lead)]
 
 
-def subscribers_for_event(event):
+# def campaign_for_event(event):
+#     """ Create a campaign for an event.
+
+#     Parameters
+#     ----------
+#     event : calendar_mchp.models.CalendarEvent
+#         An event to check.
+
+#     Returns
+#     -------
+#     out : campaigns.models.Campaign
+#         An e-mail campaign.
+
+#     """
+#     lead = timedelta(minutes=event.notify_lead)
+#     template = None
+#     campaign = models.Campaign.objects.create(template=template,
+#                                               when=event.start - lead,
+#                                               until=event.start)
+#     proposed_recipients = []
+#     for r in proposed_recipients:
+#         campaign.subscribers.add(r)
+#     campaign.save()
+#     return campaign
+
+
+def students_for_event(event):
     """ Determine students associated with an event.
 
     Parameters
@@ -38,23 +66,8 @@ def subscribers_for_event(event):
     """
     enrollments = Enrollment.objects.filter(course=event.calendar.course,
                                             receive_email=True)
-    return [enrollment.student for enrollment in enrollments
-            if enrollment.student.user.is_active]
+    return [e.student for e in enrollments if e.student.user.is_active]
 
-
-def upcoming_event_subscribers():
-    """ Deduplicated collection of subscribers.
-
-    Returns
-    -------
-    out : tuple of user_profile.models.Student
-        A tuple of students to be notified.
-
-    """
-    subscribers = []
-    for event in upcoming_events():
-        subscribers.extend(subscribers_for_event(event))
-    return tuple(set(subscribers))
 
 def make_email_message(subject, body, sender, recipient, connection):
     """ Build an EmailMessage with HTML and plain text alternatives.
@@ -78,4 +91,3 @@ def make_email_message(subject, body, sender, recipient, connection):
                                  connection=connection)
     msg.attach_alternative(body, "text/html")
     return msg
-
