@@ -262,6 +262,9 @@ class CampaignBlast(BaseCampaignBlast):
     """ A campaign blast: a single slew of e-mails for one or more subscribers.
 
     """
+    class Meta:
+        ordering = ('-sent',)
+
     def _message(self, recipient, connection, context=None):
         """ Build and send a single message from a campaign.
 
