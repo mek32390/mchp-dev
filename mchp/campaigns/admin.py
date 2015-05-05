@@ -42,14 +42,15 @@ class CampaignAdmin(admin.ModelAdmin):
 @admin.register(models.CampaignBlast)
 class CampaignBlastAdmin(admin.ModelAdmin):
     list_display = ('campaign', 'sent')
-    # fieldsets = (
-    #     (None, {
-    #         'fields': ['template', 'category'],
-    #     }),
-    #     ('Important dates', {
-    #         'fields': ['when', 'until'],
-    #     }),
-    # )
+    fieldsets = (
+        (None, {
+            'fields': ['campaign', 'recipients'],
+        }),
+        ('Important dates', {
+            'fields': ['sent', 'updated', 'created'],
+        }),
+    )
+    readonly_fields = ('created', 'updated')
 
 # @admin.register(Campaign)
 # class CampaignAdmin(admin.ModelAdmin):

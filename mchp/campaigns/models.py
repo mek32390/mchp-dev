@@ -261,7 +261,7 @@ class BaseCampaignBlast(models.Model):
         self.save(update_fields=['sent'])
 
 
-class CampaignBlast(BaseCampaignBlast):
+class CampaignBlast(BaseCampaignBlast, TimestampedModelMixin):
     """ A campaign blast: a single slew of e-mails for one or more subscribers.
 
     """

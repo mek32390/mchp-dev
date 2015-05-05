@@ -14,14 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Campaign',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('created', models.DateTimeField(auto_now_add=True, verbose_name='first created')),
-                ('updated', models.DateTimeField(auto_now=True, verbose_name='last updated')),
-                ('when', models.DateTimeField(verbose_name='campaign start', null=True, help_text='If field is unset, this campaign will be disabled.', blank=True)),
-                ('until', models.DateTimeField(null=True, verbose_name='campaign end', blank=True)),
+                ('updated', models.DateTimeField(verbose_name='last updated', auto_now=True)),
+                ('when', models.DateTimeField(null=True, help_text='If field is unset, this campaign will be disabled.', blank=True, verbose_name='campaign start')),
+                ('until', models.DateTimeField(null=True, blank=True, verbose_name='campaign end')),
                 ('name', models.CharField(max_length=255)),
             ],
             options={
+                'ordering': ('name',),
                 'verbose_name': 'campaign',
             },
             bases=(models.Model,),
@@ -29,12 +30,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignBlast',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('created', models.DateTimeField(auto_now_add=True, verbose_name='first created')),
+                ('updated', models.DateTimeField(verbose_name='last updated', auto_now=True)),
                 ('sent', models.DateTimeField(null=True, blank=True)),
                 ('campaign', models.ForeignKey(to='campaigns.Campaign')),
             ],
             options={
-                'abstract': False,
+                'ordering': ('-sent',),
                 'verbose_name': 'blast',
             },
             bases=(models.Model,),
@@ -42,14 +45,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignTemplate',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('created', models.DateTimeField(auto_now_add=True, verbose_name='first created')),
-                ('updated', models.DateTimeField(auto_now=True, verbose_name='last updated')),
+                ('updated', models.DateTimeField(verbose_name='last updated', auto_now=True)),
                 ('subject', models.CharField(max_length=78)),
                 ('body', models.TextField()),
-                ('name', models.CharField(unique=True, max_length=255)),
+                ('name', models.CharField(max_length=255, unique=True)),
             ],
             options={
+                'ordering': ('name',),
                 'verbose_name': 'template',
             },
             bases=(models.Model,),
@@ -57,7 +61,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Subscriber',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('notified', models.DateTimeField(null=True, blank=True)),
                 ('opens', models.PositiveIntegerField(default=0)),
                 ('clicks', models.PositiveIntegerField(default=0)),
@@ -75,13 +79,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='campaignblast',
             name='recipients',
-            field=models.ManyToManyField(related_name='blasts', to='campaigns.Subscriber', blank=True),
+            field=models.ManyToManyField(blank=True, to='campaigns.Subscriber', related_name='blasts'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='campaign',
             name='subscribers',
-            field=models.ManyToManyField(through='campaigns.Subscriber', to='user_profile.Student', blank=True),
+            field=models.ManyToManyField(through='campaigns.Subscriber', blank=True, to='user_profile.Student'),
             preserve_default=True,
         ),
         migrations.AddField(
