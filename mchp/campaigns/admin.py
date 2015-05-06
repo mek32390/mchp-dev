@@ -22,6 +22,7 @@ class CampaignTemplateAdmin(admin.ModelAdmin):
 class CampaignSubscribersInline(admin.TabularInline):
     model = models.CampaignSubscriber
     extra = 1
+    fields = ('user', 'notified', 'opens', 'clicks')
     # ordering = ('student__user__username',)  # [TODO]
 
 
@@ -37,17 +38,3 @@ class CampaignAdmin(admin.ModelAdmin):
         }),
     )
     inlines = [CampaignSubscribersInline]
-
-
-@admin.register(models.CampaignBlast)
-class CampaignBlastAdmin(admin.ModelAdmin):
-    list_display = ('campaign', 'sent')
-    fieldsets = (
-        (None, {
-            'fields': ['campaign', 'recipients'],
-        }),
-        ('Important dates', {
-            'fields': ['sent'],
-        }),
-    )
-    readonly_fields = ('sent',)

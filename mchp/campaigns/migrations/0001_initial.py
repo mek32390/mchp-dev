@@ -15,34 +15,20 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Campaign',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('when', models.DateTimeField(blank=True, help_text='If field is unset, this campaign will be disabled.', null=True, verbose_name='campaign start')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('when', models.DateTimeField(blank=True, null=True, verbose_name='campaign start', help_text='If field is unset, this campaign will be disabled.')),
                 ('until', models.DateTimeField(blank=True, null=True, verbose_name='campaign end')),
                 ('name', models.CharField(max_length=255)),
             ],
             options={
-                'verbose_name': 'campaign',
                 'ordering': ('name',),
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='CampaignBlast',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('sent', models.DateTimeField(blank=True, null=True)),
-                ('campaign', models.ForeignKey(to='campaigns.Campaign')),
-            ],
-            options={
-                'verbose_name': 'blast',
-                'ordering': ('-sent',),
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='CampaignSubscriber',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('notified', models.DateTimeField(blank=True, null=True)),
                 ('opens', models.PositiveIntegerField(default=0)),
                 ('clicks', models.PositiveIntegerField(default=0)),
@@ -56,13 +42,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignTemplate',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('subject', models.CharField(max_length=255)),
                 ('body', models.TextField()),
                 ('name', models.CharField(max_length=255, unique=True)),
             ],
             options={
-                'verbose_name': 'template',
                 'ordering': ('name',),
             },
             bases=(models.Model,),
@@ -70,12 +55,6 @@ class Migration(migrations.Migration):
         migrations.AlterUniqueTogether(
             name='campaignsubscriber',
             unique_together=set([('campaign', 'user')]),
-        ),
-        migrations.AddField(
-            model_name='campaignblast',
-            name='recipients',
-            field=models.ManyToManyField(blank=True, to='campaigns.CampaignSubscriber'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='campaign',

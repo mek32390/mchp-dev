@@ -79,9 +79,9 @@ def make_email_message(subject, body, sender, recipient, connection):
     body : str
         A body for this message.
     sender : str
-        An e-mail address (and optional name) from which to send this message.
+        An e-mail address (and optional name) from which to send.
     recipient : str
-        An e-mail address to which to deliver this message.
+        An e-mail address (and optional name) to which to send.
     connection : django.core.mail.backends.console.EmailBackend
         A connection through which to send the message.
 
