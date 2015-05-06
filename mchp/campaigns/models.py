@@ -2,17 +2,56 @@ from django.core.mail import get_connection
 from django.db import models
 from django.template import Context, Template
 from django.utils import timezone
+from django.conf import settings
 
 import smtplib
-from user_profile.models import Student
 from . import utils
 
 # all campaigns will be sent from this email address
 CAMPAIGN_FROM_EMAIL = 'mchp <study@mycollegehomepage.com>'
 
 
+class CampaignSubscriber(models.Model):
+    """ A subscriber in a campaign.
+
+    Attributes
+    ----------
+    campaign : campaigns.models.Campaign
+        The campaign associated with this subscriber.
+    user : django.db.models.ForeignKey
+        A user account backing this subscriber.
+    notified : django.db.models.DateTimeField
+        When was this user notified?
+    # did_unsubscribe : django.db.models.BooleanField
+    #     Has this user unsubscribed?
+    opens : django.db.models.PositiveIntegerField
+        How many opens has this user generated?
+    clicks : django.db.models.PositiveIntegerField
+        How many click-throughs has this user generated?
+
+    """
+    campaign = models.ForeignKey('Campaign', related_name='subscribers')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    notified = models.DateTimeField(blank=True, null=True)
+    # unsubscribed = models.BooleanField(default=True)
+    opens = models.PositiveIntegerField(default=0)
+    clicks = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('campaign', 'user')
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+    def is_notified(self):
+        """ Has this user been notified?
+
+        """
+        return self.notified is not None
+
+
 class BaseCampaignTemplate(models.Model):
-    """ Abstract base class for contents of campaign templates.
+    """ Abstract base for contents of a campaign template.
 
     Attributes
     ----------
@@ -22,7 +61,7 @@ class BaseCampaignTemplate(models.Model):
         A template for the message.
 
     """
-    subject = models.CharField(max_length=78)
+    subject = models.CharField(max_length=255)
     body = models.TextField()
 
     class Meta:
@@ -30,9 +69,9 @@ class BaseCampaignTemplate(models.Model):
 
 
 class CampaignTemplate(BaseCampaignTemplate):
-    """ Contents of campaign templates.
+    """ Contents of a campaign template.
 
-    Parameters
+    Attributes
     ----------
     name : django.db.models.CharField
         An internal name to identify this campaign.
@@ -61,43 +100,6 @@ class CampaignTemplate(BaseCampaignTemplate):
         """
         self.subject_template = Template(self.subject)
         self.body_template = Template(self.body)
-
-
-class Subscriber(models.Model):
-    """ Track who's been notified.
-
-    Attributes
-    ----------
-    subscriber : django.db.models.ForeignKey,
-        A user_profile.models.Student.
-    notified : django.db.models.DateTimeField
-        When was this user notified?
-    # did_unsubscribe : django.db.models.BooleanField
-    #     Has this user unsubscribed?
-    opens : django.db.models.PositiveIntegerField
-        How many opens has this user generated?
-    clicks : django.db.models.PositiveIntegerField
-        How many click-throughs has this user generated?
-
-    """
-    student = models.ForeignKey(Student)
-    campaign = models.ForeignKey('Campaign', related_name='subscribers')
-    notified = models.DateTimeField(blank=True, null=True)
-    # unsubscribed = models.BooleanField(default=True)
-    opens = models.PositiveIntegerField(default=0)
-    clicks = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        unique_together = ('student', 'campaign')
-
-    def __str__(self):
-        return self.student.user.get_full_name()
-
-    def is_notified(self):
-        """ Has this user been notified?
-
-        """
-        return self.notified is not None
 
 
 class BaseCampaign(models.Model):
@@ -152,6 +154,30 @@ class Campaign(BaseCampaign):
     def __str__(self):
         return self.name
 
+    def opens(self):
+        """ How many opens has this campaign accumulated? """
+        return self.subscribers.objects.aggregate(sum=models.Sum('clicks')).sum
+
+    def opened(self):
+        """ How many subscribers have opened their messages? """
+        return self.subscribers.objects.filter(opens__gt=0).count()
+
+    def clicks(self):
+        """ How many click-throughs has this campaign accumulated? """
+        return self.subscribers.objects.aggregate(sum=models.Sum('clicks')).sum
+
+    def clicked(self):
+        """ How many subscribers have clicked through their messages? """
+        return self.subscribers.objects.filter(clicks__gt=0).count()
+
+    # def unsubscribes(self):
+    #     """ How many unsubscribes has this campaign accumulated? """
+    #     return self.subscribers.objects.aggregate(models.Sum('unsubscribes'))
+
+    # def unsubscribed(self):
+    #     """ How many subscribers have unsubscribed from their messages? """
+    #     return self.subscribers.objects.filter(unsubscribes__gt=0).count()
+
     def blast(self, context=None, force=False):
         """ Send a blast to this campaign if it is active.
 
@@ -164,10 +190,9 @@ class Campaign(BaseCampaign):
             `False` otherwise.  Default `False`.
 
         """
-        if self.active():
+        if self.active():  # [TODO] should `force` override this?
             # retrieve only subscribers that are enabled users
-            active_subscribers = self.subscribers.filter(
-                student__user__is_active=True)
+            active_subscribers = self.subscribers.filter(user__is_active=True)
 
             # limit to new subscribers if `force` is `False`
             # include all subscribers if `force` is `True`
@@ -185,7 +210,7 @@ class BaseCampaignBlast(models.Model):
     Attributes
     ----------
     campaign : campaigns.models.Campaign
-        A campaign associated with this mailer.
+        The campaign associated with this blast.
     recipients : django.db.models.ManyToManyField, optional
         Recipients for this blast.
     sent : django.db.models.DateTimeField, optional
@@ -193,13 +218,8 @@ class BaseCampaignBlast(models.Model):
 
     """
     campaign = models.ForeignKey(Campaign)
-    recipients = models.ManyToManyField(Subscriber, blank=True)
+    recipients = models.ManyToManyField(CampaignSubscriber, blank=True)
     sent = models.DateTimeField(blank=True, null=True)
-
-    # clicks = models.PositiveIntegerField(default=0)
-    # unsubscribes = models.PositiveIntegerField(default=0)
-    # notified = models.ManyToManyField(Student)
-    # unsubscribed = models.ManyToManyField(Student)
 
     class Meta:
         abstract = True
@@ -262,7 +282,6 @@ class CampaignBlast(BaseCampaignBlast):
             A dictionary to turn into context variables for the message.
 
         """
-
         context = context.copy() if context else {}
         context.update(recipient=recipient)
         context = Context(context)
@@ -288,7 +307,7 @@ class CampaignBlast(BaseCampaignBlast):
             connection = get_connection()
             connection.open()
             for recipient in recipients:
-                message = self._message(recipient.student, connection, context)
+                message = self._message(recipient, connection, context)
                 try:
                     message.send()
                 except smtplib.SMTPException:

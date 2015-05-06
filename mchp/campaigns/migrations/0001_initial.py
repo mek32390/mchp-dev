@@ -2,21 +2,22 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user_profile', '0002_auto_20140925_0029'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Campaign',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
-                ('when', models.DateTimeField(blank=True, verbose_name='campaign start', null=True, help_text='If field is unset, this campaign will be disabled.')),
-                ('until', models.DateTimeField(blank=True, verbose_name='campaign end', null=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('when', models.DateTimeField(blank=True, help_text='If field is unset, this campaign will be disabled.', null=True, verbose_name='campaign start')),
+                ('until', models.DateTimeField(blank=True, null=True, verbose_name='campaign end')),
                 ('name', models.CharField(max_length=255)),
             ],
             options={
@@ -28,7 +29,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignBlast',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('sent', models.DateTimeField(blank=True, null=True)),
                 ('campaign', models.ForeignKey(to='campaigns.Campaign')),
             ],
@@ -39,10 +40,24 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='CampaignSubscriber',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('notified', models.DateTimeField(blank=True, null=True)),
+                ('opens', models.PositiveIntegerField(default=0)),
+                ('clicks', models.PositiveIntegerField(default=0)),
+                ('campaign', models.ForeignKey(to='campaigns.Campaign', related_name='subscribers')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='CampaignTemplate',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
-                ('subject', models.CharField(max_length=78)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('subject', models.CharField(max_length=255)),
                 ('body', models.TextField()),
                 ('name', models.CharField(max_length=255, unique=True)),
             ],
@@ -52,28 +67,14 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        migrations.CreateModel(
-            name='Subscriber',
-            fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
-                ('notified', models.DateTimeField(blank=True, null=True)),
-                ('opens', models.PositiveIntegerField(default=0)),
-                ('clicks', models.PositiveIntegerField(default=0)),
-                ('campaign', models.ForeignKey(to='campaigns.Campaign', related_name='subscribers')),
-                ('student', models.ForeignKey(to='user_profile.Student')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
         migrations.AlterUniqueTogether(
-            name='subscriber',
-            unique_together=set([('student', 'campaign')]),
+            name='campaignsubscriber',
+            unique_together=set([('campaign', 'user')]),
         ),
         migrations.AddField(
             model_name='campaignblast',
             name='recipients',
-            field=models.ManyToManyField(to='campaigns.Subscriber', blank=True),
+            field=models.ManyToManyField(blank=True, to='campaigns.CampaignSubscriber'),
             preserve_default=True,
         ),
         migrations.AddField(

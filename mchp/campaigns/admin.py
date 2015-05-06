@@ -19,8 +19,8 @@ class CampaignTemplateAdmin(admin.ModelAdmin):
     # readonly_fields = ('created', 'updated')
 
 
-class SubscribersInline(admin.TabularInline):
-    model = models.Subscriber
+class CampaignSubscribersInline(admin.TabularInline):
+    model = models.CampaignSubscriber
     extra = 1
     # ordering = ('student__user__username',)  # [TODO]
 
@@ -36,7 +36,7 @@ class CampaignAdmin(admin.ModelAdmin):
             'fields': ['when', 'until'],
         }),
     )
-    inlines = [SubscribersInline]
+    inlines = [CampaignSubscribersInline]
 
 
 @admin.register(models.CampaignBlast)
