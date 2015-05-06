@@ -4,6 +4,8 @@ from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from calendar_mchp.signals import calendar_event_created, calendar_event_edited, subscription
+from documents.models import Document
+
 
 class ClassCalendarManager(models.Manager):
     def default(self, student):
@@ -86,9 +88,11 @@ class CalendarEvent(models.Model):
 
     Attributes
     ----------
-    notify_lead : django.db.models.PositiveIntegerField
+    notify_lead : django.db.models.PositiveIntegerField, optional
         A lead time, in minutes, for mailings before events.
         For example, 24 hours => 2880 minutes.
+    documents : django.db.models.ManyToManyField, optional
+        Documents to associate optionally with this event.
 
     """
     calendar = models.ForeignKey(ClassCalendar)
@@ -100,12 +104,17 @@ class CalendarEvent(models.Model):
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True)
-    notify_lead = models.PositiveIntegerField(default=0)
 
     is_recurring = models.BooleanField(default=False)
     
     create_date = models.DateTimeField(auto_now_add=True)
     last_edit = models.DateTimeField()
+
+    notify_lead = models.PositiveIntegerField(default=0)
+    documents = models.ManyToManyField(Document,
+                                       related_name='events',
+                                       blank=True,
+                                       null=True)
 
     def save(self, *args, **kwargs):
         if not self.pk:

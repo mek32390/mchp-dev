@@ -1,6 +1,7 @@
 from django.core.mail import get_connection
 from django.db import models
 from django.template import Context, Template
+from django.template.loader import get_template
 from django.utils import timezone
 from django.conf import settings
 from . import managers
@@ -18,9 +19,9 @@ class BaseCampaignSubscriber(models.Model):
 
     Attributes
     ----------
-    campaign : campaigns.models.Campaign
+    campaign : django.db.models.ForeignKey
         The campaign associated with this subscriber.
-    notified : django.db.models.DateTimeField
+    notified : django.db.models.DateTimeField, optional
         When was this user notified?
     # did_unsubscribe : django.db.models.BooleanField
     #     Has this user unsubscribed?
@@ -38,7 +39,6 @@ class BaseCampaignSubscriber(models.Model):
 
     class Meta:
         abstract = True
-        verbose_name = 'subscriber'
 
     def mark_notified(self):
         """ Mark subscriber as notified now. """
@@ -88,7 +88,6 @@ class BaseCampaignTemplate(models.Model):
 
     class Meta:
         abstract = True
-        verbose_name = 'template'
 
 
 class CampaignTemplate(BaseCampaignTemplate):
@@ -101,12 +100,13 @@ class CampaignTemplate(BaseCampaignTemplate):
 
     """
     name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
 
     class Meta:
         ordering = ('name',)
 
     def __str__(self):
-        return self.name
+        return '{} ({})'.format(self.name, self.slug)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -125,12 +125,10 @@ class CampaignTemplate(BaseCampaignTemplate):
 
 
 class BaseCampaign(models.Model):
-    """ A campaign configuration.
+    """ A metaclass for an e-mail campaign.
 
     Attributes
     ----------
-    template : campaigns.CampaignTemplate
-        A template associated with this campaign.
     when : django.db.models.DateTimeField, optional
         When does this campaign start?
     until : django.db.models.DateTimeField
@@ -142,14 +140,12 @@ class BaseCampaign(models.Model):
     or if `until` is past.
 
     """
-    template = models.ForeignKey(CampaignTemplate)
     when = models.DateTimeField("campaign start", blank=True, null=True,
         help_text='If field is unset, this campaign will be disabled.')  # noqa
     until = models.DateTimeField("campaign end", blank=True, null=True)
 
     class Meta:
         abstract = True
-        verbose_name = 'campaign'
 
     def active(self):
         if self.when and self.when <= timezone.now():
@@ -158,24 +154,8 @@ class BaseCampaign(models.Model):
         return False
     active.boolean = True
 
-    def _blast(self, context=None):
+    def _blast(self, force=False, context=None):
         """ Must override.
-
-        Parameters
-        ----------
-        context : dict, optional
-            A dictionary to turn into context variables for the message.
-
-        Raises
-        ------
-        NotImplementedError
-            If this method is not overridden.
-
-        """
-        return NotImplementedError
-
-    def blast(self, context=None, force=False):
-        """ Send a blast to this campaign.
 
         Parameters
         ----------
@@ -185,9 +165,28 @@ class BaseCampaign(models.Model):
             `True` to notify subscribers who have already been notified,
             `False` otherwise.  Default `False`.
 
+        Raises
+        ------
+        NotImplementedError
+            If this method is not overridden.
+
+        """
+        return NotImplementedError
+
+    def blast(self, force=False, context=None):
+        """ Send a blast to this campaign.
+
+        Parameters
+        ----------
+        force : bool, optional
+            `True` to notify subscribers who have already been notified,
+            `False` otherwise.  Default `False`.
+        context : dict, optional
+            A dictionary to turn into context variables for the message.
+
         """
         if self.active():
-            self._blast(context=context)
+            self._blast(force=force, context=context)
 
 
 class Campaign(BaseCampaign):
@@ -197,9 +196,12 @@ class Campaign(BaseCampaign):
     ----------
     name : django.db.models.CharField
         An internal name to identify this campaign.
+    template : django.db.models.ForeignKey
+        A template associated with this campaign.
 
     """
     name = models.CharField(max_length=255)
+    template = models.ForeignKey(CampaignTemplate)
 
     class Meta:
         ordering = ('name',)
@@ -243,12 +245,29 @@ class Campaign(BaseCampaign):
             `False` otherwise.  Default `False`.
 
         """
-        subscribers = self.subscribers.all()
+        # [TODO] Would be nice to move these few lines to superclass blast(),
+        #        but blast() can't currently assume existence of subscribers.
+        recipients = self.subscribers.all()
         if not force:
-            subscribers = subscribers.filter(notified__isnull=True)
+            recipients = recipients.filter(notified__isnull=True)
 
-        if subscribers:
-            self._send(subscribers)
+        if recipients:
+            print('doing it')
+            connection = get_connection()
+            connection.open()
+            for recipient in recipients:
+                msg_context = context.copy() if context else {}
+                msg_context.update(recipient=recipient)
+                message = self._message(recipient.user.email,
+                                        connection,
+                                        msg_context)
+                try:
+                    message.send()
+                except smtplib.SMTPException:
+                    raise
+                else:
+                    recipient.mark_notified()
+            connection.close()
 
     def _message(self, recipient, connection, context=None):
         """ Build and send a single message from a campaign.
@@ -271,27 +290,97 @@ class Campaign(BaseCampaign):
         return utils.make_email_message(subject, body, CAMPAIGN_FROM_EMAIL,
                                         recipient, connection)
 
-    def _send(self, recipients, context=None):
-        """ Build and send a blast.
 
-        Parameters
-        ----------
-        context : dict, optional
-            A dictionary to turn into context variables for the message.
+# Move to separate app
+from calendar_mchp.models import CalendarEvent
+from documents.models import Document
+
+
+class StudyGuideMetaCampaign(BaseCampaign):
+    """ Campaign builder for study guide mailings.
+
+    Attributes
+    ----------
+    campaign : campaigns.models.Campaign
+        A campaign associated with this builder.
+
+    """
+
+    campaign = models.OneToOneField(Campaign, blank=True, null=True)
+    blasted = models.DateTimeField(blank=True, null=True)
+    event = models.ForeignKey(CalendarEvent, unique=True)
+
+    REQUEST_TEMPLATE = 'campaigns/request_for_study_guide.html'
+    PUBLISH_TEMPLATE = 'campaigns/study_guide.html'
+
+
+    def __str__(self):
+        return str(self.event)
+
+    def build_campaign(self, template):
+        """ Build a new campaign.
 
         """
-        connection = get_connection()
-        connection.open()
-        for recipient in recipients:
-            msg_context = context.copy() if context else {}
-            msg_context.update(recipient=recipient)
-            message = self._message(recipient.user.email,
-                                    connection,
-                                    msg_context)
-            try:
-                message.send()
-            except smtplib.SMTPException:
-                raise
+        campaign = Campaign.objects.create(name=str(self),
+                                           template=template,
+                                           when=self.when,
+                                           until=self.until)
+        event_students = utils.students_for_event(self.event)
+        campaign.recipients.add(*event_students)
+        # campaign.subscribers = all subscribers in this course
+        self.campaign = campaign
+        self.save(update_fields=['campaign'])  # [TODO] is this line necessary?
+
+    def current(self):
+        """ Has the campaign changed since last time? """
+        if self.campaign and self.document.create_date < self.blasted:
+            return True
+        else:
+            return False
+
+    def filtered_documents(self):
+        """ Return likely primaries """
+        from operator import methodcaller  # itemgetter
+        documents = self.event.documents  # .all()
+        return documents.all()
+
+        most_recent = documents.latest('-create_date')[0]
+        # documents.filter(rating=up - down)
+        most_purchases = sorted(documents, key=methodcaller('purchase_count'), reverse=True)[0]
+        best_rated = sorted(documents, key=methodcaller('rating'), reverse=True)[0]
+        # enrolled is in class 
+        # same professor
+        # {
+        #     # required: same prof
+        #     30: most_purchases,
+        #     40: most_recent,
+        #     # 20: in class
+        #     10: best_rated,
+        # }
+
+
+        most_purchases = Document.objects.filter()
+        # owner = Document.objects.filter(upload__owner__enrollment)
+
+        documents = [most_recent, most_purchases, best_rated]
+        documents
+        # Upload.objects.get(document=...)
+        # sort by purchase_count()
+
+    def _blast(self, force=False, context=None):
+        if not context:
+            context = {}
+        print('blasty')
+
+        if not self.current():
+            print('yo')
+            if not self.event.documents.count():
+                template = self.REQUEST_TEMPLATE
             else:
-                recipient.mark_notified()
-        connection.close()
+                template = self.PUBLISH_TEMPLATE
+                context['documents'] = self.filtered_documents()
+            self.build_campaign(template)
+
+        self.campaign.blast(force=force, context=context)
+        self.blasted = timezone.now()
+        self.save(update_fields=['blasted'])
