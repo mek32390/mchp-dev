@@ -64,7 +64,7 @@ class CampaignTemplate(BaseCampaignTemplate):
 
 
 class Subscriber(models.Model):
-    """ Through table to track who's notified.
+    """ Track who's been notified.
 
     Attributes
     ----------
@@ -81,7 +81,7 @@ class Subscriber(models.Model):
 
     """
     student = models.ForeignKey(Student)
-    campaign = models.ForeignKey('Campaign', related_name='subscriptions')
+    campaign = models.ForeignKey('Campaign', related_name='subscribers')
     notified = models.DateTimeField(blank=True, null=True)
     # unsubscribed = models.BooleanField(default=True)
     opens = models.PositiveIntegerField(default=0)
@@ -141,14 +141,9 @@ class Campaign(BaseCampaign):
     ----------
     name : django.db.models.CharField
         An internal name to identify this campaign.
-    subscribers : django.db.models.ManyToManyField, optional
-        Students associated with this campaign.
 
     """
     name = models.CharField(max_length=255)
-    subscribers = models.ManyToManyField(Student,
-                                         through='Subscriber',
-                                         blank=True)
 
     class Meta:
         verbose_name = 'campaign'
@@ -171,12 +166,12 @@ class Campaign(BaseCampaign):
         """
         if self.active():
             # retrieve only subscribers that are enabled users
-            active_subscriptions = self.subscriptions.filter(
+            active_subscribers = self.subscribers.filter(
                 student__user__is_active=True)
 
             # limit to new subscribers if `force` is `False`
             # include all subscribers if `force` is `True`
-            notify_subscribers = [s for s in active_subscriptions
+            notify_subscribers = [s for s in active_subscribers
                                   if force or not s.is_notified()]
             if notify_subscribers:
                 blast = CampaignBlast.objects.create(campaign=self)
