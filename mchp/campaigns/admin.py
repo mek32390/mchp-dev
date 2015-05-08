@@ -7,7 +7,7 @@ class CampaignTemplateAdmin(admin.ModelAdmin):
     list_display = ('name',)
     fieldsets = (
         (None, {
-            'fields': ['name'],
+            'fields': ['name', 'slug'],
         }),
         ('Content', {
             'fields': ['subject', 'body'],

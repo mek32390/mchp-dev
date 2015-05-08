@@ -252,7 +252,6 @@ class Campaign(BaseCampaign):
             recipients = recipients.filter(notified__isnull=True)
 
         if recipients:
-            print('doing it')
             connection = get_connection()
             connection.open()
             for recipient in recipients:
@@ -310,9 +309,10 @@ class StudyGuideMetaCampaign(BaseCampaign):
     blasted = models.DateTimeField(blank=True, null=True)
     event = models.ForeignKey(CalendarEvent, unique=True)
 
-    REQUEST_TEMPLATE = 'campaigns/request_for_study_guide.html'
-    PUBLISH_TEMPLATE = 'campaigns/study_guide.html'
-
+    REQUEST_TEMPLATE_SLUG = 'study-guide-request'
+    PUBLISH_TEMPLATE_SLUG = 'study-guide-publish'
+    # REQUEST_TEMPLATE = 'campaigns/request_for_study_guide.html'
+    # PUBLISH_TEMPLATE = 'campaigns/study_guide.html'
 
     def __str__(self):
         return str(self.event)
@@ -326,17 +326,20 @@ class StudyGuideMetaCampaign(BaseCampaign):
                                            when=self.when,
                                            until=self.until)
         event_students = utils.students_for_event(self.event)
-        campaign.recipients.add(*event_students)
+        for student in event_students:
+            subscriber = CampaignSubscriber.objects.get_or_create(campaign=campaign, user=student.user)[0]
+            campaign.subscribers.add(subscriber)
         # campaign.subscribers = all subscribers in this course
         self.campaign = campaign
         self.save(update_fields=['campaign'])  # [TODO] is this line necessary?
 
     def current(self):
         """ Has the campaign changed since last time? """
-        if self.campaign and self.document.create_date < self.blasted:
-            return True
-        else:
-            return False
+        return False
+        # if self.campaign and self.document.create_date < self.blasted:
+        #     return True
+        # else:
+        #     return False
 
     def filtered_documents(self):
         """ Return likely primaries """
@@ -370,15 +373,14 @@ class StudyGuideMetaCampaign(BaseCampaign):
     def _blast(self, force=False, context=None):
         if not context:
             context = {}
-        print('blasty')
 
         if not self.current():
-            print('yo')
             if not self.event.documents.count():
-                template = self.REQUEST_TEMPLATE
+                template_slug = self.REQUEST_TEMPLATE_SLUG
             else:
-                template = self.PUBLISH_TEMPLATE
+                template_slug = self.PUBLISH_TEMPLATE_SLUG
                 context['documents'] = self.filtered_documents()
+            template = CampaignTemplate.objects.get(slug=template_slug)
             self.build_campaign(template)
 
         self.campaign.blast(force=force, context=context)
