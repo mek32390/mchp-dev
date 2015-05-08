@@ -1,7 +1,6 @@
 from django.core.mail import get_connection
 from django.db import models
 from django.template import Context, Template
-from django.template.loader import get_template
 from django.utils import timezone
 from django.conf import settings
 from . import managers
@@ -149,6 +148,14 @@ class BaseCampaign(models.Model):
         abstract = True
 
     def active(self):
+        """ Is this campaign active?
+
+        Returns
+        -------
+        out : bool
+            `True` if this campaign is active, `False` otherwise.
+
+        """
         if self.when and self.when <= timezone.now():
             if not self.until or self.until >= timezone.now():
                 return True
@@ -311,6 +318,10 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
                                        # related_name='+',
                                        blank=True,
                                        null=True)
+    documents = models.ManyToManyField(Document,
+                                       # related_name='+',
+                                       blank=True,
+                                       null=True)
     updated = models.DateTimeField(blank=True, null=True)
     event = models.ForeignKey(CalendarEvent, unique=True)
 
@@ -328,17 +339,10 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         """
         return str(self)
 
-    def _is_stale(self, campaign):
-        """ Is this campaign stale?  Do we need a new campaign?
+    def _filter_documents(self, documents):
+        """ Return likely primary document candidates.
 
         """
-        if campaign:
-            # check documents, maybe event update time?
-            return False
-        return True
-
-    def filtered_documents(self):
-        """ Return likely primaries """
         # from operator import methodcaller  # itemgetter
         documents = self.event.documents.all()
         return documents
@@ -381,20 +385,37 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         # # Upload.objects.get(document=...)
         # # sort by purchase_count()
 
-    def _update_subscribers(self, campaign):
-        """ Update subscribers for the given campaign.
+    def _update_subscribers(self):
+        """ Update subscribers for the active campaign.
 
         """
-        event_students = utils.students_for_event(self.event)
-        for student in event_students:
+        campaign = self.campaigns.latest('when')
+        for student in utils.students_for_event(self.event):
             subscriber, created = CampaignSubscriber.objects.get_or_create(
                 campaign=campaign,
                 user=student.user)
-            # only add if it's not there already
-            if created:
+            if created:  # only add if it's not there already
                 campaign.subscribers.add(subscriber)
 
-    def _deactivate_campaigns(self, campaigns):
+    def _update_documents(self):
+        """ Update documents for the next campaign.
+
+        Returns
+        -------
+        out : bool
+            `True` if documents updated, `False` otherwise.
+
+        """
+        event_documents = self.event.documents.all()
+        primary_documents = self._filter_documents(event_documents)
+
+        if primary_documents != self.documents.all():
+            self.documents = primary_documents
+            return True
+        else:
+            return False
+
+    def _deactivate_campaigns(self):
         """ Deactivate all still-active campaigns.
 
         Notes
@@ -417,12 +438,9 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         """ Update campaigns.
 
         """
-        active_campaigns = self.campaigns.active()
-
-        current_campaign = active_campaigns.latest('when')
-        if self._is_stale(current_campaign):
+        if self._update_documents():
             # deactivate existing campaigns
-            self._deactivate_campaigns(active_campaigns)
+            self._deactivate_campaigns()
 
             if not self.event.documents.count():
                 template_slug = self.REQUEST_TEMPLATE_SLUG
@@ -432,13 +450,13 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
 
             template = CampaignTemplate.objects.get(slug=template_slug)
 
-            current_campaign = Campaign.objects.create(
+            campaign = Campaign.objects.create(
                 name=self._new_campaign_name(),
                 template=template,
                 when=timezone.now(),
                 until=self.event.start)
-            self.campaigns.add(current_campaign)
+            self.campaigns.add(campaign)
 
-        self._update_subscribers(current_campaign)
+        self._update_subscribers()
         self.updated = timezone.now()
         self.save(update_fields=['updated'])
