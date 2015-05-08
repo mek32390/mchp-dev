@@ -84,7 +84,7 @@ class BaseCampaignTemplate(models.Model):
 
     """
     subject = models.CharField(max_length=255)
-    body = models.TextField()
+    body = models.TextField(blank=True)
 
     class Meta:
         abstract = True
@@ -148,13 +148,6 @@ class BaseCampaign(models.Model):
     class Meta:
         abstract = True
 
-    def active(self):
-        if self.when and self.when <= timezone.now():
-            if not self.until or self.until >= timezone.now():
-                return True
-        return False
-    active.boolean = True
-
     def _blast(self, force=False, context=None):
         """ Must override.
 
@@ -203,6 +196,7 @@ class Campaign(BaseCampaign):
     """
     name = models.CharField(max_length=255)
     template = models.ForeignKey(CampaignTemplate)
+    objects = managers.CampaignManager()
 
     class Meta:
         ordering = ('name',)
@@ -216,7 +210,7 @@ class Campaign(BaseCampaign):
 
     def opened(self):
         """ How many subscribers have opened their messages? """
-        return self.subscribers.objects.filter(opens__gt=0).count()
+        return self.subscribers.objects.exclude(opens=0).count()
 
     def clicks(self):
         """ How many click-throughs has this campaign accumulated? """
@@ -224,7 +218,7 @@ class Campaign(BaseCampaign):
 
     def clicked(self):
         """ How many subscribers have clicked through their messages? """
-        return self.subscribers.objects.filter(clicks__gt=0).count()
+        return self.subscribers.objects.exclude(clicks=0).count()
 
     # def unsubscribes(self):
     #     """ How many unsubscribes has this campaign accumulated? """
@@ -296,7 +290,7 @@ from calendar_mchp.models import CalendarEvent
 from documents.models import Document
 
 
-class StudyGuideMetaCampaign(BaseCampaign):
+class StudyGuideCampaignCoordinator(BaseCampaign):
     """ Campaign builder for study guide mailings.
 
     Attributes
@@ -306,8 +300,11 @@ class StudyGuideMetaCampaign(BaseCampaign):
 
     """
 
-    campaign = models.OneToOneField(Campaign, blank=True, null=True)
-    blasted = models.DateTimeField(blank=True, null=True)
+    campaigns = models.ManyToManyField(Campaign,
+                                       # related_name='+',
+                                       blank=True,
+                                       null=True)
+    updated = models.DateTimeField(blank=True, null=True)
     event = models.ForeignKey(CalendarEvent, unique=True)
 
     REQUEST_TEMPLATE_SLUG = 'study-guide-request'
@@ -318,29 +315,41 @@ class StudyGuideMetaCampaign(BaseCampaign):
     def __str__(self):
         return str(self.event)
 
-    def build_campaign(self, template):
-        """ Build a new campaign.
+    def _new_campaign_name(self):
+        """ Create a new campaign name.
 
         """
-        campaign = Campaign.objects.create(name=str(self),
-                                           template=template,
-                                           when=self.when,
-                                           until=self.until)
-        event_students = utils.students_for_event(self.event)
-        for student in event_students:
-            subscriber = CampaignSubscriber.objects.get_or_create(campaign=campaign, user=student.user)[0]
-            campaign.subscribers.add(subscriber)
-        # campaign.subscribers = all subscribers in this course
-        self.campaign = campaign
-        self.save(update_fields=['campaign'])  # [TODO] is this line necessary?
+        return str(self)
 
-    def current(self):
-        """ Has the campaign changed since last time? """
-        return False
-        # if self.campaign and self.document.create_date < self.blasted:
-        #     return True
-        # else:
-        #     return False
+    def _build_campaign(self, template):
+        """ Build a new campaign.
+
+        Parameters
+        ----------
+        template : campaigns.models.CampaignTemplate
+            A template to use for the campaign.
+
+        Returns
+        -------
+        out : campaigns.models.Campaign
+            The newly-constructed campaign.
+
+        """
+        campaign = Campaign.objects.create(name=self._new_campaign_name(),
+                                           template=template,
+                                           when=timezone.now(),
+                                           until=self.event.start)
+        self.campaigns.add(campaign)
+        return campaign
+
+    def _is_stale(self, campaign):
+        """ Is this campaign stale?  Do we need a new campaign?
+
+        """
+        if campaign:
+            # check documents, maybe event update time?
+            return False
+        return True
 
     def filtered_documents(self):
         """ Return likely primaries """
@@ -371,19 +380,58 @@ class StudyGuideMetaCampaign(BaseCampaign):
         # Upload.objects.get(document=...)
         # sort by purchase_count()
 
-    def _blast(self, force=False, context=None):
-        if not context:
-            context = {}
+    def _update_subscribers(self, campaign):
+        """ Update subscribers for the given campaign.
 
-        if not self.current():
+        """
+        event_students = utils.students_for_event(self.event)
+        for student in event_students:
+            subscriber, created = CampaignSubscriber.objects.get_or_create(
+                campaign=campaign,
+                user=student.user)
+            # only add if it's not there already
+            if created:
+                campaign.subscribers.add(subscriber)
+
+    def _deactivate_campaigns(self, campaigns):
+        """ Deactivate all still-active campaigns.
+
+        Notes
+        -----
+        The `until` field of each campaign will be set to "now."
+        Each campaign will retain its `when` field to indicate
+        the rough time of creation.
+
+        This method is not strictly necessary, except to
+        indicate for metrics how many campaigns are
+        considered "active" at any one time.
+
+        """
+        now = timezone.now()
+        for campaign in self.campaigns.active():
+            campaign.until = timezone.now()
+            campaign.save(update_fields=['until'])
+
+    def update(self):
+        """ Update campaigns.
+
+        """
+        active_campaigns = self.campaigns.active()
+
+        current_campaign = active_campaigns.latest('when')
+        if self._is_stale(current_campaign):
+            # deactivate existing campaigns
+            self._deactivate_campaigns(active_campaigns)
+
             if not self.event.documents.count():
                 template_slug = self.REQUEST_TEMPLATE_SLUG
             else:
                 template_slug = self.PUBLISH_TEMPLATE_SLUG
-                context['documents'] = self.filtered_documents()
-            template = CampaignTemplate.objects.get(slug=template_slug)
-            self.build_campaign(template)
+                # context['documents'] = self.filtered_documents()
 
-        self.campaign.blast(force=force, context=context)
-        self.blasted = timezone.now()
-        self.save(update_fields=['blasted'])
+            template = CampaignTemplate.objects.get(slug=template_slug)
+            current_campaign = self._build_campaign(template)
+
+        self._update_subscribers(current_campaign)
+        self.updated = timezone.now()
+        self.save(update_fields=['updated'])
