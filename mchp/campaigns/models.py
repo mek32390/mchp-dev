@@ -100,7 +100,8 @@ class CampaignTemplate(BaseCampaignTemplate):
 
     """
     name = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True,
+        help_text='Used by the campaign automailer.  Change with caution!')  # noqa
 
     class Meta:
         ordering = ('name',)
