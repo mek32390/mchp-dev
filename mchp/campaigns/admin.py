@@ -40,8 +40,8 @@ class CampaignAdmin(admin.ModelAdmin):
     inlines = [CampaignSubscribersInline]
 
 
-@admin.register(models.StudyGuideMetaCampaign)
-class StudyGuideMetaCampaignAdmin(admin.ModelAdmin):
+@admin.register(models.StudyGuideCampaignCoordinator)
+class StudyGuideCampaignCoordinatorAdmin(admin.ModelAdmin):
     pass
     # list_display = ('name', 'template', 'active', 'when', 'until')
     # fieldsets = (

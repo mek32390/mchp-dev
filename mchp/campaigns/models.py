@@ -148,6 +148,13 @@ class BaseCampaign(models.Model):
     class Meta:
         abstract = True
 
+    def active(self):
+        if self.when and self.when <= timezone.now():
+            if not self.until or self.until >= timezone.now():
+                return True
+        return False
+    active.boolean = True
+
     def _blast(self, force=False, context=None):
         """ Must override.
 
@@ -321,27 +328,6 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         """
         return str(self)
 
-    def _build_campaign(self, template):
-        """ Build a new campaign.
-
-        Parameters
-        ----------
-        template : campaigns.models.CampaignTemplate
-            A template to use for the campaign.
-
-        Returns
-        -------
-        out : campaigns.models.Campaign
-            The newly-constructed campaign.
-
-        """
-        campaign = Campaign.objects.create(name=self._new_campaign_name(),
-                                           template=template,
-                                           when=timezone.now(),
-                                           until=self.event.start)
-        self.campaigns.add(campaign)
-        return campaign
-
     def _is_stale(self, campaign):
         """ Is this campaign stale?  Do we need a new campaign?
 
@@ -353,32 +339,47 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
 
     def filtered_documents(self):
         """ Return likely primaries """
-        from operator import methodcaller  # itemgetter
-        documents = self.event.documents  # .all()
-        return documents.all()
+        # from operator import methodcaller  # itemgetter
+        documents = self.event.documents.all()
+        return documents
 
-        most_recent = documents.latest('-create_date')[0]
-        # documents.filter(rating=up - down)
-        most_purchases = sorted(documents, key=methodcaller('purchase_count'), reverse=True)[0]
-        best_rated = sorted(documents, key=methodcaller('rating'), reverse=True)[0]
-        # enrolled is in class 
-        # same professor
-        # {
-        #     # required: same prof
-        #     30: most_purchases,
-        #     40: most_recent,
-        #     # 20: in class
-        #     10: best_rated,
-        # }
+        # most_recent = documents.latest('-create_date')[0]
+        # # documents.filter(rating=up - down)
+        # most_purchased = sorted(documents,
+        #                         key=methodcaller('purchase_count'),
+        #                         reverse=True)[0]
+        # best_rated = sorted(documents,
+        #                     key=methodcaller('rating'),
+        #                     reverse=True)[0]
+        
+        # from collections import Counter
+        # scores = Counter(documents)
+        # scores[most_recent] += 40
+        # scores[most_purchased] += 30
+        # # scores[in_class] += 20
+        # scores[best_rated] += 10
+
+        # primary_document = scores.most_common()[0]
+
+        # scores.setdefault(most_recent, )
 
 
-        most_purchases = Document.objects.filter()
-        # owner = Document.objects.filter(upload__owner__enrollment)
+        # # owner = Document.objects.filter(upload__owner__enrollment)
 
-        documents = [most_recent, most_purchases, best_rated]
-        documents
-        # Upload.objects.get(document=...)
-        # sort by purchase_count()
+        # # enrolled is in class 
+        # # same professor
+        # # {
+        # #     # required: same prof
+        # #     30: most_purchases,
+        # #     40: most_recent,
+        # #     # 20: in class
+        # #     10: best_rated,
+        # # }
+
+
+        # documents = [most_recent, most_purchases, best_rated]
+        # # Upload.objects.get(document=...)
+        # # sort by purchase_count()
 
     def _update_subscribers(self, campaign):
         """ Update subscribers for the given campaign.
@@ -409,7 +410,7 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         """
         now = timezone.now()
         for campaign in self.campaigns.active():
-            campaign.until = timezone.now()
+            campaign.until = now
             campaign.save(update_fields=['until'])
 
     def update(self):
@@ -430,7 +431,13 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
                 # context['documents'] = self.filtered_documents()
 
             template = CampaignTemplate.objects.get(slug=template_slug)
-            current_campaign = self._build_campaign(template)
+
+            current_campaign = Campaign.objects.create(
+                name=self._new_campaign_name(),
+                template=template,
+                when=timezone.now(),
+                until=self.event.start)
+            self.campaigns.add(current_campaign)
 
         self._update_subscribers(current_campaign)
         self.updated = timezone.now()
