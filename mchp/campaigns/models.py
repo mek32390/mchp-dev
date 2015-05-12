@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.conf import settings
 from . import managers
 
+from collections import Counter
+from schedule.models import Enrollment
 import smtplib
 from . import utils
 
@@ -302,6 +304,7 @@ class Campaign(BaseCampaign):
 # Move to separate app
 from calendar_mchp.models import CalendarEvent
 from documents.models import Document
+from operator import methodcaller
 
 
 class StudyGuideCampaignCoordinator(BaseCampaign):
@@ -339,36 +342,79 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         """
         return str(self)
 
-    def _filter_documents(self, documents):
+    def queryset_ranker(self, queryset, score):
+        counter = Counter(queryset)
+        last_score = score
+        for element in queryset:
+            position += 1  # for different weightings, could multiply, etc.
+            counter[element] += score * position
+        return counter
+
+    def _filter_current_documents(self):
         """ Return likely primary document candidates.
 
         """
-        # from operator import methodcaller  # itemgetter
         documents = self.event.documents.all()
-        return documents
 
-        # most_recent = documents.latest('-create_date')[0]
-        # # documents.filter(rating=up - down)
-        # most_purchased = sorted(documents,
-        #                         key=methodcaller('purchase_count'),
-        #                         reverse=True)[0]
-        # best_rated = sorted(documents,
-        #                     key=methodcaller('rating'),
-        #                     reverse=True)[0]
-        
-        # from collections import Counter
-        # scores = Counter(documents)
-        # scores[most_recent] += 40
-        # scores[most_purchased] += 30
-        # # scores[in_class] += 20
-        # scores[best_rated] += 10
+        most_recent = documents.order_by('create_date')
+        best_rated = documents.annotate(
+                rating=models.Sum(models.F('up') - models.F('down'))
+            ).order_by('rating')
+        most_purchased = documents.order_by('purchased_document__count')
 
-        # primary_document = scores.most_common()[0]
+        # # [TODO] this is a horribly inefficient query
+        # enrolled_students = utils.students_for_event(self.event)
+        # uploader_in_class = documents.objects.filter(
+        #     upload__owner__in=enrolled_students).order_by(
+        #     'join_date')
+        course = self.event.calendar.course
+        uploader_in_class = documents.objects.filter(
+            upload__owner__enrollments__course__in=course).order_by(
+            'join_date')
 
-        # scores.setdefault(most_recent, )
+        # start with a default score of 100
+        scores = Counter()
+        for d in documents:
+            scores[d] = 100
+
+        # now rank
+        prev, rank = None, 1
+        for d in most_recent:
+            if d.create_date != prev:
+                prev = d.create_date
+                rank += 1
+            scores[d] += rank * 40
+
+        prev, rank = None, 1
+        for d in most_purchased:
+            if d.purchased_document.count() != prev:
+                prev = d.purchased_document.count()
+                rank += 1
+            scores[d] += rank * 30
+
+        prev, rank = None, 1
+        for d in uploader_in_class:
+            if d.join_date != prev:
+                prev = d.join_date
+                rank += 1
+            scores[d] += rank * 20
+
+        prev, rank = None, 1
+        for d in best_rated:
+            if d.rating != prev:
+                prev = d.rating
+                rank += 1
+            scores[d] += rank * 10
 
 
-        # # owner = Document.objects.filter(upload__owner__enrollment)
+        # scores += self.queryset_ranker(most_recent, 40)
+        # scores += self.queryset_ranker(most_purchased, 30)
+        # scores += self.queryset_ranker(uploader_in_class, 20)
+        # scores += self.queryset_ranker(best_rated, 10)
+
+        print(str(scores.most_common()))
+        return scores.most_common()
+
 
         # # enrolled is in class 
         # # same professor
@@ -379,11 +425,6 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         # #     # 20: in class
         # #     10: best_rated,
         # # }
-
-
-        # documents = [most_recent, most_purchases, best_rated]
-        # # Upload.objects.get(document=...)
-        # # sort by purchase_count()
 
     def _update_subscribers(self):
         """ Update subscribers for the active campaign.
@@ -406,8 +447,7 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
             `True` if documents updated, `False` otherwise.
 
         """
-        event_documents = self.event.documents.all()
-        primary_documents = self._filter_documents(event_documents)
+        primary_documents = self._filter_current_documents()
 
         if primary_documents != self.documents.all():
             self.documents = primary_documents
@@ -446,7 +486,6 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
                 template_slug = self.REQUEST_TEMPLATE_SLUG
             else:
                 template_slug = self.PUBLISH_TEMPLATE_SLUG
-                # context['documents'] = self.filtered_documents()
 
             template = CampaignTemplate.objects.get(slug=template_slug)
 
