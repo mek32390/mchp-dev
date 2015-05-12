@@ -357,20 +357,21 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         documents = self.event.documents.all()
 
         most_recent = documents.order_by('create_date')
-        best_rated = documents.annotate(
-                rating=models.Sum(models.F('up') - models.F('down'))
-            ).order_by('rating')
-        most_purchased = documents.order_by('purchased_document__count')
+        best_rated = sorted(documents, key=methodcaller('rating'))
+        # best_rated = documents.annotate(
+        #         rating=models.Sum(models.F('up') - models.F('down'))
+        #     ).order_by('rating')
+        most_purchased = documents.annotate(purchases=models.Count('purchased_document')).order_by('purchases')
 
         # # [TODO] this is a horribly inefficient query
-        # enrolled_students = utils.students_for_event(self.event)
-        # uploader_in_class = documents.objects.filter(
-        #     upload__owner__in=enrolled_students).order_by(
-        #     'join_date')
-        course = self.event.calendar.course
-        uploader_in_class = documents.objects.filter(
-            upload__owner__enrollments__course__in=course).order_by(
+        enrolled_students = utils.students_for_event(self.event)
+        uploader_in_class = documents.filter(
+            upload__owner__in=enrolled_students).order_by(
             'join_date')
+        # course = self.event.calendar.course
+        # uploader_in_class = documents.filter(
+        #     upload__owner__enrollments__course__in=course).order_by(
+        #     'join_date')
 
         # start with a default score of 100
         scores = Counter()
@@ -392,12 +393,12 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
                 rank += 1
             scores[d] += rank * 30
 
-        prev, rank = None, 1
-        for d in uploader_in_class:
-            if d.join_date != prev:
-                prev = d.join_date
-                rank += 1
-            scores[d] += rank * 20
+        # prev, rank = None, 1
+        # for d in uploader_in_class:
+        #     if d.join_date != prev:
+        #         prev = d.join_date
+        #         rank += 1
+        #     scores[d] += rank * 20
 
         prev, rank = None, 1
         for d in best_rated:
