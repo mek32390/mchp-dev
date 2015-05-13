@@ -1,5 +1,6 @@
 from django.utils import timezone
 
+from collections import Counter
 from datetime import timedelta
 # from . import models
 from calendar_mchp.models import CalendarEvent
@@ -65,3 +66,16 @@ def students_for_event(event):
     enrollments = Enrollment.objects.filter(course=event.calendar.course,
                                             receive_email=True)
     return [e.student for e in enrollments if e.student.user.is_active]
+
+def rank(items, key, score=1):
+    """ Create a Counter and rank.
+    #    return map(function, count(start))
+    """
+    counter = Counter({item: score for item in items})
+    if key:
+        count_per_val = [key(item) for item in items]
+        counts1 = sorted(set(count_per_val))
+        counts = {n: counts1.index(n) + 1 for n in counts1}
+        for item in sorted(items, key=key):
+            counter[item] = score * counts[key(item)]
+    return counter

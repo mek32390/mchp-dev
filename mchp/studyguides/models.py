@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils import timezone
-from campaigns.models import BaseCampaign, Campaign, CampaignTemplate
+from campaigns.models import (BaseCampaign, Campaign,
+                              CampaignSubscriber, CampaignTemplate)
 from calendar_mchp.models import CalendarEvent
 from documents.models import Document
 from operator import methodcaller
 
-from collections import Counter
 from schedule.models import Enrollment
 import smtplib
 from . import utils
@@ -69,9 +69,10 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         #     ).order_by('rating')
         most_purchased = documents.annotate(purchases=models.Count('purchased_document')).order_by('purchases')
 
-        # # [TODO] this is a horribly inefficient query
+        # get all enrollments (student and join date)
         enrollments = Enrollment.objects.filter(
-            course=self.event.calendar.course, receive_email=True)
+            course=self.event.calendar.course)
+
         enrollmentsdict = {e.student:e.join_date for e in enrollments}
 
 
@@ -87,38 +88,24 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         #     'join_date')
 
         # start with a default score of 100
-        scores = Counter()
-        for d in documents:
-            scores[d] = 100
+        scores = utils.rank(documents, None, score=0)
 
-        # now rank
-        prev, rank = None, 1
-        for d in most_recent:
-            if d.create_date != prev:
-                prev = d.create_date
-                rank += 1
-            scores[d] += rank * 40
+        scores += utils.rank(most_recent,
+                             lambda i: i.create_date,
+                             score=40)
 
-        prev, rank = None, 1
-        for d in most_purchased:
-            if d.purchased_document.count() != prev:
-                prev = d.purchased_document.count()
-                rank += 1
-            scores[d] += rank * 30
+        scores += utils.rank(most_purchased,
+                             lambda i: i.purchased_document.count(),
+                             score=30)
 
-        prev, rank = None, 1
-        for d in uploader_in_class_documents:
-            if enrollmentsdict[d.upload.owner] != prev:
-                prev = enrollmentsdict[d.upload.owner]
-                rank += 1
-            scores[d] += rank * 20
+        # in_class = ranky(most_recent,
+        #                   lambda i: ...,
+        #                    score=20)
 
-        prev, rank = None, 1
-        for d in best_rated:
-            if d.rating != prev:
-                prev = d.rating
-                rank += 1
-            scores[d] += rank * 10
+        scores += utils.rank(best_rated,
+                             lambda i: i.rating(),
+                             score=10)
+
 
         print('DEBUG: SCORES = ' + str(scores))
         # scores += self.queryset_ranker(most_recent, 40)
@@ -153,6 +140,7 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         primary_documents = self._filter_current_documents()
         # [TODO] this is a kludge
         if set(primary_documents) != set(self.documents.all()):
+            print('[DEBUG] Docs changed!  New campaign ahoy!')
             self.documents = primary_documents
             return True
         else:
