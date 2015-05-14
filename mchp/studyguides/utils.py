@@ -68,10 +68,23 @@ def students_for_event(event):
     return [e.student for e in enrollments if e.student.user.is_active]
 
 def rank(items, key, score=1):
-    """ Create a Counter and rank.
-    #    return map(function, count(start))
+    """ Create a Counter and rank items.
+
+    Parameters
+    ----------
+    items : iterable
+        Items to rank.
+    key : function
+        A function to run for sorting and ranking `items`.
+    score : number, optional
+        A multiplier for each ranking.
+
+    Notes
+    -----
+    TODO: Clean up this method a bit, especially with the `counts1` var.
+
     """
-    counter = Counter({item: score for item in items})
+    counter = Counter({item: 0 for item in items})
     if key:
         count_per_val = [key(item) for item in items]
         counts1 = sorted(set(count_per_val))

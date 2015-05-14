@@ -98,9 +98,9 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
                              lambda i: i.purchased_document.count(),
                              score=30)
 
-        # in_class = ranky(most_recent,
-        #                   lambda i: ...,
-        #                    score=20)
+        # scores += utils.rank(most_involved,
+        #                      lambda i: i.join_date,
+        #                      score=20)
 
         scores += utils.rank(best_rated,
                              lambda i: i.rating(),
