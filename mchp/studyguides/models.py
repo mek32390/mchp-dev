@@ -84,12 +84,7 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
                              lambda doc: doc.rating(),
                              score=10)
 
-
         print('DEBUG: SCORES = ' + str(scores))
-        # scores += self.queryset_ranker(most_recent, 40)
-        # scores += self.queryset_ranker(most_purchased, 30)
-        # scores += self.queryset_ranker(uploader_in_class, 20)
-        # scores += self.queryset_ranker(best_rated, 10)
         top_score = scores.most_common(1)[0][1]
         return [d for d in documents if scores[d] == top_score]
 
