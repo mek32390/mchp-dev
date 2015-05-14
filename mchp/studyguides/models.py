@@ -62,48 +62,26 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         """
         documents = self.event.documents.all()
 
-        most_recent = documents.order_by('create_date')
-        best_rated = sorted(documents, key=methodcaller('rating'))
-        # best_rated = documents.annotate(
-        #         rating=models.Sum(models.F('up') - models.F('down'))
-        #     ).order_by('rating')
-        most_purchased = documents.annotate(purchases=models.Count('purchased_document')).order_by('purchases')
-
         # get all enrollments (student and join date)
         enrollments = Enrollment.objects.filter(
             course=self.event.calendar.course)
+  
+        scores = utils.rank(documents, None)
 
-        enrollmentsdict = {e.student:e.join_date for e in enrollments}
-
-
-        enrolled_students = utils.students_for_event(self.event)
-        uploader_in_class_documents = documents.filter(
-            upload__owner__in=enrolled_students)
-        # for u in uploader_in_class_documents:
-        #     # documents
-
-        # course = self.event.calendar.course
-        # uploader_in_class = documents.filter(
-        #     upload__owner__enrollments__course__in=course).order_by(
-        #     'join_date')
-
-        # start with a default score of 100
-        scores = utils.rank(documents, None, score=0)
-
-        scores += utils.rank(most_recent,
-                             lambda i: i.create_date,
+        scores += utils.rank(documents,
+                             lambda doc: doc.create_date,
                              score=40)
 
-        scores += utils.rank(most_purchased,
-                             lambda i: i.purchased_document.count(),
+        scores += utils.rank(documents,
+                             lambda doc: doc.purchased_document.count(),
                              score=30)
 
-        # scores += utils.rank(most_involved,
-        #                      lambda i: i.join_date,
-        #                      score=20)
+        scores += utils.rank(documents,
+                             lambda doc: enrollments.get(student=doc.upload.owner).join_date,
+                             score=20)
 
-        scores += utils.rank(best_rated,
-                             lambda i: i.rating(),
+        scores += utils.rank(documents,
+                             lambda doc: doc.rating(),
                              score=10)
 
 
