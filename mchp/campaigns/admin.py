@@ -21,8 +21,8 @@ class CampaignTemplateAdmin(admin.ModelAdmin):
 
 class CampaignSubscribersInline(admin.TabularInline):
     model = models.CampaignSubscriber
-    extra = 1
-    fields = ('user', 'notified', 'opens', 'clicks')
+    extra = 0
+    fields = ('user', 'uuid', 'notified', 'opened', 'clicked', 'unsubscribed')
     # ordering = ('student__user__username',)  # [TODO]
 
 

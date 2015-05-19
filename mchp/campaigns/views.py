@@ -1,32 +1,36 @@
+from django.db.models import F
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from .models import Subscriber
+from django.shortcuts import get_object_or_404, redirect
+from django.utils import timezone
+from .models import CampaignSubscriber
 
-def campaign_open(request, token):
+
+def campaign_click(request, uuid):
+    """ Subscriber clicked through from an e-mail.
+
+    """
+    subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
+    subscriber.clicked = timezone.now()
+    subscriber.save(update_fields=['clicked'])
+    url = request.GET.get('next', 'landing_page')
+    return redirect(url)
+
+
+def campaign_open(request, uuid):
     """ Subscriber opened an e-mail.
 
     """
-    subscriber = Subscriber.objects.get_object_or_404(token=token)
-    subscriber.opens += 1
-    subscriber.save(updated_fields=['opens'])
-    return HttpResponse()
+    subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
+    subscriber.opened = timezone.now()
+    subscriber.save(update_fields=['opened'])
+    return redirect('landing_page')
 
 
-def campaign_click(request, token):
-    """ Subscriber clicked through.
-
-    """
-    subscriber = Subscriber.objects.get_object_or_404(token=token)
-    subscriber.clicks += 1
-    subscriber.save(updated_fields=['clicks'])
-    return HttpResponse()
-
-
-def campaign_unsubscribe(request, token):
-    """ Subscriber unsubscribed.  :'(
+def campaign_unsubscribe(request, uuid):
+    """ Subscriber unsubscribed from an e-mail.
 
     """
-    subscriber = Subscriber.objects.get_object_or_404(token=token)
-    subscriber.unsubscribes += 1
-    subscriber.save(updated_fields=['unsubscribes'])
-    return HttpResponse()
+    subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
+    subscriber.unsubscribed = timezone.now()
+    subscriber.save(update_fields=['unsubscribed'])
+    return HttpResponse('You have been unsubscribed successfully.')

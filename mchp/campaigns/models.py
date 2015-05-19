@@ -12,11 +12,6 @@ import uuid
 
 # all campaigns will be sent from this email address
 CAMPAIGN_FROM_EMAIL = 'mchp <study@mycollegehomepage.com>'
-CAMPAIGN_SUBSCRIBER_BACKING = settings.AUTH_USER_MODEL
-
-def uuid_default():
-    return uuid.uuid4().hex
-
 
 
 class BaseCampaignSubscriber(models.Model):
@@ -28,19 +23,19 @@ class BaseCampaignSubscriber(models.Model):
         The campaign associated with this subscriber.
     notified : django.db.models.DateTimeField, optional
         When was this user notified?
-    opens : django.db.models.PositiveIntegerField
-        How many opens has this user generated?
-    clicks : django.db.models.PositiveIntegerField
-        How many click-throughs has this user generated?
-    unsubscribes : django.db.models.PositiveIntegerField
-        How many unsubscribes has this user generated?
+    clicked : django.db.models.DateTimeField, optional
+        When did this user first click through the e-mail?
+    opened : django.db.models.DateTimeField, optional
+        When did this user first open the e-mail?
+    unsubscribed : django.db.models.DateTimeField, optional
+        When did this user first unsubscribe from the e-mail?
 
     """
     campaign = models.ForeignKey('Campaign', related_name='subscribers')
+    clicked = models.DateTimeField(blank=True, null=True)
     notified = models.DateTimeField(blank=True, null=True)
-    opens = models.PositiveIntegerField(default=0)
-    clicks = models.PositiveIntegerField(default=0)
-    unsubscribes = models.PositiveIntegerField(default=0)
+    opened = models.DateTimeField(blank=True, null=True)
+    unsubscribed = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -49,12 +44,6 @@ class BaseCampaignSubscriber(models.Model):
         """ Mark subscriber as notified now. """
         self.notified = timezone.now()
         self.save(update_fields=['notified'])
-
-    def is_notified(self):
-        """ Has this user been notified?
-
-        """
-        return self.notified is not None
 
 
 class CampaignSubscriber(BaseCampaignSubscriber):
@@ -66,8 +55,8 @@ class CampaignSubscriber(BaseCampaignSubscriber):
         A user account backing this subscriber.
 
     """
-    user = models.ForeignKey(CAMPAIGN_SUBSCRIBER_BACKING)
-    uuid = models.CharField(max_length=32, default=uuid_default)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    uuid = models.CharField(max_length=32, unique=True, default=lambda: uuid.uuid4().hex)
     objects = managers.SubscriberManager()
 
     class Meta:
@@ -146,8 +135,7 @@ class BaseCampaign(models.Model):
     or if `until` is past.
 
     """
-    when = models.DateTimeField("campaign start", blank=True, null=True,
-        help_text='If field is unset, this campaign will be disabled.')  # noqa
+    when = models.DateTimeField("campaign start")
     until = models.DateTimeField("campaign end", blank=True, null=True)
 
     class Meta:
@@ -162,7 +150,7 @@ class BaseCampaign(models.Model):
             `True` if this campaign is active, `False` otherwise.
 
         """
-        if self.when and self.when <= timezone.now():
+        if self.when <= timezone.now():
             if not self.until or self.until >= timezone.now():
                 return True
         return False
@@ -201,28 +189,6 @@ class BaseCampaign(models.Model):
         """
         if self.active():
             self._blast(force=force, context=context)
-
-
-class Campaign(BaseCampaign):
-    """ Concrete campaign class.
-
-    Attributes
-    ----------
-    name : django.db.models.CharField
-        An internal name to identify this campaign.
-    template : django.db.models.ForeignKey
-        A template associated with this campaign.
-
-    """
-    name = models.CharField(max_length=255)
-    template = models.ForeignKey(CampaignTemplate)
-    objects = managers.CampaignManager()
-
-    class Meta:
-        ordering = ('name',)
-
-    def __str__(self):
-        return self.name
 
     def opens(self):
         """ How many opens has this campaign accumulated? """
@@ -282,6 +248,28 @@ class Campaign(BaseCampaign):
                 else:
                     recipient.mark_notified()
             connection.close()
+
+
+class Campaign(BaseCampaign):
+    """ Concrete campaign class.
+
+    Attributes
+    ----------
+    name : django.db.models.CharField
+        An internal name to identify this campaign.
+    template : django.db.models.ForeignKey
+        A template associated with this campaign.
+
+    """
+    name = models.CharField(max_length=255)
+    template = models.ForeignKey(CampaignTemplate)
+    objects = managers.CampaignManager()
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
 
     def _message(self, recipient, connection, context=None):
         """ Build and send a single message from a campaign.
