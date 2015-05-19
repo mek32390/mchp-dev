@@ -7,10 +7,16 @@ from . import managers
 
 import smtplib
 from . import utils
+import uuid
+
 
 # all campaigns will be sent from this email address
 CAMPAIGN_FROM_EMAIL = 'mchp <study@mycollegehomepage.com>'
 CAMPAIGN_SUBSCRIBER_BACKING = settings.AUTH_USER_MODEL
+
+def uuid_default():
+    return uuid.uuid4().hex
+
 
 
 class BaseCampaignSubscriber(models.Model):
@@ -61,7 +67,7 @@ class CampaignSubscriber(BaseCampaignSubscriber):
 
     """
     user = models.ForeignKey(CAMPAIGN_SUBSCRIBER_BACKING)
-
+    uuid = models.CharField(max_length=32, default=uuid_default)
     objects = managers.SubscriberManager()
 
     class Meta:
