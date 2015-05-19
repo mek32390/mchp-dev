@@ -15,9 +15,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Campaign',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
-                ('when', models.DateTimeField(verbose_name='campaign start', null=True, help_text='If field is unset, this campaign will be disabled.', blank=True)),
-                ('until', models.DateTimeField(verbose_name='campaign end', null=True, blank=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('when', models.DateTimeField(help_text='If field is unset, this campaign will be disabled.', null=True, blank=True, verbose_name='campaign start')),
+                ('until', models.DateTimeField(null=True, blank=True, verbose_name='campaign end')),
                 ('name', models.CharField(max_length=255)),
             ],
             options={
@@ -28,10 +28,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignSubscriber',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('notified', models.DateTimeField(null=True, blank=True)),
                 ('opens', models.PositiveIntegerField(default=0)),
                 ('clicks', models.PositiveIntegerField(default=0)),
+                ('unsubscribes', models.PositiveIntegerField(default=0)),
                 ('campaign', models.ForeignKey(related_name='subscribers', to='campaigns.Campaign')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
@@ -42,11 +43,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignTemplate',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('subject', models.CharField(max_length=255)),
                 ('body', models.TextField(blank=True)),
                 ('name', models.CharField(max_length=255, unique=True)),
-                ('slug', models.SlugField(max_length=255, unique=True, help_text='Used by the campaign automailer.  Change with caution!')),
+                ('slug', models.SlugField(help_text='Used by the campaign automailer.  Change with caution!', max_length=255, unique=True)),
             ],
             options={
                 'ordering': ('name',),

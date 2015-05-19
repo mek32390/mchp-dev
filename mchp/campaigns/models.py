@@ -22,19 +22,19 @@ class BaseCampaignSubscriber(models.Model):
         The campaign associated with this subscriber.
     notified : django.db.models.DateTimeField, optional
         When was this user notified?
-    # did_unsubscribe : django.db.models.BooleanField
-    #     Has this user unsubscribed?
     opens : django.db.models.PositiveIntegerField
         How many opens has this user generated?
     clicks : django.db.models.PositiveIntegerField
         How many click-throughs has this user generated?
+    unsubscribes : django.db.models.PositiveIntegerField
+        How many unsubscribes has this user generated?
 
     """
     campaign = models.ForeignKey('Campaign', related_name='subscribers')
     notified = models.DateTimeField(blank=True, null=True)
-    # unsubscribed = models.BooleanField(default=True)
     opens = models.PositiveIntegerField(default=0)
     clicks = models.PositiveIntegerField(default=0)
+    unsubscribes = models.PositiveIntegerField(default=0)
 
     class Meta:
         abstract = True
@@ -234,13 +234,13 @@ class Campaign(BaseCampaign):
         """ How many subscribers have clicked through their messages? """
         return self.subscribers.objects.exclude(clicks=0).count()
 
-    # def unsubscribes(self):
-    #     """ How many unsubscribes has this campaign accumulated? """
-    #     return self.subscribers.objects.aggregate(models.Sum('unsubscribes'))
+    def unsubscribes(self):
+        """ How many unsubscribes has this campaign accumulated? """
+        return self.subscribers.objects.aggregate(models.Sum('unsubscribes')).sum
 
-    # def unsubscribed(self):
-    #     """ How many subscribers have unsubscribed from their messages? """
-    #     return self.subscribers.objects.filter(unsubscribes__gt=0).count()
+    def unsubscribed(self):
+        """ How many subscribers have unsubscribed from their messages? """
+        return self.subscribers.objects.exclude(clicks=0).count()
 
     def _blast(self, context=None, force=False):
         """ Send a blast to this campaign if it is active.
