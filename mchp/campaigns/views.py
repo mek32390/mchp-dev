@@ -3,7 +3,10 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from .models import CampaignSubscriber
+from .utils import beacon
 
+
+OPEN_BEACON = beacon()
 
 def campaign_click(request, uuid):
     """ Subscriber clicked through from an e-mail.
@@ -23,7 +26,7 @@ def campaign_open(request, uuid):
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
     subscriber.opened = timezone.now()
     subscriber.save(update_fields=['opened'])
-    return redirect('landing_page')
+    return HttpResponse(OPEN_BEACON, content_type="image/png")
 
 
 def campaign_unsubscribe(request, uuid):

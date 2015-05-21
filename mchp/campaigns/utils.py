@@ -1,5 +1,6 @@
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
+import uuid
 
 
 def make_email_message(subject, body, sender, recipient, connection):
@@ -24,3 +25,18 @@ def make_email_message(subject, body, sender, recipient, connection):
                                  connection=connection)
     msg.attach_alternative(body, "text/html")
     return msg
+
+
+def make_uuid():
+    lambda: uuid.uuid4().hex
+
+
+def beacon():
+    try:
+        # [TODO] don't hardcode this
+        valid_image = "campaigns/static/campaigns/beacon.png"
+        with open(valid_image, "rb") as f:
+            return f.read()
+    except IOError:
+        pass
+    return None

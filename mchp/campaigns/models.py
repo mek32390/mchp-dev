@@ -7,7 +7,6 @@ from . import managers
 
 import smtplib
 from . import utils
-import uuid
 
 
 # all campaigns will be sent from this email address
@@ -32,8 +31,8 @@ class BaseCampaignSubscriber(models.Model):
 
     """
     campaign = models.ForeignKey('Campaign', related_name='subscribers')
-    clicked = models.DateTimeField(blank=True, null=True)
     notified = models.DateTimeField(blank=True, null=True)
+    clicked = models.DateTimeField(blank=True, null=True)
     opened = models.DateTimeField(blank=True, null=True)
     unsubscribed = models.DateTimeField(blank=True, null=True)
 
@@ -56,7 +55,7 @@ class CampaignSubscriber(BaseCampaignSubscriber):
 
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    uuid = models.CharField(max_length=32, unique=True, default=lambda: uuid.uuid4().hex)
+    uuid = models.CharField(max_length=32, unique=True, default=utils.make_uuid)
     objects = managers.SubscriberManager()
 
     class Meta:
@@ -190,29 +189,17 @@ class BaseCampaign(models.Model):
         if self.active():
             self._blast(force=force, context=context)
 
-    def opens(self):
-        """ How many opens has this campaign accumulated? """
-        return self.subscribers.objects.aggregate(sum=models.Sum('clicks')).sum
+    def clicked(self):
+        """ How many subscribers have clicked through their messages? """
+        return self.subscribers.objects.exclude(clicked=None).count()
 
     def opened(self):
         """ How many subscribers have opened their messages? """
-        return self.subscribers.objects.exclude(opens=0).count()
-
-    def clicks(self):
-        """ How many click-throughs has this campaign accumulated? """
-        return self.subscribers.objects.aggregate(sum=models.Sum('clicks')).sum
-
-    def clicked(self):
-        """ How many subscribers have clicked through their messages? """
-        return self.subscribers.objects.exclude(clicks=0).count()
-
-    def unsubscribes(self):
-        """ How many unsubscribes has this campaign accumulated? """
-        return self.subscribers.objects.aggregate(models.Sum('unsubscribes')).sum
+        return self.subscribers.objects.exclude(opened=None).count()
 
     def unsubscribed(self):
         """ How many subscribers have unsubscribed from their messages? """
-        return self.subscribers.objects.exclude(clicks=0).count()
+        return self.subscribers.objects.exclude(unsubscribed=None).count()
 
     def _blast(self, context=None, force=False):
         """ Send a blast to this campaign if it is active.
