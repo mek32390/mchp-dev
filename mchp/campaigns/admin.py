@@ -23,7 +23,7 @@ class CampaignSubscribersInline(admin.TabularInline):
     model = models.CampaignSubscriber
     extra = 0
     fields = ('user', 'uuid', 'notified', 'opened', 'clicked', 'unsubscribed')
-    # ordering = ('student__user__username',)  # [TODO]
+    ordering = ('user__username',)
 
 
 @admin.register(models.Campaign)

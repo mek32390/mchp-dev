@@ -36,4 +36,5 @@ def campaign_unsubscribe(request, uuid):
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
     subscriber.unsubscribed = timezone.now()
     subscriber.save(update_fields=['unsubscribed'])
+    # [TODO] proper unsubscribe page
     return HttpResponse('You have been unsubscribed successfully.')

@@ -55,7 +55,10 @@ class CampaignSubscriber(BaseCampaignSubscriber):
 
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    uuid = models.CharField(max_length=32, unique=True, default=utils.make_uuid)
+    uuid = models.CharField(max_length=32,
+                            unique=True,
+                            editable=True,
+                            default=utils.make_uuid)
     objects = managers.SubscriberManager()
 
     class Meta:

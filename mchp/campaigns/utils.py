@@ -28,7 +28,7 @@ def make_email_message(subject, body, sender, recipient, connection):
 
 
 def make_uuid():
-    lambda: uuid.uuid4().hex
+    return uuid.uuid4().hex
 
 
 def beacon():
