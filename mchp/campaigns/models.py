@@ -6,7 +6,7 @@ from django.conf import settings
 from . import managers
 
 import smtplib
-from . import utils
+from .utils import make_uuid, make_email_message
 
 
 # all campaigns will be sent from this email address
@@ -18,8 +18,8 @@ class BaseCampaignSubscriber(models.Model):
 
     Attributes
     ----------
-    campaign : django.db.models.ForeignKey
-        The campaign associated with this subscriber.
+    uuid : django.db.models.CharField
+        A universally-unique identifier for the user.
     notified : django.db.models.DateTimeField, optional
         When was this user notified?
     clicked : django.db.models.DateTimeField, optional
@@ -30,7 +30,7 @@ class BaseCampaignSubscriber(models.Model):
         When did this user first unsubscribe from the e-mail?
 
     """
-    campaign = models.ForeignKey('Campaign', related_name='subscribers')
+    uuid = models.CharField(max_length=32, unique=True, default=make_uuid)
     notified = models.DateTimeField(blank=True, null=True)
     clicked = models.DateTimeField(blank=True, null=True)
     opened = models.DateTimeField(blank=True, null=True)
@@ -52,12 +52,12 @@ class CampaignSubscriber(BaseCampaignSubscriber):
     ----------
     user : django.db.models.ForeignKey
         A user account backing this subscriber.
+    campaign : django.db.models.ForeignKey
+        The campaign associated with this subscriber.
 
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    uuid = models.CharField(max_length=32,
-                            unique=True,
-                            default=utils.make_uuid)
+    campaign = models.ForeignKey('Campaign', related_name='subscribers')
     objects = managers.SubscriberManager()
 
     class Meta:
@@ -217,7 +217,7 @@ class BaseCampaign(models.Model):
         """
         # [TODO] Would be nice to move these few lines to superclass blast(),
         #        but blast() can't currently assume existence of subscribers.
-        recipients = self.subscribers.all()
+        recipients = self.subscribers.filter(unsubscribed=None)
         if not force:
             recipients = recipients.filter(notified__isnull=True)
 
@@ -278,5 +278,5 @@ class Campaign(BaseCampaign):
         subject = self.template.subject_template.render(context)
         body = self.template.body_template.render(context)
 
-        return utils.make_email_message(subject, body, CAMPAIGN_FROM_EMAIL,
+        return make_email_message(subject, body, CAMPAIGN_FROM_EMAIL,
                                         recipient, connection)
