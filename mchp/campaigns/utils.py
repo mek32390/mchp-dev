@@ -32,6 +32,9 @@ def make_uuid():
 
 
 def beacon():
+    """ Return the data inside the beacon PNG.
+
+    """
     try:
         # [TODO] don't hardcode this
         valid_image = "campaigns/static/campaigns/beacon.png"
@@ -40,3 +43,16 @@ def beacon():
     except IOError:
         pass
     return None
+
+
+def make_display_email(address, name=None):
+    """ Create a display e-mail adress, such as:
+
+        mchp <study@mycollegehomepage.com>
+
+    """
+    if name:
+        name = name.replace('"', '\\"')
+        return '{} <{}>'.format(name, address)
+    else:
+        return address

@@ -6,11 +6,7 @@ from django.conf import settings
 from . import managers
 
 import smtplib
-from .utils import make_uuid, make_email_message
-
-
-# all campaigns will be sent from this email address
-CAMPAIGN_FROM_EMAIL = 'mchp <study@mycollegehomepage.com>'
+from . import utils
 
 
 class BaseCampaignSubscriber(models.Model):
@@ -30,7 +26,8 @@ class BaseCampaignSubscriber(models.Model):
         When did this user first unsubscribe from the e-mail?
 
     """
-    uuid = models.CharField(max_length=32, unique=True, default=make_uuid)
+    uuid = models.CharField(max_length=32, unique=True,
+                            default=utils.make_uuid)
     notified = models.DateTimeField(blank=True, null=True)
     clicked = models.DateTimeField(blank=True, null=True)
     opened = models.DateTimeField(blank=True, null=True)
@@ -157,25 +154,6 @@ class BaseCampaign(models.Model):
         return False
     active.boolean = True
 
-    def _blast(self, force=False, context=None):
-        """ Must override.
-
-        Parameters
-        ----------
-        context : dict, optional
-            A dictionary to turn into context variables for the message.
-        force : bool, optional
-            `True` to notify subscribers who have already been notified,
-            `False` otherwise.  Default `False`.
-
-        Raises
-        ------
-        NotImplementedError
-            If this method is not overridden.
-
-        """
-        return NotImplementedError
-
     def blast(self, force=False, context=None):
         """ Send a blast to this campaign.
 
@@ -213,14 +191,14 @@ class BaseCampaign(models.Model):
         force : bool, optional
             `True` to notify subscribers who have already been notified,
             `False` otherwise.  Default `False`.
+            [TODO] remove this arg?
 
         """
         # [TODO] Would be nice to move these few lines to superclass blast(),
         #        but blast() can't currently assume existence of subscribers.
-        recipients = self.subscribers.filter(unsubscribed=None)
+        recipients = self.subscribers.all()  # filter(unsubscribed=None)
         if not force:
             recipients = recipients.filter(notified__isnull=True)
-
         if recipients:
             connection = get_connection()
             connection.open()
@@ -248,10 +226,18 @@ class Campaign(BaseCampaign):
         An internal name to identify this campaign.
     template : django.db.models.ForeignKey
         A template associated with this campaign.
+    sender : django.db.models.EmailField
+        An e-mail address for the sender.
+    sender_name : django.db.models.CharField, optional
+        A name for the sender.  Will be escaped as necessary.
+    objects : django.db.models.Manager
+        A model manager for this class.
 
     """
     name = models.CharField(max_length=255)
     template = models.ForeignKey(CampaignTemplate)
+    sender = models.EmailField(max_length=254)
+    sender_name = models.CharField(max_length=254, blank=True)
     objects = managers.CampaignManager()
 
     class Meta:
@@ -278,5 +264,8 @@ class Campaign(BaseCampaign):
         subject = self.template.subject_template.render(context)
         body = self.template.body_template.render(context)
 
-        return make_email_message(subject, body, CAMPAIGN_FROM_EMAIL,
+        return utils.make_email_message(subject, body,
+                                        utils.make_display_email(
+                                            self.sender,
+                                            self.sender_name),
                                         recipient, connection)

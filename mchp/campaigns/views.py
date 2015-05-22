@@ -1,4 +1,3 @@
-from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
@@ -8,7 +7,8 @@ from .utils import beacon
 
 OPEN_BEACON = beacon()
 
-def campaign_click(request, uuid):
+
+def clicked(request, uuid):
     """ Subscriber clicked through from an e-mail.
 
     """
@@ -19,7 +19,7 @@ def campaign_click(request, uuid):
     return redirect(url)
 
 
-def campaign_open(request, uuid):
+def opened(request, uuid):
     """ Subscriber opened an e-mail.
 
     """
@@ -29,12 +29,12 @@ def campaign_open(request, uuid):
     return HttpResponse(OPEN_BEACON, content_type="image/png")
 
 
-def campaign_unsubscribe(request, uuid):
+def unsubscribed(request, uuid):
     """ Subscriber unsubscribed from an e-mail.
 
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
     subscriber.unsubscribed = timezone.now()
     subscriber.save(update_fields=['unsubscribed'])
-    # [TODO] proper unsubscribe page
-    return HttpResponse('You have been unsubscribed successfully.')
+    url = request.GET.get('next', 'landing_page')
+    return redirect(url)

@@ -14,4 +14,4 @@ class CampaignManager(models.Manager):
 
         """
         now = timezone.now()
-        return self.get_queryset().filter(when__lte=now, until__gte=now)
+        return self.get_queryset().exclude(when__gt=now, until__lt=now)

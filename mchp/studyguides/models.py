@@ -4,13 +4,9 @@ from campaigns.models import (BaseCampaign, Campaign,
                               CampaignSubscriber, CampaignTemplate)
 from calendar_mchp.models import CalendarEvent
 from documents.models import Document
-from operator import methodcaller
 
 from schedule.models import Enrollment
-import smtplib
 from . import utils
-
-
 
 
 class StudyGuideCampaignCoordinator(BaseCampaign):
@@ -156,6 +152,8 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
             campaign = Campaign.objects.create(
                 name=self._new_campaign_name(),
                 template=template,
+                sender='study@mycollegehomepage.com',
+                sender_name='mchp',
                 when=timezone.now(),
                 until=self.event.start)
             self.campaigns.add(campaign)
@@ -163,4 +161,5 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         self._update_subscribers()
         self.updated = timezone.now()
         self.save(update_fields=['updated'])
-###NOTES:SHOULD BE ABLE TO DELETE ALL RELATED CAMPAIGNS WHEN DELETING COORDINATOR
+
+### [TODO] SHOULD BE ABLE TO DELETE ALL RELATED CAMPAIGNS WHEN DELETING COORDINATOR

@@ -5,6 +5,7 @@ from datetime import timedelta
 # from . import models
 from calendar_mchp.models import CalendarEvent
 from schedule.models import Enrollment
+from django.shortcuts import get_object_or_404
 
 
 def upcoming_events():
@@ -22,6 +23,13 @@ def upcoming_events():
     return [event for event in events
             if now > event.start - timedelta(minutes=event.notify_lead)]
 
+
+def unsubscribe_student(event, subscriber):
+    enrollment = get_object_or_404(Enrollment,
+                                   student=subscriber.student,
+                                   course=event.calendar.course)
+    enrollment.receive_email = False
+    enrollment.save(update_fields=['receive_email'])
 
 # def campaign_for_event(event):
 #     """ Create a campaign for an event.
@@ -66,6 +74,7 @@ def students_for_event(event):
     enrollments = Enrollment.objects.filter(course=event.calendar.course,
                                             receive_email=True)
     return [e.student for e in enrollments if e.student.user.is_active]
+
 
 def rank(items, key, score=1):
     """ Create a Counter and rank items.
