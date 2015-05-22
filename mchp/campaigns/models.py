@@ -194,8 +194,6 @@ class BaseCampaign(models.Model):
             [TODO] remove this arg?
 
         """
-        # [TODO] Would be nice to move these few lines to superclass blast(),
-        #        but blast() can't currently assume existence of subscribers.
         recipients = self.subscribers.all()  # filter(unsubscribed=None)
         if not force:
             recipients = recipients.filter(notified__isnull=True)
