@@ -1,12 +1,68 @@
 from django.db import models
 from django.utils import timezone
-from campaigns.models import (BaseCampaign, Campaign,
-                              CampaignSubscriber, CampaignTemplate)
+from campaigns.models import (BaseCampaign, Campaign, CampaignSubscriber)
 from calendar_mchp.models import CalendarEvent
 from documents.models import Document
+from django.template import Context, Template
+from django.template.loader import get_template
 
 from schedule.models import Enrollment
 from . import utils
+
+
+class StudyGuideCampaign(BaseCampaign):
+    """ Concrete campaign class.
+
+    Attributes
+    ----------
+    name : django.db.models.CharField
+        An internal name to identify this campaign.
+    template : django.db.models.CharField
+        A template associated with this campaign.
+    subject : django.db.models.CharField
+        A subject line associated with this campaign.
+    sender_name : django.db.models.CharField, optional
+        A name for the sender.  Will be escaped as necessary.
+
+    """
+    name = models.CharField(max_length=255)
+    template = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
+    sender_name = models.CharField(max_length=254, blank=True)
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+
+    def _message(self, recipient, connection, context=None):
+        """ Build and send a single message from a campaign.
+
+        Parameters
+        ----------
+        recipient : str
+            An e-mail address (and optional name) to which to send.
+        connection : django.core.mail.backends.console.EmailBackend
+            A connection with which to send the message.
+        context : dict, optional
+            A dictionary to turn into context variables for the message.
+
+        """
+        context = Context(context)
+
+        subject = get_template(self.template).subject_template.render(context)
+        body = Template(self.subject).render(context)
+
+        return utils.make_email_message(subject, body,
+                                        utils.make_display_email(
+                                            self.sender,
+                                            self.sender_name),
+                                        recipient, connection)
+
+    def unsubscribed(self):
+        """ How many subscribers have unsubscribed from their messages? """
+        return self.subscribers.objects.exclude(unsubscribed=None).count()
 
 
 class StudyGuideCampaignCoordinator(BaseCampaign):
@@ -19,7 +75,7 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
 
     """
 
-    campaigns = models.ManyToManyField(Campaign,
+    campaigns = models.ManyToManyField(StudyGuideCampaign,
                                        # related_name='+',
                                        blank=True,
                                        null=True)
@@ -30,10 +86,8 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
     updated = models.DateTimeField(blank=True, null=True)
     event = models.ForeignKey(CalendarEvent, unique=True)
 
-    REQUEST_TEMPLATE_SLUG = 'study-guide-request'
-    PUBLISH_TEMPLATE_SLUG = 'study-guide-publish'
-    # REQUEST_TEMPLATE = 'campaigns/request_for_study_guide.html'
-    # PUBLISH_TEMPLATE = 'campaigns/study_guide.html'
+    REQUEST_TEMPLATE = 'campaigns/request_for_study_guide.html'
+    PUBLISH_TEMPLATE = 'campaigns/study_guide.html'
 
     def __str__(self):
         return str(self.event)
@@ -44,14 +98,6 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         """
         return str(self)
 
-    def queryset_ranker(self, queryset, score):
-        counter = Counter(queryset)
-        last_score = score
-        for element in queryset:
-            position += 1  # for different weightings, could multiply, etc.
-            counter[element] += score * position
-        return counter
-
     def _filter_current_documents(self):
         """ Return likely primary document candidates.
 
@@ -61,7 +107,7 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         # get all enrollments (student and join date)
         enrollments = Enrollment.objects.filter(
             course=self.event.calendar.course)
-  
+
         scores = utils.rank(documents, None)
 
         scores += utils.rank(documents,
@@ -73,7 +119,8 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
                              score=30)
 
         scores += utils.rank(documents,
-                             lambda doc: enrollments.get(student=doc.upload.owner).join_date,
+                             lambda doc: enrollments.get(
+                                 student=doc.upload.owner).join_date,
                              score=20)
 
         scores += utils.rank(documents,
@@ -83,7 +130,6 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         print('DEBUG: SCORES = ' + str(scores))
         top_score = scores.most_common(1)[0][1]
         return [d for d in documents if scores[d] == top_score]
-
 
     def _update_subscribers(self):
         """ Update subscribers for the active campaign.
@@ -143,15 +189,13 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
             self._deactivate_campaigns()
 
             if not self.event.documents.count():
-                template_slug = self.REQUEST_TEMPLATE_SLUG
+                template_name = self.REQUEST_TEMPLATE
             else:
-                template_slug = self.PUBLISH_TEMPLATE_SLUG
-
-            template = CampaignTemplate.objects.get(slug=template_slug)
+                template_name = self.PUBLISH_TEMPLATE
 
             campaign = Campaign.objects.create(
                 name=self._new_campaign_name(),
-                template=template,
+                template=template_name,
                 sender='study@mycollegehomepage.com',
                 sender_name='mchp',
                 when=timezone.now(),
