@@ -16,6 +16,8 @@ class BaseCampaignSubscriber(models.Model):
     ----------
     uuid : django.db.models.CharField
         A universally-unique identifier for the user.
+    user : django.db.models.ForeignKey
+        A user account backing this subscriber.
     notified : django.db.models.DateTimeField, optional
         When was this user notified?
     clicked : django.db.models.DateTimeField, optional
@@ -28,6 +30,7 @@ class BaseCampaignSubscriber(models.Model):
     """
     uuid = models.CharField(max_length=32, unique=True,
                             default=utils.make_uuid)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     notified = models.DateTimeField(blank=True, null=True)
     clicked = models.DateTimeField(blank=True, null=True)
     opened = models.DateTimeField(blank=True, null=True)
@@ -35,6 +38,9 @@ class BaseCampaignSubscriber(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return self.user.get_full_name()
 
     def mark_notified(self):
         """ Mark subscriber as notified now. """
@@ -47,21 +53,15 @@ class CampaignSubscriber(BaseCampaignSubscriber):
 
     Attributes
     ----------
-    user : django.db.models.ForeignKey
-        A user account backing this subscriber.
     campaign : django.db.models.ForeignKey
         The campaign associated with this subscriber.
 
     """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     campaign = models.ForeignKey('Campaign', related_name='subscribers')
-    objects = managers.SubscriberManager()
+    objects = managers.CampaignSubscriberManager()
 
     class Meta:
         unique_together = ('campaign', 'user')
-
-    def __str__(self):
-        return self.user.get_full_name()
 
 
 class BaseCampaignTemplate(models.Model):
@@ -122,10 +122,14 @@ class BaseCampaign(models.Model):
 
     Attributes
     ----------
+    sender : django.db.models.EmailField
+        An e-mail address for the sender.
     when : django.db.models.DateTimeField, optional
         When does this campaign start?
     until : django.db.models.DateTimeField
         When does this campaign end?
+    objects : django.db.models.Manager
+        A model manager for this class.
 
     Notes
     -----
@@ -133,8 +137,10 @@ class BaseCampaign(models.Model):
     or if `until` is past.
 
     """
+    sender = models.EmailField(max_length=254)
     when = models.DateTimeField("campaign start")
     until = models.DateTimeField("campaign end", blank=True, null=True)
+    objects = managers.CampaignManager()
 
     class Meta:
         abstract = True
@@ -154,7 +160,7 @@ class BaseCampaign(models.Model):
         return False
     active.boolean = True
 
-    def blast(self, force=False, context=None):
+    def blast(self, context=None, force=False):
         """ Send a blast to this campaign.
 
         Parameters
@@ -167,7 +173,7 @@ class BaseCampaign(models.Model):
 
         """
         if self.active():
-            self._blast(force=force, context=context)
+            self._blast(context=context, force=force)
 
     def clicked(self):
         """ How many subscribers have clicked through their messages? """
@@ -194,9 +200,9 @@ class BaseCampaign(models.Model):
             [TODO] remove this arg?
 
         """
-        recipients = self.subscribers.all()  # filter(unsubscribed=None)
+        recipients = self.subscribers.all()
         if not force:
-            recipients = recipients.filter(notified__isnull=True)
+            recipients = recipients.filter(notified=None)
         if recipients:
             connection = get_connection()
             connection.open()
@@ -224,19 +230,13 @@ class Campaign(BaseCampaign):
         An internal name to identify this campaign.
     template : django.db.models.ForeignKey
         A template associated with this campaign.
-    sender : django.db.models.EmailField
-        An e-mail address for the sender.
     sender_name : django.db.models.CharField, optional
         A name for the sender.  Will be escaped as necessary.
-    objects : django.db.models.Manager
-        A model manager for this class.
 
     """
     name = models.CharField(max_length=255)
     template = models.ForeignKey(CampaignTemplate)
-    sender = models.EmailField(max_length=254)
     sender_name = models.CharField(max_length=254, blank=True)
-    objects = managers.CampaignManager()
 
     class Meta:
         ordering = ('name',)
