@@ -26,6 +26,8 @@ class BaseCampaignSubscriber(models.Model):
         When did this user first open the e-mail?
     unsubscribed : django.db.models.DateTimeField, optional
         When did this user first unsubscribe from the e-mail?
+    objects : django.db.models.Manager
+        A model manager for this class.
 
     """
     uuid = models.CharField(max_length=32, unique=True,
@@ -35,6 +37,7 @@ class BaseCampaignSubscriber(models.Model):
     clicked = models.DateTimeField(blank=True, null=True)
     opened = models.DateTimeField(blank=True, null=True)
     unsubscribed = models.DateTimeField(blank=True, null=True)
+    objects = managers.CampaignSubscriberManager()
 
     class Meta:
         abstract = True
@@ -58,7 +61,6 @@ class CampaignSubscriber(BaseCampaignSubscriber):
 
     """
     campaign = models.ForeignKey('Campaign', related_name='subscribers')
-    objects = managers.CampaignSubscriberManager()
 
     class Meta:
         unique_together = ('campaign', 'user')

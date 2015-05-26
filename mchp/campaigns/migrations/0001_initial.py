@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Campaign',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('sender', models.EmailField(max_length=254)),
                 ('when', models.DateTimeField(verbose_name='campaign start')),
                 ('until', models.DateTimeField(verbose_name='campaign end', blank=True, null=True)),
                 ('name', models.CharField(max_length=255)),
-                ('sender', models.EmailField(max_length=254)),
                 ('sender_name', models.CharField(blank=True, max_length=254)),
             ],
             options={
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignSubscriber',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
                 ('uuid', models.CharField(default=campaigns.utils.make_uuid, max_length=32, unique=True)),
                 ('notified', models.DateTimeField(blank=True, null=True)),
                 ('clicked', models.DateTimeField(blank=True, null=True)),
@@ -47,11 +47,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignTemplate',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
                 ('subject', models.CharField(max_length=255)),
                 ('body', models.TextField(blank=True)),
                 ('name', models.CharField(max_length=255, unique=True)),
-                ('slug', models.SlugField(help_text='Used by the campaign automailer.  Change with caution!', max_length=255, unique=True)),
+                ('slug', models.SlugField(max_length=255, help_text='Used by the campaign automailer.  Change with caution!', unique=True)),
             ],
             options={
                 'ordering': ('name',),

@@ -2,8 +2,8 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(models.StudyGuideCampaignCoordinator)
-class StudyGuideCampaignCoordinatorAdmin(admin.ModelAdmin):
+@admin.register(models.StudyGuideMetaCampaign)
+class StudyGuideMetaCampaignAdmin(admin.ModelAdmin):
     pass
     # list_display = ('name', 'template', 'active', 'when', 'until')
     # fieldsets = (

@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from campaigns.models import (BaseCampaign, Campaign, CampaignSubscriber)
+from campaigns.models import (BaseCampaign, BaseCampaignSubscriber)
 from calendar_mchp.models import CalendarEvent
 from documents.models import Document
 from django.template import Context, Template
@@ -8,6 +8,22 @@ from django.template.loader import get_template
 
 from schedule.models import Enrollment
 from . import utils
+
+
+class StudyGuideCampaignSubscriber(BaseCampaignSubscriber):
+    """ Subscriber in a campaign.
+
+    Attributes
+    ----------
+    campaign : django.db.models.ForeignKey
+        The campaign associated with this subscriber.
+
+    """
+    campaign = models.ForeignKey('StudyGuideCampaign',
+                                 related_name='subscribers')
+
+    class Meta:
+        unique_together = ('campaign', 'user')
 
 
 class StudyGuideCampaign(BaseCampaign):
@@ -65,7 +81,7 @@ class StudyGuideCampaign(BaseCampaign):
         return self.subscribers.objects.exclude(unsubscribed=None).count()
 
 
-class StudyGuideCampaignCoordinator(BaseCampaign):
+class StudyGuideMetaCampaign(BaseCampaign):
     """ Campaign builder for study guide mailings.
 
     Attributes
@@ -86,8 +102,8 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
     updated = models.DateTimeField(blank=True, null=True)
     event = models.ForeignKey(CalendarEvent, unique=True)
 
-    REQUEST_TEMPLATE = 'campaigns/request_for_study_guide.html'
-    PUBLISH_TEMPLATE = 'campaigns/study_guide.html'
+    REQUEST_TEMPLATE = 'studyguides/request_for_study_guide.html'
+    PUBLISH_TEMPLATE = 'studyguides/study_guide.html'
 
     def __str__(self):
         return str(self.event)
@@ -137,7 +153,7 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
         """
         campaign = self.campaigns.latest('when')
         for student in utils.students_for_event(self.event):
-            subscriber, created = CampaignSubscriber.objects.get_or_create(
+            subscriber, created = StudyGuideCampaignSubscriber.objects.get_or_create(
                 campaign=campaign,
                 user=student.user)
             if created:  # only add if it's not there already
@@ -193,7 +209,7 @@ class StudyGuideCampaignCoordinator(BaseCampaign):
             else:
                 template_name = self.PUBLISH_TEMPLATE
 
-            campaign = Campaign.objects.create(
+            campaign = StudyGuideCampaign.objects.create(
                 name=self._new_campaign_name(),
                 template=template_name,
                 sender='study@mycollegehomepage.com',
