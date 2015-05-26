@@ -961,10 +961,10 @@ body.outlook p {
                       <table class="twelve columns">
                         <tr>
                           <td>
-                            <p>Hi [Name,fallback=],</p>
-                						<p>A classmate in <a href="https://www.mycollegehomepage.com/school/course/1266/" target="_blank">[Class,fallback=]</a> has requested a Study Guide for the upcoming <a href="https://www.mycollegehomepage.com/school/course/1266/" target="_blank">[Class,fallback=]</a> test! We'll pay you <strong>$5 to upload this Study Guide, and you can earn $5 for each additional Study Guide</strong> you upload on mchp! Plus you'll continue to make money each time it's purchased. All of the document uploads on mchp are anonymous so your privacy is protected.</p>
+                            <p>Hi {{ recipient.user.get_short_name }},</p>
+                            <p>A classmate in <a href="https://www.mycollegehomepage.com/school/course/1266/" target="_blank">{{ event.calendar.course }}</a> has requested a Study Guide for the upcoming <a href="https://www.mycollegehomepage.com/school/course/1266/" target="_blank">{{ event.calendar.course }}</a> test! We'll pay you <strong>$5 to upload this Study Guide, and you can earn $5 for each additional Study Guide</strong> you upload on mchp! Plus you'll continue to make money each time it's purchased. All of the document uploads on mchp are anonymous so your privacy is protected.</p>
                             <p>We had several students cash out with <strong>over $200 for their uploads last semester!</strong> Plus, they'll continue to get paid each time any of their Study Guides are purchased for the rest of their lives!</p>
-                            <p>Get your <a href="https://www.mycollegehomepage.com/school/course/1266/" target="_blank">[Class,fallback=]</a> Study Guide up on mchp so your classmates can buy it, study it, and earn you money for the work you're already doing!</p>
+                            <p>Get your <a href="https://www.mycollegehomepage.com/school/course/1266/" target="_blank">{{ event.calendar.course }}</a> Study Guide up on mchp so your classmates can buy it, study it, and earn you money for the work you're already doing!</p>
                             <p>- mchp</p>
                             <br></br>
                               <table class="button round success">
@@ -1028,7 +1028,7 @@ body.outlook p {
                               </li>
                               <p></p>
                               <li>
-                                Copy the entire classlist, (First & Last Names, and E-mails if available) and <strong>paste it into an excel spreadsheet</strong> (Make each class it's own tab for clarity).
+                                Copy the entire classlist, (First &amp; Last Names, and E-mails if available) and <strong>paste it into an excel spreadsheet</strong> (Make each class it's own tab for clarity).
                               <p></p>
                                 If the list is weirdly formatted. Try pasting it in excel this way: "Right click" and then select, "Paste Special". Then select as "Text".
                               </li>
@@ -1079,8 +1079,8 @@ body.outlook p {
                       <table class="twelve columns">
                         <tr>
                           <td>
-                              <h6><a href="https://www.mycollegehomepage.com/help/" target="_blank">Help</a> | <a href="https://www.mycollegehomepage.com/privacy-policy/" target="_blank">Privacy</a> | <unsubscribe>Unsubscribe here</unsubscribe></h6>
-                              <h6>Copyright © MCHP LLC 2014, <em>All Rights Reserved</em></h6>
+                              <h6><a href="https://www.mycollegehomepage.com/help/" target="_blank">Help</a> | <a href="https://www.mycollegehomepage.com/privacy-policy/" target="_blank">Privacy</a> | <a href="{{ recipient|track_unsubscribe }}">Unsubscribe here</a></h6>
+                              <h6>Copyright &copy; MCHP LLC 2014, <em>All Rights Reserved</em></h6>
                           </td>
                           <td class="expander"></td>
                         </tr>

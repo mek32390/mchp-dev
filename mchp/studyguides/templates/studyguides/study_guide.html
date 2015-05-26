@@ -961,8 +961,8 @@ body.outlook p {
                       <table class="twelve columns">
                         <tr>
                           <td>
-                            <p>Hi [Name,fallback=],</p>
-                            <p>A classmate of yours uploaded a Study Guide for the <a href="https://www.mycollegehomepage.com/school/course/242/COMM318" target="_blank">[Class,fallback=]</a> test coming up. Here's a preview of it:<!-- <strong>This document is free, and we're testing out a new discussion feature with it.</strong> Here's more info on it: --><!-- <strong> 11 Classmates have studied it so far!</strong> --></p>
+                            <p>Hi {{ recipient.user.get_short_name }},</p>
+                            <p>A classmate of yours uploaded a Study Guide for the <a href="https://www.mycollegehomepage.com/school/course/242/COMM318" target="_blank">{{ event.calendar.course }}</a> test coming up. Here's a preview of it:<!-- <strong>This document is free, and we're testing out a new discussion feature with it.</strong> Here's more info on it: --><!-- <strong> 11 Classmates have studied it so far!</strong> --></p>
                             <!-- <a href="https://www.mycollegehomepage.com/demo/" target="_blank">
                               <img class="study-guide-img" src="http://mail.mycollegehomepage.com/uploads/1427943178.png">
                             </a> -->
@@ -999,7 +999,7 @@ body.outlook p {
                           <td>
 
                             <h4>FREE Exam 2 Study Guide + Discussion</h4>
-                            <p>Instructor [Instructor,fallback=]</p>
+                            <p>Instructor {{ event.calendar.course.professor }}</p>
                             <hr class="hr-sm">
                             <p>"A completed 11 page Study Guide that Professor Rains posted on D2L for Exam 2. 15 pages. There is also a discussion feature under the Study Guide."</p>
                             <h5><strong>Classmate Info</strong></h5>
@@ -1018,10 +1018,10 @@ body.outlook p {
                                 </td>
                               </tr>
                             </table>
-                              <p class="small" style="margin-bottom:0px; margin-top:0px;">View all <a href="https://www.mycollegehomepage.com/school/course/242/COMM318" target="_blank">[Class,fallback=] Study Guides</a></p>
+                              <p class="small" style="margin-bottom:0px; margin-top:0px;">View all <a href="https://www.mycollegehomepage.com/school/course/242/COMM318" target="_blank">{{ event.calendar.course }} Study Guides</a></p>
                               <p style="margin-bottom:0px;" class="small">Get $5 for every Study Guide you <a href="https://www.mycollegehomepage.com/documents/add/" target="_blank">upload</a>.</p>
 
-                              <!-- <p style="margin-bottom:0px;" class="small" style="margin-botton:10px;">2. Get $5 for every Class list & Syllabus you <a href="https://www.mycollegehomepage.com/demo" target="_blank">email us</a>.</p>
+                              <!-- <p style="margin-bottom:0px;" class="small" style="margin-botton:10px;">2. Get $5 for every Class list &amp; Syllabus you <a href="https://www.mycollegehomepage.com/demo" target="_blank">email us</a>.</p>
                               <p style="margin-bottom:0px;" class="small" style="margin-botton:10px;">3. Get $5 for every <a href="https://www.mycollegehomepage.com/demo" target="_blank">Friend you refer</a> from another school.</p> -->
 
                           </td>
@@ -1061,8 +1061,8 @@ body.outlook p {
                       <table class="twelve columns">
                         <tr>
                           <td>
-                              <h6><a href="https://www.mycollegehomepage.com/help/" target="_blank">Help</a> | <a href="https://www.mycollegehomepage.com/privacy-policy/" target="_blank">Privacy</a> | <unsubscribe>Unsubscribe here</unsubscribe></h6>
-                              <h6>Copyright © MCHP LLC 2015, <em>All Rights Reserved</em></h6>
+                              <h6><a href="https://www.mycollegehomepage.com/help/" target="_blank">Help</a> | <a href="https://www.mycollegehomepage.com/privacy-policy/" target="_blank">Privacy</a> | <a href="{{ recipient|track_unsubscribe }}">Unsubscribe here</a></h6>
+                              <h6>Copyright &copy; MCHP LLC 2015, <em>All Rights Reserved</em></h6>
                           </td>
                           <td class="expander"></td>
                         </tr>
