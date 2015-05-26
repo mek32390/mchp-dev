@@ -961,11 +961,13 @@ body.outlook p {
                       <table class="twelve columns">
                         <tr>
                           <td>
+                            {% with recipient|track_click:'https://www.mycollegehomepage.com/school/course/1266/' as course_url %}
                             <p>Hi {{ recipient.user.get_short_name }},</p>
-                            <p>A classmate in <a href="https://www.mycollegehomepage.com/school/course/1266/" target="_blank">{{ event.calendar.course }}</a> has requested a Study Guide for the upcoming <a href="https://www.mycollegehomepage.com/school/course/1266/" target="_blank">{{ event.calendar.course }}</a> test! We'll pay you <strong>$5 to upload this Study Guide, and you can earn $5 for each additional Study Guide</strong> you upload on mchp! Plus you'll continue to make money each time it's purchased. All of the document uploads on mchp are anonymous so your privacy is protected.</p>
+                            <p>A classmate in <a href="{{ course_url }}" target="_blank">{{ event.calendar.course }}</a> has requested a Study Guide for the upcoming <a href="{{ course_url }}" target="_blank">{{ event.calendar.course }}</a> test! We'll pay you <strong>$5 to upload this Study Guide, and you can earn $5 for each additional Study Guide</strong> you upload on mchp! Plus you'll continue to make money each time it's purchased. All of the document uploads on mchp are anonymous so your privacy is protected.</p>
                             <p>We had several students cash out with <strong>over $200 for their uploads last semester!</strong> Plus, they'll continue to get paid each time any of their Study Guides are purchased for the rest of their lives!</p>
-                            <p>Get your <a href="https://www.mycollegehomepage.com/school/course/1266/" target="_blank">{{ event.calendar.course }}</a> Study Guide up on mchp so your classmates can buy it, study it, and earn you money for the work you're already doing!</p>
+                            <p>Get your <a href="{{ course_url }}" target="_blank">{{ event.calendar.course }}</a> Study Guide up on mchp so your classmates can buy it, study it, and earn you money for the work you're already doing!</p>
                             <p>- mchp</p>
+                            {% endwith %}
                             <br></br>
                               <table class="button round success">
                                 <tr>
