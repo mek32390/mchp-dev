@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 import campaigns.utils
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -16,12 +16,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Campaign',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
-                ('sender', models.EmailField(max_length=254)),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('when', models.DateTimeField(verbose_name='campaign start')),
-                ('until', models.DateTimeField(verbose_name='campaign end', blank=True, null=True)),
+                ('until', models.DateTimeField(verbose_name='campaign end', null=True, blank=True)),
+                ('sender_address', models.EmailField(max_length=254)),
+                ('sender_name', models.CharField(max_length=255, blank=True)),
                 ('name', models.CharField(max_length=255)),
-                ('sender_name', models.CharField(blank=True, max_length=254)),
             ],
             options={
                 'ordering': ('name',),
@@ -31,12 +31,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignSubscriber',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
-                ('uuid', models.CharField(default=campaigns.utils.make_uuid, max_length=32, unique=True)),
-                ('notified', models.DateTimeField(blank=True, null=True)),
-                ('clicked', models.DateTimeField(blank=True, null=True)),
-                ('opened', models.DateTimeField(blank=True, null=True)),
-                ('unsubscribed', models.DateTimeField(blank=True, null=True)),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
+                ('uuid', models.CharField(max_length=32, unique=True, default=campaigns.utils.make_uuid)),
+                ('notified', models.DateTimeField(null=True, blank=True)),
+                ('clicked', models.DateTimeField(null=True, blank=True)),
+                ('opened', models.DateTimeField(null=True, blank=True)),
+                ('unsubscribed', models.DateTimeField(null=True, blank=True)),
                 ('campaign', models.ForeignKey(to='campaigns.Campaign', related_name='subscribers')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
@@ -47,11 +47,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignTemplate',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('subject', models.CharField(max_length=255)),
                 ('body', models.TextField(blank=True)),
                 ('name', models.CharField(max_length=255, unique=True)),
-                ('slug', models.SlugField(max_length=255, help_text='Used by the campaign automailer.  Change with caution!', unique=True)),
             ],
             options={
                 'ordering': ('name',),

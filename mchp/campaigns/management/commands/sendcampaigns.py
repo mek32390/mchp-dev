@@ -8,6 +8,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for campaign in Campaign.objects.active():
-            print('Sending campaign "{}"...'.format(campaign), end='')
+            print('Sending campaign "{}"... '.format(campaign), end='')
             campaign.blast()
-            print('Sent!')
+            print('sent!')
