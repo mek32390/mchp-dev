@@ -89,11 +89,17 @@ class StudyGuideMetaCampaign(MetaCampaign):
 
     Attributes
     ----------
-    campaign : campaigns.models.Campaign
-        A campaign associated with this builder.
+    event : django.db.models.ForeignKey
+        An event for this campaign.
+    campaigns : django.db.models.ManyToManyField
+        Campaigns associated with this builder.
+    documents : django.db.models.ManyToManyField
+        Documents associated with this builder.
+    updated = django.db.models.DateTimeField
+        When was this campaign last updated?
 
     """
-
+    event = models.ForeignKey(CalendarEvent, primary_key=True)
     campaigns = models.ManyToManyField(StudyGuideCampaign,
                                        # related_name='+',
                                        blank=True,
@@ -103,7 +109,6 @@ class StudyGuideMetaCampaign(MetaCampaign):
                                        blank=True,
                                        null=True)
     updated = models.DateTimeField(blank=True, null=True)
-    event = models.ForeignKey(CalendarEvent, unique=True)
 
     REQUEST_TEMPLATE = 'studyguides/request_for_study_guide.html'
     PUBLISH_TEMPLATE = 'studyguides/study_guide.html'
@@ -147,8 +152,12 @@ class StudyGuideMetaCampaign(MetaCampaign):
                              score=10)
 
         print('DEBUG: SCORES = ' + str(scores))
-        top_score = scores.most_common(1)[0][1]
-        return [d for d in documents if scores[d] == top_score]
+        top_score = scores.most_common(1)
+        if top_score:
+            top_score = top_score[0][1]
+            return [d for d in documents if scores[d] == top_score]
+        else:
+            return []
 
     def _update_subscribers(self):
         """ Update subscribers for the active campaign.
