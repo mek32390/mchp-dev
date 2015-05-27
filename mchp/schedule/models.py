@@ -110,7 +110,7 @@ class Course(models.Model):
     display_objects = DisplayCourseManager()
 
     def get_absolute_url(self):
-        return reverse('schedule.views.course', args=[str(self.id)])
+        return reverse('course', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
         if not self.pk:
