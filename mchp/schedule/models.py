@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Count
+from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 from schedule.utils import clean_domain, US_STATES
@@ -107,6 +108,9 @@ class Course(models.Model):
 
     # managers for 'deleted' cases
     display_objects = DisplayCourseManager()
+
+    def get_absolute_url(self):
+        return reverse('schedule.views.course', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
         if not self.pk:
