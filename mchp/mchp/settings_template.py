@@ -44,11 +44,13 @@ INSTALLED_APPS = (
     'landing',
     'user_profile',
     'calendar_mchp',
+    'campaigns',
     'documents',
     'dashboard',
     'notification',
     'referral',
     'schedule',
+    'studyguides',
     'payment',
 
     'storages',
@@ -152,6 +154,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
     "donottrack.context_processors.donottrack",
+    "mchp.context_processors.default_site",
     "schedule.context_processors.school",
 )
 
