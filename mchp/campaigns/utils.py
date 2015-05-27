@@ -55,8 +55,9 @@ def subscriber_clicked(request, subscriber):
     This is here to allow CampaignSubscriber subclasses to use this feature.
 
     """
-    subscriber.clicked = timezone.now()
-    subscriber.save(update_fields=['clicked'])
+    if not subscriber.clicked:
+        subscriber.clicked = timezone.now()
+        subscriber.save(update_fields=['clicked'])
     url = request.GET.get('next', 'landing_page')
     return redirect(url)
 
@@ -71,8 +72,9 @@ def subscriber_opened(request, subscriber):
     Response code is 204 "no content," per <http://stackoverflow.com/questions/6638504/why-serve-1x1-pixel-gif-web-bugs-data-at-all>.  # noqa
 
     """
-    subscriber.opened = timezone.now()
-    subscriber.save(update_fields=['opened'])
+    if not subscriber.opened:
+        subscriber.opened = timezone.now()
+        subscriber.save(update_fields=['opened'])
     response = HttpResponse()
     response.status_code = 204
     return response
@@ -86,7 +88,8 @@ def subscriber_unsubscribed(request, subscriber):
     This is here to allow CampaignSubscriber subclasses to use this feature.
 
     """
-    subscriber.unsubscribed = timezone.now()
-    subscriber.save(update_fields=['unsubscribed'])
+    if not subscriber.unsubscribed:
+        subscriber.unsubscribed = timezone.now()
+        subscriber.save(update_fields=['unsubscribed'])
     url = request.GET.get('next', 'landing_page')
     return redirect(url)
