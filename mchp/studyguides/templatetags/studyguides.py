@@ -11,7 +11,7 @@ def track_click(value, arg):
     """ Rewrite link to track click from subscriber with next URL `arg`.
 
     """
-    url = reverse('course-click', kwargs={'uuid': value.uuid})
+    url = reverse('studyguide-click', kwargs={'uuid': value.uuid})
     return smart_urlquote('{}?next={}'.format(url, arg))
 
 
@@ -20,7 +20,7 @@ def track_open(value):
     """ Rewrite link to track open from subscriber.
 
     """
-    url = reverse('course-open', kwargs={'uuid': value.uuid})
+    url = reverse('studyguide-open', kwargs={'uuid': value.uuid})
     return mark_safe('<img src="{}" alt="Beacon">'.format(url))
 
 
@@ -29,5 +29,5 @@ def track_unsubscribe(value, arg):
     """ Rewrite link to track unsubscribe from subscriber with next URL `arg`.
 
     """
-    url = reverse('course-unsubscribe', kwargs={'uuid': value.uuid})
+    url = reverse('studyguide-unsubscribe', kwargs={'uuid': value.uuid})
     return smart_urlquote('{}?next={}'.format(url, arg))
