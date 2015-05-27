@@ -163,13 +163,17 @@ class StudyGuideMetaCampaign(MetaCampaign):
         """ Update subscribers for the active campaign.
 
         """
-        campaign = self.campaigns.latest('when')
-        for student in utils.students_for_event(self.event):
-            subscriber, created = StudyGuideCampaignSubscriber.objects.get_or_create(
-                campaign=campaign,
-                user=student.user)
-            if created:  # only add if it's not there already
-                campaign.subscribers.add(subscriber)
+        try:
+            campaign = self.campaigns.latest('when')
+        except StudyGuideCampaign.DoesNotExist:
+            pass
+        else:
+            for student in utils.students_for_event(self.event):
+                subscriber, created = StudyGuideCampaignSubscriber.objects.get_or_create(
+                    campaign=campaign,
+                    user=student.user)
+                if created:  # only add if it's not there already
+                    campaign.subscribers.add(subscriber)
 
     def _update_documents(self):
         """ Update documents for the next campaign.
@@ -185,6 +189,8 @@ class StudyGuideMetaCampaign(MetaCampaign):
         if set(primary_documents) != set(self.documents.all()):
             print('[DEBUG] Docs changed!  New campaign ahoy!')
             self.documents = primary_documents
+            return True
+        elif not primary_documents:
             return True
         else:
             return False
@@ -223,7 +229,7 @@ class StudyGuideMetaCampaign(MetaCampaign):
         if not context:
             context = {}
         context.update(documents=self.documents, event=self.event)
-        for campaign in self.campaigns:
+        for campaign in self.campaigns.active():
             campaign.blast(context=context, force=force)
 
     def update(self):
@@ -242,8 +248,8 @@ class StudyGuideMetaCampaign(MetaCampaign):
             campaign = StudyGuideCampaign.objects.create(
                 name=self._new_campaign_name(),
                 template=template_name,
-                sender_address='study@mycollegehomepage.com',
-                sender_name='mchp',
+                sender_address=self.sender_address,
+                sender_name=self.sender_name,
                 when=timezone.now(),
                 until=self.event.start)
             self.campaigns.add(campaign)

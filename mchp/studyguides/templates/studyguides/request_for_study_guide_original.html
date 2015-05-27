@@ -909,6 +909,7 @@ body.outlook p {
 
 </head>
 <body>
+{% load campaigns %}
 {% with "https://www.mycollegehomepage.com" as mchp_base_url %}
   <table class="body">
     <tr>
@@ -1018,7 +1019,8 @@ body.outlook p {
                       <table class="twelve columns">
                         <tr>
                           <td>
-                              <h6><a href="{{ mchp_base_url }}{% url 'help' %}" target="_blank">Help</a> | <a href="{{ mchp_base_url }}{% url 'privacy_policy' %}" target="_blank">Privacy</a> | <a href="{{ mchp_base_url }}{{ recipient|track_unsubscribe }}" target="_blank">Unsubscribe here</a></h6>
+                              {% url 'course-unsubscribe' uuid=recipient.uuid as unsubscribe_url %}
+                              <h6><a href="{{ mchp_base_url }}{% url 'help' %}" target="_blank">Help</a> | <a href="{{ mchp_base_url }}{% url 'privacy_policy' %}" target="_blank">Privacy</a> | <a href="{{ mchp_base_url }}{{ recipient|track_unsubscribe:unsubscribe_url }}" target="_blank">Unsubscribe here</a></h6>
                               <h6>Copyright &copy; MCHP LLC 2015, <em>All Rights Reserved</em></h6>
                           </td>
                           <td class="expander"></td>

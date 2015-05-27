@@ -12,8 +12,11 @@ class Command(BaseCommand):
         for event in upcoming_events():
             if event.notify_lead:
                 mcamp, _ = StudyGuideMetaCampaign.objects.get_or_create(
-                    when=timezone.now,
-                    event=event)
+                    event=event, defaults={
+                        'when': timezone.now(),
+                        'sender_address': 'study@mycollegehomepage.com',
+                        'sender_name': 'mchp',
+                    })
                 mcamp.update()
 
         for campaign in StudyGuideMetaCampaign.objects.active():
