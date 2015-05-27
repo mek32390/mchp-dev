@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from campaigns.models import (BaseCampaign, BaseCampaignSubscriber)
+from campaigns.models import (MetaCampaign, BaseCampaign,
+                              BaseCampaignSubscriber)
 from calendar_mchp.models import CalendarEvent
 from documents.models import Document
 from django.template import Context, Template
@@ -8,6 +9,8 @@ from django.template.loader import get_template
 
 from schedule.models import Enrollment
 from . import utils
+
+# [TODO] SHOULD DELETE ALL RELATED CAMPAIGNS WHEN DELETING METACAMPAIGN
 
 
 class StudyGuideCampaignSubscriber(BaseCampaignSubscriber):
@@ -78,7 +81,7 @@ class StudyGuideCampaign(BaseCampaign):
         return self.subscribers.objects.exclude(unsubscribed=None).count()
 
 
-class StudyGuideMetaCampaign(BaseCampaign):
+class StudyGuideMetaCampaign(MetaCampaign):
     """ Campaign builder for study guide mailings.
 
     Attributes
@@ -193,6 +196,24 @@ class StudyGuideMetaCampaign(BaseCampaign):
             campaign.until = now
             campaign.save(update_fields=['until'])
 
+    def blast(self, context=None, force=False):
+        """ Send a blast to this campaign.
+
+        Parameters
+        ----------
+        context : dict, optional
+            A dictionary to turn into context variables for the message.
+        force : bool, optional
+            `True` to notify subscribers who have already been notified,
+            `False` otherwise.  Default `False`.
+
+        """
+        if not context:
+            context = {}
+        context.update(documents=self.documents, event=self.event)
+        for campaign in self.campaigns:
+            campaign.blast(context=context, force=force)
+
     def update(self):
         """ Update campaigns.
 
@@ -218,5 +239,3 @@ class StudyGuideMetaCampaign(BaseCampaign):
         self._update_subscribers()
         self.updated = timezone.now()
         self.save(update_fields=['updated'])
-
-### [TODO] SHOULD BE ABLE TO DELETE ALL RELATED CAMPAIGNS WHEN DELETING COORDINATOR

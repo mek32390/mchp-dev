@@ -117,7 +117,7 @@ class CampaignTemplate(BaseCampaignTemplate):
         self.body_template = Template(self.body)
 
 
-class BaseCampaign(models.Model):
+class MetaCampaign(models.Model):
     """ A metaclass for an e-mail campaign.
 
     Attributes
@@ -148,6 +148,14 @@ class BaseCampaign(models.Model):
     class Meta:
         abstract = True
 
+
+class BaseCampaign(MetaCampaign):
+    """ A base class for an e-mail campaign.
+
+    """
+    class Meta:
+        abstract = True
+
     def active(self):
         """ Is this campaign active?
 
@@ -168,11 +176,11 @@ class BaseCampaign(models.Model):
 
         Parameters
         ----------
+        context : dict, optional
+            A dictionary to turn into context variables for the message.
         force : bool, optional
             `True` to notify subscribers who have already been notified,
             `False` otherwise.  Default `False`.
-        context : dict, optional
-            A dictionary to turn into context variables for the message.
 
         """
         if self.active():

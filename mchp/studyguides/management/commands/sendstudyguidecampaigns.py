@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from studyguides.models import StudyGuideMetaCampaign, StudyGuideCampaign
+from studyguides.models import StudyGuideMetaCampaign
 from studyguides.utils import upcoming_events
 
 
@@ -13,5 +13,5 @@ class Command(BaseCommand):
                 mcamp = StudyGuideMetaCampaign.objects.get_or_create(
                     event=event)[0]
                 mcamp.update()
-        for campaign in StudyGuideCampaign.objects.active():
+        for campaign in StudyGuideMetaCampaign.objects.active():
             campaign.blast()

@@ -6,17 +6,13 @@ from django.utils.safestring import mark_safe
 register = template.Library()
 
 
-# [TODO] should probably be in settings
-BASE_DOMAIN = 'http://www.mycollegehomepage.com'
-
-
 @register.filter
 def track_click(value, arg):
     """ Rewrite link to track click from subscriber with next URL `arg`.
 
     """
     url = reverse('campaign-click', kwargs={'uuid': value.uuid})
-    return smart_urlquote('{}{}?next={}'.format(BASE_DOMAIN, url, arg))
+    return smart_urlquote('{}?next={}'.format(url, arg))
 
 
 @register.filter
@@ -25,7 +21,7 @@ def track_open(value):
 
     """
     url = reverse('campaign-open', kwargs={'uuid': value.uuid})
-    return mark_safe('<img src="{}{}" alt="Beacon">'.format(BASE_DOMAIN, url))
+    return mark_safe('<img src="{}" alt="Beacon">'.format(url))
 
 
 @register.filter
@@ -34,4 +30,4 @@ def track_unsubscribe(value, arg):
 
     """
     url = reverse('campaign-unsubscribe', kwargs={'uuid': value.uuid})
-    return smart_urlquote('{}{}?next={}'.format(BASE_DOMAIN, url, arg))
+    return smart_urlquote('{}?next={}'.format(url, arg))
