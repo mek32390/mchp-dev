@@ -154,7 +154,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
     "donottrack.context_processors.donottrack",
-    "mchp.context_processors.default_site",
     "schedule.context_processors.school",
 )
 

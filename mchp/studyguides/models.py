@@ -226,7 +226,8 @@ class StudyGuideMetaCampaign(MetaCampaign):
         """
         if not context:
             context = {}
-        context.update(documents=self.documents, event=self.event)
+        context.update(documents=self.documents, event=self.event,
+                       mchp_base_url=utils.default_site())
         for campaign in self.campaigns.active():
             campaign.blast(context=context, force=force)
 

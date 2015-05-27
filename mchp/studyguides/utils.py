@@ -5,7 +5,13 @@ from datetime import timedelta
 # from . import models
 from calendar_mchp.models import CalendarEvent
 from schedule.models import Enrollment
+from django.conf import settings
+from django.contrib.sites.models import Site
 from django.shortcuts import get_object_or_404
+
+
+def default_site():
+    return Site.objects.get(pk=settings.SITE_ID)
 
 
 def upcoming_events():
