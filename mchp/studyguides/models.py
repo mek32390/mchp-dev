@@ -37,14 +37,11 @@ class StudyGuideCampaign(BaseCampaign):
         A template associated with this campaign.
     subject : django.db.models.CharField
         A subject line associated with this campaign.
-    sender_name : django.db.models.CharField, optional
-        A name for the sender.  Will be escaped as necessary.
 
     """
     name = models.CharField(max_length=255)
     template = models.CharField(max_length=255)
     subject = models.CharField(max_length=255)
-    sender_name = models.CharField(max_length=254, blank=True)
 
     class Meta:
         ordering = ('name',)
@@ -212,7 +209,7 @@ class StudyGuideMetaCampaign(BaseCampaign):
             campaign = StudyGuideCampaign.objects.create(
                 name=self._new_campaign_name(),
                 template=template_name,
-                sender='study@mycollegehomepage.com',
+                sender_address='study@mycollegehomepage.com',
                 sender_name='mchp',
                 when=timezone.now(),
                 until=self.event.start)

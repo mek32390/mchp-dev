@@ -94,14 +94,12 @@ class CampaignTemplate(BaseCampaignTemplate):
 
     """
     name = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255, unique=True,
-        help_text='Used by the campaign automailer.  Change with caution!')  # noqa
 
     class Meta:
         ordering = ('name',)
 
     def __str__(self):
-        return '{} ({})'.format(self.name, self.slug)
+        return self.name
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -124,12 +122,14 @@ class BaseCampaign(models.Model):
 
     Attributes
     ----------
-    sender : django.db.models.EmailField
-        An e-mail address for the sender.
     when : django.db.models.DateTimeField, optional
         When does this campaign start?
     until : django.db.models.DateTimeField
         When does this campaign end?
+    sender_address : django.db.models.CharField, optional
+        An e-mail address for the sender.
+    sender_name: django.db.models.CharField, optional
+        A name for the sender.  Will be escaped as necessary.
     objects : django.db.models.Manager
         A model manager for this class.
 
@@ -139,9 +139,10 @@ class BaseCampaign(models.Model):
     or if `until` is past.
 
     """
-    sender = models.EmailField(max_length=254)
     when = models.DateTimeField("campaign start")
     until = models.DateTimeField("campaign end", blank=True, null=True)
+    sender_address = models.EmailField(max_length=254)
+    sender_name = models.CharField(max_length=255, blank=True)
     objects = managers.CampaignManager()
 
     class Meta:
@@ -222,30 +223,6 @@ class BaseCampaign(models.Model):
                     recipient.mark_notified()
             connection.close()
 
-
-class Campaign(BaseCampaign):
-    """ Concrete campaign class.
-
-    Attributes
-    ----------
-    name : django.db.models.CharField
-        An internal name to identify this campaign.
-    template : django.db.models.ForeignKey
-        A template associated with this campaign.
-    sender_name : django.db.models.CharField, optional
-        A name for the sender.  Will be escaped as necessary.
-
-    """
-    name = models.CharField(max_length=255)
-    template = models.ForeignKey(CampaignTemplate)
-    sender_name = models.CharField(max_length=254, blank=True)
-
-    class Meta:
-        ordering = ('name',)
-
-    def __str__(self):
-        return self.name
-
     def _message(self, recipient, connection, context=None):
         """ Build and send a single message from a campaign.
 
@@ -266,6 +243,27 @@ class Campaign(BaseCampaign):
 
         return utils.make_email_message(subject, body,
                                         utils.make_display_email(
-                                            self.sender,
+                                            self.sender_address,
                                             self.sender_name),
                                         recipient, connection)
+
+
+class Campaign(BaseCampaign):
+    """ Concrete campaign class.
+
+    Attributes
+    ----------
+    name : django.db.models.CharField
+        An internal name to identify this campaign.
+    template : django.db.models.ForeignKey
+        A template associated with this campaign.
+
+    """
+    name = models.CharField(max_length=255)
+    template = models.ForeignKey(CampaignTemplate)
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name

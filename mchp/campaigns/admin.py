@@ -7,7 +7,7 @@ class CampaignTemplateAdmin(admin.ModelAdmin):
     list_display = ('name',)
     fieldsets = (
         (None, {
-            'fields': ['name', 'slug'],
+            'fields': ['name'],
         }),
         ('Content', {
             'fields': ['subject', 'body'],
@@ -31,7 +31,7 @@ class CampaignAdmin(admin.ModelAdmin):
     list_display = ('name', 'template', 'active', 'when', 'until')
     fieldsets = (
         (None, {
-            'fields': ['name', 'template'],
+            'fields': ['name', 'sender_name', 'sender_address', 'template'],
         }),
         ('Important dates', {
             'fields': ['when', 'until'],
