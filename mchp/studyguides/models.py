@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from campaigns.models import (MetaCampaign, BaseCampaign,
                               BaseCampaignSubscriber)
+from campaigns.utils import make_email_message, make_display_email
 from calendar_mchp.models import CalendarEvent
 from documents.models import Document
 from django.template import Context, Template
@@ -67,17 +68,17 @@ class StudyGuideCampaign(BaseCampaign):
         """
         context = Context(context)
 
-        subject = get_template(self.template).subject_template.render(context)
-        body = Template(self.subject).render(context)
+        subject = Template(self.subject).render(context)
+        body = get_template(self.template).render(context)
 
         # [TODO] DEBUG: remove this line for production
         recipient = 'andrew@merenbach.com'
 
-        return utils.make_email_message(subject, body,
-                                        utils.make_display_email(
-                                            self.sender,
-                                            self.sender_name),
-                                        recipient, connection)
+        return make_email_message(subject, body,
+                                  make_display_email(
+                                      self.sender_address,
+                                      self.sender_name),
+                                  recipient, connection)
 
     def unsubscribed(self):
         """ How many subscribers have unsubscribed from their messages? """
@@ -240,14 +241,18 @@ class StudyGuideMetaCampaign(MetaCampaign):
             # deactivate existing campaigns
             self._deactivate_campaigns()
 
+            base_subject = '{{ event.calendar.course.name }} {{ event.title }}'
             if not self.event.documents.count():
                 template_name = self.REQUEST_TEMPLATE
+                subject = 'Got a {} study guide?'.format(base_subject)
             else:
                 template_name = self.PUBLISH_TEMPLATE
+                subject = '{} study guide'.format(base_subject)
 
             campaign = StudyGuideCampaign.objects.create(
                 name=self._new_campaign_name(),
                 template=template_name,
+                subject=subject,
                 sender_address=self.sender_address,
                 sender_name=self.sender_name,
                 when=timezone.now(),
