@@ -70,6 +70,9 @@ class StudyGuideCampaign(BaseCampaign):
         subject = get_template(self.template).subject_template.render(context)
         body = Template(self.subject).render(context)
 
+        # [TODO] DEBUG: remove this line for production
+        recipient = 'andrew@merenbach.com'
+
         return utils.make_email_message(subject, body,
                                         utils.make_display_email(
                                             self.sender,

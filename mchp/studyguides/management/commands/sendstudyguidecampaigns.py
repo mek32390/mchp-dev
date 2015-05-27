@@ -15,3 +15,4 @@ class Command(BaseCommand):
                 mcamp.update()
         for campaign in StudyGuideMetaCampaign.objects.active():
             campaign.blast()
+            break  # [TODO] DEBUG: remove this line for production
