@@ -10,7 +10,7 @@ def clicked(request, uuid):
 
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
-    return subscriber_clicked(subscriber)
+    return subscriber_clicked(request, subscriber)
 
 
 def opened(request, uuid):
@@ -22,7 +22,7 @@ def opened(request, uuid):
 
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
-    return subscriber_opened(subscriber)
+    return subscriber_opened(request, subscriber)
 
 
 def unsubscribed(request, uuid):
@@ -31,4 +31,4 @@ def unsubscribed(request, uuid):
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
     unsubscribe_student(subscriber)
-    return subscriber_unsubscribed(subscriber)
+    return subscriber_unsubscribed(request, subscriber)
