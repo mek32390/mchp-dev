@@ -71,9 +71,6 @@ class StudyGuideCampaign(BaseCampaign):
         subject = Template(self.subject).render(context)
         body = get_template(self.template).render(context)
 
-        # [TODO] DEBUG: remove this line for production
-        recipient = 'andrew@merenbach.com'
-
         return make_email_message(subject, body,
                                   make_display_email(
                                       self.sender_address,
@@ -191,7 +188,7 @@ class StudyGuideMetaCampaign(MetaCampaign):
             print('[DEBUG] Docs changed!  New campaign ahoy!')
             self.documents = primary_documents
             return True
-        elif not primary_documents:
+        elif not self.campaigns.active():
             return True
         else:
             return False
