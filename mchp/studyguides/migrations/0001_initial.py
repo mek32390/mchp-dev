@@ -10,19 +10,19 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('documents', '0002_auto_20150501_1535'),
         ('calendar_mchp', '0003_auto_20150508_1635'),
+        ('documents', '0002_auto_20150501_1535'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='StudyGuideCampaign',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
                 ('when', models.DateTimeField(verbose_name='campaign start')),
-                ('until', models.DateTimeField(blank=True, verbose_name='campaign end', null=True)),
+                ('until', models.DateTimeField(null=True, blank=True, verbose_name='campaign end')),
                 ('sender_address', models.EmailField(max_length=254)),
-                ('sender_name', models.CharField(blank=True, max_length=255)),
+                ('sender_name', models.CharField(max_length=255, blank=True)),
                 ('name', models.CharField(max_length=255)),
                 ('template', models.CharField(max_length=255)),
                 ('subject', models.CharField(max_length=255)),
@@ -35,13 +35,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StudyGuideCampaignSubscriber',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
-                ('uuid', models.CharField(unique=True, max_length=32, default=campaigns.utils.make_uuid)),
-                ('notified', models.DateTimeField(blank=True, null=True)),
-                ('clicked', models.DateTimeField(blank=True, null=True)),
-                ('opened', models.DateTimeField(blank=True, null=True)),
-                ('unsubscribed', models.DateTimeField(blank=True, null=True)),
-                ('campaign', models.ForeignKey(related_name='subscribers', to='studyguides.StudyGuideCampaign')),
+                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
+                ('uuid', models.CharField(max_length=32, unique=True, default=campaigns.utils.make_uuid)),
+                ('notified', models.DateTimeField(null=True, blank=True)),
+                ('clicked', models.DateTimeField(null=True, blank=True)),
+                ('opened', models.DateTimeField(null=True, blank=True)),
+                ('unsubscribed', models.DateTimeField(null=True, blank=True)),
+                ('campaign', models.ForeignKey(to='studyguides.StudyGuideCampaign', related_name='subscribers')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -51,15 +51,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StudyGuideMetaCampaign',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
                 ('when', models.DateTimeField(verbose_name='campaign start')),
-                ('until', models.DateTimeField(blank=True, verbose_name='campaign end', null=True)),
+                ('until', models.DateTimeField(null=True, blank=True, verbose_name='campaign end')),
                 ('sender_address', models.EmailField(max_length=254)),
-                ('sender_name', models.CharField(blank=True, max_length=255)),
-                ('updated', models.DateTimeField(blank=True, null=True)),
-                ('campaigns', models.ManyToManyField(blank=True, null=True, to='studyguides.StudyGuideCampaign')),
-                ('documents', models.ManyToManyField(blank=True, null=True, to='documents.Document')),
-                ('event', models.ForeignKey(unique=True, to='calendar_mchp.CalendarEvent')),
+                ('sender_name', models.CharField(max_length=255, blank=True)),
+                ('event', models.ForeignKey(primary_key=True, serialize=False, to='calendar_mchp.CalendarEvent')),
+                ('updated', models.DateTimeField(null=True, blank=True)),
+                ('campaigns', models.ManyToManyField(null=True, blank=True, to='studyguides.StudyGuideCampaign')),
+                ('documents', models.ManyToManyField(null=True, blank=True, to='documents.Document')),
             ],
             options={
                 'abstract': False,

@@ -16,9 +16,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Campaign',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('when', models.DateTimeField(verbose_name='campaign start')),
-                ('until', models.DateTimeField(verbose_name='campaign end', null=True, blank=True)),
+                ('until', models.DateTimeField(null=True, verbose_name='campaign end', blank=True)),
                 ('sender_address', models.EmailField(max_length=254)),
                 ('sender_name', models.CharField(max_length=255, blank=True)),
                 ('name', models.CharField(max_length=255)),
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignSubscriber',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('uuid', models.CharField(max_length=32, unique=True, default=campaigns.utils.make_uuid)),
                 ('notified', models.DateTimeField(null=True, blank=True)),
                 ('clicked', models.DateTimeField(null=True, blank=True)),
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignTemplate',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('subject', models.CharField(max_length=255)),
                 ('body', models.TextField(blank=True)),
                 ('name', models.CharField(max_length=255, unique=True)),
