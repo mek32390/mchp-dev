@@ -1,5 +1,4 @@
-from django.shortcuts import get_object_or_404
-from django.http.shortcuts import render_to_response
+from django.shortcuts import get_object_or_404, render_to_response
 from .models import StudyGuideCampaignSubscriber
 from .utils import unsubscribe_student, resubscribe_student
 
