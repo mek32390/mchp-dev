@@ -989,7 +989,7 @@ body.outlook p {
                           <td>
 
                               <a href="{{ mchp_base_url }}{{ recipient|track_click:document.get_absolute_url }}" target="_blank">
-                                <img class="study-guide-img" src="{% if document.preview %}{{ mchp_base_url }}{{ document.preview.url }}{% else %}{% static 'documents/img/loading_file.svg'%}{% endif %}">
+                                <img class="study-guide-img" src="{% if document.preview %}{{ mchp_base_url }}{{ document.preview.url }}{% else %}{% static 'documents/img/loading_file.svg' %}{% endif %}">
                               </a>
 
                           </td>
@@ -1073,8 +1073,7 @@ body.outlook p {
                       <table class="twelve columns">
                         <tr>
                           <td>
-                              {% url 'course-unsubscribe' uuid=recipient.uuid as unsubscribe_url %}
-                              <h6><a href="{{ mchp_base_url }}{% url 'help' %}" target="_blank">Help</a> | <a href="{{ mchp_base_url }}{% url 'privacy_policy' %}" target="_blank">Privacy</a> | <a href="{{ mchp_base_url }}{{ recipient|track_unsubscribe:unsubscribe_url }}" target="_blank">Unsubscribe here</a></h6>
+                              <h6><a href="{{ mchp_base_url }}{% url 'help' %}" target="_blank">Help</a> | <a href="{{ mchp_base_url }}{% url 'privacy_policy' %}" target="_blank">Privacy</a> | <a href="{{ mchp_base_url }}{{ recipient|track_unsubscribe }}" target="_blank">Unsubscribe here</a></h6>
                               <h6>Copyright &copy; MCHP LLC 2015, <em>All Rights Reserved</em></h6>
                           </td>
                           <td class="expander"></td>

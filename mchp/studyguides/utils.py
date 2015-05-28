@@ -31,13 +31,21 @@ def upcoming_events():
             if now > event.start - timedelta(minutes=event.notify_lead)]
 
 
-def unsubscribe_student(subscriber):
+def _update_student_subscribed_status(subscriber, status):
     enrollment = get_object_or_404(
         Enrollment,
         student=Student.objects.get(user=subscriber.user),
         course=subscriber.campaign.event.calendar.course)
-    enrollment.receive_email = False
+    enrollment.receive_email = status
     enrollment.save(update_fields=['receive_email'])
+
+
+def unsubscribe_student(subscriber):
+    _update_student_subscribed_status(False)
+
+
+def subscribe_student(subscriber):
+    _update_student_subscribed_status(True)
 
 
 # def campaign_for_event(event):

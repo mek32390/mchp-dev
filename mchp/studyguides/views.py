@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.http.shortcuts import render_to_response
 from .models import StudyGuideCampaignSubscriber
 from .utils import unsubscribe_student
 from campaigns.utils import (subscriber_clicked, subscriber_opened,
@@ -31,4 +32,5 @@ def unsubscribed(request, uuid):
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
     unsubscribe_student(subscriber)
-    return subscriber_unsubscribed(request, subscriber)
+    return render_to_response('studyguides/unsubscribed.html',
+                              {'subscriber': subscriber})

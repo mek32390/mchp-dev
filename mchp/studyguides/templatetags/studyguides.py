@@ -25,9 +25,8 @@ def track_open(value):
 
 
 @register.filter
-def track_unsubscribe(value, arg):
+def track_unsubscribe(value):
     """ Rewrite link to track unsubscribe from subscriber with next URL `arg`.
 
     """
-    url = reverse('studyguide-unsubscribe', kwargs={'uuid': value.uuid})
-    return smart_urlquote('{}?next={}'.format(url, arg))
+    return reverse('studyguide-unsubscribe', kwargs={'uuid': value.uuid})
