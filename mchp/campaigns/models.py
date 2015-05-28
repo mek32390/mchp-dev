@@ -5,7 +5,6 @@ from django.utils import timezone
 from django.conf import settings
 from . import managers
 
-import smtplib
 from . import utils
 
 
@@ -217,19 +216,17 @@ class BaseCampaign(MetaCampaign):
         if recipients:
             connection = get_connection()
             connection.open()
-            for recipient in recipients:
-                msg_context = context.copy() if context else {}
-                msg_context.update(recipient=recipient)
-                message = self._message(recipient.user.email,
-                                        connection,
-                                        msg_context)
-                try:
-                    message.send()
-                except smtplib.SMTPException:
-                    raise
-                else:
+            try:
+                for recipient in recipients:
+                    msg_context = context.copy() if context else {}
+                    msg_context.update(recipient=recipient)
+                    message = self._message(recipient.user.email,
+                                            connection,
+                                            msg_context)
+                    message.send()  # this could throw smtplib.SMTPException
                     recipient.mark_notified()
-            connection.close()
+            finally:
+                connection.close()
 
     def _message(self, recipient, connection, context=None):
         """ Build and send a single message from a campaign.
