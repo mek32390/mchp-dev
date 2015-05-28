@@ -178,11 +178,11 @@ class StudyGuideMetaCampaign(MetaCampaign):
         if self.campaigns.active():
             top_ranked_documents = utils._rank_documents(self.event)
             # [TODO] this is a kludge
-            if set(top_ranked_documents) != set(self.documents.all()):
-                print('[DEBUG] Docs changed!  New campaign ahoy!')
-                self.documents = top_ranked_documents
-            return True
-        return False
+            if set(top_ranked_documents) == set(self.documents.all()):
+                return False
+            print('[DEBUG] Docs changed!  New campaign ahoy!')
+            self.documents = top_ranked_documents
+        return True
 
     def _deactivate_campaigns(self):
         """ Deactivate all still-active campaigns.
@@ -215,9 +215,9 @@ class StudyGuideMetaCampaign(MetaCampaign):
                 sender_address=self.sender_address,
                 sender_name=self.sender_name,
                 event=self.event,
-                documents=self.documents,
                 when=timezone.now(),
                 until=self.event.start)
+            campaign.documents = self.documents.all()
             self.campaigns.add(campaign)
 
         self._update_subscribers()

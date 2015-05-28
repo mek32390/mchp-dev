@@ -223,7 +223,7 @@ class BaseCampaign(MetaCampaign):
 
         """
         if recipients:
-            context = Context(self._context())
+            context = self._context()
             connection = get_connection()
             connection.open()
             try:
@@ -232,7 +232,7 @@ class BaseCampaign(MetaCampaign):
                     msg_context.update(recipient=recipient)
                     message = self._message(recipient.user.email,
                                             connection,
-                                            msg_context)
+                                            Context(msg_context))
                     message.send()  # this could throw smtplib.SMTPException
                     recipient.mark_notified()
             finally:

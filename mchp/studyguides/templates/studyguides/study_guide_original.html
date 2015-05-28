@@ -909,7 +909,7 @@ body.outlook p {
 
 </head>
 <body>
-{% load studyguides %}
+{% load staticfiles studyguides %}
   <table class="body">
     <tr>
       <td class="center" align="center" valign="top">
@@ -989,7 +989,7 @@ body.outlook p {
                           <td>
 
                               <a href="{{ mchp_base_url }}{{ recipient|track_click:document.get_absolute_url }}" target="_blank">
-                                <img class="study-guide-img" src="{{ mchp_base_url }}{{ document.preview.url }}">
+                                <img class="study-guide-img" src="{{ mchp_base_url }}{% if document.preview %}{{ document.preview.url }}{% else %}{% static 'documents/img/loading_file.svg'%}{% endif %}">
                               </a>
 
                           </td>
