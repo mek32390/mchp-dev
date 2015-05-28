@@ -74,6 +74,10 @@ class Document(models.Model):
 
         super(Document, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return '/placeholder/for/document/'
+        # return reverse('document', args=[str(self.id)])
+
     def filename(self):
         return os.path.basename(self.document.name)
 

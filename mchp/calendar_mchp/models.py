@@ -5,6 +5,7 @@ from django.utils import timezone
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from calendar_mchp.signals import calendar_event_created, calendar_event_edited, subscription
 from documents.models import Document
+from django.core.urlresolvers import reverse
 
 
 class ClassCalendarManager(models.Manager):
@@ -115,6 +116,11 @@ class CalendarEvent(models.Model):
                                        related_name='events',
                                        blank=True,
                                        null=True)
+
+    def get_absolute_url(self):
+        return '/placeholder/for/event/'
+        # return reverse('event', args=[str(self.id)])
+
 
     def save(self, *args, **kwargs):
         if not self.pk:

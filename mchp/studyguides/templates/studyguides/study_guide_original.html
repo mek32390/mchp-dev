@@ -978,7 +978,7 @@ body.outlook p {
                 </table>
                 
                 <!-- FOR EACH DOCUMENT, DISPLAY IT IN ITS OWN SECTION --> 
-{% for document in documents %}
+{% for document in documents.all %}
                 <table class="row document-section">
                   <tr>
                     <td class="wrapper">
@@ -1073,7 +1073,7 @@ body.outlook p {
                         <tr>
                           <td>
                               {% url 'course-unsubscribe' uuid=recipient.uuid as unsubscribe_url %}
-                              <h6><a href="{{ mchp_base_url }}{% url 'help' %}" target="_blank">Help</a> | <a href="{{ mchp_base_url }}{% url 'privacy_policy' %}" target="_blank">Privacy</a> | <a href="{{ mchp_base_url }}{{ recipient|track_unsubscribe:unsubsribe_url }}" target="_blank">Unsubscribe here</a></h6>
+                              <h6><a href="{{ mchp_base_url }}{% url 'help' %}" target="_blank">Help</a> | <a href="{{ mchp_base_url }}{% url 'privacy_policy' %}" target="_blank">Privacy</a> | <a href="{{ mchp_base_url }}{{ recipient|track_unsubscribe:unsubscribe_url }}" target="_blank">Unsubscribe here</a></h6>
                               <h6>Copyright &copy; MCHP LLC 2015, <em>All Rights Reserved</em></h6>
                           </td>
                           <td class="expander"></td>
