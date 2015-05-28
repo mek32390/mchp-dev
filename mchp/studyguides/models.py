@@ -107,7 +107,7 @@ class StudyGuideCampaign(BaseCampaign):
         """
         return {
             'event': self.event,
-            'documents': self.documents,
+            'documents': self.documents.all(),
             'mchp_base_url': utils.default_site(),
         }
 
@@ -178,12 +178,12 @@ class StudyGuideMetaCampaign(MetaCampaign):
             `True` if documents updated, `False` otherwise.
 
         """
-        primary_documents = utils._rank_documents(self.event)
-        # [TODO] this is a kludge
         if self.campaigns.active():
-            if set(primary_documents) != set(self.documents.all()):
+            top_ranked_documents = utils._rank_documents(self.event)
+            # [TODO] this is a kludge
+            if set(top_ranked_documents) != set(self.documents.all()):
                 print('[DEBUG] Docs changed!  New campaign ahoy!')
-                self.documents = primary_documents
+                self.documents = top_ranked_documents
             return True
         return False
 

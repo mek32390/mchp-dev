@@ -963,12 +963,13 @@ body.outlook p {
                         <tr>
                           <td>
                             <p>Hi {{ recipient.user.get_short_name }},</p>
+                            {% if documents|length_is:"1"}
                             <!-- IF THERE IS ONLY ONE DOCUMENT -->
                             <p>A classmate of yours in <a href="{{ mchp_base_url }}{{ event.calendar.course.get_absolute_url }}" target="_blank">{{ event.calendar.course.name }}</a> uploaded a Study Guide for the <a href="{{ mchp_base_url }}{{ recipient|track_click:event.get_absolute_url }}" target="_blank">{{ event.title }}</a> coming up. Here&rsquo;s a preview of it:
-                            <!-- END IF -->
-                            <!-- IF THERE ARE MORE THAN ONE DOCUMENT -->
+                            {% else %}
+                            <!-- IF THERE IS MORE THAN ONE DOCUMENT -->
                             <p>Classmates of yours in <a href="{{ mchp_base_url }}{{ event.calendar.course.get_absolute_url }}">{{ event.calendar.course.name }}</a> uploaded Study Guides for the <a href="{{ mchp_base_url }}{{ recipient|track_click:event.get_absolute_url }}" target="_blank">{{ event.title }}</a> coming up. Here are previews of them:
-                            <!-- END IF -->
+                            {% endif %}
                           </td>
                         </tr>
                       </table>
@@ -978,7 +979,7 @@ body.outlook p {
                 </table>
                 
                 <!-- FOR EACH DOCUMENT, DISPLAY IT IN ITS OWN SECTION --> 
-{% for document in documents.all %}
+{% for document in documents %}
                 <table class="row document-section">
                   <tr>
                     <td class="wrapper">
