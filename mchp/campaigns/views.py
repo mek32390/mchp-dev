@@ -1,7 +1,8 @@
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect
 from .models import CampaignSubscriber
-from .utils import (subscriber_clicked, subscriber_opened,
-                    subscriber_unsubscribed)
+from .utils import (handle_click, handle_open,
+                    handle_unsubscribe, handle_resubscribe)
 
 
 def clicked(request, uuid):
@@ -9,7 +10,9 @@ def clicked(request, uuid):
 
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
-    return subscriber_clicked(request, subscriber)
+    handle_click(subscriber)
+    url = request.GET.get('next', 'landing_page')
+    return redirect(url)
 
 
 def opened(request, uuid):
@@ -21,12 +24,39 @@ def opened(request, uuid):
 
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
-    return subscriber_opened(request, subscriber)
+    handle_open(subscriber)
+    response = HttpResponse()
+    response.status_code = 204
+    return response
 
 
 def unsubscribed(request, uuid):
     """ Subscriber unsubscribed from an e-mail.
 
+    Notes
+    -----
+    This doesn't do anything besides mark the subscriber as unsubscribed.
+    A landing page and feature-specific, state-changing machinery should
+    be invoked through the `next` query parameter.
+
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
-    return subscriber_unsubscribed(request, subscriber)
+    handle_unsubscribe(subscriber)
+    url = request.GET.get('next', 'landing_page')
+    return redirect(url)
+
+
+def resubscribed(request, uuid):
+    """ Subscriber unsubscribed from an e-mail.
+
+    Notes
+    -----
+    This doesn't do anything besides unmark the subscriber as unsubscribed.
+    A landing page and feature-specific, state-changing machinery should
+    be invoked through the `next` query parameter.
+
+    """
+    subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
+    handle_resubscribe(subscriber)
+    url = request.GET.get('next', 'landing_page')
+    return redirect(url)

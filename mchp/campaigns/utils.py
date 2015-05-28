@@ -1,6 +1,4 @@
 from django.core.mail import EmailMultiAlternatives
-from django.http import HttpResponse
-from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.html import strip_tags
 import uuid
@@ -47,7 +45,7 @@ def make_display_email(address, name=None):
         return address
 
 
-def subscriber_clicked(request, subscriber):
+def handle_click(subscriber):
     """ Subscriber clicked through from an e-mail.
 
     Notes
@@ -58,11 +56,9 @@ def subscriber_clicked(request, subscriber):
     if not subscriber.clicked:
         subscriber.clicked = timezone.now()
         subscriber.save(update_fields=['clicked'])
-    url = request.GET.get('next', 'landing_page')
-    return redirect(url)
 
 
-def subscriber_opened(request, subscriber):
+def handle_open(subscriber):
     """ Subscriber opened an e-mail.
 
     Notes
@@ -75,12 +71,9 @@ def subscriber_opened(request, subscriber):
     if not subscriber.opened:
         subscriber.opened = timezone.now()
         subscriber.save(update_fields=['opened'])
-    response = HttpResponse()
-    response.status_code = 204
-    return response
 
 
-def subscriber_unsubscribed(request, subscriber):
+def handle_unsubscribe(subscriber):
     """ Subscriber unsubscribed from an e-mail.
 
     Notes
@@ -91,5 +84,16 @@ def subscriber_unsubscribed(request, subscriber):
     if not subscriber.unsubscribed:
         subscriber.unsubscribed = timezone.now()
         subscriber.save(update_fields=['unsubscribed'])
-    url = request.GET.get('next', 'landing_page')
-    return redirect(url)
+
+
+def handle_resubscribe(subscriber):
+    """ Subscriber unsubscribed from an e-mail.
+
+    Notes
+    -----
+    This is here to allow CampaignSubscriber subclasses to use this feature.
+
+    """
+    if subscriber.unsubscribed:
+        subscriber.unsubscribed = None
+        subscriber.save(update_fields=['unsubscribed'])

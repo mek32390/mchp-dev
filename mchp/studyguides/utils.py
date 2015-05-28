@@ -44,7 +44,7 @@ def unsubscribe_student(subscriber):
     _update_student_subscribed_status(False)
 
 
-def subscribe_student(subscriber):
+def resubscribe_student(subscriber):
     _update_student_subscribed_status(True)
 
 

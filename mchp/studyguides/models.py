@@ -5,10 +5,9 @@ from campaigns.models import (MetaCampaign, BaseCampaign,
 from campaigns.utils import make_email_message, make_display_email
 from calendar_mchp.models import CalendarEvent
 from documents.models import Document
-from django.template import Context, Template
+from django.template import Template
 from django.template.loader import get_template
 
-from schedule.models import Enrollment
 from . import utils
 
 # [TODO] SHOULD DELETE ALL RELATED CAMPAIGNS WHEN DELETING METACAMPAIGN
