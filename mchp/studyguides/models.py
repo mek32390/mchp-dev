@@ -35,8 +35,6 @@ class StudyGuideCampaign(BaseCampaign):
 
     Attributes
     ----------
-    name : django.db.models.CharField
-        An internal name to identify this campaign.
     template : django.db.models.CharField
         A template associated with this campaign.
     subject : django.db.models.CharField
@@ -47,20 +45,19 @@ class StudyGuideCampaign(BaseCampaign):
         Documents associated with this builder.
 
     """
-    name = models.CharField(max_length=255)
     template = models.CharField(max_length=255)
     subject = models.CharField(max_length=255)
     event = models.ForeignKey(CalendarEvent)
     documents = models.ManyToManyField(Document,
-                                       # related_name='+',
+                                       related_name='+',
                                        blank=True,
                                        null=True)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('event',)
 
     def __str__(self):
-        return self.name
+        return str(self.event)
 
     def _message(self, recipient, connection, context=None):
         """ Build and send a single message from a campaign.
@@ -99,9 +96,17 @@ class StudyGuideCampaign(BaseCampaign):
             'mchp_base_url': utils.default_site(),
         }
 
-    def unsubscribed(self):
-        """ How many subscribers have unsubscribed from their messages? """
-        return self.subscribers.objects.exclude(unsubscribed=None).count()
+    # def _update_subscribers(self):
+    #     """ Update subscribers for this campaign.
+
+    #     """
+    #     if self.active():
+    #         for student in utils.students_for_event(self.event):
+    #             subscriber, created = StudyGuideCampaignSubscriber.objects.get_or_create(
+    #                 campaign=self,
+    #                 user=student.user)
+    #             if created:  # only add if it's not there already
+    #                 self.subscribers.add(subscriber)
 
 
 class StudyGuideMetaCampaign(MetaCampaign):
@@ -135,12 +140,6 @@ class StudyGuideMetaCampaign(MetaCampaign):
 
     def __str__(self):
         return str(self.event)
-
-    def _new_campaign_name(self):
-        """ Create a new campaign name.
-
-        """
-        return str(self)
 
     def _filter_current_documents(self):
         """ Return likely primary document candidates.
@@ -251,7 +250,6 @@ class StudyGuideMetaCampaign(MetaCampaign):
                 subject = '{} study guide'.format(base_subject)
 
             campaign = StudyGuideCampaign.objects.create(
-                name=self._new_campaign_name(),
                 template=template_name,
                 subject=subject,
                 sender_address=self.sender_address,
