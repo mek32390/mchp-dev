@@ -35,6 +35,10 @@ class StudyGuideCampaign(BaseCampaign):
 
     Attributes
     ----------
+    REQUEST_TEMPLATE : str
+        The HTML template to use for study guide requests.
+    PUBLISH_TEMPLATE : str
+        The HTML template to use for study guide announcements.
     template : django.db.models.CharField
         A template associated with this campaign.
     subject : django.db.models.CharField
@@ -45,6 +49,9 @@ class StudyGuideCampaign(BaseCampaign):
         Documents associated with this builder.
 
     """
+    REQUEST_TEMPLATE = 'studyguides/request_for_study_guide.html'
+    PUBLISH_TEMPLATE = 'studyguides/study_guide.html'
+
     template = models.CharField(max_length=255)
     subject = models.CharField(max_length=255)
     event = models.ForeignKey(CalendarEvent)
@@ -72,8 +79,16 @@ class StudyGuideCampaign(BaseCampaign):
             A context for template rendering.
 
         """
-        subject = Template(self.subject).render(context)
-        body = get_template(self.template).render(context)
+        base_subject = '{{ event.calendar.course.name }} {{ event.title }}'
+        if not self.event.documents.count():
+            template_name = self.REQUEST_TEMPLATE
+            subject = 'Got a {} study guide?'.format(base_subject)
+        else:
+            template_name = self.PUBLISH_TEMPLATE
+            subject = '{} study guide'.format(base_subject)
+
+        subject = Template(subject).render(context)
+        body = get_template(template_name).render(context)
 
         return make_email_message(subject, body,
                                   make_display_email(
@@ -135,48 +150,8 @@ class StudyGuideMetaCampaign(MetaCampaign):
                                        null=True)
     updated = models.DateTimeField(blank=True, null=True)
 
-    REQUEST_TEMPLATE = 'studyguides/request_for_study_guide.html'
-    PUBLISH_TEMPLATE = 'studyguides/study_guide.html'
-
     def __str__(self):
         return str(self.event)
-
-    def _filter_current_documents(self):
-        """ Return likely primary document candidates.
-
-        """
-        documents = self.event.documents.all()
-
-        # get all enrollments (student and join date)
-        enrollments = Enrollment.objects.filter(
-            course=self.event.calendar.course)
-
-        scores = utils.rank(documents, None)
-
-        scores += utils.rank(documents,
-                             lambda doc: doc.create_date,
-                             score=40)
-
-        scores += utils.rank(documents,
-                             lambda doc: doc.purchased_document.count(),
-                             score=30)
-
-        scores += utils.rank(documents,
-                             lambda doc: enrollments.get(
-                                 student=doc.upload.owner).join_date,
-                             score=20)
-
-        scores += utils.rank(documents,
-                             lambda doc: doc.rating(),
-                             score=10)
-
-        print('DEBUG: SCORES = ' + str(scores))
-        top_score = scores.most_common(1)
-        if top_score:
-            top_score = top_score[0][1]
-            return [d for d in documents if scores[d] == top_score]
-        else:
-            return []
 
     def _update_subscribers(self):
         """ Update subscribers for the active campaign.
@@ -203,16 +178,14 @@ class StudyGuideMetaCampaign(MetaCampaign):
             `True` if documents updated, `False` otherwise.
 
         """
-        primary_documents = self._filter_current_documents()
+        primary_documents = utils._rank_documents(self.event)
         # [TODO] this is a kludge
-        if set(primary_documents) != set(self.documents.all()):
-            print('[DEBUG] Docs changed!  New campaign ahoy!')
-            self.documents = primary_documents
+        if self.campaigns.active():
+            if set(primary_documents) != set(self.documents.all()):
+                print('[DEBUG] Docs changed!  New campaign ahoy!')
+                self.documents = primary_documents
             return True
-        elif not self.campaigns.active():
-            return True
-        else:
-            return False
+        return False
 
     def _deactivate_campaigns(self):
         """ Deactivate all still-active campaigns.
@@ -241,17 +214,7 @@ class StudyGuideMetaCampaign(MetaCampaign):
             # deactivate existing campaigns
             self._deactivate_campaigns()
 
-            base_subject = '{{ event.calendar.course.name }} {{ event.title }}'
-            if not self.event.documents.count():
-                template_name = self.REQUEST_TEMPLATE
-                subject = 'Got a {} study guide?'.format(base_subject)
-            else:
-                template_name = self.PUBLISH_TEMPLATE
-                subject = '{} study guide'.format(base_subject)
-
             campaign = StudyGuideCampaign.objects.create(
-                template=template_name,
-                subject=subject,
                 sender_address=self.sender_address,
                 sender_name=self.sender_name,
                 event=self.event,
