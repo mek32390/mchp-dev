@@ -135,8 +135,6 @@ class StudyGuideMetaCampaign(MetaCampaign):
         Campaigns associated with this builder.
     documents : django.db.models.ManyToManyField
         Documents associated with this builder.
-    updated = django.db.models.DateTimeField
-        When was this campaign last updated?
 
     """
     event = models.ForeignKey(CalendarEvent, primary_key=True)
@@ -148,7 +146,6 @@ class StudyGuideMetaCampaign(MetaCampaign):
                                        # related_name='+',
                                        blank=True,
                                        null=True)
-    updated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return str(self.event)
@@ -224,5 +221,3 @@ class StudyGuideMetaCampaign(MetaCampaign):
             self.campaigns.add(campaign)
 
         self._update_subscribers()
-        self.updated = timezone.now()
-        self.save(update_fields=['updated'])

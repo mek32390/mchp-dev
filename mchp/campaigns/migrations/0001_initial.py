@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Campaign',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
                 ('when', models.DateTimeField(verbose_name='campaign start')),
-                ('until', models.DateTimeField(null=True, verbose_name='campaign end', blank=True)),
+                ('until', models.DateTimeField(verbose_name='campaign end', blank=True, null=True)),
                 ('sender_address', models.EmailField(max_length=254)),
-                ('sender_name', models.CharField(max_length=255, blank=True)),
+                ('sender_name', models.CharField(blank=True, max_length=255)),
                 ('name', models.CharField(max_length=255)),
             ],
             options={
@@ -31,12 +31,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignSubscriber',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
-                ('uuid', models.CharField(max_length=32, unique=True, default=campaigns.utils.make_uuid)),
-                ('notified', models.DateTimeField(null=True, blank=True)),
-                ('clicked', models.DateTimeField(null=True, blank=True)),
-                ('opened', models.DateTimeField(null=True, blank=True)),
-                ('unsubscribed', models.DateTimeField(null=True, blank=True)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('uuid', models.CharField(max_length=32, default=campaigns.utils.make_uuid, unique=True)),
+                ('notified', models.DateTimeField(blank=True, null=True)),
+                ('clicked', models.DateTimeField(blank=True, null=True)),
+                ('opened', models.DateTimeField(blank=True, null=True)),
+                ('unsubscribed', models.DateTimeField(blank=True, null=True)),
                 ('campaign', models.ForeignKey(to='campaigns.Campaign', related_name='subscribers')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CampaignTemplate',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
                 ('subject', models.CharField(max_length=255)),
                 ('body', models.TextField(blank=True)),
                 ('name', models.CharField(max_length=255, unique=True)),
