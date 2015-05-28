@@ -8,6 +8,7 @@ from schedule.models import Enrollment
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.shortcuts import get_object_or_404
+from user_profile.models import Student
 
 
 def default_site():
@@ -33,7 +34,7 @@ def upcoming_events():
 def unsubscribe_student(subscriber):
     enrollment = get_object_or_404(
         Enrollment,
-        student=subscriber.student,
+        student=Student.objects.get(user=subscriber.user),
         course=subscriber.campaign.event.calendar.course)
     enrollment.receive_email = False
     enrollment.save(update_fields=['receive_email'])
