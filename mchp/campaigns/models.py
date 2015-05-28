@@ -170,7 +170,7 @@ class BaseCampaign(MetaCampaign):
         return False
     active.boolean = True
 
-    def blast(self, context=None, force=False):
+    def blast(self, force=False):
         """ Send a blast to this campaign.
 
         Parameters
@@ -183,7 +183,10 @@ class BaseCampaign(MetaCampaign):
 
         """
         if self.active():
-            self._blast(context=context, force=force)
+            recipients = self.subscribers.all()
+            if not force:
+                recipients = recipients.filter(notified=None)
+            self._blast(recipients)
 
     def clicked(self):
         """ How many subscribers have clicked through their messages? """
@@ -197,23 +200,30 @@ class BaseCampaign(MetaCampaign):
         """ How many subscribers have unsubscribed from their messages? """
         return self.subscribers.objects.exclude(unsubscribed=None).count()
 
-    def _blast(self, context=None, force=False):
+    def _context(self):
+        """ Template context for this campaign.
+
+        Returns
+        -------
+        out : dict
+            A template context to use for rendering.
+
+        """
+        return {}
+
+    def _blast(self, recipients):
         """ Send a blast to this campaign if it is active.
 
         Parameters
         ----------
         context : dict, optional
             A dictionary to turn into context variables for the message.
-        force : bool, optional
-            `True` to notify subscribers who have already been notified,
-            `False` otherwise.  Default `False`.
-            [TODO] remove this arg?
+        recipients : list or tuple
+            A list of recipients.
 
         """
-        recipients = self.subscribers.all()
-        if not force:
-            recipients = recipients.filter(notified=None)
         if recipients:
+            context = Context(self._context())
             connection = get_connection()
             connection.open()
             try:
@@ -237,12 +247,10 @@ class BaseCampaign(MetaCampaign):
             An e-mail address (and optional name) to which to send.
         connection : django.core.mail.backends.console.EmailBackend
             A connection with which to send the message.
-        context : dict, optional
-            A dictionary to turn into context variables for the message.
+        context : django.template.Context
+            A context for template rendering.
 
         """
-        context = Context(context)
-
         subject = self.template.subject_template.render(context)
         body = self.template.body_template.render(context)
 

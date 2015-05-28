@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from studyguides.models import StudyGuideMetaCampaign
+from studyguides.models import StudyGuideCampaign, StudyGuideMetaCampaign
 from studyguides.utils import upcoming_events
 from django.utils import timezone
 
@@ -19,5 +19,5 @@ class Command(BaseCommand):
                     })
                 mcamp.update()
 
-        for campaign in StudyGuideMetaCampaign.objects.active():
+        for campaign in StudyGuideCampaign.objects.active():
             campaign.blast()

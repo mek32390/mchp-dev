@@ -41,11 +41,20 @@ class StudyGuideCampaign(BaseCampaign):
         A template associated with this campaign.
     subject : django.db.models.CharField
         A subject line associated with this campaign.
+    event : django.db.models.ForeignKey
+        An event for this campaign.
+    documents : django.db.models.ManyToManyField
+        Documents associated with this builder.
 
     """
     name = models.CharField(max_length=255)
     template = models.CharField(max_length=255)
     subject = models.CharField(max_length=255)
+    event = models.ForeignKey(CalendarEvent)
+    documents = models.ManyToManyField(Document,
+                                       # related_name='+',
+                                       blank=True,
+                                       null=True)
 
     class Meta:
         ordering = ('name',)
@@ -62,12 +71,10 @@ class StudyGuideCampaign(BaseCampaign):
             An e-mail address (and optional name) to which to send.
         connection : django.core.mail.backends.console.EmailBackend
             A connection with which to send the message.
-        context : dict, optional
-            A dictionary to turn into context variables for the message.
+        context : django.template.Context
+            A context for template rendering.
 
         """
-        context = Context(context)
-
         subject = Template(self.subject).render(context)
         body = get_template(self.template).render(context)
 
@@ -76,6 +83,21 @@ class StudyGuideCampaign(BaseCampaign):
                                       self.sender_address,
                                       self.sender_name),
                                   recipient, connection)
+
+    def _context(self):
+        """ Template context for this campaign.
+
+        Returns
+        -------
+        out : dict
+            A template context.
+
+        """
+        return {
+            'event': self.event,
+            'documents': self.documents,
+            'mchp_base_url': utils.default_site(),
+        }
 
     def unsubscribed(self):
         """ How many subscribers have unsubscribed from their messages? """
@@ -212,25 +234,6 @@ class StudyGuideMetaCampaign(MetaCampaign):
             campaign.until = now
             campaign.save(update_fields=['until'])
 
-    def blast(self, context=None, force=False):
-        """ Send a blast to this campaign.
-
-        Parameters
-        ----------
-        context : dict, optional
-            A dictionary to turn into context variables for the message.
-        force : bool, optional
-            `True` to notify subscribers who have already been notified,
-            `False` otherwise.  Default `False`.
-
-        """
-        if not context:
-            context = {}
-        context.update(documents=self.documents, event=self.event,
-                       mchp_base_url=utils.default_site())
-        for campaign in self.campaigns.active():
-            campaign.blast(context=context, force=force)
-
     def update(self):
         """ Update campaigns.
 
@@ -253,6 +256,8 @@ class StudyGuideMetaCampaign(MetaCampaign):
                 subject=subject,
                 sender_address=self.sender_address,
                 sender_name=self.sender_name,
+                event=self.event,
+                documents=self.documents,
                 when=timezone.now(),
                 until=self.event.start)
             self.campaigns.add(campaign)
