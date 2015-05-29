@@ -32,7 +32,6 @@ def unsubscribed(request, uuid):
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
     subscriber.mark_unsubscribed()
-    update_enrollment(subscriber, False)
     return render_to_response('studyguides/unsubscribed_page.html', {
         'subscriber': subscriber,
         'course': subscriber.campaign.event.calendar.course})
