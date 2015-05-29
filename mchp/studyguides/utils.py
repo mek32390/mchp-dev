@@ -41,11 +41,11 @@ def _update_student_subscribed_status(subscriber, status):
 
 
 def unsubscribe_student(subscriber):
-    _update_student_subscribed_status(False)
+    _update_student_subscribed_status(subscriber, False)
 
 
 def resubscribe_student(subscriber):
-    _update_student_subscribed_status(True)
+    _update_student_subscribed_status(subscriber, True)
 
 
 # def campaign_for_event(event):
