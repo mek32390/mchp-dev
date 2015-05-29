@@ -118,9 +118,7 @@ class CalendarEvent(models.Model):
                                        null=True)
 
     def get_absolute_url(self):
-        return '/placeholder/for/event/'
-        # return reverse('event', args=[str(self.id)])
-
+        return reverse('event_detail', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
         if not self.pk:

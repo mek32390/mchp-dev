@@ -7,8 +7,6 @@ from calendar_mchp.models import CalendarEvent
 from schedule.models import Enrollment
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.shortcuts import get_object_or_404
-from user_profile.models import Student
 
 
 def default_site():
@@ -29,23 +27,6 @@ def upcoming_events():
                                           notify_lead__gt=0)
     return [event for event in events
             if now > event.start - timedelta(minutes=event.notify_lead)]
-
-
-def _update_student_subscribed_status(subscriber, status):
-    enrollment = get_object_or_404(
-        Enrollment,
-        student=Student.objects.get(user=subscriber.user),
-        course=subscriber.campaign.event.calendar.course)
-    enrollment.receive_email = status
-    enrollment.save(update_fields=['receive_email'])
-
-
-def unsubscribe_student(subscriber):
-    _update_student_subscribed_status(subscriber, False)
-
-
-def resubscribe_student(subscriber):
-    _update_student_subscribed_status(subscriber, True)
 
 
 # def campaign_for_event(event):
