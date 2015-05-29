@@ -42,7 +42,7 @@ def resubscribed(request, uuid):
 
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
-    subscriber.mark_unsubscribed(False)
+    subscriber.mark_resubscribed()
     return render_to_response('studyguides/resubscribed_page.html', {
         'subscriber': subscriber,
         'course': subscriber.campaign.event.calendar.course})
