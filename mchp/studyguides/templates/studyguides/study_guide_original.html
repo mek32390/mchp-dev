@@ -1024,7 +1024,6 @@ body.outlook p {
                                 </td>
                               </tr>
                             </table>
-{% endfor %}
                               <p class="small" style="margin-bottom:0px; margin-top:0px;">View all <a href="{{ mchp_base_url }}{{ recipient|track_click:event.get_absolute_url }}" target="_blank">{{ event.title }} Study Guides</a></p>
                               {% url 'document_upload' as document_upload_url %}
                               <p style="margin-bottom:0px;" class="small">Get $5 for every Study Guide you <a href="{{ mchp_base_url }}{% url 'document_upload' %}" target="_blank">upload</a>.</p>
