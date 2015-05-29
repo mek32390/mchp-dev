@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from campaigns.models import (MetaCampaign, BaseCampaign,
-                              BaseCampaignSubscriber)
+from campaigns.models import Campaign, CampaignSubscriber, MetaCampaign
 from campaigns.utils import make_email_message, make_display_email
 from calendar_mchp.models import CalendarEvent
 from documents.models import Document
@@ -13,24 +12,8 @@ from . import utils
 # [TODO] SHOULD DELETE ALL RELATED CAMPAIGNS WHEN DELETING METACAMPAIGN
 
 
-class StudyGuideCampaignSubscriber(BaseCampaignSubscriber):
-    """ Subscriber in a campaign.
-
-    Attributes
-    ----------
-    campaign : django.db.models.ForeignKey
-        The campaign associated with this subscriber.
-
-    """
-    campaign = models.ForeignKey('StudyGuideCampaign',
-                                 related_name='subscribers')
-
-    class Meta:
-        unique_together = ('campaign', 'user')
-
-
-class StudyGuideCampaign(BaseCampaign):
-    """ Concrete campaign class.
+class StudyGuideAnnouncement(models.Model):
+    """ Through table connecting StudyGuideMetaCampaigns to Campaigns.
 
     Attributes
     ----------
@@ -38,6 +21,10 @@ class StudyGuideCampaign(BaseCampaign):
         The HTML template to use for study guide requests.
     PUBLISH_TEMPLATE : str
         The HTML template to use for study guide announcements.
+    campaign : django.db.models.ForeignKey
+        A campaign to augment.
+    metacampaign : django.db.models.ForeignKey
+        A metacampaign coordinating campaign creation.
     template : django.db.models.CharField
         A template associated with this campaign.
     subject : django.db.models.CharField
@@ -50,6 +37,9 @@ class StudyGuideCampaign(BaseCampaign):
     """
     REQUEST_TEMPLATE = 'studyguides/request_for_study_guide.html'
     PUBLISH_TEMPLATE = 'studyguides/study_guide.html'
+
+    campaign = models.ForeignKey(Campaign)
+    metacampaign = models.ForeignKey('StudyGuideMetaCampaign')
 
     template = models.CharField(max_length=255)
     subject = models.CharField(max_length=255)
@@ -137,14 +127,10 @@ class StudyGuideMetaCampaign(MetaCampaign):
 
     """
     event = models.ForeignKey(CalendarEvent, primary_key=True)
-    campaigns = models.ManyToManyField(StudyGuideCampaign,
-                                       # related_name='+',
-                                       blank=True,
-                                       null=True)
-    documents = models.ManyToManyField(Document,
-                                       # related_name='+',
-                                       blank=True,
-                                       null=True)
+    campaigns = models.ManyToManyField(Campaign, blank=True, null=True,
+                                       through=StudyGuideAnnouncement)
+    documents = models.ManyToManyField(Document, blank=True, null=True,
+                                       related_name='+')
 
     def __str__(self):
         return str(self.event)
@@ -155,11 +141,11 @@ class StudyGuideMetaCampaign(MetaCampaign):
         """
         try:
             campaign = self.campaigns.latest('when')
-        except StudyGuideCampaign.DoesNotExist:
+        except Campaign.DoesNotExist:
             pass
         else:
             for student in utils.students_for_event(self.event):
-                subscriber, created = StudyGuideCampaignSubscriber.objects.get_or_create(
+                subscriber, created = CampaignSubscriber.objects.get_or_create(
                     campaign=campaign,
                     user=student.user)
                 if created:  # only add if it's not there already
@@ -210,13 +196,17 @@ class StudyGuideMetaCampaign(MetaCampaign):
             # deactivate existing campaigns
             self._deactivate_campaigns()
 
-            campaign = StudyGuideCampaign.objects.create(
+            campaign = Campaign.objects.create(
                 sender_address=self.sender_address,
                 sender_name=self.sender_name,
-                event=self.event,
                 when=timezone.now(),
                 until=self.event.start)
-            campaign.documents = self.documents.all()
-            self.campaigns.add(campaign)
+            announcement = StudyGuideAnnouncement.objects.create(
+                campaign=campaign,
+                metacampaign=self,
+                event=self.event)
+
+            announcement.documents = self.documents.all()
+            self.campaigns.add(announcement)
 
         self._update_subscribers()
