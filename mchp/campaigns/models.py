@@ -1,6 +1,6 @@
 from django.core.mail import get_connection
 from django.db import models
-from django.template import Context, Template
+from django.template import Context  # , Template
 from django.utils import timezone
 from django.conf import settings
 from . import managers
@@ -62,7 +62,7 @@ class BaseCampaignSubscriber(models.Model):
             self.opened = timezone.now()
             self.save(update_fields=['opened'])
 
-    def mark_unsubscribed(self):
+    def mark_unsubscribed(self, status=True):
         """ Mark subscriber as unsubscribed now. """
         if not self.unsubscribed:
             self.unsubscribed = timezone.now()
@@ -75,70 +75,70 @@ class BaseCampaignSubscriber(models.Model):
             self.save(update_fields=['unsubscribed'])
 
 
-class CampaignSubscriber(BaseCampaignSubscriber):
-    """ Subscriber in a campaign.
+# class CampaignSubscriber(BaseCampaignSubscriber):
+#     """ Subscriber in a campaign.
 
-    Attributes
-    ----------
-    campaign : django.db.models.ForeignKey
-        The campaign associated with this subscriber.
+#     Attributes
+#     ----------
+#     campaign : django.db.models.ForeignKey
+#         The campaign associated with this subscriber.
 
-    """
-    campaign = models.ForeignKey('Campaign', related_name='subscribers')
+#     """
+#     campaign = models.ForeignKey('Campaign', related_name='subscribers')
 
-    class Meta:
-        unique_together = ('campaign', 'user')
-
-
-class BaseCampaignTemplate(models.Model):
-    """ Abstract base for contents of a campaign template.
-
-    Attributes
-    ----------
-    subject : django.db.models.CharField
-        A subject for the campaign.
-    body : django.db.models.TextField
-        A template for the message.
-
-    """
-    subject = models.CharField(max_length=255)
-    body = models.TextField(blank=True)
-
-    class Meta:
-        abstract = True
+#     class Meta:
+#         unique_together = ('campaign', 'user')
 
 
-class CampaignTemplate(BaseCampaignTemplate):
-    """ Contents of a campaign template.
+# class BaseCampaignTemplate(models.Model):
+#     """ Abstract base for contents of a campaign template.
 
-    Attributes
-    ----------
-    name : django.db.models.CharField
-        An internal name to identify this campaign.
+#     Attributes
+#     ----------
+#     subject : django.db.models.CharField
+#         A subject for the campaign.
+#     body : django.db.models.TextField
+#         A template for the message.
 
-    """
-    name = models.CharField(max_length=255, unique=True)
+#     """
+#     subject = models.CharField(max_length=255)
+#     body = models.TextField(blank=True)
 
-    class Meta:
-        ordering = ('name',)
+#     class Meta:
+#         abstract = True
 
-    def __str__(self):
-        return self.name
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.refresh_template_cache()
+# class CampaignTemplate(BaseCampaignTemplate):
+#     """ Contents of a campaign template.
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        self.refresh_template_cache()
+#     Attributes
+#     ----------
+#     name : django.db.models.CharField
+#         An internal name to identify this campaign.
 
-    def refresh_template_cache(self):
-        """ Refresh templates in memory.
+#     """
+#     name = models.CharField(max_length=255, unique=True)
 
-        """
-        self.subject_template = Template(self.subject)
-        self.body_template = Template(self.body)
+#     class Meta:
+#         ordering = ('name',)
+
+#     def __str__(self):
+#         return self.name
+
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.refresh_template_cache()
+
+#     def save(self, *args, **kwargs):
+#         super().save(*args, **kwargs)
+#         self.refresh_template_cache()
+
+#     def refresh_template_cache(self):
+#         """ Refresh templates in memory.
+
+#         """
+#         self.subject_template = Template(self.subject)
+#         self.body_template = Template(self.body)
 
 
 class MetaCampaign(models.Model):
@@ -286,22 +286,22 @@ class BaseCampaign(MetaCampaign):
                                         recipient, connection)
 
 
-class Campaign(BaseCampaign):
-    """ Concrete campaign class.
+# class Campaign(BaseCampaign):
+#     """ Concrete campaign class.
 
-    Attributes
-    ----------
-    name : django.db.models.CharField
-        An internal name to identify this campaign.
-    template : django.db.models.ForeignKey
-        A template associated with this campaign.
+#     Attributes
+#     ----------
+#     name : django.db.models.CharField
+#         An internal name to identify this campaign.
+#     template : django.db.models.ForeignKey
+#         A template associated with this campaign.
 
-    """
-    name = models.CharField(max_length=255)
-    template = models.ForeignKey(CampaignTemplate)
+#     """
+#     name = models.CharField(max_length=255)
+#     template = models.ForeignKey(CampaignTemplate)
 
-    class Meta:
-        ordering = ('name',)
+#     class Meta:
+#         ordering = ('name',)
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
