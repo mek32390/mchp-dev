@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from .models import CampaignSubscriber
 from .utils import (handle_click, handle_open,
@@ -10,9 +9,8 @@ def clicked(request, uuid):
 
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
-    handle_click(subscriber)
     url = request.GET.get('next', 'landing_page')
-    return redirect(url)
+    return handle_click(subscriber, url)
 
 
 def opened(request, uuid):
@@ -24,10 +22,7 @@ def opened(request, uuid):
 
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
-    handle_open(subscriber)
-    response = HttpResponse()
-    response.status_code = 204
-    return response
+    return handle_open(subscriber)
 
 
 def unsubscribed(request, uuid):

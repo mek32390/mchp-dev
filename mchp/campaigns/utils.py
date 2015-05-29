@@ -1,4 +1,6 @@
 from django.core.mail import EmailMultiAlternatives
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.html import strip_tags
 import uuid
@@ -45,7 +47,7 @@ def make_display_email(address, name=None):
         return address
 
 
-def handle_click(subscriber):
+def _mark_click(subscriber):
     """ Subscriber clicked through from an e-mail.
 
     Notes
@@ -58,7 +60,7 @@ def handle_click(subscriber):
         subscriber.save(update_fields=['clicked'])
 
 
-def handle_open(subscriber):
+def _mark_open(subscriber):
     """ Subscriber opened an e-mail.
 
     Notes
@@ -71,6 +73,39 @@ def handle_open(subscriber):
     if not subscriber.opened:
         subscriber.opened = timezone.now()
         subscriber.save(update_fields=['opened'])
+
+
+def handle_open(subscriber):
+    """ Subscriber opened an e-mail.
+
+    Notes
+    -----
+    This is here to allow CampaignSubscriber subclasses to use this feature.
+
+    """
+    _mark_open(subscriber)
+    response = HttpResponse()
+    response.status_code = 204
+    return response
+
+
+def handle_click(subscriber, url):
+    """ Subscriber clicked through from an e-mail.
+
+    Parameters
+    ----------
+    subscriber : data-type
+        A subscriber object.
+    url : str
+        A URL to which to redirect.
+
+    Notes
+    -----
+    This is here to allow CampaignSubscriber subclasses to use this feature.
+
+    """
+    _mark_click(subscriber)
+    return redirect(url)
 
 
 def handle_unsubscribe(subscriber):
