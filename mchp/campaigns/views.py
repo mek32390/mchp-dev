@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect
 from .models import CampaignSubscriber
-from .utils import (handle_click, handle_open,
-                    handle_unsubscribe, handle_resubscribe)
+from .utils import beacon_response
 
 
 def clicked(request, uuid):
@@ -9,8 +8,9 @@ def clicked(request, uuid):
 
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
+    subscriber.mark_clicked()
     url = request.GET.get('next', 'landing_page')
-    return handle_click(subscriber, url)
+    return redirect(url)
 
 
 def opened(request, uuid):
@@ -22,7 +22,8 @@ def opened(request, uuid):
 
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
-    return handle_open(subscriber)
+    subscriber.mark_opened()
+    return beacon_response(subscriber)
 
 
 def unsubscribed(request, uuid):
@@ -36,7 +37,7 @@ def unsubscribed(request, uuid):
 
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
-    handle_unsubscribe(subscriber)
+    subscriber.mark_unsubscribed()
     url = request.GET.get('next', 'landing_page')
     return redirect(url)
 
@@ -52,6 +53,6 @@ def resubscribed(request, uuid):
 
     """
     subscriber = get_object_or_404(CampaignSubscriber, uuid=uuid)
-    handle_resubscribe(subscriber)
+    subscriber.mark_resubscribed()
     url = request.GET.get('next', 'landing_page')
     return redirect(url)

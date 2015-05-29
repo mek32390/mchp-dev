@@ -46,8 +46,33 @@ class BaseCampaignSubscriber(models.Model):
 
     def mark_notified(self):
         """ Mark subscriber as notified now. """
-        self.notified = timezone.now()
-        self.save(update_fields=['notified'])
+        if not self.notified:
+            self.notified = timezone.now()
+            self.save(update_fields=['notified'])
+
+    def mark_clicked(self):
+        """ Mark subscriber as clicked-through now. """
+        if not self.clicked:
+            self.clicked = timezone.now()
+            self.save(update_fields=['clicked'])
+
+    def mark_opened(self):
+        """ Mark subscriber as opened now. """
+        if not self.opened:
+            self.opened = timezone.now()
+            self.save(update_fields=['opened'])
+
+    def mark_unsubscribed(self):
+        """ Mark subscriber as unsubscribed now. """
+        if not self.unsubscribed:
+            self.unsubscribed = timezone.now()
+            self.save(update_fields=['unsubscribed'])
+
+    def mark_resubscribed(self):
+        """ Mark subscriber as *not* unsubscribed. """
+        if self.unsubscribed:
+            self.unsubscribed = None
+            self.save(update_fields=['unsubscribed'])
 
 
 class CampaignSubscriber(BaseCampaignSubscriber):

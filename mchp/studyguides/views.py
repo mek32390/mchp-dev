@@ -1,7 +1,6 @@
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, redirect, render_to_response
 from .models import StudyGuideCampaignSubscriber
-from .utils import unsubscribe_student, resubscribe_student
-from campaigns.utils import handle_click, handle_open
+from campaigns.utils import beacon_response
 
 
 def clicked(request, uuid):
@@ -9,8 +8,9 @@ def clicked(request, uuid):
 
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
+    subscriber.mark_clicked()
     url = request.GET.get('next', 'landing_page')
-    return handle_click(subscriber, url)
+    return redirect(url)
 
 
 def opened(request, uuid):
@@ -22,7 +22,8 @@ def opened(request, uuid):
 
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
-    return handle_open(subscriber)
+    subscriber.mark_opened()
+    return beacon_response(subscriber)
 
 
 def unsubscribed(request, uuid):
@@ -30,7 +31,7 @@ def unsubscribed(request, uuid):
 
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
-    unsubscribe_student(subscriber)
+    subscriber.mark_unsubscribed()
     return render_to_response('studyguides/unsubscribed_page.html', {
         'subscriber': subscriber,
         'course': subscriber.campaign.event.calendar.course})
@@ -41,7 +42,7 @@ def resubscribed(request, uuid):
 
     """
     subscriber = get_object_or_404(StudyGuideCampaignSubscriber, uuid=uuid)
-    resubscribe_student(subscriber)
+    subscriber.mark_unsubscribed(False)
     return render_to_response('studyguides/resubscribed_page.html', {
         'subscriber': subscriber,
         'course': subscriber.campaign.event.calendar.course})
