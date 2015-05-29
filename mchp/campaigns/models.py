@@ -65,55 +65,55 @@ class CampaignSubscriber(BaseCampaignSubscriber):
         unique_together = ('campaign', 'user')
 
 
-# class BaseCampaignTemplate(models.Model):
-#     """ Abstract base for contents of a campaign template.
+class BaseCampaignTemplate(models.Model):
+    """ Abstract base for contents of a campaign template.
 
-#     Attributes
-#     ----------
-#     subject : django.db.models.CharField
-#         A subject for the campaign.
-#     body : django.db.models.TextField
-#         A template for the message.
+    Attributes
+    ----------
+    subject : django.db.models.CharField
+        A subject for the campaign.
+    body : django.db.models.TextField
+        A template for the message.
 
-#     """
-#     subject = models.CharField(max_length=255)
-#     body = models.TextField(blank=True)
+    """
+    subject = models.CharField(max_length=255)
+    body = models.TextField(blank=True)
 
-#     class Meta:
-#         abstract = True
+    class Meta:
+        abstract = True
 
 
-# class CampaignTemplate(BaseCampaignTemplate):
-#     """ Contents of a campaign template.
+class CampaignTemplate(BaseCampaignTemplate):
+    """ Contents of a campaign template.
 
-#     Attributes
-#     ----------
-#     name : django.db.models.CharField
-#         An internal name to identify this campaign.
+    Attributes
+    ----------
+    name : django.db.models.CharField
+        An internal name to identify this campaign.
 
-#     """
-#     name = models.CharField(max_length=255, unique=True)
+    """
+    name = models.CharField(max_length=255, unique=True)
 
-#     class Meta:
-#         ordering = ('name',)
+    class Meta:
+        ordering = ('name',)
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
 
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.refresh_template_cache()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.refresh_template_cache()
 
-#     def save(self, *args, **kwargs):
-#         super().save(*args, **kwargs)
-#         self.refresh_template_cache()
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.refresh_template_cache()
 
-#     def refresh_template_cache(self):
-#         """ Refresh templates in memory.
+    def refresh_template_cache(self):
+        """ Refresh templates in memory.
 
-#         """
-#         self.subject_template = Template(self.subject)
-#         self.body_template = Template(self.body)
+        """
+        self.subject_template = Template(self.subject)
+        self.body_template = Template(self.body)
 
 
 class MetaCampaign(models.Model):
@@ -266,18 +266,17 @@ class Campaign(BaseCampaign):
 
     Attributes
     ----------
-    # name : django.db.models.CharField
-    #     An internal name to identify this campaign.
-    # template : django.db.models.ForeignKey
-    #     A template associated with this campaign.
+    name : django.db.models.CharField
+        An internal name to identify this campaign.
+    template : django.db.models.ForeignKey
+        A template associated with this campaign.
 
     """
-    pass
-    # name = models.CharField(max_length=255)
-    # # template = models.ForeignKey(CampaignTemplate)
+    name = models.CharField(max_length=255)
+    template = models.ForeignKey(CampaignTemplate)
 
-    # class Meta:
-    #     ordering = ('name',)
+    class Meta:
+        ordering = ('name',)
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name

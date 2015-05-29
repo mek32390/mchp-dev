@@ -2,26 +2,21 @@ from django.contrib import admin
 from . import models
 
 
-# @admin.register(models.CampaignTemplate)
-# class CampaignTemplateAdmin(admin.ModelAdmin):
-#     list_display = ('name',)
-#     fieldsets = (
-#         (None, {
-#             'fields': ['name'],
-#         }),
-#         ('Content', {
-#             'fields': ['subject', 'body'],
-#         }),
-#         # ('Important dates', {
-#         #     'fields': ['updated', 'created'],
-#         # })
-#     )
-#     # readonly_fields = ('created', 'updated')
-
-@admin.register(models.CampaignSubscriber)
-class CampaignSubscriberAdmin(admin.ModelAdmin):
-    list_display = ('user', 'campaign', 'notified', 'opened', 'clicked',
-                    'unsubscribed', 'uuid')
+@admin.register(models.CampaignTemplate)
+class CampaignTemplateAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    fieldsets = (
+        (None, {
+            'fields': ['name'],
+        }),
+        ('Content', {
+            'fields': ['subject', 'body'],
+        }),
+        # ('Important dates', {
+        #     'fields': ['updated', 'created'],
+        # })
+    )
+    # readonly_fields = ('created', 'updated')
 
 
 class CampaignSubscribersInline(admin.TabularInline):
@@ -33,10 +28,10 @@ class CampaignSubscribersInline(admin.TabularInline):
 
 @admin.register(models.Campaign)
 class CampaignAdmin(admin.ModelAdmin):
-    list_display = ('active', 'when', 'until')
+    list_display = ('name', 'template', 'active', 'when', 'until')
     fieldsets = (
         (None, {
-            'fields': ['sender_name', 'sender_address'],
+            'fields': ['name', 'sender_name', 'sender_address', 'template'],
         }),
         ('Important dates', {
             'fields': ['when', 'until'],
