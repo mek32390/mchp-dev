@@ -1,12 +1,13 @@
+from django.conf import settings
+from django.contrib.sites.models import Site
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 from collections import Counter
 from datetime import timedelta
-# from . import models
+
 from calendar_mchp.models import CalendarEvent
 from schedule.models import Enrollment
-from django.conf import settings
-from django.contrib.sites.models import Site
 
 
 def default_site():

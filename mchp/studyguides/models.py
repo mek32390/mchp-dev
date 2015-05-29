@@ -1,12 +1,16 @@
 from django.db import models
+from django.template.loader import get_template
+from django.template import Template
 from django.utils import timezone
+
+from documents.models import Document
+from calendar_mchp.models import CalendarEvent
 from campaigns.models import (MetaCampaign, BaseCampaign,
                               BaseCampaignSubscriber)
 from campaigns.utils import make_email_message, make_display_email
-from calendar_mchp.models import CalendarEvent
-from documents.models import Document
-from django.template import Template
-from django.template.loader import get_template
+from schedule.models import Enrollment
+from user_profile.models import Student
+
 
 from . import utils
 
@@ -27,6 +31,22 @@ class StudyGuideCampaignSubscriber(BaseCampaignSubscriber):
 
     class Meta:
         unique_together = ('campaign', 'user')
+
+    def _update_enrollment(self, status):
+        student = Student.objects.get(user=self.user)
+        enrollment = Enrollment.objects.get(
+            student=student,
+            course=self.campaign.event.calendar.course)
+        enrollment.receive_email = status
+        enrollment.save(update_fields=['receive_email'])
+
+    def mark_unsubscribed(self):
+        self._update_enrollment(False)
+        super().mark_unsubscribed()
+
+    def mark_resubscribed(self):
+        self._update_enrollment(True)
+        super().mark_resubscribed()
 
 
 class StudyGuideCampaign(BaseCampaign):
