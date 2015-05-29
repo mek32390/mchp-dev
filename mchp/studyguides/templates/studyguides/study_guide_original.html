@@ -963,7 +963,7 @@ body.outlook p {
                         <tr>
                           <td>
                             <p>Hi {{ recipient.user.get_short_name }},</p>
-                            {% if documents|length_is:"1"}
+                            {% if documents|length_is:"1" %}
                             <!-- IF THERE IS ONLY ONE DOCUMENT -->
                             <p>A classmate of yours in <a href="{{ mchp_base_url }}{{ event.calendar.course.get_absolute_url }}" target="_blank">{{ event.calendar.course.name }}</a> uploaded a Study Guide for the <a href="{{ mchp_base_url }}{{ recipient|track_click:event.get_absolute_url }}" target="_blank">{{ event.title }}</a> coming up. Here&rsquo;s a preview of it:
                             {% else %}
@@ -1039,6 +1039,7 @@ body.outlook p {
                     </td>
                   </tr>
                 </table>
+{% endfor %}
                 <br></br>
                 <hr>
 
