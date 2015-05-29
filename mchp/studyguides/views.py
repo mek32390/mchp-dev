@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from .models import StudyGuideCampaignSubscriber
-from campaigns.utils import beacon_response, update_enrollment
+from campaigns.utils import beacon_response
 
 
 def clicked(request, uuid):
