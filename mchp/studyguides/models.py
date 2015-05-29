@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.contrib.sites.models import Site
 from django.db import models
 from django.template.loader import get_template
 from django.template import Template
@@ -124,10 +126,12 @@ class StudyGuideCampaign(BaseCampaign):
             A template context.
 
         """
+        domain = Site.objects.get_current()
+        scheme = 'http' if settings.DEBUG else 'https'
         return {
             'event': self.event,
             'documents': self.documents.all(),
-            'mchp_base_url': utils.default_site(),
+            'mchp_base_url': 'http{}://{}'.format(scheme, domain)
         }
 
     # def _update_subscribers(self):

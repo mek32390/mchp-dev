@@ -968,7 +968,7 @@ calendar_list = CalendarListView.as_view()
 
 
 class EventDetailView(DetailView):
-    """ Event detail at `/calendar/event/<pk>` with name `event_detail`.
+    """ Event detail at `/calendar/event/<pk>` with name `event-detail`.
 
     """
     template_name = 'calendar_mchp/event_detail.html'
