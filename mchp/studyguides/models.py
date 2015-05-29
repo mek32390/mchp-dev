@@ -131,7 +131,7 @@ class StudyGuideCampaign(BaseCampaign):
         return {
             'event': self.event,
             'documents': self.documents.all(),
-            'mchp_base_url': 'http{}://{}'.format(scheme, domain)
+            'mchp_base_url': '{}://{}'.format(scheme, domain)
         }
 
     # def _update_subscribers(self):
