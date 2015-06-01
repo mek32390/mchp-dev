@@ -21,7 +21,8 @@ def track_open(value):
 
     """
     url = reverse('studyguide-open', kwargs={'uuid': value.uuid})
-    return mark_safe('<img src="{}" alt="Beacon">'.format(url))
+    img_src = '<img src="{}" alt="Beacon" height="1" width="1">'
+    return mark_safe(img_src.format(url))
 
 
 @register.filter
