@@ -38,17 +38,17 @@ body {
 }
 
 /* custom navbar */
-.navbar-default {
+.navbar-translucsent {
   border-bottom: none !important;
   background-color: none !important;
   background: linear-gradient(to top left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, .5)) !important;
 }
 
-.navbar-default .navbar-nav>li>a {
+.navbar-translucsent .navbar-nav>li>a {
   color: white;
 }
 
-.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+.navbar-translucsent .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
   color: #337ab7;
 }
 
