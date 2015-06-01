@@ -1,12 +1,55 @@
+
+
+
 /*
  * This file is for css that should happen on every single mchp page
  */
 
-/* site-wide-body margin */
+/* site-wide-body styles */
 body {
   margin-top: 70px;
+  width: 100%;
+  height: 100%;
+  /*overflow-y: hidden;*/
+  background-image: linear-gradient(to top left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, .3)), url('https://static.pexels.com/photos/1130/snow-landscape-mountains-nature.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  filter: none; 
+  -webkit-filter: blur(0px); 
+  -moz-filter: blur(0px); 
+  -ms-filter: blur(0px);
+  filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
+  image-rendering: optimizequality;
+  text-shadow: 0px 1px 5px rgba(0,0,0,0.1) !important;
+  font-family: "HelveticaNeue-light", "Helvetica Neue Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   z-index: 99;
+}
 
+/* site-wide-container-fluid styles */
+.container-fluid {
+    padding: 0px 50px;
+}
+
+/* make text white */
+.white {
+  color: #fff;
+}
+
+/* custom navbar */
+.navbar-default {
+  border-bottom: none !important;
+  background-color: none !important;
+  background: linear-gradient(to top left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, .5)) !important;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: white;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+  color: #337ab7;
 }
 
 /* nav btns */
