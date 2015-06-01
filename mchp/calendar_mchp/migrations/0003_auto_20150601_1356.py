@@ -15,13 +15,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='calendarevent',
             name='documents',
-            field=models.ManyToManyField(to='documents.Document', blank=True, related_name='events', null=True),
+            field=models.ManyToManyField(blank=True, to='documents.Document', related_name='events', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='calendarevent',
             name='notify_lead',
-            field=models.PositiveIntegerField(default=0),
+            field=models.PositiveIntegerField(blank=True, default=2880),
             preserve_default=True,
         ),
     ]

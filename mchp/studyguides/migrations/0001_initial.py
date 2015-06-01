@@ -9,23 +9,23 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('calendar_mchp', '0003_auto_20150508_1635'),
         ('documents', '0002_auto_20150501_1535'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('calendar_mchp', '0003_auto_20150601_1356'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='StudyGuideCampaign',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('when', models.DateTimeField(verbose_name='campaign start')),
-                ('until', models.DateTimeField(blank=True, null=True, verbose_name='campaign end')),
+                ('until', models.DateTimeField(null=True, verbose_name='campaign end', blank=True)),
                 ('sender_address', models.EmailField(max_length=254)),
-                ('sender_name', models.CharField(blank=True, max_length=255)),
+                ('sender_name', models.CharField(max_length=255, blank=True)),
                 ('template', models.CharField(max_length=255)),
                 ('subject', models.CharField(max_length=255)),
-                ('documents', models.ManyToManyField(to='documents.Document', blank=True, null=True, related_name='+')),
+                ('documents', models.ManyToManyField(to='documents.Document', null=True, related_name='+', blank=True)),
             ],
             options={
                 'ordering': ('event',),
@@ -35,12 +35,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StudyGuideCampaignSubscriber',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
-                ('uuid', models.CharField(default=campaigns.utils.make_uuid, unique=True, max_length=32)),
-                ('notified', models.DateTimeField(blank=True, null=True)),
-                ('clicked', models.DateTimeField(blank=True, null=True)),
-                ('opened', models.DateTimeField(blank=True, null=True)),
-                ('unsubscribed', models.DateTimeField(blank=True, null=True)),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('uuid', models.CharField(max_length=32, default=campaigns.utils.make_uuid, unique=True)),
+                ('notified', models.DateTimeField(null=True, blank=True)),
+                ('clicked', models.DateTimeField(null=True, blank=True)),
+                ('opened', models.DateTimeField(null=True, blank=True)),
+                ('unsubscribed', models.DateTimeField(null=True, blank=True)),
                 ('campaign', models.ForeignKey(to='studyguides.StudyGuideCampaign', related_name='subscribers')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
@@ -52,12 +52,12 @@ class Migration(migrations.Migration):
             name='StudyGuideMetaCampaign',
             fields=[
                 ('when', models.DateTimeField(verbose_name='campaign start')),
-                ('until', models.DateTimeField(blank=True, null=True, verbose_name='campaign end')),
+                ('until', models.DateTimeField(null=True, verbose_name='campaign end', blank=True)),
                 ('sender_address', models.EmailField(max_length=254)),
-                ('sender_name', models.CharField(blank=True, max_length=255)),
-                ('event', models.ForeignKey(to='calendar_mchp.CalendarEvent', serialize=False, primary_key=True)),
-                ('campaigns', models.ManyToManyField(to='studyguides.StudyGuideCampaign', blank=True, null=True)),
-                ('documents', models.ManyToManyField(to='documents.Document', blank=True, null=True)),
+                ('sender_name', models.CharField(max_length=255, blank=True)),
+                ('event', models.ForeignKey(serialize=False, primary_key=True, to='calendar_mchp.CalendarEvent')),
+                ('campaigns', models.ManyToManyField(to='studyguides.StudyGuideCampaign', null=True, blank=True)),
+                ('documents', models.ManyToManyField(to='documents.Document', null=True, blank=True)),
             ],
             options={
                 'abstract': False,

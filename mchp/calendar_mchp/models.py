@@ -84,18 +84,27 @@ class Subscription(models.Model):
     def __str__(self):
         return "subscribed to {} on {}".format(self.calendar.title, self.subscribe_date)
 
+
 class CalendarEvent(models.Model):
     """
 
     Attributes
     ----------
+    DEFAULT_NOTIFY_LEAD : int
+        Default lead time for event notifications.
     notify_lead : django.db.models.PositiveIntegerField, optional
         A lead time, in minutes, for mailings before events.
         For example, 24 hours => 2880 minutes.
+    title : django.db.models.CharField
+        The name of the event.
+    description : django.db.models.CharField
+        A description of the event.
     documents : django.db.models.ManyToManyField, optional
         Documents to associate optionally with this event.
 
     """
+    DEFAULT_NOTIFY_LEAD = 60 * 24 * 2  # 48 hours
+
     calendar = models.ForeignKey(ClassCalendar)
 
     title = models.CharField(max_length=30)
@@ -107,11 +116,12 @@ class CalendarEvent(models.Model):
     url = models.URLField(blank=True)
 
     is_recurring = models.BooleanField(default=False)
-    
+
     create_date = models.DateTimeField(auto_now_add=True)
     last_edit = models.DateTimeField()
 
-    notify_lead = models.PositiveIntegerField(default=0)
+    notify_lead = models.PositiveIntegerField(default=DEFAULT_NOTIFY_LEAD,
+                                              blank=True)
     documents = models.ManyToManyField(Document,
                                        related_name='events',
                                        blank=True,
