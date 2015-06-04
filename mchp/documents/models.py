@@ -27,7 +27,52 @@ def get_sentinel_course():
                                         professor='deleted')
     return course
 
-class Document(models.Model):
+
+class BaseDocument(models.Model):
+    """ Base class for documents.
+
+    Attributes
+    ----------
+    documents : django.db.models.FileField
+        The uploaded file that this model encapsulates.
+    create_date : django.db.models.DateTimeField
+        When was this document instance created?
+
+    """
+    document = models.FileField(upload_to=DOCUMENT_LOCATION)
+    create_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
+    def filename(self):
+        """ Get the document filename.
+
+        Returns
+        -------
+        out : str
+            The filename (basename) of this document.
+
+        """
+        return os.path.basename(self.document.name)
+
+
+class Document(BaseDocument):
+    """ Uploaded documents for sale.
+
+    Attributes
+    ----------
+    SLUG_LENGTH : int
+        The max length of a slug.  Avoid a magic number.
+
+    Notes
+    -----
+    [TODO] migrate this to a new StudyGuide class (also BaseDocument subclass)
+    and purge any syllabi after moving them over into their own Syllabus class.
+
+    """
+    SLUG_LENGTH = 80
+
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     course = models.ForeignKey('schedule.Course', on_delete=models.SET(get_sentinel_course))
@@ -36,14 +81,12 @@ class Document(models.Model):
     down = models.IntegerField(default=0)
     price = models.PositiveIntegerField(default=400)
 
-    document = models.FileField(upload_to=DOCUMENT_LOCATION)
     filetype = models.CharField(max_length=150)
     md5sum = models.CharField(max_length=32)
     uuid = models.CharField(max_length=32)
-    create_date = models.DateTimeField(auto_now_add=True)
 
     preview = models.ImageField(upload_to=PREVIEW_LOCATION, blank=True, null=True)
-    slug = models.SlugField(max_length=80)
+    slug = models.SlugField(max_length=SLUG_LENGTH)
 
     objects = managers.DocumentManager()
     
@@ -69,13 +112,10 @@ class Document(models.Model):
             chunk = self.document.file.read(1024)
             self.filetype = magic.from_buffer(chunk, mime=True)
             self.document.file.seek(0,0)
-            self.slug = slugify(self.title)[:80]
+            self.slug = slugify(self.title)[:self.SLUG_LENGTH]
             self.uuid = uuid.uuid4().hex
 
         super(Document, self).save(*args, **kwargs)
-
-    def filename(self):
-        return os.path.basename(self.document.name)
 
     def purchase_count(self):
         return DocumentPurchase.objects.filter(document=self).count()
