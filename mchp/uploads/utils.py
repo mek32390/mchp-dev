@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 
+
 def parse_roster(html):
     """ Parse an HTML roster into a collection of users.
 
@@ -69,7 +70,7 @@ def ensure_student_exists(school, user):
     return student
 
 
-def numeric_suffix(s, suffix, max_length):
+def suffix(s, suffix, max_length):
     """ Take a string and replace the end with a suffix.
 
     Parameters
@@ -79,7 +80,12 @@ def numeric_suffix(s, suffix, max_length):
     suffix : str
         A stuffix for the string.
     max_length : int
-        The maximum allowed length.
+        The maximum allowed length of the string.
+
+    Returns
+    -------
+    out : str
+        The suffixed string.
 
     Raises
     ------
@@ -88,7 +94,7 @@ def numeric_suffix(s, suffix, max_length):
 
     Notes
     -----
-    Some examples:
+    Some output examples:
 
         joe.q.public, '', 8 => joe.q.pu
         joe.q.public, 'jr', 8 => joe.q.jr
@@ -103,13 +109,44 @@ def numeric_suffix(s, suffix, max_length):
     return s[:max_length - suffix_len] + suffix
 
 
+def incremental_suffixes(base, max_length, start=2):
+    """ Generate successively-incremented numeric suffixes for a string.
+
+    Parameters
+    ----------
+    base : str
+        A base string.
+    max_length : int
+        The maximum allowed length of the string.
+    start : int, optional
+        The starting suffix.  Default `2` to signify a duplicate.
+
+    Yields
+    ------
+    out : str
+        The original string, constrained for length.
+    out : str
+        A suffixed and length-constrained string.
+
+    Raises
+    ------
+    ValueError
+        If length of number appended exceeds `max_length`.
+
+    """
+    from itertools import count
+    yield suffix(base, '', max_length)
+    for c in count(start):
+        yield suffix(base, str(c), max_length)
+
+
 def make_username(email):
     """ Generate a non-duplicate username.
 
     Parameters
     ----------
     email : str
-        An e-mail address to process
+        An e-mail address to process.
 
     Returns
     -------
@@ -117,17 +154,16 @@ def make_username(email):
         The created username.
 
     """
-    MAX_HANDLE_LEN = 30
-    from itertools import count
-    handle, _ = email.split('@')[:MAX_HANDLE_LEN]
-    c = count(1)
+    MAX_USERNAME_LENGTH = 30
+
+    handle, _ = email.split('@')
+    enumerator = incremental_suffixes(handle, MAX_USERNAME_LENGTH)
     while True:
+        handle = next(enumerator)
         try:
             User.objects.get(username__iexact=handle)
         except User.DoesNotExist:
             break
-        else:
-            handle = numeric_suffix(handle, str(next(c)), MAX_HANDLE_LEN)
     return handle
 
 
