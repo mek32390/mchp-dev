@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'referral',
     'schedule',
     'payment',
+    'uploads',
 
     'storages',
 

@@ -1,5 +1,4 @@
-from django.shortcuts import render
-
+from django.contrib.auth.models import User
 
 def parse_roster(html):
     """ Parse an HTML roster into a collection of users.
@@ -70,8 +69,70 @@ def ensure_student_exists(school, user):
     return student
 
 
+def numeric_suffix(s, suffix, max_length):
+    """ Take a string and replace the end with a suffix.
+
+    Parameters
+    ----------
+    s : str
+        A string to suffix.
+    suffix : str
+        A stuffix for the string.
+    max_length : int
+        The maximum allowed length.
+
+    Raises
+    ------
+    ValueError
+        If length of `suffix` exceeds `max_length`.
+
+    Notes
+    -----
+    Some examples:
+
+        joe.q.public, '', 8 => joe.q.pu
+        joe.q.public, 'jr', 8 => joe.q.jr
+        joe.q.public, 'jr', 8 => joe.q.jr
+        joe.q.public, '', 20 => joe.q.public
+        joe.q.public, 'jr', 20 => joe.q.publicjr
+
+    """
+    suffix_len = len(suffix)
+    if suffix_len > max_length:
+        raise ValueError('Suffix length cannot exceed max length')
+    return s[:max_length - suffix_len] + suffix
+
+
+def make_username(email):
+    """ Generate a non-duplicate username.
+
+    Parameters
+    ----------
+    email : str
+        An e-mail address to process
+
+    Returns
+    -------
+    out : str
+        The created username.
+
+    """
+    MAX_HANDLE_LEN = 30
+    from itertools import count
+    handle, _ = email.split('@')[:MAX_HANDLE_LEN]
+    c = count(1)
+    while True:
+        try:
+            User.objects.get(username__iexact=handle)
+        except User.DoesNotExist:
+            break
+        else:
+            handle = numeric_suffix(handle, str(next(c)), MAX_HANDLE_LEN)
+    return handle
+
+
 def ensure_user_exists(email, fname=None, lname=None):
-    """ Return an existing user associated with a given e-mail address.
+    """ Find or create a user associated with a given e-mail address.
 
     Parameters
     ----------
@@ -89,8 +150,8 @@ def ensure_user_exists(email, fname=None, lname=None):
 
     Raises
     ------
-    ValueError
-        If the given e-mail address is blank, `None`, or otherwise "falsy."
+    ValidationError
+        If the given e-mail fails validation.
 
     Notes
     -----
@@ -98,20 +159,23 @@ def ensure_user_exists(email, fname=None, lname=None):
     addresses specified in the AllAuth inline.
 
     """
-    from django.contrib.auth.models import User
+    from django.core.validators import validate_email
+    from django.allauth.models import EmailAddress
+
     email = User.objects.normalize_email(email)
-    if not email:
-        raise ValueError('A valid e-mail address must be specified')
+    validate_email(email)
 
     try:
-        user = User.objects.get(email=email)
+        user = User.objects.get(email__iexact=email)
     except User.DoesNotExist:
-        # [TODO] check inline e-mail addresses, as well
-        username = None  # [TODO] generate
-        params = {}
-        if fname:
-            params['first_name'] = fname
-        if lname:
-            params['last_name'] = fname
-        user = User.objects.create_user(username, None, email, **params)
+        try:
+            user = EmailAddress.objects.get(email__iexact=email).user
+        except EmailAddress.DoesNotExist:
+            username = make_username(email)
+            params = {}
+            if fname:
+                params['first_name'] = fname
+            if lname:
+                params['last_name'] = fname
+            user = User.objects.create_user(username, None, email, **params)
     return user
