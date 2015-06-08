@@ -1,3 +1,2 @@
-#Allows this directory to be treated as a python package
-
-__all__ = ['fileParser', 'schemas']
+#Allows the user to import parser as a package.
+__all__ = ['parser']
