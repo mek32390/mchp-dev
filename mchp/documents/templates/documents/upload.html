@@ -22,84 +22,170 @@
 			<div class="media">
     			<img class="media-object pull-left animated bounceInDown" src="{% static 'lib/img/money.svg' %}" height="50px" alt="Add Documents">
   				<div class="media-body">
-    			<h2 class="media-heading">Sell Documents</h2>
+    			<h2 class="media-heading">Add New: Study Guide or Class Set</h2>
 				Stack some paper</div>
 			</div>
 			<hr>
 		</div><!-- end col 12 -->
-		<div class="col-sm-8">
-			<div class="upload-form">
-				<form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
-					{% csrf_token %}
-					{% for field in form %}
-					{{ field.errors }}
-					{% ifequal field.name "course" %}
-					<div class="form-group" >
-						<div class="input-group">
-							<span class="input-group-addon">{{ field.label_tag}}</span>
-							<li class="dropdown" id="drop-li"> 
+		<div class="col-xs-6">
+      <a data-toggle="collapse" href="#StudyGuideUpload" aria-expanded="false" aria-controls="collapseExample">
+        <img class="center-block" src="http://localhost:8000/static/lib/img/storage.svg"/ height="120px">
+        <h3 class="text-center">Study Guide</h3>
+      </a>
+      <p></p>
+      <p class="text-center"><strong>Make up to $5 per Study Guide you upload, plus all future sales.</strong>
+      <p class="text-center"><a data-toggle="collapse" href="#StudyGuideInfo" aria-expanded="false" aria-controls="collapseExample">More info</a></p> 
+      <div class="collapse" id="StudyGuideInfo">
+        <div class="well">
+          <ul class="list-unstyled">
+            <li>
+              <p>Upload a filled-out guide for a specific exam or assignment.</p>
+            </li>
+            <li>
+              <p class="">You'll get anywhere from $0-5 for uploading it, depending on how likely it is to sell.</p>
+            </li>
+            <li>
+              <p class="">You continue making money each time it's sold.</p>
+            </li>
+          </ul>
+        </div><!-- end well -->
+      </div><!-- end collapse -->
+    </div>
+    <div class="col-xs-6">
+      <a data-toggle="collapse" href="#ClassSetUpload" aria-expanded="false" aria-controls="collapseExample">
+      <img class="center-block" src="http://localhost:8000/static/lib/img/book.svg" height="120px">
+      <h3 class="text-center">Class Set</h3>
+      </a>
+      <p></p>
+      <p class="text-center"><strong>Make 5% Sales Commission for each class set you provide.</strong>
+      <p class="text-center"><a data-toggle="collapse" href="#ClassSetInfo" aria-expanded="false" aria-controls="collapseExample">More info</a></p>
+      <div class="collapse" id="ClassSetInfo">
+        <div class="well">
+          <ul class="list-unstyled">
+            <li>
+              <p>Upload the Syllabus, paste the Class Roster, and add the Schedule of Assignments for a class.</p>
+            </li>
+            <li>
+              <p class="">You'll make 5% commission on all of the Study Guide sales for that class for the entire semester</p>
+            </li>
+            <li>
+              <p class="">You continue making money each time it's sold.</p>
+            </li>
+          </ul>
+        </div><!-- end well -->
+      </div><!-- end collapse -->
+    </div><!-- end col-6 -->
+    <div class=" collapse" id="ClassSetUpload">
+      <div class="col-sm-8 col-sm-offset-2">
+        <h2 class="text-center">A Class Set includes all <strong>THREE</strong> of these:</h2>
+        <hr>
+      </div>
+      <div class="col-xs-4">
+        <img class="center-block" src="http://localhost:8000/static/lib/img/storage.svg" height="100px"/>
+        <h3 class="text-center">Syllabus</h3>
+        <p class="text-center">Upload your syllabus and/or schedule of assignments files given out by your Instructor</p>
+      </div>
+      <div class="col-xs-4">
+        <img class="center-block" src="http://localhost:8000/static/lib/img/dude.svg" height="100px" />
+        <h3 class="text-center">Roster</h3>
+        <p class="text-center">Copy & Paste the HTML code of your roster</p>
+      </div>
+      <div class="col-xs-4">
+        <img class="center-block" src="http://localhost:8000/static/lib/img/calendar-default.svg" height="100px" />
+        <h3 class="text-center">Assignment Dates</h3>
+        <p class="text-center">Add the dates of Assignments and Exams typically found in your syllabus</p>
+      </div>
+      <div class="col-xs-4">
+        <div class="well well-sm" style="height:150px;">
+          <a href="#" class="btn btn-lg btn-primary center-block">Upload Syllabus</a>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="well well-sm" style="height:150px;">
+          <textarea class="form-control" rows="1" placeholder="Paste (command + v) your roster code here..." style="height:130px;"></textarea>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="well well-sm" style="height:150px;">
+          <a href="#" class="btn btn-lg btn-primary center-block">Add Schedule of Assignments</a>
+        </div>
+      </div>
+  	</div>
+		<div class=" collapse" id="StudyGuideUpload">
+			<div class="col-sm-8">
+				<div class="upload-form">
+					<form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						{% for field in form %}
+						{{ field.errors }}
+						{% ifequal field.name "course" %}
+						<div class="form-group" >
+							<div class="input-group">
+								<span class="input-group-addon">{{ field.label_tag}}</span>
+								<li class="dropdown" id="drop-li"> 
+									{{ field }}
+									<ul class="dropdown-menu" id="ac-dropdown">
+										<li role="presentation" class="dropdown-header">Your Courses</li>
+										{% for course in enrolled_courses %}
+										<li data-course="{{course.pk}}" class="strong"> <a href="#"><i class="fa fa-fw fa-plus-circle text-success"></i> {{course.display}}</a> </li>
+										{% empty %}
+										<li class="strong"> <a href="{%url "course_add"%}"><i class="fa fa-fw fa-plus-circle text-danger"></i>Add a course</a> </li>
+										{% endfor %}
+									</ul>
+								</li>
+							</div>
+						</div>
+						{% else %}
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon">{{ field.label_tag}}</span>
 								{{ field }}
-								<ul class="dropdown-menu" id="ac-dropdown">
-									<li role="presentation" class="dropdown-header">Your Courses</li>
-									{% for course in enrolled_courses %}
-									<li data-course="{{course.pk}}" class="strong"> <a href="#"><i class="fa fa-fw fa-plus-circle text-success"></i> {{course.display}}</a> </li>
-									{% empty %}
-									<li class="strong"> <a href="{%url "course_add"%}"><i class="fa fa-fw fa-plus-circle text-danger"></i>Add a course</a> </li>
-									{% endfor %}
-								</ul>
-							</li>
+							</div>
 						</div>
-					</div>
-					{% else %}
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon">{{ field.label_tag}}</span>
-							{{ field }}
-						</div>
-					</div>
-					{% endifequal %}
-					{% endfor %}
-					<input type="hidden" name="course" id="hidden_course"></input>
-					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary btn-block" /></p>
-				</form>
-			</div>
-		</div><!-- end col 8 -->
-		<div class="col-sm-4 hidden-xs">
-			<div class="media">
-			  <!-- <a class="pull-left" href="#">
-			    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
-			  </a> -->
-			  <div class="media-body">
-			    <h4 class="media-heading">Get $5 for every Study Guide you upload!</h4>
-			    	<p>
-			    		Study Guides cover specific material that will be on an exam. They are not "just" lecture notes.
-					</p>
-			  </div>
-			</div>
-			<hr class="margin-top-sm">
-			<div class="media">
-			  <!-- <a class="pull-left" href="#">
-			    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
-			  </a> -->
-			  <div class="media-body">
-			    <h4 class="media-heading">Uploads are anonymous</h4>
-			    	<p>
-			    		Your classmates <strong>will not</strong> be able to view your <strong>picture</strong> or <strong>name</strong> when you upload a document.
-					</p>
-			  </div>
-			<hr class="margin-top-sm">
-			<div class="media">
-			  <!-- <a class="pull-left" href="#">
-			    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
-			  </a> -->
-			  <div class="media-body">
-			    <h4 class="media-heading">You can upload your syllabi</h4>
-			    	<p>
-			    		If you upload your syllabus and make it free, it will boost your doc numbers and credibility. Students will be more likely to buy your other documents.
-					</p>
-			  </div>
-			</div>
-		</div><!-- end col 4 -->
+						{% endifequal %}
+						{% endfor %}
+						<input type="hidden" name="course" id="hidden_course"></input>
+						<p><input type="submit" value="Upload" class="btn btn-lg btn-primary btn-block" /></p>
+					</form>
+				</div>
+			</div><!-- end col 8 -->
+			<div class="col-sm-4 hidden-xs">
+				<div class="media">
+				  <!-- <a class="pull-left" href="#">
+				    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
+				  </a> -->
+				  <div class="media-body">
+				    <h4 class="media-heading">Get $5 for every Study Guide you upload!</h4>
+				    	<p>
+				    		Study Guides cover specific material that will be on an exam. They are not "just" lecture notes.
+						</p>
+				  </div>
+				</div>
+				<hr class="margin-top-sm">
+				<div class="media">
+				  <!-- <a class="pull-left" href="#">
+				    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
+				  </a> -->
+				  <div class="media-body">
+				    <h4 class="media-heading">Uploads are anonymous</h4>
+				    	<p>
+				    		Your classmates <strong>will not</strong> be able to view your <strong>picture</strong> or <strong>name</strong> when you upload a document.
+						</p>
+				  </div>
+				<hr class="margin-top-sm">
+				<div class="media">
+				  <!-- <a class="pull-left" href="#">
+				    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
+				  </a> -->
+				  <div class="media-body">
+				    <h4 class="media-heading">You can upload your syllabi</h4>
+				    	<p>
+				    		If you upload your syllabus and make it free, it will boost your doc numbers and credibility. Students will be more likely to buy your other documents.
+						</p>
+				  </div>
+				</div>
+			</div><!-- end col 4 -->
+		</div><!-- end Study Guide collapse -->
 	</div><!-- end row -->
 </div><!-- end container -->
 <div id="enrolled_courses" data-enrolled_courses="{{ enrolled_courses }}">
