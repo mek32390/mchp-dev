@@ -1,6 +1,5 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils import timezone
 
@@ -113,20 +112,11 @@ class Document(BaseDocument):
             chunk = self.document.file.read(1024)
             self.filetype = magic.from_buffer(chunk, mime=True)
             self.document.file.seek(0,0)
-            self.slug = slugify(self.title)[:self.SLUG_LENGTH]
+            self.slug = slugify(self.title)[:SLUG_LENGTH]
             self.uuid = uuid.uuid4().hex
 
         super(Document, self).save(*args, **kwargs)
 
-<<<<<<< HEAD
-=======
-    def get_absolute_url(self):
-        return reverse('document_detail', args=[str(self.uuid)])
-
-    def filename(self):
-        return os.path.basename(self.document.name)
-
->>>>>>> feature/global-styles
     def purchase_count(self):
         return DocumentPurchase.objects.filter(document=self).count()
 
