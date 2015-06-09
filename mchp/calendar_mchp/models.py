@@ -4,6 +4,9 @@ from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from calendar_mchp.signals import calendar_event_created, calendar_event_edited, subscription
+from documents.models import Document
+from django.core.urlresolvers import reverse
+
 
 class ClassCalendarManager(models.Manager):
     def default(self, student):
@@ -82,6 +85,17 @@ class Subscription(models.Model):
         return "subscribed to {} on {}".format(self.calendar.title, self.subscribe_date)
 
 class CalendarEvent(models.Model):
+    """
+
+    Attributes
+    ----------
+    notify_lead : django.db.models.PositiveIntegerField, optional
+        A lead time, in minutes, for mailings before events.
+        For example, 24 hours => 2880 minutes.
+    documents : django.db.models.ManyToManyField, optional
+        Documents to associate optionally with this event.
+
+    """
     calendar = models.ForeignKey(ClassCalendar)
 
     title = models.CharField(max_length=30)
@@ -96,6 +110,15 @@ class CalendarEvent(models.Model):
     
     create_date = models.DateTimeField(auto_now_add=True)
     last_edit = models.DateTimeField()
+
+    notify_lead = models.PositiveIntegerField(default=0)
+    documents = models.ManyToManyField(Document,
+                                       related_name='events',
+                                       blank=True,
+                                       null=True)
+
+    def get_absolute_url(self):
+        return reverse('event_detail', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
         if not self.pk:

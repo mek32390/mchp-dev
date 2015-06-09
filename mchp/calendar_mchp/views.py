@@ -965,3 +965,13 @@ class CalendarListView(View, AjaxableResponseMixin):
         return super(CalendarListView, self).dispatch(*args, **kwargs)
 
 calendar_list = CalendarListView.as_view()
+
+
+class EventDetailView(DetailView):
+    """ Event detail at `/calendar/event/<pk>` with name `event_detail`.
+
+    """
+    template_name = 'calendar_mchp/event_detail.html'
+    model = CalendarEvent
+
+event_detail = EventDetailView.as_view()
