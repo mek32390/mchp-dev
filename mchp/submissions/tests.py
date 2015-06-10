@@ -12,7 +12,7 @@ class CreateUserTestCase(TestCase):
     #     user = ensure_user_exists(email)
     #     self.assertNotNull(user)
     #
-    #     # e-mail address is required for this method, even though not for users
+    #     # e-mail address required for this method, even though not for users
     #     self.assertRaises(ValueError, ensure_user_exists, 'test')
 
     def testSuffix(self):
