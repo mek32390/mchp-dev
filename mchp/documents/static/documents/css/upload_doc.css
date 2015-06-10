@@ -2,6 +2,12 @@
  * This file is for the custom styling on the doc upload page
  */
 
+
+/* test the page with a darker background */
+body {
+  background-image: linear-gradient(to top left, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, .9)), url('https://static.pexels.com/photos/1130/snow-landscape-mountains-nature.jpg');
+}
+
 /* hide doc upload btn in footer on this page */
 #document-upload-btn {
   display: none;

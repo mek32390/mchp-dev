@@ -5,12 +5,14 @@
  * This file is for css that should happen on every single mchp page
  */
 
+html {
+  
+}
 /* site-wide-body styles */
 body {
-  margin-top: 70px;
+  margin-top: 75px;
   width: 100%;
   height: 100%;
-  /*overflow-y: hidden;*/
   background-image: linear-gradient(to top left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, .3)), url('https://static.pexels.com/photos/1130/snow-landscape-mountains-nature.jpg');
   background-size: cover;
   background-position: center center;
@@ -22,9 +24,9 @@ body {
   -ms-filter: blur(0px);
   filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
   image-rendering: optimizequality;
-  text-shadow: 0px 1px 5px rgba(0,0,0,0.1) !important;
+
   font-family: "HelveticaNeue-light", "Helvetica Neue Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  z-index: 99;
+  text-shadow: 0px 1px 5px rgba(0,0,0,0.1) !important;
 }
 
 /* site-wide-container-fluid styles */
@@ -72,6 +74,18 @@ body {
   height: 20px;
 }
 
+/* Ghost buttons */
+.btn-trans {
+  background: transparent;
+  color: #F2F2F2;
+  /* CSS Transition */
+  -webkit-transition: background .2s ease-in-out, border .2s ease-in-out;
+  -moz-transition: background .2s ease-in-out, border .2s ease-in-out;
+  -ms-transition: background .2s ease-in-out, border .2s ease-in-out;
+  -o-transition: background .2s ease-in-out, border .2s ease-in-out;
+  transition: background .2s ease-in-out, border .2s ease-in-out;
+}
+
 /* django-messages */
 .django-messages {
     right: 20px;
@@ -85,6 +99,25 @@ body {
 ul.messages {
     list-style: none;
     padding: initial;
+}
+
+/* custom pills/tabs */
+
+/* This changes the color of the active pill */
+.nav-pills > li.active > a {
+    background-color: transparent;
+    border-radius: 0px;
+    border-bottom: 1px solid #fff;
+}
+/* This changes the color of the active pill on hover*/
+.nav-pills>li.active>a:hover {
+    background-color: transparent;
+}
+/* This changes the color of the inactive pill on hover*/
+.nav-pills>li>a:hover {
+    background-color: transparent;
+    border-radius: 0px;
+    border-bottom: 1px solid #fff;
 }
 
 /* site-wide profile image */
