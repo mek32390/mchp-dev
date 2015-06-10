@@ -1,30 +1,21 @@
 # from django.shortcuts import render
 from django.core.urlresolvers import reverse_lazy
-
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import FormView
 from lib.decorators import school_required
-from . import models
+from . import forms
 
 
-class SyllabusCreate(CreateView):
-    model = models.Syllabus
-    fields = ['document', 'course']
+class CourseSetUploadView(FormView):
+    template_name = 'documents/upload.html'
+    form_class = forms.CourseSetForm
+    success_url = reverse_lazy('course-set-upload-success')
 
-    @school_required
-    def dispatch(self, *args, **kwargs):
-        super().dispatch(*args, **kwargs)
-
-
-class RosterCreate(CreateView):
-    model = models.Roster
-    fields = ['html', 'course']
-
-    template_name = 'roster_upload.html'
-    # form_class = RosterUploadForm
-    success_url = reverse_lazy('roster-upload-success')
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.make_models()
+        return super().form_valid(form)
 
     @school_required
     def dispatch(self, *args, **kwargs):
         super().dispatch(*args, **kwargs)
-
-

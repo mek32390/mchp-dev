@@ -1,32 +1,27 @@
 from django import forms
+from django.shortcuts import get_object_or_404
+from schedule.models import Course
+from . import models
 
-from . import utils
 
+class CourseSetUploadForm(forms.Form):
+    def make_choices(self):
+        """ Either an iterable (e.g., a list or tuple) of 2-tuples to use as choices for this field, or a callable that returns such an iterable. This argument accepts the same formats as the choices argument to a model field. See the model field reference documentation on choices for more details. If the argument is a callable, it is evaluated each time the field’s form is initialized."""       
+        courses = None
+        courses = Course.objects.filter(...)
+        return [(course.name, course.pk) for course in courses]
 
-class RosterUploadForm(forms.Form):
-    roster = forms.CharField(widget=forms.Textarea)
+    course = forms.ChoiceField(choices=make_choices)
+    roster = forms.TextField(widget=forms.TextArea, required=False)
+    syllabus = forms.FileField(required=False)
 
-    def parse_roster(self, course):
-        """ Ensure enrollments exist, based on an input roster.
+    def make_models(self):
+        course = get_object_or_404(Course, pk=self.cleaned_data['course'])
 
-        Parameters
-        ----------
-        course : schedule.models.Course
-            A course in which to enroll students.
+        roster = self.cleaned_data.get('roster')
+        syllabus = self.cleaned_data.get('roster')
 
-        Returns
-        -------
-        out : int
-            The number of enrollments created.
-
-        """
-        enrollments = []
-        roster_html = self.cleaned_data['roster']
-        items = utils.parse_roster(roster_html)
-        for item in items:
-            email, fname, lname = item['email'], item['fname'], item['lname']
-            user = utils.ensure_user_exists(email, fname=fname, lname=lname)
-            student = utils.ensure_student_exists(course.domain, user)
-            enrollment = utils.ensure_enrollment_exists(course, student)
-            enrollments.append(enrollment)
-        return len(enrollments)
+        if syllabus:
+            models.Syllabus.objects.create(course=course, document=syllabus)
+        if roster:
+            models.Roster.objects.create(course=course, html=roster)

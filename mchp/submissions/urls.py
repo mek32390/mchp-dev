@@ -7,8 +7,9 @@ from . import views
 urlpatterns = patterns('',  # noqa
     # url(r'^dashboard/', views.CourseDashboardView.as_view(),
     #     name='course_dashboard'),
-    url(r'^roster/', views.RosterUploadView.as_view(),
-        name='roster-upload'),
-    url(r'^roster/thanks/', views.RosterUploadSuccessView.as_view(),
-        name='roster-upload-success'),
+    url(r'^roster/', views.CourseSetUploadView.as_view(),
+        name='course-set-upload'),
+    url(r'^roster/thanks/', RedirectView().as_view(permanent=False,
+            pattern_name='course-set-upload'),
+        name='course-set-upload-success'),
 )
