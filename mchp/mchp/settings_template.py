@@ -44,11 +44,13 @@ INSTALLED_APPS = (
     'landing',
     'user_profile',
     'calendar_mchp',
+    'campaigns',
     'documents',
     'dashboard',
     'notification',
     'referral',
     'schedule',
+    'studyguides',
     'payment',
 
     'storages',
