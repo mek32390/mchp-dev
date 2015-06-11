@@ -2,7 +2,7 @@ from django.db import models
 from . import utils
 
 
-class Roster:
+class Roster(models.Model):
     """ Roster.
 
     Attributes
