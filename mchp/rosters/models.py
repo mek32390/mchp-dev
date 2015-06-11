@@ -18,7 +18,7 @@ class Roster(models.Model):
 
     """
     course = models.ForeignKey('schedule.Course')
-    html = models.TextField()
+    html = models.TextField('body')
     when = models.DateTimeField('submitted', auto_now_add=True)
     created_by = models.ForeignKey('user_profile.Student')
 
