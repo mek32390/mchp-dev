@@ -9,20 +9,11 @@
 {% block body %}
 <div class="container text-center">
 	<div class="jumbotron">
-		<div class="panel">
-		    <div class="panel-body">
-			    <div class="row">
-			        <div class="col-xs-8 col-xs-offset-2">
-						<h1><strong>500</strong></h1>
-				      	<hr>
-				        <h2>One of our servers just had a hiccup!</h2>
-						<img src="{% static 'lib/img/dynamite.svg' %}" width="200" alt="500 error" class="img-thumbnail img-circle">
-				        <p></p>
-				        <p class="lead">Pardon us, we're trying to scare the server back to normal.</p>
-			        </div>
-			    </div>
-			</div>
-		</div>
+		<h2><strong>500</strong></h2>
+		<img src="{% static 'lib/img/support.svg' %}" width="200" alt="500 error">
+		<h1>Our servers are trying to tell us something&hellip;</h1>
+		<p class="lead">They are in a fight with each other, and neither of them wants to display this page&hellip;</p>
 	</div>
 </div>
+
 {% endblock %}
