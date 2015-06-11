@@ -7,7 +7,6 @@ from documents.exceptions import DuplicateFileError
 from documents.s3utils import S3Auth
 from schedule.models import School, Course
 from documents import managers
-from . import utils
 
 import hashlib
 import uuid
@@ -34,21 +33,14 @@ class BaseDocument(models.Model):
 
     Attributes
     ----------
-    title : django.db.models.CharField
-        A title for the document.
     documents : django.db.models.FileField
         The uploaded file that this model encapsulates.
     create_date : django.db.models.DateTimeField
         When was this document instance created?
-    course : django.db.models.ForeignKey
-        A course to associate with this document.
 
     """
-    title = models.CharField(max_length=200)
     document = models.FileField(upload_to=DOCUMENT_LOCATION)
     create_date = models.DateTimeField(auto_now_add=True)
-    course = models.ForeignKey('schedule.Course',
-                               on_delete=models.SET(get_sentinel_course))
 
     class Meta:
         abstract = True
@@ -81,7 +73,9 @@ class Document(BaseDocument):
     """
     SLUG_LENGTH = 80
 
+    title = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
+    course = models.ForeignKey('schedule.Course', on_delete=models.SET(get_sentinel_course))
 
     up = models.IntegerField(default=0)
     down = models.IntegerField(default=0)
@@ -257,125 +251,3 @@ class DocumentFlag(models.Model):
         return '{} has been flagged by {} ({})'.format(self.document.name, 
                                                        self.student.user.user_name,
                                                        self.ip)
-
-
-# [TODO] factor out into other apps?
-
-
-class BaseReview:
-    """ Generic submissions base class.
-
-    Attributes
-    ----------
-    status : django.db.models.CharField
-        What is the current review status?
-    created : django.db.models.DateTimeField
-        When was this review first created?
-    updated : django.db.models.DateTimeField
-        When was this review last updated?
-
-    """
-    INITIAL, FLAGGED, APPROVED, REJECTED = 'i', 'f', 'a', 'r'
-
-    STATUS_CHOICES = (
-        (INITIAL, 'Pending initial review'),
-        (FLAGGED, 'Flagged for review'),
-        (APPROVED, 'Reviewed and approved'),
-        (REJECTED, 'Reviewed and rejected'),
-    )
-
-    status = models.CharField('review status', max_length=2,
-                              choices=STATUS_CHOICES, default=INITIAL)
-    created = models.DateTimeField('last updated', auto_now_add=True)
-    updated = models.DateTimeField('last updated', auto_now=True)
-
-    class Meta:
-        abstract = True
-
-    def greenlit(self):
-        "Is this review complete and not rejected?"
-        return self.status in (self.FLAGGED, self.APPROVED)
-
-
-class Review:
-    """ Generic submissions base class.
-
-    Attributes
-    ----------
-    reviewer : django.db.models.ForeignKey
-        Who reviewed this document?
-
-    Notes
-    -----
-    [TODO] Save reviewer.
-
-    """
-    reviewer = models.ForeignKey('user_profile.Student')
-
-    # def clean(self, *args, **kwargs):
-    #     self.reviewer = django.c
-    #     super().clean(*args, **kwargs)
-
-
-class Syllabus(BaseDocument):
-    """ Syllabus.
-
-    """
-    class Meta:
-        verbose_name = 'syllabus'
-        verbose_name_plural = 'syllabi'
-
-
-class Roster:
-    """ Roster.
-
-    Attributes
-    ----------
-    course : django.db.models.ForeignKey
-       A course to which this roster is attached.
-    html : django.db.models.TextField
-        The roster HTML to parse.
-
-    """
-    course = models.ForeignKey('schedule.Course')
-    html = models.TextField()
-
-    def approve(self):
-        """ Ensure enrollments exist, based on an input roster.
-
-        Returns
-        -------
-        out : int
-            The number of enrollments created.
-
-        """
-        enrollments = []
-        items = utils.parse_roster(self.html)
-        for item in items:
-            email, fname, lname = item['email'], item['fname'], item['lname']
-            user = utils.ensure_user_exists(email, fname=fname, lname=lname)
-            student = utils.ensure_student_exists(self.course.domain, user)
-            enrollment = utils.ensure_enrollment_exists(self.course, student)
-            enrollments.append(enrollment)
-        return len(enrollments)
-
-
-class SyllabusReview(Review):
-    """ Review for a syllabus upload.
-
-    """
-    syllabus = models.OneToOneField(Syllabus)
-
-
-class RosterReview(Review):
-    """ Review for a roster submission.
-
-    """
-    roster = models.OneToOneField(Roster)
-
-
-# class EventReview(Review):
-#     """ Review for an event set.
-#
-#     """
-#     events = models.OneToOneField(...)

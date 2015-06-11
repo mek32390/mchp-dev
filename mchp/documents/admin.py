@@ -4,7 +4,6 @@ from django import forms
 
 from documents.models import Document, Upload
 from documents.widgets.admin import AdminDocThumnailWidget
-from . import models
 
 for model in get_models(get_app('documents')):
     if model == Document or model == Upload:
@@ -40,23 +39,3 @@ class UploadAdmin(admin.ModelAdmin):
     ]
 
 admin.site.register(Upload, UploadAdmin)
-
-
-@admin.register(models.Syllabus)
-class SyllabusAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(models.Roster)
-class RosterAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(models.SyllabusReview)
-class SyllabusReviewAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(models.RosterReview)
-class RosterReviewAdmin(admin.ModelAdmin):
-    pass

@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.conf import settings
 from django.core import serializers
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, get_object_or_404, redirect
@@ -624,19 +624,3 @@ class FetchPreview(View, AjaxableResponseMixin):
         return super(FetchPreview, self).dispatch(*args, **kwargs)
 
 fetch_preview = FetchPreview.as_view()
-
-
-class CourseSetUploadView(FormView):
-    template_name = 'documents/class_set.html'
-    form_class = CourseSetForm
-    success_url = reverse_lazy('course-set-upload-success')
-
-    def form_valid(self, form):
-        # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
-        form.make_models()
-        return super().form_valid(form)
-
-    @school_required
-    def dispatch(self, *args, **kwargs):
-        super().dispatch(*args, **kwargs)

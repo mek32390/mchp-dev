@@ -1,16 +1,11 @@
 from django.conf.urls import patterns, url
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 
 from documents import views
 
-urlpatterns = patterns('',  # noqa
-    url(r'^course-set/', views.CourseSetUploadView.as_view(),
-        name='course-set-upload'),
-    url(r'^course-set/done/', RedirectView().as_view(permanent=False,
-            pattern_name='course-set-upload'),
-        name='course-set-upload-success'),
-
+urlpatterns = patterns('',
+    url(r'^uploadpreview/$', TemplateView.as_view(template_name='documents/upload.html'), name='upload-preview2'),
     url(r'^add/', views.document_upload, name='document_upload'),
     url(r'^remove/', views.document_delete, name='document_delete'),
     url(r'^unpurchase/', views.purchase_delete, name='purchase_delete'),
@@ -20,10 +15,9 @@ urlpatterns = patterns('',  # noqa
 
     url(r'^fetch-preview/', views.fetch_preview, name='fetch_preview'),
 
-    url(r'^preview/(?P<uuid>[^/]+)', views.document_preview,
-        name='document_preview'),
+    url(r'^preview/(?P<uuid>[^/]+)', views.document_preview, name='document_preview'),
 
-    url(r'^(?P<uuid>[^/]+)/[^/]+/',
+    url(r'^(?P<uuid>[^/]+)/[^/]+/', 
         RedirectView.as_view(url=reverse_lazy('document_detail'))),
     url(r'^(?P<uuid>[^/]+)/', views.document_detail, name='document_detail'),
 
