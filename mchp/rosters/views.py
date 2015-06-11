@@ -17,6 +17,6 @@ class RosterCreate(CreateView):
         form.instance.created_by = self.request.user.student_user
         return super().form_valid(form)
 
-    @school_required
-    def dispatch(self, *args, **kwargs):
-        super().dispatch(*args, **kwargs)
+    # @school_required
+    # def dispatch(self, *args, **kwargs):
+    #     return super().dispatch(*args, **kwargs)
