@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
-from documents import views
+from . import views
 
 urlpatterns = patterns('',  # noqa
-    url(r'^add/', views.RosterCreate.as_view(), name='roster-upload'),
+    url(r'^add/$', views.RosterCreate.as_view(), name='roster-upload'),
 )
