@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'dashboard',
     'notification',
     'referral',
+    'rosters',
     'schedule',
     'studyguides',
     'payment',
