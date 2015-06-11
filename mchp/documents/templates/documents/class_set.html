@@ -1,0 +1,235 @@
+{% extends 'documents/base.html' %}
+
+{% block head_title %}Class Set Page{% endblock %}
+
+{% block extra_head %}
+
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+		<!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script> -->
+
+	{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'documents/css/upload_doc.css' %}">
+		<script src="{% static 'documents/js/upload_doc.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
+		<script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+<div class="loading hidden">
+  <i class="fa fa-spinner fa-spin fa-stack-1x fa-5x"></i>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="media white">
+    			<!-- <img class="media-object pull-left animated bounceInDown" src="{% static 'lib/img/money.svg' %}" height="50px" alt="Add Documents"> -->
+  				<div class="media-body">
+    			<h2 class="media-heading text-center">Add New Study Guide or Class Set</h2>
+    			<!-- <hr> -->
+    			<br></br>
+				<!-- Stack some paper --></div>
+			</div>
+			<!-- <hr> -->
+		</div><!-- end col 12 -->
+		
+		<div class="col-xs-12">
+
+			<div role="tabpanel">
+
+			  <!-- Nav tabs -->
+			  <ul class="nav nav-pills nav-justified" role="tablist">
+			    <li role="presentation" class="active">
+			    	<a class="" href="#StudyGuideUpload" aria-controls="StudyGuideUpload" role="tab" data-toggle="tab">
+			        <h3 class="text-center white">Study Guide <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+			        <span class="text-center white"><strong>Make up to $5 per Study Guide you upload, plus all future sales.</strong></span>
+			        <p></p>
+			      </a>
+			    </li>
+			    <li role="presentation" class="">
+			    	<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+			    		<!-- <img class="center-block" src="http://localhost:8000/static/lib/img/book.svg" height="100px"> -->
+			      	<h3 class="text-center white">Class Set <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+			      	<span class="text-center white"><strong>Make 5% Sales Commission for each class set you provide.</strong></span>
+			      	<p></p>
+			      </a>
+			    </li>
+			  </ul>
+
+			  <!-- Tab panes -->
+			  <div class="tab-content">
+			    <div role="tabpanel" class="tab-pane active" id="StudyGuideUpload">
+			    	<div class="row">
+						  <div class="col-sm-8">
+						  	<br></br>
+						  	<div class="">
+									<div class="upload-form">
+										<form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
+											{% csrf_token %}
+											{% for field in form %}
+											{{ field.errors }}
+											{% ifequal field.name "course" %}
+											<div class="form-group" >
+												<div class="input-group">
+													<span class="input-group-addon">{{ field.label_tag}}</span>
+													<li class="dropdown" id="drop-li"> 
+														{{ field }}
+														<ul class="dropdown-menu" id="ac-dropdown">
+															<li role="presentation" class="dropdown-header">Your Courses</li>
+															{% for course in enrolled_courses %}
+															<li data-course="{{course.pk}}" class="strong"> <a href="#"><i class="fa fa-fw fa-plus-circle text-success"></i> {{course.display}}</a> </li>
+															{% empty %}
+															<li class="strong"> <a href="{%url "course_add"%}"><i class="fa fa-fw fa-plus-circle text-danger"></i>Add a course</a> </li>
+															{% endfor %}
+														</ul>
+													</li>
+												</div>
+											</div>
+											{% else %}
+											<div class="form-group">
+												<div class="input-group">
+													<span class="input-group-addon">{{ field.label_tag}}</span>
+													{{ field }}
+												</div>
+											</div>
+											{% endifequal %}
+											{% endfor %}
+											<input type="hidden" name="course" id="hidden_course"></input>
+											<p><input type="submit" value="Upload" class="btn btn-lg btn-primary btn-block btn-trans" /></p>
+										</form>
+									</div>
+								</div><!-- end well -->
+							</div><!-- end col--8 -->
+							<div class="col-xs-4">
+								<br></br>
+								<div class="">
+			            <ul class="list-unstyled white">
+			              <li>
+			                <p>Upload a filled-out guide for a specific exam or assignment.</p>
+			              </li>
+			              <li>
+			                <p class="">You'll get anywhere from $0-5 for uploading it, depending on how likely it is to sell.</p>
+			              </li>
+			              <li>
+			                <p class="">You continue making money each time it's sold.</p>
+			              </li>
+			            </ul>
+			          </div><!-- end well -->
+							</div><!-- end col-4 -->
+						</div><!-- end row -->
+			    </div><!-- end tab-panel-1 -->
+			    <div role="tabpanel" class="tab-pane" id="profile">
+			    	<div class="row">
+				      <div class="col-sm-8 col-sm-offset-2">
+				      	<br></br>
+				      	<h3 class="white">Search for a course to add a Class Set to:</h3>
+				      	<div class="input-group input-group-lg">
+						      <input type="text" class="form-control" placeholder="Type a Course Code (ECON 200)...">
+						      <span class="input-group-btn">
+						        <button class="btn btn-default" type="button">Search</button>
+						      </span>
+						    </div><!-- /input-group -->
+						    <br></br>
+				      </div><!-- end search col -->
+
+				      <div class="col-sm-8 col-sm-offset-2 white">
+			      		<div class="media">
+								  <div class="media-left">
+								    <i class="fa fa-file-text-o fa-4x"></i>
+								  </div>
+								  <div class="media-body">
+								    <h3 class="media-heading">Upload Syllabus <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+								    <p>Upload all of your syllabus files given out by your Instructor and indicate all non-student email addresses.</p>
+								    <p><a href="#" class="btn btn-default btn-trans">Upload Syllabus</a></p>
+								    <br>
+								    <h4>Add all Instructor, Teaching-Assistant, and non-student Emails</h4>
+								    <p><a href="#" class="editField white">Instr Reff's email</a></p>
+								    <hr>
+								  </div>
+								</div>
+								<div class="media">
+								  <div class="media-left">
+								    <i class="fa fa-calendar fa-4x"></i>
+								  </div>
+								  <div class="media-body">
+								    <h3 class="media-heading">Add Assignment Dates <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+								    <p>Add your events into the table, and we'll turn them into a calendar for your class.</p>
+								    <br>
+										<h4>Exam Dates for ECON 200</h4>
+										<table class="table">
+						    			<tr>
+						    				<td>
+						    					<a href="#" class="examSelect white">Exam 1</a>
+						    				</td>
+						    				<td>
+													<a href="#" class="editField white">Exam Date</a>
+						    				</td>
+						    				<td>
+													<a href="#" class="editField white">Notes</a>
+						    				</td>
+						    			</tr>
+						    			<tr>
+						    				<td>
+						    					<a href="#" class="examSelect white">Exam 2</a>
+						    				</td>
+						    				<td>
+													<a href="#" class="editField white">Exam Date</a>
+						    				</td>
+						    				<td>
+													<a href="#" class="editField white">Notes</a>
+						    				</td>
+						    			</tr>
+						    			<tr>
+						    				<td>
+						    					<a href="#" class="examSelect white">Exam 3</a>
+						    				</td>
+						    				<td>
+													<a href="#" class="editField white">Exam Date</a>
+						    				</td>
+						    				<td>
+													<a href="#" class="editField white">Notes</a>
+						    				</td>
+						    			</tr>
+						    			<tr>
+						    				<td>
+						    					<a href="#" class="examSelect white">Exam 4</a>
+						    				</td>
+						    				<td>
+													<a href="#" class="editField white">Exam Date</a>
+						    				</td>
+						    				<td>
+													<a href="#" class="editField white">Notes</a>
+						    				</td>
+						    			</tr>
+						    		</table>
+						    	</div>
+						    </div>
+						    <div class="media">
+								  <div class="media-left">
+								    <i class="fa fa-file-code-o fa-4x"></i>
+								  </div>
+								  <div class="media-body">
+								    <h3 class="media-heading">Copy & Paste Roster <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+								    <p>Using our instructions, navigate to your roster list on your course management system and paste it below.</p>
+								    <p><a href="#" class="btn btn-default btn-trans">Roster Instructions</a></p>
+								    <br>
+								    <h4>Paste Roster Code</h4>
+								    <p><a href="#" class="rosterCode white">Press "Command/control + v" to paste</a></p>
+								    <hr>
+								  </div>
+								</div>
+								<button type="submit" class="btn btn-primary btn-lg btn-trans btn-block">Submit Class Set for Review</button>
+								<br></br>
+								<br></br>													
+				      </div><!-- end col -8 -->
+				  	</div><!-- end row -->
+			    </div><!-- end tab-panel-2 -->
+			  </div><!-- end tab-content -->
+			</div><!-- end tabpanel -->
+		</div><!-- end col-12 -->
+	</div><!-- end row -->
+</div><!-- end container -->
+<div id="enrolled_courses" data-enrolled_courses="{{ enrolled_courses }}">
+</div>
+{% endblock %}
