@@ -1,7 +1,7 @@
 ACCOUNT_ADAPTER ="user_profile.adapter.AccountAdapter"
 #Specifies the adapter class to use, allowing you to alter certain default behaviour.
 
-ACCOUNT_AUTHENTICATION_METHOD = "username_email" 
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 #Specifies the login method to use -- whether the user logs in by entering his username, e-mail address, or either one of both.
 
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
@@ -97,4 +97,4 @@ SOCIALACCOUNT_PROVIDERS = {
         'METHOD': 'js_sdk'
     }
 }
-#Dictionary containing provider specific settings. 
+#Dictionary containing provider specific settings.

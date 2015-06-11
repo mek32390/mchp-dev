@@ -3,15 +3,15 @@
 {% block head_title %}mycollegehomepage{% endblock %}
 
 {% block extra_head %}
-    <meta property="fb:app_id" content="369999156462705" /> 
-    <meta property="og:type" content="website" /> 
-    <meta property="og:url" content="https://www.mycollegehomepage.com" /> 
-    <meta property="og:title" content="mycollegehomepage.com | mchp" /> 
-    <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/homepage.png" /> 
+    <meta property="fb:app_id" content="369999156462705" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mycollegehomepage.com" />
+    <meta property="og:title" content="mycollegehomepage.com | mchp" />
+    <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/homepage.png" />
     <meta property="og:description" content="The collaborative course management system for college students." />
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
 
 {% load staticfiles %}
 <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
@@ -57,14 +57,14 @@
   </div><!-- end alert -->
   {% endif %}
   <ol id="quicklinks" class="breadcrumb margin-btm-sm">
-		{% if weather %}
-		<li data-weather="{{weather}}"> 
-			<span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
-				<strong>{% weather_icon weather.icon weather.text %} {{school.city}}</strong>
-			</span> 
-			<span id="weather_temp"><strong>{{weather.temperature}} &deg;F</strong></span> &nbsp;
-		</li>
-		{% endif %}
+        {% if weather %}
+        <li data-weather="{{weather}}">
+            <span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
+                <strong>{% weather_icon weather.icon weather.text %} {{school.city}}</strong>
+            </span> 
+            <span id="weather_temp"><strong>{{weather.temperature}} &deg;F</strong></span> &nbsp;
+        </li>
+        {% endif %}
     <li><strong><a target="_blank" href="http://{{school.domain}}">{{school.alias}}</a></strong></li>
     {% for link in school_links %}
     <li><strong><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></strong></li>
@@ -84,9 +84,9 @@
         <div id="today-section" class="col-sm-12">
       <h2 style>Today&nbsp;<small>in your life</small></h2>
       <hr class="margin-top-sm">
-			{% if event_count and events_possible %}
-			<h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
-			{% endif %}
+            {% if event_count and events_possible %}
+            <h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
+            {% endif %}
       <div class="list-group">
         {% for event in events %}
         <div class="list-group-item">
@@ -96,18 +96,18 @@
           </p>
         </div>
         {% empty %}
-				{% if events_possible %}
-				<div class="list-group-item">
-					You've got nothing. Woop!
-				</div>
-				{% else %}
+                {% if events_possible %}
+                <div class="list-group-item">
+                    You've got nothing. Woop!
+                </div>
+                {% else %}
         <p>Start by following some calendars or <a href="{% url 'calendar_create' %}">make your own.</a></p>
-				{% for calendar in calendars%}
-				<div class="list-group-item">
-					<a href="{% url "calendar_preview" calendar.pk %}"><strong>{{calendar.title}} Calendar</strong></a> 
-				</div>
-				{% endfor %}
-				{% endif %}
+                {% for calendar in calendars%}
+                <div class="list-group-item">
+                    <a href="{% url "calendar_preview" calendar.pk %}"><strong>{{calendar.title}} Calendar</strong></a>
+                </div>
+                {% endfor %}
+                {% endif %}
         {% endfor %}
       </div>
     </div>
@@ -127,22 +127,22 @@
                   <a href="{% url "profile" classmate.pk %}">
                     <h5 class="media-heading">{{classmate.user.username}}</h5>
                   </a>
-									<p class="small h6 margin-btm-sm margin-top-none">
-										{%if classmate.major%}{{classmate.major}}{%else%}{%endif%}
-									</p>
-									<p class="small margin-top-none margin-btm-none classes-in-common">
-										taking 
-										{% for course in classmate.classes_in_common %}
-										{% if not forloop.last %}
-										<a href="{% url "course" course.pk %}">{{course}}</a>,
-										{% elif forloop.last and forloop.first %}
-										<a href="{% url "course" course.pk %}">{{course}}</a>
-										{% else %}
-										and <a href="{% url "course" course.pk %}">{{course}}</a>
-										{% endif %}
-										{% endfor %}
-										together.
-									</p>
+                                    <p class="small h6 margin-btm-sm margin-top-none">
+                                        {%if classmate.major%}{{classmate.major}}{%else%}{%endif%}
+                                    </p>
+                                    <p class="small margin-top-none margin-btm-none classes-in-common">
+                                        taking 
+                                        {% for course in classmate.classes_in_common %}
+                                        {% if not forloop.last %}
+                                        <a href="{% url "course" course.pk %}">{{course}}</a>,
+                                        {% elif forloop.last and forloop.first %}
+                                        <a href="{% url "course" course.pk %}">{{course}}</a>
+                                        {% else %}
+                                        and <a href="{% url "course" course.pk %}">{{course}}</a>
+                                        {% endif %}
+                                        {% endfor %}
+                                        together.
+                                    </p>
                 </div>
               </div>
             </div>
@@ -153,8 +153,8 @@
                 <div class="alert alert-success" role="alert">
                    <h4>You're the first!</h4>
                     Don't be a stranger, tell your friends to enter your code,
-                		<strong>"{{referral_info.referral_code}}"</strong> in the <a class="alert-link"
-                			href="#referral-modal" data-toggle="modal">referral window</a>, and you'll both get <strong>{{referral_reward}} points.</strong>
+                        <strong>"{{referral_info.referral_code}}"</strong> in the <a class="alert-link"
+                            href="#referral-modal" data-toggle="modal">referral window</a>, and you'll both get <strong>{{referral_reward}} points.</strong>
                 </div>
               <!-- </div> -->
             <!-- </div>
@@ -192,7 +192,7 @@
                 </p>
                 <a href="#">
                   <span class="description small dash-course"></span>
-                </a> 
+                </a>
               </div>
             </div>
           </div>
@@ -258,31 +258,31 @@
                   You joined a class</p>
                 <a href="#">
                   <span class="description small dash-course"></span>
-                </a> 
+                </a>
               </div>
             </div>
           </li>
         </div>
           <div class="list-group-item subscription subscription-proto hidden">
             <div class="media">
-							<a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
-								<h5><i class="fa fa-calendar fa-fw"></i></h5>
+                            <a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
+                                <h5><i class="fa fa-calendar fa-fw"></i></h5>
               </a>
               <div class="media-body">
                 <p class="media-heading">
                   <h class="pull-right"><small><span class="dash-time"></span></small></h>
 
-									<a href="#">
+                                    <a href="#">
                     <strong>
                       <span class="dash-target"></span>
                     </strong>
                   </a> has subscribed to your
                   <a href="#" class="dash-title-link">
-										<strong><span class="dash-title"></span></strong>
+                                        <strong><span class="dash-title"></span></strong>
                   </a> 
-									calendar
+                                    calendar
 
-								</p>
+                                </p>
                 <a href="#">
                   <span class="description small dash-course"></span>
                 </a> 

@@ -94,10 +94,6 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.AlterUniqueTogether(
-            name='section',
-            unique_together=set([('student', 'course', 'day')]),
-        ),
-        migrations.AlterUniqueTogether(
             name='schoolquicklink',
             unique_together=set([('domain', 'quick_link')]),
         ),

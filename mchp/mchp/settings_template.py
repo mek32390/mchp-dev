@@ -44,11 +44,13 @@ INSTALLED_APPS = (
     'landing',
     'user_profile',
     'calendar_mchp',
+    'campaigns',
     'documents',
     'dashboard',
     'notification',
     'referral',
     'schedule',
+    'studyguides',
     'payment',
 
     'storages',
@@ -175,7 +177,7 @@ SERVER_EMAIL = 'mchp error <contact@mycollegehomepage.com>'
 DEFAULT_FROM_EMAIL = 'mchp contact <contact@mycollegehomepage.com>'
 
 # Add this depending on the id of the site
-#SITE_ID = 2
+#SITE_ID = 1
 
 # import from allauth_settings.py
 from mchp.allauth_settings import *

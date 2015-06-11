@@ -108,7 +108,9 @@ class DatabaseTestCase(TestCase):
             'name': "Test University", 
             'phone_number':"(520) 555-5555",
             'address': "413 n What st.", 
-            'city':"Test city"
+            'city':"Test city",
+            'lat': 0,
+            'lng': 0,
         }
         test_school = School()
         test_school_form = TestForm(instance=test_school)

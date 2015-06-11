@@ -4,51 +4,51 @@
 
 $(function() {
 
-	// add auto drop down functionality of drop downs
-    $(".drop").hover(            
+    // add auto drop down functionality of drop downs
+    $(".drop").hover(
         function() {
             $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
             $(this).toggleClass('open');
-            $('.tooltip').hide();       
+            $('.tooltip').hide();
         },
         function() {
             $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
-            $(this).toggleClass('open');  
-            $('.tooltip').hide();            
+            $(this).toggleClass('open');
+            $('.tooltip').hide();
         }
     );
 
-	//detect window size for nav dropdown
-	// $(window).on('resize', function() {
-	//   	if ($(window).width() > 768) {
-	    	
-	//     	// make dropdown link direct to profile page when clicked
-	// 	  	$('.user-dropdown-toggle').click(function() {
-	// 		    var location = $(this).attr('href');
-	// 		    window.location.href = location;
-	// 		    return false;
-	// 		});
-	//  	}
-	// });
+    //detect window size for nav dropdown
+    // $(window).on('resize', function() {
+    //      if ($(window).width() > 768) {
 
-	// if ($(window).width() > 768) {
+    //      // make dropdown link direct to profile page when clicked
+    //      $('.user-dropdown-toggle').click(function() {
+    //          var location = $(this).attr('href');
+    //          window.location.href = location;
+    //          return false;
+    //      });
+    //      }
+    // });
 
-	//     // make dropdown link direct to profile page when clicked
-	// 	  	$('.user-dropdown-toggle').click(function() {
-	// 		    var location = $(this).attr('href');
-	// 		    window.location.href = location;
-	// 		    return false;
-	// 		});
-	// }
+    // if ($(window).width() > 768) {
+
+    //     // make dropdown link direct to profile page when clicked
+    //      $('.user-dropdown-toggle').click(function() {
+    //          var location = $(this).attr('href');
+    //          window.location.href = location;
+    //          return false;
+    //      });
+    // }
 
 
-	 //test data for typeahead in the search bar
-	 //Commented out because it broke things on the calendar page
- 	//$('#mchp-search').typeahead({        
- 		//source: ['CSC 420','ECON 200','ECON 300','ACCT 210','ACCT 300','MGMT 210','CSC 386','MGMT 300','MKTG 361']
-	//}); 
+     //test data for typeahead in the search bar
+     //Commented out because it broke things on the calendar page
+    //$('#mchp-search').typeahead({
+        //source: ['CSC 420','ECON 200','ECON 300','ACCT 210','ACCT 300','MGMT 210','CSC 386','MGMT 300','MKTG 361']
+    //});
 
-	// style django error messages to mimic BS3
+    // style django error messages to mimic BS3
     var html = [],
         $list = $('.errorlist');
 
@@ -58,79 +58,79 @@ $(function() {
         });
     html.push('</div>');
     $list.replaceWith(html.join(''));
-    
-	/* messages */
-	$messages = $('.django-messages');
-	var messageDelay = 5000;
-	// fade messages that were added on page load
-	$messages.children('div').delay(messageDelay).addClass('animated bounceInRight').fadeOut(500, function(){
-		$(this).remove();
-	});
 
-	/* When messages are appended dynamically, they should fade out too */
-	// create an observer instance
-	var observer = new MutationObserver(function(mutations) {
-		mutations.forEach(function(mutation) {
-			var $nodes = $(mutation.addedNodes);
-			$nodes.delay(messageDelay).addClass('animated bounceInRight').fadeOut(500, function(){
-				$(this).remove();
-			});
-		});
-	});
-	// configuration of the observer:
-	var config = { attributes: true, childList: true, characterData: true };
-	// pass in the target node, as well as the observer options
-	observer.observe($messages.get(0), config);
+    /* messages */
+    $messages = $('.django-messages');
+    var messageDelay = 5000;
+    // fade messages that were added on page load
+    $messages.children('div').delay(messageDelay).addClass('animated bounceInRight').fadeOut(500, function(){
+        $(this).remove();
+    });
 
-	/* custom scroll bar */
-	// can be applied to any div
-	$('.scrolls').enscroll({
-		showOnHover: false,
-		verticalTrackClass: 'track3',
-		verticalHandleClass: 'handle3',
-		scrollIncrement: 50,
-	});
+    /* When messages are appended dynamically, they should fade out too */
+    // create an observer instance
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            var $nodes = $(mutation.addedNodes);
+            $nodes.delay(messageDelay).addClass('animated bounceInRight').fadeOut(500, function(){
+                $(this).remove();
+            });
+        });
+    });
+    // configuration of the observer:
+    var config = { attributes: true, childList: true, characterData: true };
+    // pass in the target node, as well as the observer options
+    observer.observe($messages.get(0), config);
 
-	// initiates tooltips using data toggle selector
- 	$('[data-toggle="tooltip"]').tooltip({
- 		container: 'body'
- 	});
- 	// initiates popovers using data toggle selector
- 	$('[data-toggle="popover"]').popover({
- 		container: 'body',
- 		trigger: 'hover'
- 	});
+    /* custom scroll bar */
+    // can be applied to any div
+    $('.scrolls').enscroll({
+        showOnHover: false,
+        verticalTrackClass: 'track3',
+        verticalHandleClass: 'handle3',
+        scrollIncrement: 50,
+    });
 
-	// hover opacity for score bar
-	$('.score-bar').on( "mouseenter", function () {
-		$(this).css({'transition':'opacity .5s ease 0s', 'opacity':'1'});
-	});
-	$('.score-bar').on( "mouseleave", function () {
-		$(this).css({'transition':'opacity .5s ease 0s', 'opacity':'.5'} );
-	});		
-	//Score bar double click
-	$('.score-bar').on( "dblclick", function () {
-		// $('.score-breakdown').toggleClass('hidden').toggleClass('animated slideInRight');
-		$('#score_1').toggleClass('hidden').toggleClass('animated slideInLeft');
-		$('#score_2').toggleClass('hidden').toggleClass('animated slideInRight');
-		$('#score_3').toggleClass('hidden').toggleClass('animated slideInRight');
-		$('#level_score').removeClass('hidden').toggleClass('animated slideInLeft');
-	});
-	// score bar entrance on page load
-	$('#score_1').css({'width':'35%', 'transition':'width 1.5s ease 0s'});
-	$('#score_2').css({'width':'55%', 'transition':'width 2s ease 0s'});
-	$('#score_3').css({'width':'10%', 'transition':'width 1s ease 0s'});
+    // initiates tooltips using data toggle selector
+    $('[data-toggle="tooltip"]').tooltip({
+        container: 'body'
+    });
+    // initiates popovers using data toggle selector
+    $('[data-toggle="popover"]').popover({
+        container: 'body',
+        trigger: 'hover'
+    });
+
+    // hover opacity for score bar
+    $('.score-bar').on( "mouseenter", function () {
+        $(this).css({'transition':'opacity .5s ease 0s', 'opacity':'1'});
+    });
+    $('.score-bar').on( "mouseleave", function () {
+        $(this).css({'transition':'opacity .5s ease 0s', 'opacity':'.5'} );
+    });
+    //Score bar double click
+    $('.score-bar').on( "dblclick", function () {
+        // $('.score-breakdown').toggleClass('hidden').toggleClass('animated slideInRight');
+        $('#score_1').toggleClass('hidden').toggleClass('animated slideInLeft');
+        $('#score_2').toggleClass('hidden').toggleClass('animated slideInRight');
+        $('#score_3').toggleClass('hidden').toggleClass('animated slideInRight');
+        $('#level_score').removeClass('hidden').toggleClass('animated slideInLeft');
+    });
+    // score bar entrance on page load
+    $('#score_1').css({'width':'35%', 'transition':'width 1.5s ease 0s'});
+    $('#score_2').css({'width':'55%', 'transition':'width 2s ease 0s'});
+    $('#score_3').css({'width':'10%', 'transition':'width 1s ease 0s'});
 
 
-	//trigger user popover on hover and stay
-	$(".user-popover").popover ({ 
-		trigger: "manual",
-		html: true,
-		content: function() {
-			return $('#userPopoverContent').html();
-		},
-		container: 'body',
-	})
+    //trigger user popover on hover and stay
+    $(".user-popover").popover ({
+        trigger: "manual",
+        html: true,
+        content: function() {
+            return $('#userPopoverContent').html();
+        },
+        container: 'body',
+    })
     .on("mouseenter", function () {
         var _this = this;
         $(this).popover("show");
@@ -146,33 +146,33 @@ $(function() {
             }
         }, 100);
     });
-	// won't work w/o the validator, its not needed on every page anyway
-	// really this should only be called on pages that we know have a 
-	// #email-signup form TODO
-	if($.bootstrapValidator) {
-		loginModal();
-	}
+    // won't work w/o the validator, its not needed on every page anyway
+    // really this should only be called on pages that we know have a
+    // #email-signup form TODO
+    if($.bootstrapValidator) {
+        loginModal();
+    }
 
-	// mark notifications read
-	$('#toggle-notifications').on('mouseover', function() {
-		mark_all_read();
-		$('#notification-count').text('0');
-		$('#notification-count').removeClass('unread-notification');
-	});
+    // mark notifications read
+    $('#toggle-notifications').on('mouseover', function() {
+        mark_all_read();
+        $('#notification-count').text('0');
+        $('#notification-count').removeClass('unread-notification');
+    });
 
-	// for toggleing one time events
-	$('.one-time-event').on('click', function  () {
-		toggle_flag($(this).data('event'));
-	});
-	$('.one-time-alert').on('close.bs.alert', function  () {
-		toggle_flag($(this).data('event'));
-	});
-	set_username();
+    // for toggleing one time events
+    $('.one-time-event').on('click', function  () {
+        toggle_flag($(this).data('event'));
+    });
+    $('.one-time-alert').on('close.bs.alert', function  () {
+        toggle_flag($(this).data('event'));
+    });
+    set_username();
 });
 
 var MCHP_USERNAME = '';
 var set_username = function(username) {
-	MCHP_USERNAME = $('.mchp-username').text();
+    MCHP_USERNAME = $('.mchp-username').text();
 };
 
 var loginModal = function () {
@@ -183,7 +183,7 @@ var loginModal = function () {
         });
     });
 
-    //validate signup form 
+    //validate signup form
     $('#email-signup').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
@@ -213,30 +213,30 @@ var loginModal = function () {
 
 function addMessage(text, extra_tags) {
     var message = $(
-		'<div class="alert alert-' + extra_tags + ' alert-dismissible" role="alert">' +
-			'<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
-			'<ul class="messages">'+
-				'<li class="' + extra_tags + '">' + text + '</li>'+
-			'</ul>'+
-		'</div>');
+        '<div class="alert alert-' + extra_tags + ' alert-dismissible" role="alert">' +
+            '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
+            '<ul class="messages">'+
+                '<li class="' + extra_tags + '">' + text + '</li>'+
+            '</ul>'+
+        '</div>');
     $(".django-messages").append(message);
 }
 
 var toggle_flag = function(id) {
-	$.ajax({
-		url: '/profile/toggle-flag/',
-		type: 'POST',
-		data: {'event': id},
-	});
+    $.ajax({
+        url: '/profile/toggle-flag/',
+        type: 'POST',
+        data: {'event': id},
+    });
 };
 
 var marked = false;
 var mark_all_read = function() {
-	if (!marked) {
-		$.ajax({
-			url: '/notification/mark-all/',
-			type: 'POST',
-		});
-		marked = !marked;
-	}
+    if (!marked) {
+        $.ajax({
+            url: '/notification/mark-all/',
+            type: 'POST',
+        });
+        marked = !marked;
+    }
 };

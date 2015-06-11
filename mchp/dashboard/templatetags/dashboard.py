@@ -1,9 +1,9 @@
 from django.template import Library, Node, TemplateSyntaxError, Variable
 
 from dashboard.utils import WEATHER_ICONS
-     
+
 register = Library()
-     
+
 class WeatherNode(Node):
     def __init__(self, icon, text):
         self.icon = Variable(icon)
@@ -21,7 +21,7 @@ class WeatherNode(Node):
             weather = 'wi wi-alien'
             text = ' ayy lmao'
         return '<i {} class="{}">{}</i>'.format(tooltip, weather, text)
-    
+
 @register.tag
 def weather_icon(parser, token):
     try:

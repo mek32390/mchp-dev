@@ -30,7 +30,7 @@ $(function() {
 			path: "/classes",
 			element: "ul.nav-tabs",
 		    title: "<strong>Switch between Classes</strong>",
-		    content: "Each of your class's has it's own tab.",
+		    content: "Each of your classes has its own tab.",
 		    placement: "bottom",
 		    onShown: function() {
 	        	$('body > ul > li:nth-child(2').addClass('disabled').css('pointer-events','none');

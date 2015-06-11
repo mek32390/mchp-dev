@@ -18,4 +18,8 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(default=None, to='user_profile.Student', related_name='student_sections'),
             preserve_default=False,
         ),
+        migrations.AlterUniqueTogether(
+            name='section',
+            unique_together=set([('student', 'course', 'day')]),
+        ),
     ]
