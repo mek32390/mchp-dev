@@ -16,3 +16,4 @@ class RosterAdmin(admin.ModelAdmin):
             'fields': ['when'],
         })
     )
+    readonly_fields = ('when',)
