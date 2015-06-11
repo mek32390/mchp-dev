@@ -1,4 +1,3 @@
-from django.db import connection, connections
 from django.contrib.auth.models import User
 
 
