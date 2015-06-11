@@ -105,19 +105,19 @@ ul.messages {
 
 /* This changes the color of the active pill */
 .nav-pills > li.active > a {
-    background-color: transparent;
-    border-radius: 0px;
-    border-bottom: 1px solid #fff;
+    background-color: transparent !important;
+    border-radius: 0px !important;
+    border-bottom: 1px solid #fff !important;
 }
 /* This changes the color of the active pill on hover*/
 .nav-pills>li.active>a:hover {
-    background-color: transparent;
+    background-color: transparent !important;
 }
 /* This changes the color of the inactive pill on hover*/
 .nav-pills>li>a:hover {
-    background-color: transparent;
-    border-radius: 0px;
-    border-bottom: 1px solid #fff;
+    background-color: transparent !important;
+    border-radius: 0px !important;
+    border-bottom: 1px solid #fff !important;
 }
 
 /* site-wide profile image */

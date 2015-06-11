@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^home/', include('dashboard.urls')),
     url(r'^notification/', include('notification.urls')),
     url(r'^referral/', include('referral.urls')),
-    url(r'^studyguides/', include('studyguides.urls'), name='studyguides'),
+    # url(r'^studyguides/', include('studyguides.urls'), name='studyguides'),
     url(r'^payment/', include('payment.urls')),
     url('^\u262d', 'landing.views.party'),
 
