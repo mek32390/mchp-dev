@@ -19,6 +19,7 @@
 {% endblock %}
 
 {% block body %}
+<form action="" method="post">{% csrf_token %}
 <div class="container">
 	<div class="row">			
     <div class="col-sm-10 col-sm-offset-1">
@@ -29,32 +30,31 @@
 	        <button class="btn btn-default" type="button">Search</button>
 	      </span>
 	    </div><!-- /input-group -->
-	    <br></br>
+
   		<div class="media">
 			  <div class="media-left">
 			    <i class="fa fa-file-text-o fa-4x"></i>
 			  </div>
 			  <div class="media-body">
 			    <h3 class="media-heading">Identify Non-Student Emails <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
-			    <p>Indicate all non-student email addresses, such as Instuctors and Teaching Assistants.</p>
-			    <br>
+			    <p>Indicate all non-student email addresses, such as instructors and teaching assistants.</p>
 			    <!-- <h4>Add all Instructor, Teaching-Assistant, and non-student Emails</h4> -->
 			    <div class="row">
 			    	<div class="col-xs-9">
 							<ul id="InstructorEmails" class="list-inline">
-					    	<li><a href="#" class="editField white">Instr Reff's email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
-					    	<li class="additionalInstr hidden"><a href="#" class="editField white">Inst or TA email</a></li>
+					    	<li><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+					    	<li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
 					    </ul>
 			    	</div>
 			    	<div class="col-xs-3">
@@ -71,7 +71,6 @@
 			  <div class="media-body">
 			    <h3 class="media-heading">Copy & Paste Roster <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
 			    <p>Select the Course Management System that your class uses and we'll show you how to quickly get your class Roster.</p>
-			    <br>
 				    <!-- <p><strong>Select the Course Management System that your class uses:</strong></h5> -->
 						<!-- Begin tabs -->
 		        <div role="tabpanel">
@@ -95,20 +94,18 @@
 						  </div><!-- end tab panes -->
 
 						</div><!-- end tabpanel -->
-						<br>
+			    {# <h4> #}
+				{#     <label for="{{ form.code.id_for_label }}">Paste Roster Code</label> #}
+			    {# </h4> #}
+			    {# <textarea id="{{ form.code.id_for_label }}" name="{{ form.code.name }}" placeholder="paste with cmd/ctrl+v">{{ form.code.value|default:''}}</textarea> #}
 			    <h4>Paste Roster Code</h4>
-			    <p><a href="#" class="rosterCode white">Press "Command/control + v" to paste</a></p>
+			    <a href="#" id="{{ form.code.id_for_label }}" data-type="textarea" data-escape="true" data-placeholder="cmd+v (Mac) or ctrl+v (PC) here to paste" class="rosterCode white">{{ form.code.value|default:'' }}</a>
 			    <hr>
 			  </div>
 			</div>
 			<button type="submit" class="btn btn-primary btn-lg btn-trans btn-block">Submit Class Set for Review</button>
-			<br></br>
-			<br></br>													
     </div><!-- end col -8 -->
 	</div><!-- end row -->
 </div><!-- end container -->
-<!-- <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create" />
-</form> -->
+</form>
 {% endblock %}

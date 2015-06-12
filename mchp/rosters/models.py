@@ -9,7 +9,7 @@ class Roster(models.Model):
     ----------
     course : django.db.models.ForeignKey
        A course to which this roster is attached.
-    html : django.db.models.TextField
+    code : django.db.models.TextField
         The roster HTML to parse.
     when : django.db.models.DateTimeField
         When was this roster submitted?
@@ -18,7 +18,7 @@ class Roster(models.Model):
 
     """
     course = models.ForeignKey('schedule.Course')
-    html = models.TextField('body')
+    code = models.TextField('source code')
     when = models.DateTimeField('submitted', auto_now_add=True)
     created_by = models.ForeignKey('user_profile.Student')
 

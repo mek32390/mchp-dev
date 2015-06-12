@@ -7,7 +7,7 @@ class RosterAdmin(admin.ModelAdmin):
     list_display = ('course', 'created_by', 'when')
     fieldsets = (
         (None, {
-            'fields': ['course', 'html'],
+            'fields': ['course', 'code'],
         }),
         ('Personal information', {
             'fields': ['created_by'],
