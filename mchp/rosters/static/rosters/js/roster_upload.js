@@ -41,7 +41,13 @@ $(function() {
 		onblur: 'cancel',
         rows: 1
     });
-		
+
+    // When a user clicks to add a new instructor email, show them a new field
+
+    $("#addInstructorEmail").click(function () {
+    	var nextListItem = $("#InstructorEmails").find("li.additionalInstr:hidden:first");
+		nextListItem.removeClass("hidden");
+	});
 });
 
 
