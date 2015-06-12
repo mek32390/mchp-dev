@@ -12,8 +12,9 @@ $(function() {
 	$(".editField").editable({
 		type: "text",
 		mode: "inline",
+		highlight: "#000",
 		showbuttons: false,
-		anim: "fast",
+		anim: "med",
 		onblur: 'cancel'  
 	});
 
@@ -21,7 +22,7 @@ $(function() {
 		type: "select",
 		mode: "inline",
 		showbuttons: false,
-		anim: "fast",
+		anim: "med",
 		onblur: 'cancel', 
         value: 1,    
         source: [
@@ -37,7 +38,7 @@ $(function() {
         placeholder: "Command + v here to paste",
 		mode: "inline",
 		showbuttons: false,
-		anim: "fast",
+		anim: "med",
 		onblur: 'cancel',
         rows: 1
     });

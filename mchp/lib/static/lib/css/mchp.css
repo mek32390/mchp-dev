@@ -107,7 +107,12 @@ ul.messages {
 
 /* thin progress bars */
 .progress {
-  max-height: 5px;
+    max-height: 5px;
+}
+
+/* media-body width fix */
+.media .media-body {
+    width: 10000px;
 }
 
 /* center columns */
