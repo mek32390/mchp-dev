@@ -59,11 +59,6 @@ export AWS_ACCESS_KEY_ID=--your-access-key--
 export AWS_SECRET_ACCESS_KEY=--your-secret-key--
 ```
 
-pip install django-storages leaves out S3.py, so you'll need to make the file yourself in the “backends” folder where (lowercase) s3.py is located.
-Note: The file reference below is a recent change and these directions are going to change again soon! The django-storages project has a lot of improvements which have not yet been packaged, so keep watching this space.
-```
-Here are the contents of that file: https://raw.githubusercontent.com/coagulant/django-storages-py3/py3/storages/utils/S3.py
-```
 For rabbitMQ (maybe):
 ```
 # rabbitmq-server
