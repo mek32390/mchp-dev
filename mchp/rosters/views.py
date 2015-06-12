@@ -8,7 +8,7 @@ class RosterCreate(CreateView):
     template_name_suffix = '_create_form'
     model = models.Roster
     success_url = reverse_lazy('roster-upload')
-    fields = ['course', 'html']
+    fields = ['course', 'code']
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
