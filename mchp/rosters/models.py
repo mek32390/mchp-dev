@@ -21,7 +21,8 @@ class Roster(models.Model):
     """
     course = models.ForeignKey('schedule.Course')
     source = models.TextField('source code')
-    emails = models.TextField('filter emails')  # [TODO] should eventually be inline class
+    # [TODO] emails should eventually be inline with foreign key
+    emails = models.TextField('filter emails', blank=True)
     when = models.DateTimeField('submitted', auto_now_add=True)
     created_by = models.ForeignKey('user_profile.Student')
 
