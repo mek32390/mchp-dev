@@ -20,7 +20,7 @@ def parse_roster(html):
     return out
 
 
-def ensure_enrollment_exists(course, student, receive_email=True):
+def get_or_create_enrollment(course, student, receive_email=True):
     """ Enroll a student if not already enrolled.
 
     Parameters
@@ -47,7 +47,7 @@ def ensure_enrollment_exists(course, student, receive_email=True):
     return enrollment
 
 
-def ensure_student_exists(school, user):
+def get_or_create_student(school, user):
     """ Create a student if they don't already exist.
 
     Parameters
@@ -167,7 +167,7 @@ def make_username(email):
     return handle
 
 
-def ensure_user_exists(email, fname=None, lname=None):
+def get_or_create_user(email, fname=None, lname=None):
     """ Find or create a user associated with a given e-mail address.
 
     Parameters

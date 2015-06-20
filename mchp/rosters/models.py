@@ -9,8 +9,10 @@ class Roster(models.Model):
     ----------
     course : django.db.models.ForeignKey
        A course to which this roster is attached.
-    code : django.db.models.TextField
+    source : django.db.models.TextField
         The roster HTML to parse.
+    emails : django.db.models.TextField
+        A whitespace-delimited list of email addresses to strip.
     when : django.db.models.DateTimeField
         When was this roster submitted?
     created_by : django.db.models.ForeignKey
@@ -18,7 +20,8 @@ class Roster(models.Model):
 
     """
     course = models.ForeignKey('schedule.Course')
-    code = models.TextField('source code')
+    source = models.TextField('source code')
+    emails = models.TextField('filter emails')  # [TODO] should eventually be inline class
     when = models.DateTimeField('submitted', auto_now_add=True)
     created_by = models.ForeignKey('user_profile.Student')
 
@@ -32,11 +35,16 @@ class Roster(models.Model):
 
         """
         enrollments = []
+        emails_to_filter = self.emails.split()
         items = utils.parse_roster(self.html)
         for item in items:
             email, fname, lname = item['email'], item['fname'], item['lname']
-            user = utils.ensure_user_exists(email, fname=fname, lname=lname)
-            student = utils.ensure_student_exists(self.course.domain, user)
-            enrollment = utils.ensure_enrollment_exists(self.course, student)
-            enrollments.append(enrollment)
+            if email not in emails_to_filter:
+                user = utils.get_or_create_user(email,
+                                                fname=fname,
+                                                lname=lname)
+                student = utils.get_or_create_student(self.course.domain, user)
+                enrollment = utils.get_or_create_enrollment(self.course,
+                                                            student)
+                enrollments.append(enrollment)
         return len(enrollments)
