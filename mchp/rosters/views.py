@@ -1,5 +1,6 @@
-from django.views.generic.edit import CreateView
 from django.core.urlresolvers import reverse_lazy
+from django.views.generic.edit import CreateView
+from django.utils.decorators import method_decorator
 from lib.decorators import school_required
 from . import forms, models
 
@@ -9,8 +10,7 @@ class RosterCreate(CreateView):
     model = models.Roster
     form_class = forms.RosterCreateForm
     success_url = reverse_lazy('roster-upload')
-    fields = ['course', 'source']
-    # TODO add form with extra field for ta's
+    # fields = ['course', 'source']
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
@@ -19,6 +19,6 @@ class RosterCreate(CreateView):
         form.instance.created_by = self.request.user.student_user
         return super().form_valid(form)
 
-    # @school_required
-    # def dispatch(self, *args, **kwargs):
-    #     return super().dispatch(*args, **kwargs)
+    # @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)

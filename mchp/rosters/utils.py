@@ -1,12 +1,13 @@
 from django.contrib.auth.models import User
+import subprocess, tempfile
 
 
-def parse_roster(html):
+def parse_roster(html_source):
     """ Parse an HTML roster into a collection of users.
 
     Parameters
     ----------
-    html : str
+    html_source : str
         HTML data to parse.
 
     Returns
@@ -15,6 +16,16 @@ def parse_roster(html):
         A collection of parsed items.
 
     """
+    # create and populate a temporary file
+    handle = tempfile.TemporaryFile()
+    handle.write(html_source)
+
+    process = subprocess.Popen(args, cwd=settings.BASE_DIR,
+                               universal_newlines=True)
+
+class subprocess.Popen(args, bufsize=-1, executable=None, stdin=None, stdout=None, stderr=None, preexec_fn=None, close_fds=True, shell=False, cwd=None, env=None, universal_newlines=False, startupinfo=None, creationflags=0, restore_signals=True, start_new_session=False, pass_fds=())¶
+    
+    
     out = []
     # [TODO] flesh me out
     return out
