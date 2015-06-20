@@ -114,7 +114,7 @@ def _writeCSV(entries, parser, CSVfilename = None):
     for i in range(len(parser.WRITTEN_KEYWORDS)):
         header += parser.WRITTEN_KEYWORDS[i]
         if i != (len(parser.WRITTEN_KEYWORDS)-1):
-            header += ', '
+            header += ','
         else:
             header += '\n'
 
@@ -136,7 +136,7 @@ def _writeCSV(entries, parser, CSVfilename = None):
                 if e[k] is not None:
                     newEntry += e[k]
                 if i != (len(parser.WRITTEN_KEYWORDS) - 1):
-                    newEntry += ', '
+                    newEntry += ','
                 else:
                     newEntry += '\n'
                 i += 1
