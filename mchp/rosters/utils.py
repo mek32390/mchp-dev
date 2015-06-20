@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django import settings
+import os
 import subprocess, tempfile
 
 
@@ -20,14 +22,15 @@ def parse_roster(html_source):
     handle = tempfile.TemporaryFile()
     handle.write(html_source)
 
-    process = subprocess.Popen(args, cwd=settings.BASE_DIR,
-                               universal_newlines=True)
+    cmd = os.path.join(
+        os.dirname(settings.BASE_DIR, 'parser', 'Parser', 'parser.py'))
 
-class subprocess.Popen(args, bufsize=-1, executable=None, stdin=None, stdout=None, stderr=None, preexec_fn=None, close_fds=True, shell=False, cwd=None, env=None, universal_newlines=False, startupinfo=None, creationflags=0, restore_signals=True, start_new_session=False, pass_fds=())¶
-    
-    
-    out = []
-    # [TODO] flesh me out
+    args = [cmd, '']  # TODO flesh me out
+    subprocess.Popen(args, cwd=settings.BASE_DIR, universal_newlines=True)
+
+    with open('outfile') as out_handle:
+        out = out_handle.read_lines()
+
     return out
 
 
