@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.contrib.auth.models import User
-from django import settings
+import csv
 import os
-import subprocess, tempfile
+import subprocess
+import tempfile
 
 
 def parse_roster(html_source):
@@ -17,21 +19,39 @@ def parse_roster(html_source):
     out : list of dict
         A collection of parsed items.
 
+    Notes
+    -----
+    [TODO] This method's a little sketchy.  The parser should be integrated
+    directly into the Python routines here, rather than farming out.  Until
+    the parser is rewritten or refactored, it may simply be easire to do this.
+
     """
     # create and populate a temporary file
-    handle = tempfile.TemporaryFile()
-    handle.write(html_source)
+    with tempfile.NamedTemporaryFile(mode='w+', suffix='.html') as handle:
+        handle.write(html_source)
 
-    cmd = os.path.join(
-        os.dirname(settings.BASE_DIR, 'parser', 'Parser', 'parser.py'))
+        script = os.path.join(os.path.dirname(settings.BASE_DIR),
+                              'parser', 'Parser', 'parser.py')
 
-    args = [cmd, '']  # TODO flesh me out
-    subprocess.Popen(args, cwd=settings.BASE_DIR, universal_newlines=True)
+        csvfiledir = os.path.join(settings.BASE_DIR, 'CSV_Dump')
+        csvfilename = 'out.csv'
+        csvfilepath = os.path.join(csvfiledir, csvfilename)
 
-    with open('outfile') as out_handle:
-        out = out_handle.read_lines()
+        # parse input HTML
+        args = ['/usr/bin/python', script, handle.name, '-c', csvfiledir,
+                csvfilename]
+        subprocess.call(args, universal_newlines=True)
 
-    return out
+        # parse output CSV
+        with open(csvfilepath) as csvfile:
+            reader = csv.DictReader(csvfile)
+            out = [row for row in reader]
+
+        # clean up after ourselves
+        os.remove(csvfilepath)
+        os.rmdir(csvfiledir)
+
+        return out
 
 
 def get_or_create_enrollment(course, student, receive_email=True):
