@@ -243,7 +243,7 @@ def get_or_create_user(email, fname=None, lname=None):
             user = EmailAddress.objects.get(email__iexact=email).user
         except EmailAddress.DoesNotExist:
             username = make_username(email)
-            params = {}
+            params = {'email': email}
             if fname:
                 params['first_name'] = fname
             if lname:
