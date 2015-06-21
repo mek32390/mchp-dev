@@ -242,11 +242,12 @@ def get_or_create_user(email, fname=None, lname=None):
         try:
             user = EmailAddress.objects.get(email__iexact=email).user
         except EmailAddress.DoesNotExist:
-            username = make_username(email)
-            params = {'email': email}
+            username = make_username(email.lower())
+            extra_fields = {}
             if fname:
-                params['first_name'] = fname
+                extra_fields['first_name'] = fname
             if lname:
-                params['last_name'] = lname
-            user = User.objects.create_user(username, None, email, **params)
+                extra_fields['last_name'] = lname
+            user = User.objects.create_user(username, email=email,
+                                            password=None, **extra_fields)
     return user
