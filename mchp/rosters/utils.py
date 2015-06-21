@@ -27,29 +27,30 @@ def parse_roster(html_source):
 
     """
     # create and populate a temporary file
-    with tempfile.NamedTemporaryFile(mode='w+', suffix='.html') as handle:
+    script = os.path.join(os.path.dirname(settings.BASE_DIR),
+                          'parser', 'Parser', 'parser.py')
+    csvfilename = 'out.csv'
+
+    with tempfile.NamedTemporaryFile(mode='w+', suffix='.html',
+                                     delete=False) as handle:
+        htmlfilepath = handle.name
+
         handle.write(html_source)
+        handle.flush()
 
-        script = os.path.join(os.path.dirname(settings.BASE_DIR),
-                              'parser', 'Parser', 'parser.py')
+        with tempfile.TemporaryDirectory() as csvfiledir:
+            csvfilepath = os.path.join(csvfiledir, csvfilename)
 
-        csvfiledir = os.path.join(settings.BASE_DIR, 'CSV_Dump')
-        csvfilename = 'out.csv'
-        csvfilepath = os.path.join(csvfiledir, csvfilename)
+            # parse input HTML
+            args = ['/usr/bin/env', 'python', script, htmlfilepath, '-c',
+                    csvfiledir, csvfilename]
 
-        # parse input HTML
-        args = ['/usr/bin/python', script, handle.name, '-c', csvfiledir,
-                csvfilename]
-        subprocess.call(args, universal_newlines=True)
+            subprocess.call(args, universal_newlines=True)
 
-        # parse output CSV
-        with open(csvfilepath) as csvfile:
-            reader = csv.DictReader(csvfile)
-            out = [row for row in reader]
-
-        # clean up after ourselves
-        os.remove(csvfilepath)
-        os.rmdir(csvfiledir)
+            # parse output CSV
+            with open(csvfilepath) as csvfile:
+                reader = csv.DictReader(csvfile)
+                out = [row for row in reader]
 
         return out
 
@@ -98,10 +99,10 @@ def get_or_create_student(school, user):
 
     """
     from user_profile.models import Student
-    student = user.student_user
-    if not student:
-        student = Student.objects.create_student(user, school)
-    return student
+    try:
+        return user.student_user
+    except Student.DoesNotExist:
+        return Student.objects.create_student(user, school)
 
 
 def suffix(s, suffix, max_length):
@@ -230,7 +231,7 @@ def get_or_create_user(email, fname=None, lname=None):
 
     """
     from django.core.validators import validate_email
-    from django.allauth.models import EmailAddress
+    from allauth.account.models import EmailAddress
 
     email = User.objects.normalize_email(email)
     validate_email(email)
