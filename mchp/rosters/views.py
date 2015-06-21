@@ -15,10 +15,9 @@ class RosterCreate(CreateView):
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-        # form.make_models()
         form.instance.created_by = self.request.user.student_user
         return super().form_valid(form)
 
-    # @method_decorator(school_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
