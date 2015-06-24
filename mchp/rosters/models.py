@@ -40,7 +40,7 @@ class Roster(models.Model):
     imported = models.DateTimeField(blank=True, null=True)
 
     def _format_entry(self, d):
-        """ Quick kludge to format a CSV entry.
+        """ Quick kludge to format a CSV entry like: "LAST, FIRST (EMAIL)"
 
         """
         return '{}, {} ({})'.format(d['last'], d['first'], d['email'])
