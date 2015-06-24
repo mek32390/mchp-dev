@@ -6,7 +6,7 @@ import subprocess
 import tempfile
 
 
-def parse_roster(html_source):
+def roster_html_to_csv(html_source):
     """ Parse an HTML roster into a collection of users.
 
     Parameters
@@ -49,10 +49,17 @@ def parse_roster(html_source):
 
             # parse output CSV
             with open(csvfilepath) as csvfile:
-                reader = csv.DictReader(csvfile)
-                out = [row for row in reader]
+                out = csvfile.read()
 
         return out
+
+
+def csv_string_to_python(input_csv):
+    """ Parse a CSV string into Python objects.
+
+    """
+    reader = csv.DictReader(input_csv.splitlines())
+    return list(reader)
 
 
 def get_or_create_enrollment(course, student, receive_email=True):

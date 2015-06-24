@@ -10,8 +10,10 @@ class Roster(models.Model):
     ----------
     course : django.db.models.ForeignKey
        A course to which this roster is attached.
-    source : django.db.models.TextField
+    roster_html : django.db.models.TextField
         The roster HTML to parse.
+    parsed_csv : django.db.models.TextField
+        CSV parsed from the roster HTML.
     emails : django.db.models.TextField
         A whitespace-delimited list of email addresses to strip.
     when : django.db.models.DateTimeField
@@ -25,7 +27,8 @@ class Roster(models.Model):
 
     """
     course = models.ForeignKey('schedule.Course')
-    source = models.TextField('source code')
+    roster_html = models.TextField('roster HTML')
+    parsed_csv = models.TextField('parsed CSV', blank=True)
 
     # [TODO] emails should eventually be inline with foreign key from other
     # model
@@ -35,6 +38,22 @@ class Roster(models.Model):
     created_by = models.ForeignKey('user_profile.Student')
     approved = models.DateTimeField(blank=True, null=True)
     imported = models.DateTimeField(blank=True, null=True)
+
+    def _format_entry(self, d):
+        """ Quick kludge to format a CSV entry.
+
+        """
+        return '{}, {} ({})'.format(d['last'], d['first'], d['email'])
+
+    def preview(self):
+        items = utils.csv_string_to_python(self.parsed_csv)
+        return '\n'.join([self._format_entry(i) for i in items])
+
+    def clean(self):
+        """ Set parsed_csv on save.
+
+        """
+        self.parsed_csv = utils.roster_html_to_csv(self.roster_html)
 
     def import_roster(self):
         """ Ensure enrollments exist, based on an input roster.
@@ -47,7 +66,7 @@ class Roster(models.Model):
         """
         enrollments = []
         emails_to_filter = self.emails.split()
-        items = utils.parse_roster(self.source)
+        items = utils.csv_string_to_python(self.parsed_csv)
         for item in items:
             email, fname, lname = item['email'], item['first'], item['last']
             if email not in emails_to_filter:

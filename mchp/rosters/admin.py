@@ -7,7 +7,7 @@ class RosterAdmin(admin.ModelAdmin):
     list_display = ('course', 'created_by', 'when', 'approved', 'imported')
     fieldsets = (
         (None, {
-            'fields': ['course', 'source'],
+            'fields': ['course', 'roster_html', 'parsed_csv', 'preview'],
         }),
         ('Personal information', {
             'fields': ['created_by'],
@@ -16,4 +16,4 @@ class RosterAdmin(admin.ModelAdmin):
             'fields': ['when', 'approved', 'imported'],
         })
     )
-    readonly_fields = ('when',)
+    readonly_fields = ('when', 'parsed_csv', 'preview')
