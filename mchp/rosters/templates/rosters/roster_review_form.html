@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Staff Intern Page</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <!-- <link href="css/scrolling-nav.css" rel="stylesheet"> -->
+    
+    <!-- Font Awesome -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Weather Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/1.3.2/css/weather-icons.min.css" rel="stylesheet">
+
+		<!-- Bootstrap Table Dependencies -->
+
+		<!-- jQuery -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js"></script>
+
+		<!-- Latest compiled and minified Locales -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="" data-spy="scroll" data-target=".navbar-fixed-top">
+
+	<!-- Class Set Review Modal -->
+	<div class="modal fade review-modal" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+    <div class="modal-dialog custom-modal" style="width:90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="gridSystemModalLabel">Sets that need Review (1/24)</h4>
+        </div>
+        <div class="modal-body">
+          <div class="">
+            <div class="row">
+              <div class="col-sm-12">
+		              <!-- <div class="panel panel-default">
+		              	<div class="panel-heading"> -->
+		            			<!-- div class="row">
+		            				<div class="col-xs-6">
+		            					<h4 class="panel-title">Sets that need Review (1/24)</h4>
+		              			</div>
+		            				<div class="col-xs-6">
+												</div>
+											</div> -->
+										<!-- </div> -->
+
+										<!-- <div class="panel-body"> -->
+											<div class="media">
+												<div class="row">
+													<div class="col-md-6">
+													  <div class="media-left">
+													    <a href="#">
+													      <img class="media-object img-responsive img-thumbnail" src="img/StudyGuidePreview.png" width="1000px" alt="...">
+													    </a>
+													    <br></br>
+													  </div>
+													</div><!-- end col-6 -->
+													<div class="col-md-6">
+													  <div class="media-body" style="width:1000px;">
+													    <h2 class="media-heading"><strong>ECON 200</strong>
+													    	<ul class="list-inline pull-right">
+													    		<li><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-check"></i> Approve</a></li>
+													    		<li><a href="#" class=" btn btn-danger btn-lg"><i class="fa fa-times"></i> Deny</a>
+													    		</li>
+													    	</ul>
+													    </h2>
+													    University of Arizona &nbsp; Instr Reff
+													    <hr>
+												      <h5>
+											      	<div class="row">
+											      		<div class="col-sm-6">
+											      			<ul class="list-inline">
+												      			<li><p><span class="label label-danger">Instr:</span> &nbsp;reff@email.arizona.edu (Reff)</p></li>
+													      		<li><p><span class="label label-danger">Instr:</span> &nbsp;reff3@email.arizona.edu</p></li>
+												      		</ul>
+											      		</div>
+											      		<div class="col-sm-6">
+											      			<ul class="list-inline">
+												      			<li><p><span class="label label-warning">TA:</span> &nbsp;teachingasst@email.arizona.edu</p></li>
+													      		<li><p><span class="label label-warning">TA:</span> &nbsp;tapower@email.arizona.edu</p></li>
+												      		</ul>
+											      		</div>
+											      	</div>
+													    </h5>
+													    <hr>
+												      <h4>Roster &nbsp;<span class="badge">24 Students</span></h4>
+												      <table class="table table-striped table-hover">
+												        <tr><td>Eric Simon</td><td>esimon@email.arizona.edu</td><td>user</td>
+												        <tr><td>Sam Gansline</td><td>sgansline@email.arizona.edu</td><td>user</td>
+												        <tr><td>Ashton Kent</td><td>akent@email.arizona.edu</td><td>not a user</td>
+												      </table>
+												      <h4>Events &nbsp;<span class="badge">14 Events</span></h4>
+												      <table class="table table-striped table-hover">
+												        <tr><td>Exam 1</td><td>August 29</td><td>open note</td>
+												        <tr><td>Exam 2</td><td>October 10</td><td>open note</td>
+												        <tr><td>Final Exam</td><td>December 9</td><td>open note</td>
+												      </table>
+												      <hr>
+												      <h4>Uploader</h4>
+												      <h5>Samantha Joe: <a href="#">sjoe@email.arizona.edu</a></h5>
+												      
+													  </div><!-- end media-body -->
+													</div><!-- end col-6 -->
+												</div><!-- end row -->
+											</div><!-- end media -->
+										<!-- </div> --><!-- end panel body -->
+									<!-- </div> --><!-- end panel -->
+		            <!-- </div> --><!-- end well -->
+		          </div><!-- end col-12 -->
+            </div>
+          </div>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div> -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+    <!-- Intern Page Section -->
+    <section id="intro" class="intro-section">
+      <div class="container">
+      	<div class="row">
+      		<div class="col-sm-7">
+			      <h2 class="white">Staff Intern Dashboard 
+			      	<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".review-modal">24 Sets Need Review</button>
+			      </h2>
+			    </div>
+			    <div class="col-sm-5">
+			    	<p></p>
+			      <h2>
+			      	<ul class="list-inline pull-right">
+								<li class="white">August 7th - 14th</li>
+								<li>
+			        		<select class="form-control">
+			        			<!-- <option>Need Review</option> -->
+									  <option>This week</option>
+									  <option>This month</option>
+									  <option>This year</option>
+									</select>
+								</li>
+							</ul>
+						</h2>
+					</div><!-- end col-5 -->
+				</div><!-- end row -->
+      <hr>
+        <div class="row">
+          <div class="col-sm-12">
+            <!-- <div class="well well-sm"> -->
+            	<div class="row">
+            		<div class="col-sm-3">
+                  <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title"><strong>Study Guides</strong><span class="pull-right">40%</span></h3></div>
+                    <div class="panel-body">
+	                    <div class="row">
+	                    	<div class="col-xs-5">
+	                    		<h1 class="text-center margin-top-none">17</h1>
+	                    		<p class="text-center margin-btm-none"><span class="badge">$23.00</span></p>
+	                    	</div>
+	                    	<div class="col-xs-7">
+	                    		<p class="margin-btm-none"><strong>Avg Payout</strong></p>
+	                    		<p class="margin-top-none">$3.00</p>
+	                    	</div>
+	                    	<!-- <div class="col-xs-12">
+	                    		<p class="text-center"><span class="badge">$23.00</span></p>
+	                    	</div> -->
+	                    </div>
+	                  </div>
+                  </div><!-- end panel -->
+                </div><!-- end col-3 -->
+            		<div class="col-sm-3">
+		              <div class="panel panel-default">
+		                <div class="panel-heading"><h3 class="panel-title"><strong>Class Sets</strong><span class="pull-right">50%</span></h3></div>
+			              <div class="panel-body">
+	                    <div class="row">
+	                    	<div class="col-xs-5">
+	                    		<h1 class="text-center margin-top-none">27</h1>
+	                    		<p class="text-center margin-btm-none"><span class="badge">$40.00</span></p>
+	                    	</div>
+	                    	<div class="col-xs-7">
+	                    		<p class="margin-btm-none"><strong>Avg Payout</strong></p>
+	                    		<p class="margin-top-none">$4.00</p>
+	                    	</div>
+	                    </div>
+		                 </div>
+		              </div><!-- end panel -->
+            		</div><!-- end col-3 -->
+            		<div class="col-sm-3">
+		              <div class="panel panel-default">
+		                <div class="panel-heading"><h3 class="panel-title"><strong>Referrals</strong><span class="pull-right">10%</span></h3></div>
+		                <div class="panel-body">
+	                    <div class="row">
+	                    	<div class="col-xs-5">
+	                    		<h1 class="text-center margin-top-none">30</h1>
+	                    		<p class="text-center margin-btm-none"><span class="badge">$30.00</span></p>
+	                    	</div>
+	                    	<div class="col-xs-7">
+	                    		<p class="margin-btm-none"><strong>Avg Payout</strong></p>
+	                    		<p class="margin-top-none">$1.00</p>
+	                    	</div>
+	                    	<!-- <div class="col-xs-12">
+	                    		<p class="text-center"><span class="badge">$23.00</span></p>
+	                    	</div> -->
+	                    </div>
+	                  </div>
+		              </div><!-- end panel -->
+		            </div><!-- end col-3 -->
+		            <div class="col-sm-3">
+		              <div class="panel panel-default">
+		                <div class="panel-heading"><h3 class="panel-title"><strong>Payouts</strong><span class="pull-right">100%</span></h3></div>
+		                <div class="panel-body">
+	                    <div class="row">
+	                    	<div class="col-xs-5">
+	                    		<h1 class="text-center margin-top-none">50</h1>
+	                    		<p class="text-center margin-btm-none"><span class="badge">$70.00</span></p>
+	                    	</div>
+	                    	<div class="col-xs-7">
+	                    		<p class="margin-btm-none"><strong>Avg Payout</strong></p>
+	                    		<p class="margin-top-none">$4.00</p>
+	                    	</div>
+	                    	<!-- <div class="col-xs-12">
+	                    		<p class="text-center"><span class="badge">$23.00</span></p>
+	                    	</div> -->
+	                    </div>
+	                  </div>
+		              </div><!-- end panel -->
+		            </div><!-- end col-3 -->
+		          </div><!-- end row -->
+          	<!-- </div> --><!-- end well -->
+          </div><!-- end col 12 -->
+
+          <div class="col-xs-12">
+          	<!-- <div class="well well-sm"> -->
+	          	<div class="panel panel-default">
+							  <div class="panel-heading"><h3 class="panel-title"><strong>Interns</strong></h3></div>
+								  <table data-toggle="table" class="table table-hover table-striped" data-sort-name="earnings" data-sort-order="desc" data-search="true" data-search-text="" data-show-columns="true">
+								  	<thead>
+								  		<tr>
+									  		<th data-sortable="true" data-field="intern_name" data-switchable="false">Name</th>
+									  		<th data-sortable="true" data-field="school">School</th>
+									  		<th data-sortable="true" data-field="class_sets">Sets</th>
+									  		<th data-sortable="true" data-field="classes" data-visible="false">Classes</th>
+									  		<th data-sortable="true" data-field="referrals" data-visible="false">Referrals</th>
+									  		<th data-sortable="true" data-field="earnings">Earnings</th>
+									  	</tr>
+								  	</thead>
+								  	<tbody>
+							        <tr>
+							        	<td>Michelle Guidroz</td>
+							        	<td>University of Arizona</td>
+							        	<td>3</td>
+							        	<td><a href="#" class="label label-default">ECON 200</a> <a href="#" class="label label-default">ACCT 200</a> <a href="#" class="label label-default">MGMT 200</a></td>
+							        	<td>16</td>
+							        	<td>10.00</td>
+							        </tr>
+							        <tr>
+							        	<td>Blaine Jacobs</td>
+							        	<td>University of Michigan</td>
+							        	<td>10</td>
+							        	<td><a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a> <a href="#" class="label label-default">MGMT 200</a> <a href="#" class="label label-default">PHYS 200</a> <a href="#" class="label label-default">MATH 300</a> <a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a> <a href="#" class="label label-default">MGMT 200</a> <a href="#" class="label label-default">PHYS 200</a> <a href="#" class="label label-default">MATH 300</a></td>
+							        	<td>16</td>
+							        	<td>16.00</td>
+							        </tr>
+							        <tr>
+							        	<td>Craig Victor</td>
+							        	<td>University of Alabama</td>
+							        	<td>2</td>
+							        	<td><a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a></td>
+							        	<td>16</td>
+							        	<td>4.00</td>
+							        </tr>
+							        <tr>
+							        	<td>Dani Victor</td>
+							        	<td>University of Wisconsin</td>
+							        	<td>6</td>
+							        	<td><a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a> <a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a> <a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a></td>
+							        	<td>16</td>
+							        	<td>8.00</td>
+							        </tr>
+							        <tr>
+							        	<td>Michelle Simon</td>
+							        	<td>University of Arizona</td>
+							        	<td>5</td>
+							        	<td><a href="#" class="label label-default">ECON 200</a> <a href="#" class="label label-default">ACCT 200</a> <a href="#" class="label label-default">MGMT 200</a> <a href="#" class="label label-default">ECON 200</a> <a href="#" class="label label-default">ACCT 200</a> <a href="#" class="label label-default">MGMT 200</a> <a href="#" class="label label-default">ECON 200</a> <a href="#" class="label label-default">ACCT 200</a> </td>
+							        	<td>16</td>
+							        	<td>10.00</td>
+							        </tr>
+							        <tr>
+							        	<td>Sam Jacobs</td>
+							        	<td>University of Michigan</td>
+							        	<td>9</td>
+							        	<td><a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a> <a href="#" class="label label-default">MGMT 200</a> <a href="#" class="label label-default">PHYS 200</a> <a href="#" class="label label-default">MATH 300</a> <a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a> <a href="#" class="label label-default">MGMT 200</a> <a href="#" class="label label-default">PHYS 200</a> </td>
+							        	<td>16</td>
+							        	<td>16.00</td>
+							        </tr>
+							        <tr>
+							        	<td>Sean Johnson</td>
+							        	<td>University of Alabama</td>
+							        	<td>3</td>
+							        	<td><a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a> <a href="#" class="label label-default">PHIL 100</a></td>
+							        	<td>16</td>
+							        	<td>4.00</td>
+							        </tr>
+							        <tr>
+							        	<td>Keren Atzlan</td>
+							        	<td>University of Wisconsin</td>
+							        	<td>5</td>
+							        	<td><a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a> <a href="#" class="label label-default">PHIL 100</a> <a href="#" class="label label-default">CHEM 200</a> <a href="#" class="label label-default">PHIL 100</a></td>
+							        	<td>16</td>
+							        	<td>8.00</td>
+							        </tr>
+						        </tbody>
+						      </table>
+							</div><!-- end panel -->
+						<!-- </div> --><!-- end well -->
+          </div><!-- end col-12 -->
+        </div><!-- end row -->
+      </div><!-- end container -->
+    </section>     
+    
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+
+    <!-- Dropzone JavaScript -->
+    <script src="js/dropzone.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
