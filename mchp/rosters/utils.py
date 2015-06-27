@@ -54,12 +54,21 @@ def roster_html_to_csv(html_source):
         return out
 
 
-def csv_string_to_python(input_csv):
+def _csv_string_to_python(input_csv):
     """ Parse a CSV string into Python objects.
 
     """
     reader = csv.DictReader(input_csv.splitlines())
     return list(reader)
+
+
+def csv_string_to_python(input_csv):
+    """ Parse a CSV string into Python objects.
+
+    """
+    entries = _csv_string_to_python(input_csv)
+    # TODO: process further with "is a user"
+    return entries
 
 
 def get_or_create_enrollment(course, student, receive_email=True):

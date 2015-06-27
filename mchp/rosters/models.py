@@ -36,7 +36,7 @@ class Roster(models.Model):
 
     when = models.DateTimeField('submitted', auto_now_add=True)
     created_by = models.ForeignKey('user_profile.Student')
-    approved = models.DateTimeField(blank=True, null=True)
+    approved = models.DateTimeField(blank=True, null=True)  # [TODO] should be "reviewed"
     imported = models.DateTimeField(blank=True, null=True)
 
     def _format_entry(self, d):
@@ -46,8 +46,11 @@ class Roster(models.Model):
         return '{}, {} ({})'.format(d['last'], d['first'], d['email'])
 
     def preview(self):
-        items = utils.csv_string_to_python(self.parsed_csv)
+        items = self.as_list()
         return '\n'.join([self._format_entry(i) for i in items])
+
+    def as_list(self):
+        return utils.csv_string_to_python(self.parsed_csv)
 
     def clean(self):
         """ Set parsed_csv on save.
