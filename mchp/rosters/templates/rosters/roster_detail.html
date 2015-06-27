@@ -12,18 +12,36 @@
     </h2>
     <a href="{{ course.domain.domain }}">{{ course.domain.name }}</a> &bull; Instr {{ course.professor }}
     <hr>
-    {% with object.as_list as entries %}
-    <h4>Roster <span class="badge">{{ entries|length }} Students</span></h4>
+    <h4>Staff <span class="badge">{{ object.instructors|length }} Instructors</span></h4>
     <table class="table table-striped table-hover">
-    {% for entry in entries|dictsort:"first" %}
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Profile</th>
+    </tr>
+    {% for entry in object.instructors.all|dictsort:"first_name" %}
         <tr>
-            <td>{{ entry.first }} {{ entry.last }}</td>
+            <td>{{ entry.first_name }} {{ entry.last_name }}</td>
             <td>{{ entry.email }}</td>
-            <td>(not a) user</td>
+            <td>{{ entry.profile.username|default:"not a user" }}</td>
         </tr>
     {% endfor %}
     </table>
-    {% endwith %}
+   <h4>Roster <span class="badge">{{ object.students|length }} Students</span></h4>
+    <table class="table table-striped table-hover">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Profile</th>
+    </tr>
+    {% for entry in object.students.all|dictsort:"first_name" %}
+        <tr>
+            <td>{{ entry.first_name }} {{ entry.last_name }}</td>
+            <td>{{ entry.email }}</td>
+            <td>{{ entry.profile.username|default:"not a user" }}</td>
+        </tr>
+    {% endfor %}
+    </table>
     <h4>Uploader</h4>
     <h5>{{ object.created_by.user.get_full_name }}: <a href="#">{{ object.created_by.user.email }}</a></h5>
 </div>

@@ -16,14 +16,25 @@ class RosterCreateView(CreateView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
 
+        form.instance.created_by = self.request.user.student_user
+        valid = super().form_valid(form)
+
         # create roster entries
+        for email in form.instance.emails.split():
+            models.RosterInstructorEntry.objects.create(email=email,
+                                                        roster=form.instance)
+
         parsed_csv = utils.roster_html_to_csv(form.instance.roster_html)
         for initial_data in utils.csv_string_to_python(parsed_csv):
-            initial_data['roster'] = form.instance
-            models.RosterEntry.objects.create(**initial_data)
+            params = {
+                'first_name': initial_data.get('first'),
+                'last_name': initial_data.get('last'),
+                'email': initial_data.get('email'),
+                'roster': form.instance,
+            }
+            models.RosterStudentEntry.objects.create(**params)
 
-        form.instance.created_by = self.request.user.student_user
-        return super().form_valid(form)
+        return valid
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
