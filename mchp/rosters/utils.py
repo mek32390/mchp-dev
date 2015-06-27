@@ -54,21 +54,12 @@ def roster_html_to_csv(html_source):
         return out
 
 
-def _csv_string_to_python(input_csv):
+def csv_string_to_python(input_csv):
     """ Parse a CSV string into Python objects.
 
     """
     reader = csv.DictReader(input_csv.splitlines())
     return list(reader)
-
-
-def csv_string_to_python(input_csv):
-    """ Parse a CSV string into Python objects.
-
-    """
-    entries = _csv_string_to_python(input_csv)
-    # TODO: process further with "is a user"
-    return entries
 
 
 def get_or_create_enrollment(course, student, receive_email=True):
@@ -218,6 +209,46 @@ def make_username(email):
     return handle
 
 
+def get_user(email):
+    """ Check whether a user is registered with a given e-mail address.
+
+    Parameters
+    ----------
+    email : str
+        An e-mail address associated with the user.
+
+    Returns
+    -------
+    out : django.conf.settings.AUTH_USER_MODEL
+        An existing user, or `None` if not found.
+
+    Raises
+    ------
+    ValidationError
+        If the given e-mail fails validation.
+
+    Notes
+    -----
+    This searches not only the user model e-mail address, but also the
+    addresses specified in the AllAuth inline.
+
+    """
+    from django.core.validators import validate_email
+    from allauth.account.models import EmailAddress
+
+    email = User.objects.normalize_email(email)
+    validate_email(email)
+
+    try:
+        user = User.objects.get(email__iexact=email)
+    except User.DoesNotExist:
+        try:
+            user = EmailAddress.objects.get(email__iexact=email).user
+        except EmailAddress.DoesNotExist:
+            pass
+    return user
+
+
 def get_or_create_user(email, fname=None, lname=None):
     """ Find or create a user associated with a given e-mail address.
 
@@ -246,24 +277,17 @@ def get_or_create_user(email, fname=None, lname=None):
     addresses specified in the AllAuth inline.
 
     """
-    from django.core.validators import validate_email
     from allauth.account.models import EmailAddress
 
-    email = User.objects.normalize_email(email)
-    validate_email(email)
-
-    try:
-        user = User.objects.get(email__iexact=email)
-    except User.DoesNotExist:
-        try:
-            user = EmailAddress.objects.get(email__iexact=email).user
-        except EmailAddress.DoesNotExist:
-            username = make_username(email.lower())
-            extra_fields = {}
-            if fname:
-                extra_fields['first_name'] = fname
-            if lname:
-                extra_fields['last_name'] = lname
-            user = User.objects.create_user(username, email=email,
-                                            password=None, **extra_fields)
+    user = get_user(email)
+    if not user:
+        user = EmailAddress.objects.get(email__iexact=email).user
+        username = make_username(email.lower())
+        extra_fields = {}
+        if fname:
+            extra_fields['first_name'] = fname
+        if lname:
+            extra_fields['last_name'] = lname
+        user = User.objects.create_user(username, email=email,
+                                        password=None, **extra_fields)
     return user

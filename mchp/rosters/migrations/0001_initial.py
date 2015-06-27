@@ -15,15 +15,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Roster',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('roster_html', models.TextField(verbose_name='roster HTML')),
-                ('parsed_csv', models.TextField(verbose_name='parsed CSV', blank=True)),
-                ('emails', models.TextField(verbose_name='filter emails', blank=True)),
-                ('when', models.DateTimeField(verbose_name='submitted', auto_now_add=True)),
-                ('approved', models.DateTimeField(blank=True, null=True)),
+                ('emails', models.TextField(blank=True, verbose_name='filter emails')),
+                ('when', models.DateTimeField(auto_now_add=True, verbose_name='submitted')),
+                ('reviewed', models.DateTimeField(blank=True, null=True)),
                 ('imported', models.DateTimeField(blank=True, null=True)),
                 ('course', models.ForeignKey(to='schedule.Course')),
                 ('created_by', models.ForeignKey(to='user_profile.Student')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='RosterEntry',
+            fields=[
+                ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
+                ('first_name', models.CharField(max_length=30)),
+                ('last_name', models.CharField(max_length=30)),
+                ('email', models.EmailField(max_length=255)),
+                ('profile', models.ForeignKey(blank=True, to='user_profile.Student', null=True)),
+                ('roster', models.ForeignKey(related_name='entries', to='rosters.Roster')),
             ],
             options={
             },
