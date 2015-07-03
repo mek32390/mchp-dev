@@ -12,30 +12,36 @@ class Roster(models.Model):
        A course to which this roster is attached.
     roster_html : django.db.models.TextField
         The roster HTML to parse.
-    emails : django.db.models.TextField, optional
-        A whitespace-delimited set of e-mail addresses for staff
-        who should be excluded from study guide campaign outreach.
-        [TODO] This should not be required as a part of the model,
-               just a part of the form.
-    when : django.db.models.DateTimeField
-        When was this roster submitted?
+    created : django.db.models.DateTimeField
+        When was this roster first created?
+    updated : django.db.models.DateTimeField
+        When was this roster last updated?
     created_by : django.db.models.ForeignKey
         Who submitted this roster?
-    approved : django.db.models.DateTimeField, optional
-        When was this roster approved?
-    imported : django.db.models.DateTimeField, optional
-        When was this roster imported?
+    status : django.db.models.CharField, optional
+        What is the status of this roster?
 
     """
+    PENDING = 'p'
+    APPROVED = 'a'
+    REJECTED = 'r'
+    IMPORTED = 'i'
+
+    STATUS_CHOICES = (
+        (PENDING, 'Pending'),
+        (APPROVED, 'Approved'),
+        (REJECTED, 'Rejected'),
+        (IMPORTED, 'Imported'),
+    )
+
     course = models.ForeignKey('schedule.Course')
     roster_html = models.TextField('roster HTML')
 
-    emails = models.TextField('filter emails', blank=True)
-
-    when = models.DateTimeField('submitted', auto_now_add=True)
+    created = models.DateTimeField('first created', auto_now_add=True)
+    updated = models.DateTimeField('last updated', auto_now=True)
     created_by = models.ForeignKey('user_profile.Student')
-    approved = models.DateTimeField(blank=True, null=True)
-    imported = models.DateTimeField(blank=True, null=True)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES,
+                              default=PENDING)
 
     def import_roster(self):
         """ Create users based on roster data.

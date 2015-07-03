@@ -8,6 +8,9 @@ class Command(BaseCommand):
     help = 'Prepare and update study guide campaigns'
 
     def handle(self, *args, **options):
-        for r in Roster.objects.filter(imported=None).exclude(approved=None):
-            imported = r.import_roster()
+        for roster in Roster.objects.filter(status=Roster.APPROVED):
+            imported = roster.import_roster()
+            if imported > 0:
+                roster.status = Roster.IMPORTED
+                roster.save(update_fields=['status'])
             print('Imported {} users'.format(imported))

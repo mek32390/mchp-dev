@@ -41,16 +41,16 @@ class RosterStudentEntryAdmin(RosterEntryAdmin):
 @admin.register(models.Roster)
 class RosterAdmin(admin.ModelAdmin):
     inlines = [RosterStudentEntryInline, RosterInstructorEntryInline]
-    list_display = ('course', 'created_by', 'when', 'approved', 'imported')
+    list_display = ('course', 'status', 'created_by', 'created', 'updated')
     fieldsets = (
         (None, {
-            'fields': ['course', 'roster_html', 'emails'],
+            'fields': ['course', 'roster_html', 'status'],
         }),
         ('Personal information', {
             'fields': ['created_by'],
         }),
         ('Important dates', {
-            'fields': ['when', 'approved', 'imported'],
+            'fields': ['updated', 'created'],
         }),
     )
-    readonly_fields = ('when',)
+    readonly_fields = ('updated', 'created')
