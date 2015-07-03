@@ -43,7 +43,7 @@ class Roster(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES,
                               default=PENDING)
 
-    def import_roster(self):
+    def process(self):
         """ Create users based on roster data.
 
         Returns

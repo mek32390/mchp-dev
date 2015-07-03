@@ -4,6 +4,11 @@
 
 {% block body %}
 <div class="container">
+   <form action="" method="post">{% csrf_token %}
+      {{ form.errors }}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary btn-lg btn-trans btn-block">Save</button>
+   </form>
     <h2 class="media-heading"><strong>{{ course }}</strong>
         <!-- <ul class="list-inline pull-right">
             <li><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-check"></i> Approve</a></li>

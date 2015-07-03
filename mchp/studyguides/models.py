@@ -16,8 +16,6 @@ from user_profile.models import Student
 
 from . import utils
 
-# [TODO] SHOULD DELETE ALL RELATED CAMPAIGNS WHEN DELETING METACAMPAIGN
-
 
 class StudyGuideCampaignSubscriber(BaseCampaignSubscriber):
     """ Subscriber in a campaign.
@@ -158,6 +156,11 @@ class StudyGuideMetaCampaign(MetaCampaign):
         Campaigns associated with this builder.
     documents : django.db.models.ManyToManyField
         Documents associated with this builder.
+
+    Notes
+    -----
+    [TODO] All related "regular" campaigns should be deleted when a study guide
+           metacampaign is deleted.
 
     """
     event = models.ForeignKey(CalendarEvent, primary_key=True)

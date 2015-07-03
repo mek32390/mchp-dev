@@ -44,7 +44,7 @@ class RosterAdmin(admin.ModelAdmin):
     list_display = ('course', 'status', 'created_by', 'created', 'updated')
     fieldsets = (
         (None, {
-            'fields': ['course', 'roster_html', 'status'],
+            'fields': ['course', 'status'],
         }),
         ('Personal information', {
             'fields': ['created_by'],
@@ -53,4 +53,4 @@ class RosterAdmin(admin.ModelAdmin):
             'fields': ['updated', 'created'],
         }),
     )
-    readonly_fields = ('updated', 'created')
+    readonly_fields = ('updated', 'created', 'roster_html')

@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for roster in Roster.objects.filter(status=Roster.APPROVED):
-            imported = roster.import_roster()
+            imported = roster.process()
             if imported > 0:
                 roster.status = Roster.IMPORTED
                 roster.save(update_fields=['status'])

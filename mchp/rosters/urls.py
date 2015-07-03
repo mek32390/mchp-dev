@@ -3,7 +3,9 @@ from django.conf.urls import patterns, url
 from . import views
 
 urlpatterns = patterns('',  # noqa
-    url(r'^add/$', views.RosterCreateView.as_view(), name='roster-upload'),
-    url(r'^detail/(?P<pk>\d+)/$', views.RosterDetailView.as_view(),
-        name='roster-detail'),
+    url(r'^add/$', views.RosterSubmitView.as_view(), name='roster-upload'),
+
+    url(r'^review/(?P<pk>\d+)/$',
+        views.RosterReviewView.as_view(),
+        name='roster-review'),
 )
