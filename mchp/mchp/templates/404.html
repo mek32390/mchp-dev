@@ -9,11 +9,20 @@
 {% block body %}
 <div class="container text-center">
 	<div class="jumbotron">
-		<h2><strong>404</strong></h2>
-		<img src="{% static 'lib/img/support.svg' %}" width="200" alt="404 error">
-		<h1>Our servers are trying to tell us something...</h1>
-		<p class="lead">They couldn't find what you're looking for, because it does not exist.</p>
+		<div class="panel">
+		    <div class="panel-body">
+			    <div class="row">
+			        <div class="col-xs-8 col-xs-offset-2">
+						<h1><strong>404</strong></h1>
+				      	<hr>
+				        <h2>What you are looking for does not exist!</h2>
+						<img src="{% static 'lib/img/pencil.svg' %}" width="200" alt="404 error" class="img-thumbnail img-circle">
+				        <p></p>
+				        <p class="lead">It's like it was erased... forever.</p>
+			        </div>
+			    </div>
+			</div>
+		</div>
 	</div>
 </div>
-
 {% endblock %}
