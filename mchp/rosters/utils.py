@@ -6,11 +6,7 @@ import subprocess
 import tempfile
 
 
-<<<<<<< HEAD
-def parse_roster(html_source):
-=======
 def roster_html_to_csv(html_source):
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
     """ Parse an HTML roster into a collection of users.
 
     Parameters
@@ -53,18 +49,11 @@ def roster_html_to_csv(html_source):
 
             # parse output CSV
             with open(csvfilepath) as csvfile:
-<<<<<<< HEAD
-                reader = csv.DictReader(csvfile)
-                out = [row for row in reader]
-=======
                 out = csvfile.read()
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
 
         return out
 
 
-<<<<<<< HEAD
-=======
 def csv_string_to_python(input_csv):
     """ Parse a CSV string into Python objects.
 
@@ -73,7 +62,6 @@ def csv_string_to_python(input_csv):
     return list(reader)
 
 
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
 def get_or_create_enrollment(course, student, receive_email=True):
     """ Enroll a student if not already enrolled.
 
@@ -221,34 +209,18 @@ def make_username(email):
     return handle
 
 
-<<<<<<< HEAD
-def get_or_create_user(email, fname=None, lname=None):
-    """ Find or create a user associated with a given e-mail address.
-=======
 def get_user(email):
     """ Check whether a user is registered with a given e-mail address.
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
 
     Parameters
     ----------
     email : str
         An e-mail address associated with the user.
-<<<<<<< HEAD
-    fname : str, optional
-        An optional first name for the user.
-    lname : str, optional
-        An optional last name for the user.
-=======
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
 
     Returns
     -------
     out : django.conf.settings.AUTH_USER_MODEL
-<<<<<<< HEAD
-        A new or existing user.
-=======
         An existing user, or `None` if not found.
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
 
     Raises
     ------
@@ -273,16 +245,6 @@ def get_user(email):
         try:
             user = EmailAddress.objects.get(email__iexact=email).user
         except EmailAddress.DoesNotExist:
-<<<<<<< HEAD
-            username = make_username(email.lower())
-            extra_fields = {}
-            if fname:
-                extra_fields['first_name'] = fname
-            if lname:
-                extra_fields['last_name'] = lname
-            user = User.objects.create_user(username, email=email,
-                                            password=None, **extra_fields)
-=======
             pass
     return user
 
@@ -328,5 +290,4 @@ def get_or_create_user(email, fname=None, lname=None):
             extra_fields['last_name'] = lname
         user = User.objects.create_user(username, email=email,
                                         password=None, **extra_fields)
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
     return user

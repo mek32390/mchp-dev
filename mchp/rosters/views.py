@@ -1,18 +1,4 @@
 from django.core.urlresolvers import reverse_lazy
-<<<<<<< HEAD
-from django.views.generic.edit import CreateView
-from django.utils.decorators import method_decorator
-from lib.decorators import school_required
-from . import models
-
-
-class RosterCreate(CreateView):
-    template_name_suffix = '_create_form'
-    model = models.Roster
-    # form_class = forms.RosterCreateForm
-    success_url = reverse_lazy('roster-upload')
-    fields = ['course', 'source', 'emails']
-=======
 from django.views.generic.edit import FormView, UpdateView
 from django.utils.decorators import method_decorator
 from lib.decorators import school_required
@@ -31,14 +17,10 @@ class RosterSubmitView(FormView):
     template_name = 'rosters/roster_submit_form.html'
     form_class = forms.RosterSubmitForm
     success_url = reverse_lazy('roster-upload')
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-<<<<<<< HEAD
-        form.instance.created_by = self.request.user.student_user
-=======
         course_id = form.cleaned_data['course']
         roster_html = form.cleaned_data['roster_html']
         instructor_emails = form.cleaned_data['emails'].split()
@@ -79,14 +61,11 @@ class RosterSubmitView(FormView):
                     params['profile'] = user.profile_user
                 models.RosterStudentEntry.objects.create(**params)
 
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
         return super().form_valid(form)
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
-<<<<<<< HEAD
-=======
 
 
 class RosterReviewView(UpdateView):
@@ -112,4 +91,3 @@ class RosterReviewView(UpdateView):
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd

@@ -2,14 +2,6 @@ from django.contrib import admin
 from . import models
 
 
-<<<<<<< HEAD
-@admin.register(models.Roster)
-class RosterAdmin(admin.ModelAdmin):
-    list_display = ('course', 'created_by', 'when', 'approved', 'imported')
-    fieldsets = (
-        (None, {
-            'fields': ['course', 'source'],
-=======
 class RosterEntryInline(admin.TabularInline):
     extra = 0
     fields = ('email', 'first_name', 'last_name', 'profile')
@@ -53,20 +45,12 @@ class RosterAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ['course', 'status'],
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
         }),
         ('Personal information', {
             'fields': ['created_by'],
         }),
         ('Important dates', {
-<<<<<<< HEAD
-            'fields': ['when', 'approved', 'imported'],
-        })
-    )
-    readonly_fields = ('when',)
-=======
             'fields': ['updated', 'created'],
         }),
     )
     readonly_fields = ('updated', 'created', 'roster_html')
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd

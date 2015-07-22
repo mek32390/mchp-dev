@@ -15,20 +15,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Roster',
             fields=[
-<<<<<<< HEAD
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
-                ('source', models.TextField(verbose_name='source code')),
-                ('emails', models.TextField(verbose_name='filter emails', blank=True)),
-                ('when', models.DateTimeField(verbose_name='submitted', auto_now_add=True)),
-                ('approved', models.DateTimeField(null=True, blank=True)),
-                ('imported', models.DateTimeField(null=True, blank=True)),
-=======
                 ('id', models.AutoField(auto_created=True, verbose_name='ID', primary_key=True, serialize=False)),
                 ('roster_html', models.TextField(verbose_name='roster HTML')),
                 ('created', models.DateTimeField(verbose_name='first created', auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True, verbose_name='last updated')),
                 ('status', models.CharField(max_length=1, default='p', choices=[('p', 'Pending'), ('a', 'Approved'), ('r', 'Rejected'), ('i', 'Imported')])),
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
                 ('course', models.ForeignKey(to='schedule.Course')),
                 ('created_by', models.ForeignKey(to='user_profile.Student')),
             ],
@@ -36,8 +27,6 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-<<<<<<< HEAD
-=======
         migrations.CreateModel(
             name='RosterInstructorEntry',
             fields=[
@@ -70,5 +59,4 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
->>>>>>> fb3334ddd3a28741912fc30e5ab45a59d56c00cd
     ]
