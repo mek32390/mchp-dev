@@ -37,7 +37,10 @@ In the repository, install django:
 ```
 $ pip install -r requirements.txt
 ```
+
 Copy the settings_template.py to settings.py and add local changes. The dev is responsible for keeping this up to date any time it changes.
+
+Create and migrate the database.
 
 For getting AllAuth and Facebook integration working:
 ```
@@ -59,12 +62,6 @@ export AWS_ACCESS_KEY_ID=--your-access-key--
 export AWS_SECRET_ACCESS_KEY=--your-secret-key--
 ```
 
-pip install django-storages leaves out S3.py, so you'll need to make the file yourself in the “backends” folder where (lowercase) s3.py is also located.
-Note: The file reference below is a recent change and these directions are going to change again soon! The django-storages project has a lot of improvements which have not yet been packaged, so keep watching this space.
-If you are on a mac, it will not let you create a file named S3.py since there is already a file named s3.py. Change the name of the new S3.py file to S31.py, then on line 13 of s3.py, change the imported file name to S31.py
-```
-Here are the contents of that file: https://raw.githubusercontent.com/coagulant/django-storages-py3/py3/storages/utils/S3.py
-```
 For rabbitMQ (maybe):
 ```
 # rabbitmq-server
