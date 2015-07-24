@@ -29,12 +29,12 @@
 		<div class="media margin-top-none">
 			<img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
 			<div class="media-body">
-				<h4 class="media-heading">The easiest way to get <strong>free</strong> points, study guides, and calendars...</h4>
-				Is to get your friends to sign up on mchp! Each time you click the <a href="#" 
+				<h4 class="media-heading">Get <strong>Free</strong> Points!</h4>
+				Each time you click the <a href="#" 
 					class="btn btn-facebook btn-xs fb-share-button disabled">
 					<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button 
 					class="btn btn-warning btn-xs disabled"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
-				<span class="copy-message"></span> buttons, we'll reward you <strong>{{referral_reward}} points</strong> for every person that signs up with us by clicking through your links. Remember, the same rules apply when you share your unique referall code and referall link found in your <a href="{% url 'account_settings'%}" class="alert-link">account settings</a>. <strong>- mchp</strong>
+				<span class="copy-message"></span> buttons, we'll reward you <strong>{{referral_reward}} points</strong> for every person that signs up with us by clicking through your shared links. Remember, the same rules apply when you share your unique referall code and referall link found in your <a href="{% url 'account_settings'%}" class="alert-link">account settings</a>. <strong>- mchp</strong>
 			</div>
 		</div>
 	</div><!-- end alert -->
@@ -62,9 +62,10 @@
 						<div class="panel panel-default">
 							<div class="panel-body">
 								
-								<p class="text-center h4">Total Events</p>
+								<h3 class="text-center">Total Events</h3>
 								<img class="center-block text-center" src="{% static 'lib/img/calendar-blank.svg' %}" style="width:70px" />
 								<p class="assignment-number text-center text-default h4">{{total_count}}</p>
+								</br>
 								<p class="text-center h5">Next event is {{next_event.start|naturaltime}}</p>
 								<hr>
 								<h5>Previous events: <span class="badge">{{past_count}}</span></h5>
@@ -91,7 +92,7 @@
 						<h5>
 							<strong>Instr</strong> {{calendar.course.professor}}
 							{% with calendar.subscribers.count as subscribers %}
-							<i class="fa fa-fw fa-users"></i> {{subscribers}} Follower{{subscribers|pluralize}}&nbsp;
+							<i class="fa fa-fw fa-users"></i> {{subscribers}} Subscriber{{subscribers|pluralize}}&nbsp;
 							{% endwith %}
 						</h5>
 							<i class="fa fa-fw fa-clock-o"></i>
@@ -104,7 +105,7 @@
 						</form>
 						{% if user.is_anonymous %}
 						<button class="btn btn-success" data-toggle="modal" data-target="#mchp-login-prompt">
-							Follow
+							Subscribe
 						</button>
 						{% else %}
 						 {% ifequal owner user.student %}
@@ -113,7 +114,7 @@
 						</a>
 						{% else %}
 						<button form="subscribe-form" class="btn btn-success">
-							<i class="fa fa-fw fa-plus"></i> Follow
+							<i class="fa fa-fw fa-plus"></i> Subscribe
 						</button>
 						{% endifequal %}
 						{% endif %}
@@ -139,7 +140,7 @@
 										<a href="{%url "profile" owner.pk %}">{{owner}}</a> <small><!-- Level {{owner_level}} --></small>
 									</h4>
 									{% with owner.subscribers as subscribers %}
-									<p><span class="label label-info">Total followers: {{subscribers}}</span> 
+									<p><span class="label label-info">Total Subscribers: {{subscribers}}</span> 
 									</p>
 									<p>
 										<div class="progress" style="width:68%">

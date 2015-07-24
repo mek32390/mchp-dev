@@ -9,11 +9,20 @@
 {% block body %}
 <div class="container text-center">
 	<div class="jumbotron">
-		<h2><strong>403</strong></h2>
-		<img src="{% static 'lib/img/support.svg' %}" width="200" alt="403 error">
-		<h1>Our servers are trying to tell us something...</h1>
-		<p class="lead">They've said you're not allowed to see what's behind these doors, kiddo.</p>
+		<div class="panel">
+		    <div class="panel-body">
+			    <div class="row">
+			        <div class="col-xs-8 col-xs-offset-2">
+						<h1><strong>403</strong></h1>
+				      	<hr>
+				        <h2>You're not authorized to see this!</h2>
+						<img src="{% static 'lib/img/lock.svg' %}" width="200" alt="403 error" class="img-thumbnail img-circle">
+				        <p></p>
+				        <p class="lead">It may be best if you head back home...</p>
+			        </div>
+			    </div>
+			</div>
+		</div>
 	</div>
 </div>
-
 {% endblock %}
