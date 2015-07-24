@@ -132,18 +132,21 @@ AWS_STORAGE_BUCKET_NAME = 'mchp-dev'
 # callingformat.subdomain is 2, let's hope this doesn't change
 AWS_CALLING_FORMAT = 2
 
-DEFAULT_FILE_STORAGE = 'documents.s3utils.MediaS3Storage'
-STATICFILES_STORAGE = 'documents.s3utils.StaticS3Storage'
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '//{}.s3.amazonaws.com/static/'.format(AWS_STORAGE_BUCKET_NAME)
-# STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = 'documents.s3utils.MediaS3Storage'
+    STATICFILES_STORAGE = 'documents.s3utils.StaticS3Storage'
+    STATIC_URL = '//{}.s3.amazonaws.com/static/'.format(AWS_STORAGE_BUCKET_NAME)
+    MEDIA_URL =  '//{}.s3.amazonaws.com/media/'.format(AWS_STORAGE_BUCKET_NAME)
+else:
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
 
-MEDIA_URL =  '//{}.s3.amazonaws.com/media/'.format(AWS_STORAGE_BUCKET_NAME)
-MEDIA_ROOT = '/media/'
+COLLECTED_DIR = os.path.join(BASE_DIR, os.pardir, 'collected')
+STATIC_ROOT = os.path.join(COLLECTED_DIR, 'static')
+MEDIA_ROOT = os.path.join(COLLECTED_DIR, 'media')
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
@@ -177,7 +180,7 @@ SERVER_EMAIL = 'mchp error <contact@mycollegehomepage.com>'
 DEFAULT_FROM_EMAIL = 'mchp contact <contact@mycollegehomepage.com>'
 
 # Add this depending on the id of the site
-#SITE_ID = 1
+SITE_ID = 1
 
 # import from allauth_settings.py
 from mchp.allauth_settings import *

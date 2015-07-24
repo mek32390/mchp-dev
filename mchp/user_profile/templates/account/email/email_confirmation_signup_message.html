@@ -365,13 +365,22 @@ color: #fff; background-color: #449d44 !important; border-color: #398439 !import
 
                       <table class="twelve columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
                 						{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with current_site.name as site_name %}
-                            <p style="color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">Hi {{ user_display }},</p>
+                            <p style="color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">Welcome to mchp, {{ user_display }},</p>
                             <p style="color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">You've indicated to us that this is your <strong>.EDU e-mail address.</strong>
 
                             To confirm this is correct, go here:
                             </p><p style="color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">{{ activate_url }}</p>
                             {% endblocktrans %}{% endautoescape %}
-                            <p style="color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">Thanks for using mchp!</p>
+                            <p style="color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">We're a student-run course management system and anonymous document marketplace, and our convenient all-in-one dashboard will keep you organized on a day-to-day basis. <strong>You can make money with us in the following ways:</strong>
+                              <ul>
+                                <li>Get $5 for every Study Guide you <a href="https://www.mycollegehomepage.com/documents/add/" target="_blank">upload.</a></li>
+                                <li>Get $5 for every Class List you send us via email (just reply to this email or click <a href="https://www.mycollegehomepage.com/documents/add/" target="_blank">here</a> for more info).</li>
+                                <li>Get 100 points for every class Syllabus you <a href="https://www.mycollegehomepage.com/documents/add/" target="_blank">upload.</a></li>
+                                <li>Anyone who signs up through your referral link <a href="https://www.mycollegehomepage.com/accounts/settings" target="_blank">(bottom of your Account page)</a> will get 200 points and so will you!</li>
+                              </ul>
+                            </p>
+                            <p style="color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">If you have any questions, simply reply to this email or use our on-site live support!</p>
+                            <p style="color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">Thanks for signing up,</p>
                             <p style="color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">-mchp</p>
                           </td>
                           <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #333; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
