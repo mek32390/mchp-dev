@@ -3,6 +3,7 @@
 include/
 /lib/
 media/
+collected/
 
 # Compiled source #
 *.pyc
