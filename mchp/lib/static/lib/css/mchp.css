@@ -163,7 +163,7 @@ ul.messages {
 .duration-lg {
   -webkit-animation-duration: 4s;
   animation-duration: 4s;
-}*/
+}
 
 /* custom svg chip icon in nav */
 svg #nav-chip-icon {
@@ -280,7 +280,7 @@ body #buorg {
     top:51px;
     left:0px;
     border-bottom:0px solid #A29330;
-    background:#FDF2AB no-repeat 1em 0.55em url(http://browser-update.org/img/dialog-warning.gif);\
+    background:#FDF2AB no-repeat 1em 0.55em url(http://browser-update.org/img/dialog-warning.gif);
     text-align:left;
     cursor:pointer;
     font-family: Helvetica,sans-serif; color:#000;
