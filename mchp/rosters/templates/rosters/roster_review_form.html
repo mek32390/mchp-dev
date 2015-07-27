@@ -1,0 +1,53 @@
+{% extends 'lib/base.html' %}
+
+{% block head_title %}Roster Review{% endblock %}
+
+{% block body %}
+<div class="container">
+   <form action="" method="post">{% csrf_token %}
+      {{ form.errors }}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary btn-lg btn-trans btn-block">Save</button>
+   </form>
+    <h2 class="media-heading"><strong>{{ course }}</strong>
+        <!-- <ul class="list-inline pull-right">
+            <li><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-check"></i> Approve</a></li>
+            <li><a href="#" class=" btn btn-danger btn-lg"><i class="fa fa-times"></i> Deny</a></li>
+        </ul> -->
+    </h2>
+    <a href="{{ course.domain.domain }}">{{ course.domain.name }}</a> &bull; Instr {{ course.professor }}
+    <hr>
+    <h4>Staff <span class="badge">{{ object.instructors|length }} Instructors</span></h4>
+    <table class="table table-striped table-hover">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Profile</th>
+    </tr>
+    {% for entry in object.instructors.all|dictsort:"first_name" %}
+        <tr>
+            <td>{{ entry.first_name }} {{ entry.last_name }}</td>
+            <td>{{ entry.email }}</td>
+            <td>{{ entry.profile.username|default:"not a user" }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+   <h4>Roster <span class="badge">{{ object.students|length }} Students</span></h4>
+    <table class="table table-striped table-hover">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Profile</th>
+    </tr>
+    {% for entry in object.students.all|dictsort:"first_name" %}
+        <tr>
+            <td>{{ entry.first_name }} {{ entry.last_name }}</td>
+            <td>{{ entry.email }}</td>
+            <td>{{ entry.profile.username|default:"not a user" }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <h4>Uploader</h4>
+    <h5>{{ object.created_by.user.get_full_name }}: <a href="#">{{ object.created_by.user.email }}</a></h5>
+</div>
+{% endblock %}
