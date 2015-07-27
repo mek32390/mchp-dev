@@ -12,13 +12,13 @@ django-allauth==0.18.0
 django-donottrack==0.1
 django-smtp-ssl==1.0
 #django-storages==1.1.7
+git+https://github.com/coagulant/django-storages-py3
 fake-factory==0.4.0
 jsonfield==1.0.0
 oauthlib==0.6.3
 python-magic==0.4.6
 python-dateutil==2.2
 python3-openid==3.0.4
-git+https://github.com/coagulant/django-storages-py3
 requests==2.4.1
 requests-oauthlib==0.4.1
 stripe==1.19.0
