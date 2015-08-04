@@ -6,7 +6,7 @@ $(function() {
 
     // change notif indicator when clicked
 
-    var MAX_PICS = 10; //TODO: move this to settings?
+    var MAX_PICS = 5; //TODO: move this to settings?
     var now = new Date();
     var fullDaysSinceEpoch = Math.floor(now/8.64e7);
     var rand = Math.floor((Math.random() * MAX_PICS) + 1);
@@ -22,7 +22,7 @@ $(function() {
     }
     current_pic = fullDaysSinceEpoch % rand;
 
-    document.body.style.backgroundImage = "url('https://upload.wikimedia.org/wikipedia/commons/9/9c/Merops_bullockoides_1_Luc_Viatour.jpg')";
+    document.body.style.backgroundImage = "url('static/landing/img/bg-" + current_pic + ".jpg')";
 
 
     $('#toggle-notifications').on('click', function () {
