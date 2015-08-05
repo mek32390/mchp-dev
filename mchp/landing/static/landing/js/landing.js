@@ -9,12 +9,12 @@ $(function() {
     var MAX_PICS = 5; //TODO: move this to settings?
     var now = new Date();
     var fullDaysSinceEpoch = Math.floor(now/8.64e7);
-    var rand = Math.floor((Math.random() * MAX_PICS) + 1);
+    var rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
      if(typeof(Storage) !== "undefined") {
         if (localStorage.rand) {
             // do nothing
         } else {
-            localStorage.rand = Math.floor((Math.random() * MAX_PICS) + 1);
+            localStorage.rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
         }
         rand = localStorage.rand;
     } else {
