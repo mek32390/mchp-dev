@@ -26,6 +26,10 @@ class ClassCalendar(models.Model):
 
     private = models.BooleanField(default=True)
 
+    # primary Course calendar - created automatically when creating the Course
+    # new students are auto-subscribed to the primary calendar of the Course
+    primary = models.BooleanField(default=False)
+
     create_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
     expire_date = models.DateTimeField()

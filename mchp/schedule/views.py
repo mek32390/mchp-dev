@@ -14,14 +14,14 @@ from django.utils import timezone
 
 from lib.decorators import school_required, class_required
 from lib.utils import random_mix
-from calendar_mchp.models import ClassCalendar, CalendarEvent
+from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from documents.models import Document
 from notification.api import add_notification
 from schedule.forms import CourseCreateForm
 from schedule.models import Course, School, SchoolQuicklink, Section, Major, Enrollment
 from schedule.utils import WEEK_DAYS
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 import json
 logger = logging.getLogger(__name__)
@@ -112,6 +112,24 @@ class CourseCreateView(_BaseCourseView):
         student = self.student
         enroll = Enrollment(student=student, course=course)
         enroll.save()
+
+        # create public calendar
+        calendar_data = {
+            'course': course,
+            'owner': student,
+            'description': '',
+            'end_date': timezone.now() + timedelta(days=90), #TODO find a better offset
+            'private': False,
+            'primary': True,
+            'color': '#FFFFFF'
+        }
+
+        try:
+            calendar = ClassCalendar(**calendar_data)
+            calendar.save()
+        except IntegrityError:
+            # failed - let student add it manually
+            pass
 
         messages.success(
             self.request,
