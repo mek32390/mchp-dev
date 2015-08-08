@@ -198,6 +198,18 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
                 return self.render_to_json_response({}, status=400)
             enroll = Enrollment(student=self.student, course=course)
             enroll.save()
+
+            # automatically subscribing to the primary calendar of the course
+            calendar = ClassCalendar.objects.filter(
+                course=course,
+                primary=True
+            )
+            if calendar.exists():
+                Subscription.objects.get_or_create(
+                    student=self.student,
+                    calendar=calendar[0],
+                )
+
             messages.success(
                 self.request,
                 "Course added successfully!"
