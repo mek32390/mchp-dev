@@ -47,12 +47,10 @@ class ClassCalendar(models.Model):
             # object is new and doesn't have a title
             if not self.title: 
                 self.title = str(self.course.dept) + " " + str(self.course.course_number)
+
+            # TODO remove expire_date and migrate the database
             # give this calendar a max lifetime
             self.expire_date = timezone.now() + settings.MCHP_PRICING['calendar_expiration']
-
-        # don't let end date go past six months from calendar creation
-        if self.end_date > self.expire_date:
-            self.end_date = self.expire_date
 
         if(self.end_date > timezone.now()):
             super().save()
