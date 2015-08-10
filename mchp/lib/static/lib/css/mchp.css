@@ -4,7 +4,7 @@
 
 /* site-wide-body margin */
 body {
-  margin-top: 70px;
+  /*margin-top: 70px;*/
   z-index: 99;
 
 }
@@ -16,11 +16,6 @@ body {
   padding-right: 3px !important;
   padding-left: 3px !important;
   border: none !important;
-}
-
-/* nav list */
-.navbar-list {
-  margin-left: -15px !important;
 }
 
 /* nav icons */
