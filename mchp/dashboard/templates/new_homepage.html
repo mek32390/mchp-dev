@@ -3,27 +3,28 @@
 {% block head_title %}mycollegehomepage{% endblock %}
 
 {% block extra_head %}
-    <meta property="fb:app_id" content="369999156462705" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.mycollegehomepage.com" />
-    <meta property="og:title" content="mycollegehomepage.com | mchp" />
-    <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/homepage.png" />
-    <meta property="og:description" content="The collaborative course management system for college students." />
+  <meta property="fb:app_id" content="369999156462705" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.mycollegehomepage.com" />
+  <meta property="og:title" content="mycollegehomepage.com | mchp" />
+  <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/homepage.png" />
+  <meta property="og:description" content="The collaborative course management system for college students." />
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pleasejs/0.2.0/Please.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
 
 {% load staticfiles %}
-<script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
 
-<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
-<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 
-<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
-<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
-<script src="{% static 'dashboard/js/domparser.js' %}"></script>
-<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
+  <script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
+  <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
+  <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+  <script src="{% static 'dashboard/js/custom.js' %}"></script>
+  <script src="{% static 'dashboard/js/domparser.js' %}"></script>
+  <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 
 {% endblock %}
 
@@ -145,7 +146,10 @@
                 <div class="row">
                   <div class="col-md-12">
                     <h4 class="white lead"><i class="fa fa-file-text-o"></i> Documents
-                      <button type="button" class="pull-right btn btn-sm btn-trans">+ Document</button>
+                      <ul class="list-inline pull-right">
+                        <li><button type="button" class="btn btn-sm btn-trans">Syllabus</button></li>
+                        <li><button type="button" class="btn btn-sm btn-trans">+ Document</button></li>
+                      </ul>
                     </h4>
                     <!-- <hr class="margin-top-sm"> -->
                     <div class="panel opa">

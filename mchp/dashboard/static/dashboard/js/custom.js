@@ -1,3 +1,9 @@
+/*
+/*
+/* Custom js functions for the homepage
+/*
+*/
+
 $(document).ready(function() {
 
     $(document).on('mouseenter', '.wrapperHolder', function () {
@@ -49,18 +55,6 @@ $(document).ready(function() {
     $(".courseName3").html(courses[Math.floor(Math.random() * courses.length)]);
     $(".courseName4").html(courses[Math.floor(Math.random() * courses.length)]);
     $(".courseName5").html(courses[Math.floor(Math.random() * courses.length)]);
-
-
-    // Change the background image on page refresh
-    // These images are located in a folder
-    
-    var images = ['sheep.jpg','yacht.jpg','island.jpg','waterfall.jpg','watercup.jpg','plant.jpg','boathouse.jpg','path.jpg','nyskyline.jpg','forest.jpg', 'mountains.jpeg', 'greenhills.jpeg', 'waterfall.jpeg', 'plains.jpeg', 'flowers.jpeg', 'sunset.jpeg', 'cloud.jpeg', 'sunset_mountains.jpeg'];
-
-    // #bg is the div that spans the entire page
-
-    $('#bg')
-        .css({'background-image': 'url(../home/assets/images/' + images[Math.floor(Math.random() * images.length)] + ')'
-    });
 
 
     // Display current date and time on homepage 

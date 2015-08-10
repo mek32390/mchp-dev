@@ -1,3 +1,9 @@
+/*
+/*
+/* jQuery functions to handle the animated scrolling between sections on the homepage
+/*
+*/
+
 //jQuery to collapse the navbar on scroll
 $(window).scroll(function() {
     if ($(".navbar").offset().top > 50) {
