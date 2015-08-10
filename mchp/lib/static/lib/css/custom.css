@@ -120,7 +120,7 @@
   }
 
   .row {
-    height: inherit;
+    /*height: inherit;*/
   }
 
   .container-fluid {
