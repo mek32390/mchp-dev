@@ -33,6 +33,20 @@
 					{% if next %}
 					<input type="hidden" name="next" value="{{ next }}">
 					{% endif %}
+
+                	<div id="grade_level_container">
+                        <label for="grade_level">Select your grade level</label>
+
+                        <select class="form-control" id="grade_level" name="grade_level">
+                            <option value="0">Freshman</option>
+                            <option value="1">Sophomore</option>
+                            <option value="2">Junior</option>
+                            <option value="3">Senior</option>
+                            <option value="4">Super-Senior</option>
+                            <option value="5">Graduate</option>
+                        </select>
+                    </div>
+
 					<button class="btn btn-lg btn-primary btn-block  acct-form" type="submit"><i class="fa fa-check-square-o"></i> Yes, I do!</button>
 				</form>
 				<p></p>

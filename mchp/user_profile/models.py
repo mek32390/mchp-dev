@@ -15,6 +15,23 @@ import urllib
 import json
 
 class Student(models.Model):
+
+    FRESHMAN = 0
+    SOPHOMORE = 1
+    JUNIOR = 2
+    SENIOR = 3
+    SUPER_SENIOR = 4
+    GRADUATE = 5
+
+    GRADE_LEVEL_CHOICES = (
+        (FRESHMAN, 'Freshman'),
+        (SOPHOMORE, 'Sophomore'),
+        (JUNIOR, 'Junior'),
+        (SENIOR, 'Senior'),
+        (SUPER_SENIOR, 'Super-Senior'),
+        (GRADUATE, 'Graduate')
+    )
+
     user = models.OneToOneField(User, related_name='student_user')
 
     school = models.ForeignKey('schedule.School', related_name='student_school')
@@ -27,6 +44,8 @@ class Student(models.Model):
     balance = models.DecimalField(max_digits=19, decimal_places=4, default=Decimal('0.00'))
 
     kudos = models.IntegerField(default=0)
+
+    grade_level = models.IntegerField(null=True, choices=GRADE_LEVEL_CHOICES)
 
     objects = managers.StudentManager()
 
