@@ -331,44 +331,44 @@
             
     {% endif %}
           </ul>
-          <!-- </div>/.nav-collapse  -->
-        <!-- </div>end sidebar container -->
       </div>
       <!-- End Nav -->
 
-    <!-- Add document upload btn to footer -->
-    <div class="container navbar-fixed-bottom">
-      <ul class="nav navbar-right">
-        <li>
-          <!-- <a href="{% url 'document_upload'%}" id="document-upload-btn" class="btn btn-md btn-success">Get $5 per Study Guide!</a> -->
-        </li>
-      </ul>
-    </div>
-
-    <!-- Django Messages -->
-    <div class="django-messages">
-    {% for message in messages %}
-      <div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <ul class="messages">
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      <!-- Add document upload btn to footer -->
+      <div class="container navbar-fixed-bottom">
+        <ul class="nav navbar-right">
+          <li>
+            <!-- <a href="{% url 'document_upload'%}" id="document-upload-btn" class="btn btn-md btn-success">Get $5 per Study Guide!</a> -->
+          </li>
         </ul>
       </div>
-    {% endfor %}
-    </div>
 
-    
-    {% block body %}
+      <!-- Django Messages -->
+      <div class="django-messages">
+      {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <ul class="messages">
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          </ul>
+        </div>
+      {% endfor %}
+      </div>
 
-    {% endblock %}
+      <!-- These two dives wrap around the page content and play nicely with the sidebar -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          {% block body %}
+          {% endblock %}
 
-    {% block extra_body %}
-    {% endblock %}
-    
+          {% block extra_body %}
+          {% endblock %}
+        </div><!-- end container-fluid -->
+      </div><!-- end page-content-wrapper -->
 
-    {% if not donottrack %}
-    {% include "lib/google-analytics.html" %}
-    {% endif %}
+      {% if not donottrack %}
+      {% include "lib/google-analytics.html" %}
+      {% endif %}
 
     <!-- Firehose Chat -
     <script type="text/javascript">
