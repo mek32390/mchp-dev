@@ -215,14 +215,19 @@ class ConfirmSchoolView(View):
 
     def post(self, request, *args, **kwargs):
         school = request.POST.get('school', '')
+        grade_level = request.POST.get('grade_level', None)
         school = School.objects.get(pk=school)
         try:
             student = request.user.student 
             student.school = school
+            student.grade_level = grade_level
             student.save()
             return redirect(reverse('dashboard'))
         except Student.DoesNotExist:
-            Student.objects.create_student(request.user, school)
+            student = Student.objects.create_student(request.user, school)
+            if grade_level:
+                student.grade_level = grade_level
+                student.save()
 
         # referral stuff
         ref = request.session.get('referrer', '')
