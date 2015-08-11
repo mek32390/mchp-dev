@@ -121,7 +121,6 @@ class CourseCreateView(_BaseCourseView):
             'end_date': timezone.now() + timedelta(days=365 * 5), # off-setting to 5 years
             'private': False,
             'primary': True,
-            'color': '#FFFFFF'
         }
 
         try:

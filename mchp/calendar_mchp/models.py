@@ -4,6 +4,7 @@ from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from calendar_mchp.signals import calendar_event_created, calendar_event_edited, subscription
+from calendar_mchp.utils import generate_calendar_color
 from documents.models import Document
 from django.core.urlresolvers import reverse
 
@@ -34,7 +35,7 @@ class ClassCalendar(models.Model):
     end_date = models.DateTimeField()
     expire_date = models.DateTimeField()
 
-    color = models.CharField(max_length=7, blank=True, default="#FFFFFF")
+    color = models.CharField(max_length=7, blank=True)
 
     objects = ClassCalendarManager()
 
@@ -51,6 +52,10 @@ class ClassCalendar(models.Model):
             # TODO remove expire_date and migrate the database
             # give this calendar a max lifetime
             self.expire_date = timezone.now() + settings.MCHP_PRICING['calendar_expiration']
+
+            if not self.color:
+                calendars = ClassCalendar.objects.filter(owner=self.owner)
+                self.color = generate_calendar_color(calendars)
 
         if(self.end_date > timezone.now()):
             super().save()
