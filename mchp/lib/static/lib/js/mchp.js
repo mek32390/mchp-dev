@@ -5,7 +5,7 @@
 
 $(function() {
 
-/*
+
     var now = new Date();
     var fullDaysSinceEpoch = Math.floor(now/8.64e7);
     var rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
@@ -22,7 +22,7 @@ $(function() {
     current_pic = fullDaysSinceEpoch % rand;
 
     document.body.style.backgroundImage = "url('static/landing/img/bg-" + current_pic + ".jpg')";
-*/
+
 
     // add auto drop down functionality of drop downs
     $(".drop").hover(
