@@ -21,7 +21,7 @@ $(function() {
     }
     current_pic = fullDaysSinceEpoch % rand;
 
-    document.body.style.backgroundImage = "url('static/landing/img/bg-" + current_pic + ".jpg')";
+    document.body.style.backgroundImage = "url('/static/landing/img/bg-" + current_pic + ".jpg')";
 
 
     // add auto drop down functionality of drop downs
