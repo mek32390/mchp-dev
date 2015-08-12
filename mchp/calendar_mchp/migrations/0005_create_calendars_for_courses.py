@@ -4,7 +4,8 @@ from datetime import timedelta
 from django.utils import timezone
 
 from django.db import models, migrations
-from django.db.models import Count
+from django.db.models import Q
+from aggregate_if import Count
 from calendar_mchp.utils import generate_calendar_color
 from mchp import settings
 
@@ -14,7 +15,12 @@ def create_calendars(apps, schema_editor):
     Course = apps.get_model('schedule', 'Course')
     ClassCalendar = apps.get_model('calendar_mchp', 'ClassCalendar')
 
-    courses_with_no_calendars = Course.objects.annotate(num_courses=Count('calendar_courses')).filter(num_courses=0)
+    # Conditional aggregation - counting ONLY public calendars
+    # Using django-aggregate-if, which is not necessary in Django 1.8
+    courses_with_no_calendars = Course.objects \
+                                      .annotate(num_calendars=Count('calendar_courses', only=Q(calendar_courses__private=False))) \
+                                      .filter(num_calendars=0)
+
     if not courses_with_no_calendars.exists():
         # Nothing to migrate
         return
@@ -30,7 +36,6 @@ def create_calendars(apps, schema_editor):
             raise Exception("There is no 'mchp' user or any other superuser to attach calendars to.")
 
     existing_calendars = list(ClassCalendar.objects.filter(owner=admin_user))
-    courses_with_no_calendars = Course.objects.annotate(num_courses=Count('calendar_courses')).filter(num_courses=0)
 
     for course in courses_with_no_calendars:
         calendar = ClassCalendar()
