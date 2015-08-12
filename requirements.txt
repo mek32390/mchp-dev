@@ -29,3 +29,4 @@ six==1.8.0
 sqlparse==0.1.11
 #selenium==2.4.3
 webcolors==1.5
+django-aggregate-if==0.5
