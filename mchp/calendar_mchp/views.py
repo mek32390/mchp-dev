@@ -124,7 +124,7 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             'owner': self.student,
             'description': request.POST.get('description', ''),
             'end_date': end_date,
-            'private': request.POST.get('private', True),
+            'private': True,
             'color': request.POST.get('color', '#FFFFFF'),
         }
         return ClassCalendar(**calendar_data)
