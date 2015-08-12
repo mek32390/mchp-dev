@@ -2,6 +2,25 @@
  * This is for things that should happen site wide
  */
 
+
+    var now = new Date();
+    var fullDaysSinceEpoch = Math.floor(now/8.64e7);
+    var rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
+     if(typeof(Storage) !== "undefined") {
+        if (localStorage.rand) {
+            // do nothing
+        } else {
+            localStorage.rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
+        }
+        rand = localStorage.rand;
+    } else {
+        //TODO: we might make a javascript session here, it will take some time
+    }
+    current_pic = fullDaysSinceEpoch % rand;
+
+    document.body.style.backgroundImage = "url('static/landing/img/bg-" + current_pic + ".jpg')";
+
+
 $(function() {
 
     // add auto drop down functionality of drop downs
