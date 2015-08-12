@@ -95,7 +95,7 @@
 					<div class="col-xs-4">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">You Own</h3>
+								<h3 class="panel-title">Private</h3>
 							</div>
 							<div class="panel-body">
 								<ul class="nav nav-pills nav-stacked small" role="tablist"><!-- Nav tabs -->
@@ -117,7 +117,7 @@
 						</div>
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h4 class="panel-title">You Follow</h4>
+								<h4 class="panel-title">Public</h4>
 							</div>
 							<div class="panel-body">
 								<ul class="nav nav-pills nav-stacked small" role="tablist"><!-- Nav tabs -->
@@ -291,7 +291,7 @@
 				<div class="owned-cals-section">
 				<h5>School<span class="badge pull-right"
 						id="owned-calendar-count">{{total_school_calendars}}</span></h5>
-				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Own</li>
+				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">Private</li>
 				<!-- don't delete this again -->
 				<div class="hidden" id="make-a-calendar">
 					<p>
@@ -337,7 +337,7 @@
 				{% endfor %}
 			</div>
 			<div class="following-cals-section">
-				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">You Follow</li>
+				<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">Public</li>
 				<p></p>
 				{% for calendar in subscriptions %}
 				<!-- followed calendar -->
