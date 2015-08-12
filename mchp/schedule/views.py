@@ -249,13 +249,9 @@ class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
             )
             enroll.delete()
 
-            #Unsubscribing from primary calendar
-            primary_public_calendar = ClassCalendar.objects.filter(course=course, primary=True)
-            if primary_public_calendar.exists():
-                primary_public_calendar = primary_public_calendar[0]
-                subscription = Subscription.objects.filter(student=self.student, calendar=primary_public_calendar)
-                if subscription.exists():
-                    subscription[0].delete()
+            # Unsubscribing from all calendars
+            subscriptions = Subscription.objects.filter(student=self.student, calendar__course=course)
+            subscriptions.delete()
 
             messages.success(
                 self.request,
