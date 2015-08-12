@@ -14,6 +14,11 @@ def create_calendars(apps, schema_editor):
     Course = apps.get_model('schedule', 'Course')
     ClassCalendar = apps.get_model('calendar_mchp', 'ClassCalendar')
 
+    courses_with_no_calendars = Course.objects.annotate(num_courses=Count('calendar_courses')).filter(num_courses=0)
+    if not courses_with_no_calendars.exists():
+        # Nothing to migrate
+        return
+
     admin_user = Student.objects.filter(user__username='mchp')
     if admin_user.exists():
         admin_user = admin_user[0]
