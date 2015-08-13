@@ -14,14 +14,14 @@ from django.utils import timezone
 
 from lib.decorators import school_required, class_required
 from lib.utils import random_mix
-from calendar_mchp.models import ClassCalendar, CalendarEvent
+from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from documents.models import Document
 from notification.api import add_notification
 from schedule.forms import CourseCreateForm
 from schedule.models import Course, School, SchoolQuicklink, Section, Major, Enrollment
 from schedule.utils import WEEK_DAYS
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 import json
 logger = logging.getLogger(__name__)
@@ -113,6 +113,23 @@ class CourseCreateView(_BaseCourseView):
         enroll = Enrollment(student=student, course=course)
         enroll.save()
 
+        # create public calendar
+        calendar_data = {
+            'course': course,
+            'owner': student,
+            'description': '',
+            'end_date': timezone.now() + timedelta(days=365 * 5), # off-setting to 5 years
+            'private': False,
+            'primary': True,
+        }
+
+        try:
+            calendar = ClassCalendar(**calendar_data)
+            calendar.save()
+        except IntegrityError:
+            # failed - let student add it manually
+            pass
+
         messages.success(
             self.request,
             "Course created successfully!"
@@ -180,6 +197,18 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
                 return self.render_to_json_response({}, status=400)
             enroll = Enrollment(student=self.student, course=course)
             enroll.save()
+
+            # automatically subscribing to the primary calendar of the course
+            calendar = ClassCalendar.objects.filter(
+                course=course,
+                primary=True
+            )
+            if calendar.exists():
+                Subscription.objects.get_or_create(
+                    student=self.student,
+                    calendar=calendar[0],
+                )
+
             messages.success(
                 self.request,
                 "Course added successfully!"
@@ -219,6 +248,11 @@ class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
                 course=course,
             )
             enroll.delete()
+
+            # Unsubscribing from all calendars
+            subscriptions = Subscription.objects.filter(student=self.student, calendar__course=course)
+            subscriptions.delete()
+
             messages.success(
                 self.request,
                 "Course removed successfully"

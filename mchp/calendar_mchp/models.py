@@ -4,6 +4,7 @@ from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
 from calendar_mchp.signals import calendar_event_created, calendar_event_edited, subscription
+from calendar_mchp.utils import generate_calendar_color
 from documents.models import Document
 from django.core.urlresolvers import reverse
 
@@ -26,11 +27,15 @@ class ClassCalendar(models.Model):
 
     private = models.BooleanField(default=True)
 
+    # primary Course calendar - created automatically when creating the Course
+    # new students are auto-subscribed to the primary calendar of the Course
+    primary = models.BooleanField(default=False)
+
     create_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
     expire_date = models.DateTimeField()
 
-    color = models.CharField(max_length=7, blank=True, default="#FFFFFF")
+    color = models.CharField(max_length=7, blank=True)
 
     objects = ClassCalendarManager()
 
@@ -43,12 +48,14 @@ class ClassCalendar(models.Model):
             # object is new and doesn't have a title
             if not self.title: 
                 self.title = str(self.course.dept) + " " + str(self.course.course_number)
+
+            # TODO remove expire_date and migrate the database
             # give this calendar a max lifetime
             self.expire_date = timezone.now() + settings.MCHP_PRICING['calendar_expiration']
 
-        # don't let end date go past six months from calendar creation
-        if self.end_date > self.expire_date:
-            self.end_date = self.expire_date
+            if not self.color:
+                calendars = ClassCalendar.objects.filter(owner=self.owner)
+                self.color = generate_calendar_color(calendars)
 
         if(self.end_date > timezone.now()):
             super().save()
