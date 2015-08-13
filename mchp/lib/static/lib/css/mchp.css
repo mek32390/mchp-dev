@@ -2,11 +2,42 @@
  * This file is for css that should happen on every single mchp page
  */
 
-/* site-wide-body margin */
 body {
-  margin-top: 70px;
   z-index: 99;
 
+}
+
+#bg {
+  position               : fixed;
+  width                  : 100%;
+  height                 : 100%;
+  -webkit-background-size: cover;
+  -moz-background-size   : cover;
+  -o-background-size     : cover;
+  background-size        : cover;
+  background-position    : center center;
+  background-attachment  : fixed;
+  background-repeat      : no-repeat;
+  /* for IE optimization */
+  filter                 : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+  -ms-filter             : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
+}
+
+#bg-overlay {
+  position               : fixed;
+  width                  : 100%;
+  height                 : 100%;
+  background             : linear-gradient(to top left, rgba(0, 0, 0, .1), rgba(0, 0, 0, .3));
+  -webkit-background-size: cover;
+  -moz-background-size   : cover;
+  -o-background-size     : cover;
+  background-size        : cover;
+  background-position    : center center;
+  background-attachment  : fixed;
+  background-repeat      : no-repeat;
+  /* for IE optimization */
+  filter                 : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+  -ms-filter             : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
 }
 
 /* nav btns */
@@ -474,3 +505,5 @@ body #buorg {
   border-width: 8px;
   margin-top: -8px;
 }
+
+
