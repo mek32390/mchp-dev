@@ -7,8 +7,42 @@ body {
   font-family            : "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; 
   color                  : #fff !important;
   text-shadow            : 0px 1px 4px rgba(0,0,0,0.2);
+  z-index                : 99;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing : antialiased;
+}
+
+#bg {
+  position               : fixed;
+  width                  : 100%;
+  height                 : 100%;
+  -webkit-background-size: cover;
+  -moz-background-size   : cover;
+  -o-background-size     : cover;
+  background-size        : cover;
+  background-position    : center center;
+  background-attachment  : fixed;
+  background-repeat      : no-repeat;
+  /* for IE optimization */
+  filter                 : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+  -ms-filter             : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
+}
+
+#bg-overlay {
+  position               : fixed;
+  width                  : 100%;
+  height                 : 100%;
+  background             : linear-gradient(to top left, rgba(0, 0, 0, .1), rgba(0, 0, 0, .3));
+  -webkit-background-size: cover;
+  -moz-background-size   : cover;
+  -o-background-size     : cover;
+  background-size        : cover;
+  background-position    : center center;
+  background-attachment  : fixed;
+  background-repeat      : no-repeat;
+  /* for IE optimization */
+  filter                 : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+  -ms-filter             : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
 }
 
 .row {
@@ -324,7 +358,6 @@ img.img-thumbnail.img-circle.profile-image {
 .section-overview {
   margin-top: -20px;
 }
-
 
 /* nav btns */
 .nav-btn-item {
@@ -769,3 +802,5 @@ body #buorg {
   border-width: 8px;
   margin-top: -8px;
 }
+
+

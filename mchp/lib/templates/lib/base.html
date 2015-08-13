@@ -45,6 +45,7 @@
     <script src="{% static 'lib/js/jquery.easing.min.js' %}"></script>
     <script src="{% static 'lib/js/scrolling-nav.js' %}"></script>
 
+    <script type="text/javascript">var MAX_BG_IMAGES={{ MAX_BG_IMAGES }}</script>
 
     <script type="text/javascript">
     var $buoop = {
@@ -59,50 +60,52 @@
      document.body.appendChild(e);
     }
     </script>
-    {% block head %}
 
+    {% block head %}
     {% endblock %}
+
     {% block extra_head %}
     {% endblock %}
 
-  </head>
-  <body id="page-top" data-spy="scroll" data-target=".navbar-transparent">
+    </head>
+    <body id="page-top" data-spy="scroll" data-target=".navbar-transparent">
+      <div id="bg"></div>
+      <div id="bg-overlay"></div>
+      {%load referral%}
+      {%load payment%}
+      {% load notifications %}
 
-    {%load referral%}
-    {%load payment%}
-    {% load notifications %}
-
-    {% if user.is_anonymous %}
-    <div class="modal fade" id="mchp-login-prompt" tabindex="-1" role="dialog" aria-labelledby="login-prompt" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-body text-center">
-            <h3>Got Credentials?</h3>
-            <img class="img-circle img-thumbnail" src="{% static 'lib/img/support.svg' %}" alt="sign up or login">
-            <br></br>
-            <p><small>Log In or Sign Up using:</small></p>
-            <a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg"
-                href="/accounts/facebook/login/" target="_blank"><i class="fa fa-facebook"></i> Facebook
-            </a>
-            {% include "socialaccount/snippets/login_extra.html" %}
-            <hr>
-            <span id="login-options">
+      {% if user.is_anonymous %}
+      <div class="modal fade" id="mchp-login-prompt" tabindex="-1" role="dialog" aria-labelledby="login-prompt" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body text-center">
+              <h3>Got Credentials?</h3>
+              <img class="img-circle img-thumbnail" src="{% static 'lib/img/support.svg' %}" alt="sign up or login">
+              <br></br>
+              <p><small>Log In or Sign Up using:</small></p>
+              <a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg"
+                  href="/accounts/facebook/login/" target="_blank"><i class="fa fa-facebook"></i> Facebook
+              </a>
+              {% include "socialaccount/snippets/login_extra.html" %}
+              <hr>
+              <span id="login-options">
                 <a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with e-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
-            </span>
-            <form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
-              {% csrf_token %}
-              <div class='form-group'>
-                <div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
-                  <input name="email" class="form-control" placeholder="What is your .EDU e-mail?">
+              </span>
+              <form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
+                {% csrf_token %}
+                <div class='form-group'>
+                  <div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
+                    <input name="email" class="form-control" placeholder="What is your .EDU e-mail?">
+                  </div>
                 </div>
-              </div>
-              <p></p>
-              <button class="btn btn-default btn-block" type="submit">Sign Up</button>
-            </form>
+                <p></p>
+                <button class="btn btn-default btn-block" type="submit">Sign Up</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     {% endif %}
     {% if user.is_authenticated %}
     {% if user.student %}
