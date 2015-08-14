@@ -5,6 +5,7 @@ $(function() {
     // });
 
     // change notif indicator when clicked
+
     $('#toggle-notifications').on('click', function () {
         $('#notification-count').css("background-color", "#777");
     });

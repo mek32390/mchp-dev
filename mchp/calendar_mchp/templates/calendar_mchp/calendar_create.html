@@ -21,106 +21,100 @@
 
 {% block body %}
 {% load calendar %}
-<div class="container">
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="media">
-				<img class="media-object pull-left animated slideInLeft" src="{% static 'lib/img/calendar-default.svg' %}" height="50px" alt="create calendar">
-				<div class="media-body">
-					<h2 class="media-heading">Create a Calendar</h2>
-					let's make this quick and easy
+<div class="row">
+	<div class="col-xs-12">
+		<div class="media">
+			<img class="media-object pull-left animated slideInLeft" src="{% static 'lib/img/calendar-default.svg' %}" height="50px" alt="create calendar">
+			<div class="media-body">
+				<h2 class="media-heading">Create a Calendar</h2>
+				let's make this quick and easy
+			</div>
+		</div>
+		<hr>
+		<div class="well">
+			<form id="calendar-create" action="{% url "calendar_create" %}" method="post">
+				{% csrf_token %}
+			<div class="select-class">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h4>What class is this calendar for?</h4>
+						<div class="form-group">
+							<div class="input-group input-group-lg">
+								<span class='input-group-addon'>Class</span>
+								<select name="course" class="form-control course-select">
+									<option class="default" value="-1" selected>Choose a Class</option>
+									{% for course in courses %}
+									<option class="course" value="{{course.pk}}">{{course.dept}} {{course.course_number}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-			<hr>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="well">
-				<form id="calendar-create" action="{% url "calendar_create" %}" method="post">
-					{% csrf_token %}
-				<div class="select-class">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<h4>What class is this calendar for?</h4>
-							<div class="form-group">
-								<div class="input-group input-group-lg">
-									<span class='input-group-addon'>Class</span>
-									<select name="course" class="form-control course-select">
-										<option class="default" value="-1" selected>Choose a Class</option>
-										{% for course in courses %}
-										<option class="course" value="{{course.pk}}">{{course.dept}} {{course.course_number}}</option>
-										{% endfor %}
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="course-meetings hidden">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<h4>When does this class meet? <small>We'll set up your agenda using your class meeting times, so please make sure they are correct!</small></h4>
-							<div class="row">
-								{% get_week %}
-								{% for day in week %}
-								<div class="col-sm-2">
-									<a href="#" class="list-group-item btn btn-default btn-lg btn-block day-button" data-toggle="button"
-									data-day="{{day}}" id="{{day}}">{{day}}</a>
-									<h5 class="day-times hidden">
-										<div class="form-group">
-											<div class="input-group">
-												<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-												<input id="{{day}}-clock-start" type="text" class="form-control clockpicker" 
-												data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" name="clockstart" placeholder="Start">
-											</div>
+			<div class="course-meetings hidden">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h4>When does this class meet? <small>We'll set up your agenda using your class meeting times, so please make sure they are correct!</small></h4>
+						<div class="row">
+							{% get_week %}
+							{% for day in week %}
+							<div class="col-sm-2">
+								<a href="#" class="list-group-item btn btn-default btn-lg btn-block day-button" data-toggle="button"
+								data-day="{{day}}" id="{{day}}">{{day}}</a>
+								<h5 class="day-times hidden">
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+											<input id="{{day}}-clock-start" type="text" class="form-control clockpicker" 
+											data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" name="clockstart" placeholder="Start">
 										</div>
-										<p></p>
-										<div class="form-group">
-											<div class="input-group">
-												<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-												<input id="{{day}}-clock-end" name="clockend" class="form-control clockpicker clockend" 
-												data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
-											</div>
+									</div>
+									<p></p>
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+											<input id="{{day}}-clock-end" name="clockend" class="form-control clockpicker clockend" 
+											data-placement="right" data-align="top" data-autoclose="true" style="width:100%;" placeholder="End">
 										</div>
-									</h5>
-								</div>
-								{% endfor %}
-							</div>		
-						</div>
+									</div>
+								</h5>
+							</div>
+							{% endfor %}
+						</div>		
 					</div>
 				</div>
-				<div class="cal-start-end hidden">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<h4>When is the end date of this class? <small>We'll use this date to set up your schedule appropriately</small></h4>
-							<div class="form-group">
-								<div class="input-group date">
-									<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
-									<input required type="text" name="enddate" class="form-control input-lg" placeholder="Select an End Date">
-								</div>
+			</div>
+			<div class="cal-start-end hidden">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h4>When is the end date of this class? <small>We'll use this date to set up your schedule appropriately</small></h4>
+						<div class="form-group">
+							<div class="input-group date">
+								<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+								<input required type="text" name="enddate" class="form-control input-lg" placeholder="Select an End Date">
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="cal-description hidden">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<h4>Do you want to say anything about this calendar?<small> Do ya, do ya?</small></h4>
-							<div class="form-group">
-								<div class="input-group input-group-lg">
-									<span class='input-group-addon'>Description</span>
-									<input type="text" class="form-control" name="description" placeholder='treat this calendar the way other calendars would like to be treated.' />
-								</div>
+			</div>
+			<div class="cal-description hidden">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h4>Do you want to say anything about this calendar?<small> Do ya, do ya?</small></h4>
+						<div class="form-group">
+							<div class="input-group input-group-lg">
+								<span class='input-group-addon'>Description</span>
+								<input type="text" class="form-control" name="description" placeholder='treat this calendar the way other calendars would like to be treated.' />
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class=" cal-submit hidden">
-					<button href="#" type="submit" class="btn btn-lg btn-primary btn-block">Create Calendar</button>
-				</div>
-			</form>
-		</div>
+			</div>
+			<div class=" cal-submit hidden">
+				<button href="#" type="submit" class="btn btn-lg btn-primary btn-block">Create Calendar</button>
+			</div>
+		</form>
 	</div>
 </div>
 <div class="calendar-colors">

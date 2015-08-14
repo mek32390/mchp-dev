@@ -41,7 +41,6 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<div class="container">
   {% if not dashboard_ref_flag %}
   <div class="one-time-alert alert alert-success alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
     <button type="button" class="close" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -60,7 +59,6 @@
         {% if weather %}
         <li data-weather="{{weather}}">
             <span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
-                <strong>{% weather_icon weather.icon weather.text %} {{school.city}}</strong>
             </span> 
             <span id="weather_temp"><strong>{{weather.temperature}} &deg;F</strong></span> &nbsp;
         </li>
@@ -359,6 +357,4 @@
     </div>
   </div>  <!--End News Col  --> 
 </div> <!--End Row -->
-</div><!-- End Container -->
-
 {% endblock %}

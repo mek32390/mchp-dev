@@ -26,11 +26,14 @@
     <link rel="stylesheet" type="text/css" href="{% static 'landing/css/landing.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 
+    <script type="text/javascript">var MAX_BG_IMAGES={{ MAX_BG_IMAGES }}</script>
+
     <script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
     <script src="{% static 'lib/js/mchp.js' %}"></script>
     <script src="{% static 'landing/js/landing.js' %}"></script>
     <script src="{% static 'dashboard/js/domparser.js' %}"></script>
     <script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
+
 
     <!-- // Notify to update old browsers -->
     <script type="text/javascript">
@@ -49,6 +52,7 @@
     {% endblock %}
 </head>
     <body>
+        <div id="bg"></div>
         <!-- Set Homepage Modal -->
         <div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
