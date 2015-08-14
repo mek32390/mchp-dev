@@ -16,110 +16,68 @@
 <div class="loading hidden">
   <i class="fa fa-spinner fa-spin fa-stack-1x fa-5x"></i>
 </div>
-<div class="container">
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="media">
-    			<img class="media-object pull-left animated bounceInDown" src="{% static 'lib/img/money.svg' %}" height="50px" alt="Add Documents">
-  				<div class="media-body">
-    			<h2 class="media-heading">Upload Documents</h2>
-				Stack some paper (anonymously)</div>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="media">
+			<img class="media-object pull-left animated bounceInDown" src="{% static 'lib/img/money.svg' %}" height="50px" alt="Add Documents">
+				<div class="media-body">
+				<h2 class="media-heading">Upload Documents</h2>
+				Stack some paper (anonymously)
 			</div>
-			<hr>
-		</div><!-- end col 12 -->
-		<div class="col-sm-8">
-			<div class="upload-form">
-				<form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
-					{% csrf_token %}
-					{% for field in form %}
-					{{ field.errors }}
-					{% ifequal field.name "course" %}
-					<div class="form-group" >
-						<div class="input-group">
-							<span class="input-group-addon">{{ field.label_tag}}</span>
-							<li class="dropdown" id="drop-li"> 
-								{{ field }}
-								<ul class="dropdown-menu" id="ac-dropdown">
-									<li role="presentation" class="dropdown-header">Your Courses</li>
-									{% for course in enrolled_courses %}
-									<li data-course="{{course.pk}}" class="strong"> <a href="#"><i class="fa fa-fw fa-plus-circle text-success"></i> {{course.display}}</a> </li>
-									{% empty %}
-									<li class="strong"> <a href="{%url "course_add"%}"><i class="fa fa-fw fa-plus-circle text-danger"></i>Add a course</a> </li>
-									{% endfor %}
-								</ul>
-							</li>
-						</div>
-					</div>
-					{% else %}
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon">{{ field.label_tag}}</span>
+		</div>
+		<hr>
+	</div><!-- end col 12 -->
+	<div class="col-sm-8">
+		<div class="upload-form">
+			<form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				{% for field in form %}
+				{{ field.errors }}
+				{% ifequal field.name "course" %}
+				<div class="form-group" >
+					<div class="input-group">
+						<span class="input-group-addon">{{ field.label_tag}}</span>
+						<li class="dropdown" id="drop-li"> 
 							{{ field }}
-						</div>
+							<ul class="dropdown-menu" id="ac-dropdown">
+								<li role="presentation" class="dropdown-header">Your Courses</li>
+								{% for course in enrolled_courses %}
+								<li data-course="{{course.pk}}" class="strong"> <a href="#"><i class="fa fa-fw fa-plus-circle text-success"></i> {{course.display}}</a> </li>
+								{% empty %}
+								<li class="strong"> <a href="{%url "course_add"%}"><i class="fa fa-fw fa-plus-circle text-danger"></i>Add a course</a> </li>
+								{% endfor %}
+							</ul>
+						</li>
 					</div>
-					{% endifequal %}
-					{% endfor %}
-					<input type="hidden" name="course" id="hidden_course"></input>
-					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary btn-block" /></p>
-				</form>
-			</div>
-		</div><!-- end col 8 -->
-		<div class="col-sm-4 hidden-xs">
-
-			<h3 class="media-heading text-success">Upload Rewards</h3>
-			<small>If you've got the goods, we'll hook you up!</small>
-			    <hr class="margin-top-sm">
-			    	<h4>Study Guides <span class="pull-right badge">$ 5</span></h4>
-			    	Be the first to upload a Study Guide for an Exam for that semester and get $5! <a href="#" data-toggle="popover" data-content="The less likely it is to sell on mchp, the less reward you may get for it. We'll review your document and send you an email within 24 hours." data-placement="bottom">More...</a>
-			    	<hr class="margin-btm-sm">
-			    	<h4>Class Lists <span class="pull-right badge">$ 5</span></h4>
-			    	For every class list you send us via email, you'll get $5 <small>(if we don't already have it)</small>. <a href="#" data-toggle="popover" data-content="Create an excel file and then copy/paste each class list in it's own tab. Then send it to contact@mycollegehomepage.com. It's anonymous :)" data-placement="bottom">Here's how...</a>
-			    	<hr class="margin-btm-sm">
-			    	<h4>Syllabi <span class="pull-right badge">100 points</span></h4>
-			    	Upload your syllabus and set it as a price of 0 (free). If we don't already have it, you'll get 200 points.
-		
-
-			<!-- <div class="media">
-			  <a class="pull-left" href="#">
-			    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
-			  </a>
-			  <div class="media-body">
-			    <h3 class="media-heading">Document Rewards</h3>
-			    <hr>
-			    	<p><strong>Study Guides</strong></p>
-			    	Study Guides cover specific material that will be on an exam. They are not "just" lecture notes.
-					</br>
-			    	<p><strong>Syllabi</strong></p>
-			    	Upload your syllabus and set it as a price of 0 (free). If we don't already have it, you'll get 100 points.
-					
-			  </div>
-			</div>
-			<hr class="margin-top-sm">
-			<div class="media">
-			  <a class="pull-left" href="#">
-			    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
-			  </a>
-			  <div class="media-body">
-			    <h4 class="media-heading">Uploads are anonymous</h4>
-			    	<p>
-			    		Your classmates <strong>will not</strong> be able to view your <strong>picture</strong> or <strong>name</strong> when you upload a document.
-					</p>
-			  </div>
-			<hr class="margin-top-sm">
-			<div class="media">
-			  <a class="pull-left" href="#">
-			    <img class="media-object" src="{% static 'lib/img/bulb.svg' %}" alt="..." height="20px">
-			  </a>
-			  <div class="media-body">
-			    <h4 class="media-heading">You can upload your syllabi</h4>
-			    	<p>
-			    		If you upload your syllabus and make it free, it will boost your doc numbers and credibility. Students will be more likely to buy your other documents.
-					</p>
-			  </div>
-			</div> -->
-		</div><!-- end col 4 -->
-	</div><!-- end row -->
-</div><!-- end container -->
+				</div>
+				{% else %}
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon">{{ field.label_tag}}</span>
+						{{ field }}
+					</div>
+				</div>
+				{% endifequal %}
+				{% endfor %}
+				<input type="hidden" name="course" id="hidden_course"></input>
+				<p><input type="submit" value="Upload" class="btn btn-lg btn-primary btn-block" /></p>
+			</form>
+		</div>
+	</div><!-- end col 8 -->
+	<div class="col-sm-4 hidden-xs">
+		<h3 class="media-heading text-success">Upload Rewards</h3>
+		<small>If you've got the goods, we'll hook you up!</small>
+	    <hr class="margin-top-sm">
+    	<h4>Study Guides <span class="pull-right badge">$ 5</span></h4>
+    	Be the first to upload a Study Guide for an Exam for that semester and get $5! <a href="#" data-toggle="popover" data-content="The less likely it is to sell on mchp, the less reward you may get for it. We'll review your document and send you an email within 24 hours." data-placement="bottom">More...</a>
+    	<hr class="margin-btm-sm">
+    	<h4>Class Lists <span class="pull-right badge">$ 5</span></h4>
+    	For every class list you send us via email, you'll get $5 <small>(if we don't already have it)</small>. <a href="#" data-toggle="popover" data-content="Create an excel file and then copy/paste each class list in it's own tab. Then send it to contact@mycollegehomepage.com. It's anonymous :)" data-placement="bottom">Here's how...</a>
+    	<hr class="margin-btm-sm">
+    	<h4>Syllabi <span class="pull-right badge">100 points</span></h4>
+    	Upload your syllabus and set it as a price of 0 (free). If we don't already have it, you'll get 200 points.
+	</div><!-- end col 4 -->
+</div><!-- end row -->
 <div id="enrolled_courses" data-enrolled_courses="{{ enrolled_courses }}">
 </div>
 {% endblock %}
