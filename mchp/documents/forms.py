@@ -7,10 +7,10 @@ from documents.models import Document
 class DocumentUploadForm(ModelForm):
 
     PRICE_WIDGET = TextInput(attrs=dict({
-        'placeholder':'type a price in points, ex: 400 would be $4.00',
+        'placeholder':'type a price in points, ex: 500 would be $5.00',
         'data-toggle':'tooltip',
         'data-placement':'right',
-        'data-original-title':'The average document sells for 400 points. Type a number!',
+        'data-original-title':'The average document sells for 500 points. Type a number!',
         'container_id': 'document_price',
         'class': 'form-control input-lg',
     }))
@@ -46,7 +46,7 @@ class DocumentUploadForm(ModelForm):
 
     class Meta:
         model = Document
-        fields = ['title', 'description', 'type', 'course', 'price', 'document']
+        fields = ['type', 'title', 'description', 'course', 'price', 'document']
 
         input_attr = {
             'class': 'form-control input-lg',
@@ -55,17 +55,17 @@ class DocumentUploadForm(ModelForm):
             # dict(x.items() | y.items()) combines the _base attrs with 
             # any class specific attrs, like the placeholder
             'title': TextInput(attrs=dict({
-                'placeholder': 'ex: Exam 1 Study Guide',
+                'placeholder': 'ex: Exam 1 Study Guide or Syllabus',
                 'data-toggle':'tooltip',
                 'data-placement':'right',
                 'data-original-title':'Document title only. Please don\'t include the name of the class'
             }.items() | input_attr.items())),
 
             'description': TextInput(attrs=dict({
-                'placeholder':'Short description of this file',
+                'placeholder':'a description of this document',
                 'data-toggle':'tooltip',
                 'data-placement':'right',
-                'data-original-title':'What you say here will help convince your classmates to buy this'
+                'data-original-title':'Tell classmates what this document is'
             }.items() | input_attr.items())),
 
             'course': TextInput(attrs=dict({
@@ -79,6 +79,9 @@ class DocumentUploadForm(ModelForm):
                 'choices': Document.DOCUMENT_TYPE_CHOICES,
                 'class': 'form-control input-lg dropdown-toggle',
                 'id': 'document_type',
+                'data-toggle':'tooltip',
+                'data-placement':'right',
+                'data-original-title':'Is this a Study Guide or Syllabus?'
           }.items() | input_attr.items())),
         }
 
