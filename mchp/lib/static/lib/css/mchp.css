@@ -99,6 +99,11 @@ input  :focus {
   color: rgba(255,255,255,0.4);
 }
 
+.inverse {
+  background: rgba(0,0,0,.4);
+  border-color: rgba(0,0,0,.4);
+}
+
 .bg-white {
   background: white;
 }
@@ -111,6 +116,47 @@ input  :focus {
 .panel {
   border-radius: 2px;
 }
+
+.popover {
+  background: rgba(0,0,0,.4);
+}
+
+.popover-title {
+  background: transparent;
+  border-bottom: 0px;
+}
+
+.popover.top>.arrow {
+  border-top-color: rgba(0,0,0,.3);
+}
+
+.popover.top>.arrow:after {
+  bottom: 1px;
+  margin-left: -10px;
+  content: " ";
+  border-top-color: rgba(0,0,0,.4);
+  border-bottom-width: 0;
+}
+
+
+.modal-header {
+  /*border-bottom: 1px solid rgba(0,0,0,.4);*/
+}
+
+.modal-content {
+  color: #000;
+  position: relative;
+  /*background-color: rgba(0,0,0,.6);*/
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #999;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 6px;
+  outline: 0;
+  -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+  box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+
 
 /* Link styles */
 

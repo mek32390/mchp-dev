@@ -32,11 +32,11 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><i class="fa fa-edit text-default"></i> Edit Event</h4>
+				<h4 class="modal-title"><i class="fa fa-edit text-trans"></i> Edit Event</h4>
 			</div>
 			<div class="modal-body">
-				<div class="panel panel-default">
-					<div class="panel-body">
+				<div class="panel trans">
+					<div class="panel-body trans">
 						<form method="post" class="form-horizontal" id="edit-event-form">
 							{% csrf_token %}
 							<div class="form-group form-group-sm">
@@ -104,7 +104,7 @@
 									<li id="edit-calendar-tab-{{calendar.pk}}" class="active manage-calendar-tab"><a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a></li>
 									{% else %}
 									<li id="edit-calendar-tab-{{calendar.pk}}" class="manage-calendar-tab">
-										<a href="#edit-calendar-link-{{calendar.pk}}" role="tab" data-toggle="tab">{{calendar.title}}</a>
+										<a href="#edit-calendar-link-{{calendar.pk}}" class="black" role="tab" data-toggle="tab">{{calendar.title}}</a>
 									</li>
 									{% endif %}
 									{% empty %}
@@ -229,12 +229,12 @@
 							{% endfor %}
 							{% for calendar in subscriptions %}
 							<div class="tab-pane fade in" id="edit-calendar-link-{{calendar.pk}}"><!-- subscription cals content -->
-								<div class="panel panel-default">
+								<div class="panel opa">
 									<div class="panel-heading">
 										<h3 class="panel-title">Subscription Options <span class="pull-right">
 											<span class="prompt-delete-message small hidden">Are you sure?</span> &nbsp;
 											<span class="btn btn-danger btn-xs end-subscription hidden" data-cal="{{calendar.pk}}">Yes</span>
-											<span class="btn btn-default btn-xs not-delete-button hidden">Cancel</span>
+											<span class="btn btn-trans btn-xs not-delete-button hidden">Cancel</span>
 											<span class="btn btn-danger btn-xs prompt-delete-button">Unsubscribe</span>
 										</span></h3>
 									</div>
@@ -274,16 +274,16 @@
 
 <div class="row">
 	<div id="col_1" class="col-sm-3 animated bounceInUp">
-		<h3 >My Calendars
+		<h2 class="margin-top-none">Calendars
 			<div class="dropdown pull-right">
-				<a href="#" class="dropdown-toggle small" type="select" id="" data-toggle="dropdown">Options <span class="fa fa-caret-square-o-down"></i></a>
+				<a href="#" class="dropdown-toggle small" type="select" id="" data-toggle="dropdown"> <span class="fa fa-gear"></i></a>
 				<ul class="dropdown-menu" id="" role="menu" aria-labelledby="">
 					<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li> -->
 					<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'calendar_create' %}"><span class=""><i class="fa fa-plus fa-fw"></i> New Calendar</span></a></li>
 					<li role="presentation"><a role="menuitem" tabindex="-1" href="#manage-calendars" data-toggle="modal"><span class=""><i class="fa fa-sitemap fa-fw"></i> Manage Calendars</span></a></li>
 				</ul>
 			</div>
-		</h3>
+		</h2>
 		<hr style="margin-top:12px;">
 		<p></p>
 		<div id="yourCalList">
@@ -294,7 +294,7 @@
 			<!-- don't delete this again -->
 			<div class="hidden" id="make-a-calendar">
 				<p>
-					<div class="panel panel-info">
+					<div class="panel opa">
 						<div class="panel-body">
 							Make your first <a href="{%url "calendar_create"%}">calendar!</a>
 						</div>
@@ -327,7 +327,7 @@
 			</div>
 			{% empty %}
 			<p>
-				<div class="panel panel-info">
+				<div class="panel opa">
 					<div class="panel-body">
 						Make your first <a href="{%url "calendar_create"%}">calendar!</a>
 					</div>
@@ -353,7 +353,7 @@
 			</div>
 			<!-- end cal -->
 			{% empty %}
-			<div class="panel panel-danger">
+			<div class="panel opa">
 				<div class="panel-body">
 					You're not following any calendars yet! 
 					<a href="#" class="view-cals">Follow your first calendar!</a>
@@ -381,14 +381,14 @@
 	</div>
 	</div>
 	<div id="col_2" class="col-sm-9 animated bounceInUp delayed-sm">
-		<div class="flip-holder">
-			<div class="front">
+		<!-- <div class="flip-holder"> -->
+			<!-- <div class="front"> -->
 				<div class="row">
 					<div class="col-xs-4">
 						<div class="btn-group">
-							<button type="button" class="cal-button cal-prev-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-left"></i></button>
-							<button type="button" class="cal-button cal-today-button btn-xs btn btn-default hidden-xs">Today</button>
-							<button type="button" class="pull-right cal-button cal-next-button btn-xs btn btn-default "><i class="fa fa-fw fa-angle-right"></i></button>	
+							<button type="button" class="cal-button cal-prev-button btn-xs btn btn-trans "><i class="fa fa-fw fa-angle-left"></i></button>
+							<button type="button" class="cal-button cal-today-button btn-xs btn btn-trans hidden-xs">Today</button>
+							<button type="button" class="pull-right cal-button cal-next-button btn-xs btn btn-trans "><i class="fa fa-fw fa-angle-right"></i></button>	
 						</div>
 					</div>
 					<div class="col-xs-4">
@@ -396,21 +396,21 @@
 					</div>
 					<div class="col-xs-4">
 						<span class="pull-right view-cals-btn">
-							<a href="#" class="view-cals margin-btm-none btn btn-primary btn-xs"> Browse Calendars</a>	
+							<!-- <a href="#" class="view-cals margin-btm-none btn btn-primary btn-xs"> Browse Calendars</a>	 -->
 						</span>
 					</div>
 				</div>
-				<div class="panel panel-default">
+				<div class="panel opa">
 					<div class="panel-body">
 						<div id='calendar'></div>
 					</div>
 				</div><!-- end cal panel -->
-			</div>
-			<div class="back">
+			<!-- </div> -->
+			<!--  <div class="back">
 				<h3>Calendars to Follow<button type="button" id="" class="close view-cals" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></h3>
 				<hr class="margin-top-sm">
-				<!-- <div class="well"> -->
-				<div class="panel panel-default">
+				<div class="well">
+				<div class="panel opa">
 					<div class="panel-body">
 						<ul class="nav nav-pills nav-justified" role="tablist">
 							{% for course in courses %}
@@ -434,11 +434,11 @@
 						class="tab-pane fade in calendar-list" id="browse-tab-{{course.pk}}"
 						{% endif %}
 						data-course="{{course.pk}}">
-						<div class="panel panel-default">
+						<div class="panel opa">
 							<div class="panel-body">
 								<h4 class="margin-top-none">{{course}} Calendars <span class="badge" id="calendar-count-{{course.pk}}">0</span>
 									<span class="btn-group pull-right hidden">
-										<button type="button" class="btn btn-default btn-xs">Recent</button>
+										<button type="button" class="btn btn-trans btn-xs">Recent</button>
 										<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
 											<span class="caret"></span>
 											<span class="sr-only">Toggle Dropdown</span>
@@ -457,7 +457,7 @@
 													<div class="media-object img-thumbnail">
 														<img src="{% static 'lib/img/calendar-blank.svg' %}" style="width:64px">
 													</div>
-													<div class="assignment-number text-center text-default h4 calendar-event-count">15</div>
+													<div class="assignment-number text-center text-trans h4 calendar-event-count">15</div>
 												</a>
 											</span>
 											<div class="media-body">
@@ -478,9 +478,9 @@
 						</div>
 					</div>
 					{% endfor %}
-				</div> <!-- end tab content -->
-			</div>
-		</div> <!-- end flip holder -->
+				</div> 
+			</div> --> 
+		<!-- </div> --> <!-- end flip holder -->
 	</div><!-- end col -->
 </div><!-- end row -->
 <div id="popover-title" class="hidden">
@@ -488,7 +488,7 @@
 	<div class="dropdown pull-right">
 		{% for calendar in owned_calendars %}
 		{% if forloop.first %}
-		<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown">
+		<button class="dropdown-toggle btn btn-trans btn-xs" type="select" id="calDropDown" data-toggle="dropdown">
 			<span class="cal-name" data-calendar="{{calendar.pk}}" style="color: {{calendar.color}};">
 				{{calendar.title}} 
 			</span>
@@ -522,12 +522,12 @@
 </div>
 <div id="events-popover-content" class="hidden">
 	<div class="event-popover-container"></div><!-- sets the width of the popover -->
-	<span class="list-group margin-top-none margin-btm-none">
-		<span class="list-group-item">
+	<span class="list-group margin-top-none margin-btm-none trans">
+		<span class="list-group-item trans inverse">
 			<span class="margin-btm-sm margin-top-none h5">
 				<span class="event-options pull-right small">
 					<i class="fa fa-bullhorn text-info"></i>
-					<a href="#" class="event-edit-link"><i class="fa fa-pencil text-default"></i></a> 
+					<a href="#" class="event-edit-link"><i class="fa fa-pencil text-trans"></i></a> 
 					<a class="event-delete-link" style="cursor: pointer"><i class="fa fa-times text-danger"></i></a>
 				</span>
 				<span class="event-title calendar-indicator"></span>
