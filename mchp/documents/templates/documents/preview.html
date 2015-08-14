@@ -27,170 +27,189 @@
 <div data-event="{{document_preview_flag_name}}" class="one-time-alert alert alert-success alert-dismissible fade in" role="alert">
 	<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 	<div class="media margin-top-none">
-		<img class="media-object pull-left animated rubberBand delayed-lg" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
+		<img class="no-shadow media-object pull-left animated rubberBand delayed-lg" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
 		<div class="media-body">
 			<h4 class="media-heading">Get <strong>$5</strong> for every Study Guide you upload!</h4>
 			Seriously, when you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a>, we'll deposit $5 in your account that day. We'll make sure it's not spam and once your document clears our brief inspection, the money is yours. For your privacy, you'll remain anonymous. <strong>- mchp</strong>
 		</div>
 		<p></p>
-    	<p><a href="{% url 'document_upload'%}" class="btn btn-success btn-md">Start Selling Now!</a></p>
+    <p><a href="{% url 'document_upload'%}" class="btn btn-success btn-md">Start Selling Now!</a></p>
 	</div>
 </div><!-- end alert -->
 {% endif %}
 
-<ol class="breadcrumb">
-	<li>
-		<a href="{%url "school" document.course.domain.pk%}{{document.course.domain.name}}"><i class="fa fa-university"></i>&nbsp;{{ document.course.domain.name }}</a> 
-	</li>
-	<li>
-		<a href="{%url "course" document.course.pk%}{{document.course.name}}"><i class="fa fa-book">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
-	</li>
-	<li class="active">
-		<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-text-o"></i>&nbsp;{{document.title}}</a>
-	</li>
-	<a class="btn btn-success btn-xs pull-right" href="{% url 'document_upload' %}"><i class="fa fa-money"></i>&nbsp;Sell Study Guides</a>
-</ol>
-<div class="well">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-sm-5">
-					{% if document.preview %}
-					<img class="img-thumbnail center-block" style="margin-bottom:10px;" src="{{document.preview.url}}"></img>
-					{% else %}
-					<img class="img-thumbnail center-block" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}">
-					{% endif %}
-				</div>
-				<div class="col-sm-7">
-					<h2 class="margin-top-none margin-btm-sm">{{ document.title }}
-						<small class="pull-right">
-							<span class="pull-right"> 
-								<span id="document-price">{{document.price}}</span> points
-							</span>
-							<p class="margin-top-none margin-btm-none"></p>
-							<span class="pull-right margin-top-none"><small>{{document.create_date|naturaltime}}</small></span>
-						</small>
-					</h2>
-					<h5>
-						<i class="fa fa-fw fa-thumbs-up text-success"></i>{{ document.up }}&nbsp;<i
-							class="fa fa-fw fa-thumbs-down text-danger">
-						</i>{{ document.down }} &nbsp;<i class="fa fa-comments text-info fa-fw">
-						</i>&nbsp;{{ review_count }} Review{{review_count|pluralize}} &nbsp;<i class="fa fa-fw fa-money text-success">
-						</i>&nbsp;{{ document.purchase_count }} Purchase{{document.purchase_count | pluralize}}
-					</h5>
-					<div class="progress margin-btm-none" style="width:68%">
-						<div class="progress-bar progress-bar-success" style="width:{{document.normalize_positive_votes}}%">
-						</div>
-						<div class="progress-bar progress-bar-danger" style="width:{{document.normalize_negative_votes}}%">
-						</div>
-					</div><!-- end ratings bar -->
-					<p class="h6"><a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a> 
-						with Instructor {{document.course.professor}}
-					</p>
-					<form id="buy-form" method="post" action="{{current_path}}">
-						{% csrf_token %}
-					</form>
-					{% if user.is_anonymous %}
-					<button class="btn btn-success" data-toggle="modal" data-target="#mchp-login-prompt">
-						<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
-					</button>
-					{% else %}
-					<button form="buy-form" class="btn btn-success">
-						{% if owns %}
-						<i class="fa fa-fw fa-eye"></i>View
-						{% else %}
-						<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
-						{% endif %}
-					</button>
-					{% endif %}
-					<a href="{{current_path | referral:referral_link}}" data-toggle="tooltip" data-original-title="Every person that signs up by clicking your shared link will get you both 200 points!"
-						{% if document.preview %}
-						data-image="{{document.preview.url}}"
-						{% else %}
-						data-image=""
-						{% endif %}
-						data-title="{{document.title}}" 
-						data-desc="{{document.description}}" 
-						class="btnShare btn btn-facebook fb-share-button">
-						<i class="fa fa-fw fa-facebook"></i>Get 200 points for Sharing</a>
-					<button data-clipboard-text="{{current_path | referral:referral_link }}" 
-						id="copy-button" class="btn btn-warning"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
-					<span class="copy-message"></span>
-					<div class="bs-callout" style="border-top: 0;border-right: 0; border-bottom:0; padding-top:0;">
-						<hr>
-						<p class="">"{{document.description}}"</p>
-						<hr>
-          {% if uploader %}
-          <div class="media">
-          	{% if owns %}
-          	<a class="pull-left" href="{%url "profile" uploader.pk %}">
-            	<div class="media-object img-circle img-thumbnail profile-image" 
-              style="background-image:url({{uploader.profile.profile_image_url}}); width:65px; height: 65px;"></div>
-            </a>
-          	{% else %}
-          	<div class="media-object pull-left">
-          		<img src="{% static 'lib/img/shirt.svg' %}" class="img-circle img-thumbnail profile-image" style="width:65px; height: 65px;"/>
-          	</div>
-          	{% endif %}
-            <div class="media-body">
-                <h4 class="media-heading">
-                	{% if owns %}
-                    <a href="{% url "profile" uploader.pk%}">
-                      {{uploader}}
-                    </a>
-                    {% else %}
-                    Student at <small><a href="{%url "school" document.course.domain.pk%}{{document.course.domain.name}}">{{ document.course.domain.name }}</a></small>
-                	{% endif %}
-                </h4>
-                <span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
-                <h6>
-								{%if uploader.major%}{{uploader.major}}{%else%}{%endif%}
-								</h6>
-                <p>
-                </p>
-            	</div>
-      			</div>
-          	{% else %}
-            <div class="alert alert-warning">
-            This was uploaded by a ghost! Or we just don't have the original uploader information... sorry!
-            </div>
-            {% endif %}
-					</div>
-				</div><!-- end col -->
-			</div>
-		</div>
-	</div><!-- end top panel -->
+<div class="row">
+	<div class="col-xs-8">
+		<h1 class="margin-top-none">{{ document.title }}</h1>
+    <p class="lead"><a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a> 
+							with Instructor {{document.course.professor}}</p>
+    <!-- <p></p> -->
+	</div>
+	<div class="col-xs-4">
+		<div class="row">
+      <div class="col-xs-12">
+        <h1 class="pull-right margin-top-none">for <a href="event1.html">Exam 1</a></h1>
+      </div>
+      <div class="col-xs-12">
+        <p class="lead pull-right">in 6 days</p>
+      </div>
+    </div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+<!-- 		<ol class="list-inline trans margin-top-none">
+			<li>
+				<a href="{%url "school" document.course.domain.pk%}{{document.course.domain.name}}"><i class="fa fa-university"></i>&nbsp;{{ document.course.domain.name }}</a> 
+			</li>
+			<li>
+				<a href="{%url "course" document.course.pk%}{{document.course.name}}"><i class="fa fa-book">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
+			</li>
+			<li class="active">
+				<a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"><i class="fa fa-file-text-o"></i>&nbsp;Back to Preview</a>
+			</li>
+		</ol> -->
+				<hr class="opa margin-top-none">
 
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Reviews <span class="badge">{{ review_count }}</span></h3>
-				</div>
-				<div class="panel-body">
-					<table class="table table-striped table-hover table-responsive">
-						<tbody>
-							{% for purchase in reviews %}
-							<tr>
-								<td>"{{purchase.review}}" &nbsp;-
-									{% if not request.user.is_anonymous %}
-									<a href="{% url "profile" purchase.student.pk %}{{purchase.student.user.username}}">{{purchase.student.user.username}}</a>
-									{% else %}
-									<a href="#">Anonymous</a>
-									{% endif %}
-								</td>
-								<td>
-									<small class="pull-right">{{purchase.review_date | naturaltime}}</small>
-								</td>
-							</tr>
-							{% empty %}
-							There are no reviews for this document.
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div><!-- end inner review panel -->
-		</div>
-	</div><!-- end outer review panel -->
-</div><!-- end well -->
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-5 col-md-7">
+		{% if document.preview %}
+		<img class="img-thumbnail img-rounded center-block" src="{{document.preview.url}}"></img>
+		{% else %}
+		<img class="img-thumbnail img-rounded center-block" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}">
+		{% endif %}
+		<br></br>
+	</div>
+	<div class="col-sm-7 col-md-5">
+		<div class="panel opa">
+			<div class="panel-body">
+				<h3 class="margin-top-none">
+					<ul class="list-inline">
+						<li>
+							<span id="document-price"><strong>{{document.price}} points</strong></span>
+						</li>
+						<li>
+							<small class="white">uploaded <span>{{document.create_date|naturaltime}}</span></small>
+						</li>
+	 				</ul>
+	 			</h3>
+	 			<p></p>
+	 			<h5>
+	 				<i class="fa fa-fw fa-money text-success"></i> {{ document.purchase_count }} Purchase{{document.purchase_count | pluralize}}&nbsp;
+					<i class="fa fa-fw fa-thumbs-up text-success"></i> {{ document.up }}&nbsp;
+					<i class="fa fa-fw fa-thumbs-down text-danger"></i> {{ document.down }}&nbsp;
+					<i class="fa fa-comments text-info fa-fw"></i> {{ review_count }} Review{{review_count|pluralize}}
+				</h5>
+				<div class="progress margin-btm-none" style="width:68%">
+					<div class="progress-bar progress-bar-success" style="width:{{document.normalize_positive_votes}}%">
+					</div>
+					<div class="progress-bar progress-bar-danger" style="width:{{document.normalize_negative_votes}}%">
+					</div>
+				</div><!-- end ratings bar -->
+				<br>
+
+				<p class="lead">"{{document.description}}"</p>
+				
+				{% if uploader %}
+        <div class="media">
+        	{% if owns %}
+        	<a class="pull-left" href="{%url "profile" uploader.pk %}">
+          	<div class="media-object img-circle img-thumbnail profile-image" 
+            style="background-image:url({{uploader.profile.profile_image_url}}); width:48px; height: 48px;"></div>
+          </a>
+        	{% else %}
+        	<div class="media-object pull-left">
+        		<img src="{% static 'lib/img/shirt.svg' %}" class="img-circle img-thumbnail profile-image" style="width:48px; height: 48px;"/>
+        	</div>
+        	{% endif %}
+        	<div class="media-body">
+            <h5 class="media-heading">
+            	{% if owns %}
+              <a href="{% url "profile" uploader.pk%}">
+              {{uploader}}
+              </a>
+              {% else %}
+              Student at <small><a href="{%url "school" document.course.domain.pk%}{{document.course.domain.name}}">{{ document.course.domain.name }}</a></small>
+            	{% endif %}
+            </h5>
+            <span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
+            <h6>
+							{%if uploader.major%}{{uploader.major}}{%else%}{%endif%}
+						</h6>
+            <p>
+            </p>
+        	</div>
+    		</div>
+        {% else %}
+        <div class="alert alert-warning">
+        This was uploaded by a ghost! Or we just don't have the original uploader information... sorry!
+        </div>
+        {% endif %}
+      </div>
+    </div>
+		
+		<form id="buy-form" method="post" action="{{current_path}}">
+			{% csrf_token %}
+		</form>
+		{% if user.is_anonymous %}
+		<button class="btn btn-success btn-block btn-md" data-toggle="modal" data-target="#mchp-login-prompt">
+			<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
+		</button>
+		<p></p>
+		{% else %}
+		<button form="buy-form" class="btn btn-success btn-block btn-md">
+			{% if owns %}
+			<i class="fa fa-fw fa-eye"></i>View
+			{% else %}
+			<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
+			{% endif %}
+		</button>
+		<p></p>
+		{% endif %}
+		<ul class="list-inline">
+			<li>
+				<a href="{{current_path | referral:referral_link}}" data-toggle="tooltip" data-original-title="Every person that signs up by clicking your shared link will get you both 200 points!"
+					{% if document.preview %}
+					data-image="{{document.preview.url}}"
+					{% else %}
+					data-image=""
+					{% endif %}
+					data-title="{{document.title}}" 
+					data-desc="{{document.description}}" 
+					class="btnShare fb-share-button">
+					<i class="fa fa-fw fa-facebook"></i>Get 200 points for Sharing</a>
+			</li>
+			<li>|</li>
+			<li>
+				<a href="#" data-clipboard-text="{{current_path | referral:referral_link }}" 
+				id="copy-button" class=""><i class="fa fa-paperclip fa-fw"></i> Copy link</a>
+			</li>
+		</ul>
+		<span class="copy-message"></span>
+		<br>
+		<h3>Reviews <span class="badge">{{ review_count }}</span></h3>
+		<table class="table table-hover table-responsive">
+			<tbody>
+				{% for purchase in reviews %}
+				<tr>
+					<td>"{{purchase.review}}" &nbsp;-
+						{% if not request.user.is_anonymous %}
+						<a href="{% url "profile" purchase.student.pk %}{{purchase.student.user.username}}">{{purchase.student.user.username}}</a>
+						{% else %}
+						<a href="#">Anonymous</a>
+						{% endif %}
+					</td>
+					<td>
+						<small class="pull-right">{{purchase.review_date | naturaltime}}</small>
+					</td>
+				</tr>
+				{% empty %}
+				There are no reviews for this document.
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
 {% endblock %}

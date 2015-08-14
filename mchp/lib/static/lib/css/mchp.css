@@ -113,6 +113,11 @@ input  :focus {
   box-shadow        : 0 1px 1px rgba(0,0,0,0.1);
 }
 
+img.no-shadow {
+  -webkit-box-shadow: none !important;
+  box-shadow        : none !important;
+}
+
 .panel {
   border-radius: 2px;
 }
@@ -162,7 +167,7 @@ input  :focus {
 }
 
 .table-hover>tbody>tr:hover {
-  background-color: rgba(0,0,0,.4);
+  background-color: ;
 }
 
 
@@ -263,6 +268,40 @@ a.list-group-item:focus, a.list-group-item:hover {
   background: rgba(255,255,255,0.4) !important;
 }*/
 
+/* Styles for Opa-styled nav-pill items */
+
+.pill-opa {
+  color : #fff !important;
+  border: 1px solid transparent;
+}
+
+.pill-opa:hover {
+  color             : #fff !important;
+  background-color  : rgba(255,255,255,0.4) !important;
+  border            : 1px solid rgba(255,255,255,0.4);
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  box-shadow        : 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.nav-pills > .active > a.pill-opa, .nav-pills > .active > a.pill-opa:hover,
+.nav-pills > li > a.pill-opa:hover,
+.nav-pills > li > a.pill-opa:focus {
+  /*border-radius: 0 !important;*/
+}
+
+.nav-pills > li > a.pill-opa:focus {
+  background        : rgba(255,255,255,0.4) !important;
+  border            : 1px solid rgba(255,255,255,0.4);
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  box-shadow        : 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.nav-pills > .active > a.pill-opa {
+  background-color  : rgba(255,255,255,0.4) !important;
+  border            : 1px solid rgba(255,255,255,0.4);
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  box-shadow        : 0 1px 1px rgba(0,0,0,0.1);
+}
 
 
 /* custom profile img in sidebar */

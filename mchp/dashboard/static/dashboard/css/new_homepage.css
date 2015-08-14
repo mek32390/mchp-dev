@@ -43,40 +43,6 @@
   }
 }
 
-/* Styles for the Class Section pill items */
-
-.course-pill {
-  color : #fff !important;
-  border: 1px solid transparent;
-}
-
-.course-pill:hover {
-  color             : #fff !important;
-  background-color  : rgba(255,255,255,0.4) !important;
-  border            : 1px solid rgba(255,255,255,0.4);
-  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  box-shadow        : 0 1px 1px rgba(0,0,0,0.1);
-}
-
-.nav-pills > .active > a.course-pill, .nav-pills > .active > a.course-pill:hover,
-.nav-pills > li > a.course-pill:hover,
-.nav-pills > li > a.course-pill:focus {
-  /*border-radius: 0 !important;*/
-}
-
-.nav-pills > li > a.course-pill:focus {
-  background        : rgba(255,255,255,0.4) !important;
-  border            : 1px solid rgba(255,255,255,0.4);
-  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  box-shadow        : 0 1px 1px rgba(0,0,0,0.1);
-}
-
-.nav-pills > .active > a.course-pill {
-  background-color  : rgba(255,255,255,0.4) !important;
-  border            : 1px solid rgba(255,255,255,0.4);
-  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  box-shadow        : 0 1px 1px rgba(0,0,0,0.1);
-}
 
 /*!
 *

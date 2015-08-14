@@ -14,38 +14,40 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="media">
-			<img class="media-object pull-left animated slideInLeft" src="{% static 'lib/img/storage.svg' %}" height="50px" alt="sell documents">
+			<img class="no-shadow media-object pull-left animated slideInLeft" src="{% static 'lib/img/storage.svg' %}" height="50px" alt="sell documents">
 			<div class="media-body">
 				<h2 class="media-heading">My Documents <div class='pull-right'> <a href="{%url 'document_upload'%}" class='btn btn-success'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a></div>
 				</h2>
 				make money while you study
 			</div>
 		</div>
-		<hr>
+		<hr class="opa">
 	</div>
 	<div class="col-xs-12">
-		<ul class="nav nav-tabs h4" role="tablist">
-			<li class="active">
-				<a href="#selling_docs" role="tab" data-toggle="tab">
-					Selling
-					<span id="upload-count" class="badge">{{ upload_count }}</span>
-				</a>
-			</li>
-			<li>
-				<a href="#purchased_docs" role="tab" data-toggle="tab">
-					Purchased
-					<span id="purchase-count" class="badge">{{ purchase_count}}</span>
-				</a>
-			</li>
-		</ul>
+		<h4>
+			<ul class="nav nav-pills" role="tablist">
+				<li class="active">
+					<a href="#selling_docs" class="pill-opa" role="tab" data-toggle="tab">
+						Selling
+						<span id="upload-count" class="badge">{{ upload_count }}</span>
+					</a>
+				</li>
+				<li>
+					<a href="#purchased_docs" class="pill-opa" role="tab" data-toggle="tab">
+						Purchased
+						<span id="purchase-count" class="badge">{{ purchase_count}}</span>
+					</a>
+				</li>
+			</ul>
+		</h4>
 		<div class="tab-content">
 			<div class="tab-pane active" id="selling_docs">
 			<p></p>
 				{% if document_list %} 
-				<div class="list-group scrolls" id="document-list"> 
+				<div class="list-group scrolls opa" id="document-list"> 
 					{% for document in document_list %} 
 					{{document.purchased_count}}
-					<li class="list-group-item" id="document_{{document.pk}}"> 
+					<li class="list-group-item trans" id="document_{{document.pk}}"> 
 						<div class="media">
 							<div class="pull-left">
 								<a href="{% url 'document_list' %}{{ document.uuid}}/{{ document.slug}}">
@@ -60,7 +62,7 @@
 								{% endif %}
 							<div class="media-body">
 								<h4 class="media-heading">
-									<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
+									<div class="pull-right">{{document.create_date | naturaltime}}</div>
 									<div id="document_link_{{document.pk}}">
 										{% if document.preview %}
 										<a href="{% url 'document_list' %}
@@ -78,8 +80,8 @@
 											newly_uploaded.push(upload);
 										</script>
 										<div id="generating_message_{{document.pk}}">
-											<span class="text-dull">We're prepping your doc for its big debut&hellip; <i class="fa fa-spinner fa-spin"></i></span>
-											<small>You can leave this page. We'll notify you when it's live.</small>
+											<span>We're prepping your doc for its big debut&hellip; <i class="fa fa-spinner fa-spin"></i></span>
+											<h5>You can leave this page. We'll notify you when it's live.</h5>
 										</div>
 										{% endif %}
 									</div>
@@ -113,17 +115,15 @@
 					{% endfor %} 
 				</div>   
 				<div id="no-documents" class="text-center" style="display: none;">
-					<hr>
+					<br>
 					<h4 class="lead">You're not selling any documents!</h4>
-					<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
-					<hr>
+					<a href={% url 'document_upload'%} class='btn btn-trans'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
 				</div> 
 				{% else %}
 				<div id="no-documents" class="text-center">
-					<hr>
+					<br>
 					<h4 class="lead">You're not selling any documents!</h4>
-					<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
-					<hr>
+					<a href={% url 'document_upload'%} class='btn btn-trans'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
 				</div>
 				{% endif %} 
 			</div>
@@ -171,17 +171,15 @@
 					{% endfor %}
 				</div>
 				<div id="no-purchases" class="text-center" style="display: none">
-					<hr>
+					<br>
 					<h4 class="lead">You haven't purchased any documents!</h4>
-					<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
-					<hr>
+					<a href={% url 'classes'%} class='btn btn-trans'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
 				</div>
 				{% else %}
 				<div id="no-purchases" class="text-center">
-					<hr>
+					<br>
 					<h4 class="lead">You haven't purchased any documents!</h4>
-					<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
-					<hr>
+					<a href={% url 'classes'%} class='btn btn-trans'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
 				</div>
 				{% endif %}
 			</div>
