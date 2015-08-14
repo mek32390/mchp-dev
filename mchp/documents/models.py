@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 DOCUMENT_LOCATION = "documents/"
 PREVIEW_LOCATION = "previews/"
 
+
 def get_sentinel_course():
     school, created = School.objects.get_or_create(domain='deleted.edu', name='deleted')
     course, created = Course.objects.get_or_create(domain=school, 
@@ -28,7 +29,19 @@ def get_sentinel_course():
                                         professor='deleted')
     return course
 
+
 class Document(models.Model):
+
+    STUDY_GUIDE = 0
+    SYLLABUS = 1
+
+    DOCUMENT_TYPE_CHOICES = (
+        (STUDY_GUIDE, 'Study guide'),
+        (SYLLABUS, 'Syllabus'),
+    )
+
+    type = models.IntegerField(default=STUDY_GUIDE, choices=DOCUMENT_TYPE_CHOICES)
+
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     course = models.ForeignKey('schedule.Course', on_delete=models.SET(get_sentinel_course))

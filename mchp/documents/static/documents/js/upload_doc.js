@@ -60,14 +60,33 @@ $(function() {
             },
             price: {
                 validators: {
-                    notEmpty: {
-                        message: 'Please set this selling price of this document'
-                    },
-                    between: {
-                        min: 0,
-                        max: 1000000000,
-                        message: 'The price must be between 0 and 1 billion!'
-                    }
+					callback: {
+						message: "Please set this selling price of this document'",
+						callback: function (value, validator, $field) {
+							// Conditional validation based on document type
+							if (parseInt($("#document_type").val()) === SYLLABUS) {
+								return true;
+            				}
+
+							value = parseInt(value);
+
+							if (!value) {
+								return {
+									valid: false,
+									message: "Please set this selling price of this document"
+								};
+							}
+
+							if (value < 0 || value > 1000000000) {
+								return {
+									valid: false,
+									message: "The price must be between 0 and 1 billion!'"
+								};
+							}
+
+							return true;
+						}
+					}
                 }
             },
             document: {
@@ -87,6 +106,20 @@ $(function() {
 		minimum_length: 1,
 	});
 	window.autocomplete.setup();
+
+	var STUDY_GUIDE = 0;
+	var SYLLABUS = 1;
+
+	var document_type_changed = function() {
+		console.log('changed');
+		if (parseInt($("#document_type").val()) === SYLLABUS) {
+			$("#document_price").hide();
+		} else {
+			$("#document_price").show();
+		}
+	};
+	document_type_changed();
+	$("#document_type").change(document_type_changed);
 });
 
 var Autocomplete = function(options) {

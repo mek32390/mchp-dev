@@ -1,8 +1,23 @@
-from django.forms import ModelForm,TextInput
+from django import forms
+from django.forms import ModelForm, TextInput, ChoiceField, Select, IntegerField
 
 from documents.models import Document
 
+
 class DocumentUploadForm(ModelForm):
+
+    PRICE_WIDGET = TextInput(attrs=dict({
+        'placeholder':'type a price in points, ex: 400 would be $4.00',
+        'data-toggle':'tooltip',
+        'data-placement':'right',
+        'data-original-title':'The average document sells for 400 points. Type a number!',
+        'container_id': 'document_price',
+        'class': 'form-control input-lg',
+    }))
+
+    # Price is not required in case Document is Syllabus
+    # In which case automatically settings price to 0
+    price = IntegerField(required=False, min_value=0, widget=PRICE_WIDGET)
 
     # {{ form.as_style }} with use this in templates
     def as_style(self):
@@ -20,11 +35,18 @@ class DocumentUploadForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(DocumentUploadForm, self).clean()
+
+        # Syllabus is always free
+        if cleaned_data['type'] == Document.SYLLABUS:
+            cleaned_data['price'] = 0
+        elif 'price' not in cleaned_data:
+            self.add_error('price', 'This field is required')
+
         return cleaned_data
 
     class Meta:
         model = Document
-        fields = ['title', 'description', 'course', 'price', 'document']
+        fields = ['title', 'description', 'type', 'course', 'price', 'document']
 
         input_attr = {
             'class': 'form-control input-lg',
@@ -46,18 +68,18 @@ class DocumentUploadForm(ModelForm):
                 'data-original-title':'What you say here will help convince your classmates to buy this'
             }.items() | input_attr.items())),
 
-            'price': TextInput(attrs=dict({
-                'placeholder':'type a price in points, ex: 400 would be $4.00',
-                'data-toggle':'tooltip',
-                'data-placement':'right',
-                'data-original-title':'The average document sells for 400 points. Type a number!'
-            }.items() | input_attr.items())),
             'course': TextInput(attrs=dict({
                 'placeholder':'type a course code and number: CSC 245',
                 'autocomplete': 'off',
                 'data-toggle': 'dropdown',
                 'class': 'form-control input-lg dropdown-toggle'
             }.items())),
+
+            'type': Select(attrs=dict({
+                'choices': Document.DOCUMENT_TYPE_CHOICES,
+                'class': 'form-control input-lg dropdown-toggle',
+                'id': 'document_type',
+          }.items() | input_attr.items())),
         }
 
         labels = {
