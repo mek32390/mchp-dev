@@ -45,10 +45,6 @@ body {
   -ms-filter             : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
 }
 
-.row {
-  height: inherit;
-}
-
 .container-fluid {
   height       : inherit;
   padding-right: 30px;

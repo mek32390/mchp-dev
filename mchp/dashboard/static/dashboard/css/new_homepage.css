@@ -4,6 +4,9 @@
 *
 */
 
+.row {
+  height: inherit;
+}
 
 /* Mega font for responsive screen sizes */
 
