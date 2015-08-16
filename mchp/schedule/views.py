@@ -240,6 +240,10 @@ class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
             subscriptions = Subscription.objects.filter(student=self.student, calendar__course=course)
             subscriptions.delete()
 
+            # Removing student calendars (events will cascade delete too)
+            calendars = ClassCalendar.objects.filter(owner=self.student, course=course)
+            calendars.delete()
+
             messages.success(
                 self.request,
                 "Course removed successfully"
