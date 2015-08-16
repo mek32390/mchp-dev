@@ -20,10 +20,12 @@ from notification.api import add_notification
 from schedule.forms import CourseCreateForm
 from schedule.models import Course, School, SchoolQuicklink, Section, Major, Enrollment
 from schedule.utils import WEEK_DAYS
+from user_profile.models import Student
 
 from datetime import datetime, timedelta
 import logging
 import json
+
 logger = logging.getLogger(__name__)
 
 
@@ -109,26 +111,22 @@ class CourseCreateView(_BaseCourseView):
             )
             return super(CourseCreateView, self).form_invalid(form)
         # add student to course
-        student = self.student
-        enroll = Enrollment(student=student, course=course)
-        enroll.save()
+        admin_user = Student.get_admin()
 
         # create public calendar
         calendar_data = {
             'course': course,
-            'owner': student,
+            'owner': admin_user,
             'description': '',
             'end_date': timezone.now() + timedelta(days=365 * 5), # off-setting to 5 years
             'private': False,
             'primary': True,
         }
 
-        try:
-            calendar = ClassCalendar(**calendar_data)
-            calendar.save()
-        except IntegrityError:
-            # failed - let student add it manually
-            pass
+        calendar = ClassCalendar(**calendar_data)
+        calendar.save()
+
+        course.enroll(self.student)
 
         messages.success(
             self.request,
@@ -195,19 +193,8 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
                     "Failed to add course. Not found."
                 )
                 return self.render_to_json_response({}, status=400)
-            enroll = Enrollment(student=self.student, course=course)
-            enroll.save()
 
-            # automatically subscribing to the primary calendar of the course
-            calendar = ClassCalendar.objects.filter(
-                course=course,
-                primary=True
-            )
-            if calendar.exists():
-                Subscription.objects.get_or_create(
-                    student=self.student,
-                    calendar=calendar[0],
-                )
+            course.enroll(self.student)
 
             messages.success(
                 self.request,

@@ -25,15 +25,11 @@ def create_calendars(apps, schema_editor):
         # Nothing to migrate
         return
 
-    admin_user = Student.objects.filter(user__username='mchp')
+    admin_user = Student.objects.filter(user__username=settings.ADMIN_USERNAME)
     if admin_user.exists():
         admin_user = admin_user[0]
     else:
-        admin_user = Student.objects.filter(user__is_superuser=True)
-        if admin_user.exists():
-            admin_user = admin_user[0]
-        else:
-            raise Exception("There is no 'mchp' user or any other superuser to attach calendars to.")
+        raise Exception("There is no 'mchp' user or any other superuser to attach calendars to.")
 
     existing_calendars = list(ClassCalendar.objects.filter(owner=admin_user))
 

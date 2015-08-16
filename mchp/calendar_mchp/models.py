@@ -1,3 +1,4 @@
+import copy
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -16,6 +17,7 @@ class ClassCalendarManager(models.Manager):
             title='default',
         )
         return calendar
+
 
 class ClassCalendar(models.Model):
     owner = models.ForeignKey('user_profile.Student', related_name="calendars")
@@ -37,10 +39,9 @@ class ClassCalendar(models.Model):
 
     color = models.CharField(max_length=7, blank=True)
 
-    objects = ClassCalendarManager()
+    original_calendar = models.ForeignKey('self', null=True, blank=True, default=None)
 
-    class Meta:
-        unique_together = (('owner', 'course'))
+    objects = ClassCalendarManager()
 
     def save(self, *args, **kwargs):
         # object is new
@@ -68,6 +69,39 @@ class ClassCalendar(models.Model):
 
     def __str__(self):
         return self.title
+
+    def fork(self, new_owner):
+        new_calendar = copy.copy(self)
+        new_calendar.pk = None
+        new_calendar.id = None
+        new_calendar.owner = new_owner
+        new_calendar.primary = False
+        new_calendar.private = True
+        new_calendar.create_date = None
+        new_calendar.color = None
+        new_calendar.original_calendar = self
+
+        new_calendar.save()
+
+        original_events = self.calendarevent_set.all()
+        events = []
+        for original_event in original_events:
+            event = copy.copy(original_event)
+            event.pk = None
+            event.id = None
+            event.calendar = new_calendar
+            event.original_event = original_event
+            events.append(event)
+
+        CalendarEvent.objects.bulk_create(events)
+        return new_calendar
+
+    def subscribe(self, student):
+        return Subscription.objects.get_or_create(
+            student=student,
+            calendar=self
+        )
+
 
 class Subscription(models.Model):
     student = models.ForeignKey('user_profile.Student')
@@ -133,6 +167,8 @@ class CalendarEvent(models.Model):
                                        related_name='events',
                                        blank=True,
                                        null=True)
+
+    original_event = models.ForeignKey('self', null=True, blank=True, default=None)
 
     def get_absolute_url(self):
         return reverse('event-detail', args=[str(self.id)])
