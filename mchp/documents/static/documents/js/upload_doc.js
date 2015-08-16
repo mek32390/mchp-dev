@@ -55,9 +55,29 @@ $(function() {
                 validators: {
                     notEmpty: {
                         message: 'Please choose which course this document belongs to'
-                    },
+                    }
                 }
             },
+			event: {
+				validators: {
+					callback: {
+						callback: function(value) {
+							if (parseInt($("#document_type").val()) === SYLLABUS) {
+								return true;
+							}
+
+							if (!$('#hidden_course').val) {
+								return {
+									valid: false,
+									message: "Select a course before selecting an event."
+								}
+							}
+
+							return true;
+						}
+					}
+				}
+			},
             price: {
                 validators: {
 					callback: {
@@ -102,16 +122,65 @@ $(function() {
 	});
 
 	window.autocomplete = new Autocomplete({
-		form_selector: '.autocomplete',
+		query_selector: "#id_course",
 		minimum_length: 1,
+		selected_callback: function(id) {
+			var hidden = $('#hidden_course');
+			hidden.val(id);
+		},
+		fetch: function(query) {
+			var self = this;
+			$.ajax({
+				url: this.url,
+				data: {
+					'q': query
+				},
+				dataType: 'json',
+				success: function(data) {
+					var results = JSON.parse(data) || [];
+					self.show_results(results);
+				}
+			});
+		},
+		row_display: function(result) {
+			return result.fields.dept + " " + result.fields.course_number + " with Instructor " + result.fields.professor;
+		},
+		divider_title: "More courses",
 	});
 	window.autocomplete.setup();
+
+	window.events_autocomplete = new Autocomplete({
+		query_selector: "#id_event",
+		minimum_length: 0,
+		selected_callback: function(pk) {
+			var hidden = $('#hidden_event');
+			hidden.val(pk);
+		},
+		fetch: function(query) {
+			var self = this;
+			$.ajax({
+				url: '/school/course/events/',
+				data: {
+					'course_id': $("#hidden_course").val(),
+					'query': query
+				},
+				dataType: 'json',
+				success: function(data) {
+					var results = data.events;
+					self.show_results(results);
+				}
+			});
+		},
+		row_display: function(result) {
+			return result.title;
+		}
+	});
+	window.events_autocomplete.setup();
 
 	var STUDY_GUIDE = 0;
 	var SYLLABUS = 1;
 
 	var document_type_changed = function() {
-		console.log('changed');
 		if (parseInt($("#document_type").val()) === SYLLABUS) {
 			$("#document_price").hide();
 		} else {
@@ -123,41 +192,46 @@ $(function() {
 });
 
 var Autocomplete = function(options) {
-	this.form_selector = options.form_selector;
+	this.query_selector = options.query_selector;
 	this.url = options.url || window.location.pathname;
 	this.delay = parseInt(options.delay || 300);
-	this.minimum_length = parseInt(options.minimum_length || 3);
+	this.minimum_length = parseInt(options.minimum_length);
 	this.form_elem = null;
 	this.query_box = null;
+
+	this.selected_callback = options.selected_callback;
+	this.fetch = options.fetch;
+	this.row_display = options.row_display;
+	this.divider_title = options.divider_title;
 };
 
 Autocomplete.prototype.setup = function() {
 	var self = this;
 
-	this.form_elem = $(this.form_selector);
-	this.query_box = $('#id_course');
+	this.query_box = $(this.query_selector);
 	// rename input field
 	self.query_box.name = "display";
-	var $drop = $('#ac-dropdown');
+	self.dropdown = this.query_box.parent()
+	self.drop = this.query_box.parent().find('#ac-dropdown');
 
 	// Watch the input box.
 	this.query_box.on('keyup', function() {
-		$('#drop-li').attr('class', 'dropdown open');
+		self.dropdown.attr('class', 'dropdown open');
 
 		var query = self.query_box.val();
 
 		if(query.length < self.minimum_length) {
 			// remove the old search results
-			$drop.find('.divider').remove();
-			$drop.find('.dropdown-header-added').remove();
-			$drop.find('.search-results').remove();
+			self.drop.find('.divider').remove();
+			self.drop.find('.dropdown-header-added').remove();
+			self.drop.find('.search-results').remove();
 			return false;
 		}
 		self.fetch(query);
 	});
 
 	// On selecting a result, populate the search field.
-	$drop.click(function(what){
+	self.drop.click(function(what){
 		// get the li element
 		var $link = $(what.target).parent();
 
@@ -166,49 +240,31 @@ Autocomplete.prototype.setup = function() {
 		self.query_box.val(display);
 
 		// add the data-course to the hidden field
-		var pk = $link.data('course');
-		$hidden = $('#hidden_course');
-		$hidden.val(pk);
+		self.selected_callback($link.data('id'));
 	});
 	
 };
 
-Autocomplete.prototype.fetch = function(query) {
-	var self = this;
-
-	$.ajax({
-		url: this.url,
-		data: {
-			'q': query,
-		},
-		dataType: 'json',
-		success: function(data) {
-			var results = JSON.parse(data) || [];
-			self.show_results(results);
-		}
-	});
-};
-
 Autocomplete.prototype.show_results = function(results) {
-	$drop = $('#ac-dropdown');
+	var self = this;
 	// remove the old search results
-	$drop.find('.divider').remove();
-	$drop.find('.dropdown-header-added').remove();
-	$drop.find('.search-results').remove();
+	self.drop.find('.divider').remove();
+	self.drop.find('.dropdown-header-added').remove();
+	self.drop.find('.search-results').remove();
 
 	// a new line for a class
 	var $base_result_elem = $('<li class="search-results"><a href="#" class="ac-link"><i class="fa fa-fw fa-plus-circle text-success"></i> </a></li>');
 	// if there are results, add a divider to divide them from enrolled classes
-	if (results.length > 0) {
-		$divider = $('<li class=divider></li><li role="presentation" class="dropdown-header dropdown-header-added">More Courses</li>');
-		$drop.append($divider);
+	if (results.length > 0 && self.divider_title) {
+		$divider = $('<li class=divider></li><li role="presentation" class="dropdown-header dropdown-header-added">' + self.divider_title + '</li>');
+		self.drop.append($divider);
 	}
 	// add a new li for each result
 	$.each(results, function(i, result){
 		var $result_elem = $base_result_elem.clone();
-		var display = result.fields.dept + " " + result.fields.course_number + " with Instructor " + result.fields.professor;
+		var display = self.row_display(result);
 		$result_elem.children('a').append(display);
-		$result_elem.data('course', result.pk);
-		$drop.append($result_elem);
+		$result_elem.data('id', result.id);
+		self.drop.append($result_elem);
 	});
 };

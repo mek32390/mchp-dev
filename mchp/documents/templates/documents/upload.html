@@ -33,7 +33,7 @@
 					{% csrf_token %}
 					{% for field in form %}
 					{{ field.errors }}
-					{% ifequal field.name "course" %}
+					{% if field.name == "course" %}
 					<div class="form-group" >
 						<div class="input-group">
 							<span class="input-group-addon">{{ field.label_tag}}</span>
@@ -42,7 +42,7 @@
 								<ul class="dropdown-menu" id="ac-dropdown">
 									<li role="presentation" class="dropdown-header">Your Courses</li>
 									{% for course in enrolled_courses %}
-									<li data-course="{{course.pk}}" class="strong"> <a href="#"><i class="fa fa-fw fa-plus-circle text-success"></i> {{course.display}}</a> </li>
+									<li data-id="{{course.pk}}" class="strong"> <a href="#"><i class="fa fa-fw fa-plus-circle text-success"></i> {{course.display}}</a> </li>
 									{% empty %}
 									<li class="strong"> <a href="{%url "course_add"%}"><i class="fa fa-fw fa-plus-circle text-danger"></i>Add a course</a> </li>
 									{% endfor %}
@@ -50,6 +50,17 @@
 							</li>
 						</div>
 					</div>
+                    {% elif field.name == "event_id" %}
+						<div class="form-group" >
+							<div class="input-group">
+								<span class="input-group-addon">{{ field.label_tag}}</span>
+								<li class="dropdown" id="drop-li">
+									{{ field }}
+									<ul class="dropdown-menu" id="ac-dropdown">
+									</ul>
+								</li>
+							</div>
+						</div>
 					{% else %}
 					<div class="form-group" id="{{ field.field.widget.attrs.container_id}}">
 						<div class="input-group">
@@ -57,9 +68,10 @@
 							{{ field }}
 						</div>
 					</div>
-					{% endifequal %}
+					{% endif %}
 					{% endfor %}
 					<input type="hidden" name="course" id="hidden_course"></input>
+                    <input type="hidden" name="event_id" id="hidden_event"></input>
 					<p><input type="submit" value="Upload" class="btn btn-lg btn-primary btn-block" /></p>
 				</form>
 			</div>

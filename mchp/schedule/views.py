@@ -593,3 +593,26 @@ class EmailUnsubscribeView(View):
         pass
 
 course_email_unsubscribe = EmailUnsubscribeView.as_view()
+
+'''
+url: /course/events/
+'''
+class CourseEventsView(View, AjaxableResponseMixin):
+
+    def post(self, request, *args, **kwargs):
+        return redirect(reverse('dashboard'))
+
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            course_id = request.GET.get('course_id', None)
+            if not course_id:
+                return self.render_to_json_response({}, status=400)
+
+            query = request.GET.get('query', '')
+            events = CalendarEvent.objects.filter(calendar__course__id=course_id, calendar__primary=True, title__icontains=query).values('id', 'title')
+            data = dict(events=list(events))
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('dashboard'))
+
+course_events = CourseEventsView.as_view()

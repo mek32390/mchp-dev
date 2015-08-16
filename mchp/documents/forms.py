@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ModelForm, TextInput, ChoiceField, Select, IntegerField
+from calendar_mchp.models import CalendarEvent
 
 from documents.models import Document
 
@@ -18,6 +19,18 @@ class DocumentUploadForm(ModelForm):
     # Price is not required in case Document is Syllabus
     # In which case automatically settings price to 0
     price = IntegerField(required=False, min_value=0, widget=PRICE_WIDGET)
+
+
+
+    EVENT_WIDGET = TextInput(attrs=dict({
+        'placeholder': 'type a event name (Exam 1)',
+        'autocomplete': 'off',
+        'data-toggle': 'dropdown',
+        'class': 'form-control input-lg dropdown-toggle',
+        'id': 'id_event'
+    }))
+    event_id = IntegerField(required=True, min_value=0, widget=EVENT_WIDGET)
+
 
     # {{ form.as_style }} with use this in templates
     def as_style(self):
@@ -42,11 +55,20 @@ class DocumentUploadForm(ModelForm):
         elif 'price' not in cleaned_data:
             self.add_error('price', 'This field is required')
 
+        event_id = cleaned_data.get('event_id', None)
+        if event_id:
+            event = CalendarEvent.objects.filter(id=event_id)
+            if event.exists():
+                cleaned_data['event'] = event[0]
+            else:
+                self.add_error('event_id', 'Event does not exist')
+
+
         return cleaned_data
 
     class Meta:
         model = Document
-        fields = ['title', 'description', 'type', 'course', 'price', 'document']
+        fields = ['title', 'description', 'type', 'course', 'event_id', 'price', 'document']
 
         input_attr = {
             'class': 'form-control input-lg',
@@ -87,6 +109,7 @@ class DocumentUploadForm(ModelForm):
             'description': 'Description',
             'price': 'Sell for',
             'document': 'File',
+            'event_id': 'Event',
         }
         error_messages = {
             'title': {
