@@ -9,16 +9,28 @@ $(function() {
     var now = new Date();
     var fullDaysSinceEpoch = Math.floor(now/8.64e7);
     var rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
-     if(typeof(Storage) !== "undefined") {
+    
+    if(typeof(Storage) !== "undefined") {
+
+        if (localStorage.MAX_BG_IMAGES) {
+            if (MAX_BG_IMAGES != localStorage.MAX_BG_IMAGES) {
+                localStorage.rand = rand;
+                localStorage.MAX_BG_IMAGES = MAX_BG_IMAGES;
+            }
+        } else {
+            localStorage.MAX_BG_IMAGES = MAX_BG_IMAGES
+        }
+
         if (localStorage.rand) {
             // do nothing
         } else {
-            localStorage.rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
+            localStorage.rand = rand;
         }
         rand = localStorage.rand;
     } else {
         //TODO: we might make a javascript session here, it will take some time
     }
+
     current_pic = fullDaysSinceEpoch % rand;
 
     //document.body.style.backgroundImage = "url('/static/landing/img/bg-" + current_pic + ".jpg')";
