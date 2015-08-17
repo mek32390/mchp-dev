@@ -369,7 +369,7 @@ img.img-thumbnail.img-circle.profile-image {
   position: fixed;
   height: inherit;
   /* set overflow to allow for popovers within sidebar to work correctly */
-  /*overflow   : inherit;*/
+  overflow   : inherit;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -426,6 +426,14 @@ img.img-thumbnail.img-circle.profile-image {
   #sidebar-wrapper {
     /* this must equal the #wrapper padding-left */
     width: 50px;
+  }
+
+}
+
+@media(max-width:768px) {
+
+  #sidebar-wrapper {
+    overflow: auto;
   }
 
 }
