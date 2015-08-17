@@ -1,3 +1,4 @@
+import copy
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -288,6 +289,7 @@ class EventAddView(View, AjaxableResponseMixin):
         events = request.POST.get('events', '[]')
         events = json.loads(events)
         error = False
+        created_events= []
         for index in events:
             event = events[index]
             all_day = False
@@ -315,6 +317,7 @@ class EventAddView(View, AjaxableResponseMixin):
             cal_event = CalendarEvent(**event_data)
             try:
                 cal_event.save()
+                created_events.append(cal_event)
             except ( CalendarExpiredError, BringingUpThePastError ) as e:
                 messages.error(
                     self.request,
@@ -335,6 +338,20 @@ class EventAddView(View, AjaxableResponseMixin):
                 subscribers,
                 '{} has added an event to {}'.format(request.user.username, calendar.course)
             )
+
+            # Propagate created events to student calenders
+            student_calendars = ClassCalendar.objects.filter(original_calendar=calendar)
+            student_events = []
+            for original_event in created_events:
+                for student_calendar in student_calendars:
+                    event = copy.copy(original_event)
+                    event.pk = None
+                    event.id = None
+                    event.calendar = student_calendar
+                    event.original_event = original_event
+                    student_events.append(event)
+
+            CalendarEvent.objects.bulk_create(student_events)
 
         if self.request.is_ajax():
             data = {

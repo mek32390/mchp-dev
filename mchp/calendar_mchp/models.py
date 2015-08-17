@@ -39,7 +39,7 @@ class ClassCalendar(models.Model):
 
     color = models.CharField(max_length=7, blank=True)
 
-    original_calendar = models.ForeignKey('self', null=True, blank=True, default=None)
+    original_calendar = models.ForeignKey('self', null=True, blank=True, default=None, on_delete=models.SET_NULL)
 
     objects = ClassCalendarManager()
 
@@ -168,7 +168,7 @@ class CalendarEvent(models.Model):
                                        blank=True,
                                        null=True)
 
-    original_event = models.ForeignKey('self', null=True, blank=True, default=None)
+    original_event = models.ForeignKey('self', null=True, blank=True, default=None, on_delete=models.SET_NULL)
 
     def get_absolute_url(self):
         return reverse('event-detail', args=[str(self.id)])
