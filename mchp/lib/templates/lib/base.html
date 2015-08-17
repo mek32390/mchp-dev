@@ -69,13 +69,18 @@
 
     </head>
     <body id="page-top" data-spy="scroll" data-target=".navbar-transparent">
-      <div id="bg"></div>
-      <div id="bg-overlay"></div>
       {%load referral%}
       {%load payment%}
       {% load notifications %}
 
+      <div id="bg"></div>
+      <div id="bg-overlay"></div>
+
+      <!-- Full-page wrapper -->
+      <div id="wrapper">
+
       {% if user.is_anonymous %}
+
       <div class="modal fade" id="mchp-login-prompt" tabindex="-1" role="dialog" aria-labelledby="login-prompt" aria-hidden="true">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
@@ -106,233 +111,273 @@
           </div>
         </div>
       </div>
-    {% endif %}
-    {% if user.is_authenticated %}
-    {% if user.student %}
-    {% with user.student as student %}
-    <div class="mchp-username hidden">{{student.name}}</div>
+      {% endif %}
 
-    <!-- Set Homepage Modal -->
-    <div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="sethomeModalLabel">Make us your Homepage!</h4>
-          </div>
-          <div class="modal-body">
-            <img class="center-block" src="{% static 'lib/img/flask.svg' %}" alt="select browser">
-            <h4 class="text-center">Pick your poison:</h4>
-            <!-- Start Collapse -->
-            <div class="panel-group" id="accordion">
-              <div class="panel panel-primary">
-                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="cursor:pointer;">
-                  <h4 class="panel-title">
-                    Safari
-                  </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
-                  <div class="panel-body">
-                    <ol>
-                      <li>Click <strong>"Safari"</strong> and choose <strong>"Preferences"</strong> from the navigation toolbar.</li>
-                      <li>Select the <strong>"General"</strong> tab and in the Homepage field, copy and paste <strong>"http://mycollegehomepage.com/"</strong></li>
-                      <li>Set both the <strong>"New windows open with"</strong> and <strong>"New tabs open with"</strong> options to <strong>"Homepage"</strong>.</li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
-              <div class="panel panel-success">
-                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="cursor:pointer;">
-                  <h4 class="panel-title">
-                    Chrome
-                  </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
-                  <div class="panel-body">
-                    <ol>
-                      <li>Click the Chrome menu on the browser toolbar (Three horizontal lines in the top right)</li>
-                      <li>Click on <strong>Settings</strong></li>
-                      <li>In the <strong>"On Startup"</strong> section, select the <strong>"Open a specific page or set of pages."</strong> option, and then click <strong>"Set Pages"</strong></li>
-                      <li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
-                      <li>In the <strong>"Appearance"</strong> section, select the <strong>"Show Home button"</strong> checkbox, and a web address will appear below it.</li>
-                      <li>Click <strong>"Change"</strong> and in the pop up window, select <strong>"Open this page"</strong></li>
-                      <li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
-              <div class="panel panel-warning">
-                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="cursor:pointer;">
-                  <h4 class="panel-title">
-                    Firefox
-                  </h4>
-                </div>
-                <div id="collapseThree" class="panel-collapse collapse">
-                  <div class="panel-body">
-                    <ol>
-                      <li>At the top of your browser window, you'll see the Firefox tool bar (this includes the words "File", "Edit", etc.). Click on <strong>Tools,</strong> then <strong>Options.</strong></li>
-                      <li>The popup window will open up with the default option of General. At the top of the window, you'll see <strong>"Home Page Locations."</strong> Click on <strong>"Use Current Page."</strong></li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
-              <div class="panel panel-danger">
-                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="cursor:pointer;">
-                  <h4 class="panel-title">
-                    Internet Explorer
-                  </h4>
-                </div>
-                <div id="collapseFour" class="panel-collapse collapse">
-                  <div class="panel-body">
-                    <ol>
-                      <li>Go to toolbar at the top of browser, and click on <strong>"Tools",</strong> then <strong>"Internet Options".</strong> </li>
-                      <li>At the top of the pop-up, you'll see a <strong>"Home Page"</strong> box. The address of the site that you are currently at is there. Press the <strong>"Use Current"</strong> button to specify this page as your home page.</li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
-              <div class="panel panel-default">
-                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" style="cursor:pointer;">
-                  <h4 class="panel-title">
-                    iPhone or IPad
-                  </h4>
-                </div>
-                <div id="collapseFive" class="panel-collapse collapse">
-                  <div class="panel-body">
-                    <ol>
-                      <li>Click on the button on the bottom or top that looks like an arrow popping out of a rectangle. </li>
-                      <li>Select <strong>"Add to Home Screen"</strong></li>
-                      <li>This will create a shortcut to My College Homepage on your desktop.</li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
+      {% if user.is_authenticated %}
+      {% if user.student %}
+      {% with user.student as student %}
+
+      <div class="mchp-username hidden">{{student.name}}</div>
+
+      <!-- Set Homepage Modal -->
+      <div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="sethomeModalLabel">Make us your Homepage!</h4>
             </div>
-            <!-- End Collapse -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+            <div class="modal-body">
+              <img class="center-block" src="{% static 'lib/img/flask.svg' %}" alt="select browser">
+              <h4 class="text-center">Pick your poison:</h4>
+              <!-- Start Collapse -->
+              <div class="panel-group" id="accordion">
+                <div class="panel panel-primary">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      Safari
+                    </h4>
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                      <ol>
+                        <li>Click <strong>"Safari"</strong> and choose <strong>"Preferences"</strong> from the navigation toolbar.</li>
+                        <li>Select the <strong>"General"</strong> tab and in the Homepage field, copy and paste <strong>"http://mycollegehomepage.com/"</strong></li>
+                        <li>Set both the <strong>"New windows open with"</strong> and <strong>"New tabs open with"</strong> options to <strong>"Homepage"</strong>.</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-success">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      Chrome
+                    </h4>
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ol>
+                        <li>Click the Chrome menu on the browser toolbar (Three horizontal lines in the top right)</li>
+                        <li>Click on <strong>Settings</strong></li>
+                        <li>In the <strong>"On Startup"</strong> section, select the <strong>"Open a specific page or set of pages."</strong> option, and then click <strong>"Set Pages"</strong></li>
+                        <li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
+                        <li>In the <strong>"Appearance"</strong> section, select the <strong>"Show Home button"</strong> checkbox, and a web address will appear below it.</li>
+                        <li>Click <strong>"Change"</strong> and in the pop up window, select <strong>"Open this page"</strong></li>
+                        <li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-warning">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      Firefox
+                    </h4>
+                  </div>
+                  <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ol>
+                        <li>At the top of your browser window, you'll see the Firefox tool bar (this includes the words "File", "Edit", etc.). Click on <strong>Tools,</strong> then <strong>Options.</strong></li>
+                        <li>The popup window will open up with the default option of General. At the top of the window, you'll see <strong>"Home Page Locations."</strong> Click on <strong>"Use Current Page."</strong></li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-danger">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      Internet Explorer
+                    </h4>
+                  </div>
+                  <div id="collapseFour" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ol>
+                        <li>Go to toolbar at the top of browser, and click on <strong>"Tools",</strong> then <strong>"Internet Options".</strong> </li>
+                        <li>At the top of the pop-up, you'll see a <strong>"Home Page"</strong> box. The address of the site that you are currently at is there. Press the <strong>"Use Current"</strong> button to specify this page as your home page.</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      iPhone or IPad
+                    </h4>
+                  </div>
+                  <div id="collapseFive" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ol>
+                        <li>Click on the button on the bottom or top that looks like an arrow popping out of a rectangle. </li>
+                        <li>Select <strong>"Add to Home Screen"</strong></li>
+                        <li>This will create a shortcut to My College Homepage on your desktop.</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Collapse -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- End Set Homepage Modal -->
+      <!-- End Set Homepage Modal -->
 
-    <!-- Purchase Points Modal -->
-    <div class="modal fade" id="points-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-      <div class="modal-dialog" style="width:400px;">
-        <div class="modal-content">
-          <div class="modal-body">
-            {% payment_dialog "points-modal" student %}
+      <!-- Purchase Points Modal -->
+      <div class="modal fade" id="points-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog" style="width:400px;">
+          <div class="modal-content">
+            <div class="modal-body">
+              {% payment_dialog "points-modal" student %}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- End Purchase Points Modal -->
+      <!-- End Purchase Points Modal -->
 
-    <!-- Referral Modal -->
-    <div class="modal fade" id="referral-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-body text-center">
-            {% referral_dialog "referral-modal"%}
+      <!-- Referral Modal -->
+      <div class="modal fade" id="referral-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body text-center">
+              {% referral_dialog "referral-modal"%}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- End Referral Modal -->
+      <!-- End Referral Modal -->
 
-    <!-- Background image holder -->
-    <div id="bg"></div>
-
-    <!-- Background image overlay for styles -->
-    <div id="bg-overlay"></div>
-
-    <!-- Full-page wrapper -->
-    <div id="wrapper">
-
+      
       <!-- Start Navigation -->
       <div id="sidebar-wrapper" class="navbar navbar-transparent" role="navigation">
-        <!-- <div class="container"> -->
-          <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <ul class="nav nav-pills nav-stacked sidebar-nav">
-              <li class="sidebar-brand">
-                <a href="{% url "new_homepage" %}" class="page-scroll"><span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">6</span></a>
-              </li>
+        <div class="navbar-header page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <ul class="nav nav-pills nav-stacked sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="{% url "new_homepage" %}" class="page-scroll"><span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">6</span></a>
+          </li>
+          <li>
+            <a href="#overview" class="page-scroll"><img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"></a>
+          </li>
+          <li>
+            <a href="#classes" class="page-scroll"><img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"></a>
+          </li>
+          <li>
+            <a href="#calendar" class="page-scroll"><img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"></a>
+          </li>
+          <!-- <li>
+            <a href="{% url 'school' school.pk %}"><img src="{% static 'lib/img/building.svg' %}" class="nav-icon" width="20px" height="20px" alt="School"></a>
+          </li> -->
+          <!-- <li class="hidden-sm">
+            <a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"></a>
+          </li> -->
+        <!-- </ul> -->
+        <!-- <ul class="nav navbar-nav navbar-right"> -->
+          <!-- <li data-toggle="tooltip" data-original-title="Your Points" data-placement="bottom">
+            <a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}} pts</span>
+            <img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="points">
+            </a>
+          </li> -->
+          <!-- <li class="dropdown drop" id="notifs-dropdown">
+            {% unread_count as unread %}
+            <a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span id="notification-count" class="badge {% if unread %}unread-notification{%else%}read-notification{% endif %} ">
+                {{unread}}</span> <img src="{% static 'lib/img/ring.svg' %}" class="nav-icon" width="20px" height="20px" alt="Notifications" />
+            </a>
+            <ul class="dropdown-menu">
+              {% unread_notifications unread %}
+              {% read_notifications unread %}
+              <li role="presentation" class="divider"></li>
+              <li>View All (hidden)</li>
+              <li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
+            </ul>
+          </li> -->
+          <li class="dropdown drop" id="user-dropdown">
+            <a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img src="{% static 'lib/img/settings.svg' %}" class="nav-icon" height="20px" width="20px"/></a>
+            <ul class="dropdown-menu" role="menu">
+              {% if not user.referree.count %}
               <li>
-                <a href="#overview" class="page-scroll"><img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"></a>
+                <a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star"></i> Redeem Referral</strong></a>
               </li>
-              <li>
-                <a href="#classes" class="page-scroll"><img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"></a>
-              </li>
-              <li>
-                <a href="#calendar" class="page-scroll"><img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"></a>
-              </li>
-              <!-- <li>
-                <a href="{% url 'school' school.pk %}"><img src="{% static 'lib/img/building.svg' %}" class="nav-icon" width="20px" height="20px" alt="School"></a>
-              </li> -->
-              <!-- <li class="hidden-sm">
-                <a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"></a>
-              </li> -->
-            <!-- </ul> -->
-            <!-- <ul class="nav navbar-nav navbar-right"> -->
-              <!-- <li data-toggle="tooltip" data-original-title="Your Points" data-placement="bottom">
-                <a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}} pts</span>
-                <img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="points">
-                </a>
-              </li> -->
-              <!-- <li class="dropdown drop" id="notifs-dropdown">
-                {% unread_count as unread %}
-                <a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span id="notification-count" class="badge {% if unread %}unread-notification{%else%}read-notification{% endif %} ">
-                    {{unread}}</span> <img src="{% static 'lib/img/ring.svg' %}" class="nav-icon" width="20px" height="20px" alt="Notifications" />
-                </a>
-                <ul class="dropdown-menu">
-                  {% unread_notifications unread %}
-                  {% read_notifications unread %}
-                  <li role="presentation" class="divider"></li>
-                  <li>View All (hidden)</li>
-                  <li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
-                </ul>
-              </li> -->
-              <li class="dropdown drop" id="user-dropdown">
-                <a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img src="{% static 'lib/img/settings.svg' %}" class="nav-icon" height="20px" width="20px"/></a>
-                <ul class="dropdown-menu" role="menu">
-                  {% if not user.referree.count %}
-                  <li>
-                    <a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star"></i> Redeem Referral</strong></a>
-                  </li>
-                  <li class="divider"></li>
-                  {% endif %}
-                  <li><a href="{% url 'my_profile' %}">My Page</a></li>
-                  <li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
-                  <li><a href="{% url 'document_upload'%}">Sell Document</a></li>
-                  <li class="divider"></li>
-                  <li><a data-toggle="modal" href="#sethomeModal"><strong><i class="fa fa-home fa-fw"></i> Set Homepage</strong></a></li>
-                  <li class="divider"></li>
-                  <li><a href="{% url 'account_settings'%}">My Account</a></li>
-                  <li><a href="{% url 'help'%}">Help</a></li>
-                  <li><a href="{% url 'account_logout' %}">Log Out</a></li>
-                </ul>
-              </li>
-    {% endwith %}
-    {% else %}
-           
-    {% endif %}
-    {% else %}
-            
-    {% endif %}
-          </ul>
+              <li class="divider"></li>
+              {% endif %}
+              <li><a href="{% url 'my_profile' %}">My Page</a></li>
+              <li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
+              <li><a href="{% url 'document_upload'%}">Sell Document</a></li>
+              <li class="divider"></li>
+              <li><a data-toggle="modal" href="#sethomeModal"><strong><i class="fa fa-home fa-fw"></i> Set Homepage</strong></a></li>
+              <li class="divider"></li>
+              <li><a href="{% url 'account_settings'%}">My Account</a></li>
+              <li><a href="{% url 'help'%}">Help</a></li>
+              <li><a href="{% url 'account_logout' %}">Log Out</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
       <!-- End Nav -->
+      {% endwith %}
+      {% else %} 
+      {% endif %}
+
+      <!-- this is for anonymous visitors -->
+      {% else %}
+      <!-- Start Navigation -->
+      <!-- <div id="sidebar-wrapper" class="navbar navbar-transparent" role="navigation">
+        <div class="navbar-header page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div> -->
+        <!-- Collect the nav links, forms, and other content for toggling -->
+<!--         <ul class="nav nav-pills nav-stacked sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="{% url "new_homepage" %}" class="page-scroll"><span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">6</span></a>
+          </li>
+          <li>
+            <a href="#overview" class="page-scroll"><img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"></a>
+          </li>
+          <li>
+            <a href="#classes" class="page-scroll"><img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"></a>
+          </li>
+          <li>
+            <a href="#calendar" class="page-scroll"><img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"></a>
+          </li>
+          <li class="dropdown drop" id="user-dropdown">
+            <a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img src="{% static 'lib/img/settings.svg' %}" class="nav-icon" height="20px" width="20px"/></a>
+            <ul class="dropdown-menu" role="menu">
+              {% if not user.referree.count %}
+              <li>
+                <a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star"></i> Redeem Referral</strong></a>
+              </li>
+              <li class="divider"></li>
+              {% endif %}
+              <li><a href="{% url 'my_profile' %}">My Page</a></li>
+              <li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
+              <li><a href="{% url 'document_upload'%}">Sell Document</a></li>
+              <li class="divider"></li>
+              <li><a data-toggle="modal" href="#sethomeModal"><strong><i class="fa fa-home fa-fw"></i> Set Homepage</strong></a></li>
+              <li class="divider"></li>
+              <li><a href="{% url 'account_settings'%}">My Account</a></li>
+              <li><a href="{% url 'help'%}">Help</a></li>
+              <li><a href="{% url 'account_logout' %}">Log Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div> -->
+      <!-- End Nav -->
+      {% endif %}
 
       <!-- Add document upload btn to footer -->
       <div class="container navbar-fixed-bottom">
