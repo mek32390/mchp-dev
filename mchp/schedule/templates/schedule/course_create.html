@@ -8,7 +8,7 @@
 	{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
 		<script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
-    	<script src="{% static 'schedule/js/course_create.js' %}"></script>
+    <script src="{% static 'schedule/js/course_create.js' %}"></script>
 {% endblock %}
 
 
@@ -17,15 +17,15 @@
 	<h2>Create a Class</h2>
 	<div class="row">
 		<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-	<hr>
-	<form id="course_create" method="post" action="{% url 'course_create' %} ">
-		{% csrf_token %}
-		{{ form.as_style }}
-		<div class="form-group">
-		<button type="submit" name="" class="btn btn-lg btn-primary btn-block">Create this Class</button>
-		</div>			
-	</form>	
-</div>
-</div>
+			<hr>
+			<form id="course_create" method="post" action="{% url 'course_create' %} ">
+				{% csrf_token %}
+				{{ form.as_style }}
+				<div class="form-group">
+					<button type="submit" name="" class="btn btn-lg btn-primary btn-block">Create this Class</button>
+				</div>			
+			</form>	
+		</div>
+	</div>
 </div>	
 {% endblock %}
