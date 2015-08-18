@@ -4,8 +4,7 @@
 
 
 $(function() {
-
-
+    
     var now = new Date();
     var fullDaysSinceEpoch = Math.floor(now/8.64e7);
     var rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
