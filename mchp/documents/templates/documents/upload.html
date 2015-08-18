@@ -17,14 +17,20 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="media">
-			<img class="media-object pull-left animated bounceInDown" src="{% static 'lib/img/money.svg' %}" height="50px" alt="Add Documents">
-				<div class="media-body">
-				<h2 class="media-heading">Upload Documents</h2>
-				Stack some paper (anonymously)
+			<div class="media-left media-middle">
+				<span class="media-object pull-left animated" alt="Add Documents"><i class="fa fa-file-text-o fa-fw fa-4x"></i></span>
+			</div>
+			<div class="media-body">
+				<h1 class="media-heading">Upload Documents</h1>
+				<p class="lead margin-btm-none">Stack some paper (anonymously)</p>
 			</div>
 		</div>
-		<hr class="opa">
+		<br>
+		<hr>
+		<br>
 	</div><!-- end col 12 -->
+</div>
+<div class="row">
 	<div class="col-sm-8">
 		<div class="upload-form">
 			<form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post" enctype="multipart/form-data">
