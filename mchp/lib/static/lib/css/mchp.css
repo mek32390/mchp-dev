@@ -507,7 +507,7 @@ img.img-thumbnail.img-circle.profile-image {
 
 .sidebar-nav li {
   /* this affects the indentation of each nav list item */
-  text-indent: 1px;
+  text-indent: 1.6px;
   line-height: 18px;
 }
 
