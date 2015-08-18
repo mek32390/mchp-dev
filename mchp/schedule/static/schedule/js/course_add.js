@@ -182,7 +182,7 @@ $(function() {
 function addToClassList(course) {
 	// csrf?
 	var node = $(
-		'<div class="list-group-item enrolled-class-id" id="enrolled_'+ course.pk +'">'+
+		'<div class="list-group-item enrolled-class-id opa" id="enrolled_'+ course.pk +'">'+
 			'<h4 class="list-group-item-heading">'+ course.fields.dept + ' ' + course.fields.course_number +
 				'<small class="pull-right">'+
 					'<!-- <a href="javascript:void(0)" class="badge" data-course="{{course.pk}}">drop</a> -->'+

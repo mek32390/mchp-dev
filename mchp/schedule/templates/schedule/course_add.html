@@ -17,7 +17,7 @@
 			<div class="media">
     			<img class="no-shadow media-object pull-left animated slideInLeft" src="{% static 'lib/img/clocks.svg' %}" height="50px" alt="schedule">
   				<div class="media-body">
-    				<h2 class="media-heading">Class Schedule</h2>
+    				<h2 class="media-heading">Class Enrollments</h2>
 					Add, Drop, or Create a Class
 				</div>
 			</div>
@@ -26,99 +26,102 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-4">
-			<div id="enrolled-panel" class="panel panel-default">
-				<div class="panel-heading">
-					<h2 class="panel-title">Currently Enrolled</h2>
+			<div id="enrolled-panel" class=" ">
+				<div class="">
+					<h3 class="">Currently Enrolled</h3>
 				</div>
-				<div class="panel-body">
-					<div class="list-group" id="enrolled_list">
-						{% if enrolled_courses %}
-						{% for course in enrolled_courses %}
-						<div class="list-group-item enrolled-class-id" id="enrolled_{{course.pk}}">
-							<h4 class="list-group-item-heading">
-								<a href="{% url "course" course.pk %}{{course.name}}">
-								{{course.dept}} {{course.course_number}}
-								</a>
-								<small class="pull-right">
-									<a href="javascript:void(0)" class="badge drop-button" data-course="{{course.pk}}">drop</a>
-								</small>
-							</h4>
-							<p class="list-group-item-text small">with Instructor {{course.professor}}</p>
+				<div class="panel opa">
+					<div class="panel-body">
+						<div class="list-group trans" id="enrolled_list">
+							{% if enrolled_courses %}
+							{% for course in enrolled_courses %}
+							<div class="list-group-item enrolled-class-id opa" id="enrolled_{{course.pk}}">
+								<h4 class="list-group-item-heading">
+									<a href="{% url "course" course.pk %}{{course.name}}">
+									{{course.dept}} {{course.course_number}}
+									</a>
+									<small class="pull-right">
+										<a href="javascript:void(0)" class="badge drop-button" data-course="{{course.pk}}">drop</a>
+									</small>
+								</h4>
+								<p class="list-group-item-text small">with Instructor {{course.professor}}</p>
+							</div>
+							{% endfor %}
+							{% else %}
+							<div id="no-classes" class="text-center">
+								<p class="lead">No classes added to your schedule yet.</p>
+							</div>
+						{% endif %}
 						</div>
-						{% endfor %}
-						{% else %}
-						<div id="no-classes" class="text-center">
-							<p class="lead">No classes added to your schedule yet.</p>
-						</div>
-					{% endif %}
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="col-sm-8">
-			<div id="search-panel" class="panel panel-default step-1">
-				<div class="panel-heading">
-					<h2 class="panel-title">Add a Class</h2>
+			<div id="search-panel" class=" step-1">
+				<div class="">
+					<h3 class="">Add a Class</h3>
+					<!-- <hr> -->
 				</div>
-				<div class="panel-body">							
-					<form id="class_search_form" method="get" action="{% url 'course_add' %}">
-						<div class="input-group">
+				<div class="panel opa">
+					<div class="panel-body">						
+						<form id="class_search_form" method="get" action="{% url 'course_add' %}">
 							<input type="text" class="form-control input-lg" 
-							placeholder="Type Course Code and Number: 'ECON 200'" name="q">
-							<span class="input-group-btn">
-								<button class="btn btn-primary btn-lg search-button" type="submit"><i class="fa fa-search"></i> Search</button>
-							</span>
-						</div>
-					</form>
-					{% if show_results %}
-					<div id="searchResultContainer">
-						<hr>
-						<h4>Results <small>for "{{ query }}"</small></h4>
-						<hr>
-						<div class="list-group search-group scrolls" id="searchResults">
-							{% if course_results %}
-								<div class="list-group-item list-group-item-danger">
-									<a href="{% url 'course_create' %}" class="btn btn-danger pull-right">Create Class</a> 
-									<h5>Can't find your class?</h5> 
+								placeholder='Type a Course Code and Number, like ECON 200' name="q">
+								<p></p>
+						</form>
+						{% if show_results %}
+						<div id="searchResultContainer">
+							<br>
+							<div class="row">
+								<div class="col-xs-4">
+									<h4 style="margin-top:8px;">Results for "{{ query }}"</h4>
 								</div>
-								{% for course in course_results %}
-									<div class="list-group-item">
-										<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
-											<small>with Instructor {{course.professor}}</small> 
-											<button class="pull-right btn btn-success join"
-												autocomplete="off"
-												id="join-button-{{course.pk}}"
-												form="{{course.pk}}_course_add">Join</button>
-											<form id="{{course.pk}}_course_add" method="post" action="{% url 'course_add' %} ">
-												{% csrf_token %}
-												<input type="hidden" name="course" value="{{course.pk}}" autocomplete="off"/>
-											</form>
-										</h4>
-										<p class="list-group-item-text">
-											<i class='fa fa-user fa-fw'></i> 
-											{{course.student_count}} Student{{course.student_count|pluralize}}
-											<i class='fa fa-file fa-fw'></i> 
-                      {% with course.document_count as doc_count %}
-                      {{doc_count}} Document{{doc_count|pluralize}}
-                      {% endwith %}
-											<i class='fa fa-calendar fa-fw'></i> 
-                      {% with course.calendar_count as cal_count %}
-                      {{cal_count}} Calendar{{cal_count|pluralize}}
-                      {% endwith %}
-										</p>
-									</div>
-									{% endfor %}
-								{% else %}
-									<div class="list-group-item list-group-item-danger">
-										<a href="{% url 'course_create' %}" class="btn btn-danger pull-right">Create Class</a> 
-										<h5>No classes matched this search!</h5> 
-									</div>
-								{% endif %}
+								<div class="col-xs-8">
+									<h4 class="pull-right margin-top-sm">
+										<span>Can't find your class?&nbsp; <a href="{% url 'course_create' %}" class="btn btn-danger btn-sm margin-top-none">Create Class</a></span>
+									</h4>
+								</div>
 							</div>
+							<br>
+							<div class="list-group search-group scrolls trans" id="searchResults">
+								{% if course_results %}
+									{% for course in course_results %}
+										<div class="list-group-item opa">
+											<h4 class="list-group-item-heading">{{course.dept}} {{course.course_number}}
+												<small class="white">with Instructor {{course.professor}}</small> 
+												<button class="pull-right btn btn-success join"
+													autocomplete="off"
+													id="join-button-{{course.pk}}"
+													form="{{course.pk}}_course_add">Join</button>
+												<form id="{{course.pk}}_course_add" method="post" action="{% url 'course_add' %} ">
+													{% csrf_token %}
+													<input type="hidden" name="course" value="{{course.pk}}" autocomplete="off"/>
+												</form>
+											</h4>
+											<p class="list-group-item-text">
+												<i class='fa fa-user fa-fw'></i> 
+												{{course.student_count}} Student{{course.student_count|pluralize}}
+												<i class='fa fa-file fa-fw'></i> 
+	                      {% with course.document_count as doc_count %}
+	                      {{doc_count}} Document{{doc_count|pluralize}}
+	                      {% endwith %}
+												<i class='fa fa-calendar fa-fw'></i> 
+	                      {% with course.calendar_count as cal_count %}
+	                      {{cal_count}} Calendar{{cal_count|pluralize}}
+	                      {% endwith %}
+											</p>
+										</div>
+										{% endfor %}
+									{% else %}
+										<p class="lead">No classes matched this search!</p class="lead"> 
+									{% endif %}
+								</div>
+							</div>
+							{% endif %}
 						</div>
-						{% endif %}
-					</div><!-- end panel-body -->
+					</div><!-- end panel -->
 				</div>
 			</div>		
 		</div>		
