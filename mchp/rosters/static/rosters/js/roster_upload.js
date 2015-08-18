@@ -30,6 +30,15 @@ $(document).ready( function() {
 
 
 $(document).ready(function() {
+
+    // initialize date picker
+    $('.event-date').datepicker({
+        startView: 1,
+        multidate: false,
+        autoclose: true,
+        todayHighlight: false
+    });
+
     $.fn.editable.defaults.mode = 'inline';
 
     // Bootstrap Editable form fields
@@ -70,6 +79,7 @@ $(document).ready(function() {
         var nextListItem = $("#InstructorEmails").find("li.additionalInstr:hidden:first");
         nextListItem.removeClass("hidden");
     });
+
 });
 
 
