@@ -32,10 +32,10 @@
 				</div>
 				<div class="panel opa">
 					<div class="panel-body">
-						<div class="list-group trans" id="enrolled_list">
+						<div class="list-group" id="enrolled_list">
 							{% if enrolled_courses %}
 							{% for course in enrolled_courses %}
-							<div class="list-group-item enrolled-class-id opa" id="enrolled_{{course.pk}}">
+							<div class="list-group-item enrolled-class-id trans" id="enrolled_{{course.pk}}">
 								<h4 class="list-group-item-heading">
 									<a href="{% url "course" course.pk %}{{course.name}}">
 									{{course.dept}} {{course.course_number}}
@@ -62,7 +62,6 @@
 			<div id="search-panel" class=" step-1">
 				<div class="">
 					<h3 class="">Add a Class</h3>
-					<!-- <hr> -->
 				</div>
 				<div class="panel opa">
 					<div class="panel-body">						
