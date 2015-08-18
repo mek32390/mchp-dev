@@ -78,6 +78,40 @@ input.form-control:focus {
   -moz-box-shadow  : none;
 }
 
+select.form-control {
+  display         : block;
+  margin          : 0;
+  /*padding         : 0 0 0.15em;*/
+  width           : 100%;
+  /*border          : none;*/
+  /*border-bottom   : 1px solid white;*/
+  background-color: transparent;
+  color           : #fff;
+  text-overflow   : ellipsis;
+  border-radius   : 0;
+  box-shadow      :none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow  : none;
+
+  }
+
+textarea.form-control {
+  display         : block;
+  margin          : 0;
+  /*padding         : 0 0 0.15em;*/
+  width           : 100%;
+  /*border          : none;*/
+  /*border-bottom   : 1px solid white;*/
+  background-color: transparent;
+  color           : #fff;
+  text-overflow   : ellipsis;
+  /*border-radius   : 0;*/
+  box-shadow      :none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow  : none;
+
+  }
+
 .input-group-addon {
   border          : none;
   border-bottom   : none;

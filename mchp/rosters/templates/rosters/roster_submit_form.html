@@ -5,8 +5,8 @@
 {% block extra_head %}
 
 <!-- Bootstrap x-editable dependencies -->
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/css/bootstrap-editable.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/css/bootstrap-editable.css"> -->
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/js/bootstrap-editable.min.js"></script> -->
 
 <!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script> -->
 
@@ -24,175 +24,192 @@
 {% endblock %}
 
 {% block body %}
-<form id="class_set" action="" method="post">{% csrf_token %}
-  {{ form.errors }}
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-8 col-sm-offset-2">			
+<div class="row">
+	<div class="col-xs-12">
+		<div class="media">
+		  <div class="media-left media-middle">
+		    <img class="no-shadow media-object pull-left animated" src="{% static 'lib/img/clipboard.svg' %}" height="60px" alt="upload class set">
+		  </div>
+		  <div class="media-body">
+		    <h1 class="media-heading">Submit a Class Set</h1>
+		    <p class="lead margin-btm-none">A class set includes a class's syllabus, roster, and assignment dates</p>
+		  </div>
+		</div>
+		<hr>
+	</div>
+</div>
 
-				<!-- select course to upload class set to -->	
-  			<div class="media">
-					<div class="media-left">
-					</div>
-					<div class="media-body">
-						<h3 class="media-heading">Select a course to add a Class Set to: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
-						<p>or <a href="{% url 'course_create'%}" target="_blank">create a new course</a>.</p>
-						<div class="form-group" id="selectClass">
-              <select class="form-control" id="{{ form.course.id_for_label }}" name="{{ form.course.name }}">
-								{% for course in school.course_set.all %}
-								<option value="{{ course.pk }}">{{ course }}</option>
-								{% endfor %}
-							</select> 
-	          </div>
-						<!-- <select class="form-control" id="{{ form.course.id_for_label }}" name="{{ form.course.name }}">
+<div class="row">
+	<div class="col-sm-8">
+		<form id="class_set" action="" method="post">{% csrf_token %}
+		{{ form.errors }}			
+
+			<!-- select course to upload class set to -->	
+			<div class="media">
+				<div class="media-left media-top">
+					<h1 class="media-object pull-left margin-top-none">1.</h1>
+				</div>
+				<div class="media-body">
+					<h3 class="media-heading">Select a course to add a Class Set to: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<p>or <a href="{% url 'course_create'%}" target="_blank">create a new course</a>.</p>
+					<div class="form-group" id="selectClass">
+            <select class="form-control input-lg" id="{{ form.course.id_for_label }}" name="{{ form.course.name }}">
 							{% for course in school.course_set.all %}
 							<option value="{{ course.pk }}">{{ course }}</option>
 							{% endfor %}
-						</select> -->
-						<hr>
-				 	</div>
+						</select> 
+          </div>
+					<br></br>
+			 	</div>
+			</div>
+
+			<!-- upload syllabus -->
+			<div class="media">
+				<div class="media-left media-top">
+					<h1 class="media-object pull-left margin-top-none">2.</h1>
 				</div>
+				<div class="media-body">
+					<h3 class="media-heading">Upload the CLASS NAME syllabus: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<p>The course syllabus is typically a word or pdf document.</p>
+					<span class="btn btn-trans btn-lg btn-file">
+						Browse <input type="file">
+					</span>&nbsp;<span class="selected-file"></span>
+					<br></br>
+					<br></br>
+			 	</div>
+			</div>
 
-				<!-- upload syllabus -->
-				<div class="media">
-					<div class="media-left">
-					</div>
-					<div class="media-body">
-						<h3 class="media-heading">Upload the CLASS NAME syllabus: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
-						<p>The course syllabus is typically a word or pdf document.</p>
-						<span class="btn btn-default btn-file">
-							Browse <input type="file">
-						</span>&nbsp;<span class="selected-file"></span>
-						<hr>
-				 	</div>
+
+			<!-- identify non-student emails -->
+			<div class="media">
+				<div class="media-left media-top">
+					<h1 class="media-object pull-left margin-top-none">3.</h1>
 				</div>
+				<div class="media-body">
+					<h3 class="media-heading">Identify Non-Student Emails <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<p>Indicate all non-student email addresses, such as instructors and teaching assistants.</p>
+
+					<textarea class="form-control input-lg" id="{{ form.emails.id_for_label }}" name="{{ form.emails.name }}" placeholder="enter one instructor/assistant email per line" rows="3">{{ form.emails.value|default:''}}</textarea>
 
 
-				<!-- identify non-student emails -->
-				<div class="media">
-					<div class="media-left">
-					</div>
-					<div class="media-body">
-						<h3 class="media-heading">Identify Non-Student Emails <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
-						<p>Indicate all non-student email addresses, such as instructors and teaching assistants.</p>
-
-						<textarea class="form-control" id="{{ form.emails.id_for_label }}" name="{{ form.emails.name }}" placeholder="enter one instructor/assistant email per line">{{ form.emails.value|default:''}}</textarea>
-
-
-	      <!-- <h4>Add all Instructor, Teaching-Assistant, and non-student Emails</h4> -->
-	      <!--<div class="row">
-	   <div class="col-xs-9">
-	   <ul id="InstructorEmails" class="list-inline">
-	   <li><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-	   </ul>
-	   </div>
-	   <div class="col-xs-3">
-	   <a href="#" id="addInstructorEmail" class=""><i class="fa fa-plus fa-fw"></i>Add Email</a>
-	   </div>
-	   </div>-->
-	   				<hr>
-					</div>
+      <!-- <h4>Add all Instructor, Teaching-Assistant, and non-student Emails</h4> -->
+      <!--<div class="row">
+   <div class="col-xs-9">
+   <ul id="InstructorEmails" class="list-inline">
+   <li><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
+   </ul>
+   </div>
+   <div class="col-xs-3">
+   <a href="#" id="addInstructorEmail" class=""><i class="fa fa-plus fa-fw"></i>Add Email</a>
+   </div>
+   </div>-->
+   				<br></br>
+   				<br>
 				</div>
+			</div>
 
-				<!-- paste roster html code -->
-				<div class="media">
-					<div class="media-left">
-					</div><!-- /.media-left -->
-					<div class="media-body">
-						<h3 class="media-heading">Copy & Paste Roster <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
-						<p>Select the Course Management System that your class uses and we'll show you how to quickly get your class Roster.</p>
-				      <!-- <p><strong>Select the Course Management System that your class uses:</strong></h5> -->
-						<!-- Begin tabs -->
-						<div role="tabpanel">
-							<!-- Nav tabs -->
-							<ul class="nav nav-pills" role="tablist">
-								<li role="presentation" class="active"><a href="#blackboard" aria-controls="blackboard" role="tab" data-toggle="tab">Blackboard</a></li>
-								<li role="presentation"><a href="#d2l" aria-controls="d2l" role="tab" data-toggle="tab">Desire 2 Learn</a></li>
-								<li role="presentation"><a href="#moodle" aria-controls="moodle" role="tab" data-toggle="tab">Moodle</a></li>
-								<li role="presentation"><a href="#other" aria-controls="other" role="tab" data-toggle="tab">Other</a></li>
-							</ul><!-- /.nav.nav-pills -->
+			<!-- paste roster html code -->
+			<div class="media">
+				<div class="media-left media-top">
+					<h1 class="media-object pull-left margin-top-none">4.</h1>
+				</div><!-- /.media-left -->
+				<div class="media-body">
+					<h3 class="media-heading">Copy & Paste Roster <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<p>Select the Course Management System that your class uses and we'll show you how to quickly get your class Roster.</p>
+			      <!-- <p><strong>Select the Course Management System that your class uses:</strong></h5> -->
+					<!-- Begin tabs -->
+					<div role="tabpanel">
+						<!-- Nav tabs -->
+						<ul class="nav nav-pills" role="tablist">
+							<li role="presentation" class="active"><a class="pill-opa" href="#blackboard" aria-controls="blackboard" role="tab" data-toggle="tab">Blackboard</a></li>
+							<li role="presentation"><a class="pill-opa" href="#d2l" aria-controls="d2l" role="tab" data-toggle="tab">Desire 2 Learn</a></li>
+							<li role="presentation"><a class="pill-opa" href="#moodle" aria-controls="moodle" role="tab" data-toggle="tab">Moodle</a></li>
+							<li role="presentation"><a class="pill-opa" href="#other" aria-controls="other" role="tab" data-toggle="tab">Other</a></li>
+						</ul><!-- /.nav.nav-pills -->
 
-							<!-- Tab panes -->
-							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane active" id="blackboard">
-									<p>Blackboard video</p>
-								</div><!-- /.tab-pane.active -->
-								<div role="tabpanel" class="tab-pane" id="d2l">...</div>
-								<div role="tabpanel" class="tab-pane" id="moodle">...</div>
-								<div role="tabpanel" class="tab-pane" id="other">...</div>
-							</div><!-- /.tab-content -->
-						</div><!-- end tabpanel -->
-	      {# <h4> #}
-		  {#     <label for="{{ form.roster_html.id_for_label }}">Paste Roster Code</label> #}
-		  {# </h4> #}
-						<!-- <h4>Paste Roster Code</h4> -->
-						<textarea class="form-control" id="{{ form.roster_html.id_for_label }}" name="{{ form.roster_html.name }}" placeholder="paste with cmd/ctrl+v">{{ form.roster_html.value|default:''}}</textarea>
-						{# <a href="#" id="{{ form.roster_html.id_for_label }}" data-type="textarea" data-name="{{ form.roster_html.name }}" data-escape="true" data-placeholder="cmd+v (Mac) or ctrl+v (PC) here to paste" class="rosterCode white">{{ form.roster_html.value|default:'' }}</a> #}
-						<hr>
-					</div><!-- /.media-body -->
-				</div><!-- /.media -->
-
-				<!-- upload syllabus -->
-				<div class="media">
-					<div class="media-left">
-					</div>
-					<div class="media-body">
-						<h3 class="media-heading">Add Exam and Assignemnt Dates: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
-						<p>The more you add, the more likely you are to earn comission.</p>
-						<div class="row">
-							<div class="col-xs-4">
-								<input type="text" class="form-control event-date" placeholder="Exam 1 Title">
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="blackboard">
 								<p></p>
-							</div>
-							<div class="col-xs-4">
-								<input type="text" class="form-control event-date" placeholder="Exam 1 Date">
-								<p></p>
-							</div>
+								<p>Blackboard video</p>
+							</div><!-- /.tab-pane.active -->
+							<div role="tabpanel" class="tab-pane" id="d2l">...</div>
+							<div role="tabpanel" class="tab-pane" id="moodle">...</div>
+							<div role="tabpanel" class="tab-pane" id="other">...</div>
+						</div><!-- /.tab-content -->
+					</div><!-- end tabpanel -->
+      		<h4>
+	  				<label for="{{ form.roster_html.id_for_label }}">Paste Roster Code</label>
+	  			</h4>
+					<textarea class="form-control input-lg" id="{{ form.roster_html.id_for_label }}" name="{{ form.roster_html.name }}" placeholder="cmd+v (Mac) or ctrl+v (PC) here to paste" rows="3">{{ form.roster_html.value|default:''}}</textarea>
+					<!-- <a href="#" id="{{ form.roster_html.id_for_label }}" data-type="textarea" data-name="{{ form.roster_html.name }}" data-escape="true" data-placeholder="cmd+v (Mac) or ctrl+v (PC) here to paste" class="rosterCode white">{{ form.roster_html.value|default:'' }}</a> -->
+					<br></br>
+					<br>
+				</div><!-- /.media-body -->
+			</div><!-- /.media -->
+
+			<!-- upload syllabus -->
+			<div class="media">
+				<div class="media-left media-top">
+					<h1 class="media-object pull-left margin-top-none">5.</h1>
+				</div>
+				<div class="media-body">
+					<h3 class="media-heading">Add Exam and Assignemnt Dates: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<p>The more you add, the more likely you are to earn comission.</p>
+					<div class="row">
+						<div class="col-xs-4">
+							<input type="text" class="form-control" placeholder="Exam 1 Title">
+							<p></p>
 						</div>
-						<div class="row">
-							<div class="col-xs-4">
-								<input type="text" class="form-control event-date" placeholder="Exam 2 Title">
-								<p></p>
-							</div>
-							<div class="col-xs-4">
-								<input type="text" class="form-control event-date" placeholder="Exam 2 Date">
-								<p></p>
-							</div>
+						<div class="col-xs-4">
+							<input type="text" class="form-control event-date" placeholder="Exam 1 Date">
+							<p></p>
 						</div>
-						<div class="row">
-							<div class="col-xs-4">
-								<input type="text" class="form-control event-date" placeholder="Exam 3 Title">
-								<p></p>
-							</div>
-							<div class="col-xs-4">
-								<input type="text" class="form-control event-date" placeholder="Exam 3 Date">
-								<p></p>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<input type="text" class="form-control" placeholder="Exam 2 Title">
+							<p></p>
 						</div>
+						<div class="col-xs-4">
+							<input type="text" class="form-control event-date" placeholder="Exam 2 Date">
+							<p></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<input type="text" class="form-control" placeholder="Exam 3 Title">
+							<p></p>
+						</div>
+						<div class="col-xs-4">
+							<input type="text" class="form-control event-date" placeholder="Exam 3 Date">
+							<p></p>
+						</div>
+					</div>
 
-						
-						<hr>
-						<button type="submit" class="btn btn-primary btn-lg btn-trans btn-block">Submit Class Set for Review</button>
-				 	</div>
-				</div>
+					<br></br>
+					<br></br>
+					<!-- <hr> -->
+			 	</div>
+			</div>
+			<button type="submit" class="btn btn-primary btn-lg btn-trans btn-block">Submit Class Set for Review</button>
 
-				<br></br>
-				<br></br>
+			<br></br>
+			<br>
 
-			</div><!-- /.col-sm-10.col-sm-offset-1 -->
-		</div><!-- /.row -->
-	</div><!-- /.container -->
-</form>
+		</form>
+	</div><!-- /.col-sm-10.col-sm-offset-1 -->
+</div><!-- /.row -->
 {% endblock %}
