@@ -23,7 +23,22 @@ import json
 import requests
 import random
 
-DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ" 
+DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
+
+'''
+url: /home/new_homepage
+name: new_homepage
+'''
+class NewHomepageView(View):
+    template_name = 'new_homepage.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {
+            'um': 'what',
+        }
+        return render(request, self.template_name, data)
+
+new_homepage = NewHomepageView.as_view()
 
 '''
 url: /home/

@@ -278,10 +278,10 @@ class PayoutView(View, AjaxableResponseMixin):
         if request.is_ajax():
             amount = self.student.balance 
             cents = int(amount.quantize(Decimal('1.00'), rounding=ROUND_HALF_DOWN)) * 100
-            if cents < 2000:
+            if cents < 2500:
                 messages.error(
                     self.request,
-                    "You can't cash out till you reach $20 in savings.",
+                    "You can't cash out till you reach $25 in savings.",
                 )
                 status = 402
                 data = {
