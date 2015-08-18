@@ -5,7 +5,6 @@
 		var purchase_url = '{%url "stripe_charge"%}';
 	</script>
 	<img src="{% static 'lib/img/games.svg' %}" class="animated rollIn duration-sm">
-	<!-- <i class="fa fa-lemon-o fa-5x animated rollIn duration-sm"></i> -->
 	<p></p>
 	<p class="lead">How many points would you like today?</p>
 	<form autocomplete="off" class="purchase-points" method="post" action={% url "stripe_charge" %}>
@@ -24,7 +23,8 @@
 		</div>
 		<div class="col-xs-7">
 			<button type="submit" class="btn btn-success btn-block submit-savings">
-				From my Savings $<span class="savings-amount">{{student.display_balance}}</span></button>
+				From my Savings $<span class="savings-amount">{{student.display_balance}}</span>
+			</button>
 		</div>
 	</div>
 </div>

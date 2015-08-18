@@ -7,32 +7,16 @@ $(function() {
 
 	// if the select changes, show sell or not sell radios
 	$('.course-select').change(function() {
-		$('.cal-sell').fadeIn(500).removeClass('hidden');
+		$('.course-meetings').fadeIn(500).removeClass('hidden');
+		$('.cal-description').fadeOut(500);
 	});
 
-	var isprivate = true;
-	// when the sell/not sell option changes
-	$("input[name='private']:radio").change(function() {
-		if ($('#sell').is(':checked')) {
-			isprivate = false;
-			$('.course-meetings').fadeIn(500).removeClass('hidden');
-		}
-		if ($('#notSell').is(':checked')) {
-			isprivate = true;
-			$('.course-meetings').fadeIn(500).removeClass('hidden');
-			$('.cal-description').fadeOut(500);
-		}
-
-	});
 	// when the clockend input changes, show cal end date field
 	$('.clockend').change(function(){
 		$('.cal-start-end').fadeIn(500).removeClass('hidden');
 	});
 	// when the cal end date field changes, show cal description field
 	$('.cal-start-end').change(function(){
-		if (!isprivate) {
-			$('.cal-description').fadeIn(500).removeClass('hidden');
-		}
 		$('.cal-submit').fadeIn(500).removeClass('hidden');
 	});
 
