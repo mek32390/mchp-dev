@@ -76,9 +76,9 @@
 <div class="row">
 	<div class="col-sm-5 col-md-7">
 		{% if document.preview %}
-		<img class="img-thumbnail img-rounded center-block" src="{{document.preview.url}}"></img>
+		<img class="img-thumbnail img-rounded" width="100%" src="{{document.preview.url}}"></img>
 		{% else %}
-		<img class="img-thumbnail img-rounded center-block" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}">
+		<img class="img-thumbnail img-rounded" width="100%" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}">
 		{% endif %}
 		<br></br>
 	</div>
@@ -159,7 +159,7 @@
 		</button>
 		<p></p>
 		{% else %}
-		<button form="buy-form" class="btn btn-success btn-block btn-md">
+		<button form="buy-form" class="btn btn-success btn-block btn-lg">
 			{% if owns %}
 			<i class="fa fa-fw fa-eye"></i>View
 			{% else %}
