@@ -114,7 +114,7 @@ textarea.form-control {
 
 .input-group-addon {
   border          : none;
-  border-bottom   : none;
+  border-bottom   : 1px solid white;
   background-color: transparent !important;
   color           : #fff;
   border-radius   : 0;
