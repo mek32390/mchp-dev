@@ -34,7 +34,7 @@ $(function() {
    	});
 
 	// initialize date picker
-	$('.input-group.date').datepicker({
+	$('.date-select').datepicker({
 		startView: 1,
 		multidate: false,
 		autoclose: true,

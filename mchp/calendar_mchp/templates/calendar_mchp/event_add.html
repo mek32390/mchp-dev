@@ -19,76 +19,83 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="media">
-			<img class="media-object pull-left animated slideInLeft" src="{% static 'lib/img/calendar-default.svg' %}" height="50px" alt="create calendar">
+			<div class="media-left media-middle">
+				<span class="media-object pull-left animated" alt="Add Documents"><i class="fa fa-calendar-check-o fa-fw fa-4x"></i></span>
+			</div>
 			<div class="media-body">
-			<h2 class="media-heading">Add Calendar Events</h2>
-			the more the merrier
+				<h1 class="media-heading">Add Calendar Events</h1>
+				<p class="lead margin-btm-none">the more the merrier</p>
 			</div>
 		</div>
-		<hr class="opa">
-	</div>
+		<hr>
+		<br>
+	</div><!-- end col 12 -->
 </div>
-<div class="panel opa margin-btm-none">
-	<div class="panel-body">
-		<div class="row">
-			<div class="col-xs-3">
-				<div class="dropdown">
-					<button class="dropdown-toggle btn inverse btn-md btn-block" type="select" data-toggle="dropdown">Choose a Class <span class="caret"></span></button>
-					<ul id="courseDropDown" class="dropdown-menu btn-block text-center" role="menu" aria-labelledby="courseDropDown">
-						<li role="presentation" class="dropdown-header">School Calendars</li>
-						{% if selected_calendar %}
-						<script type="text/javascript">
-							var selected_calendar = {{selected_calendar}};
-						</script>
-						{% endif %}
-						{% for calendar in calendars %}
-						<li role="presentation">
-							<a href="#" id="select-calendar-{{calendar.pk}}" role="menuitem" tabindex="-1" data-cal="{{calendar.pk}}">
-								<span style="color: {{calendar.color}};">{{calendar.course}}
-									{% if not calendar.private %}
-									<small>(Public)</small>
-									{% endif %}
-								</span>
-							</a>
-						</li>
-						{% endfor %}
-					</ul>
-				</div>
-			</div>
-			{% for calendar in calendars %}
-			<div class="col-xs-9">
-				<div class="course-info hidden" id="course-info-{{calendar.pk}}">
-					<div class="course-times">
-						<div style="inline">
-							<span class=" h4 margin-btm-none ">
-								<i class="fa fa-user"></i> Professor {{calendar.course.professor}} &nbsp;
-								{% if not calendar.private %}		
-								<span class="selling  pull-right text-success">
-									<strong><i class="fa fa-check-circle-o fa-fw"></i>Public</strong>
-								</span>
-								{% endif %}
-							</span>
-						</div>
-						<script type="text/javascript">
-							var meeting_days_{{calendar.pk}} = [];
-							var end_date_{{calendar.pk}} = '{{calendar.end_date|date:"c"}}';
-						</script>
-						<!-- <hr class="margin-btm-none margin-top-sm"> -->
-						<ul class="list-inline">							
-							{% for section in calendar.sections %}
-							<li>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel opa margin-btm-none">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-3">
+						<div class="dropdown">
+							<button class="dropdown-toggle btn trans btn-lg btn-block" type="select" data-toggle="dropdown">Choose a Class <span class="caret"></span></button>
+							<ul id="courseDropDown" class="dropdown-menu btn-block text-center" role="menu" aria-labelledby="courseDropDown">
+								<li role="presentation" class="dropdown-header">School Calendars</li>
+								{% if selected_calendar %}
 								<script type="text/javascript">
-									meeting_days_{{calendar.pk}}.push({{section.day}} + 1);
+									var selected_calendar = {{selected_calendar}};
 								</script>
-								<h4 class="margin-btm-none small">{{section.day_name|slice:":3"}}</h4>
-								<small>{{ section.start|time:"P"}} - {{section.end|time:"P"}}</small>
-							</li>		
-							{% endfor %}							
-						</ul>
+								{% endif %}
+								{% for calendar in calendars %}
+								<li role="presentation">
+									<a href="#" id="select-calendar-{{calendar.pk}}" role="menuitem" tabindex="-1" data-cal="{{calendar.pk}}">
+										<span style="color: {{calendar.color}};"><strong>{{calendar.course}}</strong>
+											{% if not calendar.private %}
+											<small>(Public)</small>
+											{% endif %}
+										</span>
+									</a>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
 					</div>
+					{% for calendar in calendars %}
+					<div class="col-xs-9">
+						<div class="course-info hidden" id="course-info-{{calendar.pk}}">
+							<div class="course-times">
+								<div style="inline">
+									<span class=" h4 margin-btm-none ">
+										<i class="fa fa-user"></i> Professor {{calendar.course.professor}} &nbsp;
+										{% if not calendar.private %}		
+										<span class="selling  pull-right text-success">
+											<strong><i class="fa fa-check-circle-o fa-fw"></i>Public</strong>
+										</span>
+										{% endif %}
+									</span>
+								</div>
+								<script type="text/javascript">
+									var meeting_days_{{calendar.pk}} = [];
+									var end_date_{{calendar.pk}} = '{{calendar.end_date|date:"c"}}';
+								</script>
+								<!-- <hr class="margin-btm-none margin-top-sm"> -->
+								<ul class="list-inline">							
+									{% for section in calendar.sections %}
+									<li>
+										<script type="text/javascript">
+											meeting_days_{{calendar.pk}}.push({{section.day}} + 1);
+										</script>
+										<h4 class="margin-btm-none small">{{section.day_name|slice:":3"}}</h4>
+										<small>{{ section.start|time:"P"}} - {{section.end|time:"P"}}</small>
+									</li>		
+									{% endfor %}							
+								</ul>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
 				</div>
 			</div>
-			{% endfor %}
 		</div>
 	</div>
 </div>
@@ -97,11 +104,6 @@
 	<!-- <hr>   -->
 	<br>
 		<div class="panel opa templates hidden">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					 Events Template
-				</h3>
-			</div>
 			{% if not events_tutorial %}
 			<div class="panel-body template-tutorial">
 				<div class="panel opa">
@@ -154,7 +156,7 @@
 			</table>
 		</div>
 		<p></p>
-		<button type="submit" class="event-button btn btn-success btn-lg btn-block {% if not events_tutorial %}hidden{% endif %}">Finish</button>
+		<button type="submit" class="event-button btn btn-trans btn-lg btn-block {% if not events_tutorial %}hidden{% endif %}">Finish</button>
 		<br></br>
 	</div>
 </div>

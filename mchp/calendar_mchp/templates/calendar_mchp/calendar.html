@@ -9,8 +9,8 @@
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/fullcalendar.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/datepicker.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/bootstrap-clockpicker.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'lib/css/datepicker.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-clockpicker.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/bootstrap-slider.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/calendar.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
@@ -18,8 +18,8 @@
 <script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/calendar.js' %}"></script>
-<script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-datepicker.js' %}"></script>
-<script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-clockpicker.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/js/bootstrap-datepicker.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/js/bootstrap-clockpicker.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'calendar_mchp/js/bootstrap-slider.min.js' %}"></script>
 <script src="{% static 'calendar_mchp/js/fullcalendar.min.js' %}"></script>
 {% endblock %}
@@ -290,7 +290,7 @@
 			<div class="owned-cals-section">
 			<h5>School<span class="badge pull-right"
 					id="owned-calendar-count">{{total_school_calendars}}</span></h5>
-			<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">Private</li>
+			<li role="presentation" class="dropdown-header white" style="margin:0px; padding:0px;">Private</li>
 			<!-- don't delete this again -->
 			<div class="hidden" id="make-a-calendar">
 				<p>
@@ -336,7 +336,7 @@
 			{% endfor %}
 		</div>
 		<div class="following-cals-section">
-			<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">Public</li>
+			<li role="presentation" class="dropdown-header white" style="margin:0px; padding:0px;">Public</li>
 			<p></p>
 			{% for calendar in subscriptions %}
 			<!-- followed calendar -->

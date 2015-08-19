@@ -249,7 +249,7 @@ img.no-shadow {
 }
 
 .table-hover>tbody>tr:hover {
-  background-color: ;
+  background-color: rgba(0,0,0,.4);
 }
 
 
