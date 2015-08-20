@@ -5,6 +5,26 @@
 
 $(function() {
 
+    // make popovers stay when hovered over or when triggered element is hovered over
+
+    $(".pop-stay").popover({ trigger: "manual" , html: true, animation:false})
+    .on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    }).on("mouseleave", function () {
+        var _this = this;
+        setTimeout(function () {
+            if (!$(".popover:hover").length) {
+                $(_this).popover("hide");
+            }
+        }, 300);
+    });
+
+    // choose a random img and set it as backgrounf each day
+
     var now = new Date();
     var fullDaysSinceEpoch = Math.floor(now/8.64e7);
     var rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
@@ -31,6 +51,8 @@ $(function() {
     }
 
     current_pic = fullDaysSinceEpoch % rand;
+
+    
 
     //document.body.style.backgroundImage = "url('/static/landing/img/bg-" + current_pic + ".jpg')";
     $('#bg').css("background-image","url('/static/lib/img/bgimages/bg-" + current_pic + ".jpeg')");
