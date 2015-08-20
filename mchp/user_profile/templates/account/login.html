@@ -26,15 +26,13 @@
     <div id='facebookLogin'>      
     {% if socialaccount.providers  %}
       <div class="socialaccount_ballot">
-      <!-- <a title="Facebook" class="" href="/accounts/facebook/login/"> -->
-      <a title="Facebook" class="socialaccount_provider facebook" 
+      <a title="Facebook" class="socialaccount_provider facebook btn btn-trans btn-block btn-lg" 
       href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
-      <button class="btn btn-trans btn-block btn-lg">
         Use Facebook to login
-      </button></a>
+        </a>
       </div>
       <hr>
-        <span class="help-block text-center"><a href="#" id='show-login'>Use .EDU e-mail</a></span>
+        <span class="help-block text-center"><a href="#" class="link" id='show-login'>Use .EDU e-mail</a></span>
     </div>    
 {% endif %}
     <div id="emailLogin">
@@ -47,8 +45,8 @@
   <div class="form-group">
     <button class="primaryAction btn btn-lg btn-trans btn-block" type="submit"><i class="fa fa-check-square-o"></i> {% trans "Log In" %}</button>
   </div>
-  <span class="white help-block text-center">{% trans "Forgot your password?" %} <a href="{% url 'account_reset_password' %}">{% trans "Reset it" %}</a></span></a>
-  <span class="white help-block text-center">{% trans "Don't have an account?" %} <a href="{% url 'landing_page' %}">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
+  <span class="white help-block text-center">{% trans "Forgot your password?" %} <a class="link" href="{% url 'account_reset_password' %}">{% trans "Reset it" %}</a></span></a>
+  <span class="white help-block text-center">{% trans "Don't have an account?" %} <a class="link" href="{% url 'landing_page' %}">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
 </form>
     </div>
 </div>

@@ -280,7 +280,16 @@ a:hover, a:focus {
 a.link {
   color: #fff;
   text-decoration: underline;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  transition: all .5s ease;
+}
 
+a.link:hover {
+  color: rgba(255,255,255,0.7);
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  transition: all .5s ease;
 }
 
 /* Text context styles */
