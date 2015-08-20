@@ -24,35 +24,31 @@ $(function() {
     });
 
     // choose a random img and set it as backgrounf each day
-
     var now = new Date();
     var fullDaysSinceEpoch = Math.floor(now/8.64e7);
     var rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
+    var current_pic;
     
     if(typeof(Storage) !== "undefined") {
 
-        if (localStorage.MAX_BG_IMAGES) {
-            if (MAX_BG_IMAGES != localStorage.MAX_BG_IMAGES) {
-                localStorage.rand = rand;
-                localStorage.MAX_BG_IMAGES = MAX_BG_IMAGES;
+        current_pic = localStorage.current_pic || rand;
+
+        if (localStorage.last_day) {
+            if (localStorage.last_day != fullDaysSinceEpoch) {
+                localStorage.last_day = fullDaysSinceEpoch;
+                current_pic = rand;
             }
         } else {
-            localStorage.MAX_BG_IMAGES = MAX_BG_IMAGES
+            localStorage.last_day = fullDaysSinceEpoch;
+            current_pic = rand;
         }
 
-        if (localStorage.rand) {
-            // do nothing
-        } else {
-            localStorage.rand = rand;
-        }
-        rand = localStorage.rand;
+        localStorage.current_pic = current_pic;
+
     } else {
         //TODO: we might make a javascript session here, it will take some time
+         current_pic = rand;
     }
-
-    current_pic = fullDaysSinceEpoch % rand;
-
-    
 
     //document.body.style.backgroundImage = "url('/static/landing/img/bg-" + current_pic + ".jpg')";
     $('#bg').css("background-image","url('/static/lib/img/bgimages/bg-" + current_pic + ".jpeg')");
