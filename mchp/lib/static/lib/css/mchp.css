@@ -2,7 +2,6 @@
  * This file is for css that should happen on every single mchp page
  */
 
-
 body {
   font-family            : "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; 
   color                  : #fff !important;
@@ -49,6 +48,10 @@ body {
   height       : inherit;
   padding-right: 30px;
   padding-left : 30px;
+}
+
+.popover {
+  min-width: 275px;
 }
 
 input.form-control {
@@ -205,24 +208,25 @@ img.no-shadow {
 }
 
 .popover {
-  background: rgba(0,0,0,.4);
+  background: rgba(0,0,0,.9);
 }
 
 .popover-title {
-  background: transparent;
-  border-bottom: 0px;
+  background: rgba(0,0,0,.6);
+  border-bottom: transparent;
 }
 
-.popover.top>.arrow {
-  border-top-color: rgba(0,0,0,.3);
+.popover.right .arrow:after {
+  border-right-color: rgba(0,0,0,.9);
 }
-
-.popover.top>.arrow:after {
-  bottom: 1px;
-  margin-left: -10px;
-  content: " ";
-  border-top-color: rgba(0,0,0,.4);
-  border-bottom-width: 0;
+.popover.left .arrow:after {
+  border-right-color: rgba(0,0,0,.9);
+}
+.popover.top .arrow:after {
+  border-right-color: rgba(0,0,0,.9);
+}
+.popover.bottom .arrow:after {
+  border-right-color: rgba(0,0,0,.9);
 }
 
 
@@ -366,7 +370,7 @@ li#notifs-dropdown {
   bottom: 50px !important;
 }
 
-li#user-dropdown {
+li > a#user-dropdown {
   background: transparent !important;
   position: fixed !important;
   bottom: 10px !important;
