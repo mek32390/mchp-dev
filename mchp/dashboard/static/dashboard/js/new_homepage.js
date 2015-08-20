@@ -31,6 +31,8 @@ $(document).ready(function() {
         $('.nav-pills a[href="#course5"]').tab('show');
     });
 
+    // THE FOLLOWING ARE FOR TESTING PURPOSES
+
     // Change various aspects of the page each time the page loads for testing purposes
 
     // Change the student's name and classmates names on page refresh

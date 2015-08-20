@@ -37,6 +37,9 @@
     <!-- Site-wide CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/mchp.css' %}">
 
+    <!-- Payment js -->
+    <script src="{% static 'payment/js/payment.js' %}"></script>
+
     <!-- Site-wide Javascripts -->
     <script src="{% static 'lib/js/mchp.js' %}"></script>
     <script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
@@ -262,18 +265,56 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <ul class="nav nav-pills nav-stacked sidebar-nav">
           <li class="sidebar-brand">
-            <a href="{% url "new_homepage" %}" class="pop-stay page-scroll" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?" data-container="">
-            <span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">6</span>
+            <a href="{% url "new_homepage" %}" class="pop-stay page-scroll" data-toggle="popover"
+            title="
+              <h4 class='margin-btm-none margin-top-sm'>
+                <strong>Assignments</strong>
+                <span class='badge pull-right' style='display:initial; background-color:orange;'>2</span>
+              </h4>
+            "
+            data-content="
+              <hr class='margin-btm margin-top-none'>
+              
+                <div class='checkbox'>
+                  <label>
+                    <input type='checkbox' value=''>
+                    Exam 2 in ECON 200
+                  </label>
+                </div>
+                <div class='checkbox'>
+                  <label>
+                    <input type='checkbox' value=''>
+                    Homework 2 in MIS 111
+                  </label>
+                </div>
+              <br>
+              <h4 class='margin-btm-none'>
+                <strong>Notifications</strong>
+                {% unread_count as unread %}
+                <span id='notification-count' class='pull-right badge {% if unread %}unread-notification{%else%}read-notification{% endif %} '>
+                {{unread}}</span>
+              </h4>
+
+              <hr>
+              <ul class='list-unstyled trans'>
+                <li><p><i class='fa fa-circle text-danger'></i> &nbsp;Your study guide sold</p></li>
+                <li><p><i class='fa fa-circle text-danger'></i> &nbsp;Your study guide sold</p></li>
+                <li><p><i class='fa fa-circle text-default'></i> &nbsp;You joined ECON 200</p></li>
+                <li><p><i class='fa fa-circle text-default'></i> &nbsp;You joined ACCT 210</p></li>
+                <li id='view-all-notifs' class='text-center'><p><a href='{% url 'notifications' %}'>View All</a></p></li>
+              </ul>
+            ">
+            <span id="toggle-notifications" class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">6</span>
             </a>
           </li>
           <li>
-            <a href="#overview" class="page-scroll"><i class="fa fa-home"></i><!-- <img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"> --></a>
+            <a href="#overview" class="page-scroll"><i class="fa fa-home"></i></a>
           </li>
           <li>
-            <a href="#classes" class="page-scroll"><i class="fa fa-book"></i><!-- <img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"> --></a>
+            <a href="#classes" class="page-scroll"><i class="fa fa-book"></i></a>
           </li>
           <li>
-            <a href="#calendar" class="page-scroll"><i class="fa fa-calendar"></i><!-- <img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"> --></a>
+            <a href="#calendar" class="page-scroll"><i class="fa fa-calendar"></i></a>
           </li>
           <!-- <li class="hidden-sm">
             <a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"></a>
