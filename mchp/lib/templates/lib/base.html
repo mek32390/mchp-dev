@@ -405,33 +405,13 @@
             <a href="{% url "new_homepage" %}" class="page-scroll"><span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">0</span></a>
           </li>
           <li>
-            <a href="#overview" class="page-scroll"><i class="fa fa-home"></i><!-- <img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"> --></a>
+            <a href="#overview" class="page-scroll"><i class="fa fa-home"></i></a>
           </li>
           <li>
-            <a href="#classes" class="page-scroll"><i class="fa fa-book"></i><!-- <img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"> --></a>
+            <a href="#classes" class="page-scroll"><i class="fa fa-book"></i></a>
           </li>
           <li>
-            <a href="#calendar" class="page-scroll"><i class="fa fa-calendar"></i><!-- <img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"> --></a>
-          </li>
-          <li class="dropdown drop" id="user-dropdown">
-            <a href="#" id="user-dropdown-toggle" class="dropdown-toggle page-scroll" data-toggle="dropdown"><img src="{{profile.profile_image_url}}" class="img-circle" height="20px" width="20px"/></a>
-            <ul class="dropdown-menu" role="menu">
-              {% if not user.referree.count %}
-              <li>
-                <a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star"></i> Redeem Referral</strong></a>
-              </li>
-              <li class="divider"></li>
-              {% endif %}
-              <li><a href="{% url 'my_profile' %}">My Page</a></li>
-              <li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
-              <li><a href="{% url 'document_upload'%}">Sell Document</a></li>
-              <li class="divider"></li>
-              <li><a data-toggle="modal" href="#sethomeModal"><strong><i class="fa fa-home fa-fw"></i> Set Homepage</strong></a></li>
-              <li class="divider"></li>
-              <li><a href="{% url 'account_settings'%}">My Account</a></li>
-              <li><a href="{% url 'help'%}">Help</a></li>
-              <li><a href="{% url 'account_logout' %}">Log Out</a></li>
-            </ul>
+            <a href="#calendar" class="page-scroll"><i class="fa fa-calendar"></i></a>
           </li>
         </ul>
       </div>
