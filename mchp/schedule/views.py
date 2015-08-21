@@ -126,7 +126,8 @@ class CourseCreateView(_BaseCourseView):
         calendar = ClassCalendar(**calendar_data)
         calendar.save()
 
-        course.enroll(self.student)
+        if admin_user.pk != self.student.pk:
+            course.enroll(self.student)
 
         messages.success(
             self.request,
