@@ -1,4 +1,5 @@
 import copy
+from datetime import timedelta
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -58,11 +59,15 @@ class ClassCalendar(models.Model):
                 calendars = ClassCalendar.objects.filter(owner=self.owner)
                 self.color = generate_calendar_color(calendars)
 
-        if(self.end_date > timezone.now()):
+        if not self.end_date:
+            self.end_date = timezone.now() + timedelta(days=365 * 5) # off-setting to 5 years
+
+        if self.end_date > timezone.now():
             super().save()
         else:
             raise TimeOrderError("Start date must come before end date")
-        # always end on the last minute of the day 
+
+        # always end on the last minute of the day
         self.end_date = self.end_date.replace(hour=11, minute=59)
 
         super(ClassCalendar, self).save(*args, **kwargs)
