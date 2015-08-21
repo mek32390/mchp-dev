@@ -10,7 +10,7 @@ def calculate_color_distance(color1, color2):
     return math.sqrt(red+blue+green)
 
 
-def generate_calendar_color(calendars, threshold=50, max_attempts=100000):
+def generate_calendar_color(calendars, threshold=50, max_attempts=100):
     colors = []
     for calendar in calendars:
         rgb = webcolors.hex_to_rgb(calendar.color)
