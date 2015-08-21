@@ -32,6 +32,7 @@ def create_calendars(apps, schema_editor):
         raise Exception("There is no 'mchp' user or any other superuser to attach calendars to.")
 
     existing_calendars = list(ClassCalendar.objects.filter(owner=admin_user))
+    created_calendars = []
 
     for course in courses_with_no_calendars:
         calendar = ClassCalendar()
@@ -48,9 +49,10 @@ def create_calendars(apps, schema_editor):
 
         calendar.expire_date = timezone.now() + settings.MCHP_PRICING['calendar_expiration']
 
-        calendar.save()
-
         existing_calendars.append(calendar)
+        created_calendars.append(calendar)
+
+    ClassCalendar.objects.bulk_create(created_calendars)
 
 
 class Migration(migrations.Migration):
