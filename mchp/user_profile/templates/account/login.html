@@ -22,7 +22,7 @@
 {% providers_media_js %}
 <div class="container text-center">
   <div class="acct-form ">
-    <h2>{% trans "Log In" %} <small class="white"> let's go</small></h2>
+    <h2>{% trans "Login" %} <small class="white"> let's go</small></h2>
     <div id='facebookLogin'>      
     {% if socialaccount.providers  %}
       <div class="socialaccount_ballot">
@@ -43,7 +43,7 @@
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <div class="form-group">
-    <button class="primaryAction btn btn-lg btn-trans btn-block" type="submit"><i class="fa fa-check-square-o"></i> {% trans "Log In" %}</button>
+    <button class="primaryAction btn btn-lg btn-trans btn-block" type="submit"><i class="fa fa-check-square-o"></i> {% trans "Login" %}</button>
   </div>
   <span class="white help-block text-center">{% trans "Forgot your password?" %} <a class="link" href="{% url 'account_reset_password' %}">{% trans "Reset it" %}</a></span></a>
   <span class="white help-block text-center">{% trans "Don't have an account?" %} <a class="link" href="{% url 'landing_page' %}">{% trans "Sign up" %}</a> {% trans "now!" %}</span>
