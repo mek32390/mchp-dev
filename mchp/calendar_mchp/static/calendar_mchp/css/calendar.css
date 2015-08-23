@@ -149,3 +149,25 @@
 .datepicker {
 	z-index: 1061!important;
 }
+
+/*!
+*
+* Custom Full Calendar styles
+*
+*/
+
+.fc td, .fc th { 
+  color: white;
+}
+
+.fc-unthemed .fc-divider, .fc-unthemed .fc-popover, .fc-unthemed .fc-row, .fc-unthemed tbody, .fc-unthemed td, .fc-unthemed th, .fc-unthemed thead {
+  border-color: rgba(255,255,255,0.4);
+}
+
+.fc-unthemed .fc-today {
+  background: rgba(255,255,255,0.7);
+}
+
+.fc-sun, .fc-sat {
+  /*color: rgba(255,255,255,0.7) !important;*/
+}
