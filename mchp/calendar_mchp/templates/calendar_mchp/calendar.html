@@ -272,282 +272,228 @@
 	</div>
 </div><!-- end manage cal modal -->
 
-<div class="row">
-	<div id="col_1" class="col-sm-3 animated bounceInUp">
-		<h2 class="margin-top-none">Calendars
-			<div class="dropdown pull-right">
-				<a href="#" class="dropdown-toggle small" type="select" id="" data-toggle="dropdown"> <span class="fa fa-gear"></i></a>
-				<ul class="dropdown-menu" id="" role="menu" aria-labelledby="">
-					<!-- <li role="presentation" class="dropdown-header">Personal Calendars</li> -->
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'calendar_create' %}"><span class=""><i class="fa fa-plus fa-fw"></i> New Calendar</span></a></li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#manage-calendars" data-toggle="modal"><span class=""><i class="fa fa-sitemap fa-fw"></i> Manage Calendars</span></a></li>
-				</ul>
-			</div>
-		</h2>
-		<hr style="margin-top:12px;">
-		<p></p>
-		<div id="yourCalList">
-			<div class="owned-cals-section">
-			<h5>School<span class="badge pull-right"
-					id="owned-calendar-count">{{total_school_calendars}}</span></h5>
-			<li role="presentation" class="dropdown-header white" style="margin:0px; padding:0px;">Private</li>
-			<!-- don't delete this again -->
-			<div class="hidden" id="make-a-calendar">
-				<p>
-					<div class="panel opa">
-						<div class="panel-body">
-							Make your first <a href="{%url "calendar_create"%}">calendar!</a>
-						</div>
-					</div>
-				</p>
-			</div>
-			<!-- for real it has a purpose-->
-			{% for calendar in owned_calendars %}
-			<div class="checkbox owned-calendar-holder" id="owned-calendar-holder-{{calendar.pk}}">
-				{% if calendar.private %}
-				<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
-					<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
-					{{calendar.title}}
-				</label>
-				{% else %}
-				<label class="owned-calendar-label" style="color: {{calendar.color}};"
-					data-cal="{{calendar.pk}}" data-toggle="tooltip" data-original-title="{{calendar.subscriptions}} follower{{calendar.subscriptions|pluralize}}" data-placement="right">
-					<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
-					{{calendar.title}}
-				</label>
-				{% endif %}
-				<small class="text-muted pull-right">
-					{% if calendar.private %}
-					<i class="fa fa-fw fa-lock" data-toggle="tooltip" data-original-title="Private" data-placement="left"></i>
-					{% else %}
-					<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i></a> 
-					<i class="fa fa-fw fa-bullhorn text-info" data-toggle="tooltip" data-original-title="Public" data-placement="left"></i>
-					{% endif %}
-				</small>
-			</div>
-			{% empty %}
-			<p>
-				<div class="panel opa">
-					<div class="panel-body">
-						Make your first <a href="{%url "calendar_create"%}">calendar!</a>
-					</div>
-				</div>
-			</p>
-			{% endfor %}
-		</div>
-		<div class="following-cals-section">
-			<li role="presentation" class="dropdown-header white" style="margin:0px; padding:0px;">Public</li>
+<!-- Calendar Section -->
+<section id="cal" class="section section-overview">
+  <div class="row">
+    <div class="col-xs-3">
+      <h1>Calendar
+        <a href="#calendar" class="pop-stay pull-right" data-toggle="popover" data-placement="bottom"
+          title="
+            <h4 class='margin-btm-none margin-top-sm'>
+              <strong>Calendar Options</strong>
+            </h4>
+          "
+          data-content="
+            <hr class='margin-btm margin-top-none'>
+              <ul class='list-unstyled trans'>
+                <li>
+                  <p><a href='{% url 'calendar_create' %}'><i class='fa fa-plus fa-fw'></i>&nbsp;New Calendar</a></p>
+                </li>
+                <li>
+                  <p><a href='#manage-calendars' data-toggle='modal'><i class='fa fa-sitemap fa-fw'></i>&nbsp;Manage Calendars</a></p>
+                </li>
+              </ul>              
+          ">
+          <small><i class="fa fa-gear fa-fw white"></i></small>
+        </a>
+      </h1>
 			<p></p>
-			{% for calendar in subscriptions %}
-			<!-- followed calendar -->
-			<div class="checkbox subscription-list" id="subscription-label-holder-{{calendar.pk}}">
-				<label style="color: {{calendar.color}};" data-cal="{{calendar.pk}}" id="subscription-label-{{calendar.pk}}">
-					<input class="toggle-events" type="checkbox" checked autocomplete="off" data-cal="{{calendar.pk}}"> {{calendar.title}}
-				</label>
-				<span class="pull-right small">
-					<a href="{% url "calendar_preview" calendar.pk%}">
-						<i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i>
-					</a> 
-				</span>
-			</div>
-			<!-- end cal -->
-			{% empty %}
-			<div class="panel opa">
-				<div class="panel-body">
-					You're not following any calendars yet! 
-					<a href="#" class="view-cals">Follow your first calendar!</a>
-				</div>
-			</div>
-			{% endfor %}
-
-			{% for calendar in delinquent_subscriptions %}
-			{% if forloop.first %}
-			<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">Delinquent Subscriptions</li>
-			<p></p>
-			{% endif %}
-			<div class="delinquent-subscription-list">
-				<span style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
-					{{calendar.title}} (Missing {{calendar.missed_events}} events)
-				</span>
-				<span class="pull-right small">
-					<a href="{% url "calendar_preview" calendar.pk%}"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
-				</span>
-			</div>
-			<!-- end cal -->
-			{% empty %}
-			{% endfor %}
-		</div>
-	</div>
-	</div>
-	<div id="col_2" class="col-sm-9 animated bounceInUp delayed-sm">
-		<!-- <div class="flip-holder"> -->
-			<!-- <div class="front"> -->
-				<div class="row">
-					<div class="col-xs-4">
-						<div class="btn-group">
-							<button type="button" class="cal-button cal-prev-button btn-xs btn btn-trans "><i class="fa fa-fw fa-angle-left"></i></button>
-							<button type="button" class="cal-button cal-today-button btn-xs btn btn-trans hidden-xs">Today</button>
-							<button type="button" class="pull-right cal-button cal-next-button btn-xs btn btn-trans "><i class="fa fa-fw fa-angle-right"></i></button>	
-						</div>
-					</div>
-					<div class="col-xs-4">
-						<span class="cal-date text-center center-block h3 margin-top-none"></span>
-					</div>
-					<div class="col-xs-4">
-						<span class="pull-right view-cals-btn">
-							<!-- <a href="#" class="view-cals margin-btm-none btn btn-primary btn-xs"> Browse Calendars</a>	 -->
-						</span>
-					</div>
-				</div>
-				<div class="panel opa">
-					<div class="panel-body">
-						<div id='calendar'></div>
-					</div>
-				</div><!-- end cal panel -->
-			<!-- </div> -->
-			<!--  <div class="back">
-				<h3>Calendars to Follow<button type="button" id="" class="close view-cals" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></h3>
-				<hr class="margin-top-sm">
-				<div class="well">
-				<div class="panel opa">
-					<div class="panel-body">
-						<ul class="nav nav-pills nav-justified" role="tablist">
-							{% for course in courses %}
-							{% if forloop.first %} <li class="active"><a href="#browse-tab-{{course.pk}}"
-									class="calendar-list-toggle active" data-course="{{course.pk}}" role="tab" data-toggle="tab">{{course}}</a></li>
-							{% else %}
-							<li><a href="#browse-tab-{{course.pk}}" class="calendar-list-toggle"
-									data-course="{{course.pk}}" role="tab" data-toggle="tab">{{course}}</a></li>
-							{% endif %}
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-				<div class="tab-content">
-					<p></p>
-					{% for course in courses %}
-					<div
-						{% if forloop.first %}
-						class="tab-pane fade in active calendar-list" id="browse-tab-{{course.pk}}"
-						{% else %}
-						class="tab-pane fade in calendar-list" id="browse-tab-{{course.pk}}"
-						{% endif %}
-						data-course="{{course.pk}}">
-						<div class="panel opa">
-							<div class="panel-body">
-								<h4 class="margin-top-none">{{course}} Calendars <span class="badge" id="calendar-count-{{course.pk}}">0</span>
-									<span class="btn-group pull-right hidden">
-										<button type="button" class="btn btn-trans btn-xs">Recent</button>
-										<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
-											<span class="caret"></span>
-											<span class="sr-only">Toggle Dropdown</span>
-										</button>
-										<ul class="dropdown-menu" role="menu">
-											<li><a href="#">Rating</a></li>
-											<li><a href="#">Most Purchased</a></li>
-										</ul>
-									</span>
-								</h4>
-								<div class="list-group calendar-item-list">
-									<div class="list-group-item hidden calendar-item-proto">
-										<div class="media">
-											<span class="pull-left" href="#">
-												<a href="#" class='calendar-picture-link'>
-													<div class="media-object img-thumbnail">
-														<img src="{% static 'lib/img/calendar-blank.svg' %}" style="width:64px">
-													</div>
-													<div class="assignment-number text-center text-trans h4 calendar-event-count">15</div>
-												</a>
-											</span>
-											<div class="media-body">
-												<h4 class="media-heading"><a href="" class="calendar-title">ECON 200 Calendar</a>
-													<small><div class="pull-right small text-muted calendar-create-date">0 m</div></small></h4>
-												<span class="description">
-
-													<p class="margin-btm-none"><strong>Instructor <span class='calendar-professor'></span></strong>
-													<i class="fa fa-fw fa-users"></i><span class="calendar-subscriptions">0 followers&nbsp;</span></p>
-														<small><i class="fa fa-clock-o"></i> <span class='calendar-time'>day time</span></small>
-													<p class="small">Uploaded by <a href="#" class="calendar-uploader"></a></p>
-												</span>
-											</div>
-										</div>
-									</div>
+			<hr>
+			<div id="yourCalList">
+				<div class="owned-cals-section">
+					<h5>School<span class="badge pull-right"
+						id="owned-calendar-count">{{total_school_calendars}}</span></h5>
+					<p>Private</p>
+					<!-- don't delete this again -->
+					<div class="hidden" id="make-a-calendar">
+						<p>
+							<div class="panel opa">
+								<div class="panel-body">
+									Make your first <a href="{%url "calendar_create"%}">calendar!</a>
 								</div>
 							</div>
+						</p>
+					</div>
+					<!-- for real it has a purpose-->
+					{% for calendar in owned_calendars %}
+					<div class="checkbox owned-calendar-holder" id="owned-calendar-holder-{{calendar.pk}}">
+						{% if calendar.private %}
+						<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}"><strong>
+							<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
+							{{calendar.title}}</strong>
+						</label>
+						{% else %}
+						<label class="owned-calendar-label" style="color: {{calendar.color}};"
+							data-cal="{{calendar.pk}}" data-toggle="tooltip" data-original-title="{{calendar.subscriptions}} follower{{calendar.subscriptions|pluralize}}" data-placement="right"><strong>
+							<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
+							{{calendar.title}}</strong>
+						</label>
+						{% endif %}
+						<span class="pull-right">
+							{% if calendar.private %}
+							<i class="fa fa-fw fa-lock" data-toggle="tooltip" data-original-title="Private" data-placement="left"></i>
+							{% else %}
+							<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i></a> 
+							<i class="fa fa-fw fa-bullhorn" data-toggle="tooltip" data-original-title="Public" data-placement="left"></i>
+							{% endif %}
+						</span>
+					</div>
+					{% empty %}
+					<p>
+						<div class="panel opa">
+							<div class="panel-body">
+								Make your first <a href="{%url "calendar_create"%}">calendar!</a>
+							</div>
+						</div>
+					</p>
+					{% endfor %}
+				</div>
+				<div class="following-cals-section">
+					<p>Public</p>
+					<p></p>
+					{% for calendar in subscriptions %}
+					<!-- followed calendar -->
+					<div class="checkbox subscription-list" id="subscription-label-holder-{{calendar.pk}}">
+						<label style="color: {{calendar.color}};" data-cal="{{calendar.pk}}" id="subscription-label-{{calendar.pk}}"><strong>
+							<input class="toggle-events" type="checkbox" checked autocomplete="off" data-cal="{{calendar.pk}}"> {{calendar.title}}</strong>
+						</label>
+						<span class="pull-right">
+							<a href="{% url "calendar_preview" calendar.pk%}">
+								<i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i>
+							</a> 
+						</span>
+					</div>
+					<!-- end cal -->
+					{% empty %}
+					<div class="panel opa">
+						<div class="panel-body">
+							You're not following any calendars yet! 
+							<a href="#" class="view-cals">Follow your first calendar!</a>
 						</div>
 					</div>
 					{% endfor %}
-				</div> 
-			</div> --> 
-		<!-- </div> --> <!-- end flip holder -->
-	</div><!-- end col -->
-</div><!-- end row -->
-<div id="popover-title" class="hidden">
-	<strong>New Event &nbsp; </strong>&nbsp; 
-	<div class="dropdown pull-right">
-		{% for calendar in owned_calendars %}
-		{% if forloop.first %}
-		<button class="dropdown-toggle btn btn-trans btn-xs" type="select" id="calDropDown" data-toggle="dropdown">
-			<span class="cal-name" data-calendar="{{calendar.pk}}" style="color: {{calendar.color}};">
-				{{calendar.title}} 
-			</span>
-			<span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu" id="calSelect" role="menu" aria-labelledby="calDropDown">
-			<li role="presentation" class="dropdown-header">School Calendars</li>
-			{% endif %}
-			<li role="presentation">
-				<a role="menuitem" tabindex="-1" value="1" data-calendar="{{calendar.pk}}" style="color: {{calendar.color}};">
-					{{calendar.title}}
-				</a>
-			</li>
-			{% endfor %}
-		</ul>
-	</div>
-</div>
-<div id="popover-content" class="hidden">
-	<!-- <div class="cal-popover"> -->
-	<form method="post" id="add-event-form">
-		{% csrf_token %}
-		<p><input class="form-control" name="title" placeholder="Event Title" required></p>
-		<p><input tabindex="-1" type="text" class="date-input form-control date" ></p>
-		<p><input name="description" class="form-control" placeholder="Notes"></p>	
-		<button type="submit" class="btn btn-primary btn-sm btn-block">Add Event</button>
-	</form>
-	<!-- </div> -->
-</div>
-<div id="events-popover-title" class="hidden">
-	<strong>Events</strong>&nbsp; 
-</div>
-<div id="events-popover-content" class="hidden">
-	<div class="event-popover-container"></div><!-- sets the width of the popover -->
-	<span class="list-group margin-top-none margin-btm-none trans">
-		<span class="list-group-item trans inverse">
-			<span class="margin-btm-sm margin-top-none h5">
-				<span class="event-options pull-right small">
-					<i class="fa fa-bullhorn text-info"></i>
-					<a href="#" class="event-edit-link"><i class="fa fa-pencil text-trans"></i></a> 
-					<a class="event-delete-link" style="cursor: pointer"><i class="fa fa-times text-danger"></i></a>
-				</span>
-				<span class="event-title calendar-indicator"></span>
-				<span class="small event-description"></span>
-			</span>
-			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
-			<span data-type="date" class="small margin-btm-none event-date"></span> <span class="event-author margin-btm-none small">by <a href="#" class="event-author-link"></a></span>
-			<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
 
-			<i class="fa fa-clock-o small"></i> 
-			<span class="small margin-btm-none event-time"> 12:00 pm</span>&nbsp;<span class="small">in</span> <span class="small margin-btm-none event-class"> CSC 245</span>
-			<span class="event-id hidden">8</span>
-		</span>
-	</span><!-- end list-group -->
-</div>
-<div class="calendar-courses">
-	<script type="text/javascript">
-		var calendarCourses = [];
-		{% for course in calendar_courses %}
-		calendarCourses.push({ value: '{{ course.course__pk }}', text: '{{course.course__dept}} {{course.course__course_number}}' });
-		{% endfor %}
-	</script>
-</div>
+					{% for calendar in delinquent_subscriptions %}
+					{% if forloop.first %}
+					<li role="presentation" class="dropdown-header" style="margin:0px; padding:0px;">Delinquent Subscriptions</li>
+					<p></p>
+					{% endif %}
+					<div class="delinquent-subscription-list">
+						<span style="color: {{calendar.color}};" data-cal="{{calendar.pk}}">
+							{{calendar.title}} (Missing {{calendar.missed_events}} events)
+						</span>
+						<span class="pull-right small">
+							<a href="{% url "calendar_preview" calendar.pk%}"><i class="fa fa-fw fa-external-link" style="color: {{calendar.color}};"></i></a> 
+						</span>
+					</div>
+					<!-- end cal -->
+					{% empty %}
+					{% endfor %}
+				</div>
+  		</div>
+  	</div><!-- end col-3 -->
+		<div id="col_2" class="col-xs-9 animated bounceInUp delayed-sm">
+			<div class="row">
+        <h2>
+          <div class="col-xs-4">
+            <div class="btn-group">
+              <button type="button" class="cal-button cal-prev-button btn btn-trans"><i class="fa fa-fw fa-angle-left white"></i></button>
+              <button type="button" class="cal-button cal-next-button btn btn-trans"><i class="fa fa-fw fa-angle-right white"></i></button>  
+            </div>
+            <button type="button" class="cal-button cal-today-button btn btn-trans hidden-xs"><span class="white">Today</span></button>
+          </div>
+          <div class="col-xs-4">   
+            <span class="cal-date text-center center-block white">June 2015</span>
+          </div>
+          <!-- <div class="col-xs-4">
+            <div class="btn-group pull-right margin-top-sm" data-toggle="buttons">
+              <label class="cal-button cal-view-day btn btn-trans">
+                <input type="radio" name="day" autocomplete="off" checked>day
+              </label>
+              <label class="cal-button cal-view-week btn btn-trans">
+                <input type="radio" name="week" autocomplete="off">week
+              </label>
+              <label class="cal-button cal-view-month btn btn-trans active">
+                <input type="radio" name="month" autocomplete="off">month
+              </label>
+            </div>
+          </div> -->
+        </h2>
+      </div><!-- end row -->
+      <br>
+    	<div class="panel opa">
+				<div id='calendar'></div>
+    	</div>
+		</div><!-- end col -->
+	</div><!-- end row -->
+</section>
+	<div id="popover-title" class="hidden">
+		<strong>New Event &nbsp; </strong>&nbsp; 
+		<div class="dropdown pull-right">
+			{% for calendar in owned_calendars %}
+			{% if forloop.first %}
+			<button class="dropdown-toggle btn btn-default btn-xs" type="select" id="calDropDown" data-toggle="dropdown">
+				<span class="cal-name" data-calendar="{{calendar.pk}}" style="color: {{calendar.color}};">
+					{{calendar.title}} 
+				</span>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" id="calSelect" role="menu" aria-labelledby="calDropDown">
+				<li role="presentation" class="dropdown-header">School Calendars</li>
+				{% endif %}
+				<li role="presentation">
+					<a role="menuitem" tabindex="-1" value="1" data-calendar="{{calendar.pk}}" style="color: {{calendar.color}};">
+						{{calendar.title}}
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div id="popover-content" class="hidden">
+		<!-- <div class="cal-popover"> -->
+		<form method="post" id="add-event-form">
+			{% csrf_token %}
+			<p><input class="form-control" name="title" placeholder="Event Title" required></p>
+			<p><input tabindex="-1" type="text" class="date-input form-control date" ></p>
+			<p><input name="description" class="form-control" placeholder="Notes"></p>	
+			<button type="submit" class="btn btn-trans btn-sm btn-block">Add Event</button>
+		</form>
+		<!-- </div> -->
+	</div>
+	<div id="events-popover-title" class="hidden">
+		<strong>Events</strong>&nbsp; 
+	</div>
+	<div id="events-popover-content" class="hidden">
+		<div class="event-popover-container"></div><!-- sets the width of the popover -->
+		<span class="list-group margin-top-none margin-btm-none trans">
+			<span class="list-group-item trans inverse">
+				<span class="margin-btm-sm margin-top-none h5">
+					<span class="event-options pull-right small">
+						<i class="fa fa-bullhorn text-info"></i>
+						<a href="#" class="event-edit-link"><i class="fa fa-pencil text-trans"></i></a> 
+						<a class="event-delete-link" style="cursor: pointer"><i class="fa fa-times text-danger"></i></a>
+					</span>
+					<span class="event-title calendar-indicator"></span>
+					<span class="small event-description"></span>
+				</span>
+				<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
+				<span data-type="date" class="small margin-btm-none event-date"></span> <span class="event-author margin-btm-none small">by <a href="#" class="event-author-link"></a></span>
+				<h6 class="margin-top-none margin-btm-none"></h6><!-- used as space holder -->
+
+				<i class="fa fa-clock-o small"></i> 
+				<span class="small margin-btm-none event-time"> 12:00 pm</span>&nbsp;<span class="small">in</span> <span class="small margin-btm-none event-class"> CSC 245</span>
+				<span class="event-id hidden">8</span>
+			</span>
+		</span><!-- end list-group -->
+	</div>
+
+	<div class="calendar-courses">
+		<script type="text/javascript">
+			var calendarCourses = [];
+			{% for course in calendar_courses %}
+			calendarCourses.push({ value: '{{ course.course__pk }}', text: '{{course.course__dept}} {{course.course__course_number}}' });
+			{% endfor %}
+		</script>
+	</div>
 {% endblock %}
