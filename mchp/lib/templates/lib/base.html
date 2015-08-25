@@ -265,7 +265,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <ul class="nav nav-pills nav-stacked sidebar-nav">
           <li class="sidebar-brand">
-            <a href="{% url "new_homepage" %}" class="pop-stay page-scroll" data-toggle="popover"
+            <a href="{% url 'dashboard'%}" class="pop-stay page-scroll" data-toggle="popover"
             title="
               <h4 class='margin-btm-none margin-top-sm'>
                 <strong>Assignments</strong>
@@ -308,13 +308,13 @@
             </a>
           </li>
           <li>
-            <a href="#overview" class="page-scroll"><i class="fa fa-home"></i></a>
+            <a href="{% url 'dashboard'%}" class="page-scroll"><i class="fa fa-home"></i></a>
           </li>
           <li>
-            <a href="#classes" class="page-scroll"><i class="fa fa-book"></i></a>
+            <a href="{% url 'classes'%}" class="page-scroll"><i class="fa fa-book"></i></a>
           </li>
           <li>
-            <a href="#calendar" class="page-scroll"><i class="fa fa-calendar"></i></a>
+            <a href="{% url 'calendar'%}" class="page-scroll"><i class="fa fa-calendar"></i></a>
           </li>
           <!-- <li class="hidden-sm">
             <a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"></a>
@@ -405,10 +405,10 @@
             <a href="{% url "new_homepage" %}" class="page-scroll"><span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">0</span></a>
           </li>
           <li>
-            <a href="#overview" class="page-scroll"><i class="fa fa-home"></i></a>
+            <a href="{% url 'dashboard' %}" class="page-scroll"><i class="fa fa-home"></i></a>
           </li>
           <li>
-            <a href="#classes" class="page-scroll"><i class="fa fa-book"></i></a>
+            <a href="{% url 'classes' %}" class="page-scroll"><i class="fa fa-book"></i></a>
           </li>
           <li>
             <a href="#calendar" class="page-scroll"><i class="fa fa-calendar"></i></a>

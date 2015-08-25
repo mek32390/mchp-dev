@@ -1,6 +1,6 @@
-{% extends 'schedule/base.html' %}
+{% extends 'lib/base.html' %}
 
-{% block head_title %}My Classes{% endblock %}
+{% block head_title %}Classes{% endblock %}
 
 {% block extra_head %}
 	{% load staticfiles %}
@@ -12,197 +12,163 @@
 
 {% block body %}
 {% load humanize %}
-
-<div class="container animated bounceInUp">
-	<h2 class="margin-top-sm">Your Classes
-		<div id="edit-classes" class="pull-right">
-			<a href="{% url 'course_add'%}" class="btn btn-primary btn-sm"> Add/Drop Classes &raquo;</a>
-		</div>
-	</h2>
-	<ul class="nav nav-tabs nav-justified" role="tablist">
+<section id="classes" class="section section-overview">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Classes</h1>
+      <p class="lead"></p>
+    <div>
+    <!-- Nav tabs -->
+		<ul class="nav nav-pills" role="tablist">
 		{% for course in course_list %}
-		{% ifequal forloop.counter 1 %}
-		<li class="active course-tab-active">
-			<a href="#course{{forloop.counter}}" data-toggle="tab">
-				<h5><i class="fa fa-book"></i> {{course.dept}} {{course.course_number}}</h5>
-			</a>
-		</li>
-		{% else %}
-		<li>
-			<a href="#course{{forloop.counter}}" data-toggle="tab">
-				<h5><i class="fa fa-book"></i> {{course.dept}} {{course.course_number}}</h5>
-			</a>
-		</li>
-		{% endifequal %}
+			{% ifequal forloop.counter 1 %}
+				<li role="presentation" class="active course-tab-active">
+					<a href="#course{{forloop.counter}}" class="pill-opa" data-toggle="tab">
+						{{course.dept}} {{course.course_number}}
+					</a>
+				</li>
+			{% else %}
+				<li>
+					<a role="presentation" href="#course{{forloop.counter}}" class="pill-opa" data-toggle="tab">
+						{{course.dept}} {{course.course_number}}
+					</a>
+				</li>
+			{% endifequal %}
 		{% empty %}
 		{% endfor %}
-	</ul>
-	<div class="tab-content">
+		</ul>
+		<div class="tab-content">
 		{% for course in course_list %}
 		{% ifequal forloop.counter 1 %}
 		<div class="tab-pane fade in active" id="course{{forloop.counter}}">
 		{% else %}
 		<div class="tab-pane fade" id="course{{forloop.counter}}">
 		{% endifequal %}
-			<div class="well well-md" style="padding-bottom:0px; margin-top:20px;">
-				<div class="panel panel-default">
+			<div class="row">
+			<div class="col-xs-12">
+				<hr>
+				<div class="panel opa">
 					<div class="panel-body">
 						<div class="media">
-							<a class="pull-left" href="{% url "course" course.pk %}{{course.name}}">
-								<img class="media-object" src="{% static 'lib/img/book.svg' %}" width="74px" alt="class">
-							</a>
 							<div class="media-body">
-								<h1 class="media-heading"><a href="{% url "course" course.pk %}{{course.name}}">{{course.dept}} {{course.course_number}}</a></h1>
+								<button type="button" class="btn btn-lg btn-trans pull-right" data-toggle="modal" data-target="#viewSyllabus">Syllabus</button>
+								<h2 class="media-heading"><a href="{% url "course" course.pk %}{{course.name}}">{{course.dept}} {{course.course_number}}</a></h2>
 								<h5>
 									<i class="fa fa-male"></i> Instructor {{course.professor}} &nbsp; 
 									<i class="fa fa-university"></i> <a href="{% url "school" course.domain__pk %}{{course.domain__name}}"> {{course.domain__name}}</a>
 								</h5>
 							</div>
 						</div>
-					</div><!-- end panel body -->
-				</div><!-- end panel -->
-			</div><!-- end well -->
-			<div class="row">
-				<div class="col-sm-5 animated">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Activity <span class="badge">{{course.activity|length}}</span></h3>
-						</div><!-- end panel heading -->
-						<div class="panel-body">
-							<div class="list-group small-scroll-con scrolls">
-								{% for act in course.activity %}
-								{% ifequal act.type "document" %}
-								<li class="list-group-item">
-									<h5 class="list-group-item-heading">
-	                  <i class="fa fa-file-text-o fa-lg pull-left"></i><a href="{%url "document_preview" act.title.uuid%}">{{act.title}}</a> added to Documents
-	                </h5>
-	                <p class="list-group-item-text">
-	                  {% if act.user %}
-	                  <small>{{act.time|naturaltime}} by <a href="{%url "profile" act.user.pk%}">{{act.user.username}}</a></small>
-	                  {% endif %}
-	                </p>
-								</li>
-								{% endifequal %}
-								{% ifequal act.type "join" %}
-								<li class="list-group-item">
-									<h5 class="list-group-item-heading">
-										<i class="fa fa-user fa-lg pull-left"></i>
-										<a href="{% url "profile" act.user.pk %}">{{act.title}}</a> joined the class
-									</h5>
-									<p class="list-group-item-text"><small>{{act.time|naturaltime}}</small></p>
-								</li>
-								{% endifequal %}
-								{% endfor %}
-							</div>
-						</div><!-- end panel body -->
-					</div><!-- end panel -->
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Classmates <span class="badge">{{course.students|length}}</span></h3>
-						</div><!-- end panel heading -->
-						<div class="panel-body">
-							<div class="list-group small-scroll-con scrolls">
-								{% for student in course.students %}
-      					<li class="list-group-item">
-        					<div class="media">
-											<a class="pull-left" href="{%url "profile" student.pk%}{{student.name}}">
-            						<img class="media-object img-circle img-thumbnail"
-            					src="{{student.profile.profile_image_url}}" style="width:40px; height:40px;" alt="">
-          						</a>
-          						<div class="media-body">
-            						<h5 class="media-heading margin-btm-none">
-            							<a href="{%url "profile" student.pk%}{{student.name}}">{{student.user.username}}</a><span class="pull-right"><small>active {{ student.user.last_login|naturaltime }}</small></span>
-            						</h5>
-            						<small>
-	                        {% if student.major %}
-	                        {{ student.major }} Major
-	                        {% else %}
-													{{student.school.name}}
-	                        {% endif %}
-		                    </small>
-		                    <small>
-		                    </small>
-			                </div>
-			            </div>
-			        	</li>
-								{% empty %}
-								<div class="panel panel-default">
-									<div class="panel-body text-center">
-										<p class="lead">You're the first person to join this class!</p>
+					</div>
+				</div>
+				<br>
+			</div>
+				<div class="col-xs-5">
+					<h4 class="lead"><i class="fa fa-file-text-o"></i> Documents
+            <ul class="list-inline pull-right">
+              <li><button type="button" class="btn btn-sm btn-trans">+ Document</button></li>
+            </ul>
+          </h4>
+          <div class="panel opa">
+          	<div class="list-group trans doc-con scrolls">
+							{% for document in course.documents %}
+							<a href="{% url "document_list" %}{{document.uuid}}" class="list-group-item trans">
+								<div class="media">
+									<div class="media-left" href="#">
+											{% if document.preview %}
+											<img clas"media-object bg-white img-thumbnail img-rounded" src="{{document.preview.url}}" style="width:64px">
+											{% else %}
+											<img class="media-object bg-white img-thumbnail img-rounded" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px">
+											{% endif %}
 									</div>
-								</div>
-								{% endfor %}
-							</div>
-						</div><!-- end panel body -->
-					</div><!-- end panel -->
-				</div><!-- end col -->
-				<div class="col-sm-7 animated ">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Documents <span class="badge">{{course.documents|length}}</span>
-								<a href="{% url "course" course.pk %}{{course.name}}" class="btn btn-primary btn-xs pull-right"><i class="fa fa-file-text-o "></i> View All Documents</a>
-							</h3>
-						</div><!-- end panel heading -->
-						<div class="panel-body">
-							<div class="list-group doc-con scrolls">
-								{% for document in course.documents %}
-								<div class="list-group-item">
-									<div class="media">
-										<span class="pull-left" href="#">
-											<div class="media-object img-thumbnail">
-												{% if document.preview %}
-												<a href="#"><img src="{{document.preview.url}}" style="width:64px"></a>
-												{% else %}
-												<a href="#"><img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a>
-												{% endif %}
-											</div>
+									<div class="media-body white">
+										<h4 class="media-heading">{{document.title}}
+											<small class="white">{{document.price}} points</small><span class="pull-right small"><small>{{document.create_date|naturaltime}}</small></span></h4>
+										<span class="description">
+											<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
+											<i class="fa fa-fw fa-thumbs-down text-danger
+												fa-flip-horizontal"></i>{{document.down}}&nbsp;
+											{% with document.review_count as review_count %}
+											<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
+											{% endwith %}
+											<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
+											Purchase{{document.sold|pluralize}}
 										</span>
-										<div class="media-body">
-											<h4 class="media-heading">
-												<a href="{% url "document_list" %}{{document.uuid}}">{{document.title}}</a>
-												<small>{{document.price}} points</small><span class="pull-right small"><small>{{document.create_date|naturaltime}}</small></span>
-											</h4>
-											<span class="description">
-												<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
-												<i class="fa fa-fw fa-thumbs-down text-danger
-													fa-flip-horizontal"></i>{{document.down}}&nbsp;
-												{% with document.review_count as review_count %}
-												<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
-												{% endwith %}
-												<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
-												Purchase{{document.sold|pluralize}}
-											</span>
-	                    {% if document.upload %}
-	                    {% with document.upload.owner as owner %}
-	                    <div>
-	                     uploaded by a classmate
+                    {% if document.upload %}
+                    {% with document.upload.owner as owner %}
+                    <div> uploaded by a classmate
                     </div>
-                    	{% endwith %}
-                    	{% endif %}
+                    {% endwith %}
+                    {% endif %}
 									</div>
 								</div>
-							</div>
-								{% empty %}
-								<div class="panel panel-default">
-									<div class="panel-body text-center">
-										<p class="lead">Be the first to <a href="{% url "document_upload" %}">upload a document</a> in this class and start making money!</p>
-									</div>
-								</div>
+							</a>
+							{% empty %}
+								<li class="list-group-item trans text-center">
+									<p class="lead">Be the first to <a href="{% url "document_upload" %}">upload a document</a> in this class and start making money!</p>
+								</li>
 							{% endfor %}
-							</div>
-						</div><!-- end panel body -->
-					</div><!-- end panel -->
-				</div><!-- end col -->
+						</div>
+          </div>
+				</div><!-- end col-5 -->
+				<div class="col-xs-4">
+					<h4 class="lead"><i class="fa fa-calendar"></i> Events
+	          <button type="button" class="pull-right btn btn-sm btn-trans">+ Event</button>
+	        </h4>
+	        <div class="panel opa">
+	          <ul class="list-group trans small-scroll-con scrolls">
+	            <a href="#" class="list-group-item trans">
+	              <div class="media">
+	                <div class="media-body">
+	                  <h4 class="media-heading white">Exam 2 <span class="small"></span></h4>
+	                </div>
+	              </div>
+	            	<h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> 2 Study Guides</h5>
+	            </a>
+	          </ul>
+					</div>
+				</div><!-- end col-4 -->
+				<div class="col-xs-3">
+					<h4 class="lead"><i class="fa fa-users"></i> Classmates</h4> 
+          <div class="panel opa">
+            <ul class="list-group trans small-scroll-con scrolls">
+            	{% for student in course.students %}
+            	<a href="{%url "profile" student.pk%}{{student.name}}" class="list-group-item trans">
+                <div class="media">
+                  <div class="media-left">
+                    <div class="media-object">
+                      <img class="img-circle" src="{{student.profile.profile_image_url}}" alt="..." width="32">
+                    </div>
+                  </div>
+                  <div class="media-body white">
+                    <h4 class="media-heading">{{student.user.username}}</h4>
+                    <p class="margin-btm-none margin-top-none">active {{ student.user.last_login|naturaltime }}</p>
+                    <small>
+                      {% if student.major %}
+                      {{ student.major }} Major
+                      {% else %}
+											{{student.school.name}}
+                      {% endif %}
+                  	</small>
+                  </div>
+                </div>
+              </a>
+              {% empty %}
+							<li class="list-group-item trans">
+								<p class="lead text-center">You're the first person to join this class!</p>
+							</li>
+							{% endfor %}
+            </ul>
+					</div>
+				</div><!-- end col-3 -->
 			</div><!-- end row -->
-		</div>
+								
+		</div><!-- end tab-pane -->
 		{% empty %}
-		<hr>
-		<div class="text-center">
+		</div><!-- end tab-content -->		
 			<p class="lead text-center">You haven't added any classes to your schedule yet!</p>
 			<a href="{% url 'course_add' %}" class="btn btn-primary text-center">Add Classes</a>
-		</div>
-		<hr>
 		{% endfor %}
-	</div>
-</div>
+	</div><!-- end row -->
+</section>
 {% endblock %}
