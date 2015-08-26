@@ -20,7 +20,7 @@ Depending on your package manager and OS, the name of your virtual env may diffe
 
 For Mac:
 ```
-$ pyenv3.4 /mchp-dev
+$ pyvenv3.4 /mchp-dev
 $ source mchp-dev/bin/activate
 ```
 Other:
