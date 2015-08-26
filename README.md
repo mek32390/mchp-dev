@@ -16,6 +16,8 @@ $ brew install python3
 ```
 Set up virtualenv:
 
+Depending on your package manager and OS, the name of your virtual env may differ from below.
+
 For Mac:
 ```
 $ pyenv3.4 /mchp-dev
@@ -53,11 +55,6 @@ UPDATE django_site SET DOMAIN = '127.0.0.1:8000', name = 'mchp' WHERE id=1;
 INSERT INTO socialaccount_socialapp (provider, name, secret, client_id, "key")
   VALUES ('facebook', 'Facebook', '--put-your-own-app-secret-here--', '--put-your-own-app-id-here--', '');
 INSERT INTO socialaccount_socialapp_sites (socialapp_id, site_id) VALUES (1, 1);
-```
-
-To start elasticsearch:
-```
-# elasticsearch -d es.config=/path/to/elasticsearch.yml
 ```
 
 Amazon access id and secret key are now taken from environmental variables. Put these commands in a .bashrc or similar file to have them run every time a new shell is started. The settings file will take care about loading these.
