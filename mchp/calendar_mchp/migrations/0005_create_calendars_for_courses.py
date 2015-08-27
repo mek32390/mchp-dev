@@ -3,9 +3,7 @@ from __future__ import unicode_literals
 from datetime import timedelta
 from django.utils import timezone
 
-from django.db import models, migrations
-from django.db.models import Q
-from aggregate_if import Count
+from django.db import migrations
 from calendar_mchp.utils import generate_calendar_color
 from mchp import settings
 
@@ -14,16 +12,10 @@ def create_calendars(apps, schema_editor):
     Student = apps.get_model('user_profile', 'Student')
     Course = apps.get_model('schedule', 'Course')
     ClassCalendar = apps.get_model('calendar_mchp', 'ClassCalendar')
+    CalendarEvent = apps.get_model('calendar_mchp', 'CalendarEvent')
+    DashEvent = apps.get_model('dashboard', 'DashEvent')
 
-    # Conditional aggregation - counting ONLY public calendars
-    # Using django-aggregate-if, which is not necessary in Django 1.8
-    courses_with_no_calendars = Course.objects \
-                                      .annotate(num_calendars=Count('calendar_courses', only=Q(calendar_courses__private=False))) \
-                                      .filter(num_calendars=0)
-
-    if not courses_with_no_calendars.exists():
-        # Nothing to migrate
-        return
+    courses = Course.objects.all()
 
     admin_user = Student.objects.filter(user__username=settings.ADMIN_USERNAME)
     if admin_user.exists():
@@ -31,10 +23,14 @@ def create_calendars(apps, schema_editor):
     else:
         raise Exception("There is no 'mchp' user or any other superuser to attach calendars to.")
 
-    existing_calendars = list(ClassCalendar.objects.filter(owner=admin_user))
-    created_calendars = []
+    # Removing all public calendars and events
+    DashEvent.objects.filter(calendar__isnull=False)
+    ClassCalendar.objects.filter(private=False).delete()
+    CalendarEvent.objects.filter(calendar__private=False).delete()
 
-    for course in courses_with_no_calendars:
+    existing_calendars = []
+    created_calendars = []
+    for course in courses:
         calendar = ClassCalendar()
         calendar.course = course
         calendar.owner = admin_user
@@ -59,6 +55,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('calendar_mchp', '0004_classcalendar_primary'),
+        ('dashboard', '0001_initial')
     ]
 
     operations = [
