@@ -171,45 +171,47 @@ $(function(){
     fetchFeed();
     fetchRss();
     var now = moment($('.current-time').data('time'));
-    startTime(now._tzm);
+    startTime(now.zone());
     $($('#news-navbar').find('.news-list-item:visible')[0]).find('a.news-link').click();
     window.scrollTo(0,0);
 });
 
-var fetchRss = function() {if ($('.news-list-item:visible').length !== 0) {
+var fetchRss = function() {
     if ($('.news-list-item:visible').length !== 0) {
-        $('.news-list-empty').addClass('hidden');
-    }
-
-    var $sections = $('.news-group');
-    $sections.each(function(index, section) {
-        var $section = $(section);
-        if($section.hasClass('hidden')) {
-            return true;
+        if ($('.news-list-item:visible').length !== 0) {
+            $('.news-list-empty').addClass('hidden');
         }
-        // clear old items if any
-        $('.news-item:not(.news-item-proto)').remove();
-        var $links = $section.find('.news-item-proto');
-        $links.each(function(index, link) {
-            var $link = $(link);
-            var $section = $link.parents('.news-group');
-            var url = $link.data('link') ;
-            var name = $link.data('name');
-            var count = $link.data('count');
-            var successFn = function(feed) {
-                for(var i = 0 ; i < count ; i++) {
-                    addRss($section, feed.items[i], name);
-                }
-            };
-            $.getFeed({
-                url: '/home/rss-proxy/',
-                data: {
-                    'url': url,
-                },
-                success: successFn,
+
+        var $sections = $('.news-group');
+        $sections.each(function(index, section) {
+            var $section = $(section);
+            if($section.hasClass('hidden')) {
+                return true;
+            }
+            // clear old items if any
+            $('.news-item:not(.news-item-proto)').remove();
+            var $links = $section.find('.news-item-proto');
+            $links.each(function(index, link) {
+                var $link = $(link);
+                var $section = $link.parents('.news-group');
+                var url = $link.data('link') ;
+                var name = $link.data('name');
+                var count = $link.data('count');
+                var successFn = function(feed) {
+                    for(var i = 0 ; i < count ; i++) {
+                        addRss($section, feed.items[i], name);
+                    }
+                };
+                $.getFeed({
+                    url: '/home/rss-proxy/',
+                    data: {
+                        'url': url,
+                    },
+                    success: successFn,
+                });
             });
         });
-    });
+    }
 };
 
 var addRss = function(section, rss, name) {
@@ -348,7 +350,7 @@ var fetchFeed = function() {
         complete: function(data) {
             return feed;
         }
-    });
+    })
 };
 
 function startTime(zone) {

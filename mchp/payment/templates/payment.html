@@ -8,21 +8,21 @@
 	{% load payment %}
 	<ul class="nav nav-pills nav-justified" role="tablist">
 		<li class="active">
-			<a href="#purchase-points-tab" role="tab" data-toggle="tab">Buy Points</a>
+			<a href="#purchase-points-tab" class="pill-opa" role="tab" data-toggle="tab">Buy Points</a>
 		</li>
-		<li><a href="#cash-out-tab" role="tab" data-toggle="tab">Cash Out</a></li>
-		<li><a href="#card-info-tab" role="tab" data-toggle="tab">Card Info</a></li>
+		<li><a href="#cash-out-tab" class="pill-opa" role="tab" data-toggle="tab">Cash Out</a></li>
+		<li><a href="#card-info-tab" class="pill-opa" role="tab" data-toggle="tab">Card Info</a></li>
 	</ul>
 	<hr class="margin-btm-sm">
 	<div class="row">
 		<div class="col-xs-12">
-	<a href="#" class="show-cards small margin-top-none pull-right text-dull"><i class="fa-fw fa fa-credit-card"></i> View</a>
-</div>
-</div>
+			<a href="#" class="show-cards small margin-top-none pull-right"><i class="fa-fw fa fa-credit-card"></i> Your Cards</a>
+		</div>
+	</div>
 	<p></p>
 	<div class="saved-cards hidden">
-		<div class="list-group">
-		<div class="list-group-item">
+		<div class="list-group trans">
+		<div class="list-group-item trans">
 			<button type="button" class="close hide-cards" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 			<p class="card-errors text-danger text-center"></p>
 			<label><i class="fa-fw fa fa-credit-card"></i> Your Cards</label>

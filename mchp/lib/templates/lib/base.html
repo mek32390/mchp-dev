@@ -5,25 +5,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <title>{% block head_title %}{% endblock %}</title>
+
     <!-- mchp favicon -->
     <link rel="shortcut icon" href="https://s3.amazonaws.com/mchp-dev/static/lib/img/favicon.ico" />
+
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
     <!-- Animate.css -->
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
     <!-- Latest compiled and minified Bootstrap JavaScript -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     {% load staticfiles %}
 
+    <!-- Scrolling Nav CSS -->
+    <link href="{% static 'lib/css/scrolling-nav.css' %}" rel="stylesheet">
+
+    <!-- Simple Sidebar CSS -->
+    <link href="{% static 'lib/css/simple-sidebar.css' %}" rel="stylesheet">
+
+    <!-- Site-wide CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/mchp.css' %}">
+
+    <!-- Payment js -->
+    <script src="{% static 'payment/js/payment.js' %}"></script>
+
+    <!-- Site-wide Javascripts -->
     <script src="{% static 'lib/js/mchp.js' %}"></script>
     <script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="{% static 'lib/js/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'lib/js/scrolling-nav.js' %}"></script>
+
+    <script type="text/javascript">var MAX_BG_IMAGES={{ MAX_BG_IMAGES }}</script>
+
     <script type="text/javascript">
     var $buoop = {
             vs:{i:10,f:15,o:12.1,s:5.1},
@@ -37,335 +63,404 @@
      document.body.appendChild(e);
     }
     </script>
-    {% block head %}
 
+    {% block head %}
     {% endblock %}
+
     {% block extra_head %}
     {% endblock %}
 
-  </head>
-  <body>
+    </head>
+    <body id="page-top" data-spy="scroll" data-target=".navbar-transparent">
       {%load referral%}
       {%load payment%}
       {% load notifications %}
 
-      {% if user.is_anonymous %}
-      <div class="modal fade" id="mchp-login-prompt" tabindex="-1" role="dialog" aria-labelledby="login-prompt" aria-hidden="true">
-          <div class="modal-dialog modal-sm">
-              <div class="modal-content">
-                  <div class="modal-body text-center">
-                      <h3>Got Credentials?</h3>
-                      <img class="img-circle img-thumbnail" src="{% static 'lib/img/support.svg' %}" alt="sign up or login">
-                      <br></br>
-                      <p><small>Log In or Sign Up using:</small></p>
-                      <a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg"
-                          href="/accounts/facebook/login/" target="_blank"><i class="fa fa-facebook"></i> Facebook
-                      </a>
-                      {% include "socialaccount/snippets/login_extra.html" %}
-                      <hr>
-                      <span id="login-options">
-                          <a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with e-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
-                      </span>
-                      <form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
-                          {% csrf_token %}
-                          <div class='form-group'>
-                              <div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
-                                  <input name="email" class="form-control" placeholder="What is your .EDU e-mail?">
-                              </div>
-                          </div>
-                          <p></p>
-                          <button class="btn btn-default btn-block" type="submit">Sign Up</button>
+      <div id="bg"></div>
+      <div id="bg-overlay"></div>
 
-                      </form>
+      <!-- Full-page wrapper -->
+      <div id="wrapper">
+
+      {% if user.is_anonymous %}
+
+      <div class="modal fade" id="mchp-login-prompt" tabindex="-1" role="dialog" aria-labelledby="login-prompt" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body text-center">
+              <h3>Got Credentials?</h3>
+              <img class="img-circle img-thumbnail" src="{% static 'lib/img/support.svg' %}" alt="sign up or login">
+              <br></br>
+              <p><small>Log In or Sign Up using:</small></p>
+              <a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg"
+                  href="/accounts/facebook/login/" target="_blank"><i class="fa fa-facebook"></i> Facebook
+              </a>
+              {% include "socialaccount/snippets/login_extra.html" %}
+              <hr>
+              <span id="login-options">
+                <a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with e-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
+              </span>
+              <form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
+                {% csrf_token %}
+                <div class='form-group'>
+                  <div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
+                    <input name="email" class="form-control" placeholder="What is your .EDU e-mail?">
                   </div>
-              </div>
+                </div>
+                <p></p>
+                <button class="btn btn-default btn-block" type="submit">Sign Up</button>
+              </form>
+            </div>
           </div>
+        </div>
       </div>
       {% endif %}
+
       {% if user.is_authenticated %}
       {% if user.student %}
       {% with user.student as student %}
+
       <div class="mchp-username hidden">{{student.name}}</div>
+
       <!-- Set Homepage Modal -->
       <div class="modal fade" id="sethomeModal" tabindex="-1" role="dialog" aria-labelledby="sethomeModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title" id="sethomeModalLabel">Make us your Homepage!</h4>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="sethomeModalLabel">Make us your Homepage!</h4>
+            </div>
+            <div class="modal-body">
+              <img class="center-block" src="{% static 'lib/img/flask.svg' %}" alt="select browser">
+              <h4 class="text-center">Pick your poison:</h4>
+              <!-- Start Collapse -->
+              <div class="panel-group" id="accordion">
+                <div class="panel panel-primary">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      Safari
+                    </h4>
                   </div>
-                  <div class="modal-body">
-                      <img class="center-block" src="{% static 'lib/img/flask.svg' %}" alt="select browser">
-                      <h4 class="text-center">Pick your poison:</h4>
-                      <!-- Start Collapse -->
-                      <div class="panel-group" id="accordion">
-                          <div class="panel panel-primary">
-                              <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="cursor:pointer;">
-                                  <h4 class="panel-title">
-                                      Safari
-                                  </h4>
-                              </div>
-                              <div id="collapseOne" class="panel-collapse collapse in">
-                                  <div class="panel-body">
-                                      <ol>
-                                          <li>Click <strong>"Safari"</strong> and choose <strong>"Preferences"</strong> from the navigation toolbar.</li>
-                                          <li>Select the <strong>"General"</strong> tab and in the Homepage field, copy and paste <strong>"http://mycollegehomepage.com/"</strong></li>
-                                          <li>Set both the <strong>"New windows open with"</strong> and <strong>"New tabs open with"</strong> options to <strong>"Homepage"</strong>.</li>
-                                      </ol>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="panel panel-success">
-                              <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="cursor:pointer;">
-                                  <h4 class="panel-title">
-                                      Chrome
-                                  </h4>
-                              </div>
-                              <div id="collapseTwo" class="panel-collapse collapse">
-                                  <div class="panel-body">
-                                      <ol>
-                                          <li>Click the Chrome menu on the browser toolbar (Three horizontal lines in the top right)</li>
-                                          <li>Click on <strong>Settings</strong></li>
-                                          <li>In the <strong>"On Startup"</strong> section, select the <strong>"Open a specific page or set of pages."</strong> option, and then click <strong>"Set Pages"</strong></li>
-                                          <li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
-                                          <li>In the <strong>"Appearance"</strong> section, select the <strong>"Show Home button"</strong> checkbox, and a web address will appear below it.</li>
-                                          <li>Click <strong>"Change"</strong> and in the pop up window, select <strong>"Open this page"</strong></li>
-                                          <li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
-                                      </ol>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="panel panel-warning">
-                              <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="cursor:pointer;">
-                                  <h4 class="panel-title">
-                                      Firefox
-                                  </h4>
-                              </div>
-                              <div id="collapseThree" class="panel-collapse collapse">
-                                  <div class="panel-body">
-                                      <ol>
-                                          <li>At the top of your browser window, you'll see the Firefox tool bar (this includes the words "File", "Edit", etc.). Click on <strong>Tools,</strong> then <strong>Options.</strong></li>
-                                          <li>The popup window will open up with the default option of General. At the top of the window, you'll see <strong>"Home Page Locations."</strong> Click on <strong>"Use Current Page."</strong></li>
-                                      </ol>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="panel panel-danger">
-                              <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="cursor:pointer;">
-                                  <h4 class="panel-title">
-                                      Internet Explorer
-                                  </h4>
-                              </div>
-                              <div id="collapseFour" class="panel-collapse collapse">
-                                  <div class="panel-body">
-                                      <ol>
-                                          <li>Go to toolbar at the top of browser, and click on <strong>"Tools",</strong> then <strong>"Internet Options".</strong> </li>
-                                          <li>At the top of the pop-up, you'll see a <strong>"Home Page"</strong> box. The address of the site that you are currently at is there. Press the <strong>"Use Current"</strong> button to specify this page as your home page.</li>
-                                      </ol>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="panel panel-default">
-                              <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" style="cursor:pointer;">
-                                  <h4 class="panel-title">
-                                      iPhone or IPad
-                                  </h4>
-                              </div>
-                              <div id="collapseFive" class="panel-collapse collapse">
-                                  <div class="panel-body">
-                                      <ol>
-                                          <li>Click on the button on the bottom or top that looks like an arrow popping out of a rectangle. </li>
-                                          <li>Select <strong>"Add to Home Screen"</strong></li>
-                                          <li>This will create a shortcut to My College Homepage on your desktop.</li>
-                                      </ol>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <!-- End Collapse -->
+                  <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                      <ol>
+                        <li>Click <strong>"Safari"</strong> and choose <strong>"Preferences"</strong> from the navigation toolbar.</li>
+                        <li>Select the <strong>"General"</strong> tab and in the Homepage field, copy and paste <strong>"http://mycollegehomepage.com/"</strong></li>
+                        <li>Set both the <strong>"New windows open with"</strong> and <strong>"New tabs open with"</strong> options to <strong>"Homepage"</strong>.</li>
+                      </ol>
+                    </div>
                   </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+                </div>
+                <div class="panel panel-success">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      Chrome
+                    </h4>
                   </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ol>
+                        <li>Click the Chrome menu on the browser toolbar (Three horizontal lines in the top right)</li>
+                        <li>Click on <strong>Settings</strong></li>
+                        <li>In the <strong>"On Startup"</strong> section, select the <strong>"Open a specific page or set of pages."</strong> option, and then click <strong>"Set Pages"</strong></li>
+                        <li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
+                        <li>In the <strong>"Appearance"</strong> section, select the <strong>"Show Home button"</strong> checkbox, and a web address will appear below it.</li>
+                        <li>Click <strong>"Change"</strong> and in the pop up window, select <strong>"Open this page"</strong></li>
+                        <li>Copy <strong>http://mycollegehomepage.com</strong> and paste it into the field and click <strong>OK.</strong></li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-warning">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      Firefox
+                    </h4>
+                  </div>
+                  <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ol>
+                        <li>At the top of your browser window, you'll see the Firefox tool bar (this includes the words "File", "Edit", etc.). Click on <strong>Tools,</strong> then <strong>Options.</strong></li>
+                        <li>The popup window will open up with the default option of General. At the top of the window, you'll see <strong>"Home Page Locations."</strong> Click on <strong>"Use Current Page."</strong></li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-danger">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      Internet Explorer
+                    </h4>
+                  </div>
+                  <div id="collapseFour" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ol>
+                        <li>Go to toolbar at the top of browser, and click on <strong>"Tools",</strong> then <strong>"Internet Options".</strong> </li>
+                        <li>At the top of the pop-up, you'll see a <strong>"Home Page"</strong> box. The address of the site that you are currently at is there. Press the <strong>"Use Current"</strong> button to specify this page as your home page.</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" style="cursor:pointer;">
+                    <h4 class="panel-title">
+                      iPhone or IPad
+                    </h4>
+                  </div>
+                  <div id="collapseFive" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ol>
+                        <li>Click on the button on the bottom or top that looks like an arrow popping out of a rectangle. </li>
+                        <li>Select <strong>"Add to Home Screen"</strong></li>
+                        <li>This will create a shortcut to My College Homepage on your desktop.</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
               </div>
+              <!-- End Collapse -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+            </div>
           </div>
+        </div>
       </div>
-      <!-- END HOMEPAGE MODAL -->
+      <!-- End Set Homepage Modal -->
 
       <!-- Purchase Points Modal -->
       <div class="modal fade" id="points-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-          <div class="modal-dialog" style="width:400px;">
-              <div class="modal-content">
-                  <div class="modal-body">
-                      {% payment_dialog "points-modal" student %}
-                  </div>
-              </div>
+        <div class="modal-dialog" style="width:400px;">
+          <div class="modal-content">
+            <div class="modal-body">
+              {% payment_dialog "points-modal" student %}
+            </div>
           </div>
+        </div>
       </div>
+      <!-- End Purchase Points Modal -->
 
+      <!-- Referral Modal -->
       <div class="modal fade" id="referral-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-sm">
-              <div class="modal-content">
-                  <div class="modal-body text-center">
-                      {% referral_dialog "referral-modal"%}
-                  </div>
-              </div>
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body text-center">
+              {% referral_dialog "referral-modal"%}
+            </div>
           </div>
+        </div>
+      </div>
+      <!-- End Referral Modal -->
+      
+      <!-- Start Navigation -->
+      <div id="sidebar-wrapper" class="navbar navbar-transparent" role="navigation">
+        <div class="navbar-header page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <ul class="nav nav-pills nav-stacked sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="{% url 'dashboard'%}" class="pop-stay page-scroll" data-toggle="popover"
+            title="
+              <h4 class='margin-btm-none margin-top-sm'>
+                <strong>Assignments</strong>
+                <span class='badge pull-right' style='display:initial; background-color:orange;'>2</span>
+              </h4>
+            "
+            data-content="
+              <hr class='margin-btm margin-top-none'>
+                <a href='#' class='text-center'><strong class='text-danger'>6 Assignments need review</strong></a>
+                <div class='checkbox'>
+                  <label>
+                    <input type='checkbox' value=''>
+                    Exam 2 in ECON 200
+                  </label>
+                </div>
+                <div class='checkbox'>
+                  <label>
+                    <input type='checkbox' value=''>
+                    Homework 2 in MIS 111
+                  </label>
+                </div>
+              <br>
+              <h4 class='margin-btm-none'>
+                <strong>Notifications</strong>
+                {% unread_count as unread %}
+                <span id='notification-count' class='pull-right badge {% if unread %}unread-notification{%else%}read-notification{% endif %} '>
+                {{unread}}</span>
+              </h4>
+
+              <hr>
+              <ul class='list-unstyled trans'>
+                <li><p><i class='fa fa-circle text-danger'></i> &nbsp;Your study guide sold</p></li>
+                <li><p><i class='fa fa-circle text-danger'></i> &nbsp;Your study guide sold</p></li>
+                <li><p><i class='fa fa-circle text-default'></i> &nbsp;You joined ECON 200</p></li>
+                <li><p><i class='fa fa-circle text-default'></i> &nbsp;You joined ACCT 210</p></li>
+                <li id='view-all-notifs' class='text-center'><p><a href='{% url 'notifications' %}'>View All</a></p></li>
+              </ul>
+            ">
+            <span id="toggle-notifications" class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">6</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'dashboard'%}" class="page-scroll"><i class="fa fa-home"></i></a>
+          </li>
+          <li>
+            <a href="{% url 'classes'%}" class="page-scroll"><i class="fa fa-book"></i></a>
+          </li>
+          <li>
+            <a href="{% url 'calendar'%}" class="page-scroll"><i class="fa fa-calendar"></i></a>
+          </li>
+          <!-- <li class="hidden-sm">
+            <a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"></a>
+          </li> -->
+        <!-- </ul> -->
+        <!-- <ul class="nav navbar-nav navbar-right"> -->
+          <!-- <li id="nav-points" data-toggle="tooltip" data-original-title="Your Points" data-placement="bottom">
+            <a href="#points-modal" class="page-scroll" data-toggle="modal" id="purchasePointsMenu"><span class="student-points center-block text-center">{{student.total_points}}</span>
+            <h6 class="margin-top-none">points</h6>
+            <img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="points">
+            </a>
+          </li>  -->
+          <!-- <li class="dropup drop" id="notifs-dropdown">
+            {% unread_count as unread %}
+            <a id="toggle-notifications" href="#" class="dropdown-toggle page-scroll" data-toggle="dropdown">
+              <span id="notification-count" class="{% if unread %}unread-notification{%else%}read-notification{% endif %} ">
+                {{unread}}</span> <img src="{% static 'lib/img/ring.svg' %}" class="nav-icon" width="20px" height="20px" alt="Notifications" />
+            </a>
+            <ul class="dropdown-menu">
+              {% unread_notifications unread %}
+              {% read_notifications unread %}
+              <li role="presentation" class="divider"></li>
+              <li>View All (hidden)</li>
+              <li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
+            </ul>
+          </li> -->
+          <li>
+            <a role="button" id="user-dropdown" class="pop-stay page-scroll" data-toggle="popover"
+              title="
+                <h4 class='margin-btm-none margin-top-sm'>
+                  <strong>mitchellias</strong>
+                  <span class='pull-right'><a href='{% url 'account_logout' %}'><small>logout</small></a></span>
+                </h4>
+                <a href='#points-modal' data-toggle='modal' id='purchasePointsMenu'>
+                  <span class='student-points'>{{student.total_points}}</span> points
+                "
+              data-content="
+                <hr class='margin-btm margin-top-none'>
+                <ul class='list-unstyled trans'>
+                  {% if not user.referree.count %}
+                  <li>
+                    <h5><a href='#referral-modal' class='text-warning' data-toggle='modal'>Redeem Referral</a></h5>
+                  </li>
+                  {% endif %}
+                  <li class='trans margin-top-none'>
+                    <h5><a href='{% url 'my_profile' %}'>My Page</a></h5>
+                  </li>
+                  <li class='trans'>
+                    <h5><a href='{% url 'course_add'%}'>Add/Drop Classes</a></h5>
+                  </li>
+                  <li class='trans'>
+                    <h5><a href='{% url 'document_upload'%}'>Sell Document</a></h5>
+                  </li>
+                  <li class='trans'>
+                    <h5><a data-toggle='modal' href='#sethomeModal'>Set Homepage</a></h5>
+                  </li>
+                  <li class='trans'>
+                    <h5><a href='{% url 'account_settings'%}'>My Account</a></h5>
+                  </li>
+                  <li class='trans'>
+                    <h5><a href='{% url 'help'%}'>Help</a></h5>
+                  </li>
+                </ul>
+              "><img src="{{profile.profile_image_url}}" class="img-circle" height="17px" width="17px"/>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- End Nav -->
+      {% endwith %}
+      {% else %} 
+      {% endif %}
+      {% else %}
+      <!-- this is for anonymous visitors -->
+      <!-- Start Navigation for anon visitors-->
+      <div id="sidebar-wrapper" class="navbar navbar-transparent" role="navigation">
+        <div class="navbar-header page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <ul class="nav nav-pills nav-stacked sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="{% url "new_homepage" %}" class="page-scroll"><span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">0</span></a>
+          </li>
+          <li>
+            <a href="{% url 'dashboard' %}" class="page-scroll"><i class="fa fa-home"></i></a>
+          </li>
+          <li>
+            <a href="{% url 'classes' %}" class="page-scroll"><i class="fa fa-book"></i></a>
+          </li>
+          <li>
+            <a href="#calendar" class="page-scroll"><i class="fa fa-calendar"></i></a>
+          </li>
+        </ul>
+      </div>
+      <!-- End Nav -->
+      {% endif %}
+
+      <!-- Add document upload btn to footer -->
+      <div class="container navbar-fixed-bottom">
+        <ul class="nav navbar-right">
+          <li>
+            <!-- <a href="{% url 'document_upload'%}" id="document-upload-btn" class="btn btn-md btn-success">Get $5 per Study Guide!</a> -->
+          </li>
+        </ul>
       </div>
 
-      <!-- Start Navigation -->
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-          <div class="container">
-              <div class="navbar-header">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                      <span class="sr-only">Toggle navigation</span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                  </button>
-                  <!-- <a class="navbar-brand nav-row-two" href="{%url 'dashboard'%}">mchp</a> -->
-              </div>
-              <div class="navbar-collapse collapse">
-                  <ul id="nav-list" class="nav navbar-nav step-2 navbar-list" style="margin-left:-15px;">
-                      <li>
-                          <a href="{% url 'dashboard'%}"><img src="{% static 'lib/img/bag.svg' %}" class="nav-icon" width="20px" height="20px" alt="Home"> Home</a>
-                      </li>
-                      <li>
-                          <a href="{% url 'classes'%}"><img src="{% static 'lib/img/book.svg' %}" class="nav-icon" width="20px" height="20px" alt="Classes"> Classes</a>
-                      </li>
-                      <li>
-                          <a href="{% url 'calendar'%}"><img src="{% static 'lib/img/calendar-default.svg' %}" class="nav-icon" width="20px" height="20px" alt="Calendar"> Calendar</a>
-                      </li>
-                      <li>
-                          <a href="{% url 'school' school.pk %}"><img src="{% static 'lib/img/building.svg' %}" class="nav-icon" width="20px" height="20px" alt="School"> School</a>
-                      </li>
-                      <li class="hidden-sm">
-                          <a href="{% url 'document_list'%}"><img src="{% static 'lib/img/storage.svg' %}" class="nav-icon" width="20px" height="20px" alt="Documents"> Documents</a>
-                      </li>
-                  </ul>
-                  <ul class="nav navbar-nav navbar-right">
-                      <!-- <li data-toggle="tooltip" data-original-title="My Page" data-placement="bottom">
-                      <a href="{% url 'my_profile' %}"><div
-                          style="width:20px; height:20px; background-image:url({{student.profile.profile_image_url}});"
-                          class="img-circle profile-image nav-icon"></div>
-                      </a>
-                      </li> -->
-                      <li data-toggle="tooltip" data-original-title="Your Points" data-placement="bottom"><a href="#points-modal" data-toggle="modal" id="purchasePointsMenu"><span class="student-points badge">{{student.total_points}} pts</span>
-                      <img src="{% static 'lib/img/games.svg' %}" class="nav-icon" width="20px" height="20px" alt="points">
-                  </a></li>
-                  <li class="dropdown drop" id="notifs-dropdown">
-                      {% unread_count as unread %}
-                      <a id="toggle-notifications" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                          <span id="notification-count"
-                              class="badge {% if unread %}unread-notification{%else%}read-notification{% endif %} ">
-                              {{unread}}</span> <img src="{% static 'lib/img/ring.svg' %}" class="nav-icon" width="20px" height="20px" alt="Notifications">
-                      </a>
-                      <ul class="dropdown-menu">
-                          {% unread_notifications unread %}
-                          {% read_notifications unread %}
-                          <li role="presentation" class="divider"></li>
-                          <li>View All (hidden)</li>
-                          <li id="view-all-notifs" class="text-center"><a href="{% url "notifications" %}">View All</a></li>
-                      </ul>
-                  </li>
-                  <li class="dropdown drop" id="user-dropdown">
-                      <a href="#" id="user-dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown"><img
-                          src="{% static 'lib/img/settings.svg' %}" class="nav-icon" height="20px" width="20px"/> <!-- {{user.username}} -->
-                          <span class="caret dropdown-toggle" data-toggle="dropdown"></span></a>
-                      <ul class="dropdown-menu" role="menu">
-                          {% if not user.referree.count %}
-                          <li>
-                              <a href="#referral-modal" data-toggle="modal"><strong><i class="fa fa-star"></i> Redeem Referral</strong></a>
-                          </li>
-                          <li class="divider"></li>
-                          {% endif %}
-                          <li><a href="{% url 'my_profile' %}">My Page</a></li>
-                          <!-- <li class="divider"></li> -->
-                          <!-- <li><a href="{% url 'course_create'%}">Create class</a></li> -->
-                          <li><a href="{% url 'course_add'%}">Add/Drop Classes</a></li>
-                          <!-- <li class="divider"></li> -->
-                          <li><a href="{% url 'document_upload'%}">Sell Document</a></li>
-                          <!-- <li><a href="{% url 'document_list'%}">My Documents</a></li> -->
-                          <!-- <li><a href="{% url 'dashboard'%}">My Homepage</a></li> -->
-                          <li class="divider"></li>
-                          <li><a data-toggle="modal" href="#sethomeModal"><strong><i class="fa fa-home fa-fw"></i> Set Homepage</strong></a></li>
-                          <li class="divider"></li>
-                          <li><a href="{% url 'account_settings'%}">My Account</a></li>
-                          <li><a href="{% url 'help'%}">Help</a></li>
-                          <li><a href="{% url 'account_logout' %}">Log Out</a></li>
-                      </ul>
-                  </li>
-                  {% endwith %}
-                  {% else %}
-                  <!-- edit these next two blocks in tandem -->
-                  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-                      <div class="container">
-                          <ul class="nav navbar-nav navbar-right">
-                                  <!-- <li><a href="{% url 'account_login' %}" target="_blank">Login</a></li>
-                                  <li><a href="{% url 'account_signup' %}" target="_blank">Signup</a></li> -->
-                              </ul>
-                          <div class="navbar-header">
-                              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                  <span class="sr-only">Toggle navigation</span>
-                                  <span class="icon-bar"></span>
-                                  <span class="icon-bar"></span>
-                                  <span class="icon-bar"></span>
-                              </button>
-                              <a class="navbar-brand" href="/">mchp</a>
-                  {% endif %}
-                  {% else %}
-                  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-                      <div class="container">
-                          <ul class="nav navbar-nav navbar-right">
-                                  <!-- <li><a href="{% url 'account_login' %}" target="_blank">Login</a></li>
-                                  <li><a href="{% url 'account_signup' %}" target="_blank">Signup</a></li> -->
-                              </ul>
-                          <div class="navbar-header">
-                              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                  <span class="sr-only">Toggle navigation</span>
-                                  <span class="icon-bar"></span>
-                                  <span class="icon-bar"></span>
-                                  <span class="icon-bar"></span>
-                              </button>
-                              <a class="navbar-brand" href="/">mchp</a>
-                  {% endif %}
-              </ul>
-          </div><!--/.nav-collapse -->
-      </div>
-  </div><!-- End Nav -->
-  <!-- add document upload btn to footer -->
-  <div class="container navbar-fixed-bottom">
-      <ul class="nav  navbar-right ">
-          <li><a href="{% url 'document_upload'%}" id="document-upload-btn" class="btn btn-md btn-success">Get $5 per Study Guide!</a></li>
-          <!-- <li><a href="#" id="open-chat" class="btn btn-md btn-success">Chat</a></li> -->
-      </ul>
-  </div>
-  <!-- Django Messages -->
-  <div class="django-messages">
+      <!-- Django Messages -->
+      <div class="django-messages">
       {% for message in messages %}
-      <div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
+        <div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
           <ul class="messages">
-              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
           </ul>
-      </div>
+        </div>
       {% endfor %}
-  </div>
-  {% block body %}
-  {% endblock %}
+      </div>
 
-  {% block extra_body %}
-  {% endblock %}
+      <!-- These two dives wrap around the page content and play nicely with the sidebar -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          {% block body %}
+          {% endblock %}
 
-  {% if not donottrack %}
-  {% include "lib/google-analytics.html" %}
-  {% endif %}
+          {% block extra_body %}
+          {% endblock %}
+        </div><!-- end container-fluid -->
+      </div><!-- end page-content-wrapper -->
 
-  <!-- Firehose Chat -
-  <script type="text/javascript">
-  //   var FHChat = {product_id: "ea1d78a7bbff"};
-  //   FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
-  </script>   -->
+      {% if not donottrack %}
+      {% include "lib/google-analytics.html" %}
+      {% endif %}
 
-</body>
+    <!-- Firehose Chat -
+    <script type="text/javascript">
+    //   var FHChat = {product_id: "ea1d78a7bbff"};
+    //   FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
+    </script>   -->
+
+    </div><!-- End Wrapper -->
+
+  </body>
 </html>

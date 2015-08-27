@@ -941,7 +941,7 @@ class EventDetailView(DetailView):
         # 2: Pattern matching
         event_title = event.title.lower()
         query = Q()
-        if re.compile(r'exam \d.').search(event_title) is not None:
+        if re.compile(r'exam \d*').search(event_title) is not None:
             query |= Q(title__iregex=r'exam \d*')
 
         if 'final exam' in event_title:
@@ -951,9 +951,7 @@ class EventDetailView(DetailView):
             query |= Q(title__icontains='midterm exam')
 
         if query:
-            print(query)
             documents = Document.objects.filter(course=event.calendar.course).filter(query)
-            print(documents)
             context['documents'] += list(documents)
 
         # TODO search

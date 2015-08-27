@@ -1,55 +1,54 @@
 <div id="card-info">
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/css/card.min.css" >
 	<script src="//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/js/card.min.js"></script>
-
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 	{% load staticfiles %}
-		<link rel="stylesheet" type="text/css" href="{% static 'payment/css/card-info.css' %}" />
-		<script src="{% static 'payment/js/card_info.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'payment/css/card-info.css' %}" />
+	<script src="{% static 'payment/js/card_info.js' %}"></script>
 	{% load payment %}
 	{% stripe_public_key %}
-		<div class="card-wrapper"></div>
-		<p></p>
-
-		<form autocomplete="off" action="{% url "save_info" %}" method="post" class=" card-form">
-			{% csrf_token %}
-			<div class="form-group">
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa-fw fa fa-credit-card"></i></span>
-					<input type="text" class="form-control cc-number no-send" placeholder="Card number" name="number"/>
-				</div>		
+	<div class="card-wrapper"></div>
+	<p></p>
+	<form autocomplete="off" action="{% url "save_info" %}" method="post" class=" card-form">
+		{% csrf_token %}
+		<div class="form-group">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa-fw fa fa-credit-card"></i></span>
+				<input type="text" class="form-control cc-number no-send" placeholder="Card number" name="number"/>
+			</div>		
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa-fw fa fa-user"></i></span>
+				<input type="text" class="form-control cc-name no-send" placeholder="Full name" name="name"/>
 			</div>
-			<div class="form-group">
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa-fw fa fa-user"></i></span>
-					<input type="text" class="form-control cc-name no-send" placeholder="Full name" name="name"/>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-8">
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa-fw fa fa-calendar-o"></i></span>
-							<input type="text" class="form-control cc-expiry no-send" placeholder="MM/YY" name="expiry"/>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-4">
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa-fw fa fa-barcode"></i></span>
-							<input type="text" class="form-control cc-cvc no-send" placeholder="CVC" name="cvc"/>
-						</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-8">
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa-fw fa fa-calendar-o"></i></span>
+						<input type="text" class="form-control cc-expiry no-send" placeholder="MM/YY" name="expiry"/>
 					</div>
 				</div>
 			</div>
-			<hr style="margin-top:5px;">
-			<button class="btn btn-primary btn-block cc-submit-button" type="submit">Save Card</button>
-		</form>
-		<p></p>
-		<p class="small payment-errors text-danger text-center"></p>
-		<script type="text/javascript">
-			var card_info_url = '{%url "save_info"%}';
-		</script>
-		<div id="siteseal" class="text-center center-block"><a href="https://seal.starfieldtech.com/verifySeal?sealID=74c7XylDP0ezJZgpWYSxh2uhajiZwfJfueh5jV5zziwfIa6mz3HJAbOeJ4xG" target="_blank"><img src="{% static 'lib/img/siteseal.gif' %}"></a></div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa-fw fa fa-barcode"></i></span>
+						<input type="text" class="form-control cc-cvc no-send" placeholder="CVC" name="cvc"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr style="margin-top:5px;">
+		<button class="btn btn-trans btn-block cc-submit-button" type="submit">Save Card</button>
+	</form>
+	<p></p>
+	<p class="small payment-errors text-danger text-center"></p>
+	<script type="text/javascript">
+		var card_info_url = '{%url "save_info"%}';
+	</script>
+	<div id="siteseal" class="text-center center-block"><a href="https://seal.starfieldtech.com/verifySeal?sealID=74c7XylDP0ezJZgpWYSxh2uhajiZwfJfueh5jV5zziwfIa6mz3HJAbOeJ4xG" target="_blank"><img src="{% static 'lib/img/siteseal.gif' %}"></a>
 	</div>
+</div>
