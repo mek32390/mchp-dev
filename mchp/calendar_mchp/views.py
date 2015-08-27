@@ -1,9 +1,10 @@
 import copy
+import re
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -13,7 +14,7 @@ from django.views.generic.edit import DeleteView,View, UpdateView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
-from documents.models import Upload
+from documents.models import Upload, Document
 from notification.api import add_notification_for, add_notification
 from lib.decorators import class_required
 from referral.models import ReferralCode
@@ -924,5 +925,40 @@ class EventDetailView(DetailView):
     """
     template_name = 'calendar_mchp/event_detail.html'
     model = CalendarEvent
+
+    def get_context_data(self, **kwargs):
+        context = super(EventDetailView, self).get_context_data(**kwargs)
+        event = context['calendarevent']
+        context['event'] = event
+        context['course'] = event.calendar.course
+        context['documents'] = []
+
+        # 1: Get all document that are explicitly linked to the event or original_event
+        context['documents'] += list(event.documents.all())
+        if event.original_event:
+            context['documents'] += list(event.original_event.documents.all())
+
+        # 2: Pattern matching
+        event_title = event.title.lower()
+        query = Q()
+        if re.compile(r'exam \d.').search(event_title) is not None:
+            query |= Q(title__iregex=r'exam \d*')
+
+        if 'final exam' in event_title:
+            query |= Q(title__icontains='final exam')
+
+        if 'midterm exam' in event_title:
+            query |= Q(title__icontains='midterm exam')
+
+        if query:
+            print(query)
+            documents = Document.objects.filter(course=event.calendar.course).filter(query)
+            print(documents)
+            context['documents'] += list(documents)
+
+        # TODO search
+        # https://michalcodes4life.wordpress.com/2014/06/03/full-text-search-and-fuzzy-search-with-postgresql-and-django/
+
+        return context
 
 event_detail = EventDetailView.as_view()

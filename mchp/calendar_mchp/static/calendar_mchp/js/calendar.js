@@ -615,7 +615,7 @@ $(function() {
 						return true;
 					}
 					var $item = $item_proto.clone();
-					$item.find('.event-title').text(event.title);
+					$item.find('.event-title').text(event.title).attr('href', '/calendar/events/' + event.id);
 					$item.find('.event-description').text(event.description);
 					$item.find('.event-date').text(event.start.format(format_string));
 					$item.find('.event-time').text(event.start.format('hh:mm a'));
