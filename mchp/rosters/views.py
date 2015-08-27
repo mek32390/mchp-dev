@@ -71,8 +71,8 @@ class RosterSubmitView(FormView):
         """
 
         try:
-             doc = Document(type=Document.SYLLABUS, title='Course Syllabus upload',
-                            description='Course Syllabus uploaded using rosters/add',
+             doc = Document(type=Document.SYLLABUS, title='Course Syllabus',
+                            description='Course Syllabus',
                             document=document, course_id=course_id)
              doc.save()
         except DuplicateFileError as err:
