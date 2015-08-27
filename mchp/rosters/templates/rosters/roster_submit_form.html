@@ -41,7 +41,7 @@
 
 <div class="row">
 	<div class="col-sm-8">
-		<form id="class_set" action="" method="post">{% csrf_token %}
+		<form id="class_set" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
 		{{ form.errors }}			
 
 			<!-- select course to upload class set to -->	
@@ -69,10 +69,10 @@
 					<h1 class="media-object pull-left margin-top-none">2.</h1>
 				</div>
 				<div class="media-body">
-					<h3 class="media-heading">Upload the CLASS NAME syllabus: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Upload the <span class="selected-classname">CLASS NAME</span> syllabus: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
 					<p>The course syllabus is typically a word or pdf document.</p>
 					<span class="btn btn-trans btn-lg btn-file">
-						Browse <input type="file">
+						Browse <input type="file" id="{{ form.document.id_for_label }}" name="{{ form.document.name }}">
 					</span>&nbsp;<span class="selected-file"></span>
 					<br></br>
 					<br></br>

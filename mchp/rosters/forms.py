@@ -15,6 +15,7 @@ class RosterSubmitForm(forms.Form):
     #        of courses requires putting a callable here, which in turn
     #        requires Django 1.8+.  As of time of writing (2015-07-03),
     #        MCHP is built on Django 1.7. -am
+    document = forms.FileField()
     course = forms.IntegerField()
     emails = forms.CharField(widget=forms.Textarea)
     roster_html = forms.CharField(widget=forms.Textarea)
