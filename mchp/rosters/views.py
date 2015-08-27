@@ -27,9 +27,12 @@ class RosterSubmitView(FormView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         course_id = form.cleaned_data['course']
+        course_name = form.cleaned_data['course_name']
         roster_html = form.cleaned_data['roster_html']
         instructor_emails = form.cleaned_data['emails'].split()
         document = form.cleaned_data['document']
+
+        print(course_name)
 
 
         """
@@ -71,8 +74,8 @@ class RosterSubmitView(FormView):
         """
 
         try:
-             doc = Document(type=Document.SYLLABUS, title='Course Syllabus',
-                            description='Course Syllabus',
+             doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
+                            description='Course Syllabus for ' + course_name,
                             document=document, course_id=course_id)
              doc.save()
         except DuplicateFileError as err:

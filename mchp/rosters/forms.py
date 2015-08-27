@@ -17,6 +17,7 @@ class RosterSubmitForm(forms.Form):
     #        MCHP is built on Django 1.7. -am
     document = forms.FileField()
     course = forms.IntegerField()
+    course_name = forms.CharField()
     emails = forms.CharField(widget=forms.Textarea)
     roster_html = forms.CharField(widget=forms.Textarea)
 

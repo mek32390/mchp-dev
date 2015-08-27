@@ -34,6 +34,7 @@ $(document).ready(function () {
     function update_classname(){
         var selectedCourse = $('#id_course').find('option:selected').text();
         $('.selected-classname').text(selectedCourse);
+        $('#id_course_name').val(selectedCourse);
     }
     update_classname();
 });
