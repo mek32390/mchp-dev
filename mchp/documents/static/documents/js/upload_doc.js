@@ -4,7 +4,7 @@
  * This file is for the custom browse file feature
  */
 
-$(function() {
+$( document ).ready(function() {
 
 	// convert select to nice input
 	$("#id_course").addClass("form-control");
@@ -106,20 +106,75 @@ $(function() {
 		minimum_length: 1,
 	});
 	window.autocomplete.setup();
+});
 
-	var STUDY_GUIDE = 0;
-	var SYLLABUS = 1;
 
-	var document_type_changed = function() {
+$(document).ready(function () {
+    $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+
+        var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+        if (input.length) {
+            input.val(log);
+        } else {
+            if (log) $(".selected-file").html((log));
+        }
+    });
+
+
+
+	$("#document_type").change(document_type_changed);
+    $('#id_course').change(update_classname);
+
+
+
+	document_type_changed();
+    update_classname();
+});
+
+var STUDY_GUIDE = 0;
+var SYLLABUS = 1;
+
+var study_guide_title, study_guide_description, study_guide_price
+
+var document_type_changed = function() {
+		console.log('type changed')
 		if (parseInt($("#document_type").val()) === SYLLABUS) {
-			$("#document_price").hide();
+
+			study_guide_price = $('#id_price').val();
+			$("#price_container").hide();
+			$('#id_price').val(0);
+
+			var selected_course = $('#id_course').val();
+
+			$("#title_container").hide();
+			study_guide_title = $("#id_title").val();
+			$("#id_title").val("Syllabus for course " + selected_course);
+
+			$("#description_container").hide();
+			study_guide_description = $("#id_description").val();
+			$("#id_description").val("Syllabus for course " + selected_course);
 		} else {
-			$("#document_price").show();
+			$('#id_price').val(study_guide_price);
+			$("#price_container").show();
+
+			$("#id_title").val(study_guide_title);
+			$("#title_container").show();
+
+			$("#id_description").val(study_guide_description);
+			$("#description_container").show();
 		}
 	};
-	document_type_changed();
-	$("#document_type").change(document_type_changed);
-});
+
+function update_classname(){
+		console.log("class changed")
+		if (parseInt($("#document_type").val()) === SYLLABUS) {
+			var selected_course = $('#id_course').val();
+			$("#id_title").val("Syllabus for course " + selected_course);
+			$("#id_description").val("Syllabus for course " + selected_course);
+		}
+    }
 
 var Autocomplete = function(options) {
 	this.form_selector = options.form_selector;
@@ -168,6 +223,7 @@ Autocomplete.prototype.setup = function() {
 		var pk = $link.data('course');
 		$hidden = $('#hidden_course');
 		$hidden.val(pk);
+		update_classname();
 	});
 	
 };
