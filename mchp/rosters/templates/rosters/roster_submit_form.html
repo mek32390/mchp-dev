@@ -41,7 +41,7 @@
 
 <div class="row">
 	<div class="col-sm-8">
-		<form id="class_set" action="" method="post">{% csrf_token %}
+		<form id="class_set" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
 		{{ form.errors }}			
 
 			<!-- select course to upload class set to -->	
@@ -50,14 +50,16 @@
 					<h1 class="media-object pull-left margin-top-none">1.</h1>
 				</div>
 				<div class="media-body">
-					<h3 class="media-heading">Select a course to add a Class Set to: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Select a course to add a Class Set to:<small><i class="fa fa-info-circle fa-fw"></i></small></h3>
 					<p>or <a href="{% url 'course_create'%}" target="_blank">create a new course</a>.</p>
 					<div class="form-group" id="selectClass">
             <select class="form-control input-lg" id="{{ form.course.id_for_label }}" name="{{ form.course.name }}">
 							{% for course in school.course_set.all %}
-							<option value="{{ course.pk }}">{{ course }}</option>
+							<option value="{{ course.pk }}">{{ course }} with Instr {{course.professor}}</option>
 							{% endfor %}
-						</select> 
+						</select>
+                        <input type="hidden" id="{{ form.course_name.id_for_label }}" name="{{ form.course_name.name }}">
+
           </div>
 					<br></br>
 			 	</div>
@@ -69,10 +71,10 @@
 					<h1 class="media-object pull-left margin-top-none">2.</h1>
 				</div>
 				<div class="media-body">
-					<h3 class="media-heading">Upload the CLASS NAME syllabus: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Upload the Syllabus for <strong class="selected-classname">CLASS NAME</strong>:<small><i class="fa fa-info-circle fa-fw"></i></small></h3>
 					<p>The course syllabus is typically a word or pdf document.</p>
 					<span class="btn btn-trans btn-lg btn-file">
-						Browse <input type="file">
+						Browse <input type="file" class="form-control" id="{{ form.document.id_for_label }}" name="{{ form.document.name }}">
 					</span>&nbsp;<span class="selected-file"></span>
 					<br></br>
 					<br></br>
@@ -86,7 +88,7 @@
 					<h1 class="media-object pull-left margin-top-none">3.</h1>
 				</div>
 				<div class="media-body">
-					<h3 class="media-heading">Identify Non-Student Emails <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Identify All Non-Student Emails for <strong class="selected-classname">CLASS NAME</strong><small><i class="fa fa-info-circle fa-fw"></i></small></h3>
 					<p>Indicate all non-student email addresses, such as instructors and teaching assistants.</p>
 
 					<textarea class="form-control input-lg" id="{{ form.emails.id_for_label }}" name="{{ form.emails.name }}" placeholder="enter one instructor/assistant email per line" rows="3">{{ form.emails.value|default:''}}</textarea>
@@ -126,7 +128,7 @@
 					<h1 class="media-object pull-left margin-top-none">4.</h1>
 				</div><!-- /.media-left -->
 				<div class="media-body">
-					<h3 class="media-heading">Copy & Paste Roster <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Paste the Roster for <strong class="selected-classname">CLASS NAME</strong><small><i class="fa fa-info-circle fa-fw"></i></small></h3>
 					<p>Select the Course Management System that your class uses and we'll show you how to quickly get your class Roster.</p>
 			      <!-- <p><strong>Select the Course Management System that your class uses:</strong></h5> -->
 					<!-- Begin tabs -->
@@ -166,7 +168,7 @@
 					<h1 class="media-object pull-left margin-top-none">5.</h1>
 				</div>
 				<div class="media-body">
-					<h3 class="media-heading">Add Exam and Assignemnt Dates: <small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Add Exam and Assignemnt Dates for <strong class="selected-classname">CLASS NAME</strong>:<small><i class="fa fa-info-circle fa-fw"></i></small></h3>
 					<p>The more you add, the more likely you are to earn comission.</p>
 					<div class="row">
 						<div class="col-xs-4">

@@ -2,6 +2,11 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import FormView, UpdateView
 from django.utils.decorators import method_decorator
 from lib.decorators import school_required
+from documents.exceptions import DuplicateFileError
+from django.contrib import messages
+from documents.models import Document, Upload, DocumentPurchase
+
+
 from schedule.models import Course
 from . import forms, models, utils
 
@@ -22,9 +27,15 @@ class RosterSubmitView(FormView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         course_id = form.cleaned_data['course']
+        course_name = form.cleaned_data['course_name']
         roster_html = form.cleaned_data['roster_html']
         instructor_emails = form.cleaned_data['emails'].split()
+        document = form.cleaned_data['document']
 
+        print(course_name)
+
+
+        """
         params = {
             'roster_html': roster_html,
             'created_by': self.request.user.student_user,
@@ -36,7 +47,7 @@ class RosterSubmitView(FormView):
         # create roster entries
         for email in instructor_emails:
             params = {
-                'email': utils.preprocess_email(email),
+                'email': email, #utils.preprocess_email(email),
                 'roster': roster,
             }
             user = utils.get_user(email)
@@ -60,13 +71,33 @@ class RosterSubmitView(FormView):
                 if user:
                     params['profile'] = user.profile_user
                 models.RosterStudentEntry.objects.create(**params)
+        """
+
+        try:
+             doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
+                            description='Course Syllabus for ' + course_name,
+                            document=document, course_id=course_id)
+             doc.save()
+        except DuplicateFileError as err:
+             messages.error(
+                 self.request,
+                 err
+             )
+             return self.get(self.request)
+
+        upload = Upload(document=doc, owner=self.student)
+        upload.save()
+        messages.success(
+            self.request,
+            "Syllabus upload successful"
+        )
 
         return super().form_valid(form)
 
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
+        self.student = self.request.user.student
         return super().dispatch(*args, **kwargs)
-
 
 class RosterReviewView(UpdateView):
     """ Review a submitted roster.
