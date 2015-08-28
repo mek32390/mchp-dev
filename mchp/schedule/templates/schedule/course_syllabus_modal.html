@@ -1,5 +1,5 @@
 <!-- Syllabus Modal -->
-<div class="modal fade" id="viewSyllabus{{ forloop_counter }}" tabindex="-1" role="dialog"
+<div class="modal fade scrolls" id="viewSyllabus{{ forloop_counter }}" tabindex="-1" role="dialog"
      aria-labelledby="viewSyllabus{{ forloop_counter }}Label">
     <div class="modal-dialog" role="document" style="width:80%;">
         <div class="modal-content">
@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 {% for syllabus in course.syllabi %}
-                    <object data="{{ syllabus.document.url }}" width="100%" height="780"></object>
+                    <object data="{{ syllabus.document.url }}" style="width: 100%; height: 760px"></object>
                 {% endfor %}
             </div>
             <div class="modal-footer">
