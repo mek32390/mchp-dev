@@ -9,52 +9,49 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h1 class="white">{{ event.title }}
-                    <span class="pull-right">{{ event.start|date:"D F d, Y" }}</span></h1>
-                <h4 class="white lead">{{ course.display }}<span class="pull-right"> {{ event.start|date:"H:i" }}</span>
-                </h4>
-                <hr>
-            </div>
-            <!-- end col-12 -->
-        </div>
-        <!-- end row -->
-        <div class="row">
-            <div class="col-xs-5">
-                <h3 class="white"><i class="fa fa-file-text-o"></i> Documents for {{ event.title }}</h3>
+<div class="row">
+  <div class="col-xs-12">
+    <h1 class="white">{{ event.title }}
+        <span class="pull-right">{{ event.start|date:"D F d, Y" }}</span></h1>
+    <h4 class="lead">{{ course.display }}<span class="pull-right"> {{ event.start|date:"H:i" }}</span>
+    </h4>
+    <hr>
+  </div>
+  <!-- end col-12 -->
+</div>
+<!-- end row -->
+<div class="row">
+  <div class="col-xs-5">
+    <h3 class="white"><i class="fa fa-file-text-o"></i> Documents for {{ event.title }}</h3>
+    <div class="panel opa">
+      <div class="list-group trans">
 
-                <div class="well well-sm">
-                    <div class="list-group">
+        {# TODO show "no documents were found" #}
 
-                        {# TODO show "no documents were found" #}
-
-                        {% for document in documents %}
-                            <li class="list-group-item">
-                                <a href="{% url "document_detail" document.uuid %}">
-                                    <div class="media">
-                                        <div class="document-preview">
-                                            {% if document.preview %}
-                                                <img class="media-object img-thumbnail"
-                                                     src="{{ document.preview.url }}"
-                                                     width="76" alt="...">
-                                            {% endif %}
-                                        </div>
-                                        <div class="document-details">
-                                            <h4>{{ document.title }}</h4>
-                                            {{ document.description }}
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </div>
+        {% for document in documents %}
+          <li class="list-group-item trans">
+            <a href="{% url "document_detail" document.uuid %}">
+              <div class="media">
+                <div class="document-preview">
+                  {% if document.preview %}
+                    <img class="media-object img-thumbnail"
+                      src="{{ document.preview.url }}"
+                      width="76" alt="...">
+                  {% endif %}
                 </div>
-                <!-- end well -->
-            </div>
-            <!-- end col-5 -->
-        </div>
-        <!-- end row -->
-    </div><!-- end container-fluid -->
+                <div class="document-details">
+                  <h4>{{ document.title }}</h4>
+                  {{ document.description }}
+                </div>
+              </div>
+            </a>
+          </li>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- end well -->
+  </div>
+  <!-- end col-5 -->
+</div>
+<!-- end row -->
 {% endblock %}
