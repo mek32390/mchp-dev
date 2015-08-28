@@ -11,7 +11,7 @@ $(function() {
 	// clear the value amount in the price field
 	$("#id_price").attr("value","");
 	// convert default browse file to nice input
-	$("#id_document").wrap("<div class='input-lg form-control'></div>").addClass("btn");
+	//$("#id_document").wrap("<div class='input-lg form-control'></div>").addClass("btn");
     // Upload Doc Form Validation
   	$('#upload_form').bootstrapValidator({
         message: 'This value is not valid',
@@ -111,7 +111,6 @@ $(function() {
 	var SYLLABUS = 1;
 
 	var document_type_changed = function() {
-		console.log('changed');
 		if (parseInt($("#document_type").val()) === SYLLABUS) {
 			$("#document_price").hide();
 		} else {

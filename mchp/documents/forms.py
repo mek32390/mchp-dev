@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ModelForm, TextInput, ChoiceField, Select, IntegerField
+from django.forms import ModelForm, TextInput, ChoiceField, Select, IntegerField, ClearableFileInput
 
 from documents.models import Document
 
