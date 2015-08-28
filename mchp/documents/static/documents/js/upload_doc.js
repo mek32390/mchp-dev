@@ -150,11 +150,11 @@ var document_type_changed = function() {
 
 			$("#title_container").hide();
 			study_guide_title = $("#id_title").val();
-			$("#id_title").val("Syllabus for course " + selected_course);
+			$("#id_title").val("Syllabus for " + selected_course);
 
 			$("#description_container").hide();
 			study_guide_description = $("#id_description").val();
-			$("#id_description").val("Syllabus for course " + selected_course);
+			$("#id_description").val("Syllabus for " + selected_course);
 		} else {
 			$('#id_price').val(study_guide_price);
 			$("#price_container").show();
