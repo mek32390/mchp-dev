@@ -58,3 +58,5 @@ tags
 # Translations #
 *.mo
 *.pot
+
+.vagrant
