@@ -561,6 +561,12 @@ class ClassesView(View):
 
             course['documents'] = docs
 
+            # fetch the syllabi belonging to the course
+            syllabi = Document.objects.filter(course=course['pk'], type=1)# magic no 1 = syllabus
+
+            course['syllabi'] = syllabi
+            print(syllabi)
+
             act = Document.objects.recent_events(course)
 
             # get some of the latest people to join your classes

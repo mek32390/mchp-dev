@@ -8,9 +8,6 @@ class DocumentUploadForm(ModelForm):
 
     PRICE_WIDGET = TextInput(attrs=dict({
         'placeholder':'type a price in points, ex: 500 would be $5.00',
-        'data-toggle':'tooltip',
-        'data-placement':'right',
-        'data-original-title':'The average document sells for 500 points. Type a number!',
         'container_id': 'document_price',
         'class': 'form-control input-lg',
     }))
@@ -55,33 +52,21 @@ class DocumentUploadForm(ModelForm):
             # dict(x.items() | y.items()) combines the _base attrs with 
             # any class specific attrs, like the placeholder
             'title': TextInput(attrs=dict({
-                'placeholder': 'ex: Exam 1 Study Guide or Syllabus',
-                'data-toggle':'tooltip',
-                'data-placement':'right',
-                'data-original-title':'Document title only. Please don\'t include the name of the class'
+                'placeholder': 'ex: Exam 1 Study Guide'
             }.items() | input_attr.items())),
 
             'description': TextInput(attrs=dict({
-                'placeholder':'a description of this document',
-                'data-toggle':'tooltip',
-                'data-placement':'right',
-                'data-original-title':'Tell classmates what this document is'
+                'placeholder':'a description of this document'
             }.items() | input_attr.items())),
 
-            'course': TextInput(attrs=dict({
-                'placeholder':'type a course code and number: CSC 245',
-                'autocomplete': 'off',
-                'data-toggle': 'dropdown',
-                'class': 'form-control input-lg dropdown-toggle'
+            'course': Select(attrs=dict({
+                'class': 'form-control input-lg dropdown-toggle',
+                'id': 'document_course'
             }.items())),
 
             'type': Select(attrs=dict({
-                'choices': Document.DOCUMENT_TYPE_CHOICES,
                 'class': 'form-control input-lg dropdown-toggle',
-                'id': 'document_type',
-                'data-toggle':'tooltip',
-                'data-placement':'right',
-                'data-original-title':'Is this a Study Guide or Syllabus?'
+                'id': 'document_type'
           }.items() | input_attr.items())),
         }
 
