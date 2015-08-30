@@ -47,9 +47,8 @@
                     </div>
                     <div class="media-body">
                         <h3 class="media-heading">Select a course to upload document to
-                            <small><i class="fa fa-info-circle fa-fw"></i></small>
                         </h3>
-                        <p>or <a href="{% url 'course_create' %}" target="_blank">create a new course</a>.</p>
+                        <p>or <a href="{% url 'course_create' %}" class="link" target="_blank">create a new course</a>.</p>
 
                         <div class="form-group" id="selectClass">
                             {{ form.course }}
@@ -64,8 +63,7 @@
                         <h1 class="media-object pull-left margin-top-none">2.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Select the type of this document
-                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        <h3 class="media-heading">Select the document type
                         </h3>
                         <p>It can either be a a Syllabus or a Study Guide.</p>
 
@@ -82,8 +80,7 @@
                         <h1 class="media-object pull-left margin-top-none">3.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Set the documents' title
-                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        <h3 class="media-heading">Set the document's title
                         </h3>
                         <p>Give the document a clear title so other students know what's inside</p>
 
@@ -100,10 +97,9 @@
                         <h1 class="media-object pull-left margin-top-none">2.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Set the documents' description
-                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        <h3 class="media-heading">Set the document's description
                         </h3>
-                        <p>Put a longer description of the documents' contents here</p>
+                        <p>Put a longer description of the document's content here</p>
 
                         <div class="form-group">
                             {{ form.description }}
@@ -118,8 +114,7 @@
                         <h1 class="media-object pull-left margin-top-none">2.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Set the documents' price
-                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        <h3 class="media-heading">Set the document's price
                         </h3>
                         <p>Type a price in points, ex: 500 would be $5.00</p>
 
@@ -138,7 +133,6 @@
                     <div class="media-body">
                         <h3 class="media-heading">Upload the <strong class="selected-typename">document</strong> for <strong class="selected-classname">CLASS
                             NAME</strong>:
-                            <small><i class="fa fa-info-circle fa-fw"></i></small>
                         </h3>
                         <p>A document is typically a word or pdf document.</p>
 					<span class="btn btn-trans btn-lg btn-file">
