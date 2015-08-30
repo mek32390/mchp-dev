@@ -941,8 +941,9 @@ class EventDetailView(DetailView):
         # 2: Pattern matching
         event_title = event.title.lower()
         query = Q()
-        if re.compile(r'exam \d*').search(event_title) is not None:
-            query |= Q(title__iregex=r'exam \d*')
+        m = re.compile(r'exam (\d*)').search(event_title)
+        if m is not None:
+            query |= Q(title__icontains=m.group(0))
 
         if 'final exam' in event_title:
             query |= Q(title__icontains='final exam')
