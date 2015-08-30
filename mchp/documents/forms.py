@@ -68,15 +68,15 @@ class DocumentUploadForm(ModelForm):
                 'data-original-title':'Tell classmates what this document is'
             }.items() | input_attr.items())),
 
-            'course': TextInput(attrs=dict({
-                'placeholder':'type a course code and number: CSC 245',
-                'autocomplete': 'off',
-                'data-toggle': 'dropdown',
-                'class': 'form-control input-lg dropdown-toggle'
+            'course': Select(attrs=dict({
+                'class': 'form-control input-lg dropdown-toggle',
+                'id': 'document_course',
+                'data-toggle':'tooltip',
+                'data-placement':'right',
+                'data-original-title':'Which course does the document belong to?'
             }.items())),
 
             'type': Select(attrs=dict({
-                'choices': Document.DOCUMENT_TYPE_CHOICES,
                 'class': 'form-control input-lg dropdown-toggle',
                 'id': 'document_type',
                 'data-toggle':'tooltip',

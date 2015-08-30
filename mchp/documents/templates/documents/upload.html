@@ -36,49 +36,119 @@
             <form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post"
                   enctype="multipart/form-data">
                 {% csrf_token %}
-                {% for field in form %}
-                {{ field.errors }}
-                {% ifequal field.name "course" %}
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">{{ field.label_tag }}</span>
-                        <li class="dropdown" id="drop-li">
-                            {{ field }}
-                            <ul class="dropdown-menu" id="ac-dropdown">
-                                <li role="presentation" class="dropdown-header">Your Courses</li>
-                                {% for course in enrolled_courses %}
-                                    <li data-course="{{ course.pk }}" class="strong"><a href="#"><i
-                                            class="fa fa-fw fa-plus-circle text-success"></i> {{ course.display }}</a>
-                                    </li>
-                                    {% empty %}
-                                    <li class="strong"><a href="{% url "course_add" %}"><i
-                                            class="fa fa-fw fa-plus-circle text-danger"></i>Add a course</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
+
+                {{ form.errors }}
+
+
+                <!-- select course to upload document to -->
+                <div class="media" id="{{ form.course.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">1.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Select a course to upload document to
+                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        </h3>
+                        <p>or <a href="{% url 'course_create' %}" target="_blank">create a new course</a>.</p>
+
+                        <div class="form-group" id="selectClass">
+                            {{ form.course }}
+                        </div>
+                        <br></br>
                     </div>
                 </div>
-                {% else %}
-                {% ifequal field.name "document" %}
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">{{ field.label_tag }}</span>
-                    <span class="btn btn-trans btn-lg btn-file">
-						Browse <input type="file" id="{{ form.document.id_for_label }}" name="{{ form.document.name }}">
+
+                <!-- select document type -->
+                <div class="media" id="{{ form.type.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">2.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Select the type of this document
+                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        </h3>
+                        <p>It can either be a a Syllabus or a Study Guide.</p>
+
+                        <div class="form-group">
+                            {{ form.type }}
+                        </div>
+                        <br></br>
+                    </div>
+                </div>
+
+            <!-- document title -->
+                <div class="media" id="{{ form.title.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">3.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Set the documents' title
+                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        </h3>
+                        <p>Give the document a clear title so other students know what's inside</p>
+
+                        <div class="form-group">
+                            {{ form.title }}
+                        </div>
+                        <br></br>
+                    </div>
+                </div>
+
+            <!-- document description -->
+                <div class="media" id="{{ form.description.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">2.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Set the documents' description
+                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        </h3>
+                        <p>Put a longer description of the documents' contents here</p>
+
+                        <div class="form-group">
+                            {{ form.description }}
+                        </div>
+                        <br></br>
+                    </div>
+                </div>
+
+            <!-- document description -->
+                <div class="media" id="{{ form.price.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">2.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Set the documents' price
+                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        </h3>
+                        <p>Type a price in points, ex: 500 would be $5.00</p>
+
+                        <div class="form-group">
+                            {{ form.price }}
+                        </div>
+                        <br></br>
+                    </div>
+                </div>
+
+            <!-- upload document -->
+                <div class="media">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">2.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Upload the <strong class="selected-typename">document</strong> for <strong class="selected-classname">CLASS
+                            NAME</strong>:
+                            <small><i class="fa fa-info-circle fa-fw"></i></small>
+                        </h3>
+                        <p>A document is typically a word or pdf document.</p>
+					<span class="btn btn-trans btn-lg btn-file">
+						Browse <input type="file" class="form-control" id="{{ form.document.id_for_label }}"
+                                      name="{{ form.document.name }}">
 					</span>&nbsp;<span class="selected-file"></span>
+                        <br></br>
+                        <br></br>
                     </div>
                 </div>
-                {% else %}
-                <div class="form-group" id="{{ field.name }}_container">
-                    <div class="input-group">
-                        <span class="input-group-addon">{{ field.label_tag }}</span>
-                        {{ field }}
-                    </div>
-                </div>
-                {% endifequal %}
-                {% endifequal %}
-                {% endfor %}
-                <input type="hidden" name="course" id="hidden_course"></input>
 
                 <p><input type="submit" value="Upload" class="btn btn-lg btn-trans btn-block"/></p>
             </form>
