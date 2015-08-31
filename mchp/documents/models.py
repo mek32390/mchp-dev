@@ -44,7 +44,8 @@ class Document(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
-    course = models.ForeignKey('schedule.Course', on_delete=models.SET(get_sentinel_course))
+    # if imported through roster/add and not yet approved, course will be null
+    course = models.ForeignKey('schedule.Course', on_delete=models.SET(get_sentinel_course), null=True)
 
     up = models.IntegerField(default=0)
     down = models.IntegerField(default=0)
