@@ -40,18 +40,19 @@ class RosterSubmitView(FormView):
 
         roster = models.Roster.objects.create(**params)
 
-        """
+
         # create roster entries
         for email in instructor_emails:
             params = {
                 'email': email, #utils.preprocess_email(email),
                 'roster': roster,
+                'approved': False
             }
             user = utils.get_user(email)
             if user:
                 params['profile'] = user.profile_user
             models.RosterInstructorEntry.objects.create(**params)
-
+        """
         parsed_csv = utils.roster_html_to_csv(roster_html)
         for initial_data in utils.csv_string_to_python(parsed_csv):
             # n.b.: emails from instructor emails are not filtered here

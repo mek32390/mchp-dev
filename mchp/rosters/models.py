@@ -87,6 +87,7 @@ class RosterEntry(models.Model):
     last_name = models.CharField(max_length=30)
     email = models.EmailField(max_length=255)
     profile = models.ForeignKey('user_profile.Student', blank=True, null=True)
+    approved = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
