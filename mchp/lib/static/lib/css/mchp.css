@@ -610,6 +610,13 @@ img.img-thumbnail.img-circle.profile-image {
   height: 20px;
 }
 
+.profile-img {
+  /*background-color: transparent;*/
+  margin-left:-7px;
+  padding: 1px;
+  border-color: rgba(255,255,255,0.4);
+}
+
 /* django-messages */
 .django-messages {
     right: 20px;
