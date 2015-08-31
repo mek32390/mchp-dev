@@ -345,7 +345,7 @@
             <a role="button" id="user-dropdown" class="pop-stay page-scroll" data-toggle="popover"
               title="
                 <h4 class='margin-btm-none margin-top-sm'>
-                  <strong>mitchellias</strong>
+                  <strong>{{ user.username }}</strong>
                   <span class='pull-right'><a href='{% url 'account_logout' %}'><small>logout</small></a></span>
                 </h4>
                 <a href='#points-modal' data-toggle='modal' id='purchasePointsMenu'>
@@ -378,7 +378,7 @@
                     <h5><a href='{% url 'help'%}'>Help</a></h5>
                   </li>
                 </ul>
-              "><img src="{{profile.profile_image_url}}" class="img-circle" height="17px" width="17px"/>
+              "><img src="{{ student.profile.profile_image_url }}" class="profile-img img-circle img-thumbnail" height="30px" width="30px" alt="profile image" />
             </a>
           </li>
         </ul>
