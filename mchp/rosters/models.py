@@ -68,6 +68,24 @@ class Roster(models.Model):
         return len(enrollments)
 
 
+class RosterExamEntry(models.Model):
+    """ Roster exam entry.
+
+    Parameters
+    ----------
+    roster : django.db.models.ForeignKey
+        A roster associated with this entry.
+
+    """
+    title = models.CharField(max_length=30)
+    date = models.DateField()
+    roster = models.ForeignKey(Roster, related_name='exams')
+
+    class Meta:
+        verbose_name = 'roster exam entry'
+        verbose_name_plural = 'roster exam entries'
+
+
 class RosterEntry(models.Model):
     """ Abstract base class for a roster entry.
 
