@@ -32,29 +32,27 @@ class RosterSubmitView(FormView):
         instructor_emails = form.cleaned_data['emails'].split()
         document = form.cleaned_data['document']
 
-        print(course_name)
-
-
-        """
         params = {
             'roster_html': roster_html,
             'created_by': self.request.user.student_user,
-            'course': Course.objects.get(pk=course_id),
+            'course': Course.objects.get(pk=course_id)
         }
 
         roster = models.Roster.objects.create(**params)
+
 
         # create roster entries
         for email in instructor_emails:
             params = {
                 'email': email, #utils.preprocess_email(email),
                 'roster': roster,
+                'approved': False
             }
             user = utils.get_user(email)
             if user:
                 params['profile'] = user.profile_user
             models.RosterInstructorEntry.objects.create(**params)
-
+        """
         parsed_csv = utils.roster_html_to_csv(roster_html)
         for initial_data in utils.csv_string_to_python(parsed_csv):
             # n.b.: emails from instructor emails are not filtered here
@@ -66,6 +64,7 @@ class RosterSubmitView(FormView):
                     'last_name': initial_data.get('last'),
                     'email': utils.preprocess_email(email),
                     'roster': roster,
+                    'approved': false
                 }
                 user = utils.get_user(email)
                 if user:
@@ -76,7 +75,7 @@ class RosterSubmitView(FormView):
         try:
              doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
                             description='Course Syllabus for ' + course_name,
-                            document=document, course_id=course_id)
+                            document=document, course_id=None, approved=False, roster=roster)
              doc.save()
         except DuplicateFileError as err:
              messages.error(
@@ -110,6 +109,8 @@ class RosterReviewView(UpdateView):
     model = models.Roster
     fields = ['status']
     template_name_suffix = '_review_form'
+
+    # TODO: implement document_uploaded signal for syllabus upon doc approval
 
     def get_success_url(self):
         return reverse_lazy('roster-review', args=[self.object.pk])
