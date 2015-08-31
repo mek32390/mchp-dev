@@ -402,7 +402,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <ul class="nav nav-pills nav-stacked sidebar-nav">
           <li class="sidebar-brand">
-            <a href="{% url "new_homepage" %}" class="page-scroll"><span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">0</span></a>
+            <a href="/" class="page-scroll"><span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">0</span></a>
           </li>
           <li>
             <a href="{% url 'dashboard' %}" class="page-scroll"><i class="fa fa-home"></i></a>
@@ -411,7 +411,7 @@
             <a href="{% url 'classes' %}" class="page-scroll"><i class="fa fa-book"></i></a>
           </li>
           <li>
-            <a href="#calendar" class="page-scroll"><i class="fa fa-calendar"></i></a>
+            <a href="{% url 'calendar' %}" class="page-scroll"><i class="fa fa-calendar"></i></a>
           </li>
         </ul>
       </div>
@@ -454,11 +454,11 @@
       {% include "lib/google-analytics.html" %}
       {% endif %}
 
-    <!-- Firehose Chat -
+    <!-- Firehose Chat - -->
     <script type="text/javascript">
-    //   var FHChat = {product_id: "ea1d78a7bbff"};
-    //   FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
-    </script>   -->
+      var FHChat = {product_id: "ea1d78a7bbff"};
+      FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
+    </script>  
 
     </div><!-- End Wrapper -->
 
