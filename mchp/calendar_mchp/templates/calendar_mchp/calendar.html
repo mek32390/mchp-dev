@@ -297,7 +297,7 @@
 						{% endif %}
 						<span class="pull-right">
 							{% if calendar.private %}
-							<a class="pull-right" href="{% url 'event_add' %}?calendar={{calendar.pk}}"><i class="fa fa-fw fa-table" data-toggle="tooltip" data-original-title="Add multiple events" data-placement="left"></i></a>
+							<!-- <a class="pull-right" href="{% url 'event_add' %}?calendar={{calendar.pk}}"><i class="fa fa-fw fa-table" data-toggle="tooltip" data-original-title="Add multiple events" data-placement="left"></i></a> -->
 							{% else %}
 							<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i></a> 
 							<i class="fa fa-fw fa-bullhorn" data-toggle="tooltip" data-original-title="Public" data-placement="left"></i>
