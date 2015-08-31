@@ -56,6 +56,8 @@ class Document(models.Model):
     uuid = models.CharField(max_length=32)
     create_date = models.DateTimeField(auto_now_add=True)
 
+    approved = models.BooleanField(default=True)
+
     preview = models.ImageField(upload_to=PREVIEW_LOCATION, blank=True, null=True)
     slug = models.SlugField(max_length=80)
 
