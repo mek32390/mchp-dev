@@ -378,7 +378,7 @@
                     <h5><a href='{% url 'help'%}'>Help</a></h5>
                   </li>
                 </ul>
-              "><img src="{{user.socialaccount_set.all.0.get_avatar_url}}" class="img-circle" height="17px" width="17px"/>
+              "><img src="{{ student.profile.profile_image_url }}" class="img-circle" height="17px" width="17px"/>
             </a>
           </li>
         </ul>
