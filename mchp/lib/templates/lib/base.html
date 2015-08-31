@@ -345,7 +345,7 @@
             <a role="button" id="user-dropdown" class="pop-stay page-scroll" data-toggle="popover"
               title="
                 <h4 class='margin-btm-none margin-top-sm'>
-                  <strong>mitchellias</strong>
+                  <strong>{{ user.first_name }} {{ user.last_name }}</strong>
                   <span class='pull-right'><a href='{% url 'account_logout' %}'><small>logout</small></a></span>
                 </h4>
                 <a href='#points-modal' data-toggle='modal' id='purchasePointsMenu'>
