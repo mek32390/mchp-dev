@@ -5,22 +5,21 @@
 {% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
 {% load staticfiles %}
 {% block content %}
-<div class="container text-center">
-	<h2 class="text-center">{% trans "Facebook Login Failure!" %}</h2>
-
-    <p><img class="media-object img-responsive center-block" src=
-    "{% static 'lib/img/support.svg' %}" alt=
-    "..."></p>
-<p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
-
-<div class="socialaccount_ballot">
-		<a title="Facebook" class="socialaccount_provider facebook" 
+<div class="row">
+	<div class="col-xs-12 text-center">
+		<h2 class="text-center">{% trans "Facebook Login Failure!" %}</h2>
+		<i class="fa fa-exclamation-triangle fa-fw fa-5x"></i>
+    		<p></p>
+		<p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
+		<div class="socialaccount_ballot">
+			<a title="Facebook" class="socialaccount_provider facebook" 
 			href="javascript:allauth.facebook.login('', 'authenticate',
 			'login')">
-			<button class="btn btn-facebook btn-primary btn-login">
+			<button class="btn btn-facebook btn-trans btn-login">
 				Try again with Facebook
-		</button></a>
-		{% include "socialaccount/snippets/login_extra.html" %}
+			</button></a>
+			{% include "socialaccount/snippets/login_extra.html" %}
+		</div>
 	</div>
 </div>
 {% endblock %}
