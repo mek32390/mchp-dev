@@ -1,7 +1,9 @@
 import copy
 from datetime import timedelta
+import re
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
@@ -212,6 +214,52 @@ class CalendarEvent(models.Model):
             calendar_event_edited.send(sender=self.__class__, event=self)
         else:
             calendar_event_created.send(sender=self.__class__, event=self)
+
+    def get_documents(self, return_count=False):
+        documents = []
+        document_count = 0
+
+        # 1: Get all document that are explicitly linked to the event or original_event
+        if return_count:
+            document_count += self.documents.all().count()
+        else:
+            documents += list(self.documents.all())
+        if self.original_event:
+            if return_count:
+                document_count += self.original_event.documents.all().count()
+            else:
+                documents += list(self.original_event.documents.all())
+
+            sibling_documents = Document.objects.filter(events__original_event=self.original_event).exclude(events__id=self.id)
+            if return_count:
+                document_count += sibling_documents.count()
+            else:
+                documents += list(sibling_documents)
+
+        # 2: Pattern matching
+        event_title = self.title.lower()
+        query = Q()
+        m = re.compile(r'exam (\d*)').search(event_title)
+        if m is not None:
+            query |= Q(title__icontains=m.group(0))
+
+        if 'final exam' in event_title:
+            query |= Q(title__icontains='final exam')
+
+        if 'midterm exam' in event_title:
+            query |= Q(title__icontains='midterm exam')
+
+        if query:
+            relevant_documents = Document.objects.filter(course=self.calendar.course).filter(query)
+            if return_count:
+                document_count += relevant_documents.count()
+            else:
+                documents += list(relevant_documents)
+
+        # TODO search
+        # https://michalcodes4life.wordpress.com/2014/06/03/full-text-search-and-fuzzy-search-with-postgresql-and-django/
+
+        return document_count if return_count else documents
 
     def __str__(self):
         return self.title

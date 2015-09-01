@@ -141,18 +141,20 @@
                                         <button type="button" class="pull-right btn btn-sm btn-trans">+ Event</button>
                                     </h4>
                                     <div class="panel opa">
+                                        {% for event in course.event_list %}
                                         <ul class="list-group trans small-scroll-con scrolls">
-                                            <a href="#" class="list-group-item trans">
+                                            <a href="{% url 'event_detail' event.id %}" class="list-group-item trans">
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h4 class="media-heading white">Exam 2 <span
+                                                        <h4 class="media-heading white">{{ event.title }}<span
                                                                 class="small"></span></h4>
                                                     </div>
                                                 </div>
-                                                <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> 2 Study Guides
+                                                <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> {{ event.document_count }} Study Guides
                                                 </h5>
                                             </a>
                                         </ul>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <!-- end col-4 -->
