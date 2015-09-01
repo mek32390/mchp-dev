@@ -28,7 +28,7 @@
 	<div class="col-xs-12">
 		<div class="media">
 		  <div class="media-left media-middle">
-		    <img class="no-shadow media-object pull-left animated" src="{% static 'lib/img/clipboard.svg' %}" height="60px" alt="upload class set">
+		    <div class="media-object pull-left animated"><i class="fa fa-upload fa-5x fa-fw"></i></div>
 		  </div>
 		  <div class="media-body">
 		    <h1 class="media-heading">Submit a Class Set</h1>
@@ -50,7 +50,7 @@
 					<h1 class="media-object pull-left margin-top-none">1.</h1>
 				</div>
 				<div class="media-body">
-					<h3 class="media-heading">Select a course to add a Class Set to:<small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Select a course to add a Class Set to:</h3>
 					<p>or <a href="{% url 'course_create'%}" target="_blank">create a new course</a>.</p>
 					<div class="form-group" id="selectClass">
             <select class="form-control input-lg" id="{{ form.course.id_for_label }}" name="{{ form.course.name }}">
@@ -71,7 +71,7 @@
 					<h1 class="media-object pull-left margin-top-none">2.</h1>
 				</div>
 				<div class="media-body">
-					<h3 class="media-heading">Upload the Syllabus for <strong class="selected-classname">CLASS NAME</strong>:<small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Upload the Syllabus for <strong class="selected-classname">CLASS NAME</strong>:</h3>
 					<p>The course syllabus is typically a word or pdf document.</p>
 					<span class="btn btn-trans btn-lg btn-file">
 						Browse <input type="file" class="form-control" id="{{ form.document.id_for_label }}" name="{{ form.document.name }}">
@@ -88,7 +88,7 @@
 					<h1 class="media-object pull-left margin-top-none">3.</h1>
 				</div>
 				<div class="media-body">
-					<h3 class="media-heading">Identify All Non-Student Emails for <strong class="selected-classname">CLASS NAME</strong><small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Identify All Non-Student Emails for <strong class="selected-classname">CLASS NAME</strong></h3>
 					<p>Indicate all non-student email addresses, such as instructors and teaching assistants.</p>
 
 					<textarea class="form-control input-lg" id="{{ form.emails.id_for_label }}" name="{{ form.emails.name }}" placeholder="enter one instructor/assistant email per line" rows="3">{{ form.emails.value|default:''}}</textarea>
@@ -128,7 +128,7 @@
 					<h1 class="media-object pull-left margin-top-none">4.</h1>
 				</div><!-- /.media-left -->
 				<div class="media-body">
-					<h3 class="media-heading">Paste the Roster for <strong class="selected-classname">CLASS NAME</strong><small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Paste the Roster for <strong class="selected-classname">CLASS NAME</strong></h3>
 					<p>Select the Course Management System that your class uses and we'll show you how to quickly get your class Roster.</p>
 			      <!-- <p><strong>Select the Course Management System that your class uses:</strong></h5> -->
 					<!-- Begin tabs -->
@@ -168,7 +168,7 @@
 					<h1 class="media-object pull-left margin-top-none">5.</h1>
 				</div>
 				<div class="media-body">
-					<h3 class="media-heading">Add Exam and Assignment Dates for <strong class="selected-classname">CLASS NAME</strong>:<small><i class="fa fa-info-circle fa-fw"></i></small></h3>
+					<h3 class="media-heading">Add Exam and Assignment Dates for <strong class="selected-classname">CLASS NAME</strong>:</h3>
 					<p>The more you add, the more likely you are to earn commissions.</p>
 					<div class="row">
 						<div class="col-xs-4">

@@ -341,7 +341,7 @@ a.list-group-item:focus, a.list-group-item:hover {
 
 .navbar-transparent {
   /*background      : linear-gradient(to top left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, .5)) !important;*/
-  background        : rgba(255,255,255,0.4) !important;
+  background        : linear-gradient(to top, rgba(255,255,255,0.2), rgba(255,255,255,0.4)) !important;
   border-radius     : 0px !important;
   border-left       : 0px !important;
   border-bottom     : 0px !important;
@@ -608,6 +608,13 @@ img.img-thumbnail.img-circle.profile-image {
 .nav-icon {
   width: 20px;
   height: 20px;
+}
+
+.profile-img {
+  /*background-color: transparent;*/
+  margin-left:-7px;
+  padding: 1px;
+  border-color: rgba(255,255,255,0.4);
 }
 
 /* django-messages */
@@ -905,10 +912,8 @@ body #buorg {
 
 /* Firehose Chat Styles */
 #fchat {
-  /*right: 100px !important;*/
-  /*position: relative !important;*/
-  left: 20px !important;
-  right: auto !important;
+  right: 31px !important;
+  background: linear-gradient(to top left, rgba(0, 0, 0, .1), rgba(0, 0, 0, .3));
 }
 
 #fchat-header {
@@ -917,18 +922,16 @@ body #buorg {
   border-top-right-radius: 4px !important;
   border-top-left-radius: 4px !important;
   border-bottom: 0px !important;
-  /*opacity: .5 !important;*/
   border: 1px solid !important;
   transition: all .2s ease;
   -webkit-transition: all .2s ease;
   -moz-transition: all .2s ease;
-  color: #555 !important;
-  background: #f8f8f8 !important;
-  border-color: #e7e7e7 !important;
+  color: #fff !important;
+  background: rgba(255,255,255,0.4) !important;
+  border-color: rgba(255,255,255,0.4) !important;
   font-size: 14px !important;
   font-weight: 400 !important;
   line-height: 1.42857143 !important;
-  /*text-align: center !important;*/
   white-space: nowrap !important;
   vertical-align: middle !important;
 }
@@ -958,10 +961,10 @@ body #buorg {
 }
 
 #fchat-feed {
-  background: #fff !important;
+  background: rgba(255,255,255,0.4) !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  border: 1px solid #ddd !important;
+  border: 1px solid rgba(255,255,255,0.4) !important;
   border-bottom: none !important;
   border-top: none !important;
 }
@@ -970,11 +973,13 @@ body #buorg {
   font-size: 14px !important;
   border-radius: 4px !important;
   box-shadow: none !important;
+  background: rgba(255,255,255,0.4) !important;
+  color: #fff !important;
 }
 
 #fchat-footer {
-  background-color: #f8f8f8 !important;
-  border: 1px solid #e7e7e7 !important; 
+  background-color: rgba(255,255,255,0.4) !important;
+  border: 1px solid rgba(255,255,255,0.4) !important; 
   /*opacity: .5 !important;*/
 
 }
@@ -986,7 +991,8 @@ body #buorg {
 .fchat-response,
 .fchat-question {
   position: relative;
-  /*box-shadow: 2px 2px 2px #bce8f1;*/
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  box-shadow        : 0 1px 1px rgba(0,0,0,0.1);
   border-radius: 4px;
   padding: 12px;
   margin-bottom: 20px !important;
@@ -997,15 +1003,15 @@ body #buorg {
 }
  
 .fchat-question {
-  color: #31708f !important;
-  background: #d9edf7 !important;
+  color: #fff !important;
+  background: rgba(255,255,255,0.4) !important;
   margin-left: 44px !important;
   /*box-shadow: 2px 2px 2px #bce8f1;*/
 }
  
 .fchat-response {
-  color: #777 !important;
-  background: #eee !important;
+  color: #fff !important;
+  background: rgba(255,255,255,0.4) !important;
   margin-right: 44px !important;
 }
  
@@ -1019,7 +1025,7 @@ body #buorg {
   position: absolute;
   pointer-events: none;
   border-color: rgba(255, 255, 255, 0);
-  border-right-color: #eee;
+  border-right-color: rgba(255,255,255,0.4);
   border-width: 8px;
   margin-top: -10px;
 }
@@ -1034,7 +1040,7 @@ body #buorg {
   position: absolute;
   pointer-events: none;
   border-color: rgba(255, 255, 255, 0);
-  border-left-color: #d9edf7;
+  border-left-color: rgba(255,255,255,0.4);
   border-width: 8px;
   margin-top: -8px;
 }
