@@ -14,12 +14,11 @@
 
 {% block content %}
 {% providers_media_js %}
-<div class="container">
+<div class="row">
+	<div class="col-xs-12">
     <h2 class="text-center">Got Credentials?</h2>
 
-    <p><img class="img-responsive center-block" src=
-    "{% static 'lib/img/support.svg' %}" alt=
-    "..."></p>
+    <p><i class="fa fa-hand-spock-o fa-fw fa-5x text-center center-block"></i></p>
 <div class="acct-form">
 <div class='facebookSignup'>
 	<p class="text-center small">She's not letting you through without them!</p>
@@ -27,7 +26,7 @@
 		<a title="Facebook" class="socialaccount_provider facebook" 
 			href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
 		<!-- <a title="Facebook" class="" href="/accounts/facebook/login/"> -->
-			<button class="btn btn-facebook btn-block btn-primary btn-lg">
+			<button class="btn btn-facebook btn-block btn-trans btn-lg">
 				Use Facebook
 		</button></a>
 	</div>
@@ -48,9 +47,10 @@
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %} 
   <div class="form-group">
-  <button type="submit" class="btn btn-lg btn-primary btn-block"><i class="fa fa-check-square-o"></i> {% trans "Sign Up" %}</button>
+  <button type="submit" class="btn btn-lg btn-trans btn-block"><i class="fa fa-check-square-o"></i> {% trans "Sign Up" %}</button>
   </div>
 </form>
+</div>
 </div>
 </div>
 {% endblock %}
