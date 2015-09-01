@@ -27,16 +27,16 @@
 			<div class="panel opa">
 				<div class="panel-body">
 					<div class="media">
-					  <div class="media-left media-middle">
-					      <div class="media-object"><i class="fa fa-book fa-fw fa-5x"></i></div>
+					  <div class="media-left media-top">
+					      <div class="media-object"><i class="fa fa-bookmark-o fa-fw fa-5x"></i></div>
 					  </div>
 					  <div class="media-body">
-					    <h2 class="media-heading">{{course.dept}} {{course.course_number}} at <a class="link" href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></h2>
-					    <small class="pull-right">
+					  	<small class="pull-right">
 								{% if student and enrolled %}
 								<button class="btn btn-trans disabled"><i class="fa fa-check"></i> Enrolled</button>
 								{% endif %}
 							</small>
+					    <h2 class="media-heading">{{course.dept}} {{course.course_number}} at <a class="link" href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></h2>
 					    <p>
 								<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
 								<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
@@ -98,12 +98,10 @@
 				    </div>
 				  </div>
 					{% empty %}
-					<div class="list-group">
-						<div class="list-group-item">
-							<p class="h5">Be the first to sell a document for this class!</p>
-							<a button type="button" class="btn btn-trans" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Study Guides</a>
-						</div>						
-					</div>
+					<div class="list-group-item opa">
+						<p class="h5">Be the first to sell a document for this class!</p>
+						<a button type="button" class="btn btn-trans" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Study Guides</a>
+					</div>						
 					{% endfor %}
 				</div>
 			</div>

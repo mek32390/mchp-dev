@@ -55,21 +55,24 @@
                                     <div class="panel opa">
                                         <div class="panel-body">
                                             <div class="media">
-                                                <div class="media-body">
-                                                    <button type="button" class="btn btn-lg btn-trans pull-right"
-                                                            data-toggle="modal" data-target="#viewSyllabus{{ forloop.counter }}">Syllabus
-                                                    </button>
-                                                    <h2 class="media-heading"><a href="
-                                                            {% url "course" course.pk %}{{ course.name }}">{{ course.dept }} {{ course.course_number }}</a>
-                                                    </h2>
-                                                    <h5>
-                                                        <i class="fa fa-male"></i> Instructor {{ course.professor }}
-                                                        &nbsp;
-                                                        <i class="fa fa-university"></i> <a href="
-                                                            {% url "school" course.domain__pk %}{{ course.domain__name }}"> {{ course.domain__name }}</a>
-                                                    </h5>
-                                                </div>
+                                              <div class="media-left media-top">
+                                                <i class="media-object fa fa-bookmark-o fa-fw fa-4x"></i>
+                                              </div>
+                                              <div class="media-body">
+                                                <button type="button" class="btn btn-lg btn-trans pull-right"
+                                                    data-toggle="modal" data-target="#viewSyllabus{{ forloop.counter }}">Syllabus
+                                                </button>
+                                                <h2 class="media-heading"><a href="
+                                                    {% url "course" course.pk %}{{ course.name }}">{{ course.dept }} {{ course.course_number }}</a></h2>
+                                                 <h5>
+                                                    <i class="fa fa-male"></i> Instructor {{ course.professor }}
+                                                    &nbsp;
+                                                    <i class="fa fa-university"></i> <a href="
+                                                        {% url "school" course.domain__pk %}{{ course.domain__name }}"> {{ course.domain__name }}</a>
+                                                </h5>
+                                              </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <br>

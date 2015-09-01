@@ -41,15 +41,20 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
   {% if not dashboard_ref_flag %}
-  <div class="one-time-alert alert alert-success alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
-    <button type="button" class="close" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <div class="one-time-alert alert alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
+    <button type="button" class="close no-shadow" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <div class="media margin-top-none">
-      <img class="media-object pull-left animated rubberBand delayed-lg" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
+      <div class="media-left media-middle">
+        <i class="media-object fa fa-heart-o fa-fw fa-4x"></i>
+      </div>
       <div class="media-body">
-        <h4 class="media-heading">Get <strong>$5</strong> for every Study Guide you upload!</h4>
-        Seriously, when you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a>, we'll deposit $5 in your account that day. We'll make sure it's not spam and once your document clears our brief inspection, the money is yours. For your privacy, you'll remain anonymous. <strong>- mchp</strong>
-        <p></p>
-        <p><a href="{% url 'document_upload'%}" class="btn btn-success btn-md">Start Selling Now!</a></p>
+        <h4 class="media-heading"><strong>Welcome to the new mchp!</strong></h4>
+        <p>We've made some major changes around here, but the concept is still very much the same!</p>
+        <ul>
+          <li>Home - (what you're viewing now) gives you an overview of what's coming up in your classes.</li>
+          <li>Events - every event has it's own page, where you can find curated Study Guides and Documents most relevant to it.</li>
+          <li>Picture Backgrounds - everyday you'll see a new beautiful image as your background.</li>
+        </ul>
       </div>
     </div>
   </div><!-- end alert -->

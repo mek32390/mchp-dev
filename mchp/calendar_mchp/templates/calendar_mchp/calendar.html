@@ -290,7 +290,7 @@
 						</label>
 						{% else %}
 						<label class="owned-calendar-label" style="color: {{calendar.color}};"
-							data-cal="{{calendar.pk}}" data-toggle="tooltip" data-original-title="{{calendar.subscriptions}} follower{{calendar.subscriptions|pluralize}}" data-placement="right"><strong>
+							data-cal="{{calendar.pk}}"><strong>
 							<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
 							{{calendar.title}}</strong>
 						</label>
@@ -299,8 +299,8 @@
 							{% if calendar.private %}
 							<!-- <a class="pull-right" href="{% url 'event_add' %}?calendar={{calendar.pk}}"><i class="fa fa-fw fa-table" data-toggle="tooltip" data-original-title="Add multiple events" data-placement="left"></i></a> -->
 							{% else %}
-							<a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i></a> 
-							<i class="fa fa-fw fa-bullhorn" data-toggle="tooltip" data-original-title="Public" data-placement="left"></i>
+							<!-- <a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i></a>  -->
+							<!-- <i class="fa fa-fw fa-bullhorn" data-toggle="tooltip" data-original-title="Public" data-placement="left"></i> -->
 							{% endif %}
 						</span>
 					</div>

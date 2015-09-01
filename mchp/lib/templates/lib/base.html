@@ -300,7 +300,7 @@
             <a role="button" id="user-dropdown" class="pop-stay page-scroll" data-toggle="popover"
               title="
                 <h4 class='margin-btm-none margin-top-sm'>
-                  <strong>{{ user.username }}</strong>
+                  <strong><a href='{% url 'my_profile' %}'>{{ user.username }}</a></strong>
                   <span class='pull-right'><a href='{% url 'account_logout' %}'><small>logout</small></a></span>
                 </h4>
                 <a href='#points-modal' data-toggle='modal' id='purchasePointsMenu'>
@@ -314,14 +314,14 @@
                     <h5><a href='#referral-modal' class='text-warning' data-toggle='modal'>Redeem Referral</a></h5>
                   </li>
                   {% endif %}
-                  <li class='trans margin-top-none'>
+                  <!-- <li class='trans margin-top-none'>
                     <h5><a href='{% url 'my_profile' %}'>My Page</a></h5>
-                  </li>
+                  </li> -->
                   <li class='trans'>
                     <h5><a href='{% url 'course_add'%}'>Add/Drop Classes</a></h5>
                   </li>
                   <li class='trans'>
-                    <h5><a href='{% url 'document_upload'%}'>Sell Document</a></h5>
+                    <h5><a href='{% url 'document_upload'%}'>Upload Document</a></h5>
                   </li>
                   <li class='trans'>
                     <h5><a data-toggle='modal' href='#sethomeModal'>Set Homepage</a></h5>

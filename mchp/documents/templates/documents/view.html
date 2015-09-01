@@ -36,17 +36,17 @@
 							<div class="form-group">
 								<label class="radio-inline" style="margin-left: none;">
 									<input type="radio" name="reviewRating" data-vote="1" >
-									<i class="fa fa-thumbs-up text-success"></i>
+									<i class="fa fa-thumbs-up"></i>
 								</label>
 
 								<label class="radio-inline">
 									<input type="radio" name="reviewRating" data-vote="0" >
-									<i class="fa fa-thumbs-down text-danger"></i>
+									<i class="fa fa-thumbs-down"></i>
 								</label>
 							</div>
 						</div>
 					</h1>
-					<hr>
+					<br></br>
 					<div class="form-group">
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-bullhorn"></i></span>
@@ -55,7 +55,7 @@
 					</div>
 					<p></p>
 					<div class="form-group">
-						<button href="#" id="submit-review" type="submit" class="btn btn-primary btn-block" data-document="{{document.pk}}">Submit!</button>
+						<button href="#" id="submit-review" type="submit" class="btn btn-trans btn-block" data-document="{{document.pk}}">Submit!</button>
 					</div>
 				</form>
 			</div>
@@ -63,16 +63,16 @@
 	</div>
 </div>
 {% if not document_referral_flag %}
-<div data-event="{{document_referral_flag_name}}" class="one-time-alert alert alert-info alert-dismissible fade in" role="alert">
+<div data-event="{{document_referral_flag_name}}" class="one-time-alert alert alert-dismissible fade in" role="alert">
 	<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-	<div class="media" style="margin-top:0px;">
-		<img class="media-object pull-left" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
-		<div class="media-body">
-			<h4 class="media-heading">Get <strong>{{referral_reward}}</strong> points back immediately!</h4>
-			Each time you click the <a href="#" class="btnShare btn btn-facebook btn-xs fb-share-button disabled">
-				<i class="fa fa-fw fa-facebook"></i>Share</a> or the <button class="btn btn-warning btn-xs disabled"><i class="fa fa-paperclip fa-fw"></i> Copy link</button>
-			buttons below, we'll reward both you and your friend <strong>{{referral_reward}} points</strong> each if they sign up with us through your link. Remember, the same rules apply when you share your unique referall code and referall link found on your <a class="alert-link" href="{% url 'account_settings'%}">My Account</a> page. Happy studying, sharing, and earning!<strong>- mchp</strong>
-		</div>
+	<div class="media margin-top-none">
+	  <div class="media-left media-middle">
+	    <i class="media-object fa fa-retweet fa-fw fa-4x"></i>
+	  </div>
+	  <div class="media-body">
+	    <h4 class="media-heading">Get <strong>{{referral_reward}}</strong> points for sharing this document!</h4>
+	    Every time you share a document and someone signs up from clicking on your link, you'll both get <strong>{{referral_reward}} points</strong>. Remember, the same rules apply when you share your unique referall code and referall link found on your <a class="alert-link" href="{% url 'account_settings'%}">Account</a> page. <strong>- mchp</strong>
+	  </div>
 	</div>
 </div><!-- end alert -->
 {% endif %}
@@ -109,17 +109,17 @@
 				<a href="{% url "school" document.course.domain.pk %}{{ document.course.domain.name }}"><i class="fa fa-university"></i>&nbsp;{{ document.course.domain.name }}</a> 
 			</li>
 			<li>
-				<a href='{% url "course" document.course.pk %}{{document.course.name}}'><i class="fa fa-book">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
+				<a href='{% url "course" document.course.pk %}{{document.course.name}}'><i class="fa fa-bookmark-o">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
 			</li>
 			<li class="active">
-				<a href="http://{{request.get_host}}{%url "document_list" %}preview/{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;Preview</a>
+				<a href="http://{{request.get_host}}{%url "document_list" %}preview/{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{ document.title }} Preview</a>
 			</li>
 			<li class="pull-right">
-				<a href="{% url 'document_upload' %}" class="btn btn-success btn-xs"><i class="fa fa-money"></i> Sell Study Guides</a>
+				<a href="{% url 'document_upload' %}" class="btn btn-trans btn-xs"><i class="fa fa-money"></i> Sell Study Guides</a>
 			</li>
 			{% if not rated %}
 				<li class="pull-right">
-					<button id="rate-button" class="btn btn-trans btn-md" data-toggle="modal" data-target="#rate_document"> <i class="fa fa-fw fa-star-half-o"></i> Rate Document</button>
+					<button id="rate-button" class="btn btn-trans btn-xs" data-toggle="modal" data-target="#rate_document"> <i class="fa fa-fw fa-star-half-o"></i> Rate Document</button>
 				</li>
 			{% endif %}
 			<li class="pull-right">
