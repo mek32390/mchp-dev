@@ -27,6 +27,9 @@ function document_type_changed() {
         $("#description_container").hide();
         study_guide_description = $("#id_description").val();
 
+        $("#event_container").hide();
+        study_guide_event = $("#id_event").val();
+
         update_classname();
     } else {
         $('#id_price').val(study_guide_price);

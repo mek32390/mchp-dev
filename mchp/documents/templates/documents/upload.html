@@ -57,23 +57,6 @@
                     </div>
                 </div>
 
-                <!-- select event to upload document to -->
-                <div class="media" id="{{ form.event.name }}_container">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">1.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Select an event to upload document to</h3>
-                        <p>or <a href="{% url 'event_add' %}" target="_blank">create a new event</a>.</p>
-
-                        <div class="form-group" id="selectClass">
-                            {{ form.event }}
-                        </div>
-                        {{ form.event.errors }}
-                        <br></br>
-                    </div>
-                </div>
-
                 <!-- select document type -->
                 <div class="media" id="{{ form.type.name }}_container">
                     <div class="media-left media-top">
@@ -87,6 +70,23 @@
                             {{ form.type }}
                         </div>
                         {{ form.type.errors }}
+                        <br></br>
+                    </div>
+                </div>
+
+                <!-- select event to upload document to -->
+                <div class="media" id="{{ form.event.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">1.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Select an event to upload document to</h3>
+                        <p>or <a href="{% url 'event_add' %}" target="_blank">create a new event</a>.</p>
+
+                        <div class="form-group" id="selectClass">
+                            {{ form.event }}
+                        </div>
+                        {{ form.event.errors }}
                         <br></br>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                     </div>
                 </div>
 
-            <!-- document description -->
+            <!-- document price -->
                 <div class="media" id="{{ form.price.name }}_container">
                     <div class="media-left media-top">
                         <h1 class="media-object pull-left margin-top-none">2.</h1>

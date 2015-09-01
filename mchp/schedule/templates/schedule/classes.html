@@ -127,9 +127,8 @@
                                                 </a>
                                                 {% empty %}
                                                 <li class="list-group-item trans text-center">
-                                                    <p class="lead">Be the first to <a
-                                                            href="{% url "document_upload" %}">upload a document</a> in
-                                                        this class and start making money!</p>
+                                                    <p class="lead">No documents found! <a
+                                                            href="{% url "document_upload" %}" class="link">Upload a Study Guide</a> for this class!</p>
                                                 </li>
                                             {% endfor %}
                                         </div>
@@ -142,7 +141,8 @@
                                     </h4>
                                     <div class="panel opa">
                                         <ul class="list-group trans small-scroll-con scrolls">
-                                            <a href="#" class="list-group-item trans">
+                                            {% for event in course.event_list %}
+                                            <a href="{% url 'event_detail' event.id %}" class="list-group-item trans">
                                                 <div class="media">
                                                     <div class="media-body">
                                                         <h4 class="media-heading white">Exam 2 <span
@@ -152,6 +152,13 @@
                                                 <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> 2 Study Guides
                                                 </h5>
                                             </a>
+                                            {% empty %}
+                                            <li class="list-group-item trans text-center">
+                                                <p class="lead">No upcoming events! How can that be? <a
+                                                        href="{% url "calendar" %}" class="link">Add some events</a> in
+                                                    this class!</p>
+                                            </li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
