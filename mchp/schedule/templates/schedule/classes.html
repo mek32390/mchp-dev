@@ -145,11 +145,11 @@
                                             <a href="{% url 'event_detail' event.id %}" class="list-group-item trans">
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h4 class="media-heading white">Exam 2 <span
+                                                        <h4 class="media-heading white">{{ event.title }}<span
                                                                 class="small"></span></h4>
                                                     </div>
                                                 </div>
-                                                <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> 2 Study Guides
+                                                <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> {{ event.document_count }} Study Guides
                                                 </h5>
                                             </a>
                                             {% empty %}
@@ -160,6 +160,7 @@
                                             </li>
                                             {% endfor %}
                                         </ul>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <!-- end col-4 -->

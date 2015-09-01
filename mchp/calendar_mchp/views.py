@@ -931,36 +931,7 @@ class EventDetailView(DetailView):
         event = context['calendarevent']
         context['event'] = event
         context['course'] = event.calendar.course
-        context['documents'] = []
-
-        # 1: Get all document that are explicitly linked to the event or original_event
-        context['documents'] += list(event.documents.all())
-        if event.original_event:
-            context['documents'] += list(event.original_event.documents.all())
-
-            sibling_documents = Document.objects.filter(events__original_event=event.original_event).exclude(events__id=event.id)
-            context['documents'] += list(sibling_documents)
-
-        # 2: Pattern matching
-        event_title = event.title.lower()
-        query = Q()
-        m = re.compile(r'exam (\d*)').search(event_title)
-        if m is not None:
-            query |= Q(title__icontains=m.group(0))
-
-        if 'final exam' in event_title:
-            query |= Q(title__icontains='final exam')
-
-        if 'midterm exam' in event_title:
-            query |= Q(title__icontains='midterm exam')
-
-        if query:
-            documents = Document.objects.filter(course=event.calendar.course).filter(query)
-            context['documents'] += list(documents)
-
-        # TODO search
-        # https://michalcodes4life.wordpress.com/2014/06/03/full-text-search-and-fuzzy-search-with-postgresql-and-django/
-
+        context['documents'] = event.get_documents()
         return context
 
 event_detail = EventDetailView.as_view()

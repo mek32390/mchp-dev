@@ -580,6 +580,21 @@ class ClassesView(View):
             students = Course.objects.get_classlist_for(Course.objects.get(pk=course['pk']))
             course['students'] = students
 
+            events = CalendarEvent.objects.filter(
+                calendar__course__pk=course['pk'],
+                calendar__owner=self.student,
+                start__gte=timezone.now()
+            ).order_by('start')[:3]
+
+            event_list = []
+            for event in events:
+                event_list.append({
+                    'id': event.id,
+                    'title': event.title,
+                    'document_count': event.get_documents(return_count=True)
+                })
+            course['event_list'] = event_list
+
         data['course_list'] = courses
 
         return render(request, self.template_name, data)
