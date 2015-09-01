@@ -245,6 +245,7 @@ def get_user(email):
         try:
             user = EmailAddress.objects.get(email__iexact=email).user
         except EmailAddress.DoesNotExist:
+            user = None
             pass
     return user
 

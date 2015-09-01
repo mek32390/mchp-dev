@@ -96,6 +96,9 @@ def add_document_purchase(sender, **kwargs):
 def add_document_upload(sender, **kwargs):
     upload = kwargs['upload']
 
+    if not upload.document.course: # if uploaded through roster/add there will be no course id set yet
+        return
+
     followers = Course.objects.get_classlist_for(upload.document.course)
     data = {
         'type': DASH_EVENTS.index('document add'),

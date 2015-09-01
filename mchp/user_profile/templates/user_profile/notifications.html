@@ -3,15 +3,13 @@
 {% load staticfiles %}
 {% block body %}
 {% load notifications %}
-<div class='container'>
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<img src="{% static 'lib/img/ring.svg' %}" class="img-circle img-thumbnail center-block">
-			<h2 class="text-center">Notifications</h2>
-			<div class="well">
-				{% notification_archive %}
-			</div>   
-		</div>
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		<span class="text-center center-block"><i class="fa fa-bell-o fa-5x"></i></span>
+		<h2 class="text-center">Notifications</h2>
+		<div class="well opa">
+			{% notification_archive %}
+		</div>   
 	</div>
 </div>
 {% endblock %}
