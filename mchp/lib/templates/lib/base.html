@@ -265,7 +265,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <ul class="nav nav-pills nav-stacked sidebar-nav">
           <li class="sidebar-brand">
-            <a href="{% url 'dashboard'%}" class="pop-stay page-scroll" data-toggle="popover"
+            <a class="pop-stay page-scroll" data-toggle="popover"
             title="
               <h4 class='margin-btm-none margin-top-sm'>
                 <strong>Notifications</strong>
@@ -357,7 +357,37 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <ul class="nav nav-pills nav-stacked sidebar-nav">
           <li class="sidebar-brand">
-            <a href="/" class="page-scroll"><span class="badge" style="display:initial;margin-left:-2px;background-color:#EE2D20;">0</span></a>
+            <a class="pop-stay page-scroll" data-toggle="popover"
+            title="
+              <h4 class='margin-btm-none margin-top-sm'>
+                <strong>Notifications</strong>
+              </h4>
+            "
+            data-content="
+              <hr class='margin-btm margin-top-none'>
+                <div class='row'>
+                  <div class='col-xs-2'>
+                    <p class='label label-success'>new</p>
+                  </div>
+                  <div class='col-xs-10'>
+                    <p>Each day, you'll see a new background image.</p>
+                  </div>
+                  <div class='col-xs-2'>
+                    <p class='label label-success'>new</p>
+                  </div>
+                  <div class='col-xs-10'>
+                    <p>When you add tests to your calendar(s), we'll curate study guides for them.</p>
+                  </div>
+                  <div class='col-xs-2'>
+                    <p class='label label-success'>new</p>
+                  </div>
+                  <div class='col-xs-10'>
+                    <p>The study guides come from your peers and classmates, so they're specific to your class and instructor.</p>
+                  </div>
+                </div>
+            ">
+              <span id='notification-count' class='badge unread-notification'>3</span>
+            </a>
           </li>
           <li>
             <a href="{% url 'dashboard' %}" class="page-scroll"><i class="fa fa-home"></i></a>
@@ -409,11 +439,11 @@
       {% include "lib/google-analytics.html" %}
       {% endif %}
 
-    <!-- Firehose Chat - -->
-    <script type="text/javascript">
-      var FHChat = {product_id: "ea1d78a7bbff"};
-      FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
-    </script>  
+      <!-- Firehose Chat - -->
+      <script type="text/javascript">
+        var FHChat = {product_id: "ea1d78a7bbff"};
+        FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
+      </script>
 
     </div><!-- End Wrapper -->
 

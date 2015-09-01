@@ -113,7 +113,7 @@ class DashboardView(View):
         classmates = Course.objects.get_classmates_for(self.student)
         # get rid of duplicates 
         classmates = list(set(classmates))
-        sample_size = 2 if len(classmates) > 1 else len(classmates)
+        sample_size = 3 if len(classmates) > 1 else len(classmates)
         classmates = random.sample(classmates, sample_size)
         for classmate in classmates:
             classes_in_common = Course.objects.get_classes_in_common(classmate, self.student)

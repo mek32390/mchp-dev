@@ -1079,4 +1079,33 @@ body #buorg {
   margin-top: -8px;
 }
 
-
+#fchat-feed {
+  overflow: scroll;
+}
+#fchat-type-status {
+  color: #BBBBBB;
+  padding: 0 0 0 5px;
+  bottom: 60px;
+  line-height: 10px;
+  padding-bottom: 10px;
+}
+#fchat-type-status.hidden {
+  display: none;
+}
+.fchat-typing1, .fchat-typing2, .fchat-typing3 {
+  -webkit-animation: fchat-animation 1s infinite ease-in-out;
+  animation: fchat-animation 1s infinite ease-in-out;
+  font-weight: bolder;
+}
+.fchat-typing1 {
+  -webkit-animation-delay: .2s;
+  animation-delay: .2s;
+}
+.fchat-typing2 {
+  -webkit-animation-delay: .4s;
+  animation-delay: .4s;
+}
+.fchat-typing3 {
+  -webkit-animation-delay: .6s;
+  animation-delay: .6s;
+}

@@ -20,7 +20,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 
   <script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
-  <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
+  <!-- // <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script> -->
   <script src="{% static 'dashboard/js/new_homepage.js' %}"></script>
   <script src="{% static 'dashboard/js/domparser.js' %}"></script>
   <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
@@ -123,10 +123,49 @@
     <div class="col-xs-4">
       <div class="row">
         <div class="col-xs-12">
-          <h1 class="white pull-right"><span class="weekdayMonth"></span></h1>
+          <h1 class="white text-right"><span class="weekdayMonth"></span></h1>
         </div>
         <div class="col-xs-12">
-          <span class="white mega-font lead hidden-xs pull-right" style="margin-right:px;"><span class="numberDate"></span></span>
+          <p class="white mega-font lead hidden-xs text-right"><span class="numberDate"></span></p>
+        </div>
+        <div class="col-sm-7 col-sm-offset-5">
+          <br></br>
+          <br></br>
+          <h4 class="white lead margin-btm-sm margin-top-sm text-right">Classmates</h4>
+          <hr class="margin-top-none">
+          <p></p>
+          <div class="list-group trans">
+            {% for classmate in classmates %}
+              <div class="media">
+                <div class="media-body">
+                  <h5 class="media-heading text-right">
+                    <a href="{% url "profile" classmate.pk %}">
+                    <strong>{{classmate.user.username}}</strong>
+                    </a>
+                  </h5>
+                  <p class="small margin-top-none margin-btm-none classes-in-common text-right">
+                      in 
+                      {% for course in classmate.classes_in_common %}
+                      {% if not forloop.last %}
+                      <a href="{% url "course" course.pk %}">{{course}}</a>,
+                      {% elif forloop.last and forloop.first %}
+                      <a href="{% url "course" course.pk %}">{{course}}</a>
+                      {% else %}
+                      and <a href="{% url "course" course.pk %}">{{course}}</a>
+                      {% endif %}
+                      {% endfor %}
+                  </p>
+                </div>
+                <div class="media-right media-top">
+                  <a href="{% url "profile" classmate.pk %}">
+                    <img class="media-object img-circle profile-image img-thumbnail" src="{{ classmate.profile.profile_image_url }}" alt="classmate" style="width:36px; height:36px;">
+                  </a>
+                </div>
+              </div>
+            {% empty %}
+            {% endfor %}
+          </div>
+
         </div>
       </div><!-- /row -->
     </div><!-- end col-4 -->
