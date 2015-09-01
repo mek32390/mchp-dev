@@ -582,7 +582,8 @@ class ClassesView(View):
 
             events = CalendarEvent.objects.filter(
                 calendar__course__pk=course['pk'],
-                calendar__owner=self.student
+                calendar__owner=self.student,
+                start__gte=timezone.now()
             ).order_by('start')[:3]
 
             event_list = []
