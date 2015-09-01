@@ -160,7 +160,6 @@
                                             </li>
                                             {% endfor %}
                                         </ul>
-                                        {% endfor %}
                                     </div>
                                 </div>
                                 <!-- end col-4 -->
@@ -210,12 +209,8 @@
 
                         </div>
                         <!-- end tab-pane -->
-                        {% empty %}
+                        {% endfor %}
                     </div>
-                    <!-- end tab-content -->
-                    <p class="lead text-center">You haven't added any classes to your schedule yet!</p>
-                    <a href="{% url 'course_add' %}" class="btn btn-primary text-center">Add Classes</a>
-                    {% endfor %}
                 </div>
                 <!-- end row -->
 </section>
