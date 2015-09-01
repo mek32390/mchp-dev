@@ -50,9 +50,10 @@ class Roster(models.Model):
         -------
         out : int
             The number of enrollments created.
-
         """
+
         enrollments = []
+        """
         emails_to_filter = [entry.email for entry in self.instructors]
         students = [student for student in self.students
                     if student.email not in emails_to_filter]
@@ -65,11 +66,12 @@ class Roster(models.Model):
             enrollments.append(enrollment)
         self.imported = timezone.now()
         self.save(update_fields=['imported'])
+        """
         return len(enrollments)
 
 
-class RosterExamEntry(models.Model):
-    """ Roster exam entry.
+class RosterEventEntry(models.Model):
+    """ Roster event entry.
 
     Parameters
     ----------
@@ -79,11 +81,11 @@ class RosterExamEntry(models.Model):
     """
     title = models.CharField(max_length=30)
     date = models.DateField()
-    roster = models.ForeignKey(Roster, related_name='exams')
+    roster = models.ForeignKey(Roster, related_name='events')
 
     class Meta:
-        verbose_name = 'roster exam entry'
-        verbose_name_plural = 'roster exam entries'
+        verbose_name = 'roster event entry'
+        verbose_name_plural = 'roster event entries'
 
 
 class RosterEntry(models.Model):

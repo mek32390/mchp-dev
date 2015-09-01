@@ -27,8 +27,13 @@ $(document).ready(function () {
         }
 
     });
+
     $('#id_course').change(function () {
         update_classname();
+    });
+
+    $('#addEventRow').click(function () {
+        add_exam_inputs();
     });
 
     function update_classname(){
@@ -37,6 +42,33 @@ $(document).ready(function () {
         $('#id_course_name').val(selectedCourse);
     }
     update_classname();
+
+
+    function add_exam_inputs() {
+        var lastEventRow = $('.event-row').last();
+        var lastId = parseInt(lastEventRow.attr('data-event-index'));
+        var newEventRow = lastEventRow.clone();
+        var newId = lastId + 1;
+        // reset inputs & index
+        newEventRow.attr('data-event-index', newId);
+        newEventRow.find('.event-title').val('');
+        newEventRow.find('.event-date').val('');
+        // change placeholder + name
+        newEventRow.find('.event-title').attr('placeholder', 'Exam ' + newId + ' Title');
+        newEventRow.find('.event-date').attr('placeholder', 'Exam ' + newId + ' Date');
+
+        newEventRow.find('.event-title').attr('name', 'form-' + newId + '-title');
+        newEventRow.find('.event-date').attr('name', 'form-' + newId + '-date');
+
+        newEventRow.find('.event-date').datepicker({
+            startView: 1,
+            multidate: false,
+            autoclose: true,
+            todayHighlight: false
+        });
+        newEventRow.appendTo(lastEventRow.parent());
+        $('#id_form-TOTAL_FORMS').val(newId);
+    }
 });
 
 
