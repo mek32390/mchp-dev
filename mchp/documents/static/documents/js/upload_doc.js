@@ -57,6 +57,22 @@ function update_classname() {
 
     $('.selected-classname').text(selected_course_name);
     $('#document_course_name').val(selected_course_name);
+
+    update_events(selected_course_id);
+}
+
+function update_events(selected_course_id) {
+    $("#document_event").find('option').not(':first').remove();
+    var events = student_course_events[selected_course_id];
+
+    if (events) {
+        for (var i=0; i<events.length; i++) {
+            var event = events[i];
+            $("#document_event").append(
+                $("<option/>").attr("value", event.id).text(event.title)
+            )
+        }
+    }
 }
 
 $(document).ready(function () {

@@ -938,6 +938,9 @@ class EventDetailView(DetailView):
         if event.original_event:
             context['documents'] += list(event.original_event.documents.all())
 
+            sibling_documents = Document.objects.filter(events__original_event=event.original_event).exclude(events__id=event.id)
+            context['documents'] += list(sibling_documents)
+
         # 2: Pattern matching
         event_title = event.title.lower()
         query = Q()
