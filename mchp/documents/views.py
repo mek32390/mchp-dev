@@ -15,7 +15,7 @@ from django.views.generic.list import ListView
 from documents.forms import DocumentUploadForm
 from documents.models import Document, Upload, DocumentPurchase
 from documents.exceptions import DuplicateFileError
-from calendar_mchp.models import ClassCalendar 
+from calendar_mchp.models import ClassCalendar, CalendarEvent
 from lib.decorators import school_required
 from referral.models import ReferralCode
 from schedule.models import Course
@@ -62,11 +62,26 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         course_field = form.fields['course']
+        event_field = form.fields['event']
 
         enrolled_courses = Course.objects.get_courses_for(self.student)
 
         course_field.queryset = enrolled_courses
         course_field.empty_label = 'Pick a course'
+
+        event_field.empty_label = 'Pick an event'
+        student_events = CalendarEvent.objects.filter(
+            calendar__owner=self.student,
+            calendar__course__in=enrolled_courses
+        ).values('id', 'title', 'calendar__course')
+
+        student_course_events = dict()
+        for event in student_events:
+            course_id = event['calendar__course']
+            if course_id not in student_course_events:
+                student_course_events[course_id] = []
+
+            student_course_events[course_id].append(event)
 
         type_field = form.fields['type']
         type_field.queryset = Document.DOCUMENT_TYPE_CHOICES
@@ -76,10 +91,26 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
 
         data = {
             'enrolled_courses': enrolled_courses,
+            'student_course_events_serialized': json.dumps(student_course_events),
             'form': form,
         }
 
         return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        # Updating event query set
+        course_id = request.POST.get('course', None)
+        if course_id:
+            events = CalendarEvent.objects.filter(calendar__owner=self.student, calendar__course__id=course_id)
+            form.fields['event'].queryset = events
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def form_invalid(self, form):
         messages.error(
@@ -100,6 +131,10 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
 
         upload = Upload(document=doc, owner=self.student)
         upload.save()
+
+        event = form.cleaned_data['event']
+        event.documents.add(doc)
+
         messages.success(
             self.request,
             "Upload successful"

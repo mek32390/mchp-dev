@@ -13,13 +13,8 @@ $(function() {
 
 	// when the clockend input changes, show cal end date field
 	$('.clockend').change(function(){
-		$('.cal-start-end').fadeIn(500).removeClass('hidden');
-	});
-	// when the cal end date field changes, show cal description field
-	$('.cal-start-end').change(function(){
 		$('.cal-submit').fadeIn(500).removeClass('hidden');
 	});
-
 
 	// initializing clockpicker
 	$('.clockpicker').clockpicker( {

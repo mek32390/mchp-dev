@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.db.models import Count
 from django.contrib.auth.models import User
@@ -120,6 +121,10 @@ class Student(models.Model):
             owner=self
         )
         return sum(map(lambda cal: cal.subscribers.count(), all_calendars))
+
+    @staticmethod
+    def get_admin():
+        return Student.objects.get(user__username=settings.ADMIN_USERNAME)
 
 
     def __str__(self):
