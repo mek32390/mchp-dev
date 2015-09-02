@@ -1,15 +1,15 @@
-<ul class="list-group">
+<ul class="list-group trans">
 	{% if notifications %}
 	{% load humanize %}
 	{% for notification in notifications %}
-	<li class="list-group-item">
+	<li class="list-group-item opa">
 		{{ notification.message }}
-		<span class="pull-right small">
+		<span class="pull-right small white">
 			{{notification.create_date|naturaltime}}
 		</span>
 	</li>
 	{% endfor %}
 	{% else %}
-	<li class="list-group-item">And then there were none. Notifications that is.</li>
+	<li class="list-group-item trans">And then there were none. Notifications that is.</li>
 	{% endif %}
 </ul>

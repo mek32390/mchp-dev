@@ -615,7 +615,7 @@ $(function() {
 						return true;
 					}
 					var $item = $item_proto.clone();
-					$item.find('.event-title').text(event.title);
+					$item.find('.event-title').text(event.title).attr('href', '/calendar/events/' + event.id);
 					$item.find('.event-description').text(event.description);
 					$item.find('.event-date').text(event.start.format(format_string));
 					$item.find('.event-time').text(event.start.format('hh:mm a'));
@@ -956,16 +956,16 @@ var drawCircle = function(canvas, old) {
 
 		ctx.beginPath();
 		var x              = $(canvas).width() / 2;               // x coordinate
-		var y              = $(canvas).height() / 2;               // y coordinate
-		var radius         = $(canvas).width() / 4.5;                    // Arc radius
-		var startAngle     = 0;                     // Starting point on circle
-		var endAngle       = Math.PI * 2; // End point on circle
-		var anticlockwise  = true; // clockwise or anticlockwise
+		var y              = $(canvas).height() / 2;              // y coordinate
+		var radius         = $(canvas).width() / 4.5;             // Arc radius
+		var startAngle     = 0;                     							// Starting point on circle
+		var endAngle       = Math.PI * 2; 												// End point on circle
+		var anticlockwise  = true; 																// clockwise or anticlockwise
 
 		ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
 
-		var color = "#4C9ED9";
-		var stroke = "#357EBD";
+		var color = "rgba(255,255,255,0.4)";
+		var stroke = "#FFFFFF";
 		if (old) {
 			ctx.globalAlpha = 0.4;
 			stroke = 'rgba(0,0,0,0)';

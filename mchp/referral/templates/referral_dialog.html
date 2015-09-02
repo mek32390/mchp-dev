@@ -1,19 +1,17 @@
 {% load staticfiles %}
 <div id="referral">
-	<img class="center-block animated delayed-md swing" src="{% static 'lib/img/ticket.svg' %}" alt="select browser">
+	<i class="center-block animated delayed-md swing text-center fa fa-gift fa-fw fa-5x"></i>
+	<br></br>
 	<h4>Do you have the lucky ticket?</h4>
-	<hr>
+	<br>
 	<div class="form-group">
 		<form method="post" id="referral-form" autocomplete="off">
 			{% csrf_token %}
-			<div class="input-group input-group-lg">
-				<span class="input-group-addon"><i class="fa fa-gift"></i></span>
-				<input id="referral-input" type="text" name="referral_code" class="form-control" placeholder="Enter referral code" required autofocus>
-			</div>
+			<input id="referral-input" type="text" name="referral_code" class="form-control" placeholder="Enter referral code" required autofocus>
 		</form>
 	</div>
 	<p></p>
-	<button form="referral-form" type="submit" class="btn btn-primary btn-block">Submit</button>
+	<button form="referral-form" type="submit" class="btn btn-trans btn-block">Submit</button>
 	<script type="text/javascript">
 		var dialog_url = '{%url "referral_redeem"%}';
 		var $modal = $('#{{modal_id}}');

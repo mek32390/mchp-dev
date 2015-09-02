@@ -189,12 +189,17 @@ hr {
   background: white;
 }
 
-.panel, hr, .btn, button, .well, .badge, .label, img, .thumbnail {
+.panel, hr, .btn, button, .well, .badge, .label, img, .thumbnail, .alert {
   -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
   box-shadow        : 0 1px 1px rgba(0,0,0,0.1);
 }
 
-img.no-shadow {
+.no-shadow {
+  -webkit-box-shadow: none !important;
+  box-shadow        : none !important;
+}
+
+button.close {
   -webkit-box-shadow: none !important;
   box-shadow        : none !important;
 }
@@ -270,7 +275,7 @@ img.no-shadow {
 /* Link styles */
 
 a {
-  color: #fff;
+  color: rgba(255,255,255,.7);
 }
 
 a:hover, a:focus {
@@ -278,7 +283,7 @@ a:hover, a:focus {
 }
 
 a.link {
-  color: #fff;
+  color: rgba(255,255,255,.7);
   text-decoration: underline;
   -webkit-transition: all .5s ease;
   -moz-transition: all .5s ease;
@@ -286,10 +291,14 @@ a.link {
 }
 
 a.link:hover {
-  text-shadow: 0px 1px 2px rgba(0,0,0,0.6);
+  color: #fff;
   -webkit-transition: all .5s ease;
   -moz-transition: all .5s ease;
   transition: all .5s ease;
+}
+
+a.alert-link {
+  color: #fff;
 }
 
 /* Text context styles */
@@ -476,6 +485,11 @@ img.img-thumbnail.img-circle.profile-image {
   margin-bottom: 0px;
 }
 
+.alert {
+  color: #fff;
+  background-color: rgba(255,255,255,0.4);
+  border-color: rgba(255,255,255,0.4);
+}
 
 /*!
 *
@@ -612,19 +626,27 @@ img.img-thumbnail.img-circle.profile-image {
 
 .profile-img {
   /*background-color: transparent;*/
-  margin-left:-7px;
+  width: 25px;
+  height: 25px;
+  margin-left:-5px;
   padding: 1px;
   border-color: rgba(255,255,255,0.4);
 }
 
 /* django-messages */
-.django-messages {
-    right: 20px;
-    position: fixed;
-    z-index: 999999999;
-  	width: 300px;
-  	opacity:0.9;
-    transition: .4s ease;
+.django-messages > .alert {
+  right: 20px;
+  top: 20px;
+  position: fixed;
+  color: #fff;
+  font-weight: 700;
+  background: linear-gradient(to top left, rgba(0, 0, 0, .5), rgba(0, 0, 0, .9));
+  border-color: rgba(0, 0, 0, .9);
+  -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+  box-shadow: 0 3px 9px rgba(0,0,0,.5);
+  z-index: 999999999;
+	width: 300px;
+  transition: .4s ease;
 }
 
 ul.messages {
@@ -897,6 +919,11 @@ body #buorg {
 }*/
 
 /* Style Read and Unread Notifications */
+#notification-count {
+  display: initial;
+  margin-left: -2px;
+}
+
 .read-notifications {
   cursor: default;
 }
@@ -906,14 +933,18 @@ body #buorg {
 }
 
 .unread-notification {
-  background-color: #B80000;
+  background-color: #EE2D20;
   cursor: default;
 }
 
 /* Firehose Chat Styles */
 #fchat {
   right: 31px !important;
-  background: linear-gradient(to top left, rgba(0, 0, 0, .1), rgba(0, 0, 0, .3));
+  background: linear-gradient(to top left, rgba(0, 0, 0, .5), rgba(0, 0, 0, .9));
+  border-top-right-radius: 4px !important;
+  border-top-left-radius: 4px !important;
+  -webkit-box-shadow: 0 -3px 9px rgba(0,0,0,.5);
+  box-shadow: 0 -3px 9px rgba(0,0,0,.5);
 }
 
 #fchat-header {
@@ -927,10 +958,10 @@ body #buorg {
   -webkit-transition: all .2s ease;
   -moz-transition: all .2s ease;
   color: #fff !important;
-  background: rgba(255,255,255,0.4) !important;
-  border-color: rgba(255,255,255,0.4) !important;
+  background: transparent !important;
+  border-color: rgba(0, 0, 0, .7) !important;
   font-size: 14px !important;
-  font-weight: 400 !important;
+  font-weight: 700 !important;
   line-height: 1.42857143 !important;
   white-space: nowrap !important;
   vertical-align: middle !important;
@@ -961,10 +992,10 @@ body #buorg {
 }
 
 #fchat-feed {
-  background: rgba(255,255,255,0.4) !important;
+  background: transparent !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  border: 1px solid rgba(255,255,255,0.4) !important;
+  border: 1px solid rgba(0, 0, 0, .9) !important;
   border-bottom: none !important;
   border-top: none !important;
 }
@@ -973,13 +1004,13 @@ body #buorg {
   font-size: 14px !important;
   border-radius: 4px !important;
   box-shadow: none !important;
-  background: rgba(255,255,255,0.4) !important;
+  background: transparent !important;
   color: #fff !important;
 }
 
 #fchat-footer {
-  background-color: rgba(255,255,255,0.4) !important;
-  border: 1px solid rgba(255,255,255,0.4) !important; 
+  background-color: rgba(0,0,0,.5) !important;
+  border-top: 1px solid rgba(0,0,0,.5) !important; 
   /*opacity: .5 !important;*/
 
 }
@@ -1004,15 +1035,18 @@ body #buorg {
  
 .fchat-question {
   color: #fff !important;
-  background: rgba(255,255,255,0.4) !important;
+  background: rgba(0,0,0,0.1) !important;
   margin-left: 44px !important;
+  border: 1px solid rgba(255,255,255,.1) !important;
   /*box-shadow: 2px 2px 2px #bce8f1;*/
 }
  
 .fchat-response {
   color: #fff !important;
-  background: rgba(255,255,255,0.4) !important;
+  background: transparent !important;
   margin-right: 44px !important;
+  border: 1px solid rgba(255,255,255,.1) !important;
+
 }
  
 .fchat-response:after {
@@ -1025,7 +1059,7 @@ body #buorg {
   position: absolute;
   pointer-events: none;
   border-color: rgba(255, 255, 255, 0);
-  border-right-color: rgba(255,255,255,0.4);
+  border-right-color: rgba(255,255,255,.1);
   border-width: 8px;
   margin-top: -10px;
 }
@@ -1040,9 +1074,38 @@ body #buorg {
   position: absolute;
   pointer-events: none;
   border-color: rgba(255, 255, 255, 0);
-  border-left-color: rgba(255,255,255,0.4);
+  border-left-color: rgba(255,255,255,.1);
   border-width: 8px;
   margin-top: -8px;
 }
 
-
+#fchat-feed {
+  overflow: scroll;
+}
+#fchat-type-status {
+  color: #BBBBBB;
+  padding: 0 0 0 5px;
+  bottom: 60px;
+  line-height: 10px;
+  padding-bottom: 10px;
+}
+#fchat-type-status.hidden {
+  display: none;
+}
+.fchat-typing1, .fchat-typing2, .fchat-typing3 {
+  -webkit-animation: fchat-animation 1s infinite ease-in-out;
+  animation: fchat-animation 1s infinite ease-in-out;
+  font-weight: bolder;
+}
+.fchat-typing1 {
+  -webkit-animation-delay: .2s;
+  animation-delay: .2s;
+}
+.fchat-typing2 {
+  -webkit-animation-delay: .4s;
+  animation-delay: .4s;
+}
+.fchat-typing3 {
+  -webkit-animation-delay: .6s;
+  animation-delay: .6s;
+}

@@ -10,6 +10,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
     <script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
 
+    <script type="text/javascript">
+        var student_course_events = {{ student_course_events_serialized|safe }};
+    </script>
+
 {% endblock %}
 
 {% block body %}
@@ -35,8 +39,6 @@
                   enctype="multipart/form-data">
                 {% csrf_token %}
 
-                {{ form.errors }}
-
 
                 <!-- select course to upload document to -->
                 <div class="media" id="{{ form.course.name }}_container">
@@ -50,6 +52,7 @@
                         <div class="form-group" id="selectClass">
                             {{ form.course }}
                         </div>
+                        {{ form.course.errors }}
                         <br></br>
                     </div>
                 </div>
@@ -66,6 +69,24 @@
                         <div class="form-group">
                             {{ form.type }}
                         </div>
+                        {{ form.type.errors }}
+                        <br></br>
+                    </div>
+                </div>
+
+                <!-- select event to upload document to -->
+                <div class="media" id="{{ form.event.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">1.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Select an event to upload document to</h3>
+                        <p>or <a href="{% url 'event_add' %}" target="_blank">create a new event</a>.</p>
+
+                        <div class="form-group" id="selectClass">
+                            {{ form.event }}
+                        </div>
+                        {{ form.event.errors }}
                         <br></br>
                     </div>
                 </div>
@@ -82,6 +103,7 @@
                         <div class="form-group">
                             {{ form.title }}
                         </div>
+                        {{ form.title.errors }}
                         <br></br>
                     </div>
                 </div>
@@ -98,11 +120,12 @@
                         <div class="form-group">
                             {{ form.description }}
                         </div>
+                        {{ form.description.errors }}
                         <br></br>
                     </div>
                 </div>
 
-            <!-- document description -->
+            <!-- document price -->
                 <div class="media" id="{{ form.price.name }}_container">
                     <div class="media-left media-top">
                         <h1 class="media-object pull-left margin-top-none">2.</h1>
@@ -114,6 +137,7 @@
                         <div class="form-group">
                             {{ form.price }}
                         </div>
+                        {{ form.price.errors }}
                         <br></br>
                     </div>
                 </div>
@@ -132,6 +156,7 @@
                                       name="{{ form.document.name }}">
           </span>&nbsp;<span class="selected-file"></span>
                         <br></br>
+                        {{ form.document.errors }}
                         <br></br>
                     </div>
                 </div>

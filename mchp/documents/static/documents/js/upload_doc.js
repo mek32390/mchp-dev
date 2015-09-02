@@ -27,6 +27,9 @@ function document_type_changed() {
         $("#description_container").hide();
         study_guide_description = $("#id_description").val();
 
+        $("#event_container").hide();
+        study_guide_event = $("#id_event").val();
+
         update_classname();
     } else {
         $('#id_price').val(study_guide_price);
@@ -57,6 +60,22 @@ function update_classname() {
 
     $('.selected-classname').text(selected_course_name);
     $('#document_course_name').val(selected_course_name);
+
+    update_events(selected_course_id);
+}
+
+function update_events(selected_course_id) {
+    $("#document_event").find('option').not(':first').remove();
+    var events = student_course_events[selected_course_id];
+
+    if (events) {
+        for (var i=0; i<events.length; i++) {
+            var event = events[i];
+            $("#document_event").append(
+                $("<option/>").attr("value", event.id).text(event.title)
+            )
+        }
+    }
 }
 
 $(document).ready(function () {
@@ -100,6 +119,26 @@ $(document).ready(function () {
                     }
                 }
             },
+			event: {
+				validators: {
+					callback: {
+						callback: function(value) {
+							if (parseInt($("#document_type").val()) === SYLLABUS) {
+								return true;
+							}
+
+							if (!$('#hidden_course').val) {
+								return {
+									valid: false,
+									message: "Select a course before selecting an event."
+								}
+							}
+
+							return true;
+						}
+					}
+				}
+			},
             price: {
                 validators: {
                     callback: {

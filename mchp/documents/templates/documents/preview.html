@@ -24,16 +24,17 @@
 {% load referral %}
 
 {% if not document_preview_flag %}
-<div data-event="{{document_preview_flag_name}}" class="one-time-alert alert alert-success alert-dismissible fade in" role="alert">
+<div data-event="{{document_preview_flag_name}}" class="alert alert-lg one-time-alert alert-dismissible fade in" role="alert">
 	<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 	<div class="media margin-top-none">
-		<img class="no-shadow media-object pull-left animated rubberBand delayed-lg" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
-		<div class="media-body">
-			<h4 class="media-heading">Get <strong>$5</strong> for every Study Guide you upload!</h4>
-			Seriously, when you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a>, we'll deposit $5 in your account that day. We'll make sure it's not spam and once your document clears our brief inspection, the money is yours. For your privacy, you'll remain anonymous. <strong>- mchp</strong>
-		</div>
-		<p></p>
-    <p><a href="{% url 'document_upload'%}" class="btn btn-success btn-md">Start Selling Now!</a></p>
+	  <div class="media-left media-middle">
+	    <i class="media-object fa fa-upload fa-fw fa-4x"></i>
+	  </div>
+	  <div class="media-body">
+	    <h4 class="media-heading">Get <strong>$5</strong> for every Study Guide you upload!</h4>
+	    Seriously, when you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a>, we'll deposit $5 in your account that day. We'll make sure it's not spam and once your document clears our brief inspection, the money is yours. For your privacy, you'll remain anonymous. <strong>- mchp</strong>
+	    <p></p><a href="{% url 'document_upload'%}" class="btn btn-trans btn-md">Start Selling Now!</a>
+	  </div>
 	</div>
 </div><!-- end alert -->
 {% endif %}

@@ -55,21 +55,24 @@
                                     <div class="panel opa">
                                         <div class="panel-body">
                                             <div class="media">
-                                                <div class="media-body">
-                                                    <button type="button" class="btn btn-lg btn-trans pull-right"
-                                                            data-toggle="modal" data-target="#viewSyllabus{{ forloop.counter }}">Syllabus
-                                                    </button>
-                                                    <h2 class="media-heading"><a href="
-                                                            {% url "course" course.pk %}{{ course.name }}">{{ course.dept }} {{ course.course_number }}</a>
-                                                    </h2>
-                                                    <h5>
-                                                        <i class="fa fa-male"></i> Instructor {{ course.professor }}
-                                                        &nbsp;
-                                                        <i class="fa fa-university"></i> <a href="
-                                                            {% url "school" course.domain__pk %}{{ course.domain__name }}"> {{ course.domain__name }}</a>
-                                                    </h5>
-                                                </div>
+                                              <div class="media-left media-top">
+                                                <i class="media-object fa fa-bookmark-o fa-fw fa-4x"></i>
+                                              </div>
+                                              <div class="media-body">
+                                                <button type="button" class="btn btn-lg btn-trans pull-right"
+                                                    data-toggle="modal" data-target="#viewSyllabus{{ forloop.counter }}">Syllabus
+                                                </button>
+                                                <h2 class="media-heading"><a href="
+                                                    {% url "course" course.pk %}{{ course.name }}">{{ course.dept }} {{ course.course_number }}</a></h2>
+                                                 <h5>
+                                                    <i class="fa fa-male"></i> Instructor {{ course.professor }}
+                                                    &nbsp;
+                                                    <i class="fa fa-university"></i> <a href="
+                                                        {% url "school" course.domain__pk %}{{ course.domain__name }}"> {{ course.domain__name }}</a>
+                                                </h5>
+                                              </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <br>
@@ -127,9 +130,8 @@
                                                 </a>
                                                 {% empty %}
                                                 <li class="list-group-item trans text-center">
-                                                    <p class="lead">Be the first to <a
-                                                            href="{% url "document_upload" %}">upload a document</a> in
-                                                        this class and start making money!</p>
+                                                    <p class="lead">No documents found! <a
+                                                            href="{% url "document_upload" %}" class="link">Upload a Study Guide</a> for this class!</p>
                                                 </li>
                                             {% endfor %}
                                         </div>
@@ -142,16 +144,24 @@
                                     </h4>
                                     <div class="panel opa">
                                         <ul class="list-group trans small-scroll-con scrolls">
-                                            <a href="#" class="list-group-item trans">
+                                            {% for event in course.event_list %}
+                                            <a href="{% url 'event_detail' event.id %}" class="list-group-item trans">
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h4 class="media-heading white">Exam 2 <span
+                                                        <h4 class="media-heading white">{{ event.title }}<span
                                                                 class="small"></span></h4>
                                                     </div>
                                                 </div>
-                                                <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> 2 Study Guides
+                                                <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> {{ event.document_count }} Study Guides
                                                 </h5>
                                             </a>
+                                            {% empty %}
+                                            <li class="list-group-item trans text-center">
+                                                <p class="lead">No upcoming events! How can that be? <a
+                                                        href="{% url "calendar" %}" class="link">Add some events</a> in
+                                                    this class!</p>
+                                            </li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
@@ -202,12 +212,8 @@
 
                         </div>
                         <!-- end tab-pane -->
-                        {% empty %}
+                        {% endfor %}
                     </div>
-                    <!-- end tab-content -->
-                    <p class="lead text-center">You haven't added any classes to your schedule yet!</p>
-                    <a href="{% url 'course_add' %}" class="btn btn-primary text-center">Add Classes</a>
-                    {% endfor %}
                 </div>
                 <!-- end row -->
 </section>

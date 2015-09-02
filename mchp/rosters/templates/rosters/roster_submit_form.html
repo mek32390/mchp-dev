@@ -24,64 +24,55 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="media">
-                <div class="media-left media-middle">
-                    <div class="media-object pull-left animated"><i class="fa fa-upload fa-5x fa-fw"></i></div>
-                </div>
-                <div class="media-body">
-                    <h1 class="media-heading">Submit a Class Set</h1>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="media">
+		  <div class="media-left media-middle">
+		    <i class="media-object fa fa-upload fa-5x fa-fw"></i>
+		  </div>
+		  <div class="media-body">
+		    <h1 class="media-heading">Submit a Class Set</h1>
+		    <p class="lead margin-btm-none">A class set includes a class's syllabus, roster, and assignment dates</p>
+		  </div>
+		</div>
+		<hr>
+	</div>
+</div>
 
-                    <p class="lead margin-btm-none">A class set includes a class's syllabus, roster, and assignment
-                        dates</p>
-                </div>
-            </div>
-            <hr>
-        </div>
-    </div>
+<div class="row">
+	<div class="col-sm-8">
+		<form id="class_set" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+		{{ form.errors }}
 
-    <div class="row">
-        <div class="col-sm-8">
-            <form id="class_set" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-                {{ form.errors }}
+			<!-- select course to upload class set to -->
+			<div class="media">
+				<div class="media-left media-top">
+					<h1 class="media-object pull-left margin-top-none">1.</h1>
+				</div>
+				<div class="media-body">
+					<h3 class="media-heading">Select a course to add a Class Set to:</h3>
+					<p>or <a href="{% url 'course_create'%}" target="_blank">create a new course</a>.</p>
+					<div class="form-group" id="selectClass">
+            <select class="form-control input-lg" id="{{ form.course.id_for_label }}" name="{{ form.course.name }}">
+							{% for course in school.course_set.all %}
+							<option value="{{ course.pk }}">{{ course }} with Instr {{course.professor}}</option>
+							{% endfor %}
+						</select>
+                        <input type="hidden" id="{{ form.course_name.id_for_label }}" name="{{ form.course_name.name }}">
 
-                <!-- select course to upload class set to -->
-                <div class="media">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">1.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Select a course to add a Class Set to:</h3>
+          </div>
+					<br></br>
+			 	</div>
+			</div>
 
-                        <p>or <a href="{% url 'course_create' %}" target="_blank">create a new course</a>.</p>
-
-                        <div class="form-group" id="selectClass">
-                            <select class="form-control input-lg" id="{{ form.course.id_for_label }}"
-                                    name="{{ form.course.name }}">
-                                {% for course in school.course_set.all %}
-                                    <option value="{{ course.pk }}">{{ course }} with
-                                        Instr {{ course.professor }}</option>
-                                {% endfor %}
-                            </select>
-                            <input type="hidden" id="{{ form.course_name.id_for_label }}"
-                                   name="{{ form.course_name.name }}">
-
-                        </div>
-                        <br></br>
-                    </div>
-                </div>
-
-                <!-- upload syllabus -->
-                <div class="media">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">2.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Upload the Syllabus for <strong class="selected-classname">CLASS
-                            NAME</strong>:</h3>
-
-                        <p>The course syllabus is typically a word or pdf document.</p>
+			<!-- upload syllabus -->
+			<div class="media">
+				<div class="media-left media-top">
+					<h1 class="media-object pull-left margin-top-none">2.</h1>
+				</div>
+				<div class="media-body">
+					<h3 class="media-heading">Upload the Syllabus for <strong class="selected-classname">CLASS NAME</strong>:</h3>
+					<p>The course syllabus is typically a word or pdf document.</p>
 					<span class="btn btn-trans btn-lg btn-file">
 						Browse <input type="file" class="form-control" id="{{ form.document.id_for_label }}"
                                       name="{{ form.document.name }}">
@@ -107,31 +98,6 @@
                                   name="{{ form.emails.name }}"
                                   placeholder="enter one instructor/assistant email per line"
                                   rows="3">{{ form.emails.value|default:''}}</textarea>
-
-
-                        <!-- <h4>Add all Instructor, Teaching-Assistant, and non-student Emails</h4> -->
-                        <!--<div class="row">
-                     <div class="col-xs-9">
-                     <ul id="InstructorEmails" class="list-inline">
-                     <li><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     <li class="additionalInstr hidden"><a href="#" data-placeholder="Instructor or TA email" class="editField white"></a></li>
-                     </ul>
-                     </div>
-                     <div class="col-xs-3">
-                     <a href="#" id="addInstructorEmail" class=""><i class="fa fa-plus fa-fw"></i>Add Email</a>
-                     </div>
-                     </div>-->
                         <br></br>
                         <br>
                     </div>
@@ -196,7 +162,7 @@
                 </div>
                 <!-- /.media -->
 
-                <!-- upload syllabus -->
+                <!-- Add Exam dates -->
                 <div class="media">
                     <div class="media-left media-top">
                         <h1 class="media-object pull-left margin-top-none">5.</h1>

@@ -165,6 +165,19 @@ class Course(models.Model):
                                                 self.course_number, 
                                                 self.professor)
 
+    def primary_calendar(self):
+        return self.calendar_courses.filter(primary=True)
+
+    def enroll(self, student):
+        Enrollment.objects.get_or_create(student=student, course=self)
+
+        primary_calendar = self.primary_calendar()
+        if primary_calendar:
+            primary_calendar = primary_calendar[0]
+
+            student_calendar = primary_calendar.fork(student)
+            student_calendar.subscribe(student)
+
     def __str__(self):
         return "{} {}".format(self.dept, self.course_number)
 
