@@ -17,74 +17,74 @@ $(function() {
 	};
 
 	// Instance the tour
-	var tour = new Tour({
+	// var tour = new Tour({
 		
-		name: "calendar-tour",
-		backdrop: true,
-		// storage: false,
-		onStart: stopClearPopovers,
-		onEnd: restartClearPopovers,
-		path: "/calendar/",
-		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« prev</button><button class='btn btn-default btn-sm' data-role='next'>next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>end tour</button></nav></div>",
-		steps: [
-		{
-			orphan: true,
-		    title: "<strong>This is your calendar, " + MCHP_USERNAME + "!</strong>",
-		    content: 'You can make a calendar for each of your enrolled classes, with the option to set each one as <strong>public</strong> or <strong>private.</strong>'
-		},
-		{
-			orphan: true,
-		    title: "<strong>Private Calendar</strong>",
-		    content: "If you want to make it private, only you will be able to see the events you add to it, like a regular calendar."
-		},
-		{
-			orphan: true,
-		    title: "<strong>Public Calendar</strong>",
-		    content: "If you make it public, your classmates will be able to subscribe to it. In return, they'll get to see the events you add, and get notified whenever you change or add events."
-		},
-		{
-			element: ".owned-cals-section",
-		    title: "<strong>Calendars you Own</strong>",
-		    content: "The calendars <em>you create</em> will appear here.",
-		    placement: "right"
-		},
-		{
-			element: ".following-cals-section",
-		    title: "<strong>Calendars you Follow</strong>",
-		    content: "The calendars <em>you subscribe to</em> will appear here.",
-		    placement: "right",
-		     onhide: function() {
-	        	$('.flip-holder').toggleclass("flip");
-    		}
-		},
-		{
-			element: ".view-cals-btn",
-		    title: "<strong>Browse Calendars to Follow</strong>",
-		    content: "You can find calendars that your classmates have made here.",
-		    placement: "left",
-		    reflex: true
-		},
-		{
-			element: "#nav-list",
-		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
-		    content: "<p>To create a calendar, click <a href='/calendar/create/' id='create-cal-btn'>here.</a> Or, continue exploring...</p>",
-		    placement: "bottom",
-		    backdrop: false,
-		    reflex: true
-		}
+	// 	name: "calendar-tour",
+	// 	backdrop: true,
+	// 	// storage: false,
+	// 	onStart: stopClearPopovers,
+	// 	onEnd: restartClearPopovers,
+	// 	path: "/calendar/",
+	// 	template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« prev</button><button class='btn btn-default btn-sm' data-role='next'>next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>end tour</button></nav></div>",
+	// 	steps: [
+	// 	{
+	// 		orphan: true,
+	// 	    title: "<strong>This is your calendar, " + MCHP_USERNAME + "!</strong>",
+	// 	    content: 'You can make a calendar for each of your enrolled classes, with the option to set each one as <strong>public</strong> or <strong>private.</strong>'
+	// 	},
+	// 	{
+	// 		orphan: true,
+	// 	    title: "<strong>Private Calendar</strong>",
+	// 	    content: "If you want to make it private, only you will be able to see the events you add to it, like a regular calendar."
+	// 	},
+	// 	{
+	// 		orphan: true,
+	// 	    title: "<strong>Public Calendar</strong>",
+	// 	    content: "If you make it public, your classmates will be able to subscribe to it. In return, they'll get to see the events you add, and get notified whenever you change or add events."
+	// 	},
+	// 	{
+	// 		element: ".owned-cals-section",
+	// 	    title: "<strong>Calendars you Own</strong>",
+	// 	    content: "The calendars <em>you create</em> will appear here.",
+	// 	    placement: "right"
+	// 	},
+	// 	{
+	// 		element: ".following-cals-section",
+	// 	    title: "<strong>Calendars you Follow</strong>",
+	// 	    content: "The calendars <em>you subscribe to</em> will appear here.",
+	// 	    placement: "right",
+	// 	     onhide: function() {
+	//         	$('.flip-holder').toggleclass("flip");
+ //    		}
+	// 	},
+	// 	{
+	// 		element: ".view-cals-btn",
+	// 	    title: "<strong>Browse Calendars to Follow</strong>",
+	// 	    content: "You can find calendars that your classmates have made here.",
+	// 	    placement: "left",
+	// 	    reflex: true
+	// 	},
+	// 	{
+	// 		element: "#nav-list",
+	// 	    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
+	// 	    content: "<p>To create a calendar, click <a href='/calendar/create/' id='create-cal-btn'>here.</a> Or, continue exploring...</p>",
+	// 	    placement: "bottom",
+	// 	    backdrop: false,
+	// 	    reflex: true
+	// 	}
 		
-	]});
+	// ]});
 
 	
 
-	// initialize the tour
-	tour.init();
-	// start the tour
-	tour.start();
-	// remove backdrop when clicked
-	$('.tour-backdrop').click(function() {
-		$(this).remove();
-	});
+	// // initialize the tour
+	// tour.init();
+	// // start the tour
+	// tour.start();
+	// // remove backdrop when clicked
+	// $('.tour-backdrop').click(function() {
+	// 	$(this).remove();
+	// });
 
 	
 

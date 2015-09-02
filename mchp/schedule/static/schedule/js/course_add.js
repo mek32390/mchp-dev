@@ -13,77 +13,77 @@ $(function() {
 	*/
 
 	// Instance the first tour
-	var tour1 = new Tour({
+	// var tour1 = new Tour({
 
-		name: "addclass-tour-1",
-		backdrop: true,
-		// storage: false,
-		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
-		steps: [
+	// 	name: "addclass-tour-1",
+	// 	backdrop: true,
+	// 	// storage: false,
+	// 	template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
+	// 	steps: [
 
-		// {
-		// 	// path: "/school/course/add/",
-		// 	element: "#enrolled-panel",
-		//     title: "<strong>Welcome " + MCHP_USERNAME + "!</strong>",
-		//     content: "This is your class schedule page, where you can add and drop classes from your schedule. Your schedule looks empty, so let's start off by adding some classes to it.",
-		//     reflex: true
-		// },
-		{
-			element: "#search-panel",
-			backdrop: false,
-		    title: "<strong>Welcome " + MCHP_USERNAME + "!</strong>",
-		    content: "Enter a <strong>Course Code</strong> and <strong>Number</strong>, then hit Enter! ex: ECON 200",
-		    placement: "left"
-		    // reflex: true
-		}
+	// 	// {
+	// 	// 	// path: "/school/course/add/",
+	// 	// 	element: "#enrolled-panel",
+	// 	//     title: "<strong>Welcome " + MCHP_USERNAME + "!</strong>",
+	// 	//     content: "This is your class schedule page, where you can add and drop classes from your schedule. Your schedule looks empty, so let's start off by adding some classes to it.",
+	// 	//     reflex: true
+	// 	// },
+	// 	{
+	// 		element: "#search-panel",
+	// 		backdrop: false,
+	// 	    title: "<strong>Welcome " + MCHP_USERNAME + "!</strong>",
+	// 	    content: "Enter a <strong>Course Code</strong> and <strong>Number</strong>, then hit Enter! ex: ECON 200",
+	// 	    placement: "left"
+	// 	    // reflex: true
+	// 	}
 		
-	]});
+	// ]});
 
-	// Initialize the tour
-	tour1.init();
-	// Start the tour
-	tour1.start();
-	// end the tour on search submit
-	$('#class_search_form').on('submit', function () {
-		tour1.end();
-	});
+	// // Initialize the tour
+	// tour1.init();
+	// // Start the tour
+	// tour1.start();
+	// // end the tour on search submit
+	// $('#class_search_form').on('submit', function () {
+	// 	tour1.end();
+	// });
 
 
 	// Instance the second tour
-	var tour2 = new Tour({
-		// name: "addclass-tour-2",
-		// storage: false,
-		backdrop: true,
-		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
-		steps: [
+	// var tour2 = new Tour({
+	// 	// name: "addclass-tour-2",
+	// 	// storage: false,
+	// 	backdrop: true,
+	// 	template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
+	// 	steps: [
 		
-		{
-			path: "/school/course/add/",
-			orphan: true,
-		    title: "<strong>Nice work!</strong>",
-		    content: "You can add/drop classes from your schedule anytime by clicking the tool icon in the top right or from the classes page.",
-		    backdrop: "true"
-		},
-		{
-			path: "/school/course/add/",
-			element: "#nav-list",
-		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
-		    content: "Before you leave this page, you may want to make sure all of your classes are added. We'll be more useful to you if they are!",
-		    placement: "bottom",
-		    backdrop: false,
-		    template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>Add More Classes</button></nav></div>",
-		    reflex: true
-		}
+	// 	{
+	// 		path: "/school/course/add/",
+	// 		orphan: true,
+	// 	    title: "<strong>Nice work!</strong>",
+	// 	    content: "You can add/drop classes from your schedule anytime by clicking the tool icon in the top right or from the classes page.",
+	// 	    backdrop: "true"
+	// 	},
+	// 	{
+	// 		path: "/school/course/add/",
+	// 		element: "#nav-list",
+	// 	    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
+	// 	    content: "Before you leave this page, you may want to make sure all of your classes are added. We'll be more useful to you if they are!",
+	// 	    placement: "bottom",
+	// 	    backdrop: false,
+	// 	    template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>Add More Classes</button></nav></div>",
+	// 	    reflex: true
+	// 	}
 
-	]});
+	// ]});
 
 
-	$('.join').on('click', function () {
-		// Initialize the tour
-		tour2.init();
-		// Start the tour
-		tour2.start();
-	});
+	// $('.join').on('click', function () {
+	// 	// Initialize the tour
+	// 	tour2.init();
+	// 	// Start the tour
+	// 	tour2.start();
+	// });
 
 
 	/*
