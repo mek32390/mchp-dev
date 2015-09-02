@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rosters', '0003_rosterexamentry'),
+        ('rosters', '0006_auto_20150901_2115'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='RosterEventEntry',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('title', models.CharField(max_length=30)),
                 ('date', models.DateField()),
                 ('roster', models.ForeignKey(to='rosters.Roster', related_name='events')),
