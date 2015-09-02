@@ -116,12 +116,12 @@
         <div class="media">
         	{% if owns %}
         	<a class="pull-left" href="{%url "profile" uploader.pk %}">
-          	<div class="media-object img-circle img-thumbnail profile-image" 
-            style="background-image:url({{uploader.profile.profile_image_url}}); width:48px; height: 48px;"></div>
+          	<img class="media-object img-circle img-thumbnail profile-image" 
+            src="{{uploader.profile.profile_image_url}}" width="48px" height="48px">
           </a>
         	{% else %}
         	<div class="media-object pull-left">
-        		<img src="{% static 'lib/img/shirt.svg' %}" class="img-circle img-thumbnail profile-image" style="width:48px; height: 48px;"/>
+        		<img src="{% static 'lib/img/shirt.svg' %}" class="img-circle img-thumbnail profile-image" width="48px" height="48px"/>
         	</div>
         	{% endif %}
         	<div class="media-body">
@@ -131,10 +131,10 @@
               {{uploader}}
               </a>
               {% else %}
-              Student at <small><a href="{%url "school" document.course.domain.pk%}{{document.course.domain.name}}">{{ document.course.domain.name }}</a></small>
+              Student at <small><a href="{%url "school" document.course.domain.pk%}{{document.course.domain.name}}" class="white">{{ document.course.domain.name }}</a></small>
             	{% endif %}
             </h5>
-            <span class="label label-info">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
+            <span class="label label-default">{{docs_sold}} Doc{{docs_sold|pluralize}} sold</span> 
             <h6>
 							{%if uploader.major%}{{uploader.major}}{%else%}{%endif%}
 						</h6>
@@ -143,7 +143,7 @@
         	</div>
     		</div>
         {% else %}
-        <div class="alert alert-warning">
+        <div class="alert">
         This was uploaded by a ghost! Or we just don't have the original uploader information... sorry!
         </div>
         {% endif %}
@@ -189,7 +189,7 @@
 		</ul>
 		<span class="copy-message"></span>
 		<br>
-		<h3>Reviews <span class="badge">{{ review_count }}</span></h3>
+		<h3>Reviews <span class="badge opa">{{ review_count }}</span></h3>
 		<table class="table table-hover table-responsive">
 			<tbody>
 				{% for purchase in reviews %}
