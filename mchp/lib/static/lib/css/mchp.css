@@ -31,7 +31,7 @@ body {
   position               : fixed;
   width                  : 100%;
   height                 : 100%;
-  background             : linear-gradient(to top left, rgba(0, 0, 0, .1), rgba(0, 0, 0, .3));
+  background             : linear-gradient(to top left, rgba(0, 0, 0, .1), rgba(0, 0, 0, .4));
   -webkit-background-size: cover;
   -moz-background-size   : cover;
   -o-background-size     : cover;
@@ -275,7 +275,7 @@ button.close {
 /* Link styles */
 
 a {
-  color: rgba(255,255,255,.7);
+  color: rgba(255,255,255,.8);
 }
 
 a:hover, a:focus {
@@ -283,7 +283,7 @@ a:hover, a:focus {
 }
 
 a.link {
-  color: rgba(255,255,255,.7);
+  color: rgba(255,255,255,.8);
   text-decoration: underline;
   -webkit-transition: all .5s ease;
   -moz-transition: all .5s ease;
@@ -454,10 +454,13 @@ ul.nav.nav-pills.nav-stacked.sidebar-nav.navbar-right {
 
 /* custom profile img in sidebar */
 
-img.img-thumbnail.img-circle.profile-image {
+.profile-img-sidebar {
   background: rgba(255,255,255,0.4) !important;
   border    : 0px solid rgba(255,255,255,0.4) !important;
-  padding   : 3px !important; 
+  padding   : 2px !important; 
+  width: 26px;
+  height: 26px;
+  margin-left:-5px;
 }
 
 /* custom list item */
@@ -624,15 +627,6 @@ img.img-thumbnail.img-circle.profile-image {
   height: 20px;
 }
 
-.profile-img {
-  /*background-color: transparent;*/
-  width: 25px;
-  height: 25px;
-  margin-left:-5px;
-  padding: 1px;
-  border-color: rgba(255,255,255,0.4);
-}
-
 /* django-messages */
 .django-messages > .alert {
   right: 20px;
@@ -656,8 +650,7 @@ ul.messages {
 
 /* site-wide profile image */
 .profile-image {
-  background-position: 50% 20%;
-  background-size: cover;
+  background: rgba(255,255,255,0.4) !important;
 }
 
 /* style inputs to fit BS3 */

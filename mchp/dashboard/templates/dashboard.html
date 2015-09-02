@@ -67,7 +67,7 @@
       <p class="lead margin-btm-sm">You have <strong>6 assignments</strong> coming up</p>
       <p></p>
       <div class="row">
-        <div class="col-xs-4">
+        <div class="col-sm-4">
           <h4 class="white lead margin-btm-sm margin-top-sm">Today</h4>
           <hr class="margin-top-none">
           <div class="upcoming-assignment">
@@ -99,7 +99,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-4">
+        <div class="col-sm-4">
           <h4 class="white lead margin-btm-sm margin-top-sm">Tomorrow</h4>
           <hr class="margin-top-none">
           <div class="upcoming-assignment">
@@ -129,8 +129,7 @@
           <p class="white mega-font lead hidden-xs text-right"><span class="numberDate"></span></p>
         </div>
         <div class="col-sm-7 col-sm-offset-5">
-          <br></br>
-          <br></br>
+          <br>
           <h4 class="white lead margin-btm-sm margin-top-sm text-right">Classmates</h4>
           <hr class="margin-top-none">
           <p></p>
@@ -138,27 +137,26 @@
             {% for classmate in classmates %}
               <div class="media">
                 <div class="media-body">
-                  <h5 class="media-heading text-right">
+                  <h5 class="media-heading margin-btm-none text-right">
                     <a href="{% url "profile" classmate.pk %}">
                     <strong>{{classmate.user.username}}</strong>
                     </a>
                   </h5>
-                  <p class="small margin-top-none margin-btm-none classes-in-common text-right">
-                      in 
+                  <p class="small margin-top-none margin-btm-none classes-in-common text-right"> 
                       {% for course in classmate.classes_in_common %}
                       {% if not forloop.last %}
                       <a href="{% url "course" course.pk %}">{{course}}</a>,
                       {% elif forloop.last and forloop.first %}
                       <a href="{% url "course" course.pk %}">{{course}}</a>
                       {% else %}
-                      and <a href="{% url "course" course.pk %}">{{course}}</a>
+                      <a href="{% url "course" course.pk %}">{{course}}</a>
                       {% endif %}
                       {% endfor %}
                   </p>
                 </div>
                 <div class="media-right media-top">
                   <a href="{% url "profile" classmate.pk %}">
-                    <img class="media-object img-circle profile-image img-thumbnail" src="{{ classmate.profile.profile_image_url }}" alt="classmate" style="width:36px; height:36px;">
+                    <img class="media-object img-circle profile-image img-thumbnail animated flipInX delayed-sm" src="{{ classmate.profile.profile_image_url }}" alt="classmate" style="width:36px; height:36px; padding:2px;">
                   </a>
                 </div>
               </div>

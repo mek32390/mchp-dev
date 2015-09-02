@@ -28,7 +28,7 @@
 {% block body %}
 {% load humanize %}
 <div {% ifequal viewer student %} id="profile-header" {% endifequal %} class="text-center center-block">
-	<div style="height: 160px; width: 160px; background-image:url({{profile.profile_image_url}});" id="profile-image" class="profile-image animated flipInX img-thumbnail img-circle delayed-sm"></div>
+	<img style="height: 160px; width: 160px;" id="profile-image" class="profile-image animated flipInX img-thumbnail img-circle delayed-sm" src="{{ student.profile.profile_image_url }}">
 	{% ifequal viewer student %}
 	<div id="update-photo">
 		<form method="post" action="{% url "edit_pic" %}" id="pic-form">
