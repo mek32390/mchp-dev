@@ -853,7 +853,7 @@ svg #nav-chip-icon {
 body #buorg {
     position:absolute;
     width:100%;
-    top:51px;
+    top:0px;
     left:0px;
     border-bottom:0px solid #A29330;
     background:#FDF2AB no-repeat 1em 0.55em url(http://browser-update.org/img/dialog-warning.gif);
