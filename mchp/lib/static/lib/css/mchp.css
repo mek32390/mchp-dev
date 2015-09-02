@@ -366,8 +366,8 @@ a.list-group-item:focus, a.list-group-item:hover {
 }
 
 .nav-pills>li>a.page-scroll:hover {
-  color     : rgba(255,255,255,0.4) !important;
-  background: transparent !important;
+  /*color     : rgba(255,255,255,0.4) !important;*/
+  background: rgba(255,255,255,0.4) !important;
 }
 
 .nav-pills>li>a.page-scroll:focus {
