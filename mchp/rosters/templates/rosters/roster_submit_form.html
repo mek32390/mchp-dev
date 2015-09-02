@@ -113,13 +113,12 @@
                         <h3 class="media-heading">Paste the Roster for <strong class="selected-classname">CLASS
                             NAME</strong></h3>
 
-                        <!-- <p>Select the Course Management System that your class uses and we'll show you how to quickly -->
-                            <!-- get your class Roster.</p> -->
+                        <p>Select the Course Management System that your class uses and we'll show you how to COPY/PASTE the class Roster.</p>
                         <!-- <p><strong>Select the Course Management System that your class uses:</strong></h5> -->
                         <!-- Begin tabs -->
-                        <!-- <!-- <div role="tabpanel">
+                        <div role="tabpanel">
                             <!-- Nav tabs -->
-                            <!-- <ul class="nav nav-pills" role="tablist">
+                            <ul class="nav nav-pills" role="tablist">
                                 <li role="presentation" class="active"><a class="pill-opa" href="#blackboard"
                                                                           aria-controls="blackboard" role="tab"
                                                                           data-toggle="tab">Blackboard</a></li>
@@ -129,23 +128,51 @@
                                                            role="tab" data-toggle="tab">Moodle</a></li>
                                 <li role="presentation"><a class="pill-opa" href="#other" aria-controls="other"
                                                            role="tab" data-toggle="tab">Other</a></li>
-                            </ul> -->
+                            </ul>
                             <!-- /.nav.nav-pills -->
 
                             <!-- Tab panes -->
-                            <!-- <div class="tab-content">
+                            <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="blackboard">
-                                    <p></p>
-
-                                    <p>Blackboard video</p>
-                                </div> -->
+                                  <p></p>
+                                  <ol>
+                                  	<li>You saved the roster from Blackboard in HTML format. The title of the page you saved should resemble <strong>"Select Users - ClassID.html"</strong>.
+                                  	</li>
+                                  	<li>Open this file and you will see a bunch of HTML code.</li>
+                                  	<li>Copy this code and paste it below.</li>
+                                  </ol>
+                                </div>
                                 <!-- /.tab-pane.active -->
-                               <!--  <div role="tabpanel" class="tab-pane" id="d2l">...</div>
-                                <div role="tabpanel" class="tab-pane" id="moodle">...</div>
-                                <div role="tabpanel" class="tab-pane" id="other">...</div>
-                            </div> -->
+                                <div role="tabpanel" class="tab-pane" id="d2l">
+                                	<p></p>
+                                  <ol>
+                                  	<li>You saved the roster from D2L in HTML format. The title of the page you saved should resemble <strong>"Email Classlist - Class Name"</strong>.
+                                  	</li>
+                                  	<li>Open this file and you will see a bunch of HTML code.</li>
+                                  	<li>Copy this code and paste it below.</li>
+                                  </ol>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="moodle">
+                                	<p></p>
+                                  <ol>
+                                  	<li>You saved the roster from moodle in HTML format. The title of the page you saved should resemble <strong>"Class Name - Participants"</strong>.
+                                  	</li>
+                                  	<li>Open this file and you will see a bunch of HTML code.</li>
+                                  	<li>Copy this code and paste it below.</li>
+                                  </ol>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="other">
+                                	<p></p>
+                                  <ol>
+                                  	<li>You saved the roster page from your CMS in HTML format.
+                                  	</li>
+                                  	<li>Open this file and you will see a bunch of HTML code.</li>
+                                  	<li>Copy this code and paste it below.</li>
+                                  </ol>
+                                </div>
+                            </div>
                             <!-- /.tab-content -->
-                        <!-- </div> -->
+                        </div>
                         <!-- end tabpanel -->
                         <h4>
                             <label for="{{ form.roster_html.id_for_label }}">Paste Roster Code</label>
@@ -154,7 +181,6 @@
                                   name="{{ form.roster_html.name }}"
                                   placeholder="cmd+v (Mac) or ctrl+v (PC) here to paste"
                                   rows="3">{{ form.roster_html.value|default:''}}</textarea>
-                        <!-- <a href="#" id="{{ form.roster_html.id_for_label }}" data-type="textarea" data-name="{{ form.roster_html.name }}" data-escape="true" data-placeholder="cmd+v (Mac) or ctrl+v (PC) here to paste" class="rosterCode white">{{ form.roster_html.value|default:'' }}</a> -->
                         <br></br>
                         <br>
                     </div>
