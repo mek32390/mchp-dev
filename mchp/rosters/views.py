@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic import FormView, UpdateView, ListView
 from django.utils.decorators import method_decorator
 from lib.decorators import school_required
 from documents.exceptions import DuplicateFileError
@@ -55,13 +55,13 @@ class RosterSubmitView(FormView):
 
         if events.is_valid():
             for event in events.cleaned_data:
-                print(event)
-                params = {
-                    'title': event['title'],
-                    'date': event['date'],
-                    'roster': roster
-                }
-            models.RosterEventEntry.objects.create(**params)
+                if 'title' in params:
+                    params = {
+                        'title': event['title'],
+                        'date': event['date'],
+                        'roster': roster
+                    }
+                    models.RosterEventEntry.objects.create(**params)
 
 
         # create roster entries
@@ -119,6 +119,34 @@ class RosterReviewView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('roster-review', args=[self.object.pk])
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['course'] = self.get_object().course
+    #     return context
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+
+class RosterListView(ListView):
+    """ List rosters
+
+    Notes
+    -----
+    As with the submit view, this should verify permissions.
+
+    """
+    model = models.Roster
+    fields = ['status']
+    # template_name_suffix = '_list'
+    template_name = 'rosters/staff-intern-prototype.html'
+
+    # TODO: implement document_uploaded signal for syllabus upon doc approval
+
+    def get_success_url(self):
+        return reverse_lazy('roster-list', args=[self.object.pk])
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
