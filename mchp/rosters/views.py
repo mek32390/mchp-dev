@@ -75,25 +75,6 @@ class RosterSubmitView(FormView):
             if user:
                 params['profile'] = user.profile_user
             models.RosterInstructorEntry.objects.create(**params)
-        """
-        parsed_csv = utils.roster_html_to_csv(roster_html)
-        for initial_data in utils.csv_string_to_python(parsed_csv):
-            # n.b.: emails from instructor emails are not filtered here
-            email = initial_data.get('email')
-            # don't add entry if email is in instructors
-            if email not in instructor_emails:
-                params = {
-                    'first_name': initial_data.get('first'),
-                    'last_name': initial_data.get('last'),
-                    'email': utils.preprocess_email(email),
-                    'roster': roster,
-                    'approved': false
-                }
-                user = utils.get_user(email)
-                if user:
-                    params['profile'] = user.profile_user
-                models.RosterStudentEntry.objects.create(**params)
-        """
 
         try:
             doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
