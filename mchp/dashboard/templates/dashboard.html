@@ -84,6 +84,12 @@
                   {% endfor %}
               </ul>
             </div>
+              {% empty %}
+                <div class="text-center">
+                  <p><i class="fa fa-smile-o fa-5x"></i></p>
+                  <p><strong>Nothing due today!</strong></p>
+                  <a href="{% url 'calendar' %}" class="btn btn-trans">Add New Event</a>
+                </div>
               {% endfor %}
           </div>
         </div>
@@ -104,6 +110,12 @@
                           {% endfor %}
                       </ul>
                   </div>
+              {% empty %}
+                <div class="text-center">
+                  <p><i class="fa fa-smile-o fa-5x"></i></p>
+                  <p><strong>Nothing due tomorrow!</strong></p>
+                  <a href="{% url 'calendar' %}" class="btn btn-trans">Add New Event</a>
+                </div>
               {% endfor %}
           </div>
         </div>
