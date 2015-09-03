@@ -92,13 +92,13 @@
               <img class="img-circle img-thumbnail" src="{% static 'lib/img/support.svg' %}" alt="sign up or login">
               <br></br>
               <p><small>Log In or Sign Up using:</small></p>
-              <a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-primary btn-lg"
+              <a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-trans btn-lg"
                   href="/accounts/facebook/login/" target="_blank"><i class="fa fa-facebook"></i> Facebook
               </a>
               {% include "socialaccount/snippets/login_extra.html" %}
               <hr>
               <span id="login-options">
-                <a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with e-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
+                <a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with Username or E-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
               </span>
               <form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
                 {% csrf_token %}
