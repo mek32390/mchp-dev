@@ -35,31 +35,13 @@ $(document).ready(function() {
 
     // Change various aspects of the page each time the page loads for testing purposes
 
-    // Change the student's name and classmates names on page refresh
-    
-    var names = ['Michelle','Nicole','Sam','Robert','Casey','Sarah','Michael','Jenny','Lindsey','Eric', 'Matt','Wyatt','Daniel','Kara','Rachel','Melissa','Luis','Pablo','Kevin','Jeremy','Carl','Lexi','Nicole','Adam','Alex','Claire','Sasha', 'Eric'];
-    $(".studentName").html(names[Math.floor(Math.random() * names.length)]);
-    $(".classmateName1").html(names[Math.floor(Math.random() * names.length)]);
-    $(".classmateName2").html(names[Math.floor(Math.random() * names.length)]);
-
     // Change the greeting on page refresh
     
-    var greetings = ['Hello,','Welcome back,','Good afternoon,','Goodmorning,','Hi there,','Hola,','Good to see you again,','Good evening,','Howdy,', 'Good day,'];
+    var greetings = ['Hello,','Welcome back,','Hi there,','Hola,','Good to see you again,','Howdy,', 'Good day,'];
 
     $("#greeting").html(greetings[Math.floor(Math.random() * greetings.length)]);
 
-    // Change the Course names on page refresh
-    
-    var courses = ['ECON 200','MKTG 361','RELI 100','MGMT 310','PHYS 600','CHEM 151','MUS 109','ENGL 101','MATH 100','MKTG 300','BUS 310','ENGL 330','RELI 160','ACCT 200','ACCT 210','MIS 111','MIS 373','MGMT 276'];
-
-    $(".courseName1").html(courses[Math.floor(Math.random() * courses.length)]);
-    $(".courseName2").html(courses[Math.floor(Math.random() * courses.length)]);
-    $(".courseName3").html(courses[Math.floor(Math.random() * courses.length)]);
-    $(".courseName4").html(courses[Math.floor(Math.random() * courses.length)]);
-    $(".courseName5").html(courses[Math.floor(Math.random() * courses.length)]);
-
-
-    // Display current date and time on homepage 
+    // Display current date and time on homepage
 
     // moment().format();
 

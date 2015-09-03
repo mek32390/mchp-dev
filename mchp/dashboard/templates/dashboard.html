@@ -63,62 +63,63 @@
 <section id="overview" class="section section-overview">
   <div class="row">
     <div class="col-xs-8">
-      <h1 class=""><span id="greeting"></span> <span class="studentName"></span>.</h1>
-      <p class="lead margin-btm-sm">You have <strong>6 assignments</strong> coming up</p>
+      <h1 class=""><span id="greeting"></span> <span class="studentName">{{ student_name }}</span>.</h1>
+      <p class="lead margin-btm-sm">You have <strong>{{ event_count }} assignments</strong> coming up</p>
       <p></p>
       <div class="row">
         <div class="col-sm-4">
           <h4 class="white lead margin-btm-sm margin-top-sm">Today</h4>
           <hr class="margin-top-none">
           <div class="upcoming-assignment">
-            <h5 class=""><strong><a href="#classes" id="course1Link" class="page-scroll"><span class="courseName1"></span></a> <span class="small pull-right"></span></strong></h5>
+              {% for course, events in today_events_by_course.items %}
+            <h5 class=""><strong><a href="{% url "course" course.id %}" id="course1Link" class="page-scroll"><span class="courseName">{{ course.display }}</span></a> <span class="small pull-right"></span></strong></h5>
             <p></p>
             <div class="panel opa">
               <ul class="list-group trans">
-                <a href="event1.html" class="list-group-item item-custom trans">
-                  <h4 class="white ">Exam 2</h4>
-                  <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> 2 Study Guides</h5>
+                  {% for event in events %}
+                <a href="{% url "event_detail" event.id %}" class="list-group-item item-custom trans">
+                  <h4 class="white ">{{ event.title }}</h4>
+                  <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> {{ event.document_count }} Study Guides</h5>
                 </a>
-                <a href="event1.html" class="list-group-item item-custom trans">
-                  <h4 class="white ">Homework 2</h4>
-                </a>
+                  {% endfor %}
               </ul>
             </div>
-            <h5 class=""><strong><a href="#classes" id="course2Link" class="page-scroll"><span class="courseName2">Course2</span></a> <span class="small pull-right"></span></strong></h5>
-            <p></p>
-            <div class="panel opa">
-              <ul class="list-group trans">
-                <a href="event1.html" class="list-group-item item-custom trans">
-                  <h4 class="white ">Exam 2</h4>
-                  <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> 2 Study Guides</h5>
-                </a>
-                <a href="event1.html" class="list-group-item item-custom trans">
-                  <h4 class="white ">Homework 2</h4>
-                </a>
-              </ul>
-            </div>
+              {% empty %}
+                <div class="text-center">
+                  <p><i class="fa fa-smile-o fa-5x"></i></p>
+                  <p><strong>Nothing due today!</strong></p>
+                  <a href="{% url 'calendar' %}" class="btn btn-trans">Add New Event</a>
+                </div>
+              {% endfor %}
           </div>
         </div>
         <div class="col-sm-4">
           <h4 class="white lead margin-btm-sm margin-top-sm">Tomorrow</h4>
           <hr class="margin-top-none">
           <div class="upcoming-assignment">
-            <h5 class=""><strong><a href="#classes" id="course3Link" class="page-scroll"><span class="courseName3">Course3</span></a> <span class="small pull-right"></span></strong></h5>
-            <p></p>
-            <div class="panel opa">
-              <ul class="list-group trans">
-                <a href="event1.html" class="list-group-item item-custom trans">
-                  <h4 class="white">Exam 2<small> </small></h4>
-                  <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> 2 Study Guides</h5>
-                </a>
-                <a href="event1.html" class="list-group-item item-custom trans">
-                  <h4 class="white">Homework 2<small> </small></h4>
-                </a>
-              </ul>
-            </div>
+              {% for course, events in tomorrow_events_by_course.items %}
+                  <h5 class=""><strong><a href="{% url "course" course.id %}" id="course1Link" class="page-scroll"><span class="courseName">{{ course.display }}</span></a> <span class="small pull-right"></span></strong></h5>
+                  <p></p>
+                  <div class="panel opa">
+                      <ul class="list-group trans">
+                          {% for event in events %}
+                              <a href="{% url "event_detail" event.id %}" class="list-group-item item-custom trans">
+                                  <h4 class="white ">{{ event.title }}</h4>
+                                  <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> {{ event.document_count }} Study Guides</h5>
+                              </a>
+                          {% endfor %}
+                      </ul>
+                  </div>
+              {% empty %}
+                <div class="text-center">
+                  <p><i class="fa fa-smile-o fa-5x"></i></p>
+                  <p><strong>Nothing due tomorrow!</strong></p>
+                  <a href="{% url 'calendar' %}" class="btn btn-trans">Add New Event</a>
+                </div>
+              {% endfor %}
           </div>
         </div>
-      </div><!-- /row -->  
+      </div><!-- /row -->
     </div><!-- /col-8 -->
     <div class="col-xs-4">
       <div class="row">
@@ -142,7 +143,7 @@
                     <strong>{{classmate.user.username}}</strong>
                     </a>
                   </h5>
-                  <p class="small margin-top-none margin-btm-none classes-in-common text-right"> 
+                  <p class="small margin-top-none margin-btm-none classes-in-common text-right">
                       {% for course in classmate.classes_in_common %}
                       {% if not forloop.last %}
                       <a href="{% url "course" course.pk %}">{{course}}</a>,
