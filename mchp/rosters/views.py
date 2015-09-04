@@ -92,7 +92,7 @@ class RosterSubmitView(FormView):
         upload.save()
         messages.success(
             self.request,
-            "Syllabus upload successful"
+            "Class Set upload successful"
         )
 
         return super().form_valid(form)

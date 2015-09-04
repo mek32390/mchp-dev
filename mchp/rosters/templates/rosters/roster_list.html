@@ -8,8 +8,8 @@
         <ul>
             {% for roster in object_list %}
                 <li>{{ roster.course }} - {{ roster.created_by }} - {{ roster.created|date }} - status: pending
-                    <a href="{% url 'runExtractTask' %}" class="btn btn-trans">Run extractor</a></li>
-                    <a href="{% url 'runExtractTask' %}" class="btn btn-trans">Review class set</a></li>
+                    <a href="#" class="btn btn-trans">Run extractor</a>
+                    <a href="#" class="btn btn-trans">Review class set</a></li>
                 {% empty %}
                 <li>No rosters yet.</li>
             {% endfor %}
