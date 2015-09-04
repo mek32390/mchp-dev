@@ -218,6 +218,11 @@ $(function() {
         toggle_flag($(this).data('event'));
     });
     set_username();
+
+    // open chat when this class is clicked
+    $('.open-chat').on('click', function() {
+        FHChat.transitionTo('maximized');
+    });
 });
 
 var MCHP_USERNAME = '';
