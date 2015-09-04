@@ -52,7 +52,7 @@ $(function() {
 
     //document.body.style.backgroundImage = "url('/static/landing/img/bg-" + current_pic + ".jpg')";
     var url_prefix = $('#bg').attr('data-url-prefix');
-    $('#bg').css("background-image","url('" + url_prefix + "/static/lib/img/bgimages/bg-" + current_pic + ".jpeg')");
+    $('#bg').css("background-image","url('" + url_prefix + "/lib/img/bgimages/bg-" + current_pic + ".jpeg')");
 
 
     // add auto drop down functionality of drop downs
