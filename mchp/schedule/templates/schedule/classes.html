@@ -151,7 +151,7 @@
                                             </div>
                                             <!-- end col-5 -->
                                             <div class="col-xs-4">
-                                                <h4 class="lead"><i class="fa fa-calendar fa-fw"></i> Events <span class="badge opa">{{course.events|length}}</span></h4>
+                                                <h4 class="lead"><i class="fa fa-calendar fa-fw"></i> Events <span class="badge opa">{{course.event_count}}</span></h4>
                                                 <div class="panel opa">
                                                     <ul class="list-group trans small-scroll-con scrolls">
                                                         {% for event in course.event_list %}
@@ -162,7 +162,7 @@
                                                                 </div>
                                                                 <div class="media-body">
                                                                     <h4 class="media-heading">{{ event.title }}
-                                                                        <small class="white pull-right">in 5 days</small>
+                                                                        <small class="white pull-right">{{ event.days_remaining }}</small>
                                                                     </h4>
                                                                     <h5><i class="fa fa-fw fa-file-text-o"></i> {{ event.document_count }} Study Guides
                                                             </h5>
