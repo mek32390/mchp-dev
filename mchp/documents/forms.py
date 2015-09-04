@@ -8,7 +8,7 @@ from documents.models import Document
 class DocumentUploadForm(ModelForm):
 
     PRICE_WIDGET = TextInput(attrs=dict({
-        'placeholder':'type a price in points, ex: 500 would be $5.00',
+        'placeholder':'the average Study Guide sells for 500 points',
         'container_id': 'document_price',
         'class': 'form-control input-lg',
     }))
