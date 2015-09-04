@@ -18,7 +18,7 @@ from documents.models import Upload, Document
 from notification.api import add_notification_for, add_notification
 from lib.decorators import class_required
 from referral.models import ReferralCode
-from schedule.models import Enrollment, Section
+from schedule.models import Enrollment, Section, Course
 from schedule.utils import WEEK_DAYS
 from user_profile.models import OneTimeFlag
 
@@ -932,6 +932,11 @@ class EventDetailView(DetailView):
         context['event'] = event
         context['course'] = event.calendar.course
         context['documents'] = event.get_documents()
+
+        if event.calendar and event.calendar.course:
+            classmates = Course.objects.get_classlist_for(event.calendar.course)
+            context['classmates'] = classmates
+
         return context
 
 event_detail = EventDetailView.as_view()
