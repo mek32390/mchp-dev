@@ -2,17 +2,52 @@
 
 {% block head_title %}Roster List{% endblock %}
 
+{% block extra_head %}
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js"></script>
+  <!-- Latest compiled and minified Locales -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+{% endblock %}
+
 {% block body %}
-    <div class="container">
-        <h1>Rosters</h1>
-        <ul>
-            {% for roster in object_list %}
-                <li>{{ roster.course }} - {{ roster.created_by }} - {{ roster.created|date }} - status: pending
-                    <a href="#" class="btn btn-trans">Run extractor</a>
-                    <a href="#" class="btn btn-trans">Review class set</a></li>
-                {% empty %}
-                <li>No rosters yet.</li>
-            {% endfor %}
-        </ul>
-    </div>
+<div class="row">
+  <div class="col-xs-12">
+    <h1 class="margin-top-none">Rosters</h1>
+    <hr>
+    <!-- <div class="well opa"> -->
+      <table data-toggle="table" class="table table-hover" data-sort-name="earnings" data-sort-order="desc" data-search="true" data-search-text="" data-show-columns="true">
+        <thead>
+          <tr>
+            <th data-sortable="true" data-field="roster_course"><h4><strong>Course</strong></h4></th>
+            <th data-sortable="true" data-field="roster_submitter"><h4><strong>Submitter</strong></h4></th>
+            <th data-sortable="true" data-field="roster_date"><h4><strong>Date</strong></h4></th>
+            <th data-sortable="true" data-field="roster_status"><h4><strong>Status</strong></h4></th>
+            <th data-sortable="true" data-field="roster_actions"><h4><strong>Actions</strong></h4></th>
+          </tr>
+        </thead>
+        <tbody class="well opa">
+          {% for roster in object_list %}
+          <tr>
+            <td><strong>{{ roster.course }}</strong></td>
+            <td>{{ roster.created_by }}</td>
+            <td>{{ roster.created|date }}</td>
+            <td><label class="label label-danger">pending</label></td>
+            <td>
+              <ul class="list-inline">
+                <li><a href="#" class="btn btn-trans btn-xs">Run extractor</a></li>
+                <li><a href="#" class="btn btn-trans btn-xs">Review class set</a></li>
+              </ul>
+            </td>
+          </tr>
+          {% empty %}
+          <p class="lead">No Rosters Yet!</p>
+          {% endfor %}
+        </tbody>
+      </table>
+    <!-- </div> -->
+  </div>
+</div>
 {% endblock %}
