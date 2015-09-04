@@ -24,7 +24,7 @@ class DocumentUploadForm(ModelForm):
         'class': 'form-control input-lg dropdown-toggle',
         'id': 'document_event'
     }))
-    event = ModelChoiceField(required=True, widget=EVENT_WIDGET, queryset=CalendarEvent.objects.none())
+    event = ModelChoiceField(required=False, widget=EVENT_WIDGET, queryset=CalendarEvent.objects.none())
 
 
     # {{ form.as_style }} with use this in templates

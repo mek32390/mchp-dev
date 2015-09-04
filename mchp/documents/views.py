@@ -132,8 +132,9 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         upload = Upload(document=doc, owner=self.student)
         upload.save()
 
-        event = form.cleaned_data['event']
-        event.documents.add(doc)
+        event = form.cleaned_data.get('event', None)
+        if event:
+            event.documents.add(doc)
 
         messages.success(
             self.request,
