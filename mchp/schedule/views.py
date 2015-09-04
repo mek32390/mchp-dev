@@ -584,14 +584,25 @@ class ClassesView(View):
                 calendar__course__pk=course['pk'],
                 calendar__owner=self.student,
                 start__gte=timezone.now()
-            ).order_by('start')[:3]
+            ).order_by('start')
+
+            course['event_count'] = events.count()
 
             event_list = []
-            for event in events:
+            for event in events[:10]:
+                days_remaining = (event.start - timezone.now()).days
+                if days_remaining > 1:
+                    days_remaining = "in " + str(days_remaining) + " days"
+                elif days_remaining == 1:
+                    days_remaining = "tomorrow"
+                else:
+                    days_remaining = "today"
+
                 event_list.append({
                     'id': event.id,
                     'title': event.title,
-                    'document_count': event.get_documents(return_count=True)
+                    'document_count': event.get_documents(return_count=True),
+                    'days_remaining': days_remaining
                 })
             course['event_list'] = event_list
 
