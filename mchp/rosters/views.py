@@ -139,9 +139,9 @@ class RosterListView(ListView):
 
     """
     model = models.Roster
-    fields = ['status']
-    # template_name_suffix = '_list'
-    template_name = 'rosters/staff-intern-prototype.html'
+    #fields = ['status']
+    template_name_suffix = '_list'
+    #template_name = 'rosters/staff-intern-prototype.html'
 
     # TODO: implement document_uploaded signal for syllabus upon doc approval
 
