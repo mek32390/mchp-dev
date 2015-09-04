@@ -13,6 +13,66 @@
 {% endblock %}
 
 {% block body %}
+<!-- Class Set Review Modal -->
+<div class="modal fade review-modal" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+  <div class="modal-dialog custom-modal" style="width:90%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel"><strong>Class Set for CLASS NAME</strong></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <img class="img-responsive img-thumbnail" src="" width="100%" alt="syllabus">
+            <br></br>
+          </div><!-- end col-6 -->
+          <div class="col-md-6">
+            <h2 class="margin-top-none"><strong>ECON 200</strong>
+              <ul class="list-inline pull-right">
+                <li><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-check"></i> Approve</a></li>
+                <li><a href="#" class=" btn btn-danger btn-lg"><i class="fa fa-times"></i> Deny</a></li>
+              </ul>
+            </h2>
+            <br>
+            <ul class="list-inline">
+              <li><i class="fa fa-university fa-fw"></i> University of Arizona </li>
+              <li><i class="fa fa-male"></i><i class="fa fa-female"></i> Instr Reff</li>
+              <li><i class="fa fa-user fa-fw"></i>Submitted by USER</li>
+            </ul>
+            <hr>
+            <h5>
+            <div class="row">
+              <div class="col-md-12">
+              <h4>Instructor Emails &nbsp;<span class="badge opa">3</span></h4>
+                <ul class="list-inline">
+                  <li><p><i class="fa fa-envelope fa-fw"></i> reff@email.arizona.edu</p></li>
+                  <li><p><i class="fa fa-envelope fa-fw"></i> another@email.arizona.edu</p></li>
+                  <li><p><i class="fa fa-envelope fa-fw"></i> another@email.arizona.edu</p></li>
+                </ul>
+              </div>
+            </div>
+            </h5>
+            <hr>
+            <h4>Roster &nbsp;<span class="badge opa">24 Students</span></h4>
+            <table class="table table-hover">
+              <tr><td>Eric Simon</td><td>esimon@email.arizona.edu</td><td><label class="label label-success">user</label></td></tr>
+              <tr><td>Sam Gansline</td><td>sgansline@email.arizona.edu</td><td><label class="label label-success">user</label></td></tr>
+              <tr><td>Ashton Kent</td><td>akent@email.arizona.edu</td><td><label class="label label-default">not a user</label></td></tr>
+            </table>
+            <h4>Events &nbsp;<span class="badge">14 Events</span></h4>
+            <table class="table table-hover">
+              <tr><td>Exam 1</td><td>August 29</td><td>open note</td></tr>
+              <tr><td>Exam 2</td><td>October 10</td><td>open note</td></tr>
+              <tr><td>Final Exam</td><td>December 9</td><td>open note</td></tr>
+            </table>
+          </div>      
+        </div><!-- row -->
+      </div><!-- modal-body -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <div class="row">
   <div class="col-xs-12">
     <h1 class="margin-top-none">Rosters</h1>
@@ -38,7 +98,7 @@
             <td>
               <ul class="list-inline">
                 <li><a href="#" class="btn btn-trans btn-xs">Run extractor</a></li>
-                <li><a href="#" class="btn btn-trans btn-xs">Review class set</a></li>
+                <li><a href="#" class="btn btn-trans btn-xs" data-toggle="modal" data-target=".review-modal">Review Class Set</a></li>
               </ul>
             </td>
           </tr>
