@@ -9,7 +9,8 @@ Clone the repository:
 $ git clone https://github.com/mitchellias/mchp-dev
 ```
 
-Install Vagrant
+Install VirtualBox and Vagrant
+* [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
 * [http://www.vagrantup.com/downloads.html](http://www.vagrantup.com/downloads.html)
 
 Start VM
