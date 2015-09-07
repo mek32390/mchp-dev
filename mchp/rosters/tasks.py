@@ -23,6 +23,9 @@ from django.db import models
 from pywapi import unicode
 from . import utils
 
+from pprint import pprint
+
+
 logger = get_task_logger(__name__)
 
 @shared_task()
@@ -30,8 +33,12 @@ def extract_roster(roster):
     """
     WIP
     """
+
+    pprint (vars(roster))
+
     roster_html = roster.roster_html
-    instructor_emails = roster.instructor_emails
+    # instructor_emails = roster.instructor_emails
+    print(roster.instructors)
     parsed_csv = utils.roster_html_to_csv(roster_html)
     for initial_data in utils.csv_string_to_python(parsed_csv):
         # n.b.: emails from instructor emails are not filtered here

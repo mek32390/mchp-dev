@@ -47,6 +47,7 @@ class RosterSubmitView(FormView):
 
         params = {
             'roster_html': roster_html,
+            'instructor_emails': instructor_emails,
             'created_by': self.request.user.student_user,
             'course': Course.objects.get(pk=course_id)
         }
@@ -94,6 +95,29 @@ class RosterSubmitView(FormView):
             self.request,
             "Class Set upload successful"
         )
+
+        roster_html = roster_html
+        instructor_emails = instructor_emails
+        parsed_csv = utils.roster_html_to_csv(roster_html)
+        for initial_data in utils.csv_string_to_python(parsed_csv):
+            # n.b.: emails from instructor emails are not filtered here
+            email = initial_data.get('email')
+            # don't add entry if email is in instructors
+            if email not in instructor_emails:
+                params = {
+                    'first_name': initial_data.get('first'),
+                    'last_name': initial_data.get('last'),
+                    'email': email,
+                    'roster': roster,
+                    'approved': False
+                }
+                print (email)
+                if email:
+                    user = utils.get_user(email)
+                    if user:
+                        params['profile'] = user.profile_user
+                models.RosterStudentEntry.objects.create(**params)
+
 
         return super().form_valid(form)
 

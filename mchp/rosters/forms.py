@@ -27,7 +27,7 @@ class RosterSubmitForm(forms.Form):
     document = forms.FileField()
     course = forms.IntegerField()
     course_name = forms.CharField()
-    emails = forms.CharField(widget=forms.Textarea)
+    instructor_emails = forms.CharField(widget=forms.Textarea)
     roster_html = forms.CharField(widget=forms.Textarea)
 
     RosterEventFormSet = formset_factory(RosterEventForm)
