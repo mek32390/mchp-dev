@@ -38,6 +38,9 @@ def extract_roster(roster):
     roster_html = roster.roster_html
     instructor_emails = roster.instructor_emails
     parsed_csv = utils.roster_html_to_csv(roster_html)
+
+    rostermodels.RosterStudentEntry.objects.filter(roster=roster).delete()
+    
     for initial_data in utils.csv_string_to_python(parsed_csv):
         # n.b.: emails from instructor emails are not filtered here
         email = initial_data.get('email')
@@ -55,6 +58,7 @@ def extract_roster(roster):
                 if user:
                     params['profile'] = user.profile_user
             rostermodels.RosterStudentEntry.objects.create(**params)
+
 
 @shared_task
 def approve_roster(roster):
