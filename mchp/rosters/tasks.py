@@ -30,13 +30,9 @@ def extract_roster(roster):
     """
     WIP
     """
-    print('1')
     roster_html = roster.roster_html
-    print('2')
     instructor_emails = roster.instructor_emails
-    print('3')
     parsed_csv = utils.roster_html_to_csv(roster_html)
-    print('4')
     for initial_data in utils.csv_string_to_python(parsed_csv):
         # n.b.: emails from instructor emails are not filtered here
         email = initial_data.get('email')
@@ -45,13 +41,15 @@ def extract_roster(roster):
             params = {
                 'first_name': initial_data.get('first'),
                 'last_name': initial_data.get('last'),
-                'email': utils.preprocess_email(email),
+                'email': email,
                 'roster': roster,
                 'approved': False
             }
-            user = utils.get_user(email)
-            if user:
-                params['profile'] = user.profile_user
+            print (email)
+            if email:
+                user = utils.get_user(email)
+                if user:
+                    params['profile'] = user.profile_user
             models.RosterStudentEntry.objects.create(**params)
 
     unoconv_command = 'unoconv -f pdf --output="{}" "{}" '.format(output, input)
