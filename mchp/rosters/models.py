@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 from . import utils
 
-
 class Roster(models.Model):
     """ Roster.
 
@@ -68,6 +67,15 @@ class Roster(models.Model):
         self.save(update_fields=['imported'])
         """
         return len(enrollments)
+
+    def save(self, *args, **kwargs):
+        from rosters.signals import roster_uploaded
+        signal = False
+        if not self.pk:
+            signal = True
+        super(Roster, self).save(*args, **kwargs)
+        if signal:
+            roster_uploaded.send(sender=self.__class__, roster=self)
 
 
 class RosterEventEntry(models.Model):
