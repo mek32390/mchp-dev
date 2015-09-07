@@ -240,6 +240,8 @@ Autocomplete.prototype.setup = function() {
 	// Watch the input box.
 	this.query_box.on('keyup', function() {
 		$('#drop-li').attr('class', 'dropdown open');
+        $hidden = $('#hidden_course');
+		$hidden.val('');
 
 		var query = self.query_box.val();
 
@@ -254,7 +256,7 @@ Autocomplete.prototype.setup = function() {
 	});
 
 	// On selecting a result, populate the search field.
-	$drop.click(function(what){
+	$drop.find('li.strong').click(function(what){
 		// get the li element
 		var $link = $(what.target).parent();
 
@@ -307,5 +309,20 @@ Autocomplete.prototype.show_results = function(results) {
 		$result_elem.children('a').append(display);
 		$result_elem.data('course', result.pk);
 		$drop.append($result_elem);
+
+        $drop.find('li').click(function(what){
+		// get the li element
+		var $link = $(what.target).parent();
+
+		// take off whitespace
+		var display = $link.text().trim();
+		$('#id_course').val(display);
+
+		// add the data-course to the hidden field
+		var pk = $link.data('course');
+		$hidden = $('#hidden_course');
+		$hidden.val(pk);
+	});
+
 	});
 };

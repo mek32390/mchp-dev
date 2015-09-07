@@ -51,6 +51,6 @@ li {
 	position:fixed; 
 }
 
-.media.body {
+.media, .media-body {
     overflow: visible !important;
 }
