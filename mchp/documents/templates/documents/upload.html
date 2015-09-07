@@ -39,6 +39,8 @@
                       enctype="multipart/form-data">
                     {% csrf_token %}
 
+                {{ form.errors }}
+
                     <!-- select course to upload document to -->
                     <div class="media" id="{{ form.course.name }}_container">
                         <div class="media-left media-top">
@@ -62,6 +64,7 @@
                                             {% endfor %}
                                         </ul>
                                     </li>
+                                                                        {{ form.course.errors }}
                                 </div>
                             </div>
                             <br></br>
