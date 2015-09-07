@@ -59,12 +59,19 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         return reverse('document_list')
 
     def get(self, request, *args, **kwargs):
+        # for search results
+        # this maybe should be its own url
+        if request.is_ajax():
+            return self.autocomplete(request)
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         course_field = form.fields['course']
         event_field = form.fields['event']
 
         enrolled_courses = Course.objects.get_courses_for(self.student)
+        other_courses = Course.objects.exclude(pk__in=enrolled_courses)
+
 
         course_field.queryset = enrolled_courses
         course_field.empty_label = 'Pick a course'
@@ -91,11 +98,24 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
 
         data = {
             'enrolled_courses': enrolled_courses,
+            'other_courses': other_courses,
             'student_course_events_serialized': json.dumps(student_course_events),
             'form': form,
         }
 
         return render(request, self.template_name, data)
+
+    def autocomplete(self, request):
+        if not 'q' in request.GET:
+            return self.render_to_json_response({}, status=400)
+
+        q = request.GET['q'].replace(' ', '').upper()
+        suggestions = Course.objects.filter(
+            name__contains=q,
+            domain=self.student.school,
+        ).order_by('dept', 'course_number', 'professor')[:10]
+        course_data = serializers.serialize('json', suggestions)
+        return self.render_to_json_response(course_data, status=200)
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()

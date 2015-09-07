@@ -69,9 +69,11 @@ class DocumentUploadForm(ModelForm):
                 'placeholder':'a description of this document'
             }.items() | input_attr.items())),
 
-            'course': Select(attrs=dict({
-                'class': 'form-control input-lg dropdown-toggle',
-                'id': 'document_course'
+            'course': TextInput(attrs=dict({
+                'placeholder':'type a course code and number: CSC 245',
+                'autocomplete': 'off',
+                'data-toggle': 'dropdown',
+                'class': 'form-control input-lg dropdown-toggle'
             }.items())),
 
             'type': Select(attrs=dict({

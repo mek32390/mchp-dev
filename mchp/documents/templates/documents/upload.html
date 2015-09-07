@@ -17,155 +17,177 @@
 {% endblock %}
 
 {% block body %}
-<div class="loading hidden"><i class="fa fa-spinner fa-spin fa-stack-1x fa-5x"></i></div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="media">
-            <div class="media-left media-middle">
-                <div class="media-object pull-left animated"><i class="fa fa-file-text-o fa-fw fa-5x"></i></div>
-            </div>
-            <div class="media-body">
-                <h1 class="media-heading">Upload Documents</h1>
+    <div class="loading hidden"><i class="fa fa-spinner fa-spin fa-stack-1x fa-5x"></i></div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="media">
+                <div class="media-left media-middle">
+                    <div class="media-object pull-left animated"><i class="fa fa-file-text-o fa-fw fa-5x"></i></div>
+                </div>
+                <div class="media-body">
+                    <h1 class="media-heading">Upload Documents</h1>
 
-                <p class="lead margin-btm-none">Stack some paper (anonymously)</p>
+                    <p class="lead margin-btm-none">Stack some paper (anonymously)</p>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <!-- end col 12 -->
+        <div class="col-sm-12">
+            <div class="upload-form">
+                <form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- select course to upload document to -->
+                    <div class="media" id="{{ form.course.name }}_container">
+                        <div class="media-left media-top">
+                            <h1 class="media-object pull-left margin-top-none">1.</h1>
+                        </div>
+                        <div class="media-body">
+                            <div class="form-group" >
+                                <div class="input-group" style="width:100% !important;">
+                                    <h3 class="media-heading">Select a course to upload document to</h3>
+                                    <li class="dropdown" id="drop-li">
+                                        {{ form.course }}
+                                        <ul class="dropdown-menu" id="ac-dropdown">
+                                            <li role="presentation" class="dropdown-header">Your Courses</li>
+                                            {% for course in enrolled_courses %}
+                                                <li data-course="{{ course.pk }}" class="strong"><a href="#"><i
+                                                        class="fa fa-fw fa-plus-circle text-success"></i> {{ course.display }}</a>
+                                                </li>
+                                                {% empty %}
+                                                <li class="strong"><a href="{% url "course_add" %}"><i
+                                                        class="fa fa-fw fa-plus-circle text-danger"></i>Add a course</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                </div>
+                            </div>
+                            <br></br>
+                        </div>
+                    </div>
+
+                    <!-- select document type -->
+                    <div class="media" id="{{ form.type.name }}_container">
+                        <div class="media-left media-top">
+                            <h1 class="media-object pull-left margin-top-none">2.</h1>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="media-heading">Select the type of this document</h3>
+
+                            <p>It can either be a a Syllabus or a Study Guide.</p>
+
+                            <div class="form-group">
+                                {{ form.type }}
+                            </div>
+                            {{ form.type.errors }}
+                            <br></br>
+                        </div>
+                    </div>
+
+                    <!-- select event to upload document to -->
+                    <div class="media" id="{{ form.event.name }}_container">
+                        <div class="media-left media-top">
+                            <h1 class="media-object pull-left margin-top-none">1.</h1>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="media-heading">Select an event to upload document to</h3>
+
+                            <p>or <a href="{% url 'event_add' %}" target="_blank">create a new event</a>.</p>
+
+                            <div class="form-group" id="selectClass">
+                                {{ form.event }}
+                            </div>
+                            {{ form.event.errors }}
+                            <br></br>
+                        </div>
+                    </div>
+
+                    <!-- document title -->
+                    <div class="media" id="{{ form.title.name }}_container">
+                        <div class="media-left media-top">
+                            <h1 class="media-object pull-left margin-top-none">3.</h1>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="media-heading">Set the document's title</h3>
+
+                            <p>Give the document a clear title so other students know what's inside</p>
+
+                            <div class="form-group">
+                                {{ form.title }}
+                            </div>
+                            {{ form.title.errors }}
+                            <br></br>
+                        </div>
+                    </div>
+
+                    <!-- document description -->
+                    <div class="media" id="{{ form.description.name }}_container">
+                        <div class="media-left media-top">
+                            <h1 class="media-object pull-left margin-top-none">2.</h1>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="media-heading">Set the document's description</h3>
+
+                            <p>Put a longer description of the document's contents here</p>
+
+                            <div class="form-group">
+                                {{ form.description }}
+                            </div>
+                            {{ form.description.errors }}
+                            <br></br>
+                        </div>
+                    </div>
+
+                    <!-- document price -->
+                    <div class="media" id="{{ form.price.name }}_container">
+                        <div class="media-left media-top">
+                            <h1 class="media-object pull-left margin-top-none">2.</h1>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="media-heading">Set the document's price</h3>
+
+                            <p>Type a price in points, ex: 500 would be $5.00</p>
+
+                            <div class="form-group">
+                                {{ form.price }}
+                            </div>
+                            {{ form.price.errors }}
+                            <br></br>
+                        </div>
+                    </div>
+
+                    <!-- upload document -->
+                    <div class="media">
+                        <div class="media-left media-top">
+                            <h1 class="media-object pull-left margin-top-none">2.</h1>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="media-heading">Upload the <strong class="selected-typename">document</strong> for
+                                <strong class="selected-classname">CLASS
+                                    NAME</strong>:</h3>
+
+                            <p>A document is typically a word or pdf document.</p>
+                            <span class="btn btn-trans btn-lg btn-file">
+                                Browse <input type="file" class="form-control" id="{{ form.document.id_for_label }}"
+                                              name="{{ form.document.name }}">
+                            </span>&nbsp;
+                            <span class="selected-file"></span>
+                            <br></br>
+                            {{ form.document.errors }}
+                            <br></br>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="course" id="hidden_course"></input>
+
+                    <p><input type="submit" value="Upload" class="btn btn-lg btn-trans btn-block"/></p>
+                </form>
             </div>
         </div>
-        <hr>
-    </div>
-    <!-- end col 12 -->
-    <div class="col-sm-12">
-        <div class="upload-form">
-            <form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post"
-                  enctype="multipart/form-data">
-                {% csrf_token %}
-
-
-                <!-- select course to upload document to -->
-                <div class="media" id="{{ form.course.name }}_container">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">1.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Select a course to upload document to</h3>
-                        <p>or <a href="{% url 'course_create' %}" target="_blank">create a new course</a>.</p>
-
-                        <div class="form-group" id="selectClass">
-                            {{ form.course }}
-                        </div>
-                        {{ form.course.errors }}
-                        <br></br>
-                    </div>
-                </div>
-
-                <!-- select document type -->
-                <div class="media" id="{{ form.type.name }}_container">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">2.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Select the type of this document</h3>
-                        <p>It can either be a a Syllabus or a Study Guide.</p>
-
-                        <div class="form-group">
-                            {{ form.type }}
-                        </div>
-                        {{ form.type.errors }}
-                        <br></br>
-                    </div>
-                </div>
-
-                <!-- select event to upload document to -->
-                <div class="media" id="{{ form.event.name }}_container">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">1.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Select an event to upload document to</h3>
-                        <p>or <a href="{% url 'event_add' %}" target="_blank">create a new event</a>.</p>
-
-                        <div class="form-group" id="selectClass">
-                            {{ form.event }}
-                        </div>
-                        {{ form.event.errors }}
-                        <br></br>
-                    </div>
-                </div>
-
-            <!-- document title -->
-                <div class="media" id="{{ form.title.name }}_container">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">3.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Set the document's title</h3>
-                        <p>Give the document a clear title so other students know what's inside</p>
-
-                        <div class="form-group">
-                            {{ form.title }}
-                        </div>
-                        {{ form.title.errors }}
-                        <br></br>
-                    </div>
-                </div>
-
-            <!-- document description -->
-                <div class="media" id="{{ form.description.name }}_container">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">2.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Set the document's description</h3>
-                        <p>Put a longer description of the document's contents here</p>
-
-                        <div class="form-group">
-                            {{ form.description }}
-                        </div>
-                        {{ form.description.errors }}
-                        <br></br>
-                    </div>
-                </div>
-
-            <!-- document price -->
-                <div class="media" id="{{ form.price.name }}_container">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">2.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Set the document's price</h3>
-                        <p>Type a price in points, ex: 500 would be $5.00</p>
-
-                        <div class="form-group">
-                            {{ form.price }}
-                        </div>
-                        {{ form.price.errors }}
-                        <br></br>
-                    </div>
-                </div>
-
-            <!-- upload document -->
-                <div class="media">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">2.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Upload the <strong class="selected-typename">document</strong> for <strong class="selected-classname">CLASS
-                            NAME</strong>:</h3>
-                        <p>A document is typically a word or pdf document.</p>
-          <span class="btn btn-trans btn-lg btn-file">
-            Browse <input type="file" class="form-control" id="{{ form.document.id_for_label }}"
-                                      name="{{ form.document.name }}">
-          </span>&nbsp;<span class="selected-file"></span>
-                        <br></br>
-                        {{ form.document.errors }}
-                        <br></br>
-                    </div>
-                </div>
-
-                <p><input type="submit" value="Upload" class="btn btn-lg btn-trans btn-block"/></p>
-            </form>
-        </div>
-    </div>
-    <!-- end col 8 -->
-</div><!-- end row -->
-<div id="enrolled_courses" data-enrolled_courses="{{ enrolled_courses }}">
-    {% endblock %}
+        <!-- end col 8 -->
+    </div><!-- end row -->
+    <div id="enrolled_courses" data-enrolled_courses="{{ enrolled_courses }}"></div>
+    <div id="other_courses" data-enrolled_courses="{{ other_courses }}"></div>
+{% endblock %}
