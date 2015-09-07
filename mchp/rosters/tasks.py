@@ -30,10 +30,13 @@ def extract_roster(roster):
     """
     WIP
     """
-    print(roster)
+    print('1')
     roster_html = roster.roster_html
+    print('2')
     instructor_emails = roster.instructor_emails
+    print('3')
     parsed_csv = utils.roster_html_to_csv(roster_html)
+    print('4')
     for initial_data in utils.csv_string_to_python(parsed_csv):
         # n.b.: emails from instructor emails are not filtered here
         email = initial_data.get('email')

@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 import csv
 import os
+import glob
 import subprocess
 import tempfile
 
@@ -41,11 +42,9 @@ def roster_html_to_csv(html_source):
         handle.flush()
 
         with tempfile.TemporaryDirectory() as csvfiledir:
-            csvfilepath = os.path.join(csvfiledir, csvfilename)
-
             print ('ukelele')
             # parse input HTML
-            command = '/usr/bin/env python ' + script + ' ' + htmlfilepath + ' -c ' + csvfiledir + '/' + csvfilename
+            command = '/usr/bin/env python ' + script + ' ' + htmlfilepath + ' -c ' + csvfiledir
             print (command)
             proc = envoy.run(command)
             print (proc.std_out)
@@ -54,6 +53,9 @@ def roster_html_to_csv(html_source):
 
             # subprocess.call(args, universal_newlines=True, stderr=devnull)
 
+            csvfiles = glob.glob(csvfiledir + "/*.csv")
+            print (csvfiles)
+            csvfilepath = csvfiles[0]
             # parse output CSV
             with open(csvfilepath) as csvfile:
                 out = csvfile.read()
