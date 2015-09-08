@@ -1,15 +1,15 @@
 <div class="cash-out">
 	{% load staticfiles %}
-		<script src="{% static 'payment/js/payout.js' %}"></script>
+	<script src="{% static 'payment/js/payout.js' %}"></script>
 	<script type="text/javascript">
 		var payout_url = '{%url "payout"%}';
 	</script>
-	<img src="{% static 'lib/img/pig.svg' %}" class="animated rubberBand"/>
+	<i class="animated rubberBand fa fa-fw fa-money fa-5x"></i>
 	<p></p>
 	<p class="lead">You've got <strong>$<span class="savings-amount">{{student.display_balance}}</span></strong> in the bank!</p>
 	<hr>
 	<form action="" method="post" class="cash-out-form">
 		{% csrf_token %}
-		<button type="submit" class="btn btn-primary btn-block cash-out-button">Cash Out</button>
+		<button type="submit" class="btn btn-trans btn-block cash-out-button">Cash Out</button>
 	</form>
 </div>

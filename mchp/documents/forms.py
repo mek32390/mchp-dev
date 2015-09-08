@@ -1,8 +1,31 @@
-from django.forms import ModelForm,TextInput
+from django import forms
+from django.forms import ModelForm, TextInput, ChoiceField, Select, IntegerField, ClearableFileInput, ModelChoiceField
+from calendar_mchp.models import CalendarEvent
 
 from documents.models import Document
 
+
 class DocumentUploadForm(ModelForm):
+
+    PRICE_WIDGET = TextInput(attrs=dict({
+        'placeholder':'the average Study Guide sells for 500 points',
+        'container_id': 'document_price',
+        'class': 'form-control input-lg',
+    }))
+
+    # Price is not required in case Document is Syllabus
+    # In which case automatically settings price to 0
+    price = IntegerField(required=False, min_value=0, widget=PRICE_WIDGET)
+
+    EVENT_WIDGET = Select(attrs=dict({
+        'placeholder': 'type a event name (Exam 1)',
+        'autocomplete': 'off',
+        'data-toggle': 'dropdown',
+        'class': 'form-control input-lg dropdown-toggle',
+        'id': 'document_event'
+    }))
+    event = ModelChoiceField(required=False, widget=EVENT_WIDGET, queryset=CalendarEvent.objects.none())
+
 
     # {{ form.as_style }} with use this in templates
     def as_style(self):
@@ -20,11 +43,17 @@ class DocumentUploadForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(DocumentUploadForm, self).clean()
+
+        # Syllabus is always free
+        if cleaned_data['type'] == Document.SYLLABUS:
+            cleaned_data['price'] = 0
+        elif 'price' not in cleaned_data:
+            self.add_error('price', 'This field is required')
         return cleaned_data
 
     class Meta:
         model = Document
-        fields = ['title', 'description', 'course', 'price', 'document']
+        fields = ['type', 'title', 'description', 'course', 'event', 'price', 'document']
 
         input_attr = {
             'class': 'form-control input-lg',
@@ -33,31 +62,22 @@ class DocumentUploadForm(ModelForm):
             # dict(x.items() | y.items()) combines the _base attrs with 
             # any class specific attrs, like the placeholder
             'title': TextInput(attrs=dict({
-                'placeholder': 'ex: Exam 1 Study Guide',
-                'data-toggle':'tooltip',
-                'data-placement':'right',
-                'data-original-title':'Document title only. Please don\'t include the name of the class'
+                'placeholder': 'ex: Exam 1 Study Guide'
             }.items() | input_attr.items())),
 
             'description': TextInput(attrs=dict({
-                'placeholder':'Short description of this file',
-                'data-toggle':'tooltip',
-                'data-placement':'right',
-                'data-original-title':'What you say here will help convince your classmates to buy this'
+                'placeholder':'a description of this document'
             }.items() | input_attr.items())),
 
-            'price': TextInput(attrs=dict({
-                'placeholder':'type a price in points, ex: 400 would be $4.00',
-                'data-toggle':'tooltip',
-                'data-placement':'right',
-                'data-original-title':'The average document sells for 400 points. Type a number!'
-            }.items() | input_attr.items())),
-            'course': TextInput(attrs=dict({
-                'placeholder':'type a course code and number: CSC 245',
-                'autocomplete': 'off',
-                'data-toggle': 'dropdown',
-                'class': 'form-control input-lg dropdown-toggle'
+            'course': Select(attrs=dict({
+                'class': 'form-control input-lg dropdown-toggle',
+                'id': 'document_course'
             }.items())),
+
+            'type': Select(attrs=dict({
+                'class': 'form-control input-lg dropdown-toggle',
+                'id': 'document_type'
+          }.items() | input_attr.items())),
         }
 
         labels = {
@@ -65,6 +85,7 @@ class DocumentUploadForm(ModelForm):
             'description': 'Description',
             'price': 'Sell for',
             'document': 'File',
+            'event': 'Event',
         }
         error_messages = {
             'title': {

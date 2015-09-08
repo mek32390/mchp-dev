@@ -12,13 +12,14 @@
 {% block body %}
 {% load referral %}
 {% load socialaccount %}
-<div class='container'>
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<img src="{% static 'lib/img/settings.svg' %}" width="100px" class="center-block">
-			<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
-			<p class="text-center"><small>{{user.username}}</small></p>
-			<div class="well">
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<p class="text-center center-block"><i class="fa fa-fw fa-user fa-5x"></i></p>
+  	<br>
+		<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
+		<h5 class="text-center">{{user.username}}</h5>
+		<div class="panel opa">
+			<div class="panel-body">
 				{% if not user.socialaccount_set.all.0 %}
 				{% include "socialaccount/snippets/login_extra.html" %}
 				<a href="{% provider_login_url "facebook" process="connect" %}">
@@ -26,45 +27,44 @@
 						Connect with Facebook
 					</button>
 				</a>
+				<br>
 				{% endif %}
-				<p>
-					<ul class="list-group">
-						<li class="list-group-item"> 
-							<i class="fa fa-book fa-fw"></i>{{user.student.courses|length}} classes <a href="{%url 'course_add'%}" class="btn btn-xs btn-default pull-right">Edit Schedule</a></span>
+				<ul class="list-group trans">
+					<li class="list-group-item trans"> 
+						<i class="fa fa-book fa-fw"></i>{{user.student.courses|length}} classes <a href="{%url 'course_add'%}" class="btn btn-xs btn-trans pull-right">Edit Schedule</a></span>
 					</li>
-					<li class="list-group-item">
-						{{user.student.total_points}}  points <a href="#points-modal" data-toggle="modal" class='btn btn-xs btn-default pull-right'>Manage Points</a>
+					<li class="list-group-item trans">
+						{{user.student.total_points}}  points <a href="#points-modal" data-toggle="modal" class='btn btn-xs btn-trans pull-right'>Manage Points</a>
 					</li>
-					<li class="list-group-item">
-						<i class="fa fa-lock"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-default pull-right'>Reset Password</a>
+					<li class="list-group-item trans">
+						<i class="fa fa-lock"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-trans pull-right'>Reset Password</a>
 					</li>
-					<li class="list-group-item">
-						<i class="fa fa-university"></i> {{user.student.school.name}} <a href="{%url 'account_email'%}" class='btn btn-xs btn-default pull-right'>Transfer Schools</a>
+					<li class="list-group-item trans">
+						<i class="fa fa-university"></i> {{user.student.school.name}} <a href="{%url 'account_email'%}" class='btn btn-xs btn-trans pull-right'>Transfer Schools</a>
 					</li>
 				</ul>
 				<ul class="list-group">
-					<li class="list-group-item" data-toggle="tooltip" data-original-title="For each person
+					<li class="list-group-item trans" data-toggle="tooltip" data-original-title="For each person
 						that enters your code after signing up, you'll both get {{referral_reward}} points!" data-placement="right">
 						<i class="fa fa-paw"></i> Your Code: {{referral_code}}
 						<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_code }}" 
-							class='btn btn-xs btn-default pull-right copy-button' id="code-button">Copy</a>
+							class='btn btn-xs btn-trans pull-right copy-button' id="code-button">Copy</a>
 					</li>
-					<li class="list-group-item" data-toggle="tooltip" data-original-title="For each person
+					<li class="list-group-item trans" data-toggle="tooltip" data-original-title="For each person
 						that signs up through your link, you'll both get {{referral_reward}} points!" data-placement="right">
-            <div class="row">
-              <div class="col-xs-10">
-						<i class="fa fa-paw"></i> Your Link: http://{{request.get_host}}/?ref={{referral_link}} 
-          </div>
-          <div class="col-xs-2">
-						<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_link }}"
-							class='btn btn-xs btn-default pull-right copy-button' id="link-button">Copy</a>
-            </div>
-          </div>
+	          <div class="row">
+	            <div class="col-xs-10">
+								<i class="fa fa-paw"></i> Your Link: http://{{request.get_host}}/?ref={{referral_link}} 
+							</div>
+			        <div class="col-xs-2">
+								<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_link }}"
+									class='btn btn-xs btn-trans pull-right copy-button' id="link-button">Copy</a>
+			         </div>
+		        </div>
 					</li>
 				</ul>
-			</p>
-		</div>   
+			</div>
+		</div>  
 	</div>
-</div>
 </div>
 {% endblock %}

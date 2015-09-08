@@ -11,181 +11,182 @@
 
 {% block body %}
 {% load humanize %}
-<div class="container">
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="media">
-				<img class="media-object pull-left animated slideInLeft" src="{% static 'lib/img/storage.svg' %}" height="50px" alt="sell documents">
-				<div class="media-body">
-					<h2 class="media-heading">My Documents <div class='pull-right'> <a href="{%url 'document_upload'%}" class='btn btn-success'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a> </div></h2>
-					make money while you study</div>
-			</div>
-			<hr>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-12">
-			<ul class="nav nav-tabs h4" role="tablist">
+<div class="row">
+  <div class="col-xs-12">
+    <div class="media">
+      <div class="media-left media-middle">
+        <i class="media-object fa fa-file-text-o fa-5x fa-fw"></i>
+      </div>
+      <div class="media-body">
+        <h1 class="media-heading">Your Documents</h1>
+        <p class="lead margin-btm-none">Docs you've sold or bought</p>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<h4>
+			<ul class="nav nav-pills" role="tablist">
 				<li class="active">
-					<a href="#selling_docs" role="tab" data-toggle="tab">
+					<a href="#selling_docs" class="pill-opa" role="tab" data-toggle="tab">
 						Selling
-						<span id="upload-count" class="badge">{{ upload_count }}</span></a>
+						<span id="upload-count" class="badge opa">{{ upload_count }}</span>
+					</a>
 				</li>
 				<li>
-					<a href="#purchased_docs" role="tab" data-toggle="tab">
+					<a href="#purchased_docs" class="pill-opa" role="tab" data-toggle="tab">
 						Purchased
-						<span id="purchase-count" class="badge">{{ purchase_count}}</span></a></li>
+						<span id="purchase-count" class="badge opa">{{ purchase_count}}</span>
+					</a>
+				</li>
 			</ul>
-			<div class="tab-content">
-				<div class="tab-pane active" id="selling_docs">
-					<p></p>
-					{% if document_list %} 
-					<div class="list-group scrolls" id="document-list"> 
-						{% for document in document_list %} 
-						{{document.purchased_count}}
-						<li class="list-group-item" id="document_{{document.pk}}"> 
-
-							<div class="media">
-								<div class="pull-left"><a href="{% url 'document_list' %}
-										{{ document.uuid}}/
-										{{ document.slug}}">
-
-										{% if document.preview %}
-										<img class="img-thumbnail" id="preview_image_{{document.pk}}"src="{{document.preview.url}}" style="width:64px"></a></div>
+		</h4>
+		<div class="tab-content">
+			<div class="tab-pane active" id="selling_docs">
+			<p></p>
+				{% if document_list %} 
+				<div class="list-group scrolls opa" id="document-list"> 
+					{% for document in document_list %} 
+					{{document.purchased_count}}
+					<li class="list-group-item trans" id="document_{{document.pk}}"> 
+						<div class="media">
+							<div class="pull-left">
+								<a href="{% url 'document_list' %}{{ document.uuid}}/{{ document.slug}}">
+								{% if document.preview %}
+								<img class="img-thumbnail" id="preview_image_{{document.pk}}"src="{{document.preview.url}}" style="width:64px">
+								</a>
+							</div>
 								{% else %}
-								<img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
-						{% endif %}
-						<div class="media-body">
-							<h4 class="media-heading">
-								<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
-								<div id="document_link_{{document.pk}}">
-									{% if document.preview %}
-									<a href="{% url 'document_list' %}
+								<img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px">
+								</a>
+							</div>
+								{% endif %}
+							<div class="media-body">
+								<h4 class="media-heading">
+									<div class="pull-right">{{document.create_date | naturaltime}}</div>
+									<div id="document_link_{{document.pk}}">
+										{% if document.preview %}
+										<a href="{% url 'document_list' %}
+											{{ document.uuid}}/
+											{{ document.slug}}
+											">{{ document.title }}</a> 
+										<small>{{document.price}} points</small>
+										{% else %}
+										<script>
+											var newly_uploaded = (typeof newly_uploaded != 'undefined' && newly_uploaded instanceof Array) ? newly_uploaded : [];
+											var upload = {
+												pk: '{{document.pk}}',
+												create_date: "{{document.create_date|date:'c'}}",
+											};
+											newly_uploaded.push(upload);
+										</script>
+										<div id="generating_message_{{document.pk}}">
+											<span>We're prepping your doc for its big debut&hellip; <i class="fa fa-spinner fa-spin"></i></span>
+											<h5>You can leave this page. We'll notify you when it's live.</h5>
+										</div>
+										{% endif %}
+									</div>
+								</h4>
+								<small class="pull-right">
+									<a href="javascript:void(0)" class="badge delete-button" data-document="{{document.pk}}">delete</a>
+								</small> 
+								<span class="description" id="description-{{document.pk}}">
+									<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
+									<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{ document.down}}&nbsp;
+									{% with document.review_count as review_count %}
+									<i class="fa fa-comments text-info
+										fa-fw"></i>{{ review_count }}
+									Review{{review_count|pluralize}}&nbsp;
+									{% endwith %}
+									{% with document.purchase_count as purchase_count %}
+									<i class="fa fa-fw fa-money
+										text-success"></i> {{purchase_count}}
+									Purchase{{purchase_count|pluralize}}
+									{% endwith %}
+								</span> 
+      					<div>
+          				in
+	                <a href="{%url "course" document.course.pk%}">
+	                   {{document.course}}
+	                </a>
+            		</div>
+							</div> 
+						</div> 
+					</li> 
+					{% endfor %} 
+				</div>   
+				<div id="no-documents" class="text-center" style="display: none;">
+					<br>
+					<h4 class="lead">You're not selling any documents!</h4>
+					<a href={% url 'document_upload'%} class='btn btn-trans'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
+				</div> 
+				{% else %}
+				<div id="no-documents" class="text-center">
+					<br>
+					<h4 class="lead">You're not selling any documents!</h4>
+					<a href={% url 'document_upload'%} class='btn btn-trans'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
+				</div>
+				{% endif %} 
+			</div>
+			<div class="tab-pane" id="purchased_docs">
+				<p></p>
+				{% if purchases %}
+				<div class="list-group" id="purchased_list">
+					{% for document in purchases %}
+					<li class="list-group-item" id="purchased_{{document.pk}}">
+						<div class="media">
+							<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
+									{{ document.uuid}}/
+									{{ document.slug}}
+									">
+								{% if document.preview %}
+								<img src="{{document.preview.url}}" style="width:64px"></a>
+							</div>
+								{% else %}
+								<img class="img-thumbnail" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a>
+							</div>
+								{% endif %}
+							<div class="media-body">
+								<h4 class="media-heading"><a href="{% url 'document_list' %}
 										{{ document.uuid}}/
 										{{ document.slug}}
-										">{{ document.title }}</a> 
-									<small>{{document.price}} points</small>
-									{% else %}
-									<script>
-										var newly_uploaded = (typeof newly_uploaded != 'undefined' && newly_uploaded instanceof Array) ? newly_uploaded : [];
-										var upload = {
-											pk: '{{document.pk}}',
-											create_date: "{{document.create_date|date:'c'}}",
-										};
-										newly_uploaded.push(upload);
-									</script>
-									<div id="generating_message_{{document.pk}}">
-										<span class="text-dull">We're prepping your doc for its big debut&hellip; <i class="fa fa-spinner fa-spin"></i></span>
-										<small>You can leave this page. We'll notify you when it's live.</small>
-									</div>
-									{% endif %}
-								</div>
-							</h4>
-							<small class="pull-right">
-								<a href="javascript:void(0)" class="badge delete-button" data-document="{{document.pk}}">delete</a>
-							</small> 
-
-							<span class="description" id="description-{{document.pk}}">
-								<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
-								<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{ document.down}}&nbsp;
-								{% with document.review_count as review_count %}
-								<i class="fa fa-comments text-info
-									fa-fw"></i>{{ review_count }}
-								Review{{review_count|pluralize}}&nbsp;
-								{% endwith %}
-								{% with document.purchase_count as purchase_count %}
-								<i class="fa fa-fw fa-money
-									text-success"></i> {{purchase_count}}
-								Purchase{{purchase_count|pluralize}}
-								{% endwith %}
-							</span> 
-              <div>
-                in
-                <a href="{%url "course" document.course.pk%}">
-                   {{document.course}}
-                </a>
-              </div>
-						</div> 
-					</div> 
-				</li> 
-				{% endfor %} 
-			</div>   
-			<div id="no-documents" class="text-center" style="display: none;">
-				<hr>
-				<h4 class="lead">You're not selling any documents!</h4>
-				<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
-				<hr>
-			</div> 
-			{% else %}
-			<div id="no-documents" class="text-center">
-				<hr>
-				<h4 class="lead">You're not selling any documents!</h4>
-				<a href={% url 'document_upload'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a>
-				<hr>
-			</div>
-			{% endif %} 
-		</div>
-
-		<div class="tab-pane" id="purchased_docs">
-			<p></p>
-			{% if purchases %}
-			<div class="list-group" id="purchased_list">
-				{% for document in purchases %}
-				<li class="list-group-item" id="purchased_{{document.pk}}">
-
-					<div class="media">
-						<div class="img-thumbnail pull-left"><a href="{% url 'document_list' %}
-								{{ document.uuid}}/
-								{{ document.slug}}
-								">
-								{% if document.preview %}
-								<img src="{{document.preview.url}}" style="width:64px"></a></div>
-						{% else %}
-						<img class="img-thumbnail" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a></div>
-				{% endif %}
-
-				<div class="media-body">
-					<h4 class="media-heading"><a href="{% url 'document_list' %}
-							{{ document.uuid}}/
-							{{ document.slug}}
-							">{{ document.title }}</a> <small>{{document.price}} points</small>
-						<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div></h4>
-					<small class="pull-right">
-						<a href="javascript:void(0)" class="badge remove-button" data-document="{{document.pk}}">remove</a>
-					</small>
-					
-					<span class="description">
-						<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
-						<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{ document.down}}&nbsp;
-						<i class="fa fa-comments-o text-info fa-fw"></i>{{document.review_count}}
-						Review{{document.review_count|pluralize}}&nbsp;
-						<i class="fa fa-fw fa-money
-							text-success"></i> {{document.purchase_count}}
-						Purchase{{document.purchase_count|pluralize}}
-						<p class="small" style="margin-top:5px;">Uploaded by <a href="{% url "profile" document.upload.owner.pk%}">{{document.upload.owner}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
-					</span>
+										">{{ document.title }}</a> <small class="white">{{document.price}} points</small>
+									<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
+								</h4>
+								<small class="pull-right">
+									<a href="javascript:void(0)" class="badge remove-button" data-document="{{document.pk}}">remove</a>
+								</small>
+								<span class="description">
+									<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
+									<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{ document.down}}&nbsp;
+									<i class="fa fa-comments-o text-info fa-fw"></i>{{document.review_count}}
+									Review{{document.review_count|pluralize}}&nbsp;
+									<i class="fa fa-fw fa-money
+										text-success"></i> {{document.purchase_count}}
+									Purchase{{document.purchase_count|pluralize}}
+									<p class="small" style="margin-top:5px;">Uploaded by <a href="{% url "profile" document.upload.owner.pk%}">{{document.upload.owner}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+								</span>
+							</div>
+						</div>
+					</li>
+					{% endfor %}
 				</div>
+				<div id="no-purchases" class="text-center" style="display: none">
+					<br>
+					<h4 class="lead">You haven't purchased any documents!</h4>
+					<a href={% url 'classes'%} class='btn btn-trans'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
+				</div>
+				{% else %}
+				<div id="no-purchases" class="text-center">
+					<br>
+					<h4 class="lead">You haven't purchased any documents!</h4>
+					<a href={% url 'classes'%} class='btn btn-trans'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
+				</div>
+				{% endif %}
 			</div>
-		</li>
-		{% endfor %}
+		</div>		
 	</div>
-	<div id="no-purchases" class="text-center" style="display: none">
-		<hr>
-		<h4 class="lead">You haven't purchased any documents!</h4>
-		<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
-		<hr>
-	</div>
-	{% else %}
-	<div id="no-purchases" class="text-center">
-		<hr>
-		<h4 class="lead">You haven't purchased any documents!</h4>
-		<a href={% url 'classes'%} class='btn btn-primary'><i class="fa fa-file-text-o fa-fw"></i> Browse Documents &raquo;</a>
-		<hr>
-	</div>
-	{% endif %}
 </div>
-			</div>		
-		</div>
-	</div>
-</div>	
 {% endblock %}

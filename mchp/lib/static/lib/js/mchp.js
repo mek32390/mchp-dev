@@ -2,7 +2,58 @@
  * This is for things that should happen site wide
  */
 
+
 $(function() {
+
+    // make popovers stay when hovered over or when triggered element is hovered over
+
+    $(".pop-stay").popover({ trigger: "manual" , html: true, animation:false})
+    .on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    }).on("mouseleave", function () {
+        var _this = this;
+        setTimeout(function () {
+            if (!$(".popover:hover").length) {
+                $(_this).popover("hide");
+            }
+        }, 300);
+    });
+
+    // choose a random img and set it as backgrounf each day
+    var now = new Date();
+    var fullDaysSinceEpoch = Math.floor(now/8.64e7);
+    var rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
+    var current_pic;
+    
+    if(typeof(Storage) !== "undefined") {
+
+        current_pic = localStorage.current_pic || rand;
+
+        if (localStorage.last_day) {
+            if (localStorage.last_day != fullDaysSinceEpoch) {
+                localStorage.last_day = fullDaysSinceEpoch;
+                current_pic = rand;
+            }
+        } else {
+            localStorage.last_day = fullDaysSinceEpoch;
+            current_pic = rand;
+        }
+
+        localStorage.current_pic = current_pic;
+
+    } else {
+        //TODO: we might make a javascript session here, it will take some time
+         current_pic = rand;
+    }
+
+    //document.body.style.backgroundImage = "url('/static/landing/img/bg-" + current_pic + ".jpg')";
+    var url_prefix = $('#bg').attr('data-url-prefix');
+    $('#bg').css("background-image","url('" + url_prefix + "/lib/img/bgimages/bg-" + current_pic + ".jpeg')");
+
 
     // add auto drop down functionality of drop downs
     $(".drop").hover(
@@ -154,7 +205,7 @@ $(function() {
     }
 
     // mark notifications read
-    $('#toggle-notifications').on('mouseover', function() {
+    $('.sidebar-brand').on('mouseover', function() {
         mark_all_read();
         $('#notification-count').text('0');
         $('#notification-count').removeClass('unread-notification');
@@ -168,6 +219,11 @@ $(function() {
         toggle_flag($(this).data('event'));
     });
     set_username();
+
+    // open chat when this class is clicked
+    $('.open-chat').on('click', function() {
+        FHChat.transitionTo('maximized');
+    });
 });
 
 var MCHP_USERNAME = '';

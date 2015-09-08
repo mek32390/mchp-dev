@@ -8,11 +8,21 @@
 	max-height: 513px;
 	overflow: auto;
 }
-#searchResults > .list-group-item:hover {
-    background: #f5f5f5;
+
+#enrolled_list > .enrolled-class-id:hover {
+	background: rgba(0,0,0,.4);
+  border-color: transparent;
+  transition: all .5s ease;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
 }
-#searchResults > div.list-group-item.list-group-item-danger:hover {
-	background: #f2dede;
+
+#searchResults > .list-group-item:hover {
+  background: rgba(0,0,0,.4);
+  border-color: transparent;
+  transition: all .5s ease;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
 }
 
 /* Show end tour button on last step */

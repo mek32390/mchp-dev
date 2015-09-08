@@ -2,9 +2,11 @@
 
 {% block head_title %}
 {% if request.user.is_authenticated %}
-{{student.name}}
-{% else %}Not Logged In
+	{{student.name}}
+{% else %}
+	Not Logged In
 {% endif %}
+
 {% endblock %}
 {% block extra_head %}
 
@@ -25,216 +27,211 @@
 
 {% block body %}
 {% load humanize %}
-<div class="container">
-	<div {% ifequal viewer student %} id="profile-header" {% endifequal %} class="text-center center-block">
-		<div style="height: 160px; width: 160px; background-image:url({{profile.profile_image_url}});" id="profile-image" class="profile-image animated flipInX img-thumbnail img-circle delayed-sm"></div>
-		{% ifequal viewer student %}
-		<div id="update-photo">
-			<form method="post" action="{% url "edit_pic" %}" id="pic-form">
-				{% csrf_token %}
-				<div class="btn-file">
-					<span><small><i class="fa fa-camera"></i> Update </small><input name="pic" id="pic-input" type="file">
-					</span>
-				</div>
-			</form>
-		</div>
-		{% endifequal %}
-		{% ifequal viewer student %}
-		<h2 id="profile-username" data-type="text" data-title="username"
-				data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}" style="margin-bottom:;">{{student}}</h2>
-		{% else %}
-		<h2 style="margin-bottom:;">{{student}}</h2>
-		{% endifequal %}
-		<p class="small">
-			<i class="fa fa-graduation-cap fa-fw"></i> 
-			{% ifequal viewer student %}
-			<span href="#" data-type="typeaheadjs" id="major" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"> 
-        {% if student.major %}{{student.major}} {% else %} <span class="text-danger">Select your Major</span>{% endif %}
-      </span> &nbsp;
-			{% else %}
-			<span id="major-other"> {% if student.major %}{{student.major}}{% else %}Has not selected a major yet!{% endif %}</span> &nbsp;
-			{% endifequal %}
-      {% ifequal student.school.name 'deleted' %}
-      <i class="fa fa-university fa-fw"></i>Is not enrolled at a school!
-      {% else %}
-      <i class="fa fa-university fa-fw"></i><a href="{% url "school" student.school.pk %}">{{student.school.name}}</a>
-      {% endifequal %}
-		</p>
-			<div class="about-container">
-				{% ifequal viewer student %}
-				<p class="lead" id="about" data-type="text" data-title="blurb"
-				data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{profile.blurb}}</p> 
-				{% else %}
-				<p class="lead" id="about-other">{{profile.blurb}}</p> 
-				{% endifequal %}
-			</div>	
-			<p></p>
-			<div class="progress">
-				<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="{{upload_list|length}} Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
-					<span class="sr-only">{{upload_list|length}} Documents</span>
-				</div>
-				<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="{{calendars|length}} Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
-					<span class="sr-only">{{calendars|length}} Calendars</span>
-				</div>
+<div {% ifequal viewer student %} id="profile-header" {% endifequal %} class="text-center center-block">
+	<img style="height: 160px; width: 160px;" id="profile-image" class="profile-image animated flipInX img-thumbnail img-circle delayed-sm" src="{{ student.profile.profile_image_url }}">
+	{% ifequal viewer student %}
+	<div id="update-photo">
+		<form method="post" action="{% url "edit_pic" %}" id="pic-form">
+			{% csrf_token %}
+			<div class="btn-file">
+				<span><small><i class="fa fa-camera"></i> Update </small><input name="pic" id="pic-input" type="file">
+				</span>
 			</div>
+		</form>
 	</div>
-	<div class="well">
-		<div class="panel panel-default text-center">
-			<div class="panel-body">
-				<div class="page-header">
-					<h3 class="text-center">
-						{% ifequal viewer student %}
-						Classes
-						<p class="text-center"><span class="badge">{{user.student.courses|length}}</span></p>
-						{% else %}
-						{{student.name}}'s Classes
-						<p class="text-center"><span class="badge">{{student.courses|length}}</span></p>
-						{% endifequal %}
-					</h3>
-				</div>
-				<div class="row">
-					{% for course in student.courses %}
-					<div class="col-sm-2 col-centered">
-						<p></p>
-						<!-- don't include the slug here -->
-						<a href="{%url "course" course.pk%}">
-							<img src="{% static 'lib/img/book.svg' %}" alt="classes">
-						</a>
-						<!-- <i class="fa fa-check-circle-o fa-2x class-in-common"></i> -->
-						<div class="caption">
-							<h5><a href="{%url "course" course.pk%}">{{course}}</a></h5>
-							<h6>Instructor {{course.professor}}</h6>
-							<p class="small"><i class="fa fa-users fa-fw"></i> {{course.student_count}} <i
-							class="fa
-									fa-file-text-o fa-fw"></i> {{course.document_count}} <i class="fa fa-calendar
-									fa-fw"></i> {{course.calendar_count}}</p>
-						</div>
-					</div>
-					{% empty %}
-					{% ifequal viewer student %}
-					<p class="lead text-center">You haven't added any classes yet... Well, what're you waiting for?</p>
-					<p class="text-center"><a href="{% url 'course_add'%}" class="btn btn-primary">Add Classes</a></p>
-					{% else %}
-					<p class="lead text-center">{{student.name}} isn't enrolled in any classes</p>
-					{% endifequal %}
-					<hr>
-					{% endfor %}
-				</div>
+	{% endifequal %}
+	{% ifequal viewer student %}
+	<h2 id="profile-username" data-type="text" data-title="username"
+			data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}" style="margin-bottom:;">{{student}}</h2>
+	{% else %}
+	<h2 style="margin-bottom:;">{{student}}</h2>
+	{% endifequal %}
+	<p class="small">
+		<i class="fa fa-graduation-cap fa-fw"></i> 
+		{% ifequal viewer student %}
+		<span href="#" data-type="typeaheadjs" id="major" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"> 
+      {% if student.major %}{{student.major}} {% else %} <span class="text-danger">Select your Major</span>{% endif %}
+    </span> &nbsp;
+		{% else %}
+		<span id="major-other"> {% if student.major %}{{student.major}}{% else %}Has not selected a major yet!{% endif %}</span> &nbsp;
+		{% endifequal %}
+    {% ifequal student.school.name 'deleted' %}
+    <i class="fa fa-university fa-fw"></i>Is not enrolled at a school!
+    {% else %}
+    <i class="fa fa-university fa-fw"></i><a href="{% url "school" student.school.pk %}">{{student.school.name}}</a>
+    {% endifequal %}
+	</p>
+		<div class="about-container">
+			{% ifequal viewer student %}
+			<p class="lead" id="about" data-type="text" data-title="blurb"
+			data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{profile.blurb}}</p> 
+			{% else %}
+			<p class="lead" id="about-other">{{profile.blurb}}</p> 
+			{% endifequal %}
+		</div>	
+		<p></p>
+		<div class="progress">
+			<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="{{upload_list|length}} Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
+				<span class="sr-only">{{upload_list|length}} Documents</span>
+			</div>
+			<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="{{calendars|length}} Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
+				<span class="sr-only">{{calendars|length}} Calendars</span>
 			</div>
 		</div>
-
-		<div class="panel panel-default text-center">
-			<div class="panel-body">
-				<div class="page-header">
-					<h3 class="text-center">Documents</h3>
-					<p class="text-center"><span class="badge">{{upload_list|length}}</span></p>
-				</div>
-				{% if upload_list %}
-				<div class="row">
-					<div class="list-group" id="document-list">
-					{% for document in upload_list %}
-						<div class="col-sm-3 col-centered">
-						    <div class="list-group-item" id="document_{{document.pk}}" style="margin-bottom:20px;">
-						    	<div class="img-thumbnail" style="width:100%;">
-									<a href="{% url 'document_list' %}
-									{{ document.uuid}}/
-									{{ document.slug}} ">
-
-									{% if document.preview %}
-									<img src="{{document.preview.url}}" width="100%">
-									{% else %}
-									<img src="{% static 'documents/img/loading_file.svg' %}" width="100%">
-									{% endif %}
-									</a>
-								</div>
-								<h4><a href="{% url 'document_list' %}
-										{{ document.uuid}}/
-										{{ document.slug}}
-										">{{ document.title }}</a> 
-										<div class="small">{{document.price}} points</div>
-								</h4>
-								<span class="description">
-									<h6>
-										<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
-										<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
-										<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}} Reviews&nbsp;&nbsp;
-										<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.purchase_count}} Purchases
-									</h6>
-									<small>
-										{{document.create_date | naturaltime}} in 
-										<a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a>
-									</small>
-								</span>
-						    </div>
-						</div>
-					{% endfor %}
+</div>
+<div class="well opa">
+	<div class="panel opa text-center">
+		<div class="panel-body">
+			<div class="page-header">
+				<h2 class="text-center">
+					{% ifequal viewer student %}
+					Classes
+					<p class="text-center"><span class="badge inverse">{{user.student.courses|length}}</span></p>
+					{% else %}
+					{{student.name}}'s Classes
+					<p class="text-center"><span class="badge inverse">{{student.courses|length}}</span></p>
+					{% endifequal %}
+				</h2>
+			</div>
+			<div class="row">
+				{% for course in student.courses %}
+				<div class="col-sm-2 col-centered">
+					<p></p>
+					<!-- don't include the slug here -->
+					<a href="{%url "course" course.pk%}">
+						<i class="fa fa-bookmark-o fa-5x"></i>
+					</a>
+					<div class="caption">
+						<h4><a href="{%url "course" course.pk%}">{{course}}</a></h4>
+						<h6>Instructor {{course.professor}}</h6>
+						<p class="small"><i class="fa fa-users fa-fw"></i> {{course.student_count}} <i
+						class="fa
+								fa-file-text-o fa-fw"></i> {{course.document_count}}
 					</div>
 				</div>
-				<div id="no-documents" class="text-center" style="display: none;">
-					{% ifequal viewer student %}
-					<p class="lead text-center">You haven't sold any documents yet, but it wouldn't hurt to try!</p>
-					<p><a href="{% url 'document_upload'%}" class="btn btn-primary">Sell Document</a></p>
-					{% else %}
-					<p class="lead text-center">{{student.name}} isn't selling any documents!</p>
-					{% endifequal %}
-				</div>
+				{% empty %}
+				{% ifequal viewer student %}
+				<p class="lead text-center">You haven't added any classes yet... Well, what're you waiting for?</p>
+				<p class="text-center"><a href="{% url 'course_add'%}" class="btn btn-trans">Add Classes</a></p>
 				{% else %}
-				<div id="no-documents" class="text-center">
-					{% ifequal viewer student %}
-					<p class="lead text-center">You haven't sold any documents yet, but it wouldn't hurt to try! </p>
-					<p><a href="{% url 'document_upload'%}" class="btn btn-primary">Sell a Document</a></p>
-					{% else %}
-					<p class="lead text-center">{{student.name}} isn't selling any documents!</p>
-					{% endifequal %}
-					<hr>
-				</div>
-				{% endif %}
-			</div>
-		</div>
-
-		<div class="panel panel-default text-center">
-			<div class="panel-body">
-				<div class="page-header">
-					<h3 class="text-center">Calendars</h3>
-					<p class="text-center"><span class="badge">{{calendars|length}}</span></p>
-				</div>
-				<div class="row">
-					<div class="list-group calendar-item-list">
-						{% for calendar in calendars %}
-						<div class="col-sm-3 col-centered text-center">
-						    <div class="list-group-item calendar-item" style="margin-bottom:20px;">
-						      <img src="{% static 'lib/img/calendar-blank.svg' %}" width="75px" alt="calendar">
-						      <div class="assignment-number text-center text-default h3 calendar-event-count">{{calendar.events}}</div>
-									<h4><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a> 
-									</h4>
-						       	<span class="description">
-									<h5 class="">Prof <span
-										class='calendar-professor'>{{calendar.course.professor}}</span>
-									</h5>
-									<h6 class="">
-										{% with calendar.subscribers.count as subscribers %}
-										<i class="fa fa-fw fa-users"></i><span class="calendar-subscriptions">{{subscribers}} Subscribers&nbsp;</span>
-										{% endwith %}
-										<!-- <div class="calendar-description margin-top-none">{{calendar.description}}</div> -->
-									</h6>
-									<div class="small calendar-create-date">{{calendar.create_date|naturaltime}}</div>
-								</span>
-						  	</div>
-						</div>
-						{% empty %}
-					</div>
-				</div>
-				<div id="no-calendars">
-					{% ifequal viewer student %}
-					<p class="lead">You haven't created any calendars yet, but you don't know what you're missing!</p>
-					<p><a href="{% url 'calendar_create'%}" class="btn btn-primary">Create a Calendar</a></p>
-					{% else %}
-					<p class="lead text-center">{{student.name}} isn't selling any calendars!</p>
-					{% endifequal %}
-					<hr>
-				</div>
+				<p class="lead text-center">{{student.name}} isn't enrolled in any classes</p>
+				{% endifequal %}
+				<hr>
 				{% endfor %}
 			</div>
+		</div>
+	</div>
+
+	<div class="panel opa text-center">
+		<div class="panel-body">
+			<div class="page-header">
+				<h2 class="text-center">Documents</h2>
+				<p class="text-center"><span class="badge inverse">{{upload_list|length}}</span></p>
+			</div>
+			{% if upload_list %}
+			<div class="row">
+				<div class="list-group trans" id="document-list">
+				{% for document in upload_list %}
+					<div class="col-sm-3 col-centered">
+				    <div class="list-group-item opa" id="document_{{document.pk}}" style="margin-bottom:20px;">
+							<a href="{% url 'document_list' %}
+								{{ document.uuid}}/
+								{{ document.slug}} ">
+
+								{% if document.preview %}
+								<img src="{{document.preview.url}}" class="img-thumbnail img-rounded" width="100%">
+								{% else %}
+								<img src="{% static 'documents/img/loading_file.svg' %}" class="img-thumbnail img-rounded" width="100%">
+								{% endif %}
+							</a>
+							<h4>
+								<a href="{% url 'document_list' %}
+									{{ document.uuid}}/
+									{{ document.slug}}
+									">{{ document.title }}</a>
+							</h4>
+							<p>{{document.price}} points</p>
+							<span class="description">
+								<h6>
+									<i class="fa fa-fw fa-thumbs-o-up text-success"></i>{{document.up}}
+									<i class="fa fa-fw fa-thumbs-o-down text-danger fa-flip-horizontal"></i>{{ document.down}}&nbsp;&nbsp;
+									<i class="fa fa-comments-o text-info fa-fw"></i>&nbsp;{{document.review_count}} Reviews&nbsp;&nbsp;
+									<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.purchase_count}} Purchases
+								</h6>
+								<small>
+									{{document.create_date | naturaltime}} in 
+									<a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a>
+								</small>
+							</span>
+				    </div>
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+			<div id="no-documents" class="text-center" style="display: none;">
+				{% ifequal viewer student %}
+				<p class="lead text-center">You haven't sold any documents yet, but it wouldn't hurt to try!</p>
+				<p><a href="{% url 'document_upload'%}" class="btn btn-trans">Sell Document</a></p>
+				{% else %}
+				<p class="lead text-center">{{student.name}} isn't selling any documents!</p>
+				{% endifequal %}
+			</div>
+			{% else %}
+			<div id="no-documents" class="text-center">
+				{% ifequal viewer student %}
+				<p class="lead text-center">You haven't sold any documents yet, but it wouldn't hurt to try! </p>
+				<p><a href="{% url 'document_upload'%}" class="btn btn-trans">Sell a Document</a></p>
+				{% else %}
+				<p class="lead text-center">{{student.name}} isn't selling any documents!</p>
+				{% endifequal %}
+				<hr>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="panel opa text-center">
+		<div class="panel-body">
+			<div class="page-header">
+				<h2 class="text-center">Calendars</h2>
+				<p class="text-center"><span class="badge inverse">{{calendars|length}}</span></p>
+			</div>
+			<div class="row">
+				<div class="list-group calendar-item-list">
+					{% for calendar in calendars %}
+					<div class="col-sm-3 col-centered text-center">
+					    <div class="list-group-item calendar-item opa" style="margin-bottom:20px;">
+					      <img src="{% static 'lib/img/calendar-blank.svg' %}" width="75px" alt="calendar">
+					      <div class="assignment-number text-center text-default h3 calendar-event-count">{{calendar.events}}</div>
+								<h4><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a> 
+								</h4>
+					       	<span class="description">
+								<h5 class="">Prof <span
+									class='calendar-professor'>{{calendar.course.professor}}</span>
+								</h5>
+								<h6 class="">
+									{% with calendar.subscribers.count as subscribers %}
+									<i class="fa fa-fw fa-users"></i><span class="calendar-subscriptions">{{subscribers}} Subscribers&nbsp;</span>
+									{% endwith %}
+									<!-- <div class="calendar-description margin-top-none">{{calendar.description}}</div> -->
+								</h6>
+								<div class="small calendar-create-date">{{calendar.create_date|naturaltime}}</div>
+							</span>
+					  	</div>
+					</div>
+					{% empty %}
+				</div>
+			</div>
+			<div id="no-calendars">
+				{% ifequal viewer student %}
+				<p class="lead">You haven't created any calendars yet, but you don't know what you're missing!</p>
+				<p><a href="{% url 'calendar_create'%}" class="btn btn-trans">Create a Calendar</a></p>
+				{% else %}
+				<p class="lead text-center">{{student.name}} isn't selling any calendars!</p>
+				{% endifequal %}
+				<hr>
+			</div>
+			{% endfor %}
 		</div>
 	</div>
 </div>

@@ -1,0 +1,44 @@
+/*!
+*
+* Styles for the new homepage
+*
+*/
+
+.row {
+  height: inherit;
+}
+
+/* Mega font for responsive screen sizes */
+
+.mega-font {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+
+@media all and (max-width: 1780px) { /* screen size until 1780px */
+  .mega-font {
+    font-size  : 12em !important; /* 1.5x default size */
+    line-height: .8 !important;;
+    padding    : 0 !important;;
+  }
+}
+@media all and (max-width: 1200px) { /* screen size until 1200px */
+  .mega-font {
+    font-size  : 10em !important;; /* 1.5x default size */
+    line-height: .8 !important;;
+    padding    : 0 !important;;
+  }
+}
+@media all and (max-width: 1000px) { /* screen size until 1000px */
+  .mega-font {
+    font-size  : 8em !important;; /* 1.2x default size */
+    line-height: .8 !important;;
+    padding    : 0 !important;;
+  }
+}
+@media all and (max-width: 500px) { /* screen size until 500px */
+  .mega-font {
+    font-size: 6em !important;; /* 0.8x default size */
+    line-height: .8 !important;;
+    padding: 0 !important;;
+  }
+}
