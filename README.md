@@ -12,6 +12,7 @@ $ git clone https://github.com/mitchellias/mchp-dev
 Install VirtualBox and Vagrant
 * [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
 * [http://www.vagrantup.com/downloads.html](http://www.vagrantup.com/downloads.html)
+* [Optional] [https://github.com/fgrehm/vagrant-cachier](https://github.com/fgrehm/vagrant-cachier) - plugin that caches apt, pip and other dependencies. Useful if planning to re-create Vagrant box frequently.
 
 Start VM
 ```
