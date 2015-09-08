@@ -34,7 +34,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <img class="img-responsive img-thumbnail" src="{{ roster.syllabus.all.0.preview.url }}"
+                                <img class="img-responsive img-thumbnail" src="{% if roster.syllabus.all.0.preview %} {{ roster.syllabus.all.0.preview.url }} {% endif %}"
                                      width="100%" alt="syllabus">
                                 <br></br>
                             </div>
