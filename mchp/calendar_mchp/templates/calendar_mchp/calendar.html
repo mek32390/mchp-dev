@@ -109,7 +109,7 @@
 									{% endif %}
 									{% empty %}
 									<div class="text-center">
-										<a href="{% url 'calendar_create' %}">Make a Calendar</a>
+										You don't have any calendars!
 									</div>
 									{% endfor %}
 								</ul>
@@ -240,8 +240,9 @@
 <!-- Calendar Section -->
 <section id="cal" class="section section-overview">
   <div class="row">
-    <div class="col-xs-3">
-      <h1>Calendar
+    <div class="col-sm-3 animated bounceInUp">
+      <h1>Calendar <!-- <span class="badge pull-right opa"
+								id="owned-calendar-count">{{total_school_calendars}}</span> -->
       <!-- Is there a reason for students to manage or create new calendars? -->
 
         <!-- <a href="#calendar" class="pop-stay pull-right" data-toggle="popover" data-placement="bottom"
@@ -266,57 +267,58 @@
       </h1>
 			<p></p>
 			<hr>
-			<div id="yourCalList">
-				<div class="owned-cals-section">
-					<h4>Class Calendars<span class="badge pull-right"
-						id="owned-calendar-count">{{total_school_calendars}}</span></h4>
-					<!-- don't delete this again -->
-					<div class="hidden" id="make-a-calendar">
-						<p>
+			
+					<div id="yourCalList">
+						<div class="owned-cals-section">
+							<!-- don't delete this again -->
+							<div class="hidden" id="make-a-calendar">
+								<p>
+									<div class="panel opa">
+										<div class="panel-body">
+											You don't have any calendars.
+										</div>
+									</div>
+								</p>
+							</div>
+
+							<!-- for real it has a purpose-->
+							{% for calendar in owned_calendars %}
+							<div class="checkbox owned-calendar-holder" id="owned-calendar-holder-{{calendar.pk}}">
+								{% if calendar.private %}
+								<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}"><h4 class="margin-tbm-none margin-top-none">
+									<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
+									{{calendar.title}}</h4>
+								</label>
+								{% else %}
+								<label class="owned-calendar-label" style="color: {{calendar.color}};"
+									data-cal="{{calendar.pk}}"><strong>
+									<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
+									{{calendar.title}}</strong>
+								</label>
+								{% endif %}
+								<span class="pull-right">
+									{% if calendar.private %}
+									<!-- <a class="pull-right" href="{% url 'event_add' %}?calendar={{calendar.pk}}"><i class="fa fa-fw fa-table" data-toggle="tooltip" data-original-title="Add multiple events" data-placement="left"></i></a> -->
+									{% else %}
+									<!-- <a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i></a>  -->
+									<!-- <i class="fa fa-fw fa-bullhorn" data-toggle="tooltip" data-original-title="Public" data-placement="left"></i> -->
+									{% endif %}
+								</span>
+							</div>
+							{% empty %}
+							<p>
 							<div class="panel opa">
 								<div class="panel-body">
-									Make your first <a href="{%url "calendar_create"%}">calendar!</a>
+									You don't have any calendars.
 								</div>
 							</div>
-						</p>
-					</div>
-					<!-- for real it has a purpose-->
-					{% for calendar in owned_calendars %}
-					<div class="checkbox owned-calendar-holder" id="owned-calendar-holder-{{calendar.pk}}">
-						{% if calendar.private %}
-						<label class="owned-calendar-label" style="color: {{calendar.color}};" data-cal="{{calendar.pk}}"><strong>
-							<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
-							{{calendar.title}}</strong>
-						</label>
-						{% else %}
-						<label class="owned-calendar-label" style="color: {{calendar.color}};"
-							data-cal="{{calendar.pk}}"><strong>
-							<input class="toggle-events" autocomplete="off" checked type="checkbox" value="" data-cal="{{calendar.pk}}">
-							{{calendar.title}}</strong>
-						</label>
-						{% endif %}
-						<span class="pull-right">
-							{% if calendar.private %}
-							<!-- <a class="pull-right" href="{% url 'event_add' %}?calendar={{calendar.pk}}"><i class="fa fa-fw fa-table" data-toggle="tooltip" data-original-title="Add multiple events" data-placement="left"></i></a> -->
-							{% else %}
-							<!-- <a href="{%url "calendar_preview" calendar.pk%}" class="pull-right"><i class="fa fa-fw fa-external-link" data-toggle="tooltip" data-original-title="Preview" data-placement="right" style="color: {{calendar.color}};"></i></a>  -->
-							<!-- <i class="fa fa-fw fa-bullhorn" data-toggle="tooltip" data-original-title="Public" data-placement="left"></i> -->
-							{% endif %}
-						</span>
-					</div>
-					{% empty %}
-					<p>
-						<div class="panel opa">
-							<div class="panel-body">
-								Make your first <a href="{%url "calendar_create"%}">calendar!</a>
-							</div>
-						</div>
-					</p>
-					{% endfor %}
+							</p>
+							{% endfor %}
+					
 				</div>
   		</div>
   	</div><!-- end col-3 -->
-		<div id="col_2" class="col-xs-9 animated bounceInUp delayed-sm">
+		<div id="col_2" class="col-sm-9 animated bounceInUp delayed-sm">
 			<div class="row">
         <h2>
           <div class="col-xs-4">
@@ -326,8 +328,8 @@
             </div>
             <button type="button" class="cal-button cal-today-button btn btn-trans hidden-xs"><span class="white">Today</span></button>
           </div>
-          <div class="col-xs-4">   
-            <span class="cal-date text-center center-block white">June 2015</span>
+          <div class="col-xs-8">   
+            <span class="cal-date white">June 2015</span>
           </div>
           <!-- <div class="col-xs-4">
             <div class="btn-group pull-right margin-top-sm" data-toggle="buttons">
