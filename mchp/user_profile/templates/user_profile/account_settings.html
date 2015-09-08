@@ -14,9 +14,10 @@
 {% load socialaccount %}
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
-		<img src="{% static 'lib/img/settings.svg' %}" width="100px" class="center-block no-shadow">
+		<p class="text-center center-block"><i class="fa fa-fw fa-user fa-5x"></i></p>
+  	<br>
 		<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
-		<p class="text-center">{{user.username}}</p>
+		<h5 class="text-center">{{user.username}}</h5>
 		<div class="panel opa">
 			<div class="panel-body">
 				{% if not user.socialaccount_set.all.0 %}
