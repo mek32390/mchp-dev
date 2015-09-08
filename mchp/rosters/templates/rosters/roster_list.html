@@ -3,17 +3,18 @@
 {% block head_title %}Roster List{% endblock %}
 
 {% block extra_head %}
-
-    {% load staticfiles %}
-
-    <script src="{% static 'rosters/js/roster_list.js' %}"></script>
-
+    
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js"></script>
     <!-- Latest compiled and minified Locales -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/locale/bootstrap-table-zh-CN.min.js"></script> -->
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" href="{% static 'rosters/css/roster_list.css' %}">
+    <script src="{% static 'rosters/js/roster_list.js' %}"></script>
 
 {% endblock %}
 
@@ -40,28 +41,26 @@
                             </div>
                             <!-- end col-6 -->
                             <div class="col-md-6">
-                                <h2 class="margin-top-none"><strong>{{ roster.course }}</strong>
-
-                                    <form action="" method="post">
+                                <h2 class="margin-top-none">
+                                    <form action="" clas"pull-right" method="post">
                                         <input name="hidden_roster_id" value="{{ roster.id }}" type="hidden" id="hidden_roster_id">
                                         <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
                                         {% csrf_token %}
-                                        <ul class="list-inline pull-right">
-                                            <li><a href="#" onclick="form_submit(this, 'approve')" class="btn btn-primary btn-lg"><i class="fa fa-check"></i>
+                                        <span class="list-inline pull-right">
+                                            <li><a href="#" onclick="form_submit(this, 'approve')" class="btn btn-primary btn-md"><i class="fa fa-check"></i>
                                                 Approve</a></li>
-                                            <li><a href="#" onclick="form_submit(this, 'reject')" class="btn btn-danger btn-lg"><i class="fa fa-times"></i>
+                                            <li><a href="#" onclick="form_submit(this, 'reject')" class="btn btn-danger btn-md"><i class="fa fa-times"></i>
                                                 Reject</a></li>
-                                        </ul>
+                                        </span>
                                     </form>
+                                    <strong>{{ roster.course }}</strong>
                                 </h2>
                                 <br>
                                 <ul class="list-inline">
                                     <li><i class="fa fa-university fa-fw"></i> {{ roster.course.domain.name }} </li>
-                                    <li><i class="fa fa-male"></i><i
-                                            class="fa fa-female"></i> {{ roster.course.professor }}</li>
-                                    <li><i class="fa fa-user fa-fw"></i> {{ roster.created_by }}</li>
+                                    <li><i class="fa fa-male"></i> Instr {{ roster.course.professor }}</li>
+                                    <li><i class="fa fa-user fa-fw"></i> submitted by {{ roster.created_by }}</li>
                                 </ul>
-                                <hr>
                                 <h5>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -77,8 +76,7 @@
                                         </div>
                                     </div>
                                 </h5>
-                                <hr>
-                                <h4>Roster &nbsp;<span class="badge opa">{{ roster.students.all.count }} Students</span>
+                                <h4>Roster &nbsp;<span class="badge opa">{{ roster.students.all.count }}</span>
                                 </h4>
                                 <table class="table table-hover">
                                     {% for student in roster.students.all %}
@@ -90,7 +88,7 @@
                                         </tr>
                                     {% endfor %}
                                 </table>
-                                <h4>Events &nbsp;<span class="badge">{{ roster.events.all.count }} Events</span></h4>
+                                <h4>Events &nbsp;<span class="badge">{{ roster.events.all.count }}</span></h4>
                                 <table class="table table-hover">
                                     {% for event in roster.events.all %}
                                         <tr>
@@ -122,11 +120,11 @@
                    data-search="true" data-search-text="" data-show-columns="true">
                 <thead>
                 <tr>
-                    <th data-sortable="true" data-field="roster_course"><h4><strong>Course</strong></h4></th>
-                    <th data-sortable="true" data-field="roster_submitter"><h4><strong>Submitter</strong></h4></th>
-                    <th data-sortable="true" data-field="roster_date"><h4><strong>Date</strong></h4></th>
-                    <th data-sortable="true" data-field="roster_status"><h4><strong>Status</strong></h4></th>
-                    <th data-sortable="true" data-field="roster_actions"><h4><strong>Actions</strong></h4></th>
+                    <th data-sortable="true" data-field="roster_course"><span class="th-name"><strong>Course</strong></span></th>
+                    <th data-sortable="true" data-field="roster_submitter"><span class="th-name"><strong>Submitter</strong></span></th>
+                    <th data-sortable="true" data-field="roster_date"><span class="th-name"><strong>Date</strong></span></th>
+                    <th data-sortable="true" data-field="roster_status"><span class="th-name"><strong>Status</strong></span></th>
+                    <th data-sortable="true" data-field="roster_actions"><span class="th-name"><strong>Actions</strong></span></th>
                 </tr>
                 </thead>
                 <tbody class="well opa">
