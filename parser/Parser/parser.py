@@ -654,6 +654,7 @@ def __main__():
             _parseDirectories(argv)
         else:
             _parseCommandLine(argv)
+            sys.exit(0)
     except Exception as e:
         if len(_error) > 0:
             sys.stderr.write("Usage: " + _error + "\n")

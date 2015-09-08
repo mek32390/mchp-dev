@@ -26,9 +26,8 @@
                 </div>
                 <div class="media-body">
                     <h1 class="media-heading">Upload Documents</h1>
-
-                    <p class="lead margin-btm-none">Stack some paper (anonymously)</p>
-                </div>
+		</div>
+                <p class="lead margin-btm-none">Stack some paper, it's anonymous</p>
             </div>
             <hr>
         </div>
@@ -71,16 +70,14 @@
                         </div>
                     </div>
 
-                    <!-- select document type -->
-                    <div class="media" id="{{ form.type.name }}_container">
-                        <div class="media-left media-top">
-                            <h1 class="media-object pull-left margin-top-none">2.</h1>
-                        </div>
-                        <div class="media-body">
-                            <h3 class="media-heading">Select the type of this document</h3>
-
-                            <p>It can either be a a Syllabus or a Study Guide.</p>
-
+                <!-- select document type -->
+                <div class="media" id="{{ form.type.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">2.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Select the type of this document *</h3>
+                        <p>It can either be a a Syllabus or a Study Guide.</p>
                             <div class="form-group">
                                 {{ form.type }}
                             </div>
@@ -89,16 +86,14 @@
                         </div>
                     </div>
 
-                    <!-- select event to upload document to -->
-                    <div class="media" id="{{ form.event.name }}_container">
-                        <div class="media-left media-top">
-                            <h1 class="media-object pull-left margin-top-none">1.</h1>
-                        </div>
-                        <div class="media-body">
-                            <h3 class="media-heading">Select an event to upload document to</h3>
-
-                            <p>or <a href="{% url 'event_add' %}" target="_blank">create a new event</a>.</p>
-
+                <!-- select event to upload document to -->
+                <div class="media" id="{{ form.event.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">1.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Select an event to link this document to </h3>
+                        <p>Your document will have greater exposure if it's linked to an event. <a href="{% url 'calendar' %}" class="link" target="_blank">Create a new event</a>.</p>
                             <div class="form-group" id="selectClass">
                                 {{ form.event }}
                             </div>
@@ -125,15 +120,14 @@
                         </div>
                     </div>
 
-                    <!-- document description -->
-                    <div class="media" id="{{ form.description.name }}_container">
-                        <div class="media-left media-top">
-                            <h1 class="media-object pull-left margin-top-none">2.</h1>
-                        </div>
-                        <div class="media-body">
-                            <h3 class="media-heading">Set the document's description</h3>
-
-                            <p>Put a longer description of the document's contents here</p>
+            <!-- document description -->
+                <div class="media" id="{{ form.description.name }}_container">
+                    <div class="media-left media-top">
+                        <h1 class="media-object pull-left margin-top-none">2.</h1>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">Set the document's description *</h3>
+                        <p>Put a longer description of the document's contents here</p>
 
                             <div class="form-group">
                                 {{ form.description }}

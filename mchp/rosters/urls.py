@@ -8,4 +8,6 @@ urlpatterns = patterns('',  # noqa
     url(r'^review/(?P<pk>\d+)/$',
         views.RosterReviewView.as_view(),
         name='roster-review'),
+
+    url(r'^list/$', views.RosterListView.as_view(), name='roster-list'),
 )

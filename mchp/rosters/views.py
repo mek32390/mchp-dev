@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic import FormView, UpdateView, ListView
 from django.utils.decorators import method_decorator
 from lib.decorators import school_required
 from documents.exceptions import DuplicateFileError
@@ -47,6 +47,7 @@ class RosterSubmitView(FormView):
 
         params = {
             'roster_html': roster_html,
+            'instructor_emails': instructor_emails,
             'created_by': self.request.user.student_user,
             'course': Course.objects.get(pk=course_id)
         }
@@ -55,13 +56,14 @@ class RosterSubmitView(FormView):
 
         if events.is_valid():
             for event in events.cleaned_data:
-                print(event)
-                params = {
-                    'title': event['title'],
-                    'date': event['date'],
-                    'roster': roster
-                }
-            models.RosterEventEntry.objects.create(**params)
+                print (event)
+                if 'title' in event:
+                    params = {
+                        'title': event['title'],
+                        'date': event['date'],
+                        'roster': roster
+                    }
+                    models.RosterEventEntry.objects.create(**params)
 
 
         # create roster entries
@@ -75,25 +77,6 @@ class RosterSubmitView(FormView):
             if user:
                 params['profile'] = user.profile_user
             models.RosterInstructorEntry.objects.create(**params)
-        """
-        parsed_csv = utils.roster_html_to_csv(roster_html)
-        for initial_data in utils.csv_string_to_python(parsed_csv):
-            # n.b.: emails from instructor emails are not filtered here
-            email = initial_data.get('email')
-            # don't add entry if email is in instructors
-            if email not in instructor_emails:
-                params = {
-                    'first_name': initial_data.get('first'),
-                    'last_name': initial_data.get('last'),
-                    'email': utils.preprocess_email(email),
-                    'roster': roster,
-                    'approved': false
-                }
-                user = utils.get_user(email)
-                if user:
-                    params['profile'] = user.profile_user
-                models.RosterStudentEntry.objects.create(**params)
-        """
 
         try:
             doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
@@ -111,7 +94,7 @@ class RosterSubmitView(FormView):
         upload.save()
         messages.success(
             self.request,
-            "Syllabus upload successful"
+            "Class Set upload successful, triggered roster parser"
         )
 
         return super().form_valid(form)
@@ -138,6 +121,40 @@ class RosterReviewView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('roster-review', args=[self.object.pk])
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['course'] = self.get_object().course
+    #     return context
+
+    @method_decorator(school_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+
+class RosterListView(ListView):
+    """ List rosters
+
+    Notes
+    -----
+    As with the submit view, this should verify permissions.
+
+    """
+    model = models.Roster
+    #fields = ['status']
+    template_name_suffix = '_list'
+    #template_name = 'rosters/staff-intern-prototype.html'
+
+    # TODO: implement document_uploaded signal for syllabus upon doc approval
+
+    def get_success_url(self):
+        return reverse_lazy('roster-list', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+            context = super(RosterListView, self).get_context_data(**kwargs)
+            context['rosters'] = models.Roster.objects.all()
+
+            return context
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)

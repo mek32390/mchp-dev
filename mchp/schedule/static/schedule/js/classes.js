@@ -13,86 +13,86 @@ $(function() {
 	*/
 
 	// Instance the tour
-	var tour = new Tour({
+	// var tour = new Tour({
 
-		name: "classes-tour",
-		backdrop: true,
-		// storage: false,
-		template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
-		steps: [
-		{
-			path: "/classes",
-			orphan: true,
-		    title: "<strong>Here are your Classes, "+ MCHP_USERNAME +"!</strong>",
-		    content: 'All of your classes on a single page. We like to call it, "simple."'
-		},
-		{
-			path: "/classes",
-			element: "ul.nav-tabs",
-		    title: "<strong>Switch between Classes</strong>",
-		    content: "Each of your classes has its own tab.",
-		    placement: "bottom",
-		    onShown: function() {
-	        	$('body > ul > li:nth-child(2').addClass('disabled').css('pointer-events','none');
-	        	$('body > ul > li:nth-child(3').addClass('disabled').css('pointer-events','none');
-	        	$('body > ul > li:nth-child(4').addClass('disabled').css('pointer-events','none');
-	        	$('body > ul > li:nth-child(5').addClass('disabled').css('pointer-events','none');
-	        	$('body > ul > li:nth-child(6').addClass('disabled').css('pointer-events','none');
-	        	$('body > ul > li:nth-child(7').addClass('disabled').css('pointer-events','none');
-    		}
-		},
-		{
-			path: "/classes",
-			element: "#course1 > .well ",
-		    title: "<strong>Class Information</strong>",
-		    content: "Clicking the title of your class will take you to a public course page, where you can see all the documents and calendars associated with the entire course. Same goes for your college or university.",
-		    reflex: true,
-		    placement: "bottom"
-		},
-		{
-			path: "/classes",
-			element: "#course1 > div.row > div.col-sm-5.animated > div:nth-child(1)",
-		    title: "<strong>Class Activity</strong>",
-		    content: "See what's going on in your class, literally. All of the class's activity will show up here.",
-		    placement: "right"
-		},
-		{
-			path: "/classes",
-			element: "#course1 > div.row > div.col-sm-5.animated > div:nth-child(2)",
-		    title: "<strong>Classmates</strong>",
-		    content: "A list of all of your classmates",
-		    placement: "right"
-		},
-		{
-			path: "/classes",
-			element: "#course1 > div.row > div.col-sm-7.animated > div",
-		    title: "<strong>Class Documents</strong>",
-		    content: "Each time a document is uploaded, it will appear here, including any you upload.",
-		    placement: "left"
-		},
-		{
-			path: "/classes",
-			element: "#edit-classes",
-		    title: "<strong>Add or Drop Classes</strong>",
-		    content: "The more classes you are in, the more mchp can do for you!",
-		    placement: "left"
-		},
-		{
-			path: "/classes",
-			element: "#nav-list",
-		    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
-		    content: "<p>You surely haven\'t seen it all, have you?</p>",
-		    placement: "bottom",
-		    backdrop: false,
-		    reflex: true
-		}
+	// 	name: "classes-tour",
+	// 	backdrop: true,
+	// 	// storage: false,
+	// 	template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><nav class='popover-navigation'><div class='btn-group'><button class='btn btn-default btn-sm' data-role='prev'>« Prev</button><button class='btn btn-default btn-sm' data-role='next'>Next »</button></div><button class='btn btn-default btn-end btn-sm tour-btn-end' data-role='end'>End tour</button></nav></div>",
+	// 	steps: [
+	// 	{
+	// 		path: "/classes",
+	// 		orphan: true,
+	// 	    title: "<strong>Here are your Classes, "+ MCHP_USERNAME +"!</strong>",
+	// 	    content: 'All of your classes on a single page. We like to call it, "simple."'
+	// 	},
+	// 	{
+	// 		path: "/classes",
+	// 		element: "ul.nav-tabs",
+	// 	    title: "<strong>Switch between Classes</strong>",
+	// 	    content: "Each of your classes has its own tab.",
+	// 	    placement: "bottom",
+	// 	    onShown: function() {
+	//         	$('body > ul > li:nth-child(2').addClass('disabled').css('pointer-events','none');
+	//         	$('body > ul > li:nth-child(3').addClass('disabled').css('pointer-events','none');
+	//         	$('body > ul > li:nth-child(4').addClass('disabled').css('pointer-events','none');
+	//         	$('body > ul > li:nth-child(5').addClass('disabled').css('pointer-events','none');
+	//         	$('body > ul > li:nth-child(6').addClass('disabled').css('pointer-events','none');
+	//         	$('body > ul > li:nth-child(7').addClass('disabled').css('pointer-events','none');
+ //    		}
+	// 	},
+	// 	{
+	// 		path: "/classes",
+	// 		element: "#course1 > .well ",
+	// 	    title: "<strong>Class Information</strong>",
+	// 	    content: "Clicking the title of your class will take you to a public course page, where you can see all the documents and calendars associated with the entire course. Same goes for your college or university.",
+	// 	    reflex: true,
+	// 	    placement: "bottom"
+	// 	},
+	// 	{
+	// 		path: "/classes",
+	// 		element: "#course1 > div.row > div.col-sm-5.animated > div:nth-child(1)",
+	// 	    title: "<strong>Class Activity</strong>",
+	// 	    content: "See what's going on in your class, literally. All of the class's activity will show up here.",
+	// 	    placement: "right"
+	// 	},
+	// 	{
+	// 		path: "/classes",
+	// 		element: "#course1 > div.row > div.col-sm-5.animated > div:nth-child(2)",
+	// 	    title: "<strong>Classmates</strong>",
+	// 	    content: "A list of all of your classmates",
+	// 	    placement: "right"
+	// 	},
+	// 	{
+	// 		path: "/classes",
+	// 		element: "#course1 > div.row > div.col-sm-7.animated > div",
+	// 	    title: "<strong>Class Documents</strong>",
+	// 	    content: "Each time a document is uploaded, it will appear here, including any you upload.",
+	// 	    placement: "left"
+	// 	},
+	// 	{
+	// 		path: "/classes",
+	// 		element: "#edit-classes",
+	// 	    title: "<strong>Add or Drop Classes</strong>",
+	// 	    content: "The more classes you are in, the more mchp can do for you!",
+	// 	    placement: "left"
+	// 	},
+	// 	{
+	// 		path: "/classes",
+	// 		element: "#nav-list",
+	// 	    title: "<strong>What\'s next, " + MCHP_USERNAME + "?</strong>",
+	// 	    content: "<p>You surely haven\'t seen it all, have you?</p>",
+	// 	    placement: "bottom",
+	// 	    backdrop: false,
+	// 	    reflex: true
+	// 	}
 		
-	]});
+	// ]});
 
-	// Initialize the tour
-	tour.init();
-	// Start the tour
-	tour.start();
+	// // Initialize the tour
+	// tour.init();
+	// // Start the tour
+	// tour.start();
 
 
 	/*

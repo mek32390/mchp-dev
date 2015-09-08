@@ -12,9 +12,9 @@
 {% load humanize %}
 <div class="row">
   <div class="col-xs-12">
-    <h1 class="white">{{ event.title }} <small class="white">{{ event.description }}</small>
+    <h1 class="margin-top-none">{{ event.title }} <small class="white">{{ event.description }}</small>
         <span class="pull-right">{{ event.start|date:"D F d, Y" }}</span></h1>
-    <h4 class="lead">{{ course.display }}<span class="pull-right"> {{ event.start|date:"H:i" }}</span>
+    <h4 class="lead"><a href="{% url "course" course.pk %}" class="link">{{ course.name }}</a> with Instructor {{ course.professor }}<!-- <span class="pull-right"> {{ event.start|date:"H:i" }}</span> -->
     </h4>
     <hr>
   </div>
@@ -23,7 +23,7 @@
 <!-- end row -->
 <div class="row">
   <div class="col-xs-8">
-    <h3 class="lead"><i class="fa fa-file-text-o"></i> Documents for {{ event.title }}</h3>
+    <h4 class="lead"><i class="fa fa-file-text-o"></i> Documents for {{ event.title }} <span class="badge opa">{{documents|length}}</span><h4>
     <div class="panel opa">
       <div class="list-group trans">
         {% for document in documents %}
@@ -66,38 +66,43 @@
       </div>
     </div>
   </div><!-- end col-5 -->
-  <div class="col-xs-4">
-    <h3 class="lead"><i class="fa fa-users"></i> Classmates in {{course}}</h3> 
-    <div class="panel opa">
-      <ul class="list-group trans">
-        {% for student in course.students %}
-        <a href="{%url "profile" student.pk%}{{student.name}}" class="list-group-item trans">
-          <div class="media">
-            <div class="media-left">
-              <div class="media-object">
-                <img class="img-circle" src="{{student.profile.profile_image_url}}" alt="..." width="32">
-              </div>
+    {% if classmates %}
+        <div class="col-xs-4">
+            <h4 class="lead"><i class="fa fa-users"></i> Classmates in {{course}} <span class="badge opa">{{classmates|length}}</span></h4>
+            <div class="panel opa">
+                <ul class="list-group trans small-scroll-con scrolls">
+                    {% for student in classmates %}
+                        <a href="{% url "profile" student.pk %}{{ student.name }}"
+                           class="list-group-item trans">
+                            <div class="media">
+                                <div class="media-left media-top">
+                                    <img class="img-circle img-thumbnail profile-image media-object"
+                                             src="{{ student.profile.profile_image_url }}"
+                                             alt="profile picture" width="48px" height="48px">
+                                </div>
+                                <div class="media-body white">
+                                    <h4 class="media-heading">{{ student.user.username }}</h4>
+                                    <small>
+                                        {% if student.major %}
+                                            {{ student.major }} Major
+                                        {% else %}
+                                            {{ student.school.name }}
+                                        {% endif %}
+                                    </small>
+                                    <p class="small margin-btm-none margin-top-none">
+                                        active {{ student.user.last_login|naturaltime }}</p>
+                                </div>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <li class="list-group-item trans">
+                            <p class="lead text-center">You're the first person to join this
+                                class!</p>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
-            <div class="media-body white">
-              <h4 class="media-heading">{{student.user.username}}</h4>
-              <p class="margin-btm-none margin-top-none">active {{ student.user.last_login|naturaltime }}</p>
-              <small>
-                {% if student.major %}
-                {{ student.major }} Major
-                {% else %}
-                {{student.school.name}}
-                {% endif %}
-              </small>
-            </div>
-          </div>
-        </a>
-        {% empty %}
-        <li class="list-group-item trans">
-          <p class="lead text-center">You're the first person to join this class!</p>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div><!-- end col-3 -->
+        </div>
+    {% endif %}
 </div><!-- end row -->
 {% endblock %}
