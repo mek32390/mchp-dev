@@ -56,7 +56,8 @@ class RosterSubmitView(FormView):
 
         if events.is_valid():
             for event in events.cleaned_data:
-                if 'title' in params:
+                print (event)
+                if 'title' in event:
                     params = {
                         'title': event['title'],
                         'date': event['date'],
@@ -93,31 +94,8 @@ class RosterSubmitView(FormView):
         upload.save()
         messages.success(
             self.request,
-            "Class Set upload successful"
+            "Class Set upload successful, triggered roster parser"
         )
-
-        roster_html = roster_html
-        instructor_emails = instructor_emails
-        parsed_csv = utils.roster_html_to_csv(roster_html)
-        for initial_data in utils.csv_string_to_python(parsed_csv):
-            # n.b.: emails from instructor emails are not filtered here
-            email = initial_data.get('email')
-            # don't add entry if email is in instructors
-            if email not in instructor_emails:
-                params = {
-                    'first_name': initial_data.get('first'),
-                    'last_name': initial_data.get('last'),
-                    'email': email,
-                    'roster': roster,
-                    'approved': False
-                }
-                print (email)
-                if email:
-                    user = utils.get_user(email)
-                    if user:
-                        params['profile'] = user.profile_user
-                models.RosterStudentEntry.objects.create(**params)
-
 
         return super().form_valid(form)
 
@@ -171,6 +149,12 @@ class RosterListView(ListView):
 
     def get_success_url(self):
         return reverse_lazy('roster-list', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+            context = super(RosterListView, self).get_context_data(**kwargs)
+            context['rosters'] = models.Roster.objects.all()
+
+            return context
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)

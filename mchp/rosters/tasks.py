@@ -40,7 +40,7 @@ def extract_roster(roster):
     parsed_csv = utils.roster_html_to_csv(roster_html)
 
     rostermodels.RosterStudentEntry.objects.filter(roster=roster).delete()
-    
+
     for initial_data in utils.csv_string_to_python(parsed_csv):
         # n.b.: emails from instructor emails are not filtered here
         email = initial_data.get('email')
