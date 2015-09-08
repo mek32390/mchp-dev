@@ -1,3 +1,0 @@
-A document has been uploaded to {{course}}: {{document.title}}
-
-http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}
