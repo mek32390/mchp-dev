@@ -27,7 +27,7 @@
             <div class="media-body">
                 <h1 class="media-heading">Upload Documents</h1>
 
-                <p class="lead margin-btm-none">Stack some paper (anonymously)</p>
+                <p class="lead margin-btm-none">Stack some paper, it's anonymous</p>
             </div>
         </div>
         <hr>
@@ -46,7 +46,7 @@
                         <h1 class="media-object pull-left margin-top-none">1.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Select a course to upload document to</h3>
+                        <h3 class="media-heading">Select a course to upload document to *</h3>
                         <p>or <a href="{% url 'course_create' %}" target="_blank">create a new course</a>.</p>
 
                         <div class="form-group" id="selectClass">
@@ -63,7 +63,7 @@
                         <h1 class="media-object pull-left margin-top-none">2.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Select the type of this document</h3>
+                        <h3 class="media-heading">Select the type of this document *</h3>
                         <p>It can either be a a Syllabus or a Study Guide.</p>
 
                         <div class="form-group">
@@ -80,8 +80,8 @@
                         <h1 class="media-object pull-left margin-top-none">1.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Select an event to upload document to</h3>
-                        <p>or <a href="{% url 'event_add' %}" target="_blank">create a new event</a>.</p>
+                        <h3 class="media-heading">Select an event to link this document to </h3>
+                        <p>Your document will have greater exposure if it's linked to an event. <a href="{% url 'calendar' %}" class="link" target="_blank">Create a new event</a>.</p>
 
                         <div class="form-group" id="selectClass">
                             {{ form.event }}
@@ -97,7 +97,7 @@
                         <h1 class="media-object pull-left margin-top-none">3.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Set the document's title</h3>
+                        <h3 class="media-heading">Set the document's title *</h3>
                         <p>Give the document a clear title so other students know what's inside</p>
 
                         <div class="form-group">
@@ -114,7 +114,7 @@
                         <h1 class="media-object pull-left margin-top-none">2.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Set the document's description</h3>
+                        <h3 class="media-heading">Set the document's description *</h3>
                         <p>Put a longer description of the document's contents here</p>
 
                         <div class="form-group">
@@ -131,7 +131,7 @@
                         <h1 class="media-object pull-left margin-top-none">2.</h1>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading">Set the document's price</h3>
+                        <h3 class="media-heading">Set the document's price (in points) *</h3>
                         <p>Type a price in points, ex: 500 would be $5.00</p>
 
                         <div class="form-group">
@@ -149,7 +149,7 @@
                     </div>
                     <div class="media-body">
                         <h3 class="media-heading">Upload the <strong class="selected-typename">document</strong> for <strong class="selected-classname">CLASS
-                            NAME</strong>:</h3>
+                            NAME</strong> *</h3>
                         <p>A document is typically a word or pdf document.</p>
           <span class="btn btn-trans btn-lg btn-file">
             Browse <input type="file" class="form-control" id="{{ form.document.id_for_label }}"

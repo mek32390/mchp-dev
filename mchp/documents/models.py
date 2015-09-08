@@ -36,7 +36,7 @@ class Document(models.Model):
     SYLLABUS = 1
 
     DOCUMENT_TYPE_CHOICES = (
-        (STUDY_GUIDE, 'Study guide'),
+        (STUDY_GUIDE, 'Study Guide'),
         (SYLLABUS, 'Syllabus'),
     )
 

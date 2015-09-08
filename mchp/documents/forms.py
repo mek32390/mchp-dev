@@ -8,7 +8,7 @@ from documents.models import Document
 class DocumentUploadForm(ModelForm):
 
     PRICE_WIDGET = TextInput(attrs=dict({
-        'placeholder':'type a price in points, ex: 500 would be $5.00',
+        'placeholder':'the average Study Guide sells for 500 points',
         'container_id': 'document_price',
         'class': 'form-control input-lg',
     }))
@@ -24,7 +24,7 @@ class DocumentUploadForm(ModelForm):
         'class': 'form-control input-lg dropdown-toggle',
         'id': 'document_event'
     }))
-    event = ModelChoiceField(required=True, widget=EVENT_WIDGET, queryset=CalendarEvent.objects.none())
+    event = ModelChoiceField(required=False, widget=EVENT_WIDGET, queryset=CalendarEvent.objects.none())
 
 
     # {{ form.as_style }} with use this in templates
