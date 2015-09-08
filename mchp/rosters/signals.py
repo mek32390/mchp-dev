@@ -11,9 +11,10 @@ from mchp.celery import debug_task
 logger = logging.getLogger(__name__)
 
 roster_uploaded = Signal(providing_args=['roster'])
+roster_rejected = Signal(providing_args=['roster'])
+roster_approved = Signal(providing_args=['roster'])
 
-@receiver(post_save, sender=Roster)
-def create_preview_task(sender, instance, **kwargs):
+def roster_on_create(sender, instance, **kwargs):
 
     # this queues a celery task
     try:
@@ -25,3 +26,23 @@ def create_preview_task(sender, instance, **kwargs):
         logger.error('Celery does not seem to be running')
         # no thumbs for you (start celery/MQ process)
         pass
+
+def roster_on_reject(sender, roster, **kwargs):
+    print ('send rejection email here')
+
+def roster_on_approve(sender, roster, **kwargs):
+    print ('we\'re gonna approve it now')
+     # this queues a celery task
+    try:
+        # queue task after 5 seconds
+        approve_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())
+        # create_preview(instance)
+    except OSError:
+        logger.error('Celery does not seem to be running')
+        # no thumbs for you (start celery/MQ process)
+        pass
+
+
+roster_uploaded.connect(roster_on_create)
+roster_rejected.connect(roster_on_reject)
+roster_approved.connect(roster_on_approve)
