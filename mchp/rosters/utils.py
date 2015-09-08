@@ -1,7 +1,10 @@
+from os.path import devnull
+import envoy
 from django.conf import settings
 from django.contrib.auth.models import User
 import csv
 import os
+import glob
 import subprocess
 import tempfile
 
@@ -34,19 +37,25 @@ def roster_html_to_csv(html_source):
     with tempfile.NamedTemporaryFile(mode='w+', suffix='.html',
                                      delete=False) as handle:
         htmlfilepath = handle.name
-
+        print (handle.name)
         handle.write(html_source)
         handle.flush()
 
         with tempfile.TemporaryDirectory() as csvfiledir:
-            csvfilepath = os.path.join(csvfiledir, csvfilename)
-
+            print ('ukelele')
             # parse input HTML
-            args = ['/usr/bin/env', 'python', script, htmlfilepath, '-c',
-                    csvfiledir, csvfilename]
+            command = '/usr/bin/env python ' + script + ' ' + htmlfilepath + ' -c ' + csvfiledir
+            print (command)
+            proc = envoy.run(command)
+            print (proc.std_out)
+            print ('err:')
+            print (proc.std_err)
 
-            subprocess.call(args, universal_newlines=True)
+            # subprocess.call(args, universal_newlines=True, stderr=devnull)
 
+            csvfiles = glob.glob(csvfiledir + "/*.csv")
+            print (csvfiles)
+            csvfilepath = csvfiles[0]
             # parse output CSV
             with open(csvfilepath) as csvfile:
                 out = csvfile.read()

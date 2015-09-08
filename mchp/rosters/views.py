@@ -47,6 +47,7 @@ class RosterSubmitView(FormView):
 
         params = {
             'roster_html': roster_html,
+            'instructor_emails': instructor_emails,
             'created_by': self.request.user.student_user,
             'course': Course.objects.get(pk=course_id)
         }
@@ -55,7 +56,8 @@ class RosterSubmitView(FormView):
 
         if events.is_valid():
             for event in events.cleaned_data:
-                if 'title' in params:
+                print (event)
+                if 'title' in event:
                     params = {
                         'title': event['title'],
                         'date': event['date'],
@@ -92,7 +94,7 @@ class RosterSubmitView(FormView):
         upload.save()
         messages.success(
             self.request,
-            "Class Set upload successful"
+            "Class Set upload successful, triggered roster parser"
         )
 
         return super().form_valid(form)
@@ -147,6 +149,12 @@ class RosterListView(ListView):
 
     def get_success_url(self):
         return reverse_lazy('roster-list', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+            context = super(RosterListView, self).get_context_data(**kwargs)
+            context['rosters'] = models.Roster.objects.all()
+
+            return context
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)

@@ -58,7 +58,7 @@ class Document(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
 
     approved = models.BooleanField(default=True)
-    roster = models.ForeignKey('rosters.Roster', null=True)
+    roster = models.ForeignKey('rosters.Roster', null=True, related_name='syllabus')
 
     preview = models.ImageField(upload_to=PREVIEW_LOCATION, blank=True, null=True)
     slug = models.SlugField(max_length=80)

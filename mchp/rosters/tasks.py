@@ -1,7 +1,9 @@
 from __future__ import absolute_import
+import json
 
-from celery import shared_task
+from celery import shared_task, task, Task
 from celery.utils.log import get_task_logger
+from celery.utils.timeutils import timezone
 
 from django.conf import settings
 from django.core.files.base import File
@@ -12,14 +14,50 @@ import subprocess
 import uuid
 import os.path
 
+from django.db import models
+
 from notification.api import add_notification
 from documents.models import Upload
 from lib.utils import send_email_for
 from schedule.models import Course, Enrollment
+from rosters import utils, models as rostermodels
+from pywapi import unicode
+from . import utils
 
-from mchp.rosters.templates import utils
+from pprint import pprint
+
 
 logger = get_task_logger(__name__)
+
+@shared_task()
+def extract_roster(roster):
+    """
+    WIP
+    """
+
+    roster_html = roster.roster_html
+    instructor_emails = roster.instructor_emails
+    parsed_csv = utils.roster_html_to_csv(roster_html)
+
+    rostermodels.RosterStudentEntry.objects.filter(roster=roster).delete()
+
+    for initial_data in utils.csv_string_to_python(parsed_csv):
+        # n.b.: emails from instructor emails are not filtered here
+        email = initial_data.get('email')
+        # don't add entry if email is in instructors
+        if email not in instructor_emails:
+            params = {
+                'first_name': initial_data.get('first'),
+                'last_name': initial_data.get('last'),
+                'email': email,
+                'roster': roster,
+                'approved': False
+            }
+            if email:
+                user = utils.get_user(email)
+                if user:
+                    params['profile'] = user.profile_user
+            rostermodels.RosterStudentEntry.objects.create(**params)
 
 
 @shared_task
