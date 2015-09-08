@@ -17,6 +17,7 @@ Vagrant.configure(2) do |config|
     # Configure cached packages to be shared between instances of the same base box.
     # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
     config.cache.scope = :box
+    config.cache.enable :generic, { :cache_dir => "/home/vagrant/mchp-dev" }
   end
 
   # Create a forwarded port mapping which allows access to a specific port

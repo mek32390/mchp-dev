@@ -49,7 +49,7 @@ coverage.xml
 Session.vim
 
 # Django stuff #
-*settings.py
+*settings_template.py
 tags
 
 # Apples #
