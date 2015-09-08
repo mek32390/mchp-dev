@@ -1,0 +1,3 @@
+<p>
+A classmate of yours just uploaded <a href="http://{{request.get_host}}{%url "document_list" %}{{uuid}}/{{slug}}"> {{document.title}}</a> to <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a>.
+</p>
