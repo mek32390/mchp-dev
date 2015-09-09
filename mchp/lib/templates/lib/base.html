@@ -88,27 +88,30 @@
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-body text-center">
-              <h3>Got Credentials?</h3>
-              <img class="img-circle img-thumbnail" src="{% static 'lib/img/support.svg' %}" alt="sign up or login">
-              <br></br>
-              <p><small>Log In or Sign Up using:</small></p>
+              <h3>Hey there, Stranger.</h3>
+              <br>
+              <p class="text-center center-block"><i class="fa fa-user-secret fa-5x"></i></p>
+              <br>
+              <p>Login or Signup using:</p>
               <a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-trans btn-lg"
                   href="/accounts/facebook/login/" target="_blank"><i class="fa fa-facebook"></i> Facebook
               </a>
               {% include "socialaccount/snippets/login_extra.html" %}
-              <hr>
               <span id="login-options">
-                <a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with Username or E-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
+                <hr>
+                <p><a href="{% url 'account_login' %}?next={{request.get_full_path}}" class="link">Login with Username or E-mail</a></p>
+                <p><a href="#" class="link" id="show-signup">Signup</a></p>
               </span>
               <form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
                 {% csrf_token %}
                 <div class='form-group'>
-                  <div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
+                <br><p></p>
+                  <div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-envelope-o'></i></span>
                     <input name="email" class="form-control" placeholder="What is your .EDU e-mail?">
                   </div>
                 </div>
                 <p></p>
-                <button class="btn btn-default btn-block" type="submit">Sign Up</button>
+                <button class="btn btn-trans btn-block btn-lg" type="submit">Signup</button>
               </form>
             </div>
           </div>
@@ -131,14 +134,14 @@
               <h4 class="modal-title" id="sethomeModalLabel">Make us your Homepage!</h4>
             </div>
             <div class="modal-body">
-              <img class="center-block" src="{% static 'lib/img/flask.svg' %}" alt="select browser">
-              <h4 class="text-center">Pick your poison:</h4>
+              <span class="center-block text-center"><i class="fa fa-heart-o fa-5x animated rubberBand delayed-md"></i></span>
+              <h4 class="text-center">What browser are you using?</h4>
               <!-- Start Collapse -->
               <div class="panel-group" id="accordion">
-                <div class="panel panel-primary">
+                <div class="panel trans">
                   <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="cursor:pointer;">
                     <h4 class="panel-title">
-                      Safari
+                      <i class="fa fa-fw fa-safari"></i> Safari
                     </h4>
                   </div>
                   <div id="collapseOne" class="panel-collapse collapse in">
@@ -151,10 +154,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel panel-success">
+                <div class="panel trans">
                   <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="cursor:pointer;">
                     <h4 class="panel-title">
-                      Chrome
+                      <i class="fa fa-fw fa-chrome"></i> Chrome
                     </h4>
                   </div>
                   <div id="collapseTwo" class="panel-collapse collapse">
@@ -171,10 +174,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel panel-warning">
+                <div class="panel trans">
                   <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="cursor:pointer;">
                     <h4 class="panel-title">
-                      Firefox
+                      <i class="fa fa-fw fa-firefox"></i> Firefox
                     </h4>
                   </div>
                   <div id="collapseThree" class="panel-collapse collapse">
@@ -186,10 +189,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel panel-danger">
+                <div class="panel trans">
                   <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="cursor:pointer;">
                     <h4 class="panel-title">
-                      Internet Explorer
+                      <i class="fa fa-fw fa-internet-explorer"></i> Internet Explorer
                     </h4>
                   </div>
                   <div id="collapseFour" class="panel-collapse collapse">
@@ -201,10 +204,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel panel-default">
+                <div class="panel trans">
                   <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" style="cursor:pointer;">
                     <h4 class="panel-title">
-                      iPhone or IPad
+                      <i class="fa fa-fw fa-mobile"></i> iPhone or IPad
                     </h4>
                   </div>
                   <div id="collapseFive" class="panel-collapse collapse">
@@ -219,9 +222,6 @@
                 </div>
               </div>
               <!-- End Collapse -->
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
             </div>
           </div>
         </div>

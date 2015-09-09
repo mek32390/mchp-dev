@@ -42,16 +42,16 @@
 <div class="row">
 	<div class="col-xs-8">
 		<h1 class="margin-top-none">{{ document.title }}</h1>
-    <p class="lead"><a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a> 
+    <p class="lead"><a class="link" href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a> 
 							with Instructor {{document.course.professor}}</p>
 	</div>
 	<div class="col-xs-4">
 		<div class="row">
       <div class="col-xs-12">
-        <h1 class="pull-right margin-top-none"></h1>
+        <h1 class="pull-right margin-top-none"><span id="document-price">{{document.price}} points</span></h1>
       </div>
       <div class="col-xs-12">
-        <p class="lead pull-right"></p>
+        <p class="lead pull-right">uploaded <span>{{document.create_date|naturaltime}}</span></p>
       </div>
     </div>
 	</div>
@@ -85,7 +85,7 @@
 	<div class="col-sm-7 col-md-5">
 		<div class="panel opa">
 			<div class="panel-body">
-				<h3 class="margin-top-none">
+				<!-- <h3 class="margin-top-none">
 					<ul class="list-inline">
 						<li>
 							<span id="document-price"><strong>{{document.price}} points</strong></span>
@@ -95,7 +95,8 @@
 						</li>
 	 				</ul>
 	 			</h3>
-	 			<p></p>
+	 			<p></p> -->
+	 			<p class="lead">"{{document.description}}"</p>
 	 			<h5>
 	 				<i class="fa fa-fw fa-money text-success"></i> {{ document.purchase_count }} Purchase{{document.purchase_count | pluralize}}&nbsp;
 					<i class="fa fa-fw fa-thumbs-up text-success"></i> {{ document.up }}&nbsp;
@@ -108,21 +109,19 @@
 					<div class="progress-bar progress-bar-danger" style="width:{{document.normalize_negative_votes}}%">
 					</div>
 				</div><!-- end ratings bar -->
-				<br>
-
-				<p class="lead">"{{document.description}}"</p>
+				
 				
 				{% if uploader %}
         <div class="media">
+        	<div class="media-left media-middle">
         	{% if owns %}
-        	<a class="pull-left" href="{%url "profile" uploader.pk %}">
-          	<img class="media-object img-circle img-thumbnail profile-image" 
+		    		<a class="pull-left" href="{%url "profile" uploader.pk %}">
+          		<img class="media-object img-circle img-thumbnail profile-image" 
             src="{{uploader.profile.profile_image_url}}" width="48px" height="48px">
-          </a>
-        	{% else %}
-        	<div class="media-object pull-left">
-        		<img src="{% static 'lib/img/shirt.svg' %}" class="img-circle img-thumbnail profile-image" width="48px" height="48px"/>
-        	</div>
+          	</a>
+          {% else %}
+          	<i class="fa fa-user fa-3x"></i>
+		  		</div>
         	{% endif %}
         	<div class="media-body">
             <h5 class="media-heading">
@@ -154,7 +153,7 @@
 			{% csrf_token %}
 		</form>
 		{% if user.is_anonymous %}
-		<button class="btn btn-success btn-block btn-md" data-toggle="modal" data-target="#mchp-login-prompt">
+		<button class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#mchp-login-prompt">
 			<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
 		</button>
 		<p></p>
@@ -178,13 +177,13 @@
 					{% endif %}
 					data-title="{{document.title}}" 
 					data-desc="{{document.description}}" 
-					class="btnShare fb-share-button">
+					class="btnShare fb-share-button link">
 					<i class="fa fa-fw fa-facebook"></i>Get 500 points for Sharing</a>
 			</li>
 			<li>|</li>
 			<li>
 				<a href="#" data-clipboard-text="{{current_path | referral:referral_link }}" 
-				id="copy-button" class=""><i class="fa fa-paperclip fa-fw"></i> Copy link</a>
+				id="copy-button" class="link"><i class="fa fa-paperclip fa-fw"></i> Copy link</a>
 			</li>
 		</ul>
 		<span class="copy-message"></span>

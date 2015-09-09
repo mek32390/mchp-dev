@@ -19,8 +19,8 @@
 
 <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/user_profile.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
-<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}"> -->
+<!-- <script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script> -->
 <script src="{% static 'user_profile/js/profile.js' %}"></script>
 
 {% endblock %}
@@ -70,14 +70,14 @@
 			{% endifequal %}
 		</div>	
 		<p></p>
-		<div class="progress">
+		<!-- <div class="progress">
 			<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="{{upload_list|length}} Documents" data-placement="bottom" style="width: {{doc_percent}}%;">
 				<span class="sr-only">{{upload_list|length}} Documents</span>
 			</div>
 			<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="{{calendars|length}} Calendars" data-placement="bottom" style="width: {{cal_percent}}%;">
 				<span class="sr-only">{{calendars|length}} Calendars</span>
 			</div>
-		</div>
+		</div> -->
 </div>
 <div class="well opa">
 	<div class="panel opa text-center">
@@ -86,10 +86,10 @@
 				<h2 class="text-center">
 					{% ifequal viewer student %}
 					Classes
-					<p class="text-center"><span class="badge inverse">{{user.student.courses|length}}</span></p>
+					<p class="text-center"><span class="badge opa">{{user.student.courses|length}}</span></p>
 					{% else %}
 					{{student.name}}'s Classes
-					<p class="text-center"><span class="badge inverse">{{student.courses|length}}</span></p>
+					<p class="text-center"><span class="badge opa">{{student.courses|length}}</span></p>
 					{% endifequal %}
 				</h2>
 			</div>
@@ -126,7 +126,7 @@
 		<div class="panel-body">
 			<div class="page-header">
 				<h2 class="text-center">Documents</h2>
-				<p class="text-center"><span class="badge inverse">{{upload_list|length}}</span></p>
+				<p class="text-center"><span class="badge opa">{{upload_list|length}}</span></p>
 			</div>
 			{% if upload_list %}
 			<div class="row">
@@ -187,51 +187,6 @@
 				<hr>
 			</div>
 			{% endif %}
-		</div>
-	</div>
-
-	<div class="panel opa text-center">
-		<div class="panel-body">
-			<div class="page-header">
-				<h2 class="text-center">Calendars</h2>
-				<p class="text-center"><span class="badge inverse">{{calendars|length}}</span></p>
-			</div>
-			<div class="row">
-				<div class="list-group calendar-item-list">
-					{% for calendar in calendars %}
-					<div class="col-sm-3 col-centered text-center">
-					    <div class="list-group-item calendar-item opa" style="margin-bottom:20px;">
-					      <img src="{% static 'lib/img/calendar-blank.svg' %}" width="75px" alt="calendar">
-					      <div class="assignment-number text-center text-default h3 calendar-event-count">{{calendar.events}}</div>
-								<h4><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}}</a> 
-								</h4>
-					       	<span class="description">
-								<h5 class="">Prof <span
-									class='calendar-professor'>{{calendar.course.professor}}</span>
-								</h5>
-								<h6 class="">
-									{% with calendar.subscribers.count as subscribers %}
-									<i class="fa fa-fw fa-users"></i><span class="calendar-subscriptions">{{subscribers}} Subscribers&nbsp;</span>
-									{% endwith %}
-									<!-- <div class="calendar-description margin-top-none">{{calendar.description}}</div> -->
-								</h6>
-								<div class="small calendar-create-date">{{calendar.create_date|naturaltime}}</div>
-							</span>
-					  	</div>
-					</div>
-					{% empty %}
-				</div>
-			</div>
-			<div id="no-calendars">
-				{% ifequal viewer student %}
-				<p class="lead">You haven't created any calendars yet, but you don't know what you're missing!</p>
-				<p><a href="{% url 'calendar_create'%}" class="btn btn-trans">Create a Calendar</a></p>
-				{% else %}
-				<p class="lead text-center">{{student.name}} isn't selling any calendars!</p>
-				{% endifequal %}
-				<hr>
-			</div>
-			{% endfor %}
 		</div>
 	</div>
 </div>
