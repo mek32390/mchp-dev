@@ -1,9 +1,9 @@
 from __future__ import absolute_import
+import datetime
 import json
 
 from celery import shared_task, task, Task
 from celery.utils.log import get_task_logger
-from celery.utils.timeutils import timezone
 
 from django.conf import settings
 from django.core.files.base import File
@@ -20,22 +20,25 @@ from notification.api import add_notification
 from documents.models import Upload
 from lib.utils import send_email_for
 from schedule.models import Course, Enrollment
+from calendar_mchp.models import CalendarEvent
 from rosters import utils, models as rostermodels
 from pywapi import unicode
 from . import utils
+import datetime
+import pytz
 
 from pprint import pprint
-#
-# import logging
-# logging.getLogger('celery.task.default').setLevel(logging.DEBUG)
-# logging.getLogger().setLevel(logging.DEBUG)
-#
-# from celery import current_app
-# current_app.conf.CELERY_ALWAYS_EAGER = True
-# current_app.conf.CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
-#
-# from celery.utils import LOG_LEVELS
-# current_app.conf.CELERYD_LOG_LEVEL = LOG_LEVELS['DEBUG']  # pretty much the same as logging.DEBUG
+
+import logging
+logging.getLogger('celery.task.default').setLevel(logging.DEBUG)
+logging.getLogger().setLevel(logging.DEBUG)
+
+from celery import current_app
+current_app.conf.CELERY_ALWAYS_EAGER = True
+current_app.conf.CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+
+from celery.utils import LOG_LEVELS
+current_app.conf.CELERYD_LOG_LEVEL = LOG_LEVELS['DEBUG']  # pretty much the same as logging.DEBUG
 
 logger = get_task_logger(__name__)
 
@@ -76,6 +79,29 @@ def approve_roster(roster):
     WIP
     """
 
+    primary_calendar = roster.course.calendar_courses.get(primary=True)
+    # print ('primary = ' + primary_calendar)
+    for event in roster.events.all():
+        d = event.date
+        start = datetime.datetime(d.year, d.month, d.day)
+        end = datetime.datetime(d.year, d.month, d.day, 23, 55, 55)
+        start = pytz.utc.localize(start)
+        end = pytz.utc.localize(end)
+
+        params = {
+                'calendar': primary_calendar,
+                'title': event.title,
+                'start': start,
+                'end': end
+        }
+        CalendarEvent.objects.create(**params)
+        event.approved = True
+        event.save()
+
+    syllabus = roster.syllabus.all()[0]
+    syllabus.approved = True
+    syllabus.course = roster.course
+    syllabus.save()
 
     add_notification(
         roster.created_by.user,
