@@ -252,7 +252,11 @@ def get_user(email):
         user = User.objects.get(email__iexact=email)
     except User.DoesNotExist:
         try:
-            user = EmailAddress.objects.get(email__iexact=email).user
+            emailaddr = EmailAddress.objects.get(email__iexact=email)
+            if emailaddr.user:
+                user = emailaddr.user
+            else:
+                user = None
         except:
             user = None
             pass
