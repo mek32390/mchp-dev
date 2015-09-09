@@ -54,8 +54,8 @@ $(document).ready(function () {
         newEventRow.find('.event-title').val('');
         newEventRow.find('.event-date').val('');
         // change placeholder + name
-        newEventRow.find('.event-title').attr('placeholder', 'Exam ' + newId + ' Title');
-        newEventRow.find('.event-date').attr('placeholder', 'Exam ' + newId + ' Date');
+        newEventRow.find('.event-title').attr('placeholder', 'Exam or Assignment Title');
+        newEventRow.find('.event-date').attr('placeholder', 'Exam or Assignment Date');
 
         newEventRow.find('.event-title').attr('name', 'form-' + newId + '-title');
         newEventRow.find('.event-date').attr('name', 'form-' + newId + '-date');
