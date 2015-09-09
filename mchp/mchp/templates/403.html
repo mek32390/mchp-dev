@@ -7,20 +7,9 @@
 {% endblock %}
 
 {% block body %}
-<div class="jumbotron text-center">
-	<div class="panel">
-    <div class="panel-body">
-	    <div class="row">
-	      <div class="col-xs-8 col-xs-offset-2">
-					<h1><strong>403</strong></h1>
-		      <hr>
-		      <h2>You're not authorized to see this!</h2>
-					<img src="{% static 'lib/img/lock.svg' %}" width="200" alt="403 error" class="img-thumbnail img-circle">
-		      <p></p>
-		      <p class="lead">It may be best if you head back home...</p>
-	      </div>
-	    </div>
-		</div>
-	</div>
+<div class="jumbotron text-center opa">
+	<h1 class="mega-font">403</h1>
+	<h1>You can't view this page.</h1>
+	<p class="lead">We've been notified, but if you want to tell us exactly what caused this, please chat us!</p>
 </div>
 {% endblock %}
