@@ -180,7 +180,7 @@ hr {
   color: rgba(255,255,255,0.4);
 }
 
-.inverse {
+.inverse,  {
   background: rgba(0,0,0,.4);
   border-color: rgba(0,0,0,.4);
 }
@@ -229,6 +229,11 @@ button.close {
 }
 .popover.bottom .arrow:after {
   border-bottom-color: rgba(0,0,0,.9);
+}
+
+.dropdown-menu {
+  background: rgba(0,0,0,.8);
+  border-color: rgba(0,0,0,.9);
 }
 
 /*
