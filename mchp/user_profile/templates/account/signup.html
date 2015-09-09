@@ -16,9 +16,9 @@
 {% providers_media_js %}
 <div class="row">
 	<div class="col-xs-12 text-center">
-    <h2>Greetings, please confirm your identity!</h2>
+    <h2>Greetings, finish signing up!</h2>
     <br></br>
-    <i class="fa fa-hand-spock-o fa-fw fa-5x"></i>
+    <i class="fa fa-genderless fa-fw fa-5x animated pulse delayed-lg"></i>
     <br></br>
 <div class="acct-form">
 <div class='facebookSignup'>
@@ -31,13 +31,15 @@
 		</button></a>
 	</div>
 	<hr>
-	<span class="help-block text-center"><a href="#" id='show-signUp'>Use your own</a></span>
+	<span class="help-block text-center"><a href="#" id='show-signUp' class="link">Use your own</a></span>
 </div>
 
 <div class="email_reminder text-center hidden">
-	<p><strong>
-		Using your .EDU e-mail:</strong> {{ request.session.initial_email }}
-		<small class="text-danger"><a class="text-danger" href="/"> {% trans "(edit)" %}</a></small></p>
+	<h4><strong>Using your .EDU e-mail:</strong></h4>
+	<h4>{{ request.session.initial_email }}</h4>
+		<p></p>
+		<a class="text-danger" href="/"> {% trans "change email" %}</a>
+		<p></p>
 </div>
 <form class="emailSignup" id="signup-form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
