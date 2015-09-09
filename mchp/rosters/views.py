@@ -97,7 +97,7 @@ class RosterSubmitView(FormView):
         upload.save()
         messages.success(
             self.request,
-            "Class Set upload successful, triggered roster parser"
+            "Class Set upload successful and is under review."
         )
 
         return super().form_valid(form)
