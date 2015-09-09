@@ -19,7 +19,7 @@ def create_students_calendars(apps, schema_editor):
         course = Course.objects.get(id=enrollment.course.id)
 
         # Forking calendar
-        if not ClassCalendar.objects.filter(private=True, course=course, owner=student).exists():
+        if not ClassCalendar.objects.filter(course=course, owner=student).exists():
             primary_calendar = ClassCalendar.objects.get(primary=True, course=course)
 
             new_calendar = copy.copy(primary_calendar)
