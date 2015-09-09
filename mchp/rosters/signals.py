@@ -14,13 +14,13 @@ roster_uploaded = Signal(providing_args=['roster'])
 roster_rejected = Signal(providing_args=['roster'])
 roster_approved = Signal(providing_args=['roster'])
 
-def roster_on_create(sender, instance, **kwargs):
+def roster_on_create(sender, roster, **kwargs):
 
     # this queues a celery task
     try:
         # queue task after 5 seconds
         print("roster post-save")
-        extract_roster.apply_async(args=[instance], countdown=5, link_error=debug_task.s())
+        extract_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())
         # create_preview(instance)
     except OSError:
         logger.error('Celery does not seem to be running')
