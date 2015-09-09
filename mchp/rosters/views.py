@@ -6,6 +6,9 @@ from documents.exceptions import DuplicateFileError
 from django.contrib import messages
 from documents.models import Document, Upload, DocumentPurchase
 from django.forms.formsets import formset_factory
+from django.http import HttpResponse, HttpResponseNotAllowed
+from django.core.urlresolvers import reverse
+from django.shortcuts import render, get_object_or_404, redirect
 
 from schedule.models import Course
 from . import forms, models, utils
@@ -94,7 +97,7 @@ class RosterSubmitView(FormView):
         upload.save()
         messages.success(
             self.request,
-            "Class Set upload successful, triggered roster parser"
+            "Class Set upload successful and is under review."
         )
 
         return super().form_valid(form)
@@ -147,8 +150,26 @@ class RosterListView(ListView):
 
     # TODO: implement document_uploaded signal for syllabus upon doc approval
 
-    def get_success_url(self):
-        return reverse_lazy('roster-list', args=[self.object.pk])
+    def post(self, request, *args, **kwargs):
+        print (request.POST)
+        roster_id = request.POST['hidden_roster_id']
+        action = request.POST['hidden_roster_action']
+
+        roster = models.Roster.objects.get(pk=roster_id)
+        if action == 'reject':
+            roster.status = models.Roster.REJECTED
+            roster.save()
+            from rosters.signals import roster_rejected
+            roster_rejected.send(sender=self.__class__, roster=roster)
+
+        if action == 'approve':
+            roster.status = models.Roster.APPROVED
+            roster.save()
+            from rosters.signals import roster_approved
+            roster_approved.send(sender=self.__class__, roster=roster)
+
+
+        return redirect(reverse('roster-list'))
 
     def get_context_data(self, **kwargs):
             context = super(RosterListView, self).get_context_data(**kwargs)
@@ -164,3 +185,4 @@ class RosterListView(ListView):
     @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
+

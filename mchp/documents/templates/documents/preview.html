@@ -85,17 +85,6 @@
 	<div class="col-sm-7 col-md-5">
 		<div class="panel opa">
 			<div class="panel-body">
-				<!-- <h3 class="margin-top-none">
-					<ul class="list-inline">
-						<li>
-							<span id="document-price"><strong>{{document.price}} points</strong></span>
-						</li>
-						<li>
-							<small class="white">uploaded <span>{{document.create_date|naturaltime}}</span></small>
-						</li>
-	 				</ul>
-	 			</h3>
-	 			<p></p> -->
 	 			<p class="lead">"{{document.description}}"</p>
 	 			<h5>
 	 				<i class="fa fa-fw fa-money text-success"></i> {{ document.purchase_count }} Purchase{{document.purchase_count | pluralize}}&nbsp;
@@ -121,8 +110,8 @@
           	</a>
           {% else %}
           	<i class="fa fa-user fa-3x"></i>
-		  		</div>
         	{% endif %}
+        	</div>
         	<div class="media-body">
             <h5 class="media-heading">
             	{% if owns %}
