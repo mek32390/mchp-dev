@@ -123,9 +123,11 @@ textarea.form-control {
 }
 
 .has-error .form-control:focus, .has-success .form-control:focus  {
-    -webkit-box-shadow: none;
-    box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
+
+
 
 
 /* Style input placeholders */
