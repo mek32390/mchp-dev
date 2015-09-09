@@ -88,27 +88,30 @@
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-body text-center">
-              <h3>Got Credentials?</h3>
-              <img class="img-circle img-thumbnail" src="{% static 'lib/img/support.svg' %}" alt="sign up or login">
-              <br></br>
-              <p><small>Log In or Sign Up using:</small></p>
+              <h3>Hey there, Stranger.</h3>
+              <br>
+              <p class="text-center center-block"><i class="fa fa-user-secret fa-5x"></i></p>
+              <br>
+              <p>Login or Signup using:</p>
               <a title="Facebook" class="socialaccount_provider facebook btn btn-facebook btn-block btn-trans btn-lg"
                   href="/accounts/facebook/login/" target="_blank"><i class="fa fa-facebook"></i> Facebook
               </a>
               {% include "socialaccount/snippets/login_extra.html" %}
-              <hr>
               <span id="login-options">
-                <a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with Username or E-mail</a> &nbsp; or &nbsp; <a href="#" id="show-signup">Sign Up</a>
+                <hr>
+                <p><a href="{% url 'account_login' %}?next={{request.get_full_path}}" class="link">Login with Username or E-mail</a></p>
+                <p><a href="#" class="link" id="show-signup">Signup</a></p>
               </span>
               <form method="post" action="{%url "get_email"%}" id="email-signup" class="hidden" target="_blank">
                 {% csrf_token %}
                 <div class='form-group'>
-                  <div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-user'></i></span>
+                <br><p></p>
+                  <div class='input-group'> <span class='input-group-addon'><i class='fa fa-fw fa-envelope-o'></i></span>
                     <input name="email" class="form-control" placeholder="What is your .EDU e-mail?">
                   </div>
                 </div>
                 <p></p>
-                <button class="btn btn-default btn-block" type="submit">Sign Up</button>
+                <button class="btn btn-trans btn-block btn-lg" type="submit">Signup</button>
               </form>
             </div>
           </div>

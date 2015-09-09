@@ -127,18 +127,42 @@ textarea.form-control {
 /* do not group these rules */
 *::-webkit-input-placeholder {
     color: #fff !important;
+    transition: .5s ease all;
 }
 *:-moz-placeholder {
     /* FF 4-18 */
     color: #fff !important;
+    transition: .5s ease all;
 }
 *::-moz-placeholder {
     /* FF 19+ */
     color: #fff !important;
+    transition: .5s ease all;
 }
 *:-ms-input-placeholder {
     /* IE 10+ */
     color: #fff !important;
+    transition: .5s ease all;
+}
+
+input:focus::-webkit-input-placeholder { 
+  color:transparent !important;
+  transition: .5s ease all; 
+}
+input:focus:-moz-placeholder {
+   /* FF 4-18 */ 
+  color:transparent !important; 
+  transition: .5s ease all; 
+}
+input:focus::-moz-placeholder {
+  /* FF 19+ */ 
+  color:transparent !important; 
+  transition: .5s ease all; 
+}
+input:focus:-ms-input-placeholder { 
+  /* IE 10+ */
+  color:transparent !important; 
+  transition: .5s ease all; 
 }
 
 hr {

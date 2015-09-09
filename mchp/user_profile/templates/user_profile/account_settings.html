@@ -23,7 +23,7 @@
 				{% if not user.socialaccount_set.all.0 %}
 				{% include "socialaccount/snippets/login_extra.html" %}
 				<a href="{% provider_login_url "facebook" process="connect" %}">
-					<button class="btn btn-facebook btn-block btn-sm">
+					<button class="btn btn-trans btn-block btn-md">
 						Connect with Facebook
 					</button>
 				</a>
@@ -31,7 +31,7 @@
 				{% endif %}
 				<ul class="list-group trans">
 					<li class="list-group-item trans"> 
-						<i class="fa fa-book fa-fw"></i>{{user.student.courses|length}} classes <a href="{%url 'course_add'%}" class="btn btn-xs btn-trans pull-right">Edit Schedule</a></span>
+						<i class="fa fa-bookmark fa-fw"></i> {{user.student.courses|length}} classes <a href="{%url 'course_add'%}" class="btn btn-xs btn-trans pull-right">Edit Schedule</a></span>
 					</li>
 					<li class="list-group-item trans">
 						{{user.student.total_points}}  points <a href="#points-modal" data-toggle="modal" class='btn btn-xs btn-trans pull-right'>Manage Points</a>
@@ -40,7 +40,7 @@
 						<i class="fa fa-lock"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-trans pull-right'>Reset Password</a>
 					</li>
 					<li class="list-group-item trans">
-						<i class="fa fa-university"></i> {{user.student.school.name}} <a href="{%url 'account_email'%}" class='btn btn-xs btn-trans pull-right'>Transfer Schools</a>
+						<i class="fa fa-university"></i> {{user.student.school.name}} <a href="{%url 'account_email'%}" class='btn btn-xs btn-trans pull-right'>Manage email addresses</a>
 					</li>
 				</ul>
 				<ul class="list-group">
