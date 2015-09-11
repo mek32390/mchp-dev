@@ -121,6 +121,7 @@ def get_or_create_student(school, user):
     except Student.DoesNotExist:
         student = Student.objects.create_student(user, school)
         student.created_by_roster_no_user = True
+        student.save()
         return student
 
 
