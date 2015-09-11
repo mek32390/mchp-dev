@@ -118,7 +118,9 @@ def create_preview(instance):
         logger.error(str(e))
         print(str(e))
 
-    instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
+    if 'connection' in instance.document.storage:
+        instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
+
     add_notification(
         upload.owner.user,
         'Your document, {}, is ready to be sold!'.format(instance.title) 
