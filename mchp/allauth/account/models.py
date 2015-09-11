@@ -9,7 +9,7 @@ from django.contrib.sites.models import Site
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.crypto import get_random_string
 
-from .. import app_settings as allauth_app_settings
+from allauth import app_settings as allauth_app_settings
 from . import app_settings
 from . import signals
 
