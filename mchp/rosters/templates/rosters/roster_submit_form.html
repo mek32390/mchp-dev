@@ -48,7 +48,7 @@
         </div>
         <div class="media-body">
           <h3 class="media-heading">Select a course to add a Class Set to:</h3>
-            <p>or <a href="{% url 'course_create' %}" target="_blank">create a new course</a>.</p>
+            <p>If the course isn't listed, please <a href="{% url 'course_create' %}" class="link" target="_blank">create a course</a>.</p>
 						{% if form.course.errors %}
 					    <ol>
 					    {% for error in form.course.errors %}
@@ -108,7 +108,7 @@
           <p>Indicate all non-student email addresses, such as instructors and teaching assistants.</p>
           <textarea class="form-control input-lg" id="{{ form.emails.id_for_label }}"
                     name="{{ form.emails.name }}"
-                    placeholder="ONE EMAIL PER LINE ONLY. NO NAMES, ONLY EMAILS."
+                    placeholder="ONE EMAIL PER LINE ONLY. NO NAMES. ONLY EMAILS."
                     rows="3">{{ form.emails.value|default:''}}</textarea>
           <br/>
           {{ form.emails.errors }}
@@ -126,8 +126,14 @@
           <h3 class="media-heading">Paste the Roster for <strong class="selected-classname">CLASS
           	NAME</strong>
           </h3>
-          <p>Select the Course Management System that your class uses and we'll show you how to COPY/PASTE
-              the class Roster.</p>
+          <p>Follow the instructions below to copy/paste your class's roster. Bonus points if you don't have to ask for help <i class="fa fa-smile-o"></i></p>
+          <p>Safari users must have <strong>"Developer"</strong> mode enabled before continuing. 
+                <a class="btn btn-trans btn-sm" role="button" data-toggle="collapse" href="#safariDevMode" aria-expanded="false" aria-controls="safariDevMode">Here's how</a></p>
+                <div class="collapse" id="safariDevMode">
+								  <div class="well opa">
+								    Go to Safari's Preferences ( command + , ) and view the <strong>"Advanced"</strong> pane on the right. At the bottom of this pane, check <strong>"Show Develop menu in menu bar"</strong>.
+								  </div>
+								</div>
             {{ form.roster_html.errors }}
           <div role="tabpanel">
             <ul class="nav nav-pills" role="tablist">
@@ -146,23 +152,60 @@
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane active" id="blackboard">
                 <p></p>
-                <p>Safari users must have "Developer" mode enabled before starting this. Here's how.</p>
                 <ol>
-                  <li>Go to a class on blackboard and select the "Tools" section.</li>
-                  <li>Find the tool called, "Send Email" and click it.</li>
-                  <li>The next page asks who you want to send an email to. Choose the "Select Users" option.</li>
-                  <li>This page will have a box of the names and/or emails of the students in the class.</li>
-									<li>Right click (control + click) on the page and select the option, "View Page Source".</li>
-									<li>A window that shows the page source (HTML) will appear.</li>
-									<li>Copy all of the HTML.</li>
-									<li>Paste it below in the box.</li>
+                  <li>Go to a class on Blackboard and select the <strong>"Tools"</strong> section.</li>
+                  <li>Click the tool called, <strong>"Send Email"</strong>.</li>
+                  <li>The next page asks who you want to send an email to. Choose the <strong>"Select Users"</strong> option towards the bottom.</li>
+                  <li>The next page will have a box of the names and/or emails of the students in the class.</li>
+									<li>Right click (control + click) on the page and click the option, <strong>"View/Show Page Source"</strong>.</li>
+									<li>A window or tab that shows the <strong>Page Source (HTML)</strong> will appear.</li>
+									<li>Copy <strong>ALL of the HTML</strong> in the window. It should look like gibberish and there should be a lot of it.</li>
+									<li>Paste <strong>ALL</strong> of it below in the box.</li>
                 </ol>
               </div>
               <div role="tabpanel" class="tab-pane" id="d2l">
+              	<p></p>
+                <ol>
+                  <li>Go to a class on D2L and select the <strong>"Classlist"</strong> page.</li>
+                  <li>Click the button called, <strong>"Email Classlist"</strong> at the top.</li>
+                  <li>Make sure you are viewing all classmates, not just some of them.</li>
+									<li>Right click (control + click) on the page and click the option, <strong>"View/Show Page Source"</strong>.</li>
+									<li>A window or tab that shows the <strong>Page Source (HTML)</strong> will appear.</li>
+									<li>Copy <strong>ALL of the HTML</strong> in the window. It should look like gibberish and there should be a lot of it.</li>
+									<li>Paste <strong>ALL</strong> of it below in the box.</li>
+                </ol>
               </div>
               <div role="tabpanel" class="tab-pane" id="moodle">
+              	<p></p>
+                <ol>
+                  <li>Go to a class on moodle and select the <strong>"Participants"</strong> page.</li>
+                  <li>On the <strong>"Particpants"</strong> page, you must check these <strong>three</strong> things:
+                  	<ol>
+                  		<li>The <strong>"Currrent Role"</strong> option is set to <strong>"Students"</strong> <span class="text-success">(Green Circle)</span>.</li>
+                  		<li>The <strong>"User List"</strong> option is set to <strong>"User Details"</strong> <span class="text-danger">(Red Circle)</span>.
+                  		You can verify this by checking to see if the email address is shown <span class="text-warning">(Yellow Circle)</span>.
+                  				<img src="{% static 'lib/img/class_sets/moodle_instructions_1.png' %}" class="img-thumbanil img-rounded" width="100%" height="auto"></li>
+                  		<li>At the very bottom of the page, make sure you are click to <strong>"Show All of the Results"</strong> and not just part of your class.</li>
+                  	</ol>
+                  </li>
+                  <li>Double check that you have set the above three options: <strong>"Current Role"</strong>, <strong>"User List"</strong>, and <strong>"Show All Results"</strong>.
+									<li>Now, right click (control + click) on the page and click the option, <strong>"View/Show Page Source"</strong>.</li>
+									<li>A window or tab that shows the <strong>Page Source (HTML)</strong> will appear.</li>
+									<li>Copy <strong>ALL of the HTML</strong> in the window. It should look like gibberish and there should be a lot of it.</li>
+									<li>Paste <strong>ALL</strong> of it below in the box.</li>
+                </ol>
               </div>
               <div role="tabpanel" class="tab-pane" id="other">
+              	<p></p>
+                <ol>
+                  <li>Go to a class on on your Course Management System.</li>
+                  <li>Navigate to a page that shows the Classlist or Roster for the class if it exists.</li>
+                  <li>Make sure you are viewing all classmates, not just some of them.</li>
+									<li>Right click (control + click) on the page and click the option, <strong>"View/Show Page Source"</strong>.</li>
+									<li>A window or tab that shows the <strong>Page Source (HTML)</strong> will appear.</li>
+									<li>Copy <strong>ALL of the HTML</strong> in the window. It should look like gibberish and there should be a lot of it.</li>
+									<li>Paste <strong>ALL</strong> of it below in the box.</li>
+                </ol>
               </div>
             </div>
         	</div>
