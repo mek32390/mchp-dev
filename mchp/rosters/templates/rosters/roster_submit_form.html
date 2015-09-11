@@ -24,254 +24,199 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="media">
-                <div class="media-left media-middle">
-                    <i class="media-object fa fa-upload fa-5x fa-fw"></i>
-                </div>
-                <div class="media-body">
-                    <h1 class="media-heading">Submit a Class Set</h1>
-
-                    <p class="lead margin-btm-none">A class set includes a class's syllabus, roster, and assignment
-                        dates</p>
-                </div>
-            </div>
-            <hr>
-        </div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="media">
+      <div class="media-left media-middle">
+        <i class="media-object fa fa-upload fa-5x fa-fw"></i>
+      </div>
+      <div class="media-body">
+        <h1 class="media-heading">Submit a Class Set</h1>
+        <p class="lead margin-btm-none">A class set includes a class's syllabus, roster, and assignment dates</p>
+      </div>
     </div>
-
-    <div class="row">
-        <div class="col-sm-8">
-            <form id="class_set" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-
-                <!-- select course to upload class set to -->
-                <div class="media">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">1.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Select a course to add a Class Set to:</h3>
-
-                        <p>or <a href="{% url 'course_create' %}" target="_blank">create a new course</a>.</p>
-
-{% if form.course.errors %}
-    <ol>
-    {% for error in form.course.errors %}
-        <li><strong>{{ error|escape }}</strong></li>
-    {% endfor %}
-    </ol>
-{% endif %}
-                        <div class="form-group" id="selectClass">
-
-
-                            <select class="form-control input-lg" id="{{ form.course.id_for_label }}"
-                                    name="{{ form.course.name }}">
-                                {% for course in school.course_set.all %}
-                                    <option value="{{ course.pk }}">{{ course }} with
-                                        Instr {{ course.professor }}</option>
-                                {% endfor %}
-                            </select>
-                            <input type="hidden" id="{{ form.course_name.id_for_label }}"
-                                   name="{{ form.course_name.name }}">
-
-                        </div>
-                        <br></br>
-                    </div>
-                </div>
-
-                <!-- upload syllabus -->
-                <div class="media">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">2.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Upload the Syllabus for <strong class="selected-classname">CLASS
-                            NAME</strong>:</h3>
-
-                        <p>The course syllabus is typically a word or pdf document.</p>
-
-{% if form.document.errors %}
-    <ol>
-    {% for error in form.document.errors %}
-        <li><strong>{{ error|escape }}</strong></li>
-    {% endfor %}
-    </ol>
-{% endif %}
-					<span class="btn btn-trans btn-lg btn-file">
-						Browse <input type="file" class="form-control" id="{{ form.document.id_for_label }}"
-                                      name="{{ form.document.name }}">
-					</span>&nbsp;<span class="selected-file"></span>
-                        <br></br>
-                        <br></br>
-                    </div>
-                </div>
-
-
-                <!-- identify non-student emails -->
-                <div class="media">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">3.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Identify All Non-Student Emails for <strong
-                                class="selected-classname">CLASS NAME</strong></h3>
-
-                        <p>Indicate all non-student email addresses, such as instructors and teaching assistants.</p>
-
-                        <textarea class="form-control input-lg" id="{{ form.emails.id_for_label }}"
-                                  name="{{ form.emails.name }}"
-                                  placeholder="enter one instructor/assistant email per line"
-                                  rows="3">{{ form.emails.value|default:''}}</textarea>
-
-                        <br/>
-                        {{ form.emails.errors }}
-                        <br>
-                    </div>
-                </div>
-
-                <!-- paste roster html code -->
-                <div class="media">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">4.</h1>
-                    </div>
-                    <!-- /.media-left -->
-                    <div class="media-body">
-                        <h3 class="media-heading">Paste the Roster for <strong class="selected-classname">CLASS
-                            NAME</strong></h3>
-
-                        <p>Select the Course Management System that your class uses and we'll show you how to COPY/PASTE
-                            the class Roster.</p>
-
-                        {{ form.roster_html.errors }}
-
-                        <!-- <p><strong>Select the Course Management System that your class uses:</strong></h5> -->
-                        <!-- Begin tabs -->
-                        <div role="tabpanel">
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-pills" role="tablist">
-                                <li role="presentation" class="active"><a class="pill-opa" href="#blackboard"
-                                                                          aria-controls="blackboard" role="tab"
-                                                                          data-toggle="tab">Blackboard</a></li>
-                                <li role="presentation"><a class="pill-opa" href="#d2l" aria-controls="d2l" role="tab"
-                                                           data-toggle="tab">Desire 2 Learn</a></li>
-                                <li role="presentation"><a class="pill-opa" href="#moodle" aria-controls="moodle"
-                                                           role="tab" data-toggle="tab">Moodle</a></li>
-                                <li role="presentation"><a class="pill-opa" href="#other" aria-controls="other"
-                                                           role="tab" data-toggle="tab">Other</a></li>
-                            </ul>
-                            <!-- /.nav.nav-pills -->
-
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="blackboard">
-                                    <p></p>
-                                    <ol>
-                                        <li>You saved the roster from Blackboard in HTML format. The title of the page
-                                            you saved should resemble <strong>"Select Users - ClassID.html"</strong>.
-                                        </li>
-                                        <li>Open this file and you will see a bunch of HTML code.</li>
-                                        <li>Copy this code and paste it below.</li>
-                                    </ol>
-                                </div>
-                                <!-- /.tab-pane.active -->
-                                <div role="tabpanel" class="tab-pane" id="d2l">
-                                    <p></p>
-                                    <ol>
-                                        <li>You saved the roster from D2L in HTML format. The title of the page you
-                                            saved should resemble <strong>"Email Classlist - Class Name"</strong>.
-                                        </li>
-                                        <li>Open this file and you will see a bunch of HTML code.</li>
-                                        <li>Copy this code and paste it below.</li>
-                                    </ol>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="moodle">
-                                    <p></p>
-                                    <ol>
-                                        <li>You saved the roster from moodle in HTML format. The title of the page you
-                                            saved should resemble <strong>"Class Name - Participants"</strong>.
-                                        </li>
-                                        <li>Open this file and you will see a bunch of HTML code.</li>
-                                        <li>Copy this code and paste it below.</li>
-                                    </ol>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="other">
-                                    <p></p>
-                                    <ol>
-                                        <li>You saved the roster page from your CMS in HTML format.
-                                        </li>
-                                        <li>Open this file and you will see a bunch of HTML code.</li>
-                                        <li>Copy this code and paste it below.</li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <!-- /.tab-content -->
-                        </div>
-                        <!-- end tabpanel -->
-                        <h4>
-                            <label for="{{ form.roster_html.id_for_label }}">Paste Roster Code</label>
-                        </h4>
-                        <textarea class="form-control input-lg" id="{{ form.roster_html.id_for_label }}"
-                                  name="{{ form.roster_html.name }}"
-                                  placeholder="cmd+v (Mac) or ctrl+v (PC) here to paste"
-                                  rows="3">{{ form.roster_html.value|default:''}}</textarea>
-                        <br></br>
-                        <br>
-                    </div>
-                    <!-- /.media-body -->
-                </div>
-                <!-- /.media -->
-
-                <!-- Add Exam dates -->
-                <div class="media">
-                    <div class="media-left media-top">
-                        <h1 class="media-object pull-left margin-top-none">5.</h1>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-heading">Add Exam and Assignment Dates for <strong class="selected-classname">CLASS
-                            NAME</strong>:</h3>
-
-                        <p>The more you add, the more likely you are to earn commissions.</p>
-
-
-                        <div class="event-rows">
-
-                            {% for event in form.events %}
-                        {{ event.error }}
-
-                                <div class="row event-row" data-event-index={{ forloop.counter }}>
-                                    <div class="col-xs-4">
-                                        {{ event.title }}
-                                        <p></p>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        {{ event.date }}
-                                        <p></p>
-                                    </div>
-                                </div>
-
-                            {% endfor %}
-
-                            {{ form.events.management_form }}
-
-                        </div>
-
-                        <a href="#addEventRow" id="addEventRow" class=""><i class="fa fa-plus fa-fw"></i>Add
-                            Exam/Assignment</a>
-
-                        <br></br>
-                        <br></br>
-                        <!-- <hr> -->
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-trans btn-block">Submit Class Set for Review
-                </button>
-
-                <br></br>
-                <br>
-
-            </form>
+    <hr>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-8">
+    <form id="class_set" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+      <!-- select course to upload class set to -->
+      <div class="media">
+        <div class="media-left media-top">
+          <h1 class="media-object pull-left margin-top-none">1.</h1>
         </div>
-        <!-- /.col-sm-10.col-sm-offset-1 -->
-    </div><!-- /.row -->
+        <div class="media-body">
+          <h3 class="media-heading">Select a course to add a Class Set to:</h3>
+            <p>or <a href="{% url 'course_create' %}" target="_blank">create a new course</a>.</p>
+						{% if form.course.errors %}
+					    <ol>
+					    {% for error in form.course.errors %}
+					        <li><strong>{{ error|escape }}</strong></li>
+					    {% endfor %}
+					    </ol>
+						{% endif %}
+            <div class="form-group" id="selectClass">
+              <select class="form-control input-lg" id="{{ form.course.id_for_label }}"
+                      name="{{ form.course.name }}">
+	              {% for course in school.course_set.all %}
+	                <option value="{{ course.pk }}">{{ course }} with
+	                      Instr {{ course.professor }}</option>
+	              {% endfor %}
+              </select>
+              <input type="hidden" id="{{ form.course_name.id_for_label }}"
+                         name="{{ form.course_name.name }}">
+            </div>
+            <br></br>
+        </div>
+      </div>
+
+      <!-- upload syllabus -->
+      <div class="media">
+        <div class="media-left media-top">
+          <h1 class="media-object pull-left margin-top-none">2.</h1>
+        </div>
+        <div class="media-body">
+          <h3 class="media-heading">Upload the Syllabus for <strong class="selected-classname">CLASS
+             NAME</strong>:</h3>
+          <p>The course syllabus is typically a word or pdf document.</p>
+					{% if form.document.errors %}
+				    <ol>
+				    {% for error in form.document.errors %}
+				      <li><strong>{{ error|escape }}</strong></li>
+				    {% endfor %}
+				    </ol>
+					{% endif %}
+						<span class="btn btn-trans btn-lg btn-file">
+							Browse <input type="file" class="form-control" id="{{ form.document.id_for_label }}"
+	            name="{{ form.document.name }}">
+						</span>&nbsp;<span class="selected-file"></span>
+          <br></br>
+          <br></br>
+        </div>
+      </div>
+
+
+      <!-- identify non-student emails -->
+      <div class="media">
+        <div class="media-left media-top">
+          <h1 class="media-object pull-left margin-top-none">3.</h1>
+        </div>
+        <div class="media-body">
+          <h3 class="media-heading">Identify All Non-Student Emails for 
+          <strong class="selected-classname">CLASS NAME</strong></h3>
+          <p>Indicate all non-student email addresses, such as instructors and teaching assistants.</p>
+          <textarea class="form-control input-lg" id="{{ form.emails.id_for_label }}"
+                    name="{{ form.emails.name }}"
+                    placeholder="ONE EMAIL PER LINE ONLY. NO NAMES, ONLY EMAILS."
+                    rows="3">{{ form.emails.value|default:''}}</textarea>
+          <br/>
+          {{ form.emails.errors }}
+          <br>
+        </div>
+      </div>
+
+      <!-- paste roster html code -->
+      <div class="media">
+        <div class="media-left media-top">
+          <h1 class="media-object pull-left margin-top-none">4.</h1>
+        </div>
+        <!-- /.media-left -->
+        <div class="media-body">
+          <h3 class="media-heading">Paste the Roster for <strong class="selected-classname">CLASS
+          	NAME</strong>
+          </h3>
+          <p>Select the Course Management System that your class uses and we'll show you how to COPY/PASTE
+              the class Roster.</p>
+            {{ form.roster_html.errors }}
+          <div role="tabpanel">
+            <ul class="nav nav-pills" role="tablist">
+              <li role="presentation" class="active">
+              	<a class="pill-opa" href="#blackboard" aria-controls="blackboard" role="tab"
+                  data-toggle="tab">Blackboard</a>
+              </li>
+              <li role="presentation"><a class="pill-opa" href="#d2l" aria-controls="d2l" role="tab"
+                                         data-toggle="tab">Desire 2 Learn</a></li>
+              <li role="presentation"><a class="pill-opa" href="#moodle" aria-controls="moodle"
+                                         role="tab" data-toggle="tab">Moodle</a></li>
+              <li role="presentation"><a class="pill-opa" href="#other" aria-controls="other"
+                                         role="tab" data-toggle="tab">Other</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="blackboard">
+                <p></p>
+                <p>Safari users must have "Developer" mode enabled before starting this. Here's how.</p>
+                <ol>
+                  <li>Go to a class on blackboard and select the "Tools" section.</li>
+                  <li>Find the tool called, "Send Email" and click it.</li>
+                  <li>The next page asks who you want to send an email to. Choose the "Select Users" option.</li>
+                  <li>This page will have a box of the names and/or emails of the students in the class.</li>
+									<li>Right click (control + click) on the page and select the option, "View Page Source".</li>
+									<li>A window that shows the page source (HTML) will appear.</li>
+									<li>Copy all of the HTML.</li>
+									<li>Paste it below in the box.</li>
+                </ol>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="d2l">
+              </div>
+              <div role="tabpanel" class="tab-pane" id="moodle">
+              </div>
+              <div role="tabpanel" class="tab-pane" id="other">
+              </div>
+            </div>
+        	</div>
+        	<!-- end tabpanel -->
+          <h4>
+            <label for="{{ form.roster_html.id_for_label }}">Paste Roster Code</label>
+          </h4>
+          <textarea class="form-control input-lg" id="{{ form.roster_html.id_for_label }}"
+                    name="{{ form.roster_html.name }}"
+                    placeholder="cmd+v (Mac) or ctrl+v (PC) here to paste"
+                    rows="3">{{ form.roster_html.value|default:''}}</textarea>
+          <br></br>
+          <br>
+        </div>
+        <!-- /.media-body -->
+      </div>
+      <!-- /.media -->
+
+      <!-- Add Exam dates -->
+      <div class="media">
+        <div class="media-left media-top">
+          <h1 class="media-object pull-left margin-top-none">5.</h1>
+        </div>
+        <div class="media-body">
+          <h3 class="media-heading">Add Exam and Assignment Dates for <strong class="selected-classname">CLASS
+              NAME</strong>:</h3>
+          <p>The more you add, the more likely you are to earn commissions.</p>
+          <div class="event-rows">
+            {% for event in form.events %}
+              {{ event.error }}
+              <div class="row event-row" data-event-index={{ forloop.counter }}>
+                <div class="col-xs-4">
+                  {{ event.title }}
+                  <p></p>
+                </div>
+                <div class="col-xs-4">
+                  {{ event.date }}
+                  <p></p>
+                </div>
+              </div>
+            {% endfor %}
+            {{ form.events.management_form }}
+          </div>
+          <a href="#addEventRow" id="addEventRow" class=""><i class="fa fa-plus fa-fw"></i>Add
+              Exam/Assignment</a>
+          <br></br>
+          <br></br>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg btn-trans btn-block">Submit Class Set for Review
+      </button>
+      <br></br>
+      <br>
+    </form>
+  </div><!-- end col -->
+</div><!-- /.row -->
 {% endblock %}
