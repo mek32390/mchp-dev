@@ -6,6 +6,7 @@ from celery import shared_task, task, Task
 from celery.utils.log import get_task_logger
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.files.base import File
 from django.core.files.images import ImageFile
 
@@ -22,6 +23,7 @@ from lib.utils import send_email_for
 from schedule.models import Course, Enrollment
 from calendar_mchp.models import CalendarEvent
 from rosters import utils, models as rostermodels
+from user_profile.models import Student
 from pywapi import unicode
 from . import utils
 import datetime
@@ -102,6 +104,17 @@ def approve_roster(roster):
     syllabus.approved = True
     syllabus.course = roster.course
     syllabus.save()
+
+
+    for student in roster.students.all():
+        email = student.email
+        if email:
+            user = utils.get_or_create_user(email, student.first_name, student.last_name)
+            school = roster.course.domain
+            user_student = utils.get_or_create_student(school, user)
+
+            roster.course.enroll(user_student)
+
 
     add_notification(
         roster.created_by.user,

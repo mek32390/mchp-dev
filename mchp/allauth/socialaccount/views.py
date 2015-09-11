@@ -1,21 +1,25 @@
+from allauth.account import forms
+from allauth.account.models import EmailAddress
+from allauth.account.utils import perform_login
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.sites.models import Site
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from django.views.generic.base import View, TemplateView
 from django.views.generic.edit import FormView
 
 from ..account.views import (CloseableSignupMixin,
                              RedirectAuthenticatedUserMixin)
 from ..account.adapter import get_adapter as get_account_adapter
-from ..utils import get_form_class
+
+from ..utils import get_form_class, get_user_model
 
 from .adapter import get_adapter
 from .models import SocialLogin
 from .forms import DisconnectForm, SignupForm
-from . import helpers
-from . import app_settings
+from . import helpers, app_settings
 
 
 class SignupView(RedirectAuthenticatedUserMixin, CloseableSignupMixin,
@@ -59,6 +63,49 @@ class SignupView(RedirectAuthenticatedUserMixin, CloseableSignupMixin,
 
     def get_authenticated_redirect_url(self):
         return reverse(connections)
+
+    def form_invalid(self, form):
+        # check for valid email
+        from ..account import app_settings as account_settings
+        emailaddresses = EmailAddress.objects
+        email = form.data['email']
+        users = get_user_model().objects
+
+        emailobj = emailaddresses.filter(email__iexact=email).first()
+        if emailobj.user:
+            user = emailobj.user
+        if not user:
+            email_field = account_settings.USER_MODEL_EMAIL_FIELD
+            if email_field:
+                user = users.filter(**{email_field+'__iexact': email}).first()
+        # if found and this user was created by roster
+        if user:
+            if user.student_user.created_by_roster_no_user:
+                # update name, username, password fields
+                newusername = form.data['username']
+                username_field = account_settings.USER_MODEL_USERNAME_FIELD
+                self.sociallogin.connect(self.request, user)
+
+                if not users.filter(**{username_field+'__iexact': newusername}).exists() or users.filter(**{username_field+'__iexact': newusername}).first() == user:
+                    user.username = newusername
+
+                    user.first_name = form.data['first_name']
+                    user.last_name = form.data['last_name']
+
+                    user.student_user.created_by_roster_no_user = False
+                    user.student_user.save()
+
+                    user.save()
+
+
+                    # drop user in account
+                    perform_login(self.request, user,
+                        email_verification=app_settings.EMAIL_VERIFICATION)
+                    return redirect('/')
+
+        # else, just show the error
+        response = super(FormView, self).form_invalid(form)
+        return response
 
 signup = SignupView.as_view()
 

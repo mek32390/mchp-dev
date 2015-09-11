@@ -6,6 +6,7 @@ from django import forms
 from django.core.urlresolvers import reverse
 from django.core import exceptions
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.utils.translation import pgettext, ugettext_lazy as _, ugettext
 from django.utils.http import int_to_base36
 from django.utils.importlib import import_module

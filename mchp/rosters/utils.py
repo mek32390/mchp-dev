@@ -2,6 +2,7 @@ from os.path import devnull
 import envoy
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 import csv
 import os
 import glob
@@ -118,7 +119,9 @@ def get_or_create_student(school, user):
     try:
         return user.student_user
     except Student.DoesNotExist:
-        return Student.objects.create_student(user, school)
+        student = Student.objects.create_student(user, school)
+        student.created_by_roster_no_user = True
+        return student
 
 
 def suffix(s, suffix, max_length):
@@ -293,15 +296,30 @@ def get_or_create_user(email, fname=None, lname=None):
     """
     from allauth.account.models import EmailAddress
 
-    user = get_user(email)
-    if not user:
-        user = EmailAddress.objects.get(email__iexact=email).user
-        username = make_username(email.lower())
-        extra_fields = {}
-        if fname:
-            extra_fields['first_name'] = fname
-        if lname:
-            extra_fields['last_name'] = lname
-        user = User.objects.create_user(username, email=email,
+    try:
+        user = User.objects.get(email__iexact=email)
+    except User.DoesNotExist:
+        try:
+            emailaddr = EmailAddress.objects.get(email__iexact=email)
+            if emailaddr.user:
+                user = emailaddr.user
+            else:
+                username = make_username(email.lower())
+                extra_fields = {}
+                if fname:
+                    extra_fields['first_name'] = fname
+                if lname:
+                    extra_fields['last_name'] = lname
+                user = User.objects.create_user(username, email=email,
+                                            password=None, **extra_fields)
+        except:
+            username = make_username(email.lower())
+            extra_fields = {}
+            if fname:
+                extra_fields['first_name'] = fname
+            if lname:
+                extra_fields['last_name'] = lname
+            user = User.objects.create_user(username, email=email,
                                         password=None, **extra_fields)
+            pass
     return user

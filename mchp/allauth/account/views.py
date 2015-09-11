@@ -1,3 +1,4 @@
+from allauth.account import forms
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.sites.models import Site
 from django.http import (HttpResponseRedirect, Http404,
@@ -168,6 +169,58 @@ class SignupView(RedirectAuthenticatedUserMixin, CloseableSignupMixin,
         return complete_signup(self.request, user,
                                app_settings.EMAIL_VERIFICATION,
                                self.get_success_url())
+
+    def form_invalid(self, form):
+        # check for valid email
+        from . import app_settings as account_settings
+        emailaddresses = EmailAddress.objects
+        email = form.data['email']
+        users = get_user_model().objects
+
+        user = None
+        emailobj = emailaddresses.filter(email__iexact=email).first()
+        if emailobj and emailobj.user:
+            user = emailobj.user
+        if not user:
+            email_field = account_settings.USER_MODEL_EMAIL_FIELD
+            if email_field:
+                user = users.filter(**{email_field+'__iexact': email}).first()
+        # if found and this user was created by roster
+        if user:
+            if user.student_user.created_by_roster_no_user:
+                # update name, username, password fields
+                newusername = form.data['username']
+                username_field = account_settings.USER_MODEL_USERNAME_FIELD
+
+                if not users.filter(**{username_field+'__iexact': newusername}).exists() or users.filter(**{username_field+'__iexact': newusername}).first() == user:
+                    user.username = newusername
+
+                    if app_settings.SIGNUP_PASSWORD_VERIFICATION \
+                            and "password1" in form.cleaned_data \
+                            and "password2" in form.cleaned_data:
+                        if form.cleaned_data["password1"] \
+                                != form.cleaned_data["password2"]:
+                            raise forms.ValidationError(_("You must type the same password"
+                                                          " each time."))
+                    get_adapter().set_password(user, form.cleaned_data["password1"])
+
+                    user.first_name = form.data['first_name']
+                    user.last_name = form.data['last_name']
+
+                    user.student_user.created_by_roster_no_user = False
+                    user.student_user.save()
+
+                    user.save()
+
+                    # drop user in account
+                    res = perform_login(self.request, user,
+                        email_verification=app_settings.EMAIL_VERIFICATION)
+                    return res
+
+        # else, just show the error
+        response = super(FormView, self).form_invalid(form)
+        return response
+
 
     def get_context_data(self, **kwargs):
         form = kwargs['form']

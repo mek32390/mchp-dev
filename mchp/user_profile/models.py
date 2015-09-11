@@ -38,6 +38,8 @@ class Student(models.Model):
     school = models.ForeignKey('schedule.School', related_name='student_school')
     major = models.ForeignKey('schedule.Major', blank=True, null=True)
 
+    created_by_roster_no_user = models.BooleanField(default=False)
+
     friends = models.ManyToManyField('self', db_table='user_profile_friends')
 
     purchased_points = models.IntegerField(default=0)
