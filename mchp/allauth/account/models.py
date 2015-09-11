@@ -1,15 +1,15 @@
+from __future__ import unicode_literals
+
 import datetime
 
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
-from django.contrib.sites.models import Site
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.crypto import get_random_string
 
-from allauth import app_settings as allauth_app_settings
+from .. import app_settings as allauth_app_settings
 from . import app_settings
 from . import signals
 
@@ -24,6 +24,7 @@ class EmailAddress(models.Model):
     user = models.ForeignKey(allauth_app_settings.USER_MODEL,
                              verbose_name=_('user'))
     email = models.EmailField(unique=app_settings.UNIQUE_EMAIL,
+                              max_length=254,
                               verbose_name=_('e-mail address'))
     verified = models.BooleanField(verbose_name=_('verified'), default=False)
     primary = models.BooleanField(verbose_name=_('primary'), default=False)
@@ -37,7 +38,7 @@ class EmailAddress(models.Model):
             unique_together = [("user", "email")]
 
     def __str__(self):
-        return u"%s (%s)" % (self.email, self.user)
+        return "%s (%s)" % (self.email, self.user)
 
     def set_as_primary(self, conditional=False):
         old_primary = EmailAddress.objects.get_primary(self.user)
@@ -52,7 +53,7 @@ class EmailAddress(models.Model):
         self.user.save()
         return True
 
-    def send_confirmation(self, request, signup=False):
+    def send_confirmation(self, request=None, signup=False):
         confirmation = EmailConfirmation.create(self)
         confirmation.send(request, signup=signup)
         return confirmation
@@ -61,7 +62,12 @@ class EmailAddress(models.Model):
         """
         Given a new email address, change self and re-confirm.
         """
-        with transaction.commit_on_success():
+        try:
+            atomic_transaction = transaction.atomic
+        except AttributeError:
+            atomic_transaction = transaction.commit_on_success
+
+        with atomic_transaction():
             user_email(self.user, new_email)
             self.user.save()
             self.email = new_email
@@ -88,7 +94,7 @@ class EmailConfirmation(models.Model):
         verbose_name_plural = _("email confirmations")
 
     def __str__(self):
-        return u"confirmation for %s" % self.email_address
+        return "confirmation for %s" % self.email_address
 
     @classmethod
     def create(cls, email_address):
@@ -112,24 +118,8 @@ class EmailConfirmation(models.Model):
                                          email_address=email_address)
             return email_address
 
-    def send(self, request, signup=False, **kwargs):
-        current_site = kwargs["site"] if "site" in kwargs \
-            else Site.objects.get_current()
-        activate_url = reverse("account_confirm_email", args=[self.key])
-        activate_url = request.build_absolute_uri(activate_url)
-        ctx = {
-            "user": self.email_address.user,
-            "activate_url": activate_url,
-            "current_site": current_site,
-            "key": self.key,
-        }
-        if signup:
-            email_template = 'account/email/email_confirmation_signup'
-        else:
-            email_template = 'account/email/email_confirmation'
-        get_adapter().send_mail(email_template,
-                                self.email_address.email,
-                                ctx)
+    def send(self, request=None, signup=False):
+        get_adapter().send_confirmation_mail(request, self, signup)
         self.sent = timezone.now()
         self.save()
         signals.email_confirmation_sent.send(sender=self.__class__,
