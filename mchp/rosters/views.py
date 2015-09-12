@@ -148,23 +148,16 @@ class RosterListView(ListView):
     template_name_suffix = '_list'
     #template_name = 'rosters/staff-intern-prototype.html'
 
-    # TODO: implement document_uploaded signal for syllabus upon doc approval
-
     def post(self, request, *args, **kwargs):
-        print (request.POST)
         roster_id = request.POST['hidden_roster_id']
         action = request.POST['hidden_roster_action']
 
         roster = models.Roster.objects.get(pk=roster_id)
         if action == 'reject':
-            roster.status = models.Roster.REJECTED
-            roster.save()
             from rosters.signals import roster_rejected
             roster_rejected.send(sender=self.__class__, roster=roster)
 
         if action == 'approve':
-            roster.status = models.Roster.APPROVED
-            roster.save()
             from rosters.signals import roster_approved
             roster_approved.send(sender=self.__class__, roster=roster)
 

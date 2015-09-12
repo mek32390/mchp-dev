@@ -23,6 +23,7 @@ from lib.utils import send_email_for
 from schedule.models import Course, Enrollment
 from calendar_mchp.models import CalendarEvent
 from rosters import utils, models as rostermodels
+from rosters.models import Roster
 from user_profile.models import Student
 from pywapi import unicode
 from . import utils
@@ -32,15 +33,44 @@ import pytz
 from pprint import pprint
 
 import logging
+logging.getLogger('celery.task.default').setLevel(logging.DEBUG)
+logging.getLogger().setLevel(logging.DEBUG)
+
+from celery import current_app
+current_app.conf.CELERY_ALWAYS_EAGER = True
+current_app.conf.CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+
+from celery.utils import LOG_LEVELS
+current_app.conf.CELERYD_LOG_LEVEL = LOG_LEVELS['DEBUG']  # pretty much the same as logging.DEBUG
 
 logger = get_task_logger(__name__)
 
-@shared_task()
-def extract_roster(roster):
+
+def checkforduplicaterosters(roster):
     """
-    WIP
+    Problem:
+    When an intern submits a roster it is possible that this is a duplicate of an already existing roster.
+    This is not easily filtered out by allowing only one roster per course as there can be several "sections"
+    We need some kind of similarity measure between the roster submitted and any other rosters already approved for
+    this class. If this similarity measure > some value X then the roster should be automatically rejected
     """
 
+    totalrosterstudents = roster.students.count()
+
+    otherrostersforcourse = Roster.objects.filter(status__iexact= rostermodels.Roster.APPROVED).all()
+    for otherroster in otherrostersforcourse:
+        similars = 0
+        for student in roster.students.all():
+            for otherstudent in otherroster.students.all():
+                if student == otherstudent:
+                    similars += 1
+        if similars/totalrosterstudents > 0.8:
+            return True
+    pass
+
+
+@shared_task()
+def extract_roster(roster):
     roster_html = roster.roster_html
     instructor_emails = roster.instructor_emails
     parsed_csv = utils.roster_html_to_csv(roster_html)
@@ -65,52 +95,24 @@ def extract_roster(roster):
                     params['profile'] = user.profile_user
             rostermodels.RosterStudentEntry.objects.create(**params)
 
+    duplicate = checkforduplicaterosters(roster)
+    if duplicate:
+        roster.reject()
+
 
 @shared_task
 def approve_roster(roster):
-    """
-    WIP
-    """
+    duplicate = checkforduplicaterosters(roster)
 
-    primary_calendar = roster.course.calendar_courses.get(primary=True)
-    # print ('primary = ' + primary_calendar)
-    for event in roster.events.all():
-        d = event.date
-        start = datetime.datetime(d.year, d.month, d.day)
-        end = datetime.datetime(d.year, d.month, d.day, 23, 55, 55)
-        start = pytz.utc.localize(start)
-        end = pytz.utc.localize(end)
+    if duplicate:
+        roster.reject()
+        pass
 
-        params = {
-                'calendar': primary_calendar,
-                'title': event.title,
-                'start': start,
-                'end': end
-        }
-        CalendarEvent.objects.create(**params)
-        event.approved = True
-        event.save()
+    roster.approve()
 
-    syllabus = roster.syllabus.all()[0]
-    syllabus.approved = True
-    syllabus.course = roster.course
-    syllabus.save()
-
-
-    for student in roster.students.all():
-        email = student.email
-        if email:
-            user = utils.get_or_create_user(email, student.first_name, student.last_name)
-            school = roster.course.domain
-            user_student = utils.get_or_create_student(school, user)
-
-            roster.course.enroll(user_student)
-
-
-    add_notification(
-        roster.created_by.user,
-        'Your class set for {}, is approved and published!'.format(roster.course)
-    )
+@shared_task
+def reject_roster(roster):
+    roster.reject()
 
 
 def _roster_approved_notify(roster):
