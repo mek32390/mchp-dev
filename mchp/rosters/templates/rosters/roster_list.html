@@ -42,7 +42,7 @@
                             <!-- end col-6 -->
                             <div class="col-md-6">
                                 <h2 class="margin-top-none">
-                                    <form action="" clas"pull-right" method="post">
+                                    <form action="" class="pull-right" method="post">
                                         <input name="hidden_roster_id" value="{{ roster.id }}" type="hidden" id="hidden_roster_id">
                                         <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
                                         {% csrf_token %}
@@ -59,7 +59,7 @@
                                 <ul class="list-inline">
                                     <li><i class="fa fa-university fa-fw"></i> {{ roster.course.domain.name }} </li>
                                     <li><i class="fa fa-male"></i> Instr {{ roster.course.professor }}</li>
-                                    <li><i class="fa fa-user fa-fw"></i> submitted by {{ roster.created_by }}</li>
+                                    <li><i class="fa fa-user fa-fw"></i> submitted by {{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</li>
                                 </ul>
                                 <h5>
                                     <div class="row">
@@ -120,6 +120,7 @@
                    data-search="true" data-search-text="" data-show-columns="true">
                 <thead>
                 <tr>
+                    <th data-sortable="true" data-field="roster_school"><span class="th-name"><strong>School</strong></span></th>
                     <th data-sortable="true" data-field="roster_course"><span class="th-name"><strong>Course</strong></span></th>
                     <th data-sortable="true" data-field="roster_submitter"><span class="th-name"><strong>Submitter</strong></span></th>
                     <th data-sortable="true" data-field="roster_date"><span class="th-name"><strong>Date</strong></span></th>
@@ -130,8 +131,9 @@
                 <tbody class="well opa">
                 {% for roster in object_list %}
                     <tr>
+                        <td><strong>{{ roster.course.domain.name }}</strong></td>
                         <td><strong>{{ roster.course }}</strong></td>
-                        <td>{{ roster.created_by }}</td>
+                        <td>{{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</td>
                         <td>{{ roster.created|date }}</td>
                         <td><label class="label {% if roster.status == 'r' %} label-danger {% elif roster.status == 'p' %} label-default {% elif roster.status == 'a' %} label-success {% endif %}">{{ roster.status }}</label></td>
                         <td>
