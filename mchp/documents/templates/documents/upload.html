@@ -48,7 +48,7 @@
             <div class="form-group" >
               <div class="input-group" style="width:100% !important;">
                 <h3 class="media-heading">Select a course to upload document to: *</h3>
-                <p>If you can't find your course, <a href="{% url "course_add" %}" target="_blank" class="link">create it</a> first.</p>
+                <p>If you can't find your course, <a href="{% url "course_create" %}" target="_blank" class="link">create it</a> first.</p>
                 <li class="dropdown" id="drop-li">
                   {{ form.course }}
                   <ul class="dropdown-menu" id="ac-dropdown">
@@ -58,7 +58,7 @@
                               class="fa fa-fw fa-plus-circle"></i> {{ course.display }}</strong></a>
                       </li>
                     {% empty %}
-                      <li><a href="{% url "course_add" %}"><strong><i
+                      <li><a href="{% url "course_create" %}"><strong><i
                                 class="fa fa-fw fa-plus-circle"></i>Create new course</a></strong></li>
                     {% endfor %}
                   </ul>
