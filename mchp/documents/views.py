@@ -265,7 +265,7 @@ class DocumentDetailPreview(DetailView):
             # if the student got enrolled in this class by a 'class set submission', there's a 10% fee owed to them
             enrollment = Enrollment.objects.filter(
                 student= self.student,
-                course=self.course
+                course=document.course
                 )
 
             if enrollment.created_by_roster:
