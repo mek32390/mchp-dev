@@ -1,5 +1,9 @@
+import copy
+from datetime import timedelta
+import re
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
@@ -16,6 +20,7 @@ class ClassCalendarManager(models.Manager):
             title='default',
         )
         return calendar
+
 
 class ClassCalendar(models.Model):
     owner = models.ForeignKey('user_profile.Student', related_name="calendars")
@@ -37,10 +42,9 @@ class ClassCalendar(models.Model):
 
     color = models.CharField(max_length=7, blank=True)
 
-    objects = ClassCalendarManager()
+    original_calendar = models.ForeignKey('self', null=True, blank=True, default=None, on_delete=models.SET_NULL)
 
-    class Meta:
-        unique_together = (('owner', 'course'))
+    objects = ClassCalendarManager()
 
     def save(self, *args, **kwargs):
         # object is new
@@ -57,17 +61,54 @@ class ClassCalendar(models.Model):
                 calendars = ClassCalendar.objects.filter(owner=self.owner)
                 self.color = generate_calendar_color(calendars)
 
-        if(self.end_date > timezone.now()):
+        if not self.end_date:
+            self.end_date = timezone.now() + timedelta(days=365 * 5) # off-setting to 5 years
+
+        if self.end_date > timezone.now():
             super().save()
         else:
             raise TimeOrderError("Start date must come before end date")
-        # always end on the last minute of the day 
+
+        # always end on the last minute of the day
         self.end_date = self.end_date.replace(hour=11, minute=59)
 
         super(ClassCalendar, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
+
+    def fork(self, new_owner):
+        new_calendar = copy.copy(self)
+        new_calendar.pk = None
+        new_calendar.id = None
+        new_calendar.owner = new_owner
+        new_calendar.primary = False
+        new_calendar.private = True
+        new_calendar.create_date = None
+        new_calendar.color = None
+        new_calendar.original_calendar = self
+
+        new_calendar.save()
+
+        original_events = self.calendarevent_set.all()
+        events = []
+        for original_event in original_events:
+            event = copy.copy(original_event)
+            event.pk = None
+            event.id = None
+            event.calendar = new_calendar
+            event.original_event = original_event
+            events.append(event)
+
+        CalendarEvent.objects.bulk_create(events)
+        return new_calendar
+
+    def subscribe(self, student):
+        return Subscription.objects.get_or_create(
+            student=student,
+            calendar=self
+        )
+
 
 class Subscription(models.Model):
     student = models.ForeignKey('user_profile.Student')
@@ -134,6 +175,8 @@ class CalendarEvent(models.Model):
                                        blank=True,
                                        null=True)
 
+    original_event = models.ForeignKey('self', null=True, blank=True, default=None, on_delete=models.SET_NULL)
+
     def get_absolute_url(self):
         return reverse('event-detail', args=[str(self.id)])
 
@@ -160,9 +203,7 @@ class CalendarEvent(models.Model):
                 "You can not change the past. Give it up, Gatsby."
             )
 
-        if(self.end > self.start):
-            super().save()
-        else:
+        if(self.end < self.start):
             raise TimeOrderError("Event start date must come before end date")
         self.last_edit = timezone.now()
         super(CalendarEvent, self).save(*args, **kwargs)
@@ -171,6 +212,52 @@ class CalendarEvent(models.Model):
             calendar_event_edited.send(sender=self.__class__, event=self)
         else:
             calendar_event_created.send(sender=self.__class__, event=self)
+
+    def get_documents(self, return_count=False):
+        documents = []
+        document_count = 0
+
+        # 1: Get all document that are explicitly linked to the event or original_event
+        if return_count:
+            document_count += self.documents.all().count()
+        else:
+            documents += list(self.documents.all())
+        if self.original_event:
+            if return_count:
+                document_count += self.original_event.documents.all().count()
+            else:
+                documents += list(self.original_event.documents.all())
+
+            sibling_documents = Document.objects.filter(events__original_event=self.original_event).exclude(events__id=self.id)
+            if return_count:
+                document_count += sibling_documents.count()
+            else:
+                documents += list(sibling_documents)
+
+        # 2: Pattern matching
+        event_title = self.title.lower()
+        query = Q()
+        m = re.compile(r'exam (\d*)').search(event_title)
+        if m is not None:
+            query |= Q(title__icontains=m.group(0))
+
+        if 'final exam' in event_title:
+            query |= Q(title__icontains='final exam')
+
+        if 'midterm exam' in event_title:
+            query |= Q(title__icontains='midterm exam')
+
+        if query:
+            relevant_documents = Document.objects.filter(course=self.calendar.course).filter(query)
+            if return_count:
+                document_count += relevant_documents.count()
+            else:
+                documents += list(relevant_documents)
+
+        # TODO search
+        # https://michalcodes4life.wordpress.com/2014/06/03/full-text-search-and-fuzzy-search-with-postgresql-and-django/
+
+        return document_count if return_count else documents
 
     def __str__(self):
         return self.title

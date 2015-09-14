@@ -24,37 +24,44 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="media">
-			<img class="media-object pull-left animated slideInLeft" src="{% static 'lib/img/calendar-default.svg' %}" height="50px" alt="create calendar">
+			<div class="media-left media-middle">
+				<span class="media-object pull-left animated" alt="Add Documents"><i class="fa fa-calendar fa-fw fa-4x"></i></span>
+			</div>
 			<div class="media-body">
-				<h2 class="media-heading">Create a Calendar</h2>
-				let's make this quick and easy
+				<h1 class="media-heading">Create a Calendar</h1>
+				<p class="lead margin-btm-none">let's make this quick and easy</p>
 			</div>
 		</div>
 		<hr>
+		<br>
+	</div><!-- end col 12 -->
+</div>
+<div class="row">
+	<div class="col-xs-12">
 		<form id="calendar-create" action="{% url "calendar_create" %}" method="post">
 			{% csrf_token %}
 			<div class="select-class">
-				<h4>What class is this calendar for?</h4>
+				<h3>What class is this calendar for?</h3>
 				<div class="form-group">
-					<div class="input-group input-group-lg">
-						<span class='input-group-addon'>Class</span>
-						<select name="course" class="form-control course-select">
+					<!-- <div class="input-group input-group-lg"> -->
+						<select name="course" class="form-control course-select input-lg">
 							<option class="default" value="-1" selected>Choose a Class</option>
 							{% for course in courses %}
 							<option class="course" value="{{course.pk}}">{{course.dept}} {{course.course_number}}</option>
 							{% endfor %}
 						</select>
-					</div>
+					<!-- </div> -->
 				</div>	
 			</div>
+			<br>
 			<div class="course-meetings hidden">
-				<h4>When does this class meet? <small>We'll set up your agenda using your class meeting times, so please make sure they are correct!</small></h4>
+				<h3>When does this class meet? <small class="white">We'll set up your agenda using your class meeting times, so please make sure they are correct!</small></h3>
 				<div class="row">
 					{% get_week %}
 					{% for day in week %}
 					<div class="col-sm-2">
-						<a href="#" class="list-group-item btn btn-default btn-lg btn-block day-button" data-toggle="button"
-						data-day="{{day}}" id="{{day}}">{{day}}</a>
+						<a href="#" class="list-group-item btn btn-trans btn-lg btn-block day-button" data-toggle="button"
+						data-day="{{day}}" id="{{day}}"><span class="white">{{day}}</span></a>
 						<h5 class="day-times hidden">
 							<div class="form-group">
 								<div class="input-group">
@@ -76,15 +83,7 @@
 					{% endfor %}
 				</div>		
 			</div>
-			<div class="cal-start-end hidden">
-				<h4>When is the end date of this class? <small>We'll use this date to set up your schedule appropriately</small></h4>
-				<div class="form-group">
-					<div class="input-group date">
-						<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
-						<input required type="text" name="enddate" class="form-control input-lg" placeholder="Select an End Date">
-					</div>
-				</div>	
-			</div>
+			<br>
 			<div class="cal-description hidden">
 				<h4>Do you want to say anything about this calendar?<small> Do ya, do ya?</small></h4>
 				<div class="form-group">

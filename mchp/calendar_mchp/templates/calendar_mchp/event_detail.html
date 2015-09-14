@@ -1,46 +1,108 @@
 {% extends 'calendar_mchp/base.html' %}
 
-{% block head_title %}EVENT NAME in CLASS NAME{% endblock %}
+{% block head_title %}{{ event.title }}{% endblock %}
+{% block extra_head %}
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/event_detail.css' %}">
+
+{% endblock %}
 
 {% block body %}
+{% load humanize %}
 <div class="row">
-	<div class="col-xs-12">
-		<h1 class="white">Exam 1 <small>on Friday, May 17, 2015</small><span class="pull-right">in 6 hours</span></h1>
-	    <h4 class="white lead">ECON 200 with Instructor Reff <span class="pull-right"> and 54 minutes</span></h4>
-	    <hr>
-	</div><!-- end col-12 -->
-  <div class="col-xs-5">
-  	<h3 class="white"><i class="fa fa-file-text-o"></i> Documents for Exam 1</h3>
-  	<div class="well well-sm">
-    	<div class="list-group">
-    		<li class="list-group-item">
-      		<div class="media">
-      			<div class="media-left">
-              <a href="google.com">
-                <img class="media-object img-thumbnail" src="https://mchp-production.s3.amazonaws.com/media/previews/Syllabus_Econ_330Sp15_preview.png" width="76" alt="...">
-              </a>
-          	</div>
-            <div class="media-body">
-            	<h4 class="media-heading">Exam 2 Study Guide</h4>
-            	Contains information regarding class schedule and requirements.
-          	</div>
-          </div>
-      	</li>
-        <li class="list-group-item">
+  <div class="col-xs-12">
+    <h1 class="margin-top-none">{{ event.title }} <small class="white">{{ event.description }}</small>
+        <span class="pull-right"> on {{ event.start|date:"D F d, Y" }}</span></h1>
+    <h4 class="lead"><a href="{% url "course" course.pk %}" class="link">{{ course.name }}</a> with Instructor {{ course.professor }}<!-- <span class="pull-right"> {{ event.start|date:"H:i" }}</span> -->
+    </h4>
+    <hr>
+  </div>
+  <!-- end col-12 -->
+</div>
+<!-- end row -->
+<div class="row">
+  <div class="col-xs-8">
+    <h4 class="lead"><i class="fa fa-file-text-o"></i> Documents for {{ event.title }} <span class="badge opa">{{documents|length}}</span><h4>
+    <div class="panel opa">
+      <div class="list-group trans">
+        {% for document in documents %}
+        <a href="{% url "document_detail" document.uuid %}" class="list-group-item trans">
           <div class="media">
-          	<div class="media-left">
-              <a href="#">
-                <img class="media-object img-thumbnail" src="https://mchp-production.s3.amazonaws.com/media/previews/Syllabus_Econ_330Sp15_preview.png" width="76" alt="...">
-              </a>
-          	</div>
-            <div class="media-body">
-            	<h4 class="media-heading">Exam 1 Study Guide</h4>
-            	Contains information regarding class schedule and requirements.
-          	</div>
+            <div class="media-left" href="#">
+              {% if document.preview %}
+              <img clas"media-object bg-white img-thumbnail img-rounded" src="{{document.preview.url}}" width="64">
+              {% else %}
+              <img class="media-object bg-white img-thumbnail img-rounded" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" width="64">
+              {% endif %}
+            </div>
+            <div class="media-body white">
+              <h4 class="media-heading">{{document.title}}
+                <small class="white">{{document.price}} points</small><span class="pull-right small"><small>{{document.create_date|naturaltime}}</small></span></h4>
+              <span class="description">
+                <i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
+                <i class="fa fa-fw fa-thumbs-down text-danger
+                  fa-flip-horizontal"></i>{{document.down}}&nbsp;
+                {% with document.review_count as review_count %}
+                <i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
+                {% endwith %}
+                <i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
+                Purchase{{document.sold|pluralize}}
+              </span>
+              {% if document.upload %}
+              {% with document.upload.owner as owner %}
+              <div> uploaded by a classmate
+              </div>
+              {% endwith %}
+              {% endif %}
+            </div>
           </div>
-        </li>
-    	</div>
-   	</div><!-- end well --> 
+        </a>
+        {% empty %}
+          <li class="list-group-item trans text-center">
+            <p class="lead">Be the first to <a href="{% url "document_upload" %}" class="link">upload a document</a> for this event and start making money!</p>
+          </li>
+        {% endfor %}
+      </div>
+    </div>
   </div><!-- end col-5 -->
+    {% if classmates %}
+        <div class="col-xs-4">
+            <h4 class="lead"><i class="fa fa-users"></i> Classmates in {{course}} <span class="badge opa">{{classmates|length}}</span></h4>
+            <div class="panel opa">
+                <ul class="list-group trans small-scroll-con scrolls">
+                    {% for student in classmates %}
+                        <a href="{% url "profile" student.pk %}{{ student.name }}"
+                           class="list-group-item trans">
+                            <div class="media">
+                                <div class="media-left media-top">
+                                    <img class="img-circle img-thumbnail profile-image media-object"
+                                             src="{{ student.profile.profile_image_url }}"
+                                             alt="profile picture" width="48px" height="48px">
+                                </div>
+                                <div class="media-body white">
+                                    <h4 class="media-heading">{{ student.user.username }}</h4>
+                                    <small>
+                                        {% if student.major %}
+                                            {{ student.major }} Major
+                                        {% else %}
+                                            {{ student.school.name }}
+                                        {% endif %}
+                                    </small>
+                                    <p class="small margin-btm-none margin-top-none">
+                                        active {{ student.user.last_login|naturaltime }}</p>
+                                </div>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <li class="list-group-item trans">
+                            <p class="lead text-center">You're the first person to join this
+                                class!</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
 </div><!-- end row -->
 {% endblock %}

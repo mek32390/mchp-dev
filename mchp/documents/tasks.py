@@ -93,7 +93,7 @@ def create_preview(instance):
 
     size = 500
     try:
-        with Image(filename=instance.document.url+'[0]') as img:
+        with Image(filename=settings.COLLECTED_DIR+instance.document.url+'[0]') as img:
             logger.error('making thumbnail for: ' + instance.title)
             print('makeing thumbnail for: ' + instance.title)
             preview_name = '/tmp/tmp{}.png'.format(uuid.uuid4().hex)
@@ -118,11 +118,15 @@ def create_preview(instance):
         logger.error(str(e))
         print(str(e))
 
-    instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
-    add_notification(
-        upload.owner.user,
-        'Your document, {}, is ready to be sold!'.format(instance.title) 
-    )
+    try:
+        instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
+    except:
+        pass #don't care if ACL goes wrong, probably not an S3 connection that's in use right now...
+
+    #add_notification(
+    #    upload.owner.user,
+    #    'Your document, {}, is ready to be sold!'.format(instance.title)
+    #)
 
 def _document_notify(document):
     template = 'email/document_uploaded'

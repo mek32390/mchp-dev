@@ -15,7 +15,7 @@ from django.views.generic.list import ListView
 from documents.forms import DocumentUploadForm
 from documents.models import Document, Upload, DocumentPurchase
 from documents.exceptions import DuplicateFileError
-from calendar_mchp.models import ClassCalendar 
+from calendar_mchp.models import ClassCalendar, CalendarEvent
 from lib.decorators import school_required
 from referral.models import ReferralCode
 from schedule.models import Course
@@ -23,6 +23,9 @@ from schedule.models import Course
 from decimal import Decimal, ROUND_HALF_DOWN
 import json
 import logging
+from rosters.models import Roster
+from schedule.models import Enrollment
+
 logger = logging.getLogger(__name__)
 
 class AjaxableResponseMixin(object):
@@ -67,17 +70,39 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         course_field = form.fields['course']
+        event_field = form.fields['event']
 
         enrolled_courses = Course.objects.get_courses_for(self.student)
+        other_courses = Course.objects.exclude(pk__in=enrolled_courses)
+
 
         course_field.queryset = enrolled_courses
         course_field.empty_label = 'Pick a course'
+
+        event_field.empty_label = 'Pick an event'
+        student_events = CalendarEvent.objects.filter(
+            calendar__owner=self.student,
+            calendar__course__in=enrolled_courses
+        ).values('id', 'title', 'calendar__course')
+
+        student_course_events = dict()
+        for event in student_events:
+            course_id = event['calendar__course']
+            if course_id not in student_course_events:
+                student_course_events[course_id] = []
+
+            student_course_events[course_id].append(event)
+
+        type_field = form.fields['type']
+        type_field.queryset = Document.DOCUMENT_TYPE_CHOICES
 
         # course.display comes from the model
         course_field.label_from_instance = lambda course: course.display()
 
         data = {
             'enrolled_courses': enrolled_courses,
+            'other_courses': other_courses,
+            'student_course_events_serialized': json.dumps(student_course_events),
             'form': form,
         }
 
@@ -94,6 +119,21 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         ).order_by('dept', 'course_number', 'professor')[:10]
         course_data = serializers.serialize('json', suggestions)
         return self.render_to_json_response(course_data, status=200)
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        # Updating event query set
+        course_id = request.POST.get('course', None)
+        if course_id:
+            events = CalendarEvent.objects.filter(calendar__owner=self.student, calendar__course__id=course_id)
+            form.fields['event'].queryset = events
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def form_invalid(self, form):
         messages.error(
@@ -114,6 +154,11 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
 
         upload = Upload(document=doc, owner=self.student)
         upload.save()
+
+        event = form.cleaned_data.get('event', None)
+        if event:
+            event.documents.add(doc)
+
         messages.success(
             self.request,
             "Upload successful"
@@ -203,7 +248,7 @@ class DocumentDetailPreview(DetailView):
             # student didn't have enough points
             messages.error(
                 request,
-                "Pump your breaks kid, you don't have enough points to buy that."
+                "Pump your brakes kid, you don't have enough points to buy that."
             )
         else:
             # student bought the doc
@@ -216,6 +261,21 @@ class DocumentDetailPreview(DetailView):
                 points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
                 uploader.modify_balance(points)
                 uploader.save()
+
+            # if the student got enrolled in this class by a 'class set submission', there's a 10% fee owed to them
+            enrollment = Enrollment.objects.filter(
+                student= self.student,
+                course=self.course
+                )
+
+            if enrollment.created_by_roster:
+                roster = Roster.objects.get(pk=enrollment.created_by_roster)
+                roster_submitter = roster.created_by
+
+                roster_points = document.price * 0.1 # 10% of the sales price
+                roster_points = Decimal(roster_points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
+                roster_submitter.modify_balance(roster_points)
+                roster_submitter.save()
 
         return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 

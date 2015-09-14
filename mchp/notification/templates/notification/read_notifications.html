@@ -1,5 +1,14 @@
+
 {% for notification in notifications %}
-<li class="read-notifications">
-	<a><span class="label label-default">Read</span> {{notification.message}}</a> 
-</li>
+<div class='read-notifications'>
+	<div class='row'>
+		<div class='col-xs-2'>
+			<p class='label label-default'>read</p>
+		</div>
+		<div class='col-xs-10'>
+			<p class='text-muted'>{{notification.message}}</p>
+		</div>
+	</div>
+</div>
 {% endfor %}
+

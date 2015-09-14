@@ -5,8 +5,8 @@
 {% block extra_head %}
 	{% load staticfiles %}
 	<link rel="stylesheet" type="text/css" href="{% static 'schedule/css/course_add.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
-	<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
+	<!-- <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}"> -->
+	<!-- // <script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script> -->
 	<script src="{% static 'schedule/js/course_add.js' %}"></script>
 	<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 {% endblock %}
@@ -15,11 +15,13 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="media">
-  			<img class="no-shadow media-object pull-left animated slideInLeft" src="{% static 'lib/img/clocks.svg' %}" height="50px" alt="schedule">
-				<div class="media-body">
-  				<h2 class="media-heading">Class Enrollments</h2>
-				Add, Drop, or Create a Class
-			</div>
+		  <div class="media-left media-middle">
+		    <i class="media-object fa fa-clock-o fa-5x fa-fw"></i>
+		  </div>
+		  <div class="media-body">
+		    <h1 class="media-heading">Your Classes</h1>
+		    <p class="lead margin-btm-none">Add, Drop, or Create a Class</p>
+		  </div>
 		</div>
 		<hr>
 	</div>
@@ -27,9 +29,7 @@
 <div class="row">
 	<div class="col-sm-4">
 		<div id="enrolled-panel" class=" ">
-			<div class="">
-				<h3 class="">Currently Enrolled</h3>
-			</div>
+			<h3><i class="fa fa-bookmark-o fa-fw"></i> Currently Enrolled</h3>
 			<div class="panel opa">
 				<div class="panel-body">
 					<div class="list-group" id="enrolled_list">
@@ -41,7 +41,7 @@
 								{{course.dept}} {{course.course_number}}
 								</a>
 								<small class="pull-right">
-									<a href="javascript:void(0)" class="badge drop-button" data-course="{{course.pk}}">drop</a>
+									<a href="javascript:void(0)" class="badge drop-button opa" data-course="{{course.pk}}">drop</a>
 								</small>
 							</h4>
 							<p class="list-group-item-text small">with Instructor {{course.professor}}</p>
@@ -61,7 +61,7 @@
 	<div class="col-sm-8">
 		<div id="search-panel" class=" step-1">
 			<div class="">
-				<h3 class="">Add a Class</h3>
+				<h3><i class="fa fa-search-plus fa-fw"></i> Add a Class</h3>
 			</div>
 			<div class="panel opa">
 				<div class="panel-body">						

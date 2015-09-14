@@ -36,7 +36,7 @@ class Document(models.Model):
     SYLLABUS = 1
 
     DOCUMENT_TYPE_CHOICES = (
-        (STUDY_GUIDE, 'Study guide'),
+        (STUDY_GUIDE, 'Study Guide'),
         (SYLLABUS, 'Syllabus'),
     )
 
@@ -44,7 +44,8 @@ class Document(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
-    course = models.ForeignKey('schedule.Course', on_delete=models.SET(get_sentinel_course))
+    # if imported through roster/add and not yet approved, course will be null
+    course = models.ForeignKey('schedule.Course', on_delete=models.SET(get_sentinel_course), null=True)
 
     up = models.IntegerField(default=0)
     down = models.IntegerField(default=0)
@@ -55,6 +56,9 @@ class Document(models.Model):
     md5sum = models.CharField(max_length=32)
     uuid = models.CharField(max_length=32)
     create_date = models.DateTimeField(auto_now_add=True)
+
+    approved = models.BooleanField(default=True)
+    roster = models.ForeignKey('rosters.Roster', null=True, related_name='syllabus')
 
     preview = models.ImageField(upload_to=PREVIEW_LOCATION, blank=True, null=True)
     slug = models.SlugField(max_length=80)

@@ -14,17 +14,16 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
 
 {% load staticfiles %}
-<script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script>
 
-<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}">
-<script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-tour.min.css' %}"> -->
+  <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/new_homepage.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
 
-<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/weather-icons.min.css' %}">
-<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
-<script src="{% static 'dashboard/js/domparser.js' %}"></script>
-<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
-<!-- <script src="{% static 'lib/js/animatescroll.min.js' %}"></script> -->
+  <!-- // <script src="{% static 'lib/js/bootstrap-tour.min.js' %}"></script> -->
+  <!-- // <script src="{% static 'dashboard/js/jquery.jfeed.js' %}"></script> -->
+  <script src="{% static 'dashboard/js/new_homepage.js' %}"></script>
+  <script src="{% static 'dashboard/js/domparser.js' %}"></script>
+  <script src="{% static 'lib/js/jquery.cookie.js' %}"></script>
 
 {% endblock %}
 
@@ -42,319 +41,132 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
   {% if not dashboard_ref_flag %}
-  <div class="one-time-alert alert alert-success alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
-    <button type="button" class="close" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <div class="one-time-alert alert alert-dismissible fade in" data-event="{{dashboard_ref_flag_name}}" id="ref-alert" role="alert">
+    <button type="button" class="close no-shadow" data-event="{{dashboard_ref_flag_name}}" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <div class="media margin-top-none">
-      <img class="media-object pull-left animated rubberBand delayed-lg" src="{% static 'lib/img/money.svg' %}" alt="earn referral points">
+      <div class="media-left media-middle">
+        <i class="media-object fa fa-heart-o fa-fw fa-4x"></i>
+      </div>
       <div class="media-body">
-        <h4 class="media-heading">Get <strong>$5</strong> for every Study Guide you upload!</h4>
-        Seriously, when you <a href="{% url 'document_upload'%}" class="alert-link">Upload a Study Guide</a>, we'll deposit $5 in your account that day. We'll make sure it's not spam and once your document clears our brief inspection, the money is yours. For your privacy, you'll remain anonymous. <strong>- mchp</strong>
-        <p></p>
-        <p><a href="{% url 'document_upload'%}" class="btn btn-success btn-md">Start Selling Now!</a></p>
+        <h4 class="media-heading"><strong>Welcome to the new mchp!</strong></h4>
+        <p>We've made some major changes around here, but the concept is still very much the same!</p>
+        <ul>
+          <li>Home - (what you're viewing now) gives you an overview of what's coming up in your classes.</li>
+          <li>Events - every event has it's own page, where you can find curated Study Guides and Documents most relevant to it.</li>
+          <li>Picture Backgrounds - everyday you'll see a new beautiful image as your background.</li>
+        </ul>
       </div>
     </div>
   </div><!-- end alert -->
   {% endif %}
-  <ol id="quicklinks" class="breadcrumb margin-btm-sm">
-        {% if weather %}
-        <li data-weather="{{weather}}">
-            <span id="weather_data" data-icon="{{weather.icon}} is for {{weather.text}}">
-            </span> 
-            <span id="weather_temp"><strong>{{weather.temperature}} &deg;F</strong></span> &nbsp;
-        </li>
-        {% endif %}
-    <li><strong><a target="_blank" href="http://{{school.domain}}">{{school.alias}}</a></strong></li>
-    {% for link in school_links %}
-    <li><strong><a target="_blank" href="{{link.quick_link}}">{{link.name}}</a></strong></li>
-    {% endfor %}
-    <span class="pull-right">
-      <div class="fb-like" data-href="https://www.mycollegehomepage.com" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
-      <!-- <strong><i class="fa fa-fw fa-clock-o"></i>
-      <span class="current-time" data-time="{{current_time}}">
-        {{current_time|time:"g:i:s a"}}
-      </span></strong> -->
-    </span>
-  </ol>
-  <!-- End Quicklinks -->
-  <div class="row"><!-- Begin Row --> 
-    <div class="col-sm-4 col-md-3 animated bounceInUp"><!-- Begin Today Col -->
+  <!-- Overview Section -->
+<section id="overview" class="section section-overview">
+  <div class="row">
+    <div class="col-xs-8">
+      <h1><span id="greeting"></span> {{ student_name }}.</h1>
+      <p class="lead margin-btm-sm">You have <strong>{{ event_count }} assignments</strong> coming up</p>
+      <p></p>
       <div class="row">
-        <div id="today-section" class="col-sm-12">
-      <h2 style>Today&nbsp;<small>in your life</small></h2>
-      <hr class="margin-top-sm">
-            {% if event_count and events_possible %}
-            <h5><strong><i class="fa fa-bell fa-fw"></i> Events <small>to do</small><span class="label label-danger pull-right">{{event_count}}</span></strong></h5>
-            {% endif %}
-      <div class="list-group">
-        {% for event in events %}
-        <div class="list-group-item">
-          <a href="{%url "calendar" %}" class="h5 {% if forloop.first %} text-danger {% else %} text-default {% endif %}">{{event.title}}</a>
-          <p class="margin-btm-none"><span class="pull-right text-default small"><small>{{event.start|naturaltime}}</small></span>
-            <a href="{% url "course" event.calendar.course.pk %}" class="h6 text-default">{{event.calendar.course}}</a>
-          </p>
-        </div>
-        {% empty %}
-                {% if events_possible %}
-                <div class="list-group-item">
-                    You've got nothing. Woop!
-                </div>
-                {% else %}
-        <p>Start by following some calendars or <a href="{% url 'calendar_create' %}">make your own.</a></p>
-                {% for calendar in calendars%}
-                <div class="list-group-item">
-                    <a href="{% url "calendar_preview" calendar.pk %}"><strong>{{calendar.title}} Calendar</strong></a>
-                </div>
-                {% endfor %}
-                {% endif %}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-      <div class="row">
-        <div id="people-section" class="col-xs-12 animated bounceInUp"><!-- Begin Friend Col -->
-          <h2>People <small>to meet</small></h2>
-          <hr class="margin-top-sm">
-          <div class="list-group">
-            {% for classmate in classmates %}
-            <div class="list-group-item">
-              <div class="media">
-                <a class="pull-left" href="{% url "profile" classmate.pk %}">
-                  <div class="media-object img-thumbnail img-circle center-block profile-image" style="width:50px; height:50px; background-image:url({{classmate.profile.profile_image_url}});"></div>
-                </a>
-                <div class="media-body">
-                  <a href="{% url "profile" classmate.pk %}">
-                    <h5 class="media-heading">{{classmate.user.username}}</h5>
-                  </a>
-                                    <p class="small h6 margin-btm-sm margin-top-none">
-                                        {%if classmate.major%}{{classmate.major}}{%else%}{%endif%}
-                                    </p>
-                                    <p class="small margin-top-none margin-btm-none classes-in-common">
-                                        taking 
-                                        {% for course in classmate.classes_in_common %}
-                                        {% if not forloop.last %}
-                                        <a href="{% url "course" course.pk %}">{{course}}</a>,
-                                        {% elif forloop.last and forloop.first %}
-                                        <a href="{% url "course" course.pk %}">{{course}}</a>
-                                        {% else %}
-                                        and <a href="{% url "course" course.pk %}">{{course}}</a>
-                                        {% endif %}
-                                        {% endfor %}
-                                        together.
-                                    </p>
-                </div>
-              </div>
-            </div>
-            {% empty %}
-          <!--   <div class="panel panel-default">
-              <div class="panel-body"> -->
-              <!-- <div class="media-body"> -->
-                <div class="alert alert-success" role="alert">
-                   <h4>You're the first!</h4>
-                    Don't be a stranger, tell your friends to enter your code,
-                        <strong>"{{referral_info.referral_code}}"</strong> in the <a class="alert-link"
-                            href="#referral-modal" data-toggle="modal">referral window</a>, and you'll both get <strong>{{referral_reward}} points.</strong>
-                </div>
-              <!-- </div> -->
-            <!-- </div>
-            </div> -->
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div><!-- End Today Col -->
-
-    <div id="pulse-section" class="col-sm-8 col-md-5 animated bounceInUp delayed-sm"><!-- Begin Pulse Col -->
-      <h2>Pulse <small> feel the vibe</small></h2>
-      <hr class="margin-top-sm">
-      <!-- <div class="row">
-      <div class="col-sm-8"> -->
-      <div class="pulse-con">
-        <div class="list-group margin-btm-none" id="pulse">
-          <div class="text-center dash-load">
-            <p><i class="fa fa-spinner fa-spin"></i> Checking Pulse</p>
-          </div>
-          <div class="dash-empty hidden text-center">
-                  <img src="{% static 'lib/img/safe.svg' %}" width="70px" class="img-circle img-thumbnail" alt="no pulse">
-                  <h5>You have no pulse!</h5>
-                  <h6>Quick, somebody get a doctor!</h6>
-          </div>
-          <div class="list-group-item document-add document-add-proto hidden">
-            <div class="media"> <a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-primary btn-xs">
-                <h5><i class="fa fa-file fa-fw"></i></h5>
+        <div class="col-sm-4">
+          <h4 class="white lead margin-btm-sm margin-top-sm">Today</h4>
+          <hr class="margin-top-none">
+          {% for course, events in today_events_by_course.items %}
+          <h5 class=""><strong><a href="{% url "course" course.id %}" id="course1Link" class="page-scroll"><span class="courseName">{{ course.display }}</span></a> <span class="small pull-right"></span></strong></h5>
+          <p></p>
+          <div class="panel opa">
+            <ul class="list-group trans">
+              {% for event in events %}
+              <a href="{% url "event_detail" event.id %}" class="list-group-item item-custom trans">
+                <h4 class="white ">{{ event.title }}</h4>
+                <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> {{ event.document_count }} Study Guides</h5>
               </a>
-              <div class="media-body">
-                <p class="media-heading">
-                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
-                  <a href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong></a> added by a classmate
-                    <!-- <a href="#"><strong><span class="dash-target"></span></strong></a> -->
-                </p>
-                <a href="#">
-                  <span class="description small dash-course"></span>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="list-group-item calendar-add calendar-add-proto hidden">
-            <div class="media"> <a href="#" class="dash-title-link media-object img-thumbnail pull-left btn-danger btn-xs">
-                <h5><i class="fa fa-calendar fa-fw"></i></h5>
-              </a>
-              <div class="media-body">
-                <p class="media-heading">
-                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
-                  <a href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong>
-                  </a> added to calendar by <a href="#">
-                    <strong>
-                      <span class="dash-target"></span>
-                    </strong>
-                  </a>
-                </p>
-                <a href="#">
-                  <span class="description small dash-course"><span> </div>
-                </a>
-            </div>
-          </div>
-          <div class="list-group-item document-purchase document-purchase-proto hidden">
-            <div class="media"> <a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
-                <h5><i class="fa fa-money fa-fw"></i></h5>
-              </a>
-              <div class="media-body">
-                <p class="media-heading">
-                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
-                  <a href="#" class="dash-title-link"><strong><span class="dash-title"></span></strong></a> purchased by <a
-                     href="#">
-                    <strong>
-                      <span class="dash-target"></span>
-                    </strong>
-                  </a>
-                </p>
-                <a href="#">
-                  <span class="description small dash-course"></span> </div>
-                </a>
-            </div>
-          </div>
-          <div class="list-group-item other-class other-class-join-proto hidden">
-            <div class="media"> <a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-info btn-xs">
-                <h5><i class="fa fa-user fa-fw"></i></h5>
-              </a>
-              <div class="media-body">
-                <p class="media-heading">
-                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
-                  <a href="#"><strong><span class="dash-target"></span></strong></a> joined your class</p>
-                <a href="#">
-                  <span class="description small dash-course"></span>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="list-group-item class-join class-join-proto hidden">
-            <div class="media"><a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-default btn-xs">
-                <h5><i class="fa fa-user fa-fw"></i></h5>
-              </a>
-              <div class="media-body">
-                <p class="media-heading">
-                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
-                  You joined a class</p>
-                <a href="#">
-                  <span class="description small dash-course"></span>
-                </a>
-              </div>
-            </div>
-          </li>
-        </div>
-          <div class="list-group-item subscription subscription-proto hidden">
-            <div class="media">
-                            <a href="#" class="media-object dash-title-link img-thumbnail pull-left btn-success btn-xs">
-                                <h5><i class="fa fa-calendar fa-fw"></i></h5>
-              </a>
-              <div class="media-body">
-                <p class="media-heading">
-                  <h class="pull-right"><small><span class="dash-time"></span></small></h>
-
-                                    <a href="#">
-                    <strong>
-                      <span class="dash-target"></span>
-                    </strong>
-                  </a> has subscribed to your
-                  <a href="#" class="dash-title-link">
-                                        <strong><span class="dash-title"></span></strong>
-                  </a> 
-                                    calendar
-
-                                </p>
-                <a href="#">
-                  <span class="description small dash-course"></span>
-                </a> 
-              </div>
-            </div>
-          </li>
-        </div>
-
-      </div>
-    </div>
-
-   </div> <!--  End Pulse Col -->
-    <div id="stories-section" class="col-md-4 col-sm-12 animated bounceInUp delayed-md stories-section">
-      <h2>Stories <small> for your brain</small><a href="#" id="edit-sections" class="pull-right" data-toggle="tooltip" data-original-title="Customize Stories"><small><i class="fa fa-bars"></i></small></a></h2>
-      <hr class="margin-top-sm">
-      <div class="flip-holder">
-        <div class="front">
-          <nav id="news-navbar" class="navbar navbar-default" role="navigation">
-            <span class="navbar-header">
-              <ul class="nav navbar-nav flex-nav">
-                {% for rss,visible in rss_types %}
-                <li class="news-list-item {% if not visible %}hidden{% endif %} " id="news-list-item-{{rss.pk}}">
-                  <a class="news-link" data-toggle="tooltip" data-title="{{rss.name}}"
-                    data-placement="bottom" data-setting="{{rss.pk}}" href="#news-{{rss.pk}}" ><i class="fa {{rss.icon}}"></i>
-                  </a>
-                </li>
-                {% endfor %}
-                <li class="news-list-empty ">
-                  <a>Get some stories by clicking those bars.</a>
-                </li>
-              </ul>
-            </span><!--end navbar header -->
-          </nav> 
-          <span id="news-scroll" class="margin-btm-none" data-spy="scroll" data-offset="0">
-            {% for rss,visible in rss_types %}
-            <ul id="news-{{rss.pk}}" class="news-group list-group {% if not visible %}hidden{% else %}visible-group{% endif %}">
-              <li class="list-group-item news-header" style="background-color: #{{rss.color}};">
-                <h5 class="margin-top-none margin-btm-none">{{rss.name}}</h5>
-              </li>
-              {% for link in rss.links %}
-              <li class="list-group-item news-item news-item-proto hidden" data-link="{{link.url}}"
-                data-name="{{link.name}}" data-count="{{link.story_count}}"> 
-                <a href="#" class="news-headline" target="_blank"></a>  
-                <p class="small h6 margin-top-none margin-btm-sm"><span class="news-time"></span> <span class="label alert-info news-name"></span></p>
-                <p class="small news-content"></p>
-              </li>
               {% endfor %}
             </ul>
-            {% endfor %}
-          </ul>
-        </span><!-- end news scroll section --> 
-      </div><!--end front -->
-      <div class="back">  
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <div class="well margin-btm-none">
-              <h4 class="text-center">Customize Your Interests</h4>
-              <hr class="margin-top-sm">
-              <ul class="list-inline text-center margin-btm-none">
-                {% for rss, visible in rss_types %}
-                <li class="list-group" style="width:111px;">
-                  <div class="list-group-item btn btn-default {% if visible %}active{% endif %} toggle-rss" data-toggle="button" data-setting="{{rss.pk}}">
-                    <i class="fa {{rss.icon}} fa-2x"></i>
-                    <h5>{{rss.name}}</h5>
+          </div>
+          {% empty %}
+          <div class="text-center">
+            <p><i class="fa fa-smile-o fa-5x"></i></p>
+            <p><strong>Nothing due today!</strong></p>
+            <a href="{% url 'calendar' %}" class="btn btn-trans">Add New Event</a>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="col-sm-4">
+          <h4 class="white lead margin-btm-sm margin-top-sm">Tomorrow</h4>
+          <hr class="margin-top-none">
+          <div class="upcoming-assignment">
+              {% for course, events in tomorrow_events_by_course.items %}
+                  <h5 class=""><strong><a href="{% url "course" course.id %}" id="course1Link" class="page-scroll"><span class="courseName">{{ course.display }}</span></a> <span class="small pull-right"></span></strong></h5>
+                  <p></p>
+                  <div class="panel opa">
+                      <ul class="list-group trans">
+                          {% for event in events %}
+                              <a href="{% url "event_detail" event.id %}" class="list-group-item item-custom trans">
+                                  <h4 class="white ">{{ event.title }}</h4>
+                                  <h5 class="white"><i class="fa fa-fw fa-file-text-o"></i> {{ event.document_count }} Study Guides</h5>
+                              </a>
+                          {% endfor %}
+                      </ul>
                   </div>
-                </li> 
-                {% endfor %}
-              </ul>
-            </div>
+              {% empty %}
+                <div class="text-center">
+                  <p><i class="fa fa-smile-o fa-5x"></i></p>
+                  <p><strong>Nothing due tomorrow!</strong></p>
+                  <a href="{% url 'calendar' %}" class="btn btn-trans">Add New Event</a>
+                </div>
+              {% endfor %}
           </div>
         </div>
-      </div>
-      <!-- end back -->
-    </div>
-  </div>  <!--End News Col  --> 
-</div> <!--End Row -->
+      </div><!-- /row -->
+    </div><!-- /col-8 -->
+    <div class="col-xs-4">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 class="white text-right"><span class="weekdayMonth"></span></h1>
+        </div>
+        <div class="col-xs-12">
+          <p class="white mega-font lead hidden-xs text-right"><span class="numberDate"></span></p>
+        </div>
+        <div class="col-sm-7 col-sm-offset-5">
+          <br>
+          <h4 class="white lead margin-btm-sm margin-top-sm text-right">Classmates</h4>
+          <hr class="margin-top-none">
+          <p></p>
+          <div class="list-group trans">
+            {% for classmate in classmates %}
+              <div class="media">
+                <div class="media-body">
+                  <h5 class="media-heading margin-btm-none text-right">
+                    <a href="{% url "profile" classmate.pk %}">
+                    <strong>{{classmate.user.username}}</strong>
+                    </a>
+                  </h5>
+                  <p class="small margin-top-none margin-btm-none classes-in-common text-right">
+                      {% for course in classmate.classes_in_common %}
+                      {% if not forloop.last %}
+                      <a href="{% url "course" course.pk %}">{{course}}</a>,
+                      {% elif forloop.last and forloop.first %}
+                      <a href="{% url "course" course.pk %}">{{course}}</a>
+                      {% else %}
+                      <a href="{% url "course" course.pk %}">{{course}}</a>
+                      {% endif %}
+                      {% endfor %}
+                  </p>
+                </div>
+                <div class="media-right media-top">
+                  <a href="{% url "profile" classmate.pk %}">
+                    <img class="media-object img-circle profile-image img-thumbnail animated flipInX delayed-sm" src="{{ classmate.profile.profile_image_url }}" alt="classmate" style="width:36px; height:36px; padding:2px;">
+                  </a>
+                </div>
+              </div>
+            {% empty %}
+            {% endfor %}
+          </div>
+
+        </div>
+      </div><!-- /row -->
+    </div><!-- end col-4 -->
+  </div><!-- /section-row -->
+</section>
+<!-- End Overview Section -->
 {% endblock %}

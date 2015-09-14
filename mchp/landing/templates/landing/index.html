@@ -12,6 +12,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
 
 {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'landing/css/landing.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
 
   <script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
@@ -24,35 +25,35 @@
 {% load humanize %}
 
 <!-- Overview Section -->
-<section id="overview" class="section section-overview">
+<section id="overview" class="section">
   <div class="row">
     <div class="col-xs-12">
-    <!-- <a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with e-mail</a> -->
+    <h4><a class="pull-right" href="{% url 'account_login' %}?next={{request.get_full_path}}"><strong>Login</strong></a></h4>
       <br></br>
-      <br></br>
-      <br></br>
-      <h1 class="text-center"><strong>mycollegehomepage</strong></h1>
-      <h3 class="text-center">An academic planner that curates study guides for your upcoming exams.</h3>
-    </div>
-    <div class="col-xs-6 col-xs-offset-3">
       <br></br>
       <br>
-      <h4>
-        <form id="emailForm" method="post" action="{% url 'get_email' %}">
-          {% csrf_token %}
-          <div class="form-group">
-            <div class="input-group center-block">
-              <input type="email" class="center-block text-center" name="email" placeholder="What is your .edu email?"/>
-              <!-- <span class="input-group-btn">
-                <button id="emailSubmit" type="submit" class="btn btn-primary btn-lg" data-style="expand-right" type="submit"><span class="ladda-label">Go!</span></button>
-              </span> -->
-            </div>
+      <h1 class="text-center" style="font-size:50px"><strong>mycollegehomepage</strong></h1>
+      <h3 class="text-center">mchp is an elegant planner that curates study guides for your upcoming exams.</h3>
+    </div>
+    <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4">
+      <br>
+      <h3>
+      <form id="emailForm" method="post" action="{% url 'get_email' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="input-group center-block">
+            <input type="email" class="form-control input-lg center-block text-center" name="email" placeholder="Get started with your .EDU email"/>
+            <span class="input-group-btn">
+              <button id="emailSubmit" style="visibility: hidden" type="submit" class="btn btn-primary btn-sm" data-style="expand-right"></button>
+            </span>
           </div>
-        </form>
-      </h4> 
+        </div>
+      </form>
+      </h3>
     </div><!-- /col-10 -->
     <div class="col-xs-12">
     <!-- <a href="{% url 'account_login' %}?next={{request.get_full_path}}">Log In with e-mail</a> -->
+      <br></br>
       <br></br>
       <br></br>
       <br></br>

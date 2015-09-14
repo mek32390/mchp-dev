@@ -48,34 +48,36 @@ class DashboardView(View):
     template_name = 'dashboard.html'
 
     def get(self, request, *args, **kwargs):
-        s_links = SchoolQuicklink.objects.filter(
-            domain=self.student.school
-        ).order_by('id')
-
+        tomorrow = (timezone.now() + timedelta(days=1)).replace(hour=0, minute=0, second=0)
         events = CalendarEvent.objects.filter(
-            Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student,private=False))
-            | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student)),
-            start__range=(timezone.now(), timezone.now() + timedelta(days=1))
-        ).order_by('start')
-        rss_types = RSSType.objects.filter(
-            Q(school=self.student.school)
-            |Q(school=None),
-        )
-        for rss in rss_types:
-            links = RSSLink.objects.filter(
-                rss_type=rss
-            )
-            setattr(rss, 'links', links)
-        rss_settings = RSSSetting.objects.filter(
-            student=self.student
-        )
-        show_rss = list(map(lambda setting: setting.rss_type, rss_settings))
+            Q(calendar__in=ClassCalendar.objects.filter(subscription__student=self.student, private=False))
+            | Q(calendar__in=ClassCalendar.objects.filter(owner=self.student))).order_by('start')
+        today_events = events.filter(start__range=(timezone.now(),  tomorrow))
+        tomorrow_events = events.filter(start__range=(tomorrow, tomorrow + timedelta(days=1)))
 
-        # filter all rss types w/ just the ones the user wants shown
-        rss_types = [(rss,True) if rss in show_rss else (rss,False) for rss in rss_types]
-        ref = ReferralCode.objects.get_referral_code(request.user)
+        today_events_by_course = dict()
+        for event in today_events:
+            course = event.calendar.course
+            if course not in today_events_by_course:
+                today_events_by_course[course] = []
+            today_events_by_course[course].append({
+                'id': event.id,
+                'title': event.title,
+                'document_count': event.get_documents(return_count=True)
+            })
 
-        # school 
+        tomorrow_events_by_course = dict()
+        for event in tomorrow_events:
+            course = event.calendar.course
+            if course not in tomorrow_events_by_course:
+                tomorrow_events_by_course[course] = []
+            tomorrow_events_by_course[course].append({
+                'id': event.id,
+                'title': event.title,
+                'document_count': event.get_documents(return_count=True)
+            })
+
+        # school
         school = self.student.school
         alias = SchoolAlias.objects.filter(
             domain=school
@@ -85,35 +87,10 @@ class DashboardView(View):
         else:
             setattr(school, 'alias', school.name)
 
-        # weather
-        # the weather must be stored for 30 minutes before making another request i think this is a
-        # license thing
-        saved_weather = Weather.objects.filter(
-            zipcode=school.zipcode,
-            fetch__gte=timezone.now() + timedelta(minutes=-30),
-        )
-        if saved_weather.exists():
-            weather = saved_weather[0]
-            weather = weather.info if weather.info else None
-        elif school.zipcode:
-            saved_weather, created = Weather.objects.get_or_create(zipcode=school.zipcode)
-            weather_info = pywapi.get_weather_from_weather_com(school.zipcode, units='imperial')
-            weather_info = weather_info['current_conditions']
-            weather = weather_info
-
-            saved_weather.info = json.dumps(weather_info)
-            saved_weather.save()
-        else: 
-            weather = None
-
-        date_format = "%Y-%m-%dT%H:%M:%S%z" 
-        time = timezone.localtime(timezone.now(),
-                                  timezone.get_current_timezone()).strftime(date_format)
-
         classmates = Course.objects.get_classmates_for(self.student)
         # get rid of duplicates 
         classmates = list(set(classmates))
-        sample_size = 2 if len(classmates) > 1 else len(classmates)
+        sample_size = 3 if len(classmates) > 2 else len(classmates)
         classmates = random.sample(classmates, sample_size)
         for classmate in classmates:
             classes_in_common = Course.objects.get_classes_in_common(classmate, self.student)
@@ -130,37 +107,14 @@ class DashboardView(View):
         data = {
             'dashboard_ref_flag': self.student.one_time_flag.get_flag(self.student, dashboard_ref_flag),
             'dashboard_ref_flag_name': dashboard_ref_flag, 
-            'referral_info': ref,
-            'school_links': s_links,
-            'events': events[:5],
-            'event_count': events.count(),
+            'today_events_by_course': today_events_by_course,
+            'tomorrow_events_by_course': tomorrow_events_by_course,
+            'event_count': today_events.count() + tomorrow_events.count(),
             'events_possible': events_possible,
-            'rss_types': rss_types,
-            'school': school,
-            'weather': weather,
-            'current_time': time,
             'classmates': classmates,
-            'calendars': self._get_calendars(self.student.courses()),
-            'referral_reward': settings.MCHP_PRICING['referral_reward']
+            'student_name': self.student.user.first_name or self.student.user.username
         }
         return render(request, self.template_name, data)
-
-    def _get_calendars(self, courses):
-        subs = Subscription.objects.filter(
-            student = self.student
-        )
-        if subs.exists():
-            return []
-        all_cals = []
-        for course in courses:
-            cals = ClassCalendar.objects.filter(
-                course = course,
-            ).annotate(
-                subscriptions=Count('subscribers')
-            ).order_by('subscriptions')
-            all_cals = all_cals + list(cals)[:2]
-        random.shuffle(all_cals)
-        return all_cals[:4]
 
     def post(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(['GET'])

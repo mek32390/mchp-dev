@@ -1,8 +1,10 @@
+import copy
+import re
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -12,11 +14,11 @@ from django.views.generic.edit import DeleteView,View, UpdateView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
-from documents.models import Upload
+from documents.models import Upload, Document
 from notification.api import add_notification_for, add_notification
 from lib.decorators import class_required
 from referral.models import ReferralCode
-from schedule.models import Enrollment, Section
+from schedule.models import Enrollment, Section, Course
 from schedule.utils import WEEK_DAYS
 from user_profile.models import OneTimeFlag
 
@@ -116,14 +118,10 @@ class CalendarCreateView(View, AjaxableResponseMixin):
             # course found
             course = enroll[0].course
 
-        end_date = timezone.make_aware(datetime.strptime(
-            request.POST.get('enddate', ''), "%m/%d/%Y"),
-            timezone.utc)
         calendar_data = {
             'course': course,
             'owner': self.student,
             'description': request.POST.get('description', ''),
-            'end_date': end_date,
             'private': True,
             'color': request.POST.get('color', '#FFFFFF'),
         }
@@ -288,6 +286,7 @@ class EventAddView(View, AjaxableResponseMixin):
         events = request.POST.get('events', '[]')
         events = json.loads(events)
         error = False
+        created_events= []
         for index in events:
             event = events[index]
             all_day = False
@@ -315,6 +314,7 @@ class EventAddView(View, AjaxableResponseMixin):
             cal_event = CalendarEvent(**event_data)
             try:
                 cal_event.save()
+                created_events.append(cal_event)
             except ( CalendarExpiredError, BringingUpThePastError ) as e:
                 messages.error(
                     self.request,
@@ -335,6 +335,20 @@ class EventAddView(View, AjaxableResponseMixin):
                 subscribers,
                 '{} has added an event to {}'.format(request.user.username, calendar.course)
             )
+
+            # Propagate created events to student calenders
+            student_calendars = ClassCalendar.objects.filter(original_calendar=calendar)
+            student_events = []
+            for original_event in created_events:
+                for student_calendar in student_calendars:
+                    event = copy.copy(original_event)
+                    event.pk = None
+                    event.id = None
+                    event.calendar = student_calendar
+                    event.original_event = original_event
+                    student_events.append(event)
+
+            CalendarEvent.objects.bulk_create(student_events)
 
         if self.request.is_ajax():
             data = {
@@ -692,20 +706,6 @@ class CalendarView(View):
             owner = self.student,
         ).values('course__pk', 'course__dept', 'course__course_number')
         courses = self.student.courses()
-        subscriptions = ClassCalendar.objects.filter(
-            subscription__student=self.student,
-            subscription__enabled=True,
-        ).order_by('title')
-        subscription_info = Subscription.objects.filter(
-            student=self.student,
-            enabled=True,
-        ).values('pk', 'subscribe_date', 'enabled', 'calendar')
-        for subscription in subscriptions:
-            for info in subscription_info:
-                if info['calendar'] == subscription.pk:
-                    subscribe_date = timezone.localtime(info['subscribe_date'], timezone=timezone.get_current_timezone())
-                    setattr(subscription, 'subscribe_date', subscribe_date)
-                    setattr(subscription, 'enabled', info['enabled'])
 
         calendar_tutorial = 'calendar tutorial'
         data = {
@@ -714,8 +714,7 @@ class CalendarView(View):
             'calendar_courses': cal_courses,
             'courses': courses,
             'owned_calendars': owned_calendars,
-            'subscriptions': subscriptions,
-            'total_school_calendars': len(owned_calendars) + len(subscriptions)
+            'total_school_calendars': len(owned_calendars)
         }
         return render(request, self.template_name, data)
 
@@ -823,56 +822,10 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 calendar__end_date__gte=timezone.now(),
                 is_recurring=False,
                 start__range=(start,end)
-            ).values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
+            ).order_by('start').values('id', 'title', 'description', 'start', 'end', 'all_day', 'url',
                      'calendar__course__name', 'calendar__color', 'calendar__course__pk',
                      'calendar__pk', 'calendar__private', 'last_edit'
             )
-
-            subscribed_events = Subscription.objects.filter(
-                student=self.student,
-                enabled=True,
-                calendar__private=False,
-                calendar__calendarevent__start__range=(start,end)
-            ).values(
-                'calendar__calendarevent__title',
-                'calendar__calendarevent__description',
-                'calendar__calendarevent__start',
-                'calendar__calendarevent__end',
-                'calendar__calendarevent__id',
-                'calendar__calendarevent__last_edit',
-                'calendar__color',
-                'calendar__pk',
-                'calendar__private',
-                'calendar__course__pk',
-                'calendar__course__name',
-                'calendar__owner__user__username',
-                'calendar__owner__pk',
-            )
-            for event in subscribed_events:
-                start_time = timezone.localtime(event['calendar__calendarevent__start'], timezone=timezone.get_current_timezone())
-                end_time = timezone.localtime(event['calendar__calendarevent__end'], timezone=timezone.get_current_timezone())
-                last_edit = timezone.localtime(event['calendar__calendarevent__last_edit'], timezone=timezone.utc)
-
-                event['start'] = start_time.strftime(DATE_FORMAT)
-                event['end'] = end_time.strftime(DATE_FORMAT)
-                event['last_edit'] = last_edit.strftime(DATE_FORMAT)
-
-                event['course'] = event['calendar__course__name']
-                event['id'] = event['calendar__calendarevent__id']
-                event['title'] = event['calendar__calendarevent__title']
-                event['description'] = event['calendar__calendarevent__description']
-                event['owned'] = False
-                event['author'] = event['calendar__owner__user__username']
-                event['author_pk'] = event['calendar__owner__pk']
-
-                del event['calendar__owner__pk']
-                del event['calendar__owner__user__username']
-                del event['calendar__calendarevent__start']
-                del event['calendar__calendarevent__end']
-                del event['calendar__calendarevent__title']
-                del event['calendar__calendarevent__description']
-                del event['calendar__calendarevent__id']
-                del event['calendar__calendarevent__last_edit']
 
             # convert the returned events to a format we can use on the page
             for event in events:
@@ -890,9 +843,8 @@ class CalendarFeed(View, AjaxableResponseMixin):
                 del event['calendar__course__name']
                 del event['all_day']
 
-            both = sorted(list(events) + list(subscribed_events), key=lambda x: x['start'])
             data = {
-                'events': both,
+                'events': list(events),
             }
             return self.render_to_json_response(data, status=200)
         else:
@@ -973,5 +925,18 @@ class EventDetailView(DetailView):
     """
     template_name = 'calendar_mchp/event_detail.html'
     model = CalendarEvent
+
+    def get_context_data(self, **kwargs):
+        context = super(EventDetailView, self).get_context_data(**kwargs)
+        event = context['calendarevent']
+        context['event'] = event
+        context['course'] = event.calendar.course
+        context['documents'] = event.get_documents()
+
+        if event.calendar and event.calendar.course:
+            classmates = Course.objects.get_classlist_for(event.calendar.course)
+            context['classmates'] = classmates
+
+        return context
 
 event_detail = EventDetailView.as_view()

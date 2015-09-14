@@ -18,146 +18,91 @@
 
 {% block body %}
 {% load humanize %}
-<ol class="breadcrumb">
-	<div class="pull-right">
-		<a button type="button" class="btn btn-success btn-xs" href='{% url "document_upload" %}'><i class="fa fa-money fa-fw"></i> Sell Study Guides</a>
-	</div>
-	<li><a href="{%url "school" course.domain.pk%}{{course.domain.name}}"><i class="fa fa-university fa-fw"></i> {{course.domain.name}}</a></li>
-	<li class="active"><i class="fa fa-book fa-fw"></i> {{course.dept}} {{course.course_number}}</li>
-</ol>
-<div class="well" style="padding-bottom:0px;">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<div class="media"> <a class="pull-left"> <img class="media-object img-responsive" width="75px" src="{% static 'lib/img/book.svg' %}" alt="course"></a>
-				<div class="media-body">
-					<h2 class="media-heading">{{course.dept}} {{course.course_number}}
-						<small> at <a href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></small>
-						<small class="pull-right">
-							{% if student and enrolled %}
-							<button class="btn btn-success disabled"><i class="fa fa-check"></i> Enrolled</button>
-							{% endif %}
-						</small>
-					</h2>
-					<p class="animated">
-						<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
-						<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
-						<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
-					</p>
-				</div>
-				<div class="progress" style="margin-bottom:0px; width:68%;">
-					<div class="progress-bar progress-bar-info" data-toggle="tooltip" data-original-title="{{student_count}} Student{{student_count|pluralize}}" data-placement="bottom" style="width: {{student_percent}}%"> <span class="sr-only">67% Complete (info)</span> </div>
-					<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="{{doc_count}} Document{{doc_count|pluralize}}" data-placement="bottom" style="width: {{doc_percent}}%"> <span class="sr-only">11% Complete (primary)</span> </div>
-					<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="{{cal_count}} Calendar{{cal_count|pluralize}}" data-placement="bottom" style="width: {{cal_percent}}%"> <span class="sr-only">22% Complete (warning)</span> </div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="row">
-	<div class='col-sm-6'>
-		<div class="panel panel-default" id="popular-documents">
-			<div class="panel-heading clearfix">
-				<h3 class="panel-title"> Popular Documents <span
-						class="badge">{{popular_documents|length}}</span>
-				</h3>
-			</div>
-			<div class="doc-scroll scrolls">
+	<div class="col-xs-12">
+		<ol class="breadcrumb opa">
+			<h4>You are currently viewing documents for all <strong>{{course.dept}} {{course.course_number}}</strong> courses at <a href="{%url "school" course.domain.pk%}{{course.domain.name}}" class="link"><strong>{{course.domain.name}}</strong></a></h4>
+		</ol>
+		<div class="well opa" style="padding-bottom:0px;">
+			<div class="panel opa">
 				<div class="panel-body">
-					<div class="list-group item-list ">
-						{% for document in popular_documents %}
-						<div class="list-group-item">
-							<div class="media">
-								<span class="pull-left" href="#">
-									<div class="media-object img-thumbnail">
-										{% if document.preview %}
-										<a href="{%url "document_detail" document.uuid %}"><img src="{{document.preview.url}}" style="width:64px"></a>
-										{% else %}
-										<a href="{%url "document_detail" document.uuid %}"><img class="img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:64px"></a>
-										{% endif %}
-									</div>
-								</span>
-								<div class="media-body">
-									<h4 class="media-heading">
-										<a href="{%url "document_detail" document.uuid %}">{{document.title}}</a>
-										<small>{{document.price}} points</small>
-										<div class="pull-right small text-muted hidden-sm">
-											<small>{{document.create_date|naturaltime}}</small>
-										</div>
-									</h4>
-									<span class="description">
-										<strong>Instr {{document.course.professor}}</strong>
-										<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
-										<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{document.down}}&nbsp;
-										{% with document.review_count as review_count %}
-										<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
-										{% endwith %}
-										<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
-										Purchase{{document.sold|pluralize}}
-                    {% if document.upload %}
-                    <p class="small" style="margin-top:5px;">Uploaded by a Student at <a href="{%url "school" document.course.domain.pk%}{{document.course.domain.name}}">{{ document.course.domain.name }}</a>
-                    </p>
-                    {% endif %}
-									</span>
-								</div>
+					<div class="media">
+					  <div class="media-left media-top">
+					      <div class="media-object"><i class="fa fa-bookmark-o fa-fw fa-5x"></i></div>
+					  </div>
+					  <div class="media-body">
+					  	<small class="pull-right">
+								{% if student and enrolled %}
+								<button class="btn btn-trans disabled"><i class="fa fa-check"></i> Enrolled</button>
+								{% endif %}
+							</small>
+					    <h2 class="media-heading">{{course.dept}} {{course.course_number}} at <a class="link" href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></h2>
+					    <p>
+								<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
+								<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
+								<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
+							</p>
+							<div class="progress" style="width:68%;">
+								<div class="progress-bar progress-bar-info" data-toggle="tooltip" data-original-title="{{student_count}} Student{{student_count|pluralize}}" data-placement="bottom" style="width: {{student_percent}}%"> <span class="sr-only">{{student_percent}}% Students</span> </div>
+								<div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-original-title="{{doc_count}} Document{{doc_count|pluralize}}" data-placement="bottom" style="width: {{doc_percent}}%"> <span class="sr-only">{{doc_percent}}% Documents</span> </div>
+								<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="{{cal_count}} Calendar{{cal_count|pluralize}}" data-placement="bottom" style="width: {{cal_percent}}%"> <span class="sr-only">{{cal_percent}}% Calendars</span> </div>
 							</div>
-						</div>
-						{% empty %}
-						<div class="list-group">
-							<div class="list-group-item">
-								<p class="h5">Be the first to sell a document for this class!</p>
-								<a button type="button" class="btn btn-success" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Study Guides</a>
-							</div>						
-						</div>
-						{% endfor %}
+					  </div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class='col-sm-6'>
-		<div class="panel panel-default" id="recent-calendar">
-			<div class="panel-heading clearfix">
-				<h3 class="panel-title tour-step-four"> Popular Calendars <span class="badge">{{popular_calendars|length}}</span></h3>
-			</div>
-			<div class="scrolls cal-scroll">
-				<div class="panel-body">
-					<div class="list-group item-list">
-						{% for calendar in popular_calendars %}
-						<div class="list-group-item">
-							<div class="media">
-								<span class="pull-left" href="#">
-									<a href="{% url "calendar_preview" calendar.pk%}" class='calendar-picture-link'>
-										<div class="media-object img-thumbnail">
-											<img src="{% static 'lib/img/calendar-blank.svg' %}" style="width:64px">
-										</div>
-										<div class="assignment-number text-center text-default h4
-											calendar-event-count" data-toggle="tooltip" data-original-title="Events">{{calendar.events}}</div>
-									</a>
+	<div class='col-xs-12'>
+		<h3><i class="fa fa-file-text-o"></i> Popular Documents <span class="badge opa">{{popular_documents|length}}</span> <a button type="button" class="btn btn-trans btn-sm pull-right" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Study Guides</a></h3>
+		<p></p>
+		<div class="panel opa" id="popular-documents">
+			<div class="panel-body">
+				<div class="list-group item-list trans">
+					{% for document in popular_documents %}
+										<div class="list-group-item opa">
+						<div class="media">
+							<div class="media-left media-middle">
+			      		{% if document.preview %}
+								<a href="{%url "document_detail" document.uuid %}"><img src="{{document.preview.url}}" class="media-object img-thumbnail" style="width:70px" alt="Study Guide"></a>
+								{% else %}
+								<a href="{%url "document_detail" document.uuid %}"><img class="media-object img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:70px" alt="Study Guide"></a>
+								{% endif %}
+				  		</div>
+				  		<div class="media-body">
+				    		<h2 class="media-heading"><a href="{%url "document_detail" document.uuid %}">{{document.title}}</a>
+				    			<small class="white">{{document.price}} points</small>
+									<small class="pull-right hidden-sm white">{{document.create_date|naturaltime}}</small>
+								</h2>
+								<span class="description">
+									<strong>Instr {{document.course.professor}}</strong>
+									<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
+									<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{document.down}}&nbsp;
+									{% with document.review_count as review_count %}
+									<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
+									{% endwith %}
+									<i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
+									Purchase{{document.sold|pluralize}}
+									{% with document.upload.owner as owner %}
+									{% if owner %}
+									<p class="margin-top-sm">Uploaded by a Student in 
+										<!-- <a href="{%url "profile" owner.pk%}">{{owner}}</a> -->
+										<a href="{%url "course" document.course.pk%}{{document.course.name}}" class="link">{{document.course.dept}} {{document.course.course_number}}</a>
+									</p>
+									{% else %}
+									<p class="margin-top-sm">Uploaded by Unknown in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+									{% endif %}
+									{% endwith %}
 								</span>
-								<div class="media-body">
-									<h4 class="media-heading"><a href="{% url "calendar_preview" calendar.pk%}" class="calendar-title">{{calendar.title}} Calendar</a>
-										<div class="pull-right small text-muted calendar-create-date"><small>{{calendar.create_date|naturaltime}}</small></div></h4>
-									<span class="description">
-										<span class='calendar-professor'><strong>Instr {{calendar.course__professor}}</strong></span>
-										<i class="fa fa-fw fa-users"></i> <span class="calendar-subscriptions">{{calendar.subscriptions}} Subscribers&nbsp;</span>
-										<ul class="list-inline small margin-btm-none">
-											<li class='calendar-time small'><i class="fa fa-fw fa-clock-o"></i> {{calendar.time}}</li>
-										</ul>
-										<p class="small">Created by <a href="{% url "profile" calendar.owner %}"
-												class="calendar-uploader">{{calendar.owner__user__username}}</a></p>
-									</span>
-								</div>
-							</div>
-						</div>
-						{% empty %}
-						<div class="list-group">
-							<div class="list-group-item">
-								<p class="h5">Be the first to create a calendar for this class!</p>
-								<a button type="button" class="btn btn-success" href='{% url "calendar_create" %}'><i class="fa fa-fw fa-calendar"></i> Create Calendar</a>
-							</div>						
-						</div>
-						{% endfor %}
-					</div>
+				    	</div>
+				    </div>
+				  </div>
+					{% empty %}
+					<div class="list-group-item opa">
+						<p class="h5">Be the first to sell a document for this class!</p>
+						<a button type="button" class="btn btn-trans" href='{% url "document_upload" %}'><i class="fa fa-fw fa-money"></i> Sell Study Guides</a>
+					</div>						
+					{% endfor %}
 				</div>
 			</div>
 		</div>

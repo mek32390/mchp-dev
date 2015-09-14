@@ -14,31 +14,32 @@
 
 {% block content %}
 {% providers_media_js %}
-<div class="container">
-    <h2 class="text-center">Got Credentials?</h2>
-
-    <p><img class="img-responsive center-block" src=
-    "{% static 'lib/img/support.svg' %}" alt=
-    "..."></p>
+<div class="row">
+	<div class="col-xs-12 text-center">
+    <h2>Greetings, finish signing up!</h2>
+    <br></br>
+    <i class="fa fa-genderless fa-fw fa-5x animated pulse delayed-lg"></i>
+    <br></br>
 <div class="acct-form">
 <div class='facebookSignup'>
-	<p class="text-center small">She's not letting you through without them!</p>
 	<div class="socialaccount_ballot">
 		<a title="Facebook" class="socialaccount_provider facebook" 
 			href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
 		<!-- <a title="Facebook" class="" href="/accounts/facebook/login/"> -->
-			<button class="btn btn-facebook btn-block btn-primary btn-lg">
+			<button class="btn btn-facebook btn-block btn-trans btn-lg">
 				Use Facebook
 		</button></a>
 	</div>
 	<hr>
-	<span class="help-block text-center"><a href="#" id='show-signUp'>Use your own</a></span>
+	<span class="help-block text-center"><a href="#" id='show-signUp' class="link">Use your own</a></span>
 </div>
 
 <div class="email_reminder text-center hidden">
-	<p><strong>
-		Using your .EDU e-mail:</strong> {{ request.session.initial_email }}
-		<small class="text-danger"><a class="text-danger" href="/"> {% trans "(edit)" %}</a></small></p>
+	<h4><strong>Using your .EDU e-mail:</strong></h4>
+	<h4>{{ request.session.initial_email }}</h4>
+		<p></p>
+		<a class="text-danger" href="/"> {% trans "change email" %}</a>
+		<p></p>
 </div>
 <form class="emailSignup" id="signup-form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
@@ -48,9 +49,10 @@
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %} 
   <div class="form-group">
-  <button type="submit" class="btn btn-lg btn-primary btn-block"><i class="fa fa-check-square-o"></i> {% trans "Sign Up" %}</button>
+  <button type="submit" class="btn btn-lg btn-trans btn-block"><i class="fa fa-check-square-o"></i> {% trans "Sign Up" %}</button>
   </div>
 </form>
+</div>
 </div>
 </div>
 {% endblock %}

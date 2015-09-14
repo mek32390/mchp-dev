@@ -12,30 +12,33 @@
 {% block body %}
 {% load humanize %}
 <div class="row">
-	<div class="col-xs-12">
-		<div class="media">
-			<img class="no-shadow media-object pull-left animated slideInLeft" src="{% static 'lib/img/storage.svg' %}" height="50px" alt="sell documents">
-			<div class="media-body">
-				<h2 class="media-heading">My Documents <div class='pull-right'> <a href="{%url 'document_upload'%}" class='btn btn-success'><i class="fa fa-file-text-o fa-fw"></i> Sell Documents &raquo;</a></div>
-				</h2>
-				make money while you study
-			</div>
-		</div>
-		<hr class="opa">
-	</div>
+  <div class="col-xs-12">
+    <div class="media">
+      <div class="media-left media-middle">
+        <i class="media-object fa fa-file-text-o fa-5x fa-fw"></i>
+      </div>
+      <div class="media-body">
+        <h1 class="media-heading">Your Documents</h1>
+        <p class="lead margin-btm-none">Docs you've sold or bought</p>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>
+<div class="row">
 	<div class="col-xs-12">
 		<h4>
 			<ul class="nav nav-pills" role="tablist">
 				<li class="active">
 					<a href="#selling_docs" class="pill-opa" role="tab" data-toggle="tab">
 						Selling
-						<span id="upload-count" class="badge">{{ upload_count }}</span>
+						<span id="upload-count" class="badge opa">{{ upload_count }}</span>
 					</a>
 				</li>
 				<li>
 					<a href="#purchased_docs" class="pill-opa" role="tab" data-toggle="tab">
 						Purchased
-						<span id="purchase-count" class="badge">{{ purchase_count}}</span>
+						<span id="purchase-count" class="badge opa">{{ purchase_count}}</span>
 					</a>
 				</li>
 			</ul>
@@ -149,7 +152,7 @@
 								<h4 class="media-heading"><a href="{% url 'document_list' %}
 										{{ document.uuid}}/
 										{{ document.slug}}
-										">{{ document.title }}</a> <small>{{document.price}} points</small>
+										">{{ document.title }}</a> <small class="white">{{document.price}} points</small>
 									<div class="pull-right small text-muted">{{document.create_date | naturaltime}}</div>
 								</h4>
 								<small class="pull-right">

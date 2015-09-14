@@ -20,10 +20,12 @@ from notification.api import add_notification
 from schedule.forms import CourseCreateForm
 from schedule.models import Course, School, SchoolQuicklink, Section, Major, Enrollment
 from schedule.utils import WEEK_DAYS
+from user_profile.models import Student
 
 from datetime import datetime, timedelta
 import logging
 import json
+
 logger = logging.getLogger(__name__)
 
 
@@ -109,26 +111,23 @@ class CourseCreateView(_BaseCourseView):
             )
             return super(CourseCreateView, self).form_invalid(form)
         # add student to course
-        student = self.student
-        enroll = Enrollment(student=student, course=course)
-        enroll.save()
+        admin_user = Student.get_admin()
 
         # create public calendar
         calendar_data = {
             'course': course,
-            'owner': student,
+            'owner': admin_user,
             'description': '',
             'end_date': timezone.now() + timedelta(days=365 * 5), # off-setting to 5 years
             'private': False,
             'primary': True,
         }
 
-        try:
-            calendar = ClassCalendar(**calendar_data)
-            calendar.save()
-        except IntegrityError:
-            # failed - let student add it manually
-            pass
+        calendar = ClassCalendar(**calendar_data)
+        calendar.save()
+
+        if admin_user.pk != self.student.pk:
+            course.enroll(self.student)
 
         messages.success(
             self.request,
@@ -195,19 +194,8 @@ class CourseAddView(_BaseCourseView, AjaxableResponseMixin):
                     "Failed to add course. Not found."
                 )
                 return self.render_to_json_response({}, status=400)
-            enroll = Enrollment(student=self.student, course=course)
-            enroll.save()
 
-            # automatically subscribing to the primary calendar of the course
-            calendar = ClassCalendar.objects.filter(
-                course=course,
-                primary=True
-            )
-            if calendar.exists():
-                Subscription.objects.get_or_create(
-                    student=self.student,
-                    calendar=calendar[0],
-                )
+            course.enroll(self.student)
 
             messages.success(
                 self.request,
@@ -252,6 +240,10 @@ class CourseRemoveView(_BaseCourseView, AjaxableResponseMixin):
             # Unsubscribing from all calendars
             subscriptions = Subscription.objects.filter(student=self.student, calendar__course=course)
             subscriptions.delete()
+
+            # Removing student calendars (events will cascade delete too)
+            calendars = ClassCalendar.objects.filter(owner=self.student, course=course)
+            calendars.delete()
 
             messages.success(
                 self.request,
@@ -561,6 +553,12 @@ class ClassesView(View):
 
             course['documents'] = docs
 
+            # fetch the syllabi belonging to the course
+            syllabi = Document.objects.filter(course=course['pk'], type=1)# magic no 1 = syllabus
+
+            course['syllabi'] = syllabi
+            print(syllabi)
+
             act = Document.objects.recent_events(course)
 
             # get some of the latest people to join your classes
@@ -582,6 +580,32 @@ class ClassesView(View):
             students = Course.objects.get_classlist_for(Course.objects.get(pk=course['pk']))
             course['students'] = students
 
+            events = CalendarEvent.objects.filter(
+                calendar__course__pk=course['pk'],
+                calendar__owner=self.student,
+                start__gte=timezone.now()
+            ).order_by('start')
+
+            course['event_count'] = events.count()
+
+            event_list = []
+            for event in events[:10]:
+                days_remaining = (event.start - timezone.now()).days
+                if days_remaining > 1:
+                    days_remaining = "in " + str(days_remaining) + " days"
+                elif days_remaining == 1:
+                    days_remaining = "tomorrow"
+                else:
+                    days_remaining = "today"
+
+                event_list.append({
+                    'id': event.id,
+                    'title': event.title,
+                    'document_count': event.get_documents(return_count=True),
+                    'days_remaining': days_remaining
+                })
+            course['event_list'] = event_list
+
         data['course_list'] = courses
 
         return render(request, self.template_name, data)
@@ -602,3 +626,26 @@ class EmailUnsubscribeView(View):
         pass
 
 course_email_unsubscribe = EmailUnsubscribeView.as_view()
+
+'''
+url: /course/events/
+'''
+class CourseEventsView(View, AjaxableResponseMixin):
+
+    def post(self, request, *args, **kwargs):
+        return redirect(reverse('dashboard'))
+
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            course_id = request.GET.get('course_id', None)
+            if not course_id:
+                return self.render_to_json_response({}, status=400)
+
+            query = request.GET.get('query', '')
+            events = CalendarEvent.objects.filter(calendar__course__id=course_id, calendar__primary=True, title__icontains=query).values('id', 'title')
+            data = dict(events=list(events))
+            return self.render_to_json_response(data, status=200)
+        else:
+            return redirect(reverse('dashboard'))
+
+course_events = CourseEventsView.as_view()

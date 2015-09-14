@@ -15,18 +15,18 @@
 {% endblock %}
 
 {% block body %}
-{{user.student}}
-<div class="container">
 	<div id="college_select">
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<h3 class="text-center lead">Thanks for verifying that you're a student! Do you attend...</h3>
+				<h3 class="text-center lead">Thanks for verifying that you're a student! Do you attend:</h3>
 				<h2 class="text-center college_name">{{guess_school.name}}</h2>
-				<img class="center-block img-responsive" src="{% static 'lib/img/building-with-flag.svg' %}" alt="Choose School">
-				<h4 class="text-center">
-					<p><small>Our mchp wizard determined that you go to "{{guess_school.name}}"</small></p>
-				</h4>
-				<hr>
+				<br>
+				<p class="text-center center-block"><i class="fa fa-university fa-fw fa-5x"></i></p>
+				<!-- <br> -->
+				<!-- <h4 class="text-center"> -->
+					<p class="text-center"><a href="#" id="nope" class="acct-form link" >Select different school</a></p>
+				<!-- </h4> -->
+				<br>
 				<form class="form-signin" role="form" id='college_form' method="post" action="{% url 'confirm_school' %}">
 					{% csrf_token %}
 					<input type="hidden" name="school" value="{{guess_school.pk}}" autocomplete="off">
@@ -35,9 +35,9 @@
 					{% endif %}
 
                 	<div id="grade_level_container">
-                        <label for="grade_level">Select your grade level</label>
+                        <h4><label for="grade_level" class="text-center center-block">Select your grade level</label></h4>
 
-                        <select class="form-control" id="grade_level" name="grade_level">
+                        <select class="form-control input-lg" id="grade_level" name="grade_level">
                             <option value="0">Freshman</option>
                             <option value="1">Sophomore</option>
                             <option value="2">Junior</option>
@@ -47,10 +47,8 @@
                         </select>
                     </div>
 
-					<button class="btn btn-lg btn-primary btn-block  acct-form" type="submit">Next up, add classes</button>
+					<button class="btn btn-lg btn-trans btn-block  acct-form" type="submit">Next up, Add Classes</button>
 				</form>
-				<p></p>
-				<button id="nope" class="btn btn-danger btn-block acct-form" >Select different school</button>
 			</div>
 		</div>
 	</div>
@@ -58,27 +56,23 @@
 	<div id="school-list">
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<h4 class="text-center lead">We couldn't find your school!</h4>
-				<p class="text-center">Choose your school from the list below.</p>
+				<h3 class="text-center lead">We must have guessed wrong, sorry!</h3>
+				<h4 class="text-center"><strong>Choose your school from the list below.</strong></h4>
 				<form class="form-signin" role="form" id='college-form2' method="post" action="{% url 'confirm_school' %}">
 					{% csrf_token %}
-					<div class="input-group input-group-lg">
-						<span class='input-group-addon'><i class="fa fa-university"></i></span>
-						<select name="school" class="form-control course-select">
+						<select name="school" class="form-control input-lg course-select">
 							<option class="default" value="-1" selected>Type to search for your school</option>
 							{% for school in schools %}
 							<option class="school" value="{{school.pk}}">{{school.name}}</option>
 							{% endfor %}
 						</select>
-					</div>
 					<br>
-					<p>
-						<button id="join-college" class="btn btn-lg btn-primary btn-block
+						<button id="join-college" class="btn btn-lg btn-trans btn-block
 							btn-md" disabled type="submit"><i class="fa fa-check-square-o"></i> Join School</button>
-					</p>
 				</form>
+				<p></p>
+				<p class="text-center white">Still can't find your school? <a href="#" class="open-chat link">Chat us</a> and we'll add it ASAP!</p>
 			</div>
 		</div>
 	</div>
-</div>
 {% endblock %}

@@ -34,7 +34,7 @@ $(document).ready( function() {
                         message: 'The course number is required'
                     },
                     regexp: {
-                        regexp: /^[0-9]+$/i,
+                        regexp: /^[a-zA-Z0-9]+$/i,
                         message: 'The course number can only consist of numbers. Disregard any letters attached to it.'
                     },
                     stringLength: {
