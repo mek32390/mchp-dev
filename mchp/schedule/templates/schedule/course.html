@@ -54,7 +54,7 @@
 		</div>
 	</div>
 	<div class='col-xs-12'>
-		<h3><i class="fa fa-file-text-o"></i> Popular Documents <span class="badge opa">{{popular_documents|length}}</span> <a button type="button" class="btn btn-trans btn-sm pull-right" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Study Guides</a></h3>
+		<h4 class="lead"><i class="fa fa-file-text-o"></i> Popular Documents <span class="badge opa">{{popular_documents|length}}</span> <a button type="button" class="btn btn-trans btn-sm pull-right" href="{%url "document_upload"%}"><i class="fa fa-money fa-fw"></i> Sell Study Guides</a></h4>
 		<p></p>
 		<div class="panel opa" id="popular-documents">
 			<div class="panel-body">
@@ -62,7 +62,7 @@
 					{% for document in popular_documents %}
 										<div class="list-group-item opa">
 						<div class="media">
-							<div class="media-left media-middle">
+							<div class="media-left media-top">
 			      		{% if document.preview %}
 								<a href="{%url "document_detail" document.uuid %}"><img src="{{document.preview.url}}" class="media-object img-thumbnail" style="width:70px" alt="Study Guide"></a>
 								{% else %}
