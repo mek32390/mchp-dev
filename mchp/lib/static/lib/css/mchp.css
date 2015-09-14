@@ -211,7 +211,7 @@ hr {
   color: rgba(255,255,255,0.4);
 }
 
-.inverse,  {
+.inverse  {
   background: rgba(0,0,0,.4);
   border-color: rgba(0,0,0,.4);
 }
@@ -283,6 +283,16 @@ button.close {
   color: #fff;
   background-color: transparent;
   text-decoration: underline;
+}
+
+.money-indicator-holder {
+  width: 48px;
+  height: 48px;
+}
+
+.money-indicator {
+  position: relative;
+  margin: 0 auto;
 }
 
 /*

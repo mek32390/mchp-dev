@@ -22,16 +22,20 @@
   <div class="col-xs-12">
     <div class="media">
       <div class="media-left media-middle">
-          <div class="media-object"><i class="fa fa-file-text-o fa-fw fa-5x"></i></div>
+          <div class="media-object"><i class="fa fa-file-text-o fa-5x"></i></div>
       </div>
       <div class="media-body">
+        <span class="fa-stack pull-right" data-toggle="popover" data-content="You are able to make money from Uploading Documents" data-placement="bottom">
+          <i class="fa fa-dollar fa-stack-1x"></i>
+          <i class="fa fa-circle-thin fa-stack-2x"></i>
+        </span>
         <h1 class="media-heading">Upload Documents</h1>
         <p class="lead margin-btm-none">Stack some paper, it's anonymous</p>
       </div>
     </div>
     <hr>
   </div><!-- end col 12 -->
-  <div class="col-sm-12">
+  <div class="col-sm-8">
     <div class="upload-form">
       <form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post"
             enctype="multipart/form-data">
@@ -176,6 +180,25 @@
       </form>
     </div>
   </div><!-- end col 8 -->
+  <div class="col-sm-4">
+    <h3 style="margin-top: 16px;">Document Uploads Information</h3>
+    <hr>
+    <div class="panel inverse">
+      <div class="panel-body">
+        <p><strong>Uploading and selling Study Guides allows you to make commission each time one is sold. You'll also get paid simply for uploading a guide.</strong></p>
+        <p>For example, if you upload and sell a Study Guide for Exam 1 in the class, ECON 200, every time someone buys it, you will get 40% of the sale instantly added to your mchp account. Then you can cash out from your mchp account just like normal.</p>
+        <p>Study Guides that are for specific upcoming exams are likely to be in higher demand compared to out-dated Study Guides. For this reason, the amount you will receive just for uploading a Study Guide is largely dependent on how likely it is to sell on mchp. Every Study Guide is reviewed by our staff and is either approved for rejected based on it's accuracy and thoroughness.</p>
+        <p>You can also upload a class's syllabus, which will enhance your number of uploads and make your selling profile stronger. The syllabus is automatically set to "Free".</p>
+        <p><strong>Tips for Uploading Study Guides</strong></p>
+        <ul>
+          <li>Follow the directions carefully so you submit the correct data and ensure it's accuracy.</li>
+          <li>Submit Study Guides for larger classes, where Study Guide sales are likely to be higher.</li>
+          <li>Make sure your Study Guide is complete and contains helpful content.</li>
+          <li><a class="open-chat link" role="button">Ask us for help</a> if you're still unsure about how to upload and sell a Study Guide.</li>
+        </ul>
+
+      </div>
+    </div>
 </div><!-- end row -->
 <div id="enrolled_courses" data-enrolled_courses="{{ enrolled_courses }}"></div>
 <div id="other_courses" data-enrolled_courses="{{ other_courses }}"></div>

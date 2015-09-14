@@ -1,6 +1,6 @@
 {% extends 'lib/base.html' %}
 
-{% block head_title %}Add Roster{% endblock %}
+{% block head_title %}Submit Class Set{% endblock %}
 
 {% block extra_head %}
 
@@ -28,10 +28,14 @@
   <div class="col-xs-12">
     <div class="media">
       <div class="media-left media-middle">
-        <i class="media-object fa fa-upload fa-5x fa-fw"></i>
+        <i class="media-object fa fa-upload fa-5x"></i>
       </div>
       <div class="media-body">
-        <h1 class="media-heading">Submit a Class Set</h1>
+      	<span class="fa-stack pull-right" data-toggle="popover" data-content="You are able to make money from submitting Class Sets" data-placement="bottom">
+					<i class="fa fa-dollar fa-stack-1x"></i>
+					<i class="fa fa-circle-thin fa-stack-2x"></i>
+				</span>
+        <h1 class="media-heading">Submit Class Set</h1>
         <p class="lead margin-btm-none">A class set includes a class's syllabus, roster, and assignment dates</p>
       </div>
     </div>
@@ -261,5 +265,24 @@
       <br>
     </form>
   </div><!-- end col -->
+  <div class="col-sm-4">
+  	<h3 style="margin-top: 16px;">Class Sets Information</h3>
+  	<hr>
+  	<div class="panel inverse">
+  		<div class="panel-body">
+		  	<p><strong>Class Sets allow you to make 10% commission on the sales from the class you submit a set for.</strong></p>
+		  	<p>For example, if you submit a Class Set for the class, ECON 200, every time a Study Guide is filed under ECON 200 and purchased by a student enrolled in ECON 200, you will get 10% of the sale instantly added to your mchp account. Then you can cash out from your mchp account just like normal.</p>
+		  	<p>Only the first person to submit the Set will be entitled to receiving this commission because duplicates are not useful! Every Set is reviewed by our staff and is either approved for rejected based on it's accuracy and thoroughness.</p>
+		  	<p><strong>Tips for Submitting Class Sets</strong></p>
+		  	<ul>
+		  		<li>Follow the directions carefully so you submit the correct data and ensure it's accuracy.</li>
+		  		<li>Submit sets for larger classes, where Study Guide sales are likely to be highest.</li>
+		  		<li>Add more events to increase the likelihood that a Study Guide will be uploaded for it.</li>
+		  		<li><a class="open-chat link" role="button">Ask us for help</a> if you're still unsure about how to submit a Class set.</li>
+		  	</ul>
+
+		  </div>
+		</div>
+  </div>
 </div><!-- /.row -->
 {% endblock %}
