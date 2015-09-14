@@ -15,17 +15,18 @@ roster_rejected = Signal(providing_args=['roster'])
 roster_approved = Signal(providing_args=['roster'])
 
 def roster_on_create(sender, roster, **kwargs):
-
+    pass
     # this queues a celery task
-    try:
-        # queue task after 5 seconds
-        print("roster post-save")
-        extract_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())
-        # create_preview(instance)
-    except OSError:
-        logger.error('Celery does not seem to be running')
-        # no thumbs for you (start celery/MQ process)
-        pass
+    # try:
+    #     # queue task after 5 seconds
+    #     print("roster post-save")
+    #     extract_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())
+    #     # create_preview(instance)
+    # except OSError:
+    #     logger.error('Celery does not seem to be running')
+    #     # no thumbs for you (start celery/MQ process)
+    #     pass
+    # except
 
 def roster_on_reject(sender, roster, **kwargs):
     try:

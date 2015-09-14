@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils import timezone
 from . import utils
-from calendar_mchp.models import CalendarEvent
+from calendar_mchp.models import CalendarEvent, Subscription, ClassCalendar
 from notification.api import add_notification
 import datetime
+from schedule.models import Enrollment
 import pytz
 
 class Roster(models.Model):
@@ -85,7 +86,14 @@ class Roster(models.Model):
                 school = self.course.domain
                 user_student = utils.get_or_create_student(school, user)
 
-                self.course.enroll(user_student)
+                self.course.enroll_by_roster(user_student, self)
+
+            student.approved = True
+            student.save()
+
+        for instructor in self.instructors.all():
+            instructor.approved = True
+            instructor.save()
 
         self.status = self.APPROVED
         self.save()
@@ -122,16 +130,30 @@ class Roster(models.Model):
             syllabus.save()
 
 
-            # TODO: this is a problem, we don't know if an enrollment was set by this roster (update enrollment model)
+            for student in self.students.all():
+                enroll = Enrollment.objects.filter(
+                student=student,
+                created_by_roster=self
+                )
 
-            # for student in self.students.all():
-            #     email = student.email
-            #     if email:
-            #         user = utils.get_or_create_user(email, student.first_name, student.last_name)
-            #         school = self.course.domain
-            #         user_student = utils.get_or_create_student(school, user)
-            #
-            #         self.course.enroll(user_student)
+                if enroll.exists():
+                    enroll.delete()
+
+                    # Unsubscribing from all calendars
+                    subscriptions = Subscription.objects.filter(student=self.student, calendar__course=self.course)
+                    subscriptions.delete()
+
+                    # Removing student calendars (events will cascade delete too)
+                    calendars = ClassCalendar.objects.filter(owner=self.student, course=self.course)
+                    calendars.delete()
+
+                student.approved = False
+                student.save()
+
+            for instructor in self.instructors.all():
+                instructor.approved = False
+                instructor.save()
+
 
         self.status = self.REJECTED
         self.save()

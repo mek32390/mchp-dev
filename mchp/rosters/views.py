@@ -12,6 +12,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from schedule.models import Course
 from . import forms, models, utils
+from rosters.tasks import extract_roster
 
 
 class RosterSubmitView(FormView):
@@ -90,6 +91,15 @@ class RosterSubmitView(FormView):
             messages.error(
                 self.request,
                 err
+            )
+            return self.get(self.request)
+
+        try:
+            extract_roster(roster)
+        except:
+            messages.error(
+                self.request,
+                'Class Set rejected: roster is a duplicate'
             )
             return self.get(self.request)
 

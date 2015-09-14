@@ -15,7 +15,7 @@ import subprocess
 import uuid
 import os.path
 
-from django.db import models
+from django.db import models, IntegrityError
 
 from notification.api import add_notification
 from documents.models import Upload
@@ -62,7 +62,7 @@ def checkforduplicaterosters(roster):
         similars = 0
         for student in roster.students.all():
             for otherstudent in otherroster.students.all():
-                if student == otherstudent:
+                if student.first_name == otherstudent.first_name and student.last_name == otherstudent.last_name:
                     similars += 1
         if similars/totalrosterstudents > 0.8:
             return True
@@ -76,7 +76,6 @@ def extract_roster(roster):
     parsed_csv = utils.roster_html_to_csv(roster_html)
 
     rostermodels.RosterStudentEntry.objects.filter(roster=roster).delete()
-
     for initial_data in utils.csv_string_to_python(parsed_csv):
         # n.b.: emails from instructor emails are not filtered here
         email = initial_data.get('email')
@@ -89,15 +88,12 @@ def extract_roster(roster):
                 'roster': roster,
                 'approved': False
             }
-            if email:
-                user = utils.get_user(email)
-                if user:
-                    params['profile'] = user.profile_user
             rostermodels.RosterStudentEntry.objects.create(**params)
 
     duplicate = checkforduplicaterosters(roster)
     if duplicate:
         roster.reject()
+        raise IntegrityError
 
 
 @shared_task
