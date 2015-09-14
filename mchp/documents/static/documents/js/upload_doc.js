@@ -296,7 +296,7 @@ Autocomplete.prototype.show_results = function(results) {
 	$drop.find('.search-results').remove();
 
 	// a new line for a class
-	var $base_result_elem = $('<li class="search-results"><a href="#" class="ac-link"><i class="fa fa-fw fa-plus-circle text-success"></i> </a></li>');
+	var $base_result_elem = $('<li class="search-results"><a href="#" class="ac-link"><i class="fa fa-fw fa-plus"></i> </a></li>');
 	// if there are results, add a divider to divide them from enrolled classes
 	if (results.length > 0) {
 		$divider = $('<li class=divider></li><li role="presentation" class="dropdown-header dropdown-header-added">More Courses</li>');
