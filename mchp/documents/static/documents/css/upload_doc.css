@@ -27,17 +27,11 @@ li {
 }
 
 .upload-form .dropdown-menu {
-	margin-top: 44px;
+	margin-top: 46px;
 	border-top-right-radius: 0px;
 	border-top-left-radius: 0px;
 }
 
-#id_course {
-	border-top-right-radius: 6px;
-	border-bottom-right-radius: 6px;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
-}
 .loading {
     left: 50%;
     top: 50%;
