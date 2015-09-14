@@ -23,6 +23,9 @@ from schedule.models import Course
 from decimal import Decimal, ROUND_HALF_DOWN
 import json
 import logging
+from rosters.models import Roster
+from schedule.models import Enrollment
+
 logger = logging.getLogger(__name__)
 
 class AjaxableResponseMixin(object):
@@ -258,6 +261,21 @@ class DocumentDetailPreview(DetailView):
                 points = Decimal(points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
                 uploader.modify_balance(points)
                 uploader.save()
+
+            # if the student got enrolled in this class by a 'class set submission', there's a 10% fee owed to them
+            enrollment = Enrollment.objects.filter(
+                student= self.student,
+                course=self.course
+                )
+
+            if enrollment.created_by_roster:
+                roster = Roster.objects.get(pk=enrollment.created_by_roster)
+                roster_submitter = roster.created_by
+
+                roster_points = document.price * 0.1 # 10% of the sales price
+                roster_points = Decimal(roster_points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
+                roster_submitter.modify_balance(roster_points)
+                roster_submitter.save()
 
         return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 

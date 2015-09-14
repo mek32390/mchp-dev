@@ -3,7 +3,7 @@ from django.dispatch.dispatcher import receiver
 from django.dispatch import Signal
 
 from rosters.models import Roster
-from rosters.tasks import approve_roster, extract_roster
+from rosters.tasks import approve_roster, extract_roster, reject_roster
 
 import logging
 from mchp.celery import debug_task
@@ -15,24 +15,30 @@ roster_rejected = Signal(providing_args=['roster'])
 roster_approved = Signal(providing_args=['roster'])
 
 def roster_on_create(sender, roster, **kwargs):
-
+    pass
     # this queues a celery task
+    # try:
+    #     # queue task after 5 seconds
+    #     print("roster post-save")
+    #     extract_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())
+    #     # create_preview(instance)
+    # except OSError:
+    #     logger.error('Celery does not seem to be running')
+    #     # no thumbs for you (start celery/MQ process)
+    #     pass
+    # except
+
+def roster_on_reject(sender, roster, **kwargs):
     try:
         # queue task after 5 seconds
-        print("roster post-save")
-        extract_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())
+        reject_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())
         # create_preview(instance)
     except OSError:
         logger.error('Celery does not seem to be running')
         # no thumbs for you (start celery/MQ process)
         pass
 
-def roster_on_reject(sender, roster, **kwargs):
-    print ('send rejection email here')
-
 def roster_on_approve(sender, roster, **kwargs):
-    print ('we\'re gonna approve it now')
-     # this queues a celery task
     try:
         # queue task after 5 seconds
         approve_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())

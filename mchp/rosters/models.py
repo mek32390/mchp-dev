@@ -1,6 +1,11 @@
 from django.db import models
 from django.utils import timezone
 from . import utils
+from calendar_mchp.models import CalendarEvent, Subscription, ClassCalendar
+from notification.api import add_notification
+import datetime
+from schedule.models import Enrollment
+import pytz
 
 class Roster(models.Model):
     """ Roster.
@@ -43,31 +48,120 @@ class Roster(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES,
                               default=PENDING)
 
-    def process(self):
+    def approve(self):
         """ Create users based on roster data.
+        """
+        if (self.status == self.APPROVED):
+            pass
 
-        Returns
-        -------
-        out : int
-            The number of enrollments created.
-        """
+        primary_calendar = self.course.calendar_courses.get(primary=True)
+        # print ('primary = ' + primary_calendar)
+        for event in self.events.all():
+            d = event.date
+            start = datetime.datetime(d.year, d.month, d.day)
+            end = datetime.datetime(d.year, d.month, d.day, 23, 55, 55)
+            start = pytz.utc.localize(start)
+            end = pytz.utc.localize(end)
 
-        enrollments = []
+            params = {
+                    'calendar': primary_calendar,
+                    'title': event.title,
+                    'start': start,
+                    'end': end
+            }
+            CalendarEvent.objects.create(**params)
+            event.approved = True
+            event.save()
+
+        syllabus = self.syllabus.all()[0]
+        syllabus.approved = True
+        syllabus.course = self.course
+        syllabus.save()
+
+
+        for student in self.students.all():
+            email = student.email
+            if email:
+                user = utils.get_or_create_user(email, student.first_name, student.last_name)
+                school = self.course.domain
+                user_student = utils.get_or_create_student(school, user)
+
+                self.course.enroll_by_roster(user_student, self)
+
+            student.approved = True
+            student.save()
+
+        for instructor in self.instructors.all():
+            instructor.approved = True
+            instructor.save()
+
+        self.status = self.APPROVED
+        self.save()
+
+        add_notification(
+            self.created_by.user,
+            'Your class set for {}, is approved and published!'.format(self.course)
+        )
+
+    def reject(self):
+        """ Create users based on roster data.
         """
-        emails_to_filter = [entry.email for entry in self.instructors]
-        students = [student for student in self.students
-                    if student.email not in emails_to_filter]
-        for entry in students:
-            user = utils.get_or_create_user(entry.email,
-                                            fname=entry.first_name,
-                                            lname=entry.last_name)
-            student = utils.get_or_create_student(self.course.domain, user)
-            enrollment = utils.get_or_create_enrollment(self.course, student)
-            enrollments.append(enrollment)
-        self.imported = timezone.now()
-        self.save(update_fields=['imported'])
-        """
-        return len(enrollments)
+        if (self.status == self.REJECTED):
+            pass
+
+        if (self.status == self.APPROVED):
+            # remove existing events etc
+
+            primary_calendar = self.course.calendar_courses.get(primary=True)
+            # print ('primary = ' + primary_calendar)
+            for event in self.events.all():
+                params = {
+                        'calendar': primary_calendar,
+                        'title': event.title
+                }
+                events = CalendarEvent.objects.get(**params)
+                for event in events:
+                    event.approved = False
+                    event.save()
+
+            syllabus = self.syllabus.all()[0]
+            syllabus.approved = False
+            syllabus.course = None
+            syllabus.save()
+
+
+            for student in self.students.all():
+                enroll = Enrollment.objects.filter(
+                student=student,
+                created_by_roster=self
+                )
+
+                if enroll.exists():
+                    enroll.delete()
+
+                    # Unsubscribing from all calendars
+                    subscriptions = Subscription.objects.filter(student=self.student, calendar__course=self.course)
+                    subscriptions.delete()
+
+                    # Removing student calendars (events will cascade delete too)
+                    calendars = ClassCalendar.objects.filter(owner=self.student, course=self.course)
+                    calendars.delete()
+
+                student.approved = False
+                student.save()
+
+            for instructor in self.instructors.all():
+                instructor.approved = False
+                instructor.save()
+
+
+        self.status = self.REJECTED
+        self.save()
+
+        add_notification(
+            self.created_by.user,
+            'Your class set for {} has been rejected'.format(self.course)
+        )
 
     def save(self, *args, **kwargs):
         from rosters.signals import roster_uploaded

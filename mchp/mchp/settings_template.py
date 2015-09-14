@@ -154,11 +154,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     # Required by allauth template tags
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.request",
+    "django.core.context_processors.static",
     # allauth specific context processors
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
     "donottrack.context_processors.donottrack",
     "schedule.context_processors.school",
+    "mchp.context_processors.max_images"
 )
 
 AUTHENTICATION_BACKENDS = (

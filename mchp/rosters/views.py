@@ -12,6 +12,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from schedule.models import Course
 from . import forms, models, utils
+from rosters.tasks import extract_roster
 
 
 class RosterSubmitView(FormView):
@@ -93,6 +94,15 @@ class RosterSubmitView(FormView):
             )
             return self.get(self.request)
 
+        try:
+            extract_roster(roster)
+        except:
+            messages.error(
+                self.request,
+                'Class Set rejected: roster is a duplicate'
+            )
+            return self.get(self.request)
+
         upload = Upload(document=doc, owner=self.student)
         upload.save()
         messages.success(
@@ -148,23 +158,16 @@ class RosterListView(ListView):
     template_name_suffix = '_list'
     #template_name = 'rosters/staff-intern-prototype.html'
 
-    # TODO: implement document_uploaded signal for syllabus upon doc approval
-
     def post(self, request, *args, **kwargs):
-        print (request.POST)
         roster_id = request.POST['hidden_roster_id']
         action = request.POST['hidden_roster_action']
 
         roster = models.Roster.objects.get(pk=roster_id)
         if action == 'reject':
-            roster.status = models.Roster.REJECTED
-            roster.save()
             from rosters.signals import roster_rejected
             roster_rejected.send(sender=self.__class__, roster=roster)
 
         if action == 'approve':
-            roster.status = models.Roster.APPROVED
-            roster.save()
             from rosters.signals import roster_approved
             roster_approved.send(sender=self.__class__, roster=roster)
 
