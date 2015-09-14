@@ -25,6 +25,7 @@ import json
 import logging
 from rosters.models import Roster
 from schedule.models import Enrollment
+from notification.api import add_notification
 
 logger = logging.getLogger(__name__)
 
@@ -262,6 +263,11 @@ class DocumentDetailPreview(DetailView):
                 uploader.modify_balance(points)
                 uploader.save()
 
+                add_notification(
+                    uploader.user,
+                    'You just made commission on a sale from {}'.format(document.course)
+                )
+
             # if the student got enrolled in this class by a 'class set submission', there's a 10% fee owed to them
             enrollment = Enrollment.objects.filter(
                 student= self.student,
@@ -276,6 +282,11 @@ class DocumentDetailPreview(DetailView):
                 roster_points = Decimal(roster_points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
                 roster_submitter.modify_balance(roster_points)
                 roster_submitter.save()
+
+                add_notification(
+                    roster_submitter.user,
+                    'You just made commission on a sale from {}'.format(document.course)
+                )
 
         return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 

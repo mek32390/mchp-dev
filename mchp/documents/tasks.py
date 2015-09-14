@@ -123,10 +123,10 @@ def create_preview(instance):
     except:
         pass #don't care if ACL goes wrong, probably not an S3 connection that's in use right now...
 
-    #add_notification(
-    #    upload.owner.user,
-    #    'Your document, {}, is ready to be sold!'.format(instance.title)
-    #)
+    add_notification(
+        upload.owner.user,
+        'Your document, {}, is ready to be sold!'.format(instance.title)
+    )
 
 def _document_notify(document):
     template = 'email/document_uploaded'
