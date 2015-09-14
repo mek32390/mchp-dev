@@ -120,9 +120,9 @@
                    data-search="true" data-search-text="" data-show-columns="true">
                 <thead>
                 <tr>
-                    <th data-sortable="true" data-field="roster_school"><span class="th-name"><strong>School</strong></span></th>
                     <th data-sortable="true" data-field="roster_course"><span class="th-name"><strong>Course</strong></span></th>
                     <th data-sortable="true" data-field="roster_submitter"><span class="th-name"><strong>Submitter</strong></span></th>
+                    <th data-sortable="true" data-field="roster_school"><span class="th-name"><strong>School</strong></span></th>
                     <th data-sortable="true" data-field="roster_date"><span class="th-name"><strong>Date</strong></span></th>
                     <th data-sortable="true" data-field="roster_status"><span class="th-name"><strong>Status</strong></span></th>
                     <th data-sortable="true" data-field="roster_actions"><span class="th-name"><strong>Actions</strong></span></th>
@@ -130,22 +130,22 @@
                 </thead>
                 <tbody class="well opa">
                 {% for roster in object_list %}
-                    <tr>
-                        <td><strong>{{ roster.course.domain.name }}</strong></td>
-                        <td><strong>{{ roster.course }}</strong></td>
-                        <td>{{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</td>
-                        <td>{{ roster.created|date }}</td>
-                        <td><label class="label {% if roster.status == 'r' %} label-danger {% elif roster.status == 'p' %} label-default {% elif roster.status == 'a' %} label-success {% endif %}">{{ roster.status }}</label></td>
-                        <td>
-                            <ul class="list-inline">
-                                <!-- <li><a href="#" class="btn btn-trans btn-xs">Run extractor</a></li> -->
-                                <li><a href="#" class="btn btn-trans btn-xs" data-toggle="modal"
-                                       data-target="#review-modal{{ roster.id }}">Review Class Set</a></li>
-                            </ul>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <p class="lead">No Rosters Yet!</p>
+                  <tr>
+                    <td><strong>{{ roster.course }}</strong></td>
+                    <td>{{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</td>
+                    <td>{{ roster.course.domain.name }}</td>
+                    <td>{{ roster.created|date }}</td>
+                    <td><label class="label {% if roster.status == 'r' %} label-danger {% elif roster.status == 'p' %} label-default {% elif roster.status == 'a' %} label-success {% endif %}">{{ roster.status }}</label></td>
+                    <td>
+                        <ul class="list-inline">
+                            <!-- <li><a href="#" class="btn btn-trans btn-xs">Run extractor</a></li> -->
+                            <li><a href="#" class="btn btn-trans btn-xs" data-toggle="modal"
+                                   data-target="#review-modal{{ roster.id }}">Review Class Set</a></li>
+                        </ul>
+                    </td>
+                  </tr>
+                {% empty %}
+                  <p class="lead">No Rosters Yet!</p>
                 {% endfor %}
                 </tbody>
             </table>
