@@ -4,6 +4,7 @@ from django.utils.decorators import method_decorator
 from lib.decorators import school_required
 from schedule.models import Course
 from . import forms, models, utils
+from mchp.lib.decorators import intern_manager_required, rep_required
 
 
 class RosterSubmitView(FormView):
@@ -63,7 +64,7 @@ class RosterSubmitView(FormView):
 
         return super().form_valid(form)
 
-    @method_decorator(school_required)
+    @method_decorator(rep_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
@@ -88,6 +89,6 @@ class RosterReviewView(UpdateView):
     #     context['course'] = self.get_object().course
     #     return context
 
-    @method_decorator(school_required)
+    @method_decorator(intern_manager_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)

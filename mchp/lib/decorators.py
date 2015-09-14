@@ -67,3 +67,35 @@ def class_required(func):
             )
             return redirect(reverse('course_add'))
     return decorator
+
+def rep_required(func):
+
+    @class_required
+    def decorator(request, *args, **kwargs):
+        # we know they have a student because of the previous decorator
+        roles = request.user.user_roles
+        if 'rep' in roles:
+            return func(request, *args, **kwargs)
+        else:
+            messages.info(
+                request,
+                "Wait a sec, you're not marked as an intern!"
+            )
+            return redirect(reverse('/'))
+    return decorator
+
+def intern_manager_required(func):
+
+    @class_required
+    def decorator(request, *args, **kwargs):
+        # we know they have a student because of the previous decorator
+        roles = request.user.user_roles
+        if 'intern_manager' in roles:
+            return func(request, *args, **kwargs)
+        else:
+            messages.info(
+                request,
+                "Wait a sec, you're no intern manager!"
+            )
+            return redirect(reverse('/'))
+    return decorator
