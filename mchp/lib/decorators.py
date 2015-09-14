@@ -74,14 +74,14 @@ def rep_required(func):
     def decorator(request, *args, **kwargs):
         # we know they have a student because of the previous decorator
         roles = request.user.user_roles
-        if 'rep' in roles:
+        if roles.rep:
             return func(request, *args, **kwargs)
         else:
             messages.info(
                 request,
                 "Wait a sec, you're not marked as an intern!"
             )
-            return redirect(reverse('/'))
+            return redirect('/')
     return decorator
 
 def intern_manager_required(func):
@@ -90,12 +90,12 @@ def intern_manager_required(func):
     def decorator(request, *args, **kwargs):
         # we know they have a student because of the previous decorator
         roles = request.user.user_roles
-        if 'intern_manager' in roles:
+        if roles.intern_manager:
             return func(request, *args, **kwargs)
         else:
             messages.info(
                 request,
                 "Wait a sec, you're no intern manager!"
             )
-            return redirect(reverse('/'))
+            return redirect('/')
     return decorator
