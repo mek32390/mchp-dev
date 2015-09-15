@@ -8,8 +8,13 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('user_profile', '0004_student_created_by_roster_no_user'),
-        ('user_profile', '0004_userrole_intern_manager'),
     ]
 
     operations = [
+        migrations.AddField(
+            model_name='userrole',
+            name='intern_manager',
+            field=models.BooleanField(default=False),
+            preserve_default=True,
+        ),
     ]
