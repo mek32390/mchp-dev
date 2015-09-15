@@ -115,7 +115,7 @@ class RosterSubmitView(FormView):
 
         return super().form_valid(form)
 
-    @method_decorator(rep_required)
+    @method_decorator(school_required)
     def dispatch(self, *args, **kwargs):
         self.student = self.request.user.student
         return super().dispatch(*args, **kwargs)
