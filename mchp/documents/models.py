@@ -140,26 +140,6 @@ class Document(models.Model):
     def __str__(self):
         return "{}".format(self.title)
 
-class Upload(models.Model):
-    document = models.OneToOneField(Document)
-
-    class Meta:
-        unique_together = ('document', 'owner')
-
-    def save(self, *args, **kwargs):
-        from documents.signals import document_uploaded
-        signal = False
-        if not self.pk:
-            signal = True
-        super(Upload, self).save(*args, **kwargs)
-        if signal:
-            document_uploaded.send(sender=self.__class__, upload=self)
-
-
-    def __str__(self):
-        return "{} uploaded {}".format(
-            self.owner.user.username, 
-            self.document.title)
 
 class DocumentPurchase(models.Model):
     document = models.ForeignKey(Document, related_name='purchased_document')

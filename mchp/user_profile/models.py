@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 
-from documents.models import Upload,DocumentPurchase, Document
+from documents.models import DocumentPurchase, Document
 from schedule.models import Course
 from user_profile import managers
 

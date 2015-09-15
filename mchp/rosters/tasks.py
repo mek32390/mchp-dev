@@ -18,7 +18,6 @@ import os.path
 from django.db import models, IntegrityError
 
 from notification.api import add_notification
-from documents.models import Upload
 from lib.utils import send_email_for
 from schedule.models import Course, Enrollment
 from calendar_mchp.models import CalendarEvent

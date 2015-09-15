@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from lib.decorators import school_required
 from documents.exceptions import DuplicateFileError
 from django.contrib import messages
-from documents.models import Document, Upload, DocumentPurchase
+from documents.models import Document, DocumentPurchase
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.core.urlresolvers import reverse
@@ -88,7 +88,7 @@ class RosterSubmitView(FormView):
         try:
             doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
                            description='Course Syllabus for ' + course_name,
-                           document=document, course_id=None, approved=False, roster=roster)
+                           document=document, course_id=None, approved=False, roster=roster, owner=self.request.user.student)
             doc.save()
         except DuplicateFileError as err:
             messages.error(
@@ -96,9 +96,6 @@ class RosterSubmitView(FormView):
                 err
             )
             return self.get(self.request)
-
-        upload = Upload(document=doc, owner=self.student)
-        upload.save()
 
         try:
             extract_roster(roster)

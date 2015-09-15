@@ -13,7 +13,7 @@ from django.views.generic.edit import FormView, DeleteView, UpdateView, View
 from django.views.generic.list import ListView
 
 from documents.forms import DocumentUploadForm
-from documents.models import Document, Upload, DocumentPurchase
+from documents.models import Document, DocumentPurchase
 from documents.exceptions import DuplicateFileError
 from calendar_mchp.models import ClassCalendar, CalendarEvent
 from lib.decorators import school_required
@@ -145,16 +145,15 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
 
     def form_valid(self, form):
         try:
-            doc = form.save()
+            doc = form.save(commit=False)
+            doc.owner = self.request.user.student
+            doc.save()
         except DuplicateFileError as err:
             messages.error(
                 self.request,
                 err
             )
             return self.get(self.request)
-
-        upload = Upload(document=doc, owner=self.student)
-        upload.save()
 
         event = form.cleaned_data.get('event', None)
         if event:

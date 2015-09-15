@@ -15,7 +15,6 @@ import os.path
 from wand.image import Image
 
 from notification.api import add_notification
-from documents.models import Upload
 from lib.utils import send_email_for
 from schedule.models import Course, Enrollment
 
@@ -43,13 +42,6 @@ def create_preview(instance):
         print('unrecognized file type: ' + instance.filetype)
         return
 
-    upload = Upload.objects.filter(
-        document=instance
-    )
-    if upload.exists():
-        upload = upload[0]
-    else: 
-        upload = None
     if filetype in convert_type:
         logger.error('converting: ' + instance.title)
         print('converting: '+ instance.title)
@@ -75,13 +67,10 @@ def create_preview(instance):
         except FileNotFoundError:
             logger.error('Error converting {}'.format(instance.title))
             print('error converting ' + instance.title)
-            if upload:
-                add_notification(
-                    upload.owner.user,
-                    'Your document, {}, asplode. Try converting it to pdf, or upload something else.'.format(instance.title) 
-                )
-            else:
-                logger.error('Document #{}, {}, has no uploader.'.format(instance.id, instance.title))
+            add_notification(
+                instance.owner.user,
+                'Your document, {}, asplode. Try converting it to pdf, or upload something else.'.format(instance.title)
+            )
             instance.delete()
             os.remove(input)
             return
@@ -124,7 +113,7 @@ def create_preview(instance):
         pass #don't care if ACL goes wrong, probably not an S3 connection that's in use right now...
 
     add_notification(
-        upload.owner.user,
+        instance.owner.user,
         'Your document, {}, is ready to be sold!'.format(instance.title)
     )
 
