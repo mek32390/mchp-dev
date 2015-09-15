@@ -5,5 +5,5 @@
  */
 
 $(function () {
-  $( 'input').attr('placeholder','Search Documents by Title, Price, Instructor...').addClass('input-lg');
+  $( 'input').attr('placeholder','Search Documents by Title, Instructor...').addClass('input-lg');
 });
