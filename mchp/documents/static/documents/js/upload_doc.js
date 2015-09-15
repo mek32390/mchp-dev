@@ -258,7 +258,7 @@ Autocomplete.prototype.setup = function() {
 	// On selecting a result, populate the search field.
 	$drop.find('li.course').click(function(what){
 		// get the li element
-		var $link = $(what.target).parent();
+		var $link = $(what.target);
 
 		// take off whitespace
 		var display = $link.text().trim();
