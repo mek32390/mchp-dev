@@ -50,8 +50,8 @@ function document_type_changed() {
 
 function update_classname() {
     console.log("class changed");
-    var selected_course_name = $('#document_course').find('option:selected').text();
-    var selected_course_id = $('#document_course').val();
+    var selected_course_name = $('#id_course').val();
+    var selected_course_id = $('#hidden_course').val();
 
     if (parseInt($("#document_type").val()) === SYLLABUS) {
         $("#id_title").val("Syllabus for course " + selected_course_name);
