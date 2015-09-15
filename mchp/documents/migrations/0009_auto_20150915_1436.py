@@ -26,18 +26,6 @@ class Migration(migrations.Migration):
         migrations.RunSQL(
             'UPDATE documents_document SET owner_id = (SELECT owner_id FROM documents_upload where documents_upload.document_id = documents_document.id)'
         ),
-        migrations.AlterUniqueTogether(
-            name='upload',
-            unique_together=None,
-        ),
-        migrations.RemoveField(
-            model_name='upload',
-            name='document',
-        ),
-        migrations.RemoveField(
-            model_name='upload',
-            name='owner',
-        ),
         migrations.DeleteModel(
             name='Upload',
         )

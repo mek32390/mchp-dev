@@ -96,8 +96,7 @@ def add_document_purchase(sender, **kwargs):
 
 
 @receiver(post_save, sender=Document)
-def add_document_upload(sender, **kwargs):
-    document = kwargs['document']
+def add_document_upload(sender, dashboard, **kwargs):
 
     if not document.course: # if uploaded through roster/add there will be no course id set yet
         return
