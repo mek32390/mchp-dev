@@ -181,7 +181,7 @@ class DocumentListView(ListView):
     model = Document
 
     def get_queryset(self):
-        return Document.objects.filter(upload__owner=self.student).order_by('-create_date').annotate(
+        return Document.objects.filter(owner=self.student).order_by('-create_date').annotate(
             purchase_count = Count('purchased_document'),
         ).extra(select = {
             # can't filter on annotations so get the count manually
@@ -192,7 +192,7 @@ class DocumentListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(DocumentListView, self).get_context_data(**kwargs)
-        context['upload_count'] = Upload.objects.filter(owner=self.student).count()
+        context['upload_count'] = 1
         context['purchase_count'] = DocumentPurchase.objects.filter(student=self.student).count()
         # this kind of defeats the purpose of a list view, but eh
         purchases = Document.objects.filter(purchased_document__student=self.student).select_related().order_by('title').annotate(
@@ -230,9 +230,8 @@ class DocumentDetailPreview(DetailView):
 
         document = self.get_object()
         # if they already bought the doc
-        uploader = Upload.objects.filter(document=document)
-        if uploader.exists():
-            uploader = uploader[0].owner
+        if document.owner:
+            uploader = document.owner
             uploader_pk = uploader.pk
         else:
             uploader = None
@@ -294,10 +293,8 @@ class DocumentDetailPreview(DetailView):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
 
-        # info about the document
-        uploader = Upload.objects.filter(document=self.object)
-        if uploader.exists():
-            uploader = uploader[0].owner
+        if self.object.owner:
+            uploader = self.object.owner
         else:
             uploader = None
 
@@ -307,9 +304,8 @@ class DocumentDetailPreview(DetailView):
         if not request.user.is_anonymous() and request.user.student_exists():
             referral_link = ReferralCode.objects.get_referral_code(request.user).referral_link
             # check if they already bought the doc
-            uploader = Upload.objects.filter(document=document)
-            if uploader.exists():
-                uploader = uploader[0].owner
+            if  document.owner:
+                uploader =  document.owner
                 uploader_pk = uploader.pk
             else:
                 uploader = None
@@ -321,7 +317,7 @@ class DocumentDetailPreview(DetailView):
         cals = ClassCalendar.objects.filter(
             owner=uploader
         ).count()
-        docs = Upload.objects.filter(
+        docs = Document.objects.filter(
             owner=uploader
         ).count()
         all_counts = cals + docs
@@ -390,9 +386,8 @@ class DocumentDetailView(DetailView):
         purchased = DocumentPurchase.objects.filter(document=self.object,
                                                     student=self.student).exists()
         # or if they own the doc
-        upload = Upload.objects.filter(document=self.object)
-        if upload.exists():
-            owner = upload[0].owner
+        if self.object.owner:
+            owner = self.object.owner
             owner_pk = owner.pk
         else:
             owner = None
@@ -461,7 +456,7 @@ class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
                 data = {}
                 doc = Document.objects.filter(
                     pk=request.POST['document'],
-                    upload__owner = self.student,
+                    owner = self.student,
                 )
                 if not doc:
                     # incorrect pk, or doc belongs to someone else
@@ -658,7 +653,7 @@ class FetchPreview(View, AjaxableResponseMixin):
             if 'document' in request.GET:
                 document = Document.objects.filter(
                     id=request.GET['document'],
-                    upload__owner = self.student,
+                    owner = self.student,
                 )
                 if not document.exists():
                     # couldn't find the document

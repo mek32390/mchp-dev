@@ -256,7 +256,7 @@ Autocomplete.prototype.setup = function() {
 	});
 
 	// On selecting a result, populate the search field.
-	$drop.find('li.strong').click(function(what){
+	$drop.find('li.course').click(function(what){
 		// get the li element
 		var $link = $(what.target).parent();
 

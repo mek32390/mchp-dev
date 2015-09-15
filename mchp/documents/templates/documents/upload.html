@@ -58,11 +58,11 @@
                   <ul class="dropdown-menu" id="ac-dropdown">
                     <li role="presentation" class="dropdown-header">Your Courses</li>
                     {% for course in enrolled_courses %}
-                      <li data-course="{{ course.pk }}"><a href="#"><strong><i
+                      <li data-course="{{ course.pk }}" class="course"><a href="#"><strong><i
                               class="fa fa-fw fa-plus-circle"></i> {{ course.display }}</strong></a>
                       </li>
                     {% empty %}
-                      <li><a href="{% url "course_create" %}"><strong><i
+                      <li class="course"><a href="{% url "course_create" %}"><strong><i
                                 class="fa fa-fw fa-plus-circle"></i>Create new course</a></strong></li>
                     {% endfor %}
                   </ul>

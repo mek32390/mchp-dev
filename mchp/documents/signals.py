@@ -13,7 +13,7 @@ This file gets imported in __init__.py and handles signals for the documents app
 '''
 
 document_purchased = Signal(providing_args=['purchase'])
-document_uploaded = Signal(providing_args=['upload'])
+document_uploaded = Signal(providing_args=['document'])
 
 @receiver(post_save, sender=Document)
 def create_preview_task(sender, instance, **kwargs):

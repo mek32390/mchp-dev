@@ -67,13 +67,3 @@ class DocumentModelTest(TestCase):
         doc = Document.objects.get(pk=doc.pk)
         self.assertEqual(doc.course, c)
         self.assertEqual(doc.course.dept, 'del')
-
-    def testUpload(self):
-        student_data = {
-            'user': User.objects.create_user('test_dude'),
-            'school': self.school,
-        }
-        student = Student(**student_data)
-        student.save()
-        upload = Upload(document=self.document, owner=student)
-        upload.save()

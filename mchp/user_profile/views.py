@@ -56,7 +56,7 @@ class ProfileView(DetailView):
         context['profile'] = self.object.profile
         context['viewer'] = self.viewer
         docs = Document.objects.filter(
-            upload__owner = self.object
+            owner = self.object
         ).order_by('create_date')[:10]
         context['upload_list'] = docs
         cals = ClassCalendar.objects.filter(

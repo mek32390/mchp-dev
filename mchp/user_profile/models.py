@@ -63,7 +63,7 @@ class Student(models.Model):
 
     def work_score(self):
         return\
-                Upload.objects.filter(owner=self).count()\
+                Document.objects.filter(owner=self).count()\
                 + self.courses.count()\
                 + DocumentPurchase.objects.filter(student=self).count()\
                 + self.sales()\
@@ -112,7 +112,7 @@ class Student(models.Model):
     # e.x. they uploaded two docs and the first was bought 1 time,
     # and the other 2 times, this function returns 3
     def sales(self):
-        all_uploads = Document.objects.filter(upload__owner=self).annotate(sales=Count('purchased_document'))
+        all_uploads = Document.objects.filter(owner=self).annotate(sales=Count('purchased_document'))
         counts = list(map(lambda document: document.sales, all_uploads))
         # this could probably just be sum()
         return reduce(lambda doc1, doc2: doc1 + doc2, counts)

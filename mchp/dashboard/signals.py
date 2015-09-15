@@ -1,3 +1,4 @@
+from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 
 from calendar_mchp.signals import calendar_event_created,subscription
@@ -7,6 +8,8 @@ from documents.signals import document_uploaded, document_purchased
 
 from dashboard.models import DashEvent
 from dashboard.utils import DASH_EVENTS
+from documents.models import Document
+
 
 @receiver(calendar_event_created)
 def add_event(sender, **kwargs):
@@ -92,19 +95,19 @@ def add_document_purchase(sender, **kwargs):
     dash_item.followers.add(purchase.document.upload.owner)
 
 
-@receiver(document_uploaded)
+@receiver(post_save, sender=Document)
 def add_document_upload(sender, **kwargs):
-    upload = kwargs['upload']
+    document = kwargs['document']
 
-    if not upload.document.course: # if uploaded through roster/add there will be no course id set yet
+    if not document.course: # if uploaded through roster/add there will be no course id set yet
         return
 
-    followers = Course.objects.get_classlist_for(upload.document.course)
+    followers = Course.objects.get_classlist_for(document.course)
     data = {
         'type': DASH_EVENTS.index('document add'),
-        'document': upload.document,
-        'course': upload.document.course,
-        'student': upload.owner,
+        'document': document,
+        'course': document.course,
+        'student': document.owner,
     }
     dash_item = DashEvent(**data)
     dash_item.save()
