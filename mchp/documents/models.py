@@ -57,6 +57,8 @@ class Document(models.Model):
     uuid = models.CharField(max_length=32)
     create_date = models.DateTimeField(auto_now_add=True)
 
+    owner = models.ForeignKey('user_profile.Student', null=True)
+
     approved = models.BooleanField(default=True)
     roster = models.ForeignKey('rosters.Roster', blank=True, null=True, related_name='syllabus')
 
@@ -140,7 +142,6 @@ class Document(models.Model):
 
 class Upload(models.Model):
     document = models.OneToOneField(Document)
-    owner = models.ForeignKey('user_profile.Student')
 
     class Meta:
         unique_together = ('document', 'owner')

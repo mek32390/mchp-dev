@@ -97,6 +97,9 @@ class RosterSubmitView(FormView):
             )
             return self.get(self.request)
 
+        upload = Upload(document=doc, owner=self.student)
+        upload.save()
+
         try:
             extract_roster(roster)
         except:
@@ -106,8 +109,6 @@ class RosterSubmitView(FormView):
             )
             return self.get(self.request)
 
-        upload = Upload(document=doc, owner=self.student)
-        upload.save()
         messages.success(
             self.request,
             "Class Set upload successful and is under review."
