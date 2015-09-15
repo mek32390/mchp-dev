@@ -24,7 +24,7 @@ def create_preview_task(sender, instance, **kwargs):
     # this queues a celery task
     try:
         # queue task after 5 seconds
-        create_preview.apply_async(args=[instance], countdown=5)
+        create_preview.apply_async(args=[instance], countdown=0)
         # create_preview(instance)
     except OSError:
         logger.error('Celery does not seem to be running')

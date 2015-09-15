@@ -31,7 +31,7 @@ def roster_on_create(sender, roster, **kwargs):
 def roster_on_reject(sender, roster, **kwargs):
     try:
         # queue task after 5 seconds
-        reject_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())
+        reject_roster.apply_async(args=[roster], countdown=0, link_error=debug_task.s())
         # create_preview(instance)
     except OSError:
         logger.error('Celery does not seem to be running')
@@ -41,7 +41,7 @@ def roster_on_reject(sender, roster, **kwargs):
 def roster_on_approve(sender, roster, **kwargs):
     try:
         # queue task after 5 seconds
-        approve_roster.apply_async(args=[roster], countdown=5, link_error=debug_task.s())
+        approve_roster.apply_async(args=[roster], countdown=0, link_error=debug_task.s())
         # create_preview(instance)
     except OSError:
         logger.error('Celery does not seem to be running')
