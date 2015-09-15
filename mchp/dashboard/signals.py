@@ -96,17 +96,17 @@ def add_document_purchase(sender, **kwargs):
 
 
 @receiver(post_save, sender=Document)
-def add_document_upload(sender, dashboard, **kwargs):
+def add_document_upload(sender, instance, **kwargs):
 
-    if not document.course: # if uploaded through roster/add there will be no course id set yet
+    if not instance.course: # if uploaded through roster/add there will be no course id set yet
         return
 
-    followers = Course.objects.get_classlist_for(document.course)
+    followers = Course.objects.get_classlist_for(instance.course)
     data = {
         'type': DASH_EVENTS.index('document add'),
-        'document': document,
-        'course': document.course,
-        'student': document.owner,
+        'document': instance,
+        'course': instance.course,
+        'student': instance.owner,
     }
     dash_item = DashEvent(**data)
     dash_item.save()
