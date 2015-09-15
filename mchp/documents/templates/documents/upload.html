@@ -40,9 +40,7 @@
       <form id="upload_form" class="autocomplete" action="{% url 'document_upload' %}" method="post"
             enctype="multipart/form-data">
         {% csrf_token %}
-
-        {{ form.errors }}
-
+      
         <!-- select course to upload document to -->
         <div class="media" id="{{ form.course.name }}_container">
           <div class="media-left media-top">
