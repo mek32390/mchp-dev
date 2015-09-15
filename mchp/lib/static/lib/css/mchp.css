@@ -1031,6 +1031,23 @@ body #buorg {
   cursor: default;
 }
 
+/* Bootstrap Table Styles */
+
+/* style the table btn */
+div.bootstrap-table > div.fixed-table-toolbar > div.columns.columns-right.btn-group.pull-right > div > button {
+  color           : #fff;
+  background-color: rgba(255,255,255,0.4);
+  border-color    : rgba(255,255,255,0.4);
+  text-shadow     : 0px 1px 4px rgba(0,0,0,0.2);
+  transition: all .5s ease;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+}
+
+.th-name {
+    cursor: pointer;
+}
+
 /* Firehose Chat Styles */
 #fchat {
   right: 31px !important;

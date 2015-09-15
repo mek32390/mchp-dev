@@ -4,9 +4,9 @@
 
 {% block extra_head %}
     
-    <!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified bootstrap table CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css">
-    <!-- Latest compiled and minified JavaScript -->
+    <!-- Latest compiled and minified bootstrap table JavaScript -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js"></script>
     <!-- Latest compiled and minified Locales -->
     <!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/locale/bootstrap-table-zh-CN.min.js"></script> -->
@@ -135,7 +135,7 @@
                     <td>{{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</td>
                     <td>{{ roster.course.domain.name }}</td>
                     <td>{{ roster.created|date }}</td>
-                    <td><label class="label {% if roster.status == 'r' %} label-danger {% elif roster.status == 'p' %} label-default {% elif roster.status == 'a' %} label-success {% endif %}">{{ roster.status }}</label></td>
+                    <td><label class="label {% if roster.status == 'r' %} label-danger {% elif roster.status == 'p' %} label-default {% elif roster.status == 'a' %} label-success {% endif %}">{{ roster.get_status_display }}</label></td>
                     <td>
                         <ul class="list-inline">
                             <!-- <li><a href="#" class="btn btn-trans btn-xs">Run extractor</a></li> -->

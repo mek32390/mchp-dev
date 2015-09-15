@@ -172,6 +172,11 @@ class Roster(models.Model):
         if signal:
             roster_uploaded.send(sender=self.__class__, roster=self)
 
+    def __str__(self):
+        return "{} :: {}".format(
+            self.created_by,
+            self.course)
+
 
 class RosterEventEntry(models.Model):
     """ Roster event entry.

@@ -12,7 +12,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from schedule.models import Course
 from . import forms, models, utils
+
+from lib.decorators import intern_manager_required, rep_required
 from rosters.tasks import extract_roster
+
 
 
 class RosterSubmitView(FormView):
@@ -140,7 +143,7 @@ class RosterReviewView(UpdateView):
     #     context['course'] = self.get_object().course
     #     return context
 
-    @method_decorator(school_required)
+    @method_decorator(intern_manager_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
@@ -185,7 +188,7 @@ class RosterListView(ListView):
     #     context['course'] = self.get_object().course
     #     return context
 
-    @method_decorator(school_required)
+    @method_decorator(intern_manager_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
