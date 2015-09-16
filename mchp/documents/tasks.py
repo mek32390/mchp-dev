@@ -26,7 +26,6 @@ def create_preview(instance):
     convert_type = [b'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                     b'application/msword',
                     b'application/zip',
-                    b'application/pdf',
                     b'application/CDFV2-corrupt',
                     b'text/plain',
                     b'text/html',
@@ -43,7 +42,6 @@ def create_preview(instance):
         print('unrecognized file type: ' + instance.filetype)
         return
 
-    print (filetype)
     if filetype in convert_type:
         logger.error('converting: ' + instance.title)
         print('converting: '+ instance.title)
@@ -69,10 +67,13 @@ def create_preview(instance):
         except FileNotFoundError:
             logger.error('Error converting {}'.format(instance.title))
             print('error converting ' + instance.title)
-            add_notification(
-                instance.owner.user,
-                'Your document, {}, asplode. Try converting it to pdf, or upload something else.'.format(instance.title)
-            )
+            if instance.owner:
+                add_notification(
+                    instance.owner.user,
+                    'Your document, {}, asplode. Try converting it to pdf, or upload something else.'.format(instance.title) 
+                )
+            else:
+                logger.error('Document #{}, {}, has no uploader.'.format(instance.id, instance.title))
             instance.delete()
             os.remove(input)
             return
@@ -112,11 +113,11 @@ def create_preview(instance):
     try:
         instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
     except:
-        pass #don't care if ACL goes wrong, probably not an S3 connection that's in use right now...
+        pass
 
     add_notification(
         instance.owner.user,
-        'Your document, {}, is ready to be sold!'.format(instance.title)
+        'Your document, {}, is ready to be sold!'.format(instance.title) 
     )
 
 def _document_notify(document):
