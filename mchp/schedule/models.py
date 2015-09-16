@@ -95,9 +95,7 @@ class DisplayCourseManager(models.Manager):
 class Course(models.Model):
     domain = models.ForeignKey(School)
     dept = models.CharField(max_length=6)
-    course_number = models.IntegerField(
-        validators=[MaxValueValidator(99999), MinValueValidator(99)]
-    )
+    course_number = models.CharField(max_length=30)
     name = models.CharField(max_length=13)
     professor = models.CharField(max_length=30)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -169,14 +167,28 @@ class Course(models.Model):
         return self.calendar_courses.filter(primary=True)
 
     def enroll(self, student):
-        Enrollment.objects.get_or_create(student=student, course=self)
+        obj, created = Enrollment.objects.get_or_create(student=student, course=self)
 
-        primary_calendar = self.primary_calendar()
-        if primary_calendar:
-            primary_calendar = primary_calendar[0]
+        if created:
+            primary_calendar = self.primary_calendar()
+            if primary_calendar:
+                primary_calendar = primary_calendar[0]
 
-            student_calendar = primary_calendar.fork(student)
-            student_calendar.subscribe(student)
+                student_calendar = primary_calendar.fork(student)
+                student_calendar.subscribe(student)
+
+    def enroll_by_roster(self, student, roster):
+        obj, created = Enrollment.objects.get_or_create(student=student, course=self)
+
+        if created:
+            obj.created_by_roster = roster
+            obj.save()
+            primary_calendar = self.primary_calendar()
+            if primary_calendar:
+                primary_calendar = primary_calendar[0]
+
+                student_calendar = primary_calendar.fork(student)
+                student_calendar.subscribe(student)
 
     def __str__(self):
         return "{} {}".format(self.dept, self.course_number)
@@ -186,6 +198,7 @@ class Enrollment(models.Model):
     course = models.ForeignKey(Course)
     # if the student wants to get emails related to class activity
     receive_email = models.BooleanField(default=True)
+    created_by_roster = models.ForeignKey('rosters.Roster', related_name='enrollments', null=True)
     join_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):

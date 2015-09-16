@@ -9,15 +9,15 @@
 	max-height: 500px;
 }
 
-.cal-scroll {
-	overflow: auto;
-	max-height: 500px;
+.fixed-table-container tbody td {
+  border-left: none; 
 }
 
-.assignment-number {
-	position: relative;
-	padding: 0px;
-	margin-top: -38px;
-	margin-left: auto;
-	margin-right: auto;
+div.pull-right.search {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+div.fixed-table-body > table > thead > tr > th:first-child > div.th-inner.sortable {
+	padding-left: 0;
 }

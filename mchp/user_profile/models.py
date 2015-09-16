@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 
-from documents.models import Upload,DocumentPurchase, Document
+from documents.models import DocumentPurchase, Document
 from schedule.models import Course
 from user_profile import managers
 
@@ -38,6 +38,8 @@ class Student(models.Model):
     school = models.ForeignKey('schedule.School', related_name='student_school')
     major = models.ForeignKey('schedule.Major', blank=True, null=True)
 
+    created_by_roster_no_user = models.BooleanField(default=False)
+
     friends = models.ManyToManyField('self', db_table='user_profile_friends')
 
     purchased_points = models.IntegerField(default=0)
@@ -61,7 +63,7 @@ class Student(models.Model):
 
     def work_score(self):
         return\
-                Upload.objects.filter(owner=self).count()\
+                Document.objects.filter(owner=self).count()\
                 + self.courses.count()\
                 + DocumentPurchase.objects.filter(student=self).count()\
                 + self.sales()\
@@ -110,7 +112,7 @@ class Student(models.Model):
     # e.x. they uploaded two docs and the first was bought 1 time,
     # and the other 2 times, this function returns 3
     def sales(self):
-        all_uploads = Document.objects.filter(upload__owner=self).annotate(sales=Count('purchased_document'))
+        all_uploads = Document.objects.filter(owner=self).annotate(sales=Count('purchased_document'))
         counts = list(map(lambda document: document.sales, all_uploads))
         # this could probably just be sum()
         return reduce(lambda doc1, doc2: doc1 + doc2, counts)
@@ -206,6 +208,7 @@ class OneTimeFlag(models.Model):
 class UserRole(models.Model):
     user = models.OneToOneField(User, related_name='user_roles')
     rep = models.BooleanField(default=False)
+    intern_manager = models.BooleanField(default=False)
 
     objects = managers.UserRoleManager()
 

@@ -6,8 +6,8 @@ from . import models
 
 class RosterEventForm(forms.Form):
     # The placeholder magic number is a bit shitty, but see roster_upload.js and roster_submit_form.html why
-    title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control event-title', 'placeholder': 'Exam 1 title'}))
-    date = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control event-date', 'placeholder': 'Exam 1 date'}))
+    title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control event-title', 'placeholder': 'Exam or Assignment Title'}))
+    date = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control event-date', 'placeholder': 'Exam or Assignment date'}))
 
 RosterEventFormSet = formset_factory(RosterEventForm)
 

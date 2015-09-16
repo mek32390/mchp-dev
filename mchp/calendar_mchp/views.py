@@ -14,7 +14,7 @@ from django.views.generic.edit import DeleteView,View, UpdateView
 
 from calendar_mchp.models import ClassCalendar, CalendarEvent, Subscription
 from calendar_mchp.exceptions import TimeOrderError, CalendarExpiredError, BringingUpThePastError
-from documents.models import Upload, Document
+from documents.models import Document
 from notification.api import add_notification_for, add_notification
 from lib.decorators import class_required
 from referral.models import ReferralCode

@@ -159,8 +159,8 @@
 									<i class="fa fa-fw fa-money text-success"></i>&nbsp;{{document.purchase_count}} Purchases
 								</h6>
 								<small>
-									{{document.create_date | naturaltime}} in 
-									<a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a>
+									{{document.create_date | naturaltime}} in
+									{% if document.course %}<a href="{%url "course" document.course.pk %}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a>{% endif %}
 								</small>
 							</span>
 				    </div>

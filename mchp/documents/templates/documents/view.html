@@ -79,8 +79,8 @@
 <div class="row">
 	<div class="col-xs-8">
 		<h1 class="margin-top-none">{{ document.title }}</h1>
-    <p class="lead"><a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a> 
-							with Instructor {{document.course.professor}}</p>
+    {% if document.course %}<p class="lead"><a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a>
+							with Instructor {{document.course.professor}}</p> {% else %} Not approved yet {% endif %}
     <p></p>
 	</div>
 	<div class="col-xs-4">
@@ -105,12 +105,14 @@
 			<li>
 				View:
 			</li>
+            {% if document.course %}
 			<li>
 				<a href="{% url "school" document.course.domain.pk %}{{ document.course.domain.name }}"><i class="fa fa-university"></i>&nbsp;{{ document.course.domain.name }}</a> 
 			</li>
 			<li>
 				<a href='{% url "course" document.course.pk %}{{document.course.name}}'><i class="fa fa-bookmark-o">&nbsp;</i>{{document.course.dept}} {{document.course.course_number}}</a> 
 			</li>
+            {% endif %}
 			<li class="active">
 				<a href="http://{{request.get_host}}{%url "document_list" %}preview/{{uuid}}/{{slug}}"><i class="fa fa-file-o"></i>&nbsp;{{ document.title }} Preview</a>
 			</li>

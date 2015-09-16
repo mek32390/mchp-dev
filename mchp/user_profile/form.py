@@ -2,7 +2,7 @@ from django import forms
 
 class UserSignupForm(forms.Form):
     first_name = forms.CharField(max_length=40, label='First name (*)',\
-                 widget=forms.TextInput(attrs={'placeholder': 'First Name'}), \
+                 widget=forms.TextInput(attrs={'placeholder': 'First Name', 'autofocus': 'autofocus'}), \
                                  required=False)
     last_name = forms.CharField(max_length=40, label='Last name (*)', \
                  widget=forms.TextInput(attrs={'placeholder': 'Last Name'}), \

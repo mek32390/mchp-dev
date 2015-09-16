@@ -49,11 +49,9 @@
                 <i class="fa fa-fw fa-money text-success"></i> {{document.sold}}
                 Purchase{{document.sold|pluralize}}
               </span>
-              {% if document.upload %}
-              {% with document.upload.owner as owner %}
+              {% if document.owner %}
               <div> uploaded by a classmate
               </div>
-              {% endwith %}
               {% endif %}
             </div>
           </div>

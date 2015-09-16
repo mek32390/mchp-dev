@@ -57,8 +57,10 @@ class Document(models.Model):
     uuid = models.CharField(max_length=32)
     create_date = models.DateTimeField(auto_now_add=True)
 
+    owner = models.ForeignKey('user_profile.Student', null=True)
+
     approved = models.BooleanField(default=True)
-    roster = models.ForeignKey('rosters.Roster', null=True, related_name='syllabus')
+    roster = models.ForeignKey('rosters.Roster', blank=True, null=True, related_name='syllabus')
 
     preview = models.ImageField(upload_to=PREVIEW_LOCATION, blank=True, null=True)
     slug = models.SlugField(max_length=80)
@@ -138,27 +140,6 @@ class Document(models.Model):
     def __str__(self):
         return "{}".format(self.title)
 
-class Upload(models.Model):
-    document = models.OneToOneField(Document)
-    owner = models.ForeignKey('user_profile.Student')
-
-    class Meta:
-        unique_together = ('document', 'owner')
-
-    def save(self, *args, **kwargs):
-        from documents.signals import document_uploaded
-        signal = False
-        if not self.pk:
-            signal = True
-        super(Upload, self).save(*args, **kwargs)
-        if signal:
-            document_uploaded.send(sender=self.__class__, upload=self)
-
-
-    def __str__(self):
-        return "{} uploaded {}".format(
-            self.owner.user.username, 
-            self.document.title)
 
 class DocumentPurchase(models.Model):
     document = models.ForeignKey(Document, related_name='purchased_document')

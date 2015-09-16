@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from lib.decorators import school_required
 from documents.exceptions import DuplicateFileError
 from django.contrib import messages
-from documents.models import Document, Upload, DocumentPurchase
+from documents.models import Document, DocumentPurchase
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.core.urlresolvers import reverse
@@ -12,6 +12,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from schedule.models import Course
 from . import forms, models, utils
+
+from lib.decorators import intern_manager_required, rep_required
+from rosters.tasks import extract_roster
+
 
 
 class RosterSubmitView(FormView):
@@ -84,7 +88,7 @@ class RosterSubmitView(FormView):
         try:
             doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
                            description='Course Syllabus for ' + course_name,
-                           document=document, course_id=None, approved=False, roster=roster)
+                           document=document, course_id=None, approved=False, roster=roster, owner=self.request.user.student)
             doc.save()
         except DuplicateFileError as err:
             messages.error(
@@ -93,8 +97,15 @@ class RosterSubmitView(FormView):
             )
             return self.get(self.request)
 
-        upload = Upload(document=doc, owner=self.student)
-        upload.save()
+        try:
+            extract_roster(roster)
+        except:
+            messages.error(
+                self.request,
+                'Class Set rejected: roster is a duplicate'
+            )
+            return self.get(self.request)
+
         messages.success(
             self.request,
             "Class Set upload successful and is under review."
@@ -130,7 +141,7 @@ class RosterReviewView(UpdateView):
     #     context['course'] = self.get_object().course
     #     return context
 
-    @method_decorator(school_required)
+    @method_decorator(intern_manager_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
@@ -148,23 +159,16 @@ class RosterListView(ListView):
     template_name_suffix = '_list'
     #template_name = 'rosters/staff-intern-prototype.html'
 
-    # TODO: implement document_uploaded signal for syllabus upon doc approval
-
     def post(self, request, *args, **kwargs):
-        print (request.POST)
         roster_id = request.POST['hidden_roster_id']
         action = request.POST['hidden_roster_action']
 
         roster = models.Roster.objects.get(pk=roster_id)
         if action == 'reject':
-            roster.status = models.Roster.REJECTED
-            roster.save()
             from rosters.signals import roster_rejected
             roster_rejected.send(sender=self.__class__, roster=roster)
 
         if action == 'approve':
-            roster.status = models.Roster.APPROVED
-            roster.save()
             from rosters.signals import roster_approved
             roster_approved.send(sender=self.__class__, roster=roster)
 
@@ -182,7 +186,7 @@ class RosterListView(ListView):
     #     context['course'] = self.get_object().course
     #     return context
 
-    @method_decorator(school_required)
+    @method_decorator(intern_manager_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 

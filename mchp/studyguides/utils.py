@@ -127,7 +127,7 @@ def _rank_documents(event):
 
     scores += rank(documents,
                    lambda doc: enrollments.get(
-                       student=doc.upload.owner).join_date,
+                       student=doc.owner).join_date,
                    score=20)
 
     scores += rank(documents,

@@ -22,6 +22,5 @@ class DocumentManager(models.Manager):
             # if upload.exists():
             #     owner = upload[0].owner
             # else:
-            owner = None
-            events.append(Activity('document', doc, doc.create_date, owner))
+            events.append(Activity('document', doc, doc.create_date, doc.owner))
         return events
