@@ -42,6 +42,7 @@ def create_preview(instance):
         print('unrecognized file type: ' + instance.filetype)
         return
 
+    print (filetype)
     if filetype in convert_type:
         logger.error('converting: ' + instance.title)
         print('converting: '+ instance.title)

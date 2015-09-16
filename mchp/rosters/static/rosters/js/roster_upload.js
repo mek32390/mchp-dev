@@ -77,4 +77,8 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: false
     });
+
+    $('#upload_form').on('success.form.bv', function (e) {
+        $('.loading').removeClass('hidden');
+    });
 });
