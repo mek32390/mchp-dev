@@ -50,7 +50,7 @@ function document_type_changed() {
 
 function update_classname() {
     console.log("class changed");
-    var selected_course_name = $('#id_course').val();
+    var selected_course_name = $('#id_course').data('name');
     var selected_course_id = $('#hidden_course').val();
 
     if (parseInt($("#document_type").val()) === SYLLABUS) {
@@ -263,11 +263,14 @@ Autocomplete.prototype.setup = function() {
 		// take off whitespace
 		var display = $link.text().trim();
 		self.query_box.val(display);
+        self.query_box.data('name', $link.data('name'));
+
 
 		// add the data-course to the hidden field
 		var pk = $link.data('course');
 		$hidden = $('#hidden_course');
 		$hidden.val(pk);
+        update_classname();
 	});
 
 };
@@ -317,11 +320,13 @@ Autocomplete.prototype.show_results = function(results) {
 		// take off whitespace
 		var display = $link.text().trim();
 		$('#id_course').val(display);
+        $('#id_course').data('name', result.fields.dept + " " + result.fields.course_number);
 
 		// add the data-course to the hidden field
 		var pk = $link.data('course');
 		$hidden = $('#hidden_course');
 		$hidden.val(pk);
+            update_classname();
 	});
 
 	});
