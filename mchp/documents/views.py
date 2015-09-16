@@ -469,7 +469,6 @@ class DocumentDeleteView(DeleteView, AjaxableResponseMixin):
                 else:
                     # delete upload and purchases
                     doc = doc[0]
-                    doc.upload.delete()
                     doc.purchased_document.all().delete()
                     # actually delete document
                     doc.delete()
