@@ -65,7 +65,7 @@ def checkforduplicaterosters(roster):
                     similars += 1
         if similars/totalrosterstudents > 0.8:
             return True
-    pass
+    return False
 
 
 @shared_task()

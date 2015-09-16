@@ -26,6 +26,7 @@ def create_preview(instance):
     convert_type = [b'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                     b'application/msword',
                     b'application/zip',
+                    b'application/pdf',
                     b'application/CDFV2-corrupt',
                     b'text/plain',
                     b'text/html',
@@ -42,6 +43,7 @@ def create_preview(instance):
         print('unrecognized file type: ' + instance.filetype)
         return
 
+    print (filetype)
     if filetype in convert_type:
         logger.error('converting: ' + instance.title)
         print('converting: '+ instance.title)

@@ -48,7 +48,8 @@
 			<p></p>
 				{% if document_list %} 
 				<div class="list-group scrolls opa" id="document-list"> 
-					{% for document in document_list %} 
+					{% for document in document_list %}
+                        {% if document.course %}
 					{{document.purchased_count}}
 					<li class="list-group-item trans" id="document_{{document.pk}}"> 
 						<div class="media">
@@ -107,14 +108,15 @@
 									{% endwith %}
 								</span> 
       					<div>
-          				in
+
 	                <a href="{%url "course" document.course.pk%}">
 	                   {{document.course}}
 	                </a>
             		</div>
 							</div> 
 						</div> 
-					</li> 
+					</li>
+                        {% endif %}
 					{% endfor %} 
 				</div>   
 				<div id="no-documents" class="text-center" style="display: none;">
@@ -166,7 +168,7 @@
 									<i class="fa fa-fw fa-money
 										text-success"></i> {{document.purchase_count}}
 									Purchase{{document.purchase_count|pluralize}}
-									<p class="small" style="margin-top:5px;">Uploaded by <a href="{% url "profile" document.owner.pk%}">{{document.owner}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
+									<p class="small" style="margin-top:5px;">Uploaded by <a href="{% url "profile" document.upload.owner.pk%}">{{document.upload.owner}}</a> in <a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a></p>
 								</span>
 							</div>
 						</div>
