@@ -49,6 +49,7 @@ def create_preview(instance):
         input = '/tmp/old{}'.format(uuid.uuid4())
 
         try:
+            print (instance.document.url)
             urllib.request.urlretrieve(instance.document.url, input)
         except OSError as e:
             print(str(e))
