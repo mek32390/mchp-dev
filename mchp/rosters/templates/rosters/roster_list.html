@@ -87,6 +87,9 @@
                                                 user {% else %} not a user {% endif %}</label></td>
                                         </tr>
                                     {% endfor %}
+
+                                    {{ roster.roster_html }}
+
                                 </table>
                                 <h4>Events &nbsp;<span class="badge">{{ roster.events.all.count }}</span></h4>
                                 <table class="table table-hover">
