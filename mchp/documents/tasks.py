@@ -26,6 +26,7 @@ def create_preview(instance):
     convert_type = [b'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                     b'application/msword',
                     b'application/zip',
+                    b'application/pdf',
                     b'application/CDFV2-corrupt',
                     b'text/plain',
                     b'text/html',
