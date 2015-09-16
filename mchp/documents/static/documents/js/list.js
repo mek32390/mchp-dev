@@ -138,7 +138,7 @@ $(function(){
 		var create_date = moment(upload.create_date);
 		var diff = moment().diff(create_date, 'minutes');
 		if (diff>10) {
-			$('#generating_message_' + pk).html('<h4>This Document didn\'t make it through the wormwhole...</h4><p><a href="documents/add" class="btn btn-trans btn-sm">Try again</a></p>');
+			$('#generating_message_' + pk).html('<h4>This Document didn\'t make it through the wormwhole...</h4><p><a href="/documents/add" class="btn btn-trans btn-sm">Try again</a></p>');
 			$('#description-'+pk).remove();
 			return true;
 		}
