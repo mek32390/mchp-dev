@@ -85,7 +85,7 @@ def create_preview(instance):
 
     size = 500
     try:
-        with Image(filename=settings.COLLECTED_DIR+instance.document.url+'[0]') as img:
+        with Image(filename=instance.document.url+'[0]') as img:
             logger.error('making thumbnail for: ' + instance.title)
             print('makeing thumbnail for: ' + instance.title)
             preview_name = '/tmp/tmp{}.png'.format(uuid.uuid4().hex)
