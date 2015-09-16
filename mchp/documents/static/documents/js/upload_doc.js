@@ -54,8 +54,8 @@ function update_classname() {
     var selected_course_id = $('#hidden_course').val();
 
     if (parseInt($("#document_type").val()) === SYLLABUS) {
-        $("#id_title").val("Syllabus for course " + selected_course_name);
-        $("#id_description").val("Syllabus for course " + selected_course_name);
+        $("#id_title").val("Syllabus for " + selected_course_name);
+        $("#id_description").val("Syllabus for " + selected_course_name);
     }
 
     $('.selected-classname').text(selected_course_name);
