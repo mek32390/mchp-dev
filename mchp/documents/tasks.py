@@ -110,10 +110,10 @@ def create_preview(instance):
         logger.error(str(e))
         print(str(e))
 
-    try:
-        instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
-    except:
-        pass
+    #try:
+    #    instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
+    #except:
+    #   pass
 
     add_notification(
         instance.owner.user,
