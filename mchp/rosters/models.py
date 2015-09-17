@@ -41,7 +41,7 @@ class Roster(models.Model):
     course = models.ForeignKey('schedule.Course')
     roster_html = models.TextField('roster HTML')
     instructor_emails = models.TextField('instructor emails')
-    tz = 
+    #tz =
 
     created = models.DateTimeField('first created', auto_now_add=True)
     updated = models.DateTimeField('last updated', auto_now=True)
@@ -60,9 +60,8 @@ class Roster(models.Model):
         for event in self.events.all():
             d = event.date
             start = datetime.datetime(d.year, d.month, d.day)
-            end = datetime.datetime(d.year, d.month, d.day, 23, 55, 55)
-            start = pytz.utc.localize(start)
-            end = pytz.utc.localize(end)
+            start = timezone.make_aware(start, timezone.get_current_timezone())
+            end = start + datetime.timedelta(hours=1)
 
             params = {
                     'calendar': primary_calendar,
