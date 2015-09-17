@@ -51,7 +51,7 @@
           <h1 class="media-object pull-left margin-top-none">1.</h1>
         </div>
         <div class="media-body">
-          <h3 class="media-heading">Select a course to add a Class Set to:</h3>
+          <h3 class="media-heading">Select a course to add a Class Set to: *</h3>
             <p>If the course isn't listed, please <a href="{% url 'course_create' %}" class="link" target="_blank">create a course</a>.</p>
 						{% if form.course.errors %}
 					    <ol>
@@ -82,7 +82,7 @@
         </div>
         <div class="media-body">
           <h3 class="media-heading">Upload the Syllabus for <strong class="selected-classname">CLASS
-             NAME</strong>:</h3>
+             NAME</strong>: *</h3>
           <p>The course syllabus is typically a word or pdf document.</p>
 					{% if form.document.errors %}
 				    <ol>
@@ -108,7 +108,7 @@
         </div>
         <div class="media-body">
           <h3 class="media-heading">Identify All Non-Student Emails for 
-          <strong class="selected-classname">CLASS NAME</strong></h3>
+          <strong class="selected-classname">CLASS NAME</strong> *</h3>
           <p>Indicate all non-student email addresses, such as instructors and teaching assistants.</p>
           <textarea class="form-control input-lg" id="{{ form.emails.id_for_label }}"
                     name="{{ form.emails.name }}"
@@ -128,7 +128,7 @@
         <!-- /.media-left -->
         <div class="media-body">
           <h3 class="media-heading">Paste the Roster for <strong class="selected-classname">CLASS
-          	NAME</strong>
+          	NAME</strong> *
           </h3>
           <p>Follow the instructions below to copy/paste your class's roster. Bonus points if you don't have to ask for help <i class="fa fa-smile-o"></i></p>
           <p>Safari users must have <strong>"Developer"</strong> mode enabled before continuing. 
