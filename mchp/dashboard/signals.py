@@ -81,7 +81,7 @@ def add_class_join(sender, **kwargs):
 def add_document_purchase(sender, **kwargs):
     purchase = kwargs['purchase']
     # this doc has no uploader, so don't inform anyone
-    if not purchase.document.upload:
+    if not purchase.document.owner:
         return
 
     data = {
@@ -92,7 +92,7 @@ def add_document_purchase(sender, **kwargs):
     }
     dash_item = DashEvent(**data)
     dash_item.save()
-    dash_item.followers.add(purchase.document.upload.owner)
+    dash_item.followers.add(purchase.document.owner)
 
 
 @receiver(post_save, sender=Document)
