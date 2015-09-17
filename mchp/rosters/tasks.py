@@ -56,7 +56,7 @@ def checkforduplicaterosters(roster):
 
     totalrosterstudents = roster.students.count()
 
-    otherrostersforcourse = Roster.objects.filter(course__iexact= roster.course, status__iexact= rostermodels.Roster.APPROVED)
+    otherrostersforcourse = Roster.objects.filter(course= roster.course, status__iexact= rostermodels.Roster.APPROVED)
     if otherrostersforcourse:
         for otherroster in otherrostersforcourse.all():
             similars = 0
