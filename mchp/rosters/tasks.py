@@ -56,15 +56,16 @@ def checkforduplicaterosters(roster):
 
     totalrosterstudents = roster.students.count()
 
-    otherrostersforcourse = Roster.objects.filter(status__iexact= rostermodels.Roster.APPROVED).all()
-    for otherroster in otherrostersforcourse:
-        similars = 0
-        for student in roster.students.all():
-            for otherstudent in otherroster.students.all():
-                if student.first_name == otherstudent.first_name and student.last_name == otherstudent.last_name:
-                    similars += 1
-        if similars/totalrosterstudents > 0.8:
-            return True
+    otherrostersforcourse = Roster.objects.filter(course__iexact= roster.course, status__iexact= rostermodels.Roster.APPROVED)
+    if otherrostersforcourse:
+        for otherroster in otherrostersforcourse.all():
+            similars = 0
+            for student in roster.students.all():
+                for otherstudent in otherroster.students.all():
+                    if student.first_name == otherstudent.first_name and student.last_name == otherstudent.last_name:
+                        similars += 1
+            if similars/totalrosterstudents > 0.8:
+                return True
     return False
 
 
