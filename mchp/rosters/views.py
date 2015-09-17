@@ -15,7 +15,7 @@ from . import forms, models, utils
 
 from lib.decorators import intern_manager_required, rep_required
 from rosters.tasks import extract_roster
-from mchp.notification.api import add_notification
+from notification.api import add_notification
 
 
 class RosterSubmitView(FormView):
