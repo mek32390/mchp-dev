@@ -6,9 +6,6 @@
   <div class="col-md-8 col-md-offset-2">
 		{% if email %}
 		<h2 class="text-center">You've got mail!<small></small></h2>
-		<p><img class="media-object img-responsive center-block" src=
-			"{% static 'lib/img/rss.svg' %}" alt=
-			"verify email account">
 			<p class="text-center lead">We've upgraded security around here.</p>
       <p class="text-center">Please check your .EDU e-mail for a password reset verification e-mail from us.</p>
       <p class="text-center">No e-mail? Be sure to check your <span class="text-danger">SPAM!</span></p>
@@ -18,10 +15,9 @@
 					{{email}}
 				</div>
 			</div>
-			{% else %}
+		{% else %}
 			<h2 class="text-center">Nobody here but us chickens.</h2>
-			<img src="{% static 'lib/img/egg.svg' %}" class="center-block">
-			{% endif %}
+		{% endif %}
     </div>   
   </div>   
 </div>   
