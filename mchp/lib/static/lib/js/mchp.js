@@ -25,7 +25,8 @@ $(function() {
 
     // choose a random img and set it as backgrounf each day
     var now = new Date();
-    var fullDaysSinceEpoch = Math.floor(now/8.64e7);
+    var tzdiff = new Date().getTimezoneOffset() * 60 * 1000;
+    var fullDaysSinceEpoch = Math.floor((now/1-tzdiff)/8.64e7);
     var rand = Math.floor((Math.random() * MAX_BG_IMAGES) + 1);
     var current_pic;
     
