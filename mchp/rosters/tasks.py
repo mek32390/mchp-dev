@@ -64,7 +64,7 @@ def checkforduplicaterosters(roster):
                 for otherstudent in otherroster.students.all():
                     if student.first_name == otherstudent.first_name and student.last_name == otherstudent.last_name:
                         similars += 1
-            if similars/totalrosterstudents > 0.8:
+            if similars/totalrosterstudents > 0.8 and totalrosterstudents > 0:
                 return True
     return False
 
