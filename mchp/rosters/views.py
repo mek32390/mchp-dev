@@ -108,7 +108,7 @@ class RosterSubmitView(FormView):
 
         messages.success(
             self.request,
-            "Class Set upload successful and is under review."
+            "Class Set for {} was submitted and is now under review".format(roster.course)
         )
 
         add_notification(
