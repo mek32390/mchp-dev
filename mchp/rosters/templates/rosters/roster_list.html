@@ -87,10 +87,25 @@
                                                 user {% else %} not a user {% endif %}</label></td>
                                         </tr>
                                     {% endfor %}
-
-                                    {{ roster.roster_html }}
-
                                 </table>
+
+                                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#showHTML" aria-expanded="false" aria-controls="collapseExample">
+                                  View HTML
+                                </button>
+                                <div class="collapse" id="showHTML">
+                                  <div class="well">
+                                    {{ roster.roster_html }}
+                                  </div>
+                                </div>
+
+                               <!--  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#showHTML" aria-expanded="false" aria-controls="collapseExample">
+                                  View HTML
+                                </button>
+                                <div class="collapse" id="showHTML">
+                                  <div class="well">
+                                    hiiiii{{ roster.roster_html }}
+                                  </div>
+                                </div> -->
                                 <h4>Events &nbsp;<span class="badge">{{ roster.events.all.count }}</span></h4>
                                 <table class="table table-hover">
                                     {% for event in roster.events.all %}
@@ -118,6 +133,7 @@
         <div class="col-xs-12">
             <h1 class="margin-top-none">Class Sets</h1>
             <hr>
+
             <!-- <div class="well opa"> -->
             <table data-toggle="table" class="table table-hover" data-sort-name="roster_date" data-sort-order="desc"
                    data-search="true" data-search-text="" data-show-columns="true">
