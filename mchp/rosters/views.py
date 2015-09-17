@@ -208,6 +208,10 @@ class RosterListView(ListView):
             from rosters.signals import roster_approved
             roster_approved.send(sender=self.__class__, roster=roster)
 
+        if action == 'extract':
+            print ('re-extracting')
+            extract_roster(roster)
+
 
         return redirect(reverse('roster-list'))
 
