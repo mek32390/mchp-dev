@@ -115,11 +115,11 @@ def create_preview(instance):
     #    instance.document.storage.connection.put_acl(settings.AWS_STORAGE_BUCKET_NAME, 'media/' + instance.document.name, '', {'x-amz-acl':'private'})
     #except:
     #   pass
-
-    add_notification(
-        instance.owner.user,
-        'Your document, {}, is ready to be sold!'.format(instance.title) 
-    )
+    if not instance.roster:
+        add_notification(
+            instance.owner.user,
+            'Your document, {}, is ready to be sold!'.format(instance.title)
+        )
 
 def _document_notify(document):
     template = 'email/document_uploaded'

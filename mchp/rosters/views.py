@@ -15,7 +15,7 @@ from . import forms, models, utils
 
 from lib.decorators import intern_manager_required, rep_required
 from rosters.tasks import extract_roster
-
+from mchp.notification.api import add_notification
 
 
 class RosterSubmitView(FormView):
@@ -97,18 +97,23 @@ class RosterSubmitView(FormView):
             )
             return self.get(self.request)
 
-        #try:
-        extract_roster(roster)
-        #except:
-        #    messages.error(
-        #        self.request,
-        #        'Class Set rejected: roster is a duplicate'
-        #    )
-        #    return self.get(self.request)
+        try:
+            extract_roster(roster)
+        except:
+            messages.error(
+                self.request,
+                'Class Set rejected: roster is a duplicate'
+            )
+            return self.get(self.request)
 
         messages.success(
             self.request,
             "Class Set upload successful and is under review."
+        )
+
+        add_notification(
+            self.request.user,
+            'Your Class Set for {} is under review'.format(roster.course)
         )
 
         return super().form_valid(form)
