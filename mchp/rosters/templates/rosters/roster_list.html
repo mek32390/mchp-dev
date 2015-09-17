@@ -89,6 +89,13 @@
                                     {% endfor %}
                                 </table>
 
+                                <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                  Link with href
+                                </a>
+                                <div class="collapse" id="collapseExample">
+                                  {{ roster.roster_html }}
+                                </div>
+
                                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#showHTML" aria-expanded="false" aria-controls="collapseExample">
                                   View HTML
                                 </button>
