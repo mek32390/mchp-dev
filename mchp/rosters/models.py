@@ -41,6 +41,7 @@ class Roster(models.Model):
     course = models.ForeignKey('schedule.Course')
     roster_html = models.TextField('roster HTML')
     instructor_emails = models.TextField('instructor emails')
+    tz = 
 
     created = models.DateTimeField('first created', auto_now_add=True)
     updated = models.DateTimeField('last updated', auto_now=True)
