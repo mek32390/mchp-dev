@@ -76,8 +76,13 @@
                                         </div>
                                     </div>
                                 </h5>
-                                <h4>Roster &nbsp;<span class="badge opa">{{ roster.students.all.count }}</span>
+                                <h4>Roster &nbsp;<span class="badge opa">{{ roster.students.all.count }}</span> <a class="link" role="button" data-toggle="collapse" href="#showHTML" aria-expanded="false" aria-controls="showHTML">
+                                  <small class="white">Show HTML</small>
+                                </a>
                                 </h4>
+                                <div id="showHTML" class="collapse well opa">
+                                  {{ roster.roster_html }}
+                                </div>
                                 <table class="table table-hover">
                                     {% for student in roster.students.all %}
                                         <tr>
@@ -87,9 +92,6 @@
                                                 user {% else %} not a user {% endif %}</label></td>
                                         </tr>
                                     {% endfor %}
-
-                                    {{ roster.roster_html }}
-
                                 </table>
                                 <h4>Events &nbsp;<span class="badge">{{ roster.events.all.count }}</span></h4>
                                 <table class="table table-hover">
@@ -118,6 +120,7 @@
         <div class="col-xs-12">
             <h1 class="margin-top-none">Class Sets</h1>
             <hr>
+
             <!-- <div class="well opa"> -->
             <table data-toggle="table" class="table table-hover" data-sort-name="roster_date" data-sort-order="desc"
                    data-search="true" data-search-text="" data-show-columns="true">
@@ -131,7 +134,7 @@
                     <th data-sortable="true" data-field="roster_actions"><span class="th-name"><strong>Actions</strong></span></th>
                 </tr>
                 </thead>
-                <tbody class="well opa">
+                <tbody class="opa">
                 {% for roster in object_list %}
                   <tr>
                     <td><strong>{{ roster.course }}</strong></td>
@@ -148,7 +151,7 @@
                     </td>
                   </tr>
                 {% empty %}
-                  <p class="lead">No Rosters Yet!</p>
+                  <p class="lead">No Class Set Submissions Yet!</p>
                 {% endfor %}
                 </tbody>
             </table>
