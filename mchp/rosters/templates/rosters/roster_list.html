@@ -76,11 +76,11 @@
                                         </div>
                                     </div>
                                 </h5>
-                                <h4>Roster &nbsp;<span class="badge opa">{{ roster.students.all.count }}</span> <a class="link" role="button" data-toggle="collapse" href="#showHTML" aria-expanded="false" aria-controls="showHTML">
+                                <h4>Roster &nbsp;<span class="badge opa">{{ roster.students.all.count }}</span> <a class="link" role="button" data-toggle="collapse" href="#showHTML{{ roster.pk }}" aria-expanded="false" aria-controls="showHTML">
                                   <small class="white">Show HTML</small>
                                 </a>
                                 </h4>
-                                <div id="showHTML" class="collapse well opa">
+                                <div id="showHTML{{ roster.pk }}" class="collapse well opa">
                                   {{ roster.roster_html }}
                                 </div>
                                 <table class="table table-hover">
