@@ -97,13 +97,13 @@ class RosterSubmitView(FormView):
             )
             return self.get(self.request)
 
-        try:
+        #try:
             extract_roster(roster)
-        except:
-            messages.error(
-                self.request,
-                'Class Set rejected: roster is a duplicate'
-            )
+        #except:
+            #messages.error(
+            #    self.request,
+            #    'Class Set rejected: roster is a duplicate'
+            #)
             return self.get(self.request)
 
         messages.success(
