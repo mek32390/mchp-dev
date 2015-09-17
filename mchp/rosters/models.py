@@ -176,6 +176,9 @@ class Roster(models.Model):
         return "{} :: {}".format(
             self.created_by,
             self.course)
+    class Meta:
+        verbose_name = 'Class Set'
+        verbose_name_plural = 'Class Sets'
 
 
 class RosterEventEntry(models.Model):
