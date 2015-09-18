@@ -9,33 +9,31 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-		<h2 class="text-center">You've got mail!<small></small></h2>
-		<p><img class="media-object img-responsive center-block" src=
-			"{% static 'lib/img/rss.svg' %}" alt=
-			"verify email account">
-			<p class="text-center">Click the verification link in your <strong>.EDU e-mail</strong> account and let's get started!</>
-			</p>
-			<div class='emailVerify acct-form'>
-							<hr>
-				<h4 class="text-center">No Email?<small> oh noes</small></h4>
-				<p class="text-center">
-					Check your <strong class="text-danger">SPAM!</strong>
-				</p>
-				<p class="small text-center">(It hurts us to think we'd be considered such garbage)</p>
-				<div class='form-group' id="verify_group">
-					<span id="resend_status" class="control-label"></span>
-				</div>
+<div class="row">
+	<div class="col-xs-12">
+		<h2 class="text-center">You've got mail!</h2>
+		<p class="text-center"><i class="fa fa-envelope-o fa-5x"></i></p>
+		<p class="text-center">Click the verification link sent to <strong>{{request.session.initial_email}}</strong> and let's get started!</p>
+		<div class='emailVerify acct-form'>
+			<hr>
+			<h4 class="text-center">No Email?<small class="white"> oh noes!</small></h4>
+			<p class="text-center">Check your <strong class="text-danger">SPAM!</strong></p>
+			<div class='form-group' id="verify_group">
+				<span id="resend_status" class="control-label"></span>
 			</div>
-			<form id="resend_form" action="/login/resend-email/" class="email_list acct-form" method="post">
-	{% csrf_token %}
-	<input id="saved_email" type="hidden" name="email" value="{{request.session.initial_email}}"/>
-	  <div class="buttonHolder">
-		<button id='sendBtn' class="btn btn-lg btn-primary btn-block secondaryAction" data-style="expand-down" type="submit"
-			name="action_send"><span class="ladda-label"><i class="fa fa-refresh fa-fw"></i> Resend Verification</span></span>
-		</button>
-	  </div>
-	  <div class="show-email text-center h5"><hr> E-mail sent to {{request.session.initial_email}}!</div>
-	</form>
+		</div>
+		<form id="resend_form" action="/login/resend-email/" class="email_list acct-form" method="post">
+			{% csrf_token %}
+			<input id="saved_email" type="hidden" name="email" value="{{request.session.initial_email}}"/>
+		  <div class="buttonHolder">
+				<button id='sendBtn' class="btn btn-lg btn-trans btn-block secondaryAction" type="submit"
+				name="action_send"><i class="fa fa-refresh fa-fw"></i> Resend Verification</button>
+		  </div>
+		  <div class="show-email text-center">
+		  	<hr>
+		  	<h5>E-mail sent to <strong>{{request.session.initial_email}}</strong>!</h5>
+		  </div>
+		</form>
+	</div>
 </div>
 {% endblock %}

@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import FormView, UpdateView, ListView
 from django.utils.decorators import method_decorator
@@ -48,7 +49,16 @@ class RosterSubmitView(FormView):
         course_id = form.cleaned_data['course']
         course_name = form.cleaned_data['course_name']
         roster_html = form.cleaned_data['roster_html']
-        instructor_emails = form.cleaned_data['emails'].split()
+
+        if len(form.cleaned_data['emails']) > 3:
+            instructor_emails = form.cleaned_data['emails'].split()
+        else:
+            messages.error(
+                self.request,
+                'Class Set rejected: no or invalid instructor email(s)'
+            )
+            return self.get(self.request)
+
         document = form.cleaned_data['document']
         events = form.cleaned_data['events']
 
@@ -74,16 +84,33 @@ class RosterSubmitView(FormView):
 
 
         # create roster entries
-        for email in instructor_emails:
-            params = {
-                'email': email,  # utils.preprocess_email(email),
-                'roster': roster,
-                'approved': False
-            }
-            user = utils.get_user(email)
-            if user:
-                params['profile'] = user.profile_user
-            models.RosterInstructorEntry.objects.create(**params)
+        if len(instructor_emails) > 0:
+            for email in instructor_emails:
+                params = {
+                    'email': email,  # utils.preprocess_email(email),
+                    'roster': roster,
+                    'approved': False
+                }
+                try:
+                    user = utils.get_user(email)
+                    if user:
+                        params['profile'] = user.profile_user
+                    models.RosterInstructorEntry.objects.create(**params)
+                except ValidationError:
+                    messages.error(
+                        self.request,
+                        'Class Set rejected: no or invalid instructor email(s)'
+                    )
+                    return self.get(self.request)
+
+        else:
+            roster.delete()
+            messages.error(
+                self.request,
+                'Class Set rejected: no instructor email(s)'
+            )
+            return self.get(self.request)
+
 
         try:
             doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
@@ -91,15 +118,19 @@ class RosterSubmitView(FormView):
                            document=document, course_id=None, approved=False, roster=roster, owner=self.request.user.student)
             doc.save()
         except DuplicateFileError as err:
+            roster.delete()
             messages.error(
                 self.request,
-                err
+                'Class Set rejected: syllabus is a duplicate'
             )
             return self.get(self.request)
 
         try:
             extract_roster(roster)
         except:
+            doc.delete()
+            roster.delete()
+
             messages.error(
                 self.request,
                 'Class Set rejected: roster is a duplicate'
@@ -176,6 +207,10 @@ class RosterListView(ListView):
         if action == 'approve':
             from rosters.signals import roster_approved
             roster_approved.send(sender=self.__class__, roster=roster)
+
+        if action == 'extract':
+            print ('re-extracting')
+            extract_roster(roster)
 
 
         return redirect(reverse('roster-list'))
