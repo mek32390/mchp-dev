@@ -253,6 +253,7 @@ class BaseCampaign(MetaCampaign):
             connection.open()
             try:
                 for recipient in recipients:
+                    print ('sending ' + recipient.user.email +' a message')
                     msg_context = context.copy() if context else {}
                     msg_context.update(recipient=recipient)
                     message = self._message(recipient.user.email,
