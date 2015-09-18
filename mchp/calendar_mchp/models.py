@@ -178,7 +178,7 @@ class CalendarEvent(models.Model):
     original_event = models.ForeignKey('self', null=True, blank=True, default=None, on_delete=models.SET_NULL)
 
     def get_absolute_url(self):
-        return reverse('event_detail', args=[str(self.id)])
+        return reverse('event_ detail', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
         if not self.pk:
