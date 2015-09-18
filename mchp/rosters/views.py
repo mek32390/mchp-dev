@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse_lazy
+from django.db import IntegrityError
 from django.views.generic import FormView, UpdateView, ListView
 from django.utils.decorators import method_decorator
 from lib.decorators import school_required
@@ -127,7 +128,7 @@ class RosterSubmitView(FormView):
 
         try:
             extract_roster(roster)
-        except:
+        except IntegrityError:
             doc.delete()
             roster.delete()
 
