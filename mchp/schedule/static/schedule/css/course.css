@@ -13,9 +13,9 @@
   border-left: none; 
 }
 
-div.pull-right.search {
+.pull-left.search {
 	width: 100%;
-	margin-bottom: 10px;
+	margin-top: 0px;
 }
 
 div.fixed-table-body > table > thead > tr > th:first-child > div.th-inner.sortable {

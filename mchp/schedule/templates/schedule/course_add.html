@@ -16,7 +16,7 @@
 	<div class="col-xs-12">
 		<div class="media">
 		  <div class="media-left media-middle">
-		    <i class="media-object fa fa-clock-o fa-5x fa-fw"></i>
+		    <i class="media-object fa fa-clock-o fa-5x"></i>
 		  </div>
 		  <div class="media-body">
 		    <h1 class="media-heading">Your Classes</h1>
@@ -34,24 +34,24 @@
 				<div class="panel-body">
 					<div class="list-group" id="enrolled_list">
 						{% if enrolled_courses %}
-						{% for course in enrolled_courses %}
-						<div class="list-group-item enrolled-class-id trans" id="enrolled_{{course.pk}}">
-							<h4 class="list-group-item-heading">
-								<a href="{% url "course" course.pk %}{{course.name}}">
-								{{course.dept}} {{course.course_number}}
-								</a>
-								<small class="pull-right">
-									<a href="javascript:void(0)" class="badge drop-button opa" data-course="{{course.pk}}">drop</a>
-								</small>
-							</h4>
-							<p class="list-group-item-text small">with Instructor {{course.professor}}</p>
-						</div>
-						{% endfor %}
+							{% for course in enrolled_courses %}
+							<div class="list-group-item enrolled-class-id trans" id="enrolled_{{course.pk}}">
+								<h4 class="list-group-item-heading">
+									<a href="{% url "course" course.pk %}{{course.name}}">
+									{{course.dept}} {{course.course_number}}
+									</a>
+									<small class="pull-right">
+										<a href="javascript:void(0)" class="badge drop-button opa" data-course="{{course.pk}}">drop</a>
+									</small>
+								</h4>
+								<p class="list-group-item-text small">with Instructor {{course.professor}}</p>
+							</div>
+							{% endfor %}
 						{% else %}
-						<div id="no-classes" class="text-center">
-							<p class="lead">No classes added to your schedule yet.</p>
-						</div>
-					{% endif %}
+							<div id="no-classes" class="text-center">
+								<p class="lead">No classes added to your schedule yet.</p>
+							</div>
+						{% endif %}
 					</div>
 				</div>
 			</div>

@@ -5,7 +5,6 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
 
   {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'user_profile/css/account_settings.css' %}">
     <script src="{% static 'user_profile/js/account_settings.js' %}"></script>
 {% endblock %}
 
@@ -15,9 +14,11 @@
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 		<p class="text-center center-block"><i class="fa fa-fw fa-user fa-5x"></i></p>
-  	<br>
+  	{% if user.first_name %}
 		<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
-		<h5 class="text-center">{{user.username}}</h5>
+		{% endif %}
+		<h4 class="text-center">{{user.username}}</h4>
+		</br>
 		<div class="panel opa">
 			<div class="panel-body">
 				{% if not user.socialaccount_set.all.0 %}
@@ -34,19 +35,19 @@
 						<i class="fa fa-bookmark fa-fw"></i> {{user.student.courses|length}} classes <a href="{%url 'course_add'%}" class="btn btn-xs btn-trans pull-right">Edit Schedule</a></span>
 					</li>
 					<li class="list-group-item trans">
-						{{user.student.total_points}}  points <a href="#points-modal" data-toggle="modal" class='btn btn-xs btn-trans pull-right'>Manage Points</a>
+						<i class="fa fa-money fa-fw"></i> {{user.student.total_points}}  points <a href="#points-modal" data-toggle="modal" class='btn btn-xs btn-trans pull-right'>Manage Points</a>
 					</li>
 					<li class="list-group-item trans">
-						<i class="fa fa-lock"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-trans pull-right'>Reset Password</a>
+						<i class="fa fa-lock fa-fw"></i> Password <a href="{%url 'account_reset_password'%}" class='btn btn-xs btn-trans pull-right'>Reset Password</a>
 					</li>
 					<li class="list-group-item trans">
-						<i class="fa fa-university"></i> {{user.student.school.name}} <a href="{%url 'account_email'%}" class='btn btn-xs btn-trans pull-right'>Manage email addresses</a>
+						<i class="fa fa-university fa-fw"></i> {{user.student.school.name}} <a href="{%url 'account_email'%}" class='btn btn-xs btn-trans pull-right'>Manage email addresses</a>
 					</li>
 				</ul>
 				<ul class="list-group">
 					<li class="list-group-item trans" data-toggle="tooltip" data-original-title="For each person
 						that enters your code after signing up, you'll both get {{referral_reward}} points!" data-placement="right">
-						<i class="fa fa-paw"></i> Your Code: {{referral_code}}
+						<i class="fa fa-paw fa-fw"></i> Your Code: {{referral_code}}
 						<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_code }}" 
 							class='btn btn-xs btn-trans pull-right copy-button' id="code-button">Copy</a>
 					</li>
@@ -54,7 +55,7 @@
 						that signs up through your link, you'll both get {{referral_reward}} points!" data-placement="right">
 	          <div class="row">
 	            <div class="col-xs-10">
-								<i class="fa fa-paw"></i> Your Link: http://{{request.get_host}}/?ref={{referral_link}} 
+								<i class="fa fa-paw fa-fw"></i> Your Link: http://{{request.get_host}}/?ref={{referral_link}} 
 							</div>
 			        <div class="col-xs-2">
 								<a data-clipboard-text="http://{{request.get_host}}{{current_path | referral:referral_link }}"

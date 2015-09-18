@@ -19,148 +19,138 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Class Set Review Modal -->
-
-    {% for roster in rosters %}
-        <div class="modal fade review-modal" id="review-modal{{ roster.id }}" role="dialog"
-             aria-labelledby="gridSystemModalLabel" aria-hidden="true">
-            <div class="modal-dialog custom-modal" style="width:90%;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="gridSystemModalLabel"><strong>Class Set
-                            for {{ roster.course }}</strong></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <img class="img-responsive img-thumbnail" src="{% if roster.syllabus.all.0.preview %} {{ roster.syllabus.all.0.preview.url }} {% endif %}"
-                                     width="100%" alt="syllabus">
-                                <br></br>
-                            </div>
-                            <!-- end col-6 -->
-                            <div class="col-md-6">
-                                <h2 class="margin-top-none">
-                                    <form action="" class="pull-right" method="post">
-                                        <input name="hidden_roster_id" value="{{ roster.id }}" type="hidden" id="hidden_roster_id">
-                                        <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
-                                        {% csrf_token %}
-                                        <span class="list-inline pull-right">
-                                            <li><a href="#" onclick="form_submit(this, 'approve')" class="btn btn-primary btn-md"><i class="fa fa-check"></i>
-                                                Approve</a></li>
-                                            <li><a href="#" onclick="form_submit(this, 'reject')" class="btn btn-danger btn-md"><i class="fa fa-times"></i>
-                                                Reject</a></li>
-                                        </span>
-                                    </form>
-                                    <strong>{{ roster.course }}</strong>
-                                </h2>
-                                <br>
-                                <ul class="list-inline">
-                                    <li><i class="fa fa-university fa-fw"></i> {{ roster.course.domain.name }} </li>
-                                    <li><i class="fa fa-male"></i> Instr {{ roster.course.professor }}</li>
-                                    <li><i class="fa fa-user fa-fw"></i> submitted by {{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</li>
-                                </ul>
-                                <h5>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h4>Instructor Emails &nbsp;<span
-                                                    class="badge opa">{{ roster.instructors.all.count }}</span></h4>
-                                            <ul class="list-inline">
-                                                {% for instructor in roster.instructors.all %}
-                                                    <li><p><i class="fa fa-envelope fa-fw"></i> {{ instructor.email }}
-                                                    </p></li>
-                                                {% endfor %}
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </h5>
-                                <h4>Roster &nbsp;<span class="badge opa">{{ roster.students.all.count }}</span> <a class="link" role="button" data-toggle="collapse" href="#showHTML{{ roster.pk }}" aria-expanded="false" aria-controls="showHTML">
-                                  <small class="white">Show HTML</small>
-                                </a>
-                                </h4>
-                                <div id="showHTML{{ roster.pk }}" class="collapse well opa">
-                                  {{ roster.roster_html }}
-                                </div>
-                                <table class="table table-hover">
-                                    {% for student in roster.students.all %}
-                                        <tr>
-                                            <td>{{ student.first_name }} {{ student.last_name }}</td>
-                                            <td>{{ student.email }}</td>
-                                            <td><label class="label label-success">{% if student.profile %}
-                                                user {% else %} not a user {% endif %}</label></td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                                <h4>Events &nbsp;<span class="badge">{{ roster.events.all.count }}</span></h4>
-                                <table class="table table-hover">
-                                    {% for event in roster.events.all %}
-                                        <tr>
-                                            <td>{{ event.title }}</td>
-                                            <td>{{ event.date|date }}</td>
-                                            <td></td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                        </div>
-                        <!-- row -->
-                    </div>
-                    <!-- modal-body -->
+<!-- Class Set Review Modal -->
+{% for roster in rosters %}
+<div class="modal fade review-modal" id="review-modal{{ roster.id }}" role="dialog"
+     aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+  <div class="modal-dialog custom-modal" style="width:90%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel"><strong>Class Set
+            for {{ roster.course }}</strong></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <img class="img-responsive img-thumbnail" src="{% if roster.syllabus.all.0.preview %} {{ roster.syllabus.all.0.preview.url }} {% endif %}"
+                 width="100%" alt="syllabus">
+            <br></br>
+          </div><!-- end col-6 -->
+          <div class="col-md-6">
+            <h2 class="margin-top-none">
+              <form action="" class="pull-right" method="post">
+                <input name="hidden_roster_id" value="{{ roster.id }}" type="hidden" id="hidden_roster_id">
+                <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
+                {% csrf_token %}
+                <span class="list-inline pull-right">
+                  <li><a href="#" onclick="form_submit(this, 'approve')" class="btn btn-primary btn-md"><i class="fa fa-check"></i>
+                        Approve</a></li>
+                  <li><a href="#" onclick="form_submit(this, 'reject')" class="btn btn-danger btn-md"><i class="fa fa-times"></i>
+                        Reject</a></li>
+                </span>
+              </form>
+              <strong>{{ roster.course }}</strong>
+            </h2>
+            <br>
+            <ul class="list-inline">
+              <li><i class="fa fa-university fa-fw"></i> {{ roster.course.domain.name }} </li>
+              <li><i class="fa fa-male"></i> Instr {{ roster.course.professor }}</li>
+              <li><i class="fa fa-user fa-fw"></i> submitted by {{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</li>
+            </ul>
+            <h5>
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Instructor Emails &nbsp;<span
+                          class="badge opa">{{ roster.instructors.all.count }}</span></h4>
+                  <ul class="list-inline">
+                    {% for instructor in roster.instructors.all %}
+                      <li><p><i class="fa fa-envelope fa-fw"></i> {{ instructor.email }}
+                      </p></li>
+                    {% endfor %}
+                  </ul>
                 </div>
-                <!-- /.modal-content -->
+              </div>
+            </h5>
+            <h4>Roster &nbsp;<span class="badge opa">{{ roster.students.all.count }}</span> 
+              <a class="link" role="button" data-toggle="collapse" href="#showHTML{{ roster.pk }}" aria-expanded="false" aria-controls="showHTML"><small class="white">Show HTML</small></a>
+            </h4>
+            <div id="showHTML{{ roster.pk }}" class="collapse well opa">
+              {{ roster.roster_html }}
             </div>
-            <!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-    {% endfor %}
-
-    <div class="row">
-        <div class="col-xs-12">
-            <h1 class="margin-top-none">Class Sets</h1>
-            <hr>
-
-            <!-- <div class="well opa"> -->
-            <table data-toggle="table" class="table table-hover" data-sort-name="roster_date" data-sort-order="desc"
-                   data-search="true" data-search-text="" data-show-columns="true">
-                <thead>
+            <table class="table table-hover">
+              {% for student in roster.students.all %}
                 <tr>
-                    <th data-sortable="true" data-field="roster_course"><span class="th-name"><strong>Course</strong></span></th>
-                    <th data-sortable="true" data-field="roster_submitter"><span class="th-name"><strong>Submitter</strong></span></th>
-                    <th data-sortable="true" data-field="roster_school"><span class="th-name"><strong>School</strong></span></th>
-                    <th data-sortable="true" data-field="roster_date"><span class="th-name"><strong>Date</strong></span></th>
-                    <th data-sortable="true" data-field="roster_status"><span class="th-name"><strong>Status</strong></span></th>
-                    <th data-sortable="true" data-field="roster_actions"><span class="th-name"><strong>Actions</strong></span></th>
+                  <td>{{ student.first_name }} {{ student.last_name }}</td>
+                  <td>{{ student.email }}</td>
+                  <td><label class="label label-success">{% if student.profile %}
+                      user {% else %} not a user {% endif %}</label></td>
                 </tr>
-                </thead>
-                <tbody class="opa">
-                {% for roster in object_list %}
-                  <tr>
-                    <td><strong>{{ roster.course }}</strong></td>
-                    <td>{{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</td>
-                    <td>{{ roster.course.domain.name }}</td>
-                    <td>{{ roster.created|date }}</td>
-                    <td><label class="label {% if roster.status == 'r' %} label-danger {% elif roster.status == 'p' %} label-default {% elif roster.status == 'a' %} label-success {% endif %}">{{ roster.get_status_display }}</label></td>
-                    <td>
-                        <form action="" class="pull-right" method="post">
-                            {% csrf_token %}
-                            <input name="hidden_roster_id" value="{{ roster.id }}" type="hidden" id="hidden_roster_id">
-                            <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
-                            <ul class="list-inline">
-                                <li><a href="#" class="btn btn-trans btn-xs" onclick="form_submit(this, 'extract')">Run extractor</a></li>
-                            <li><a href="#" class="btn btn-trans btn-xs" data-toggle="modal"
-                                   data-target="#review-modal{{ roster.id }}">Review Class Set</a></li>
-                        </ul>
-                        </form>
-                    </td>
-                  </tr>
-                {% empty %}
-                  <p class="lead">No Class Set Submissions Yet!</p>
-                {% endfor %}
-                </tbody>
+              {% endfor %}
             </table>
-            <!-- </div> -->
-        </div>
-    </div>
+            <h4>Events &nbsp;<span class="badge">{{ roster.events.all.count }}</span></h4>
+            <table class="table table-hover">
+              {% for event in roster.events.all %}
+                <tr>
+                  <td>{{ event.title }}</td>
+                  <td>{{ event.date|date }}</td>
+                  <td></td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div><!-- row -->
+      </div><!-- modal-body -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endfor %}
+
+<div class="row">
+  <div class="col-xs-12">
+    <h1 class="margin-top-none">Class Sets</h1>
+    <hr>
+    <table data-toggle="table" class="table table-hover" data-sort-name="roster_date" data-sort-order="desc"
+           data-search="true" data-search-text="" data-show-columns="true">
+      <thead>
+        <tr>
+          <th data-sortable="true" data-field="roster_course"><span class="th-name"><strong>Course</strong></span></th>
+          <th data-sortable="true" data-field="roster_submitter"><span class="th-name"><strong>Submitter</strong></span></th>
+          <th data-sortable="true" data-field="roster_school"><span class="th-name"><strong>School</strong></span></th>
+          <th data-sortable="true" data-field="roster_date"><span class="th-name"><strong>Date</strong></span></th>
+          <th data-sortable="true" data-field="roster_status"><span class="th-name"><strong>Status</strong></span></th>
+          <th data-sortable="true" data-field="roster_actions"><span class="th-name"><strong>Actions</strong></span></th>
+        </tr>
+      </thead>
+      <tbody class="opa">
+      {% for roster in object_list %}
+        <tr>
+          <td><strong>{{ roster.course }}</strong></td>
+          <td>{{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</td>
+          <td>{{ roster.course.domain.name }}</td>
+          <td>{{ roster.created|date }}</td>
+          <td><label class="label {% if roster.status == 'r' %} label-danger {% elif roster.status == 'p' %} label-default {% elif roster.status == 'a' %} label-success {% endif %}">{{ roster.get_status_display }}</label></td>
+          <td>
+            <ul class="list-inline">
+              <li>
+                <form action="" method="post">
+                  {% csrf_token %}
+                  <input name="hidden_roster_id" value="{{ roster.id }}" type="hidden" id="hidden_roster_id">
+                  <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
+                  <a href="#" class="btn btn-trans btn-xs" onclick="form_submit(this, 'extract')">Run extractor</a>
+                </form>
+              </li>
+              <li><a href="#" class="btn btn-trans btn-xs" data-toggle="modal"
+                     data-target="#review-modal{{ roster.id }}">Review Class Set</a></li>
+            </ul>
+          </td>
+        </tr>
+      {% empty %}
+        <p class="lead">No Class Set Submissions Yet!</p>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}
