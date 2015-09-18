@@ -20,56 +20,92 @@
 
 {% block body %}
 <!-- Class Set Review Modal -->
-{% for roster in rosters %}
-<div class="modal fade review-modal" id="review-modal{{ roster.id }}" role="dialog"
-     aria-labelledby="gridSystemModalLabel" aria-hidden="true">
-  <div class="modal-dialog custom-modal" style="width:90%;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel"><strong>Class Set
-            for {{ roster.course }}</strong></h4>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            <img class="img-responsive img-thumbnail" src="{% if roster.syllabus.all.0.preview %} {{ roster.syllabus.all.0.preview.url }} {% endif %}"
-                 width="100%" alt="syllabus">
-            <br></br>
-          </div><!-- end col-6 -->
-          <div class="col-md-6">
-            <h2 class="margin-top-none">
-              <form action="" class="pull-right" method="post">
-                <input name="hidden_roster_id" value="{{ roster.id }}" type="hidden" id="hidden_roster_id">
-                <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
-                {% csrf_token %}
-                <span class="list-inline pull-right">
-                  <li><a href="#" onclick="form_submit(this, 'approve')" class="btn btn-primary btn-md"><i class="fa fa-check"></i>
-                        Approve</a></li>
-                  <li><a href="#" onclick="form_submit(this, 'reject')" class="btn btn-danger btn-md"><i class="fa fa-times"></i>
-                        Reject</a></li>
-                </span>
-              </form>
-              <strong>{{ roster.course }}</strong>
-            </h2>
-            <br>
-            <ul class="list-inline">
-              <li><i class="fa fa-university fa-fw"></i> {{ roster.course.domain.name }} </li>
-              <li><i class="fa fa-male"></i> Instr {{ roster.course.professor }}</li>
-              <li><i class="fa fa-user fa-fw"></i> submitted by {{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</li>
-            </ul>
-            <h5>
-              <div class="row">
-                <div class="col-md-12">
-                  <h4>Instructor Emails &nbsp;<span
-                          class="badge opa">{{ roster.instructors.all.count }}</span></h4>
-                  <ul class="list-inline">
-                    {% for instructor in roster.instructors.all %}
-                      <li><p><i class="fa fa-envelope fa-fw"></i> {{ instructor.email }}
-                      </p></li>
-                    {% endfor %}
-                  </ul>
+    {% for roster in rosters %}
+        <div class="modal fade review-modal" id="review-modal{{ roster.id }}" role="dialog"
+             aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+            <div class="modal-dialog custom-modal" style="width:90%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel"><strong>Class Set
+                            for {{ roster.course }}</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                		<object data="{{ roster.syllabus.0.url}}" width="100%" height="780" alt="syllabus"></object>
+                                <br></br>
+                            </div>
+                            <!-- end col-6 -->
+                            <div class="col-md-6">
+                                <h2 class="margin-top-none">
+                                    <form action="" class="pull-right" method="post">
+                                        <input name="hidden_roster_id" value="{{ roster.id }}" type="hidden" id="hidden_roster_id">
+                                        <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
+                                        {% csrf_token %}
+                                        <span class="list-inline pull-right">
+                                            <li><a href="#" onclick="form_submit(this, 'approve')" class="btn btn-primary btn-md"><i class="fa fa-check"></i>
+                                                Approve</a></li>
+                                            <li><a href="#" onclick="form_submit(this, 'reject')" class="btn btn-danger btn-md"><i class="fa fa-times"></i>
+                                                Reject</a></li>
+                                        </span>
+                                    </form>
+                                    <strong>{{ roster.course }}</strong>
+                                </h2>
+                                <br>
+                                <ul class="list-inline">
+                                    <li><i class="fa fa-university fa-fw"></i> {{ roster.course.domain.name }} </li>
+                                    <li><i class="fa fa-male"></i> Instr {{ roster.course.professor }}</li>
+                                    <li><i class="fa fa-user fa-fw"></i> submitted by {{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</li>
+                                </ul>
+                                <h5>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Instructor Emails &nbsp;<span
+                                                    class="badge opa">{{ roster.instructors.all.count }}</span></h4>
+                                            <ul class="list-inline">
+                                                {% for instructor in roster.instructors.all %}
+                                                    <li><p><i class="fa fa-envelope fa-fw"></i> {{ instructor.email }}
+                                                    </p></li>
+                                                {% endfor %}
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </h5>
+                                <h4>Roster &nbsp;<span class="badge opa">{{ roster.students.all.count }}</span> <a class="link" role="button" data-toggle="collapse" href="#showHTML{{ roster.pk }}" aria-expanded="false" aria-controls="showHTML">
+                                  <small class="white">Show HTML</small>
+                                </a>
+                                </h4>
+                                <div id="showHTML{{ roster.pk }}" class="collapse well opa">
+                                  {{ roster.roster_html }}
+                                </div>
+                                <table class="table table-hover">
+                                    {% for student in roster.students.all %}
+                                        <tr>
+                                            <td>{{ student.first_name }} {{ student.last_name }}</td>
+                                            <td>{{ student.email }}</td>
+                                            <td><label class="label label-success">{% if student.profile %}
+                                                user {% else %} not a user {% endif %}</label></td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <h4>Events &nbsp;<span class="badge">{{ roster.events.all.count }}</span></h4>
+                                <table class="table table-hover">
+                                    {% for event in roster.events.all %}
+                                        <tr>
+                                            <td>{{ event.title }}</td>
+                                            <td>{{ event.date|date }}</td>
+                                            <td></td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                        <!-- row -->
+                    </div>
+                    <!-- modal-body -->
                 </div>
               </div>
             </h5>
