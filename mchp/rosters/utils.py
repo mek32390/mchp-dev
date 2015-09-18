@@ -49,6 +49,7 @@ def roster_html_to_csv(html_source):
         with tempfile.TemporaryDirectory() as csvfiledir:
             # parse input HTML
             command = '/usr/bin/env python ' + script + ' ' + htmlfilepath + ' -c ' + csvfiledir
+            print (command)
             proc = envoy.run(command)
             csvfiles = glob.glob(csvfiledir + "/*.csv")
             csvfilepath = csvfiles[0]
