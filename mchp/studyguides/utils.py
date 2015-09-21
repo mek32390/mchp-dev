@@ -134,7 +134,7 @@ def _rank_documents(event):
                    lambda doc: doc.rating(),
                    score=10)
 
-    print('DEBUG: SCORES = ' + str(scores[0]))
+    print('DEBUG: SCORES = ' + str(scores[1]))
     top_score = scores.most_common(1)
     if top_score:
         top_score = top_score[0][1]
