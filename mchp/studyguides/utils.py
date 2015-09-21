@@ -18,7 +18,7 @@ def upcoming_events():
     """
     now = timezone.now()
     events = CalendarEvent.objects.exclude(notify_lead=None).filter(
-        start__gte=now, notify_lead__gt=0)
+        start__gte=now, notify_lead__gt=0, calendar_primary__iexact=True)
     return [event for event in events
             if now > event.start - timedelta(minutes=event.notify_lead)]
 
