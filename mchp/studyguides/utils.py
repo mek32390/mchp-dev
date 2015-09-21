@@ -111,7 +111,7 @@ def _rank_documents(event):
     event = event
     documents = event.documents.all()
 
-    print (documents.count)
+    print (documents.count())
 
     # get all enrollments (student and join date)
     enrollments = Enrollment.objects.filter(
