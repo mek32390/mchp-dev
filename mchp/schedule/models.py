@@ -9,6 +9,9 @@ from schedule.signals import enrolled
 
 from functools import reduce
 from decimal import Decimal
+from mchp.calendar_mchp.models import Subscription
+from mchp.calendar_mchp.models import ClassCalendar
+
 
 class School(models.Model):
     domain = models.URLField(validators=[clean_domain])
@@ -205,6 +208,16 @@ class Enrollment(models.Model):
         if not self.pk:
             enrolled.send(sender=self.__class__, enroll=self)
         super(Enrollment, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Unsubscribing from all calendars
+        subscriptions = Subscription.objects.filter(student=self.student, calendar__course=self.course)
+        subscriptions.delete()
+
+        # Removing student calendars (events will cascade delete too)
+        calendars = ClassCalendar.objects.filter(owner=self.student, course=self.course)
+        calendars.delete()
+        super(Enrollment, self).delete()
 
     def __str__(self):
         return "Enrolled in {}".format(self.course)
