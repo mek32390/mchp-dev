@@ -99,7 +99,7 @@ class StudyGuideCampaign(BaseCampaign):
 
         """
         base_subject = '{{ event.calendar.course.name }} {{ event.title }}'
-        if not self.event.documents.count():
+        if not self.event.get_documents(True):
             template_name = self.REQUEST_TEMPLATE
             subject = 'Got a {} study guide?'.format(base_subject)
         else:
