@@ -9,8 +9,8 @@ from schedule.signals import enrolled
 
 from functools import reduce
 from decimal import Decimal
-from mchp.calendar_mchp.models import Subscription
-from mchp.calendar_mchp.models import ClassCalendar
+from calendar_mchp.models import Subscription
+from calendar_mchp.models import ClassCalendar
 
 
 class School(models.Model):
