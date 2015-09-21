@@ -109,7 +109,7 @@ def _rank_documents(event):
         return counter
 
     event = event
-    documents = event.documents.all()
+    documents = event.get_documents()
 
     print (event.title + str(event.pk))
     print (documents.count())
