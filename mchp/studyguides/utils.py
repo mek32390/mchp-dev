@@ -18,7 +18,7 @@ def upcoming_events():
     """
     now = timezone.now()
     events = CalendarEvent.objects.exclude(notify_lead=None).filter(
-        start__gte=now, notify_lead__gt=0, calendar__primary=True)
+        start__gte=now, notify_lead__gt=0, calendar__primary__iexact=True)
     return [event for event in events
             if now > event.start - timedelta(minutes=event.notify_lead)]
 
@@ -111,6 +111,8 @@ def _rank_documents(event):
     event = event
     documents = event.documents.all()
 
+    print (documents.count)
+
     # get all enrollments (student and join date)
     enrollments = Enrollment.objects.filter(
         course=event.calendar.course)
@@ -134,7 +136,7 @@ def _rank_documents(event):
                    lambda doc: doc.rating(),
                    score=10)
 
-    print('DEBUG: SCORES = ' + str(scores[1]))
+    print('DEBUG: SCORES = ' + str(scores))
     top_score = scores.most_common(1)
     if top_score:
         top_score = top_score[0][1]
