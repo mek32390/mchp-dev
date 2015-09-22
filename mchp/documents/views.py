@@ -272,19 +272,20 @@ class DocumentDetailPreview(DetailView):
                 course=document.course
                 )
 
-            if enrollment[0].created_by_roster:
-                roster = Roster.objects.get(pk=enrollment.created_by_roster)
-                roster_submitter = roster.created_by
+            if enrollment.exists():
+                if enrollment[0].created_by_roster:
+                    roster = Roster.objects.get(pk=enrollment.created_by_roster)
+                    roster_submitter = roster.created_by
 
-                roster_points = document.price * 0.1 # 10% of the sales price
-                roster_points = Decimal(roster_points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
-                roster_submitter.modify_balance(roster_points)
-                roster_submitter.save()
+                    roster_points = document.price * 0.1 # 10% of the sales price
+                    roster_points = Decimal(roster_points).quantize(Decimal('1.0000'), rounding=ROUND_HALF_DOWN)
+                    roster_submitter.modify_balance(roster_points)
+                    roster_submitter.save()
 
-                add_notification(
-                    roster_submitter.user,
-                    'You just made commission on a sale from {}'.format(document.course)
-                )
+                    add_notification(
+                        roster_submitter.user,
+                        'You just made commission on a sale from {}'.format(document.course)
+                    )
 
         return redirect(reverse('document_list') + self.kwargs['uuid'] + '/' + document.slug)
 

@@ -55,6 +55,9 @@ $(function() {
     var url_prefix = $('#bg').attr('data-url-prefix');
     $('#bg').css("background-image","url('" + url_prefix + "lib/img/bgimages/bg-" + current_pic + ".jpeg')");
 
+    $('meta[name=image]').remove();
+    $('head').append( '<meta name="image" content="' + url_prefix + 'lib/img/bgimages/bg-' + current_pic + '.jpeg">');
+
 
     // add auto drop down functionality of drop downs
     $(".drop").hover(
