@@ -2,6 +2,11 @@
 
 {% block head_title %}{{ event.title }}{% endblock %}
 {% block extra_head %}
+  <meta property="fb:app_id" content="369999156462705" /> 
+  <meta property="og:type" content="website" /> 
+  <meta property="og:url" content="{{request.get_host}}{{current_path}}" /> 
+  <meta property="og:title" content="{{ event.title }} {{calendar.title}} Calendar" /> 
+  <meta property="og:description" content="mchp is an elegant planner that curates study guides for your upcoming exams." />
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/event_detail.css' %}">
