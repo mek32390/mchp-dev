@@ -214,8 +214,8 @@ class RosterEntry(models.Model):
         An optional user profile associated with this entry.
 
     """
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=255, blank=True)
+    last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     profile = models.ForeignKey('user_profile.Student', blank=True, null=True)
     approved = models.BooleanField(default=False)
