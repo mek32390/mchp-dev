@@ -98,6 +98,7 @@ def extract_roster(roster):
 
 @shared_task
 def approve_roster(roster):
+    print ('approving')
     duplicate = checkforduplicaterosters(roster)
 
     if duplicate:
