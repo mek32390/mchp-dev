@@ -210,7 +210,7 @@ class RosterEntry(models.Model):
         A last name for the entry.
     email : django.db.models.CharField
         An email address for the entry.
-    profile : django.db.models.ForeignKey, optional
+    profile : django.db.models.ForeignKey, optio|nal
         An optional user profile associated with this entry.
 
     """
