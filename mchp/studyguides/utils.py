@@ -18,7 +18,7 @@ def upcoming_events():
     """
     now = timezone.now()
     events = CalendarEvent.objects.exclude(notify_lead=None).filter(
-        start__gte=now, notify_lead__gt=0)
+        start__gte=now, notify_lead__gt=0, calendar__primary=False)
     return [event for event in events
             if now > event.start - timedelta(minutes=event.notify_lead)]
 
@@ -65,7 +65,7 @@ def students_for_event(event):
     """
     enrollments = Enrollment.objects.filter(course=event.calendar.course,
                                             receive_email=True)
-    return [e.student for e in enrollments if e.student.user.is_active]
+    return [e.student for e in enrollments if e.student.user.is_active and e.student == event.calendar.owner]
 
 
 def _rank_documents(event):
@@ -109,7 +109,9 @@ def _rank_documents(event):
         return counter
 
     event = event
-    documents = event.documents.all()
+    documents = event.get_documents()
+
+    print (event.title + str(event.pk))
 
     # get all enrollments (student and join date)
     enrollments = Enrollment.objects.filter(

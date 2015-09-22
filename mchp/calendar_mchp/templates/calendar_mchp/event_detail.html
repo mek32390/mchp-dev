@@ -2,6 +2,11 @@
 
 {% block head_title %}{{ event.title }}{% endblock %}
 {% block extra_head %}
+  <meta property="fb:app_id" content="369999156462705" /> 
+  <meta property="og:type" content="website" /> 
+  <meta property="og:url" content="{{request.get_host}}{{current_path}}" /> 
+  <meta property="og:title" content="{{ event.title }} {{calendar.title}} Calendar" /> 
+  <meta property="og:description" content="mchp is an elegant planner that curates study guides for your upcoming exams." />
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/event_detail.css' %}">
@@ -29,15 +34,15 @@
         {% for document in documents %}
         <a href="{% url "document_detail" document.uuid %}" class="list-group-item trans">
           <div class="media">
-            <div class="media-left" href="#">
+            <div class="media-left">
               {% if document.preview %}
-              <img clas"media-object bg-white img-thumbnail img-rounded" src="{{document.preview.url}}" width="64">
+              <img class="media-object bg-white img-thumbnail img-rounded" src="{{document.preview.url}}" width="64">
               {% else %}
               <img class="media-object bg-white img-thumbnail img-rounded" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" width="64">
               {% endif %}
             </div>
             <div class="media-body white">
-              <h4 class="media-heading">{{document.title}}
+              <h4 class="media-heading"><strong>{{document.title}}</strong>
                 <small class="white">{{document.price}} points</small><span class="pull-right small"><small>{{document.create_date|naturaltime}}</small></span></h4>
               <span class="description">
                 <i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;

@@ -1,24 +1,24 @@
 {% extends 'documents/base.html' %}
 
-{% block head_title %}{{ document.title }}{% endblock %}
+{% block head_title %}Viewing {{ document.title }}{% endblock %}
 
 {% block extra_head %}
-<meta property="fb:app_id" content="369999156462705" /> 
-<meta property="og:type" content="product" /> 
-<!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
-<meta property="og:title" content="{{document.title}} in {{document.course.dept}} {{document.course.course_number}}" /> 
-{% if document.preview %}
-<meta property="og:image" content="{{document.preview.url}}" /> 
-{% endif %}
-<meta property="og:description" content="{{document.description}}" />
+	<meta property="fb:app_id" content="369999156462705" /> 
+	<meta property="og:type" content="product" /> 
+	<!-- <meta property="og:url" content="{{request.get_host}}{{current_path}}" />  -->
+	<meta property="og:title" content="{{document.title}} in {{document.course.dept}} {{document.course.course_number}}" /> 
+	{% if document.preview %}
+	<meta property="og:image" content="{{document.preview.url}}" /> 
+	{% endif %}
+	<meta property="og:description" content="{{document.description}}" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.js"></script>
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'documents/css/view.css' %}">
-<script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
-<script src="{% static 'documents/js/view.js' %}"></script>
-<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>		
+	<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'documents/css/view.css' %}">
+	<script src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
+	<script src="{% static 'documents/js/view.js' %}"></script>
+	<script src="{% static 'lib/js/jquery.cookie.js' %}"></script>		
 {% endblock %}
 
 {% block body %}
@@ -144,7 +144,7 @@
 				<span class="copy-message"></span>
 			</li>
 		</ol>
-		<object data="{{document.document.url}}" width="100%" height="780"></object>
+		<object data="{{document.tmp_url}}" width="100%" height="780"></object>
 	</div>
 </div>
 {% endblock %}
