@@ -55,6 +55,9 @@ class Roster(models.Model):
         if (self.status == self.APPROVED):
             pass
 
+        print ('approving 1')
+
+
         primary_calendar = self.course.calendar_courses.get(primary=True)
         # print ('primary = ' + primary_calendar)
         for event in self.events.all():
@@ -78,6 +81,8 @@ class Roster(models.Model):
         syllabus.course = self.course
         syllabus.save()
 
+        print ('approving 2')
+
 
         for student in self.students.all():
             email = student.email
@@ -94,6 +99,9 @@ class Roster(models.Model):
         for instructor in self.instructors.all():
             instructor.approved = True
             instructor.save()
+
+        print ('approving 3')
+
 
         self.status = self.APPROVED
         self.save()
@@ -210,12 +218,12 @@ class RosterEntry(models.Model):
         A last name for the entry.
     email : django.db.models.CharField
         An email address for the entry.
-    profile : django.db.models.ForeignKey, optional
+    profile : django.db.models.ForeignKey, optio|nal
         An optional user profile associated with this entry.
 
     """
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=255, blank=True)
+    last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     profile = models.ForeignKey('user_profile.Student', blank=True, null=True)
     approved = models.BooleanField(default=False)

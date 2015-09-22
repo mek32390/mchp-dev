@@ -2,11 +2,12 @@
 
 {% block head_title %}{{ event.title }}{% endblock %}
 {% block extra_head %}
-  <meta property="fb:app_id" content="369999156462705" /> 
-  <meta property="og:type" content="website" /> 
+
   <meta property="og:url" content="{{request.get_host}}{{current_path}}" /> 
   <meta property="og:title" content="{{ event.title }} {{calendar.title}} Calendar" /> 
-  <meta property="og:description" content="mchp is an elegant planner that curates study guides for your upcoming exams." />
+  <meta property="og:description" content="mchp is a elegant planner that curates study guides for your upcoming exams." />
+  <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/new_homepage1.png"/>
+
 
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'calendar_mchp/css/event_detail.css' %}">
@@ -19,7 +20,7 @@
   <div class="col-xs-12">
     <h1 class="margin-top-none">{{ event.title }} <small class="white">{{ event.description }}</small>
         <span class="pull-right"> on {{ event.start|date:"D F d, Y" }}</span></h1>
-    <h4 class="lead"><a href="{% url "course" course.pk %}" class="link">{{ course.name }}</a> with Instructor {{ course.professor }}<!-- <span class="pull-right"> {{ event.start|date:"H:i" }}</span> -->
+    <h4 class="lead">View all <a href="{% url "course" course.pk %}" class="link">{{ course.name }}</a>documents with Instructor {{ course.professor }}<!-- <span class="pull-right"> {{ event.start|date:"H:i" }}</span> -->
     </h4>
     <hr>
   </div>
@@ -43,7 +44,7 @@
             </div>
             <div class="media-body white">
               <h4 class="media-heading"><strong>{{document.title}}</strong>
-                <small class="white">{{document.price}} points</small><span class="pull-right small"><small>{{document.create_date|naturaltime}}</small></span></h4>
+                <span class="white">{{document.price}} points</span><span class="pull-right">{{document.create_date|naturaltime}}</span></h4>
               <span class="description">
                 <i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
                 <i class="fa fa-fw fa-thumbs-down text-danger

@@ -111,7 +111,7 @@ def _rank_documents(event):
     event = event
     documents = event.get_documents()
 
-    print (event.title + str(event.pk))
+    print (event.title + " PK:" + str(event.pk))
 
     # get all enrollments (student and join date)
     enrollments = Enrollment.objects.filter(
@@ -127,10 +127,10 @@ def _rank_documents(event):
                    lambda doc: doc.purchased_document.count(),
                    score=30)
 
-    scores += rank(documents,
-                   lambda doc: enrollments.get(
-                       student=doc.owner).join_date,
-                   score=20)
+    # scores += rank(documents,
+    #                lambda doc: enrollments.get(
+    #                    student=doc.owner).join_date,
+    #                score=20)
 
     scores += rank(documents,
                    lambda doc: doc.rating(),
