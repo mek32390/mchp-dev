@@ -29,15 +29,15 @@
         {% for document in documents %}
         <a href="{% url "document_detail" document.uuid %}" class="list-group-item trans">
           <div class="media">
-            <div class="media-left" href="#">
+            <div class="media-left">
               {% if document.preview %}
-              <img clas"media-object bg-white img-thumbnail img-rounded" src="{{document.preview.url}}" width="64">
+              <img class="media-object bg-white img-thumbnail img-rounded" src="{{document.preview.url}}" width="64">
               {% else %}
               <img class="media-object bg-white img-thumbnail img-rounded" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" width="64">
               {% endif %}
             </div>
             <div class="media-body white">
-              <h4 class="media-heading">{{document.title}}
+              <h4 class="media-heading"><strong>{{document.title}}</strong>
                 <small class="white">{{document.price}} points</small><span class="pull-right small"><small>{{document.create_date|naturaltime}}</small></span></h4>
               <span class="description">
                 <i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}}&nbsp;
