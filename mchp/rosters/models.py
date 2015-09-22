@@ -55,6 +55,9 @@ class Roster(models.Model):
         if (self.status == self.APPROVED):
             pass
 
+        print ('approving 1')
+
+
         primary_calendar = self.course.calendar_courses.get(primary=True)
         # print ('primary = ' + primary_calendar)
         for event in self.events.all():
@@ -78,6 +81,8 @@ class Roster(models.Model):
         syllabus.course = self.course
         syllabus.save()
 
+        print ('approving 2')
+
 
         for student in self.students.all():
             email = student.email
@@ -94,6 +99,9 @@ class Roster(models.Model):
         for instructor in self.instructors.all():
             instructor.approved = True
             instructor.save()
+
+        print ('approving 3')
+
 
         self.status = self.APPROVED
         self.save()
