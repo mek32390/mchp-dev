@@ -272,7 +272,7 @@ class DocumentDetailPreview(DetailView):
                 course=document.course
                 )
 
-            if enrollment.exists():
+            if enrollment.exists() and enrollment.count() > 0:
                 if enrollment[0].created_by_roster:
                     roster = Roster.objects.get(pk=enrollment.created_by_roster)
                     roster_submitter = roster.created_by
