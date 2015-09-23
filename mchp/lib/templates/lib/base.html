@@ -46,6 +46,8 @@
     <!-- Site-wide Javascripts -->
     <script src="{% static 'lib/js/mchp.js' %}"></script>
     <script src="{% static 'lib/js/enscroll-0.6.0.min.js' %}"></script>
+    <script src="{% static 'lib/js/firehose.js' %}"></script>
+
 
     <!-- Scrolling Nav JavaScript -->
     <!-- // <script src="{% static 'lib/js/jquery.easing.min.js' %}"></script> -->
@@ -441,12 +443,6 @@
       {% if not donottrack %}
       {% include "lib/google-analytics.html" %}
       {% endif %}
-
-      <!-- Firehose Chat - -->
-      <script type="text/javascript">
-        var FHChat = {product_id: "ea1d78a7bbff"};
-        FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
-      </script>
 
     </div><!-- End Wrapper -->
 
