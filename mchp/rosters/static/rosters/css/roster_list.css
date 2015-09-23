@@ -3,3 +3,14 @@
 /* This is for roster-list styles
 /*
 */
+
+.show-html {
+	height: 100px;
+	overflow-wrap: break-word;
+  overflow-y: auto;
+}
+
+.pull-left.search {
+	width: 100%;
+	margin-top: -5px;
+}
