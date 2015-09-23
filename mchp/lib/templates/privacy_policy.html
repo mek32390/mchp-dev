@@ -6,18 +6,21 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-	<div class="jumbotron">
-		<div class="media">
-			<img class="media-object img-thumbnail img-circle pull-left" src="{% static 'lib/img/eye.svg' %}" alt="privacy policy">
-			<div class="media-body">
-				<h1 class="media-heading">Privacy</h1>
-				<p class="lead">It's yours for the keeping</p>
-			</div>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="jumbotron opa">
+			<div class="media">
+	      <div class="media-left media-middle">
+	        <i class="media-object fa fa-user-secret fa-5x"></i>
+	      </div>
+	      <div class="media-body">
+	        <h1 class="media-heading">Privacy</h1>
+	        <p class="lead margin-btm-none">It's yours for the keeping</p>
+	      </div>
+    	</div>
 		</div>
-	</div>
-	<strong>We collect but do not link personal and activity data.</strong>
-	<p>We use technologies like cookies (small files stored by your browser), web beacons, or unique device identifiers to anonymously identify your computer or device so we can deliver a better experience. Our systems also log information like your browser, operating system and IP address.<p>
+		<strong>We collect but do not link personal and activity data.</strong>
+		<p>We use technologies like cookies (small files stored by your browser), web beacons, or unique device identifiers to anonymously identify your computer or device so we can deliver a better experience. Our systems also log information like your browser, operating system and IP address.<p>
 
 		<p>We also may collect personally identifiable information that you provide to us, such as your name, address, phone number or email address. With your permission, we may also access other personal information on your device, such as your phone book, calendar or messages, in order to provide services to you. If authorized by you, we may also access profile and other information from services like Facebook.</p>
 
@@ -46,5 +49,6 @@
 		<p>To operate the service, we also may make identifiable and anonymous information available to third parties in these limited circumstances: (1) with your express consent, (2) when we have a good faith belief it is required by law, (3) when we have a good faith belief it is necessary to protect our rights or property, or (4) to any successor or purchaser in a merger, acquisition, liquidation, dissolution or sale of assets. Your consent will not be required for disclosure in these cases, but we will attempt to notify you, to the extent permitted by law to do so. </p>
 		<strong>You can review more privacy-related information.</strong>
 		<p>This privacy policy was last updated on March 17, 2014. Our privacy policy may change from time to time. If we make any material changes to our policies, we will place a prominent notice on our website or application. If the change materially affects registered users, we will send a notice to you by email, push notification or text.</p>
+	</div>
 </div>
-	{% endblock %}
+{% endblock %}
