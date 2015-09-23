@@ -213,6 +213,9 @@ class RosterListView(ListView):
             print ('re-extracting')
             extract_roster(roster)
 
+        if action == 'delete':
+            roster.delete()
+
 
         return redirect(reverse('roster-list'))
 
