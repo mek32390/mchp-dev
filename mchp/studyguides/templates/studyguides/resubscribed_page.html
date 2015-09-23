@@ -2,11 +2,15 @@
 
 {% block head_title %}You have resubscribed{% endblock %}
 
+{% block extra_head %}
+	{% load staticfiles %}
+{% endblock %}
+
 {% block body %}
 {% load humanize %}
 <div class="row">
 	<div class="col-xs-12">
-	  <h1>Welcome back, {{ subscriber.user.name }}!</h1>
+	  <h1>Welcome back, {{ subscriber.user.student.name }}!</h1>
 	  <h2>You'll now receive curated, exam-specific study materials for assignments and exams in <a href="{{ course.get_absolute_url }}" target="_blank" class="link">{{ course.name }}</a> with instructor {{ course.professor }} from this point forward!</h2>
 	  <h3><a href="{% url 'studyguide-unsubscribe' subscriber.uuid %}" class="btn btn-trans btn-lg">Click here to unsubscribe again</a></h3>
 	</div>
