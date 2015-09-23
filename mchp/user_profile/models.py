@@ -56,7 +56,7 @@ class Student(models.Model):
         return self.user.date_joined
 
     def name(self):
-        if self.user.first_name:
+        if self.user.first_name and len(self.user.first_name) > 0:
             return self.user.first_name
         else:
             return self.user.username
