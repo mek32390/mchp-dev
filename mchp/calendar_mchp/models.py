@@ -75,7 +75,7 @@ class ClassCalendar(models.Model):
         super(ClassCalendar, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        return self.title + " primary: " + self.primary
 
     def fork(self, new_owner):
         new_calendar = copy.copy(self)
