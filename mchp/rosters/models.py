@@ -55,8 +55,7 @@ class Roster(models.Model):
         if (self.status == self.APPROVED):
             pass
 
-        print ('approving 1')
-
+        print ('starting approval process by adding events to the primary cal')
 
         primary_calendar = self.course.calendar_courses.get(primary=True)
         # print ('primary = ' + primary_calendar)
@@ -76,12 +75,19 @@ class Roster(models.Model):
             event.approved = True
             event.save()
 
-        syllabus = self.syllabus.all()[0]
-        syllabus.approved = True
-        syllabus.course = self.course
-        syllabus.save()
+        print ('trying to set syllabus to approved')
 
-        print ('approving 2')
+        try:
+            syllabus = self.syllabus.all()[0]
+            syllabus.approved = True
+            syllabus.course = self.course
+            syllabus.save()
+        except:
+            print ('dang, that failed, but continuing nonetheless.')
+            pass
+
+
+        print ('creating students from roster-students')
 
 
         for student in self.students.all():
@@ -96,11 +102,13 @@ class Roster(models.Model):
             student.approved = True
             student.save()
 
+        print ('instructors')
+
         for instructor in self.instructors.all():
             instructor.approved = True
             instructor.save()
 
-        print ('approving 3')
+        print ('approving done')
 
 
         self.status = self.APPROVED
