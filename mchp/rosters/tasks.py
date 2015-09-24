@@ -32,15 +32,15 @@ import pytz
 from pprint import pprint
 
 import logging
-# logging.getLogger('celery.task.default').setLevel(logging.DEBUG)
-# logging.getLogger().setLevel(logging.DEBUG)
-#
-# from celery import current_app
-# current_app.conf.CELERY_ALWAYS_EAGER = True
-# current_app.conf.CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
-#
-# from celery.utils import LOG_LEVELS
-# current_app.conf.CELERYD_LOG_LEVEL = LOG_LEVELS['DEBUG']  # pretty much the same as logging.DEBUG
+logging.getLogger('celery.task.default').setLevel(logging.DEBUG)
+logging.getLogger().setLevel(logging.DEBUG)
+
+from celery import current_app
+current_app.conf.CELERY_ALWAYS_EAGER = True
+current_app.conf.CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+
+from celery.utils import LOG_LEVELS
+current_app.conf.CELERYD_LOG_LEVEL = LOG_LEVELS['DEBUG']  # pretty much the same as logging.DEBUG
 
 logger = get_task_logger(__name__)
 
