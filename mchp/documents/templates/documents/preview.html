@@ -141,12 +141,12 @@
 			{% csrf_token %}
 		</form>
 		{% if user.is_anonymous %}
-		<button class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#mchp-login-prompt">
+		<button class="btn btn-trans btn-block btn-lg animated bounce delayed-md" data-toggle="modal" data-target="#mchp-login-prompt">
 			<i class="fa fa-fw fa-shopping-cart"></i>Buy Me for {{document.price}} points
 		</button>
 		<p></p>
 		{% else %}
-		<button form="buy-form" class="btn btn-success btn-block btn-lg">
+		<button form="buy-form" class="btn btn-trans btn-block btn-lg animated bounce delayed-md">
 			{% if owns %}
 			<i class="fa fa-fw fa-eye"></i>View
 			{% else %}

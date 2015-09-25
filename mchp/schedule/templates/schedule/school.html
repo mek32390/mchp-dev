@@ -27,25 +27,19 @@
 		<ol class="breadcrumb opa">
 			<h4>You are currently viewing all documents for all courses at <strong>{{school.name}}</strong></h4>
 		</ol>
-		<div class="well opa" style="padding-bottom:0px;">
-			<div class="panel opa">
-				<div class="panel-body">
-					<div class="media">
-					  <div class="media-left media-top">
-					      <div class="media-object"><i class="fa fa-university fa-5x"></i></div>
-					  </div>
-					  <div class="media-body">
-					    <h2 class="media-heading">{{school.name}} <small class="white">{{school.city}}, {{school.state}}</small></h2>
-					    <p>
-								<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
-								<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
-								<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
-							</p>
-					  </div>
-					</div>
-				</div><!-- end panel body -->
-			</div><!-- end panel -->
-		</div><!-- end well -->
+		<div class="media">
+		  <div class="media-left media-top">
+		      <div class="media-object"><i class="fa fa-university fa-5x"></i></div>
+		  </div>
+		  <div class="media-body">
+		    <h2 class="media-heading">{{school.name}} <small class="white">{{school.city}}, {{school.state}}</small></h2>
+		    <p>
+					<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
+					<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
+					<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
+				</p>
+		  </div>
+		</div>
 	</div><!-- end col -->
 
 	<div class="col-xs-12" id="popular-documents">
