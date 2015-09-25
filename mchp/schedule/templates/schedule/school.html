@@ -24,77 +24,77 @@
 
 <div class="row">
 	<div class="col-xs-12">
-    <div class="media">
-      <div class="media-left media-middle">
-        <i class="media-object fa fa-university fa-5x"></i>
-      </div>
-      <div class="media-body">
-        <h1 class="media-heading">{{school.name}} <small class="white">{{school.city}}, {{school.state}}</small></h1>
-        <p class="lead margin-btm-none">
-        	<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
+		<ol class="breadcrumb opa">
+			<h4>You are currently viewing all documents for all courses at <strong>{{school.name}}</strong></h4>
+		</ol>
+		<div class="media">
+		  <div class="media-left media-top">
+		      <div class="media-object"><i class="fa fa-university fa-4x"></i></div>
+		  </div>
+		  <div class="media-body">
+		    <h2 class="media-heading">{{school.name}} <small class="white">{{school.city}}, {{school.state}}</small></h2>
+		    <p>
+					<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
 					<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
-        </p>
-      </div>
-    </div>
-    <hr>
-  </div>
-	{% if popular_documents %}
-		<div class="col-xs-12">
-			<div id="popular-documents" class="well trans">
-				<table data-toggle="table" class="table table-hover" data-sort-name="doc-purchases" data-sort-order="desc"
-		         data-search="true" data-search-text="" data-trim-on-search="false" data-search-align="left" data-show-columns="false" data-classes="table-no-bordered" >
-		      <thead>
-			      <tr>
-			          <th data-sortable="true" data-field="doc-title"><span class="th-name"><h4>Title</h4></span></th>
-			          <th data-sortable="true" data-field="doc-course"><span class="th-name"><h4>Course</h4></span></th>
-			          <th data-sortable="true" data-field="doc-price"><span class="th-name"><h4>Price</h4></span></th>
-			          <th data-sortable="true" data-field="doc-instr"><span class="th-name"><h4>Instructor</h4></span></th>
-			          <th data-sortable="true" data-field="doc-purchases"><span class="th-name"><h4>Purchases</h4></span></th>
-			          <th data-sortable="true" data-field="doc-date"><span class="th-name th-last"><h4>Date</h4></span></th>
-			      </tr>
-		      </thead>
-		      <tbody class="opa">
-		      	{% for document in popular_documents %}
-			        <tr>
-			          <td>
-			            <div class="media">
-										<div class="media-left media-top">
-						      		{% if document.preview %}
-											<a href="{%url "document_detail" document.uuid %}"><img src="{{document.preview.url}}" class="media-object img-thumbnail" style="width:90px" alt="Study Guide"></a>
-											{% else %}
-											<a href="{%url "document_detail" document.uuid %}"><img class="media-object img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:90px" alt="Study Guide"></a>
-											{% endif %}
-							  		</div>
-							  		<div class="media-body">
-							    		<h3 class="media-heading"><a href="{%url "document_detail" document.uuid %}">{{document.title}}</a></h3>
-											<span class="description">
-												<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
-												<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{document.down}}&nbsp;
-												{% with document.review_count as review_count %}
-													<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
-												{% endwith %}
-												<p>{{document.description}}</p>
-											</span>	            	
-										</div>
-									</div>
-								</td>
-			          <td><a href="{%url "course" document.course.pk%}{{document.course.name}}" class="link">{{document.course.dept}} {{document.course.course_number}}</a></td>
-			          <td>{{document.price}} points</td>
-			          <td>{{document.course.professor}}</td>
-			          <td>{{document.sold}} Purchase{{document.sold|pluralize}}</td>
-			          <td>{{document.create_date|naturaltime}}</td>
-			        </tr>
-		      	{% endfor %}
-		      </tbody>
-		 		</table>
-		 	</div>
-		</div>
-	{% else %}
-		<div class="col-xs-6 col-xs-offset-3">
- 			<br>
- 			<p class="lead text-center">No Documents at {{school.name}}!</p>
- 			<a class="btn btn-trans btn-lg btn-block" href="{% url "document_upload"%}"><i class="fa fa-fw fa-file-text-o"></i> Upload a Document</a>
- 		</div>
- 	{% endif %}
+					<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
+				</p>
+		  </div>
+		</div>	
+	</div><!-- end col -->
+
+	<div class="col-xs-12" id="popular-documents">
+		
+		<table data-toggle="table" class="table table-hover" data-sort-name="doc-purchases" data-sort-order="desc"
+         data-search="true" data-search-text="" data-trim-on-search="false" data-search-align="left" data-show-columns="false" data-classes="table-no-bordered">
+      <thead>
+      <tr>
+          <th data-sortable="true" data-field="doc-title"><span class="th-name"><strong>Title</strong></span></th>
+          <th data-sortable="true" data-field="doc-course"><span class="th-name"><strong>Course</strong></span></th>
+          <th data-sortable="true" data-field="doc-price"><span class="th-name"><strong>Price</strong></span></th>
+          <th data-sortable="true" data-field="doc-instr"><span class="th-name"><strong>Instructor</strong></span></th>
+          <th data-sortable="true" data-field="doc-purchases"><span class="th-name"><strong>Purchases</strong></span></th>
+          <th data-sortable="true" data-field="doc-date"><span class="th-name th-last"><strong>Date</strong></span></th>
+      </tr>
+      </thead>
+      <tbody class="opa">
+      {% for document in popular_documents %}
+        <tr>
+          <td>
+            <div class="media">
+							<div class="media-left media-top">
+			      		{% if document.preview %}
+								<a href="{%url "document_detail" document.uuid %}"><img src="{{document.preview.url}}" class="media-object img-thumbnail" style="width:90px" alt="Study Guide"></a>
+								{% else %}
+								<a href="{%url "document_detail" document.uuid %}"><img class="media-object img-thumbnail" id="preview_image_{{document.pk}}" src="{% static 'documents/img/loading_file.svg'%}" style="width:90px" alt="Study Guide"></a>
+								{% endif %}
+				  		</div>
+				  		<div class="media-body">
+				    		<h3 class="media-heading"><a href="{%url "document_detail" document.uuid %}">{{document.title}}</a></h3>
+								<span class="description">
+									
+									<i class="fa fa-fw fa-thumbs-up text-success"></i>{{document.up}} 
+									<i class="fa fa-fw fa-thumbs-down text-danger"></i>{{document.down}}&nbsp;
+									{% with document.review_count as review_count %}
+									<i class="fa fa-comments text-info fa-fw"></i>{{review_count}} Review{{review_count|pluralize}}&nbsp;
+									{% endwith %}
+									<p>{{document.description}}</p>
+								</span>	            	
+							</div>
+						</div>
+					</td>
+          <td><a href="{%url "course" document.course.pk%}{{document.course.name}}" class="link">{{document.course.dept}} {{document.course.course_number}}</a></td>
+          <td>{{document.price}} points</td>
+          <td>{{document.course.professor}}</td>
+          <td>{{document.sold}} Purchase{{document.sold|pluralize}}</td>
+          <td>{{document.create_date|naturaltime}}</td>
+   
+        </tr>
+      {% empty %}
+        <p class="lead">No Documents at {{school.name}}! <a class="btn btn-trans" href="{% url "document_upload"%}">Upload a Document</a></p>
+      {% endfor %}
+      </tbody>
+ 		</table>
+
+	</div>
 </div>
 {% endblock %}

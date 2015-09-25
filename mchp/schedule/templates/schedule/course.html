@@ -25,23 +25,31 @@
 {% load humanize %}
 <div class="row">
 	<div class="col-xs-12">
-    <div class="media">
-      <div class="media-left media-middle">
-        <i class="media-object fa fa-bookmark-o fa-5x"></i>
-      </div>
-      <div class="media-body">
-        <h1 class="media-heading">{{course.dept}} {{course.course_number}} at <a class="link" href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></h1>
-        <p class="lead margin-btm-none">
-        	<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
+		<ol class="breadcrumb opa">
+			<h4>You are currently viewing documents for all <strong>{{course.dept}} {{course.course_number}}</strong> courses at <a href="{%url "school" course.domain.pk%}{{course.domain.name}}" class="link"><strong>{{course.domain.name}}</strong></a></h4>
+		</ol>
+		<div class="media">
+		  <div class="media-left media-top">
+		      <div class="media-object"><i class="fa fa-bookmark-o fa-5x"></i></div>
+		  </div>
+		  <div class="media-body">
+		  	<small class="pull-right">
+					{% if student and enrolled %}
+					<button class="btn btn-trans disabled"><i class="fa fa-check"></i> Enrolled</button>
+					{% endif %}
+				</small>
+		    <h2 class="media-heading">{{course.dept}} {{course.course_number}} at <a class="link" href='{% url "school" course.domain.pk %}{{ course.domain.name}}'>{{course.domain.name}}</a></h2>
+		    <p>
+					<i class="fa fa-users"></i> {{student_count}} Student{{student_count|pluralize}} &nbsp;
 					<i class="fa fa-file-text-o"></i> {{doc_count}} Document{{doc_count|pluralize}} &nbsp;
-        </p>
-      </div>
+					<i class="fa fa-calendar"></i> {{cal_count}} Calendar{{cal_count|pluralize}} &nbsp;
+				</p>
+		  </div>
     </div>
-    <hr>
   </div>
 	{% if popular_documents %}
 		<div class="col-xs-12">
-			<div id="popular-documents" class="well trans">
+			<div id="popular-documents" class="trans">
 				<table data-toggle="table" class="table table-hover" data-sort-name="doc-purchases" data-sort-order="desc"
 		         data-search="true" data-search-text="" data-trim-on-search="false" data-search-align="left" data-show-columns="false" data-classes="table-no-bordered" >
 		      <thead>
