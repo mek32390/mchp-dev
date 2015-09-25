@@ -150,7 +150,7 @@
 			{% if owns %}
 			<i class="fa fa-fw fa-eye"></i>View
 			{% else %}
-			<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
+			<i class="fa fa-fw fa-shopping-cart"></i>Buy Me for {{document.price}} points
 			{% endif %}
 		</button>
 		<p></p>
@@ -178,7 +178,6 @@
 					class="btnShare fb-share-button link">
 					<i class="fa fa-fw fa-facebook"></i>Get 500 points for Sharing</a>
 			</li>
-			<li>|</li>
 			<li>
 				<a href="#" data-clipboard-text="{{current_path | referral:referral_link }}" 
 				id="copy-button" class="link"><i class="fa fa-paperclip fa-fw"></i> Copy link</a>
