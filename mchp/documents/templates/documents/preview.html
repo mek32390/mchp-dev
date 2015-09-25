@@ -142,7 +142,7 @@
 		</form>
 		{% if user.is_anonymous %}
 		<button class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#mchp-login-prompt">
-			<i class="fa fa-fw fa-shopping-cart"></i>Buy Me
+			<i class="fa fa-fw fa-shopping-cart"></i>Buy Me for {{document.price}} points
 		</button>
 		<p></p>
 		{% else %}
@@ -156,6 +156,16 @@
 		<p></p>
 		{% endif %}
 		<ul class="list-inline">
+			{% if user.student %}
+      {% with user.student as student %}
+			<li>
+				<strong>You have <a href="#points-modal" data-toggle="modal" id="purchasePointsMenu" class="link">
+          	<span class="student-points">{{student.total_points}}</span> points</a>
+        </strong>
+      </li>
+			{% endwith %}
+      {% else %} 
+      {% endif %}
 			<li>
 				<a href="{{current_path | referral:referral_link}}" data-toggle="tooltip" data-original-title="Every person that signs up by clicking your shared link will get you both 500 points!"
 					{% if document.preview %}
