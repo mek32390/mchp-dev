@@ -149,10 +149,13 @@ class UserProfile(models.Model):
         if self.pic:
             return self.pic.url
         elif len(fb_uid):
-            request = 'https://graph.facebook.com/{}/picture/?width=800&redirect=false'.format(fb_uid[0].uid)
-            response = urllib.request.urlopen(request)
-            obj = json.loads(response.readall().decode('utf-8'))
-            return obj['data']['url']
+            try:
+                request = 'https://graph.facebook.com/{}/picture/?width=800&redirect=false'.format(fb_uid[0].uid)
+                response = urllib.request.urlopen(request)
+                obj = json.loads(response.readall().decode('utf-8'))
+                return obj['data']['url']
+            except:
+                return "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/girl-boy.svg"
         else:
             return "https://s3-us-west-2.amazonaws.com/mchpstatic/Flat+Icon+SVG/SVG/girl-boy.svg"
 
