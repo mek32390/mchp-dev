@@ -1,5 +1,10 @@
 $(function() {
 
+    $('input[name=email]').on('focus', function() {
+        $('.fa-envelope-o').removeClass('duration-infinite');
+    });
+
+
     // BS Validator 
     $('#emailForm').bootstrapValidator({
         fields: {
