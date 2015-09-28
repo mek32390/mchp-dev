@@ -72,7 +72,7 @@ class SignupView(RedirectAuthenticatedUserMixin, CloseableSignupMixin,
         users = get_user_model().objects
 
         emailobj = emailaddresses.filter(email__iexact=email).first()
-        if emailobj.user:
+        if emailobj is not None and emailobj.user:
             user = emailobj.user
         if not user:
             email_field = account_settings.USER_MODEL_EMAIL_FIELD
