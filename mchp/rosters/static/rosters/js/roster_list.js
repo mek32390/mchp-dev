@@ -12,5 +12,5 @@ function form_submit(param, action) {
 }
 
 $(function () {
-  $( 'input').attr('placeholder','Search Class Sets...').addClass('input-lg');
+  $( 'input').attr('placeholder','Search...').addClass('input-lg');
 });
