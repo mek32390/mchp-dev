@@ -100,6 +100,7 @@ class RosterSubmitView(FormView):
                         params['profile'] = user.profile_user
                     models.RosterInstructorEntry.objects.create(**params)
                 except ValidationError:
+                    roster.delete()
                     messages.error(
                         self.request,
                         'Class Set rejected: no or invalid instructor email(s)'
