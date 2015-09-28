@@ -94,7 +94,7 @@ class RosterSubmitView(FormView):
                 }
                 try:
                     user = utils.get_user(email)
-                    if user:
+                    if user is not None and hasattr(user, 'profile_user'):
                         params['profile'] = user.profile_user
                     models.RosterInstructorEntry.objects.create(**params)
                 except ValidationError:
