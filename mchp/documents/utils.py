@@ -1,5 +1,7 @@
 from django.db import connection, connections
 from django.core.files import File
+from django.utils.dateformat import DateFormat
+from django.utils.formats import get_format
 
 import requests
 import os
@@ -7,6 +9,12 @@ import uuid
 
 from documents.models import Document
 from documents.exceptions import DuplicateFileError
+
+import datetime
+from django.core.serializers.json import DjangoJSONEncoder
+import decimal
+from django.utils.timezone import is_aware
+
 
 def dictfetchall(cursor):
     "Returns all rows from a cursor as a dict"
@@ -118,3 +126,30 @@ def upload_doc():
                       )
 
         os.remove(filename)
+
+class DjangoOverrideJSONEncoder(DjangoJSONEncoder):
+    """
+    JSONEncoder subclass that knows how to encode date/time and decimal types.
+    """
+    def default(self, o):
+        # See "Date Time String Format" in the ECMA-262 specification.
+        if isinstance(o, datetime.datetime):
+            df = DateFormat(o)
+            r = df.format(get_format('DATE_FORMAT'))
+            return r
+        elif isinstance(o, datetime.date):
+            df = DateFormat(o)
+            r = df.format(get_format('DATE_FORMAT'))
+            return r
+        elif isinstance(o, datetime.time):
+            if is_aware(o):
+                raise ValueError("JSON can't represent timezone-aware times.")
+            df = DateFormat(o)
+            r = df.format(get_format('DATE_FORMAT'))
+            if o.microsecond:
+                r = r[:12]
+            return r
+        elif isinstance(o, decimal.Decimal):
+            return str(o)
+        else:
+            return super(DjangoOverrideJSONEncoder, self).default(o)

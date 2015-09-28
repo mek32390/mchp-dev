@@ -23,6 +23,12 @@ $(function() {
         }, 300);
     });
 
+    // menu toggle button
+    $("#menu-toggle").click(function(e) {
+          e.preventDefault();
+          $("#wrapper").toggleClass("toggled");
+      });
+
     // choose a random img and set it as backgrounf each day
     var now = new Date();
     var tzdiff = new Date().getTimezoneOffset() * 60 * 1000;

@@ -5,9 +5,12 @@
 */
 
 function form_submit(param, action) {
-    var form = $(param).parents('form');
-    form.find('#hidden_roster_action').val(action);
-    form.find('#hidden_roster_action').val(action);
-    form.submit();
+  var form = $(param).parents('form');
+  form.find('#hidden_roster_action').val(action);
+  form.find('#hidden_roster_action').val(action);
+  form.submit();
 }
 
+$(function () {
+  $( 'input').attr('placeholder','Search...').addClass('input-lg');
+});

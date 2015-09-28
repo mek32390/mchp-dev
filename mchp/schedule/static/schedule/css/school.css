@@ -21,3 +21,22 @@ div.pull-left.search {
 div.fixed-table-body > table > thead > tr > th:first-child > div.th-inner.sortable {
 	padding-left: 0;
 }
+
+::-webkit-input-placeholder::before {
+  font-family: fontAwesome;
+  content: '\f002  ';
+}
+::-moz-placeholder::before {
+  font-family: fontAwesome;
+  content: '\f002  ';
+}
+/* firefox 19+ */
+:-ms-input-placeholder::before {
+  font-family: fontAwesome;
+  content: '\f002  ';
+}
+/* ie */
+input:-moz-placeholder::before {
+  font-family: fontAwesome;
+  content: '\f002  ';
+}

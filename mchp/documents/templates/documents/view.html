@@ -78,7 +78,7 @@
 <div class="row">
 	<div class="col-xs-8">
 		<h1 class="margin-top-none">{{ document.title }}</h1>
-    {% if document.course %}<p class="lead"><a href="{%url "course" document.course.pk%}{{document.course.name}}">{{document.course.dept}} {{document.course.course_number}}</a>
+    {% if document.course %}<p class="lead"><a href="{%url "course" document.course.pk%}{{document.course.name}}" class="link">{{document.course.dept}} {{document.course.course_number}}</a>
 							with Instructor {{document.course.professor}}</p> {% else %} Not approved yet {% endif %}
     <p></p>
 	</div>

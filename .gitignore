@@ -1,5 +1,8 @@
 # .gitignore
 #
+# firehose is excluded so it won't be in the repo after it's deleted on non prod servers
+*firehose.js
+
 include/
 /lib/
 media/

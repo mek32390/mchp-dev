@@ -26,6 +26,7 @@ import logging
 from rosters.models import Roster
 from schedule.models import Enrollment
 from notification.api import add_notification
+from documents.utils import DjangoOverrideJSONEncoder
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +85,7 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         student_events = CalendarEvent.objects.filter(
             calendar__owner=self.student,
             calendar__course__in=enrolled_courses
-        ).values('id', 'title', 'calendar__course')
+        ).values('id', 'title', 'calendar__course', 'start').order_by('-start')
 
         student_course_events = dict()
         for event in student_events:
@@ -103,7 +104,7 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         data = {
             'enrolled_courses': enrolled_courses,
             'other_courses': other_courses,
-            'student_course_events_serialized': json.dumps(student_course_events),
+            'student_course_events_serialized': json.dumps(student_course_events,  cls=DjangoOverrideJSONEncoder),
             'form': form,
         }
 

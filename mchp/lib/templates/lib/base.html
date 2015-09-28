@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- Animate.css -->
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.4.0/animate.min.css">
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -270,7 +270,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <ul class="nav nav-pills nav-stacked sidebar-nav">
           <li class="sidebar-brand">
-            <a class="pop-stay page-scroll" data-toggle="popover"
+            <a class="pop-stay page-scroll animated bounceIn delayed-sm" data-toggle="popover"
             title="
               <h4 class='margin-btm-none margin-top-sm'>
                 <strong>Notifications</strong>
@@ -287,22 +287,13 @@
                   <a id='view-all-notifs' class='text-center center-block margin-btm-none small' href='{% url 'notifications' %}'>View All</a>
                 </ul>
             ">
-              <span id='notification-count' class='badge {% if unread %}unread-notification{%else%}read-notification{% endif %} '>
+              <span id='notification-count' class='badge opa {% if unread %}unread-notification{%else%}read-notification{% endif %} '>
               {{unread}}
               </span>
             </a>
           </li>
           <li>
-            <a href="{% url 'dashboard'%}" class="page-scroll"><i class="fa fa-home"></i></a>
-          </li>
-          <li>
-            <a href="{% url 'classes'%}" class="page-scroll"><i class="fa fa-book"></i></a>
-          </li>
-          <li>
-            <a href="{% url 'calendar'%}" class="page-scroll"><i class="fa fa-calendar"></i></a>
-          </li>
-          <li>
-            <a role="button" id="user-dropdown" class="pop-stay page-scroll" data-toggle="popover"
+            <a role="button" id="user-dropdown" class="pop-stay page-scroll animated fadeIn delayed-sm" data-toggle="popover"
               title="
                 <h4 class='margin-btm-none margin-top-sm'>
                   <strong><a href='{% url 'my_profile' %}'>{{ user.username }}</a></strong>
@@ -340,6 +331,15 @@
                 </ul>
               "><img src="{{ student.profile.profile_image_url }}" class="profile-img-sidebar img-circle img-thumbnail" alt="profile image" />
             </a>
+          </li>
+          <li>
+            <a href="{% url 'dashboard'%}" class="page-scroll animated fadeIn delayed-sm"><i class="fa fa-home"></i></a>
+          </li>
+          <li>
+            <a href="{% url 'classes'%}" class="page-scroll animated fadeIn delayed-sm"><i class="fa fa-book"></i></a>
+          </li>
+          <li>
+            <a href="{% url 'calendar'%}" class="page-scroll animated fadeIn delayed-sm"><i class="fa fa-calendar"></i></a>
           </li>
         </ul>
       </div>
@@ -409,13 +409,13 @@
       {% endif %}
 
       <!-- Add document upload btn to footer -->
-      <div class="container navbar-fixed-bottom">
+      <!-- <div class="container navbar-fixed-bottom">
         <ul class="nav navbar-right">
-          <li>
+          <li> -->
             <!-- <a href="{% url 'document_upload'%}" id="document-upload-btn" class="btn btn-md btn-success">Get $5 per Study Guide!</a> -->
-          </li>
+         <!--  </li>
         </ul>
-      </div>
+      </div> -->
 
       <!-- Django Messages -->
       <div class="django-messages">
@@ -431,6 +431,11 @@
 
       <!-- These two dives wrap around the page content and play nicely with the sidebar -->
       <div id="page-content-wrapper">
+       <!-- <div class="row" style="height:initial;">
+            <div class="col-xs-12"> -->
+              <a href="#menu-toggle" class="animated flash duration-lg" id="menu-toggle"><i class="fa fa-caret-right fa-2x"></i></a>
+            <!-- </div>
+          </div> -->
         <div class="container-fluid">
           {% block body %}
           {% endblock %}

@@ -24,6 +24,7 @@ class DocumentUploadForm(ModelForm):
         'class': 'form-control input-lg dropdown-toggle',
         'id': 'document_event'
     }))
+
     event = ModelChoiceField(required=False, widget=EVENT_WIDGET, queryset=CalendarEvent.objects.none())
 
 
@@ -51,6 +52,20 @@ class DocumentUploadForm(ModelForm):
             self.add_error('price', 'This field is required')
         return cleaned_data
 
+    def __init__(self, *args, **kwargs):
+        '''
+        limit the choice of owner to the currently logged in users hats
+        '''
+
+        super(DocumentUploadForm, self).__init__(*args, **kwargs)
+
+        # get different list of choices here
+        STUDY_GUIDE = 0
+        DOCUMENT_TYPE_CHOICES = (
+            (STUDY_GUIDE, 'Study Guide'),
+        )
+        self.fields["type"].choices = DOCUMENT_TYPE_CHOICES
+
     class Meta:
         model = Document
         fields = ['type', 'title', 'description', 'course', 'event', 'price', 'document']
@@ -77,6 +92,7 @@ class DocumentUploadForm(ModelForm):
             }.items())),
 
             'type': Select(attrs=dict({
+                'choices': 'none',
                 'class': 'form-control input-lg dropdown-toggle',
                 'id': 'document_type'
           }.items() | input_attr.items())),
