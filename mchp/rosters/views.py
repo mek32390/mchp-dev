@@ -63,11 +63,13 @@ class RosterSubmitView(FormView):
         document = form.cleaned_data['document']
         events = form.cleaned_data['events']
 
+        course = Course.objects.get(pk=course_id)
+
         params = {
             'roster_html': roster_html,
             'instructor_emails': instructor_emails,
             'created_by': self.request.user.student_user,
-            'course': Course.objects.get(pk=course_id)
+            'course': course
         }
 
         roster = models.Roster.objects.create(**params)
@@ -114,8 +116,8 @@ class RosterSubmitView(FormView):
 
 
         try:
-            doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
-                           description='Course Syllabus for ' + course_name,
+            doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course.name,
+                           description='Course Syllabus for ' + course.name,
                            document=document, price=0, course_id=None, approved=False, roster=roster, owner=self.request.user.student)
             doc.save()
         except DuplicateFileError as err:
