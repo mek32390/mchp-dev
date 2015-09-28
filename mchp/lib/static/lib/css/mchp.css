@@ -503,11 +503,6 @@ li#notifs-dropdown {
   bottom: 50px !important;
 }
 
-li > a#user-dropdown {
-  background: transparent !important;
-  position: fixed !important;
-  bottom: 10px !important;
-}
 
 ul.nav.nav-pills.nav-stacked.sidebar-nav.navbar-right {
   background: transparent !important;
@@ -663,13 +658,10 @@ ul.nav.nav-pills.nav-stacked.sidebar-nav.navbar-right {
 }
 
 .sidebar-nav > .sidebar-brand {
-  height     : 65px;
+  height     : 80px;
   font-size  : 18px;
   line-height: 60px;
-}
-
-.sidebar-nav > .sidebar-brand a {
-  top: -10px;
+  cursor     : pointer;
 }
 
 @media(min-width:768px) {
