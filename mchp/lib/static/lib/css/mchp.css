@@ -674,6 +674,9 @@ ul.nav.nav-pills.nav-stacked.sidebar-nav.navbar-right {
     /* this must equal the #wrapper padding-left */
     width: 50px;
   }
+  #menu-toggle {
+    display: none;
+  }
 
 }
 
@@ -681,6 +684,13 @@ ul.nav.nav-pills.nav-stacked.sidebar-nav.navbar-right {
 
   #sidebar-wrapper {
     overflow: auto;
+  }
+  #menu-toggle {
+    position: absolute;
+   /* margin-left: -15px;
+    margin-top: -15px;*/
+    top: 29px;
+    left: -1px;
   }
 
 }
