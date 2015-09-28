@@ -44,6 +44,8 @@
                   <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
                   {% csrf_token %}
                   <span class="list-inline pull-right">
+                    <li><a class="btn btn-info btn-md" onclick="form_submit(this, 'extract')"><i class="fa fa-external-link-square"></i> Extract</a></li>
+                    <li><a class="btn btn-warning btn-md" onclick="form_submit(this, 'delete')"><i class="fa fa-trash-o"></i> Delete</a></li>
                     <li><a href="#" onclick="form_submit(this, 'approve')" class="btn btn-primary btn-md"><i class="fa fa-check"></i>
                         Approve</a></li>
                     <li><a href="#" onclick="form_submit(this, 'reject')" class="btn btn-danger btn-md"><i class="fa fa-times"></i>
@@ -156,22 +158,11 @@
           <td><strong>{{ roster.course }}</strong></td>
           <td>{{ roster.created_by.user.first_name }} {{ roster.created_by.user.last_name }} ({{ roster.created_by }})</td>
           <td>{{ roster.course.domain.name }}</td>
-          <td>{{ roster.created }}</td>
+          <td>{{ roster.created|date:"SHORT_DATE_FORMAT" }} ({{ roster.created|date }})</td>
           <td><label class="label {% if roster.status == 'r' %} label-danger {% elif roster.status == 'p' %} label-default {% elif roster.status == 'a' %} label-success {% endif %}">{{ roster.get_status_display }}</label></td>
           <td>
-            <ul class="list-inline">
-              <li>
-                <form action="" method="post">
-                  {% csrf_token %}
-                  <input name="hidden_roster_id" value="{{ roster.id }}" type="hidden" id="hidden_roster_id">
-                  <input name="hidden_roster_action" value="" type="hidden" id="hidden_roster_action">
-                  <a class="btn btn-trans btn-xs" onclick="form_submit(this, 'extract')">Run extractor</a>&nbsp;
-                  <a class="btn btn-trans btn-xs" onclick="form_submit(this, 'delete')">Delete Set</a>&nbsp;
-                  <a href="#" class="btn btn-trans btn-xs" data-toggle="modal"
-                     data-target="#review-modal{{ roster.id }}">Review Class Set</a>&nbsp;
-                </form>
-              </li>
-            </ul>
+            <a href="#" class="btn btn-trans btn-xs" data-toggle="modal"
+              data-target="#review-modal{{ roster.id }}">Review Class Set</a>
           </td>
         </tr>
       {% empty %}
