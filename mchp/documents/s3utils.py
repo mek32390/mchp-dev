@@ -20,7 +20,7 @@ class S3Auth:
         self.AWS_SECRET_ACCESS_KEY = secret
         self.AWS_region = AWS_region
 
-    def get_v2(self, bucket, key, expire=30):
+    def get_v2(self, bucket, key, expire=300):
         expires = int(time.time()) + expire
         StringToSign = "GET" + "\n" +\
                 "\n" +\
