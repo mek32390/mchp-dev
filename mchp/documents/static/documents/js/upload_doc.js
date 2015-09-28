@@ -80,6 +80,9 @@ function update_events(selected_course_id) {
 
 $(document).ready(function () {
 
+    $('#type_container').hide();
+    update_title_numbering();
+
     // convert select to nice input
 	$("#id_course").addClass("form-control");
 
