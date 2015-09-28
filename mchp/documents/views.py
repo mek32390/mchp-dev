@@ -84,7 +84,7 @@ class DocumentFormView(FormView, AjaxableResponseMixin):
         student_events = CalendarEvent.objects.filter(
             calendar__owner=self.student,
             calendar__course__in=enrolled_courses
-        ).values('id', 'title', 'calendar__course')
+        ).values('id', 'title', 'calendar__course', 'start').order_by('-start')
 
         student_course_events = dict()
         for event in student_events:

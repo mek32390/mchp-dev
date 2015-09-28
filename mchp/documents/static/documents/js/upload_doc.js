@@ -72,7 +72,7 @@ function update_events(selected_course_id) {
         for (var i=0; i<events.length; i++) {
             var event = events[i];
             $("#document_event").append(
-                $("<option/>").attr("value", event.id).text(event.title)
+                $("<option/>").attr("value", event.id).text(event.title + ' on ' + event.start)
             )
         }
     }
