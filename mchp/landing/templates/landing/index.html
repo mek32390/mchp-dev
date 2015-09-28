@@ -7,9 +7,6 @@
   <meta property="og:description" content="mchp is a elegant planner that curates study guides for your upcoming exams." />
   <meta property="og:image" content="https://mchp-dev.s3.amazonaws.com/static/lib/img/new_homepage1.png"/>
 
-
-  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
-
 {% load staticfiles %}
   <link rel="stylesheet" type="text/css" href="{% static 'landing/css/landing.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.css' %}">
@@ -40,8 +37,9 @@
       <form id="emailForm" method="post" action="{% url 'get_email' %}">
         {% csrf_token %}
         <div class="form-group">
-          <div class="input-group center-block">
-            <input type="email" class="form-control input-lg center-block text-center" name="email" placeholder="Get started with your .EDU email"/>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw fa-lg animated flash duration-md duration-infinite"></i></span>
+            <input type="email" class="form-control input-lg center-block" name="email" placeholder=" Get started with your .EDU email"/>
             <span class="input-group-btn">
               <button id="emailSubmit" style="visibility: hidden" type="submit" class="btn btn-primary btn-sm" data-style="expand-right"></button>
             </span>

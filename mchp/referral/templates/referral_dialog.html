@@ -2,14 +2,17 @@
 <div id="referral">
 	<i class="center-block animated delayed-md swing text-center fa fa-gift fa-fw fa-5x"></i>
 	<br></br>
-	<h4>Do you have the lucky ticket?</h4>
+	<h4>Are you a lucky winner?</h4>
 	<br>
-	<div class="form-group">
-		<form method="post" id="referral-form" autocomplete="off">
-			{% csrf_token %}
-			<input id="referral-input" type="text" name="referral_code" class="form-control" placeholder="Enter referral code" required autofocus>
-		</form>
-	</div>
+	<form method="post" id="referral-form" autocomplete="off">
+		{% csrf_token %}
+		<div class="form-group">
+			<div class="input-group">
+	    	<span class="input-group-addon"><i class="fa fa-gift fa-fw"></i></span>
+				<input id="referral-input" type="text" name="referral_code" class="form-control" placeholder="Enter referral code" required autofocus>
+			</div>
+		</div>
+	</form>
 	<p></p>
 	<button form="referral-form" type="submit" class="btn btn-trans btn-block">Submit</button>
 	<script type="text/javascript">
