@@ -154,7 +154,7 @@ class Roster(models.Model):
 
                 if enroll.exists():
                     enroll.delete()
-k
+
                     # Unsubscribing from all calendars
                     subscriptions = Subscription.objects.filter(student=self.student, calendar__course=self.course)
                     subscriptions.delete()
