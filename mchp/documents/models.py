@@ -138,7 +138,7 @@ class Document(models.Model):
             return 100 - self.normalize_positive_votes()
 
     def __str__(self):
-        return "{}".format(self.title)
+        return "{} (uploaded by: {})".format(self.title, self.owner)
 
 
 class DocumentPurchase(models.Model):

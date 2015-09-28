@@ -94,7 +94,7 @@ class RosterSubmitView(FormView):
                 }
                 try:
                     user = utils.get_user(email)
-                    if user:
+                    if user is not None and hasattr(user, 'profile_user'):
                         params['profile'] = user.profile_user
                     models.RosterInstructorEntry.objects.create(**params)
                 except ValidationError:
@@ -116,7 +116,7 @@ class RosterSubmitView(FormView):
         try:
             doc = Document(type=Document.SYLLABUS, title='Course Syllabus for ' + course_name,
                            description='Course Syllabus for ' + course_name,
-                           document=document, course_id=None, approved=False, roster=roster, owner=self.request.user.student)
+                           document=document, price=0, course_id=None, approved=False, roster=roster, owner=self.request.user.student)
             doc.save()
         except DuplicateFileError as err:
             roster.delete()
