@@ -32,11 +32,11 @@ def roster_html_to_csv(html_source):
     """
     # create and populate a temporary file
     #if settings.DEBUG:
-    #    script = os.path.join(settings.BASE_DIR, '..',
-    #                      'parser', 'Parser', 'parser.py')
+    script = os.path.join(settings.BASE_DIR, '..',
+                             'parser', 'Parser', 'parser.py')
     #else:
-    script = os.path.join('/webapps/mycollegehomepage/mchp/',
-                          'parser', 'Parser', 'parser.py')
+    #script = os.path.join('/webapps/mycollegehomepage/mchp/',
+    #                      'parser', 'Parser', 'parser.py')
     csvfilename = 'out.csv'
 
     with tempfile.NamedTemporaryFile(mode='w+', suffix='.html',
