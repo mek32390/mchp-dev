@@ -14,8 +14,12 @@
 {% load socialaccount %}
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
-		<p class="text-center center-block"><i class="fa fa-fw fa-user fa-5x"></i></p>
-  	<br>
+		<p class="text-center center-block">
+			<span class="fa-stack fa-4x">
+			  <i class="fa fa-user fa-stack-1x animated bounceIn delayed-sm"></i>
+			  <i class="fa fa-circle-thin fa-stack-2x animated bounceIn delayed-md"></i>
+			</span>
+		</p>
 		<h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
 		<h5 class="text-center">{{user.username}}</h5>
 		<div class="panel opa">
@@ -43,6 +47,10 @@
 						<i class="fa fa-university"></i> {{user.student.school.name}} <a href="{%url 'account_email'%}" class='btn btn-xs btn-trans pull-right'>Manage email addresses</a>
 					</li>
 				</ul>
+				<p class="text-center"><strong>Referrals</strong></p>
+				{% if not user.referree.count %}
+          <p><a href='#referral-modal' class='btn btn-trans btn-md center-block' data-toggle='modal'>Redeem Referral</a></p>
+				{% endif %}
 				<ul class="list-group">
 					<li class="list-group-item trans" data-toggle="tooltip" data-original-title="For each person
 						that enters your code after signing up, you'll both get {{referral_reward}} points!" data-placement="right">
