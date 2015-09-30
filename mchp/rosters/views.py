@@ -137,7 +137,7 @@ class RosterSubmitView(FormView):
 
             messages.error(
                 self.request,
-                'Class Set rejected: roster is a duplicate'
+                'Class Set rejected: roster is invalid or a duplicate'
             )
             return self.get(self.request)
 
