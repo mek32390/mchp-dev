@@ -8,7 +8,7 @@ SCHEMA_DEF = 'SchemaDefinition_'
 #Set to the unique id of a Schema definition to debug
 #only that definition. Should always be set to None for
 #actual actual usage.
-DEBUG = 'UofAD2L'
+DEBUG = None
 
 keywords =  [   #Each keyword maps to a list which leads to text data
     'validation',#Lists of Lists that check if the html should be used  

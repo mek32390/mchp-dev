@@ -28,7 +28,11 @@ $(document).ready(function () {
 
     });
 
-    $('#upload_form').attr('action', '#'); // weird hacky fix to fix form action changing to data:,
+    $( "#class_set" ).submit(function( event ) {
+        $('#class_set').attr('action', '#');
+    });
+
+     // weird hacky fix to fix form action changing to data:,
 
     $('#id_course').change(function () {
         update_classname();
