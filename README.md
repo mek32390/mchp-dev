@@ -45,24 +45,36 @@ Copy the settings_template.py to settings.py and add local changes. The dev is r
 Create the database, e.g. on the command line:
 ```$ createdb mchp```
 
-Create a superuser: ```python manage.py createsuperuser```
+Create a superuser: 
+```
+1. python manage.py createsuperuser
+2. Name the user "mchp"
+3. Set email as "mchp@email.edu"
+```
+
+Verify the superuser's email and set it to the primary email:
+```
+UPDATE "public"."account_emailaddress" SET "verified"='1', "primary"='1' WHERE "id"='1' RETURNING "id", "user_id", "email", "verified", "primary";
+```
+
 
 Create a school: 
 ```
 INSERT INTO "public"."schedule_school"("id", "domain", "name", "phone_number", "address", "city", "state", "country", "zipcode", "timezone", "lat", "lng") VALUES('1', 'arizona.edu', 'University of Arizona', '5206212211', 'Tucson', 'Tucson', 'AZ', 'United States of America', '85719', 'MST', '32.22174', '-110.92648') RETURNING "id", "domain", "name", "phone_number", "address", "city", "state", "country", "zipcode", "timezone", "lat", "lng";
-
 ```
+
 
 Create student-object for user 'mchp' by enrolling them into school: 
 ```
 INSERT INTO "public"."user_profile_student"("id", "purchased_points", "earned_points", "balance", "kudos", "school_id", "user_id") VALUES('1', '0', '0', '0', '0', '1', '1') RETURNING "id", "purchased_points", "earned_points", "balance", "kudos", "major_id", "school_id", "user_id", "grade_level";
-
 ```
+
 
 Make user 'mchp' a profile: 
 ```
 INSERT INTO "public"."user_profile_userprofile"("id", "blurb", "student_id") VALUES('1', 'NULL', '1') RETURNING "id", "pic", "blurb", "student_id";
 ```
+
 
 Migrate the database: ```python manage.py migrate```
 
