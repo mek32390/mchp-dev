@@ -380,6 +380,111 @@ def SchemaDefinition_UofAD2L():
 
     schema = getSchemaCreator(locals())()
     return schema
+######
+"""
+Defines the schema used to parse the Savannah State University
+variant of the D2L CMS.
+"""
+def SchemaDefinition_SAVD2L():
+    def _validation(soup):
+        return True
+##
+    def _contents(soup):
+        block = soup.find('table', {'class': 'd_g d_gl'})
+        contents = block.find_all('tr')
+        contents.pop(0)
+        contents.pop(0)
+        return contents
+
+    def _email(block):
+        return block.find('td', {'class': 'd_gn'})
+##
+    def _first(block):
+        name = block.find('th', {'class': 'd_ich', 'scope': 'row'})
+        return getFirst(name)
+
+    def getFirst(soup):
+        if soup is None:
+            return None
+        words = soup.text
+        if words is not None:
+            words = words.split(', ')
+            if len(words) > 1:
+                word = words[1].split()
+                return word[0]
+        return None
+##
+    def _last(block):
+        name = block.find('th', {'class': 'd_ich', 'scope': 'row'})
+        return getLast(name)
+
+    def getLast(soup):
+        if soup is None:
+            return None
+        words = soup.text
+        if words is not None:
+            words = words.split(', ')
+            if len(words) > 0:
+                return words[0]
+        return None
+##
+    def _course(block):
+        key = 'course'
+        if key in schema.lookup.keys():
+            return schema.lookup[key]
+
+        for parent in block.parents:
+            if parent is not None:
+                if parent.name == 'html':
+                    title = parent.find('title')
+                    break
+        if title is not None:
+            words = title.text.split()
+            i = len(words) - 6
+            course = ''
+            while i < (len(words) - 2):
+                course += words[i]
+                if i != (len(words) - 3):
+                    course+= '-'
+                i += 1
+            schema.lookup[key] = course
+            return course
+        schema.lookup[key] = None
+        return None
+##
+    def _instructor(soup):
+        key = 'instructor'
+
+        if key in schema.lookup.keys():
+            return schema.lookup[key]
+
+        if soup is not None:
+            siblings = soup.parent.find_all('tr')
+            for s in siblings:
+                children = s.find_all('td')
+                name = s.find('th', {'class': 'd_ich',
+                            'scope': 'row'})
+                for child in children:
+                    try:
+                        child = child.find('label').text
+                        child = child.strip('\n\t ')
+                        if child == 'Instructor':
+                            instr = getLast(name)
+                            schema.lookup[key] = instr
+                            return instr
+                    except Exception as e:
+                        pass
+        schema.lookup[key] = None
+        return None
+##
+    def _role(block):
+        children = block.find_all('label')
+        for c in children:
+            if len(c.text.split('@')) == 1:
+                return c.text
+
+    schema = getSchemaCreator(locals())()
+    return schema
 ##
 """
 Defines the schema used to parse the University of Arizona's
