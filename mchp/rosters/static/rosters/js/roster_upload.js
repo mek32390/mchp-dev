@@ -73,7 +73,7 @@ $(document).ready(function () {
             todayHighlight: false
         });
         newEventRow.appendTo(lastEventRow.parent());
-        $('#id_form-TOTAL_FORMS').val(newId);
+        $('#id_form-TOTAL_FORMS').val(newId+1);
     }
 
     // initialize date picker

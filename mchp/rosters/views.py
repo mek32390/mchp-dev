@@ -38,6 +38,8 @@ class RosterSubmitView(FormView):
 
         eventset = forms.RosterEventFormSet(request.POST)
 
+        # print (eventset)
+
         if form.is_valid():
             form.cleaned_data['events'] = eventset
             return self.form_valid(form)
