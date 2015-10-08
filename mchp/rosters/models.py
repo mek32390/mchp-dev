@@ -63,6 +63,7 @@ class Roster(models.Model):
             d = event.date
             start = datetime.datetime(d.year, d.month, d.day)
             start = timezone.make_aware(start, timezone.get_current_timezone())
+            start = start + datetime.timedelta(hours=8)
             end = start + datetime.timedelta(hours=1)
 
             params = {
