@@ -16,6 +16,6 @@ def school(request):
 
     student = request.user.student
     context = {
-        'school': student.school,
+        'user_school': student.school,
     }
     return context
