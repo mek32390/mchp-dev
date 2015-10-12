@@ -386,6 +386,7 @@ class EventAddView(View, AjaxableResponseMixin):
         else:
             start_time = timezone.make_aware(date, timezone.get_current_timezone())
             start = timezone.localtime(start_time, timezone=timezone.utc)
+            start = start + timedelta(hours=8) # set default to 8am
             end = start + timedelta(hours=1)
         return (start, end)
 
