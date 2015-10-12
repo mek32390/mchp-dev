@@ -6,7 +6,7 @@ def school(request):
             return 'Not a school'
 
     no_school_context = {
-        'school': no_school()
+        'user_school': no_school()
     }
 
     if request.user.is_anonymous():
