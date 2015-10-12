@@ -14,8 +14,8 @@ class Command(BaseCommand):
                 mcamp, _ = StudyGuideMetaCampaign.objects.get_or_create(
                     event=event, defaults={
                         'when': timezone.now(),
-                        'sender_address': 'study@mycollegehomepage.com',
-                        'sender_name': 'mchp',
+                        'sender_address': 'contact@mycollegehomepage.com',
+                        'sender_name': 'mycollegehomepage',
                     })
                 mcamp.update()
 
