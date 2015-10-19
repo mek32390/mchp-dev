@@ -28,7 +28,11 @@ $(document).ready(function () {
 
     });
 
-    $('#upload_form').attr('action', '#'); // weird hacky fix to fix form action changing to data:,
+    $( "#class_set" ).submit(function( event ) {
+        $('#class_set').attr('action', '#');
+    });
+
+     // weird hacky fix to fix form action changing to data:,
 
     $('#id_course').change(function () {
         update_classname();
@@ -69,7 +73,7 @@ $(document).ready(function () {
             todayHighlight: false
         });
         newEventRow.appendTo(lastEventRow.parent());
-        $('#id_form-TOTAL_FORMS').val(newId);
+        $('#id_form-TOTAL_FORMS').val(newId+1);
     }
 
     // initialize date picker

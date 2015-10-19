@@ -63,7 +63,7 @@
             <div class="form-group" id="selectClass">
               <select class="form-control input-lg" id="{{ form.course.id_for_label }}"
                       name="{{ form.course.name }}">
-	              {% for course in school.course_set.all %}
+	              {% for course in user_school.course_set.all %}
 	                <option value="{{ course.pk }}">{{ course }} with
 	                      Instr {{ course.professor }}</option>
 	              {% endfor %}

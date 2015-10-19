@@ -82,9 +82,6 @@ class Document(models.Model):
                 hash.update(chunk)
             self.md5sum = hash.hexdigest()
             self.document.file.seek(0,0)
-            
-            if Document.objects.filter(md5sum=self.md5sum).exists():
-                raise DuplicateFileError("This file already has already been uploaded")
 
             chunk = self.document.file.read(1024)
             self.filetype = magic.from_buffer(chunk, mime=True)

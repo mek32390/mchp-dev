@@ -64,8 +64,11 @@ def checkforduplicaterosters(roster):
                 for otherstudent in otherroster.students.all():
                     if student.first_name == otherstudent.first_name and student.last_name == otherstudent.last_name:
                         similars += 1
-            if similars/totalrosterstudents > 0.8 and totalrosterstudents > 0:
-                return True
+            try:
+                if similars/totalrosterstudents > 0.8 and totalrosterstudents > 0:
+                    return True
+            except:
+                return False
     return False
 
 
@@ -73,7 +76,11 @@ def checkforduplicaterosters(roster):
 def extract_roster(roster):
     roster_html = roster.roster_html
     instructor_emails = roster.instructor_emails
-    parsed_csv = utils.roster_html_to_csv(roster_html)
+    try:
+        parsed_csv = utils.roster_html_to_csv(roster_html)
+    except:
+        raise IntegrityError
+        pass
 
     rostermodels.RosterStudentEntry.objects.filter(roster=roster).delete()
     for initial_data in utils.csv_string_to_python(parsed_csv):

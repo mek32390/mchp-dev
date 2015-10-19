@@ -432,6 +432,8 @@ class ToggleFlag(View, AjaxableResponseMixin):
 
                 OneTimeFlag.objects.set_flag(request.user.student, event)
                 return self.render_to_json_response({}, status=200)
+             else:
+                return redirect(reverse('my_profile'))
         else:
             return redirect(reverse('my_profile'))
 

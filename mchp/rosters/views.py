@@ -38,6 +38,8 @@ class RosterSubmitView(FormView):
 
         eventset = forms.RosterEventFormSet(request.POST)
 
+        # print (eventset)
+
         if form.is_valid():
             form.cleaned_data['events'] = eventset
             return self.form_valid(form)
@@ -137,7 +139,7 @@ class RosterSubmitView(FormView):
 
             messages.error(
                 self.request,
-                'Class Set rejected: roster is a duplicate'
+                'Class Set rejected: roster is invalid or a duplicate'
             )
             return self.get(self.request)
 
@@ -198,6 +200,7 @@ class RosterListView(ListView):
     #fields = ['status']
     template_name_suffix = '_list'
     #template_name = 'rosters/staff-intern-prototype.html'
+#    paginate_by = 25
 
     def post(self, request, *args, **kwargs):
         roster_id = request.POST['hidden_roster_id']
